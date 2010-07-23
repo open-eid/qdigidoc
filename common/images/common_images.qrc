@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="images" >
+    <file >ico_delete.png</file>
+    <file >ico_person_blue_16.png</file>
+    <file >ico_person_blue_75.png</file>
+    <file >ico_save.png</file>
+    <file >ico_stamp_blue_16.png</file>
+    <file >ico_stamp_blue_75.png</file>
+    <file >languages_button.png</file>
+    <file >warning.png</file>
+  </qresource>
+</RCC>

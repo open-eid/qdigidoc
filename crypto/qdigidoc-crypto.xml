@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+	<mime-type type="application/x-cdoc">
+		<sub-class-of type="application/xml"/>
+		<comment>DigiDoc3 encrypted container</comment>
+		<comment xml:lang="et">DigiDoc3 turvaümbrik</comment>
+		<comment xml:lang="ru">Зашифрованный DigiDoc3 контейнер</comment>
+		<glob pattern="*.cdoc"/>
+	</mime-type>
+</mime-info>

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/images" >
+        <file>background.png</file>
+        <file>digidoc_icon_48x48.png</file>
+        <file>EL_Regionaalareng_horisontaal.png</file>
+    </qresource>
+</RCC>

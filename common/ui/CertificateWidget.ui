@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CertificateDialog</class>
+ <widget class="QDialog" name="CertificateDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>453</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Certificate</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#parameterContent { font-family: &quot;Liberation Mono, Courier New&quot;; }</string>
+  </property>
+  <layout class="QVBoxLayout" name="WidgetLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="general">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="generalLayout">
+       <item>
+        <widget class="QTextEdit" name="info">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="details">
+      <attribute name="title">
+       <string>Details</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="detailsLayout">
+       <item>
+        <widget class="QTreeWidget" name="parameters">
+         <property name="rootIsDecorated">
+          <bool>false</bool>
+         </property>
+         <column>
+          <property name="text">
+           <string>Field</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Value</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPlainTextEdit" name="parameterContent">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDialogButtonBox" name="saveBox">
+         <property name="standardButtons">
+          <set>QDialogButtonBox::Save</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="path">
+      <attribute name="title">
+       <string>Certification Path</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="pathLayout">
+       <item>
+        <widget class="QGroupBox" name="pathGroup">
+         <property name="title">
+          <string>Certification Path</string>
+         </property>
+         <layout class="QVBoxLayout" name="pathGroupLayout">
+          <item>
+           <widget class="QTreeWidget" name="pathTree">
+            <attribute name="headerVisible">
+             <bool>false</bool>
+            </attribute>
+            <column>
+             <property name="text">
+              <string notr="true">1</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="statusLabel">
+         <property name="text">
+          <string>Certificate status:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPlainTextEdit" name="status"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>clicked(QAbstractButton*)</signal>
+   <receiver>CertificateDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>437</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>226</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saveBox</sender>
+   <signal>clicked(QAbstractButton*)</signal>
+   <receiver>CertificateDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>396</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>226</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>save()</slot>
+ </slots>
+</ui>

@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QWidget" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>650</width>
+    <height>540</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>650</width>
+    <height>540</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>650</width>
+    <height>540</height>
+   </size>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>DigiDoc3 Crypto</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../images/images.qrc">
+    <normaloff>:/images/crypto_48x48.png</normaloff>:/images/crypto_48x48.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">* {
+color: #355670;
+font: 12px &quot;Arial, Liberation Sans&quot;;
+}
+
+#background
+{ background-image: url(&quot;:/images/background.png&quot;); }
+
+/* widgets */
+QPushButton
+{
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #406A9E, stop: 0.75 #00355F);
+border: 0px;
+border-radius: 2px;
+color: white;
+margin-left: 1px;
+margin-right: 1px;
+min-width: 75px;
+padding: 1px 7px;
+}
+
+QDialogButtonBox QPushButton, #home QPushButton
+{ padding: 4px 7px; }
+
+QPushButton:hover, QPushButton:focus
+{
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #F1C157, stop:0.28 #FADF91, stop:1 #EBA927);
+color: #00355F;
+}
+
+QPushButton:disabled
+{ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #A3AFC0, stop: 0.75 #80909D); }
+
+/* header */
+#headerLine, #headerLine2
+{ background-color: #00355F; }
+
+#cards, #languages
+{
+background-color: #00355F;
+border: 0px;
+margin-right: 0px;
+color: white;
+}
+
+#cards QListView, #languages QListView
+{
+background-color: white;
+border: 0px;
+color: #355670;
+}
+
+#cards::down-arrow, #languages::down-arrow
+{ image: url(&quot;:/images/languages_button.png&quot;); }
+
+#cards::drop-down, #languages::drop-down
+{ border: 0px; }
+
+#settings, #help
+{
+background-color: #00355F;
+color: #afc6d1;
+font: bold;
+min-width: 0px;
+}
+
+#settings:hover, #settings:focus
+#help:hover, #help:focus
+{ text-decoration: underline; }
+
+#infoCard
+{
+background-color: rgba( 255, 255, 255, 153 );
+border-radius: 3px;
+color: #668696;
+padding-left: 10px;
+padding-right: 10px;
+}
+
+#infoCard
+{ font: bold; }
+
+/* content */
+#homeButtonLabel,
+#viewContentLabel, #viewKeysLabel
+{
+color: #00355F;
+font: bold;
+}
+
+#home, #intro, #view,
+#viewContentView
+{ background-color: transparent; }
+
+#viewContentFrame
+{
+background-color: rgba( 255, 255, 255, 200 );
+border: 1px solid gray;
+color: #355670;
+padding: 5px;
+}
+
+#viewKeysFrame
+{
+background-color: rgba( 255, 255, 255, 200 );
+border: 1px solid gray;
+padding: 5px;
+}
+
+#viewKeys, #viewKeysScroll
+{
+background-color: transparent;
+color: #71889A;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="MainLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="background">
+     <layout class="QVBoxLayout" name="backgroundLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>20</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>20</number>
+      </property>
+      <property name="bottomMargin">
+       <number>20</number>
+      </property>
+      <item>
+       <layout class="QHBoxLayout" name="headerLayout">
+        <property name="spacing">
+         <number>10</number>
+        </property>
+        <item>
+         <spacer name="headerSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>45</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="settings">
+          <property name="font">
+           <font>
+            <family>Arial, Liberation Sans</family>
+            <pointsize>-1</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Settings</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="headerLine">
+          <property name="maximumSize">
+           <size>
+            <width>2</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="help">
+          <property name="font">
+           <font>
+            <family>Arial, Liberation Sans</family>
+            <pointsize>-1</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Help</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="headerLine2">
+          <property name="maximumSize">
+           <size>
+            <width>2</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="ComboBox" name="cards">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>20</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="ComboBox" name="languages">
+          <property name="minimumSize">
+           <size>
+            <width>75</width>
+            <height>20</height>
+           </size>
+          </property>
+          <item>
+           <property name="text">
+            <string notr="true">Estonian</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string notr="true">English</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string notr="true">Russian</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="infoLayout">
+        <property name="topMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+        <item>
+         <spacer name="infoSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="infoCard">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>387</width>
+            <height>115</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Arial, Liberation Sans</family>
+            <pointsize>-1</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QStackedWidget" name="stack">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="home">
+         <layout class="QVBoxLayout" name="homeLayout">
+          <property name="leftMargin">
+           <number>75</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>75</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="homeTopSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QGridLayout" name="homeButtonLayout">
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="homeButtonLabel">
+              <property name="font">
+               <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>I want to:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <spacer name="homeButtonSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="1">
+             <widget class="QPushButton" name="homeCreate">
+              <property name="font">
+               <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Encrypt documents</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="homeView">
+              <property name="font">
+               <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>View encrypted document content</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>10</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="homeBottomSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="intro">
+         <layout class="QVBoxLayout" name="introLayout">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="introContent">
+            <property name="text">
+             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; font: 12px 'Arial,Liberation Sans';&quot;&gt;
+&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
+The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
+Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
+For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.&lt;/p&gt;
+&lt;p style=&quot; font: 12px 'Arial,Liberation Sans';&quot;&gt;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Warning&lt;/b&gt;&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;Encryption is one-way only. Private key needed for decryption is stored only on reciever's ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed. &lt;/b&gt;
+&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="introSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="introCheck">
+            <property name="text">
+             <string>Yes, I will use ID-card certificate only for secure transfer</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDialogButtonBox" name="introButtons">
+            <property name="standardButtons">
+             <set>QDialogButtonBox::Cancel</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="view">
+         <layout class="QGridLayout" name="viewLayout">
+          <property name="horizontalSpacing">
+           <number>10</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>4</number>
+          </property>
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item row="1" column="0">
+           <widget class="QLabel" name="viewContentLabel">
+            <property name="font">
+             <font>
+              <family>Arial, Liberation Sans</family>
+              <pointsize>-1</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Container content:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="viewKeysLabel">
+            <property name="font">
+             <font>
+              <family>Arial, Liberation Sans</family>
+              <pointsize>-1</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Keys</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2">
+           <widget class="QLabel" name="viewFileName">
+            <property name="text">
+             <string>Container:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="2">
+           <widget class="QDialogButtonBox" name="viewButtons">
+            <property name="standardButtons">
+             <set>QDialogButtonBox::Close</set>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="viewLinks">
+            <property name="text">
+             <string>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QFrame" name="viewContentFrame">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="TreeWidget" name="viewContentView">
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="horizontalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOff</enum>
+               </property>
+               <property name="dragEnabled">
+                <bool>true</bool>
+               </property>
+               <property name="alternatingRowColors">
+                <bool>true</bool>
+               </property>
+               <property name="rootIsDecorated">
+                <bool>false</bool>
+               </property>
+               <property name="headerHidden">
+                <bool>true</bool>
+               </property>
+               <property name="columnCount">
+                <number>4</number>
+               </property>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="viewContentLinks">
+               <property name="text">
+                <string>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt; &lt;a href=&quot;saveAll&quot;&gt;Save files to disk&lt;/a&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="textInteractionFlags">
+                <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QFrame" name="viewKeysFrame">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QScrollArea" name="viewKeysScroll">
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="horizontalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOff</enum>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="viewKeys">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>100</width>
+                  <height>30</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="viewKeysLayout">
+                 <property name="margin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <spacer name="viewKeysSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="viewKeysLinks">
+               <property name="text">
+                <string>&lt;a href=&quot;addRecipient&quot;&gt;Add recipient&lt;/a&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="textInteractionFlags">
+                <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header>TreeWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header location="global">common/ComboBox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../images/images.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>viewLinks</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>viewContentLinks</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>viewKeysLinks</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>infoCard</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>435</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>parseLink(QString)</slot>
+ </slots>
+</ui>

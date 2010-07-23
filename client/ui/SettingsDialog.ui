@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsDialog</class>
+ <widget class="QDialog" name="SettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>464</width>
+    <height>316</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Settings</string>
+  </property>
+  <layout class="QVBoxLayout" name="SettingsDialogLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabGeneral">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="tabGeneralLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Container default location</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="defaultSameDir">
+         <property name="text">
+          <string>Same folder</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="defaultDirLayout">
+         <item>
+          <widget class="QLineEdit" name="defaultDir">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="selectDefaultDir">
+           <property name="text">
+            <string notr="true">...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="askSaveAs">
+         <property name="text">
+          <string>Ask container name</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showIntro">
+         <property name="text">
+          <string>Show signing intro</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="typeLayout">
+         <item>
+          <widget class="QLabel" name="typeLabel">
+           <property name="text">
+            <string>Default file type:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="typeBDoc">
+           <property name="text">
+            <string notr="true">BDoc</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="typeDDoc">
+           <property name="text">
+            <string notr="true">DDoc</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="typeSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="typeInfo">
+         <property name="text">
+          <string>If you change file format from .bdoc to .ddoc or vise versa, opened file will not change.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="tabGeneralSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabPKCS12">
+      <attribute name="title">
+       <string>OCSP PKCS#12 certificate</string>
+      </attribute>
+      <layout class="QGridLayout" name="tabPKCS12Layout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="p12CertLabel">
+         <property name="text">
+          <string>Certificate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <layout class="QHBoxLayout" name="p12Layout">
+         <item>
+          <widget class="QLineEdit" name="p12Cert"/>
+         </item>
+         <item>
+          <widget class="QToolButton" name="p12Button">
+           <property name="text">
+            <string notr="true">...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="p12PassLabel">
+         <property name="text">
+          <string>Password</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="p12Pass">
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <spacer name="tabPKCS12Spacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>153</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="1">
+        <layout class="QHBoxLayout" name="p12ButtonLayout">
+         <item>
+          <spacer name="p12ButtonSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="showP12Cert">
+           <property name="text">
+            <string>Show certificate</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabSignature">
+      <attribute name="title">
+       <string>Signature</string>
+      </attribute>
+      <layout class="QGridLayout" name="tabSignatureLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="signRoleLabel">
+         <property name="text">
+          <string>Role</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="signRoleInput"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="signResolutionLabel">
+         <property name="text">
+          <string>Resolution</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="signResolutionInput"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="signCityLabel">
+         <property name="text">
+          <string>City</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <spacer name="signLocationSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>10</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="signCityInput"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="signStateLabel">
+         <property name="text">
+          <string>State</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="signStateInput"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="signCountryLabel">
+         <property name="text">
+          <string>Country</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="signCountryInput"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="signZipLabel">
+         <property name="text">
+          <string>Zip</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="signZipInput"/>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QCheckBox" name="signOverwrite">
+         <property name="text">
+          <string>Save last insert role and resolution</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <spacer name="tabSignatureSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabProxy">
+      <attribute name="title">
+       <string>Proxy</string>
+      </attribute>
+      <layout class="QGridLayout" name="tabProxyLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="proxyHostLabel">
+         <property name="text">
+          <string>Host</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="proxyHost"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="proxyPortLabel">
+         <property name="text">
+          <string>Port</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="proxyPort"/>
+       </item>
+       <item row="4" column="1">
+        <spacer name="tabProxySpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>373</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="proxyUser"/>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="proxyPass">
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="proxyUserLabel">
+         <property name="text">
+          <string>Username</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="proxyPassLabel">
+         <property name="text">
+          <string>Password</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>defaultDir</tabstop>
+  <tabstop>selectDefaultDir</tabstop>
+  <tabstop>signRoleInput</tabstop>
+  <tabstop>signResolutionInput</tabstop>
+  <tabstop>signCityInput</tabstop>
+  <tabstop>signStateInput</tabstop>
+  <tabstop>signCountryInput</tabstop>
+  <tabstop>signZipInput</tabstop>
+  <tabstop>signOverwrite</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>showIntro</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>219</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>signRoleInput</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>199</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>signResolutionInput</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>219</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>signCityInput</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>259</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>signStateInput</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>279</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>signCountryInput</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>signZipInput</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>319</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>signOverwrite</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>askSaveAs</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>95</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>defaultSameDir</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>clicked(QAbstractButton*)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>394</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>typeBDoc</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>131</x>
+     <y>148</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>229</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>typeDDoc</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>148</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>229</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxyHost</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>222</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxyPort</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>222</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>p12Pass</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>242</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>211</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>p12Cert</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>211</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxyUser</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>267</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>231</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxyPass</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>267</x>
+     <y>146</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>231</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>save()</slot>
+ </slots>
+</ui>

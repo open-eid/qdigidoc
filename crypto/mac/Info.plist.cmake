@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>qdigidoccrypto</string>
+	<key>CFBundleIconFile</key>
+	<string>Icon.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.esteid.qdigidoccrypto</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>qdigidoccrypto</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1.@PROJECT_WC_REVISION@</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>@PROJECT_WC_REVISION@</string>
+	<key>LSHasLocalizedDisplayName</key>
+	<true/>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>cdoc</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>cdoc.icns</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>text/cdoc</string>
+			</array>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>CDOC</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSIsAppleDefaultForType</key>
+			<true/>
+		</dict>
+	</array>
+</dict>
+</plist>

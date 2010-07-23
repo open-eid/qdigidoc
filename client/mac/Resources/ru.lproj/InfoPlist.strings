@@ -1,0 +1,5 @@
+﻿/* Localized versions of Info.plist keys */
+
+CFBundleDisplayName = "DigiDoc3 Клиент";
+CFBundleGetInfoString = "v0.1, Copyright 2009 __COMPANY_NAME__.";
+NSHumanReadableCopyright = "Copyright (c) 2009, __COMPANY_NAME__.";

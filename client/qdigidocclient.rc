@@ -1,0 +1,41 @@
+#ifndef Q_CC_BOR
+# if defined(UNDER_CE) && UNDER_CE >= 400
+#  include <winbase.h>
+# else
+#  include <winver.h>
+# endif
+#endif
+
+#include "version.h"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION FILE_VER
+PRODUCTVERSION FILE_VER
+FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+#ifdef _DEBUG
+FILEFLAGS VS_FF_DEBUG
+#else
+FILEFLAGS 0x0L
+#endif
+FILEOS VOS_NT_WINDOWS32
+FILETYPE VFT_APP
+FILESUBTYPE VFT_UNKNOWN
+BEGIN
+	BLOCK "StringFileInfo"
+	BEGIN
+		BLOCK "040904E4"
+		BEGIN
+			VALUE "CompanyName", ORG "\0"
+			VALUE "FileDescription", APP "\0"
+			VALUE "FileVersion", VER_STR(FILE_VER) "\0"
+			VALUE "InternalName", "QDigiDocClient\0"
+			VALUE "OriginalFilename", "QDigiDocClient.exe\0"
+			VALUE "ProductName", APP "\0"
+			VALUE "ProductVersion", VER_STR(FILE_VER) "\0"
+		END
+	END
+END
+/* End of Version info */
+
+IDI_ICON1   ICON  DISCARDABLE  "images/digidoc_icon_48x48.ico"
+IDI_ICON2   ICON  DISCARDABLE  "images/qdigidoc_client_document_48x48.ico"

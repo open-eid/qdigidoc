@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+	<mime-type type="application/x-bdoc">
+		<sub-class-of type="application/zip"/>
+		<comment>DigiDoc3 signed document</comment>
+		<comment xml:lang="et">DigiDoc3 allkirjastatud dokument</comment>
+		<comment xml:lang="ru">Подписанный DigiDoc3 документ</comment>
+		<glob pattern="*.bdoc"/>
+	</mime-type>
+	<mime-type type="application/x-ddoc">
+		<sub-class-of type="application/xml"/>
+		<comment>DigiDoc3 signed document</comment>
+		<comment xml:lang="et">DigiDoc3 allkirjastatud dokument</comment>
+		<comment xml:lang="ru">Подписанный DigiDoc3 документ</comment>
+		<glob pattern="*.ddoc"/>
+	</mime-type>
+	<mime-type type="application/x-p12d">
+		<comment>DigiDoc3 PKCS#12 certificate</comment>
+		<comment xml:lang="et">DigiDoc3 PKCS#12 ligipääsutõend</comment>
+		<comment xml:lang="ru">Справка допуска DigiDoc3 PKCS#12</comment>
+		<glob pattern="*.p12d"/>
+	</mime-type>
+</mime-info>

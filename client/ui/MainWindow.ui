@@ -1,0 +1,1287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QWidget" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>650</width>
+    <height>552</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>650</width>
+    <height>552</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>650</width>
+    <height>552</height>
+   </size>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>DigiDoc3 client</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../images/images.qrc">
+    <normaloff>:/images/digidoc_icon_48x48.png</normaloff>:/images/digidoc_icon_48x48.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">* {
+color: #355670;
+font: 12px &quot;Arial, Liberation Sans&quot;;
+}
+
+#background
+{ background-image: url(&quot;:/images/background.png&quot;); }
+
+/* widgets */
+QPushButton
+{
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #406A9E, stop: 0.75 #00355F);
+border: 0px;
+border-radius: 2px;
+color: white;
+margin-left: 1px;
+margin-right: 1px;
+min-width: 75px;
+padding: 1px 7px;
+}
+
+QDialogButtonBox QPushButton, #home QPushButton
+{ padding: 4px 7px; }
+
+QPushButton:hover, QPushButton:focus
+{
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #F1C157, stop:0.28 #FADF91, stop:1 #EBA927);
+color: #00355F;
+}
+
+QPushButton:disabled
+{ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #A3AFC0, stop: 0.75 #80909D); }
+
+/* header */
+#headerLine, #headerLine2
+{ background-color: #00355F; }
+
+#cards, #languages
+{
+background-color: #00355F;
+border: 0px;
+margin-right: 0px;
+color: white;
+}
+
+#cards QListView, #languages QListView
+{
+background-color: white;
+border: 0px;
+color: #355670;
+}
+
+#cards::down-arrow, #languages::down-arrow
+{ image: url(&quot;:/images/languages_button.png&quot;); }
+
+#cards::drop-down, #languages::drop-down
+{ border: 0px; }
+
+#settings, #help
+{
+background-color: #00355F;
+color: #afc6d1;
+font: bold;
+min-width: 0px;
+}
+
+#infoFrame
+{
+background-color: rgba( 255, 255, 255, 153 );
+border-radius: 3px;
+color: #668696;
+padding-left: 10px;
+padding-right: 10px;
+}
+
+#infoFrame QLabel
+{ font: bold; }
+
+/* content */
+#homeButtonLabel,
+#viewContentLabel, #viewSignaturesLabel,
+#signContentLabel, #signSigner, #signSignerLabel
+{
+color: #00355F;
+font: bold;
+}
+
+#home, #intro, #sign, #view,
+#viewSignatures
+{ background-color: transparent; }
+
+#signContentFrame, #viewContentFrame
+{
+background-color: rgba( 255, 255, 255, 200 );
+border: 1px solid gray;
+color: #355670;
+}
+
+#signContentView, #viewContentView
+{
+background-color: transparent;
+padding: 5px;
+}
+
+#viewSignatures
+{ color: #71889A; }
+
+#signSignerRole, #viewSignaturesScroll
+{
+background-color: rgba( 255, 255, 255, 200 );
+border: 1px solid gray;
+padding: 5px;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="MainLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="background">
+     <layout class="QVBoxLayout" name="backgroundLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>20</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>20</number>
+      </property>
+      <property name="bottomMargin">
+       <number>20</number>
+      </property>
+      <item>
+       <layout class="QHBoxLayout" name="headerLayout">
+        <property name="spacing">
+         <number>10</number>
+        </property>
+        <item>
+         <spacer name="headerSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>45</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="settings">
+          <property name="font">
+           <font>
+            <family>Arial, Liberation Sans</family>
+            <pointsize>-1</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Settings</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="headerLine">
+          <property name="maximumSize">
+           <size>
+            <width>2</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="help">
+          <property name="font">
+           <font>
+            <family>Arial, Liberation Sans</family>
+            <pointsize>-1</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Help</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="headerLine2">
+          <property name="maximumSize">
+           <size>
+            <width>2</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="ComboBox" name="cards">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>20</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="ComboBox" name="languages">
+          <property name="minimumSize">
+           <size>
+            <width>75</width>
+            <height>20</height>
+           </size>
+          </property>
+          <item>
+           <property name="text">
+            <string notr="true">Estonian</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string notr="true">English</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string notr="true">Russian</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="infoLayout">
+        <property name="topMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+        <item>
+         <spacer name="infoSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QFrame" name="infoFrame">
+          <property name="minimumSize">
+           <size>
+            <width>387</width>
+            <height>115</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="infoFrameLayout">
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" name="infoSignLayout">
+             <item>
+              <widget class="QRadioButton" name="infoSignCard">
+               <property name="text">
+                <string>Use ID-card</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="infoSignMobile">
+               <property name="text">
+                <string>Use Mobile ID</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="infoSignSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QStackedWidget" name="infoStack">
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QLabel" name="infoCard">
+              <property name="font">
+               <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+              </property>
+             </widget>
+             <widget class="QWidget" name="infoMobile">
+              <layout class="QGridLayout" name="infoMobileLayout">
+               <property name="margin">
+                <number>0</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="infoMobileCellLabel">
+                 <property name="text">
+                  <string>Mobile number:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="infoMobileCell"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="infoMobileCodeLabel">
+                 <property name="text">
+                  <string>Personal code:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="infoMobileCode"/>
+               </item>
+               <item row="2" column="0">
+                <spacer name="infoMobileSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Preferred</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QStackedWidget" name="stack">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="home">
+         <layout class="QVBoxLayout" name="homeLayout">
+          <property name="leftMargin">
+           <number>75</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="homeTopSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QGridLayout" name="homeButtonLayout">
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="homeButtonLabel">
+              <property name="font">
+               <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>I want to:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <spacer name="homeButtonSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="1">
+             <widget class="QPushButton" name="homeSign">
+              <property name="font">
+               <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Sign documents</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="homeView">
+              <property name="font">
+               <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>View signed document content</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QPushButton" name="homeCrypt">
+              <property name="font">
+               <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
+                <weight>50</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Encrypt files for secure transfer</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <spacer name="homePadding">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Minimum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>10</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="homeBottomSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="pixmap">
+               <pixmap resource="../images/images.qrc">:/images/EL_Regionaalareng_horisontaal.png</pixmap>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="intro">
+         <layout class="QVBoxLayout" name="introLayout">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="introContent">
+            <property name="text">
+             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;
+&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; font: 12px 'Arial,Liberation Sans';&quot;&gt;
+Digital signing.&lt;br /&gt;&lt;br /&gt;
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
+Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
+Also an active internet connection is needed.&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="introSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="introCheck">
+            <property name="text">
+             <string>Skip this intro</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDialogButtonBox" name="introButtons">
+            <property name="standardButtons">
+             <set>QDialogButtonBox::Cancel</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="sign">
+         <layout class="QGridLayout" name="signLayout">
+          <property name="horizontalSpacing">
+           <number>10</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>4</number>
+          </property>
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="signContentLabel">
+            <property name="font">
+             <font>
+              <family>Arial, Liberation Sans</family>
+              <pointsize>-1</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Container content:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="signSignerLabel">
+            <property name="font">
+             <font>
+              <family>Arial, Liberation Sans</family>
+              <pointsize>-1</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Signature</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QDialogButtonBox" name="signButtons">
+            <property name="standardButtons">
+             <set>QDialogButtonBox::Cancel</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QFrame" name="signSignerRole">
+            <layout class="QGridLayout" name="signSignerRoleLayout">
+             <item row="1" column="0">
+              <widget class="QLabel" name="signRoleLabel">
+               <property name="font">
+                <font>
+                 <family>Arial, Liberation Sans</family>
+                 <pointsize>-1</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="toolTip">
+                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial, Liberation Sans'; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Roll ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Role</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="signRoleInput"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="signResolutionLabel">
+               <property name="font">
+                <font>
+                 <family>Arial, Liberation Sans</family>
+                 <pointsize>-1</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="toolTip">
+                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial, Liberation Sans'; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Resolution ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Resolution</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="signResolutionInput"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="signCityLabel">
+               <property name="font">
+                <font>
+                 <family>Arial, Liberation Sans</family>
+                 <pointsize>-1</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>City</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="signCityInput"/>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="signStateLabel">
+               <property name="font">
+                <font>
+                 <family>Arial, Liberation Sans</family>
+                 <pointsize>-1</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>State</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QLineEdit" name="signStateInput"/>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="signCountryLabel">
+               <property name="font">
+                <font>
+                 <family>Arial, Liberation Sans</family>
+                 <pointsize>-1</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Country</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLineEdit" name="signCountryInput"/>
+             </item>
+             <item row="7" column="0">
+              <widget class="QLabel" name="signZipLabel">
+               <property name="font">
+                <font>
+                 <family>Arial, Liberation Sans</family>
+                 <pointsize>-1</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Zip</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="1">
+              <widget class="QLineEdit" name="signZipInput"/>
+             </item>
+             <item row="8" column="1">
+              <spacer name="signSignerSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="0" column="0" colspan="2">
+              <widget class="QLabel" name="signSigner">
+               <property name="styleSheet">
+                <string notr="true">font-weight: bold;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <spacer name="locationSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>10</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QFrame" name="signContentFrame">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="signContentFrameLayoue">
+             <item>
+              <widget class="TreeWidget" name="signContentView">
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="horizontalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOff</enum>
+               </property>
+               <property name="dragEnabled">
+                <bool>true</bool>
+               </property>
+               <property name="alternatingRowColors">
+                <bool>true</bool>
+               </property>
+               <property name="rootIsDecorated">
+                <bool>false</bool>
+               </property>
+               <property name="headerHidden">
+                <bool>true</bool>
+               </property>
+               <property name="columnCount">
+                <number>4</number>
+               </property>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="signAddFile">
+               <property name="text">
+                <string>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt;</string>
+               </property>
+               <property name="textInteractionFlags">
+                <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="view">
+         <layout class="QGridLayout" name="viewLayout">
+          <property name="horizontalSpacing">
+           <number>10</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>4</number>
+          </property>
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0" colspan="2">
+           <widget class="QLabel" name="viewFileName">
+            <property name="text">
+             <string>Container:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="viewFileStatus">
+            <property name="text">
+             <string>This container is </string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="viewContentLabel">
+            <property name="font">
+             <font>
+              <family>Arial, Liberation Sans</family>
+              <pointsize>-1</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Container content:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QScrollArea" name="viewSignaturesScroll">
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="viewSignatures">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>288</width>
+               <height>209</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="viewSignaturesLayout">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="margin">
+               <number>0</number>
+              </property>
+              <item>
+               <spacer name="viewSignaturesSpacer">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="viewEmail">
+            <property name="text">
+             <string>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLabel" name="viewPrint">
+            <property name="text">
+             <string>&lt;a href=&quot;print&quot;&gt;Print summary&lt;/a&gt;</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="viewBrowse">
+            <property name="text">
+             <string>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0" colspan="2">
+           <widget class="QDialogButtonBox" name="viewButtons">
+            <property name="standardButtons">
+             <set>QDialogButtonBox::Close</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="viewSignaturesLabelLayout">
+            <item>
+             <widget class="QLabel" name="viewSignaturesLabel">
+              <property name="font">
+               <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Signature</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="viewSignaturesError">
+              <property name="styleSheet">
+               <string notr="true">font: bold;
+color: red;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="0">
+           <widget class="QFrame" name="viewContentFrame">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="viewContentFrameLayout">
+             <item>
+              <widget class="TreeWidget" name="viewContentView">
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="horizontalScrollBarPolicy">
+                <enum>Qt::ScrollBarAlwaysOff</enum>
+               </property>
+               <property name="dragEnabled">
+                <bool>true</bool>
+               </property>
+               <property name="alternatingRowColors">
+                <bool>true</bool>
+               </property>
+               <property name="rootIsDecorated">
+                <bool>false</bool>
+               </property>
+               <property name="headerHidden">
+                <bool>true</bool>
+               </property>
+               <property name="columnCount">
+                <number>4</number>
+               </property>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string/>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="viewSaveAs">
+               <property name="text">
+                <string>&lt;a href=&quot;saveAs&quot;&gt;Save files to disk&lt;/a&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="textInteractionFlags">
+                <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header>TreeWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header location="global">common/ComboBox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../images/images.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>infoCard</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>signAddFile</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>viewBrowse</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>viewEmail</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>viewPrint</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>viewSaveAs</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>parseLink(QString)</slot>
+ </slots>
+</ui>
