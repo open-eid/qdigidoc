@@ -31,6 +31,8 @@
 #endif
 #define qApp (static_cast<Application*>(QCoreApplication::instance()))
 
+class QSigner;
+class QSslCertificate;
 class ApplicationPrivate;
 class Application: public QApplication
 {
@@ -51,6 +53,11 @@ public:
 	explicit Application( int &argc, char **argv );
 	~Application();
 
+	QString activeCard() const;
+	QStringList presentCards() const;
+	QSslCertificate signCert() const;
+	QSigner* signer() const;
+
 	static QString confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
 #ifdef Q_OS_LINUX
@@ -61,7 +68,13 @@ public:
 public Q_SLOTS:
 	void showSettings();
 	void showWarning( const QString &msg );
+
+Q_SIGNALS:
+	void dataChanged();
+
 private Q_SLOTS:
+	void dataChanged( const QStringList &cards, const QString &card,
+		const QSslCertificate &sign );
 	void closeWindow();
 
 private:

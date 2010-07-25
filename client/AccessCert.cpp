@@ -51,12 +51,12 @@ AccessCert::~AccessCert()
 	Application::setConfValue( Application::PKCS12Pass, m_pass );
 }
 
-bool AccessCert::download( QSigner *signer, const QString &card, const QString &filename )
+bool AccessCert::download()
 {
-	signer->lock();
+	qApp->signer()->lock();
 	SSLConnect *ssl = new SSLConnect();
 	ssl->setPKCS11( Application::confValue( Application::PKCS11Module ), false );
-	ssl->setCard( card );
+	ssl->setCard( qApp->activeCard() );
 
 	bool retry = false;
 	do
@@ -67,7 +67,7 @@ bool AccessCert::download( QSigner *signer, const QString &card, const QString &
 		{
 		case SSLConnect::PinCanceledError:
 			delete ssl;
-			signer->unlock();
+			qApp->signer()->unlock();
 			return false;
 		case SSLConnect::PinInvalidError:
 			showWarning( ssl->errorString() );
@@ -78,7 +78,7 @@ bool AccessCert::download( QSigner *signer, const QString &card, const QString &
 			{
 				showWarning( tr("Error downloading server access certificate!\n%1").arg( ssl->errorString() ) );
 				delete ssl;
-				signer->unlock();
+				qApp->signer()->unlock();
 				return false;
 			}
 			break;
@@ -88,7 +88,7 @@ bool AccessCert::download( QSigner *signer, const QString &card, const QString &
 
 	QByteArray result = ssl->result();
 	delete ssl;
-	signer->unlock();
+	qApp->signer()->unlock();
 
 	if( result.isEmpty() )
 	{
@@ -134,7 +134,7 @@ bool AccessCert::download( QSigner *signer, const QString &card, const QString &
 	if ( !QDir( path ).exists() )
 		QDir().mkpath( path );
 
-	QFile f( QString( "%1/%2.p12" ).arg( path ).arg( filename ) );
+	QFile f( QString( "%1/%2.p12" ).arg( path, SslCertificate( qApp->signCert() ).subjectInfo( "serialNumber" ) ) );
 	if ( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
 	{
 		showWarning( tr("Failed to save server access certificate file to %1!\n%2")

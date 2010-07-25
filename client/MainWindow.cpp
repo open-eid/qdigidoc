@@ -32,6 +32,7 @@
 #include "Application.h"
 #include "MobileDialog.h"
 #include "PrintSheet.h"
+#include "QSigner.h"
 #include "SettingsDialog.h"
 #include "SignatureDialog.h"
 
@@ -103,12 +104,11 @@ MainWindow::MainWindow( const QStringList &_params )
 		SLOT(buttonClicked(int)) );
 
 	connect( infoCard, SIGNAL(linkActivated(QString)), SLOT(parseLink(QString)) );
+	connect( cards, SIGNAL(activated(QString)), qApp->signer(), SLOT(selectCard(QString)), Qt::QueuedConnection );
+	connect( qApp, SIGNAL(dataChanged()), SLOT(showCardStatus()) );
 
 	// Digidoc
 	doc = new DigiDoc( this );
-	connect( cards, SIGNAL(activated(QString)), doc, SLOT(selectCard(QString)) );
-	connect( doc, SIGNAL(dataChanged()), SLOT(showCardStatus()) );
-	doc->init();
 
 	// Translations
 	appTranslator = new QTranslator( this );
@@ -370,13 +370,12 @@ void MainWindow::buttonClicked( int button )
 		AccessCert access( this );
 		if( !access.validate() )
 		{
-			if( infoSignMobile->isChecked() || doc->activeCard().isEmpty() )
+			if( infoSignMobile->isChecked() || qApp->activeCard().isEmpty() )
 			{
 				QDesktopServices::openUrl( QUrl( "http://www.sk.ee/toend/" ) );
 				break;
 			}
-			if( !access.download( doc->signer(), doc->activeCard(),
-					SslCertificate( doc->signCert() ).subjectInfo( "serialNumber" ) ) )
+			if( !access.download() )
 				break;
 		}
 
@@ -422,7 +421,7 @@ void MainWindow::buttonClicked( int button )
 }
 
 void MainWindow::changeCard( QAction *a )
-{ QMetaObject::invokeMethod( doc, "selectCard", Q_ARG(QString,a->data().toString()) ); }
+{ QMetaObject::invokeMethod( qApp->signer(), "selectCard", Qt::QueuedConnection, Q_ARG(QString,a->data().toString()) ); }
 void MainWindow::changeLang( QAction *a ) { on_languages_activated( a->data().toUInt() ); }
 
 void MainWindow::closeDoc()
@@ -469,21 +468,21 @@ void MainWindow::enableSign()
 #warning revert before release
 #endif
 	if( (mobile && false /*&& !IKValidator::isValid( infoMobileCode->text() )*/) ||
-		(!mobile && !doc->signCert().isValid()) )
+		(!mobile && !qApp->signCert().isValid()) )
 	{
 		signButton->setEnabled( false );
 		if( mobile )
 			signButton->setToolTip( tr("Personal code is not valid") );
-		else if( !doc->signCert().isValid() )
+		else if( !qApp->signCert().isValid() )
 			signButton->setToolTip( tr("Sign certificate is not valid") );
-		else if( doc->signCert().isNull() )
+		else if( qApp->signCert().isNull() )
 			signButton->setToolTip( tr("No card in reader") );
 		return;
 	}
 
 	bool cardOwnerSignature = false;
 	const QByteArray serialNumber = mobile ?
-		infoMobileCode->text().toLatin1() : doc->signCert().subjectInfo( "serialNumber" ).toLatin1();
+		infoMobileCode->text().toLatin1() : qApp->signCert().subjectInfo( "serialNumber" ).toLatin1();
 	Q_FOREACH( const DigiDocSignature &c, doc->signatures() )
 	{
 		if( c.cert().subjectInfo( "serialNumber" ) == serialNumber )
@@ -646,7 +645,7 @@ void MainWindow::setCurrentPage( Pages page )
 			connect( signature, SIGNAL(removeSignature(unsigned int)),
 				SLOT(viewSignaturesRemove(unsigned int)) );
 			cardOwnerSignature = qMax( cardOwnerSignature,
-				c.cert().subjectInfo( "serialNumber" ) == doc->signCert().subjectInfo( "serialNumber" ) );
+				c.cert().subjectInfo( "serialNumber" ) == qApp->signCert().subjectInfo( "serialNumber" ) );
 			invalid = qMax( invalid, !signature->isValid() );
 			test = qMax( test, signature->isTest() );
 			++i;
@@ -657,7 +656,7 @@ void MainWindow::setCurrentPage( Pages page )
 			.arg( QDir::toNativeSeparators( doc->fileName() ) ) );
 		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName() ) );
 
-		if( !doc->signCert().isNull() )
+		if( !qApp->signCert().isNull() )
 		{
 			if( !signatures.isEmpty() && cardOwnerSignature )
 				viewFileStatus->setText( tr("This container is signed by you") );
@@ -696,27 +695,27 @@ void MainWindow::showCardStatus()
 	else
 	{
 		infoStack->setCurrentIndex( 0 );
-		if( !doc->activeCard().isEmpty() && !doc->signCert().isNull() )
+		if( !qApp->activeCard().isEmpty() && !qApp->signCert().isNull() )
 		{
-			infoCard->setText( Common::tokenInfo( Common::SignCert, doc->activeCard(), doc->signCert() ) );
-			SslCertificate c( doc->signCert() );
+			infoCard->setText( Common::tokenInfo( Common::SignCert, qApp->activeCard(), qApp->signCert() ) );
+			SslCertificate c( qApp->signCert() );
 			signSigner->setText( c.toString( c.isTempel() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
 		}
-		else if( !doc->activeCard().isEmpty() )
+		else if( !qApp->activeCard().isEmpty() )
 			infoCard->setText( tr("Loading data") );
-		else if( doc->activeCard().isEmpty() )
+		else if( qApp->activeCard().isEmpty() )
 			infoCard->setText( tr("No card in reader") );
 	}
 
 	cards->clear();
-	cards->addItems( doc->presentCards() );
-	cards->setVisible( doc->presentCards().size() > 1 );
-	cards->setCurrentIndex( cards->findText( doc->activeCard() ) );
+	cards->addItems( qApp->presentCards() );
+	cards->setVisible( qApp->presentCards().size() > 1 );
+	cards->setCurrentIndex( cards->findText( qApp->activeCard() ) );
 	qDeleteAll( cardsGroup->actions() );
-	for( int i = 0; i < doc->presentCards().size(); ++i )
+	for( int i = 0; i < qApp->presentCards().size(); ++i )
 	{
 		QAction *a = cardsGroup->addAction( new QAction( cardsGroup ) );
-		a->setData( doc->presentCards().at( i ) );
+		a->setData( qApp->presentCards().at( i ) );
 		a->setShortcut( Qt::CTRL + (Qt::Key_1 + i) );
 		addAction( a );
 	}

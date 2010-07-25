@@ -24,8 +24,6 @@
 
 #include <QObject>
 
-class QSigner;
-
 class AccessCert: public QObject
 {
 	Q_OBJECT
@@ -34,7 +32,7 @@ public:
 	AccessCert( QWidget *parent = 0 );
 	~AccessCert();
 
-	bool download( QSigner *doc, const QString &card, const QString &filename );
+	bool download();
 	bool validate();
 
 private:

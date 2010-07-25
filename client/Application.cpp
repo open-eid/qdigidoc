@@ -24,6 +24,7 @@
 
 #include "DigiDoc.h"
 #include "MainWindow.h"
+#include "QSigner.h"
 #include "RegisterP12.h"
 #include "SettingsDialog.h"
 #include "version.h"
@@ -53,7 +54,13 @@
 class ApplicationPrivate
 {
 public:
+	ApplicationPrivate(): signer(0) {}
+
+	QStringList	cards;
+	QString		card;
 	QAction *closeAction;
+	QSslCertificate	signCert;
+	QSigner *signer;
 };
 
 Application::Application( int &argc, char **argv )
@@ -125,6 +132,12 @@ Application::Application( int &argc, char **argv )
 		SSL_load_error_strings();
 		SSL_library_init();
 
+		d->signer = new QSigner();
+		connect( d->signer, SIGNAL(dataChanged(QStringList,QString,QSslCertificate)),
+			SLOT(dataChanged(QStringList,QString,QSslCertificate)) );
+		connect( d->signer, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
+		d->signer->start();
+
 		widget = new MainWindow( args );
 	}
 
@@ -136,8 +149,11 @@ Application::~Application()
 {
 	digidoc::X509CertStore::destroy();
 	digidoc::terminate();
+	delete d->signer;
 	delete d;
 }
+
+QString Application::activeCard() const { return d->card; }
 
 void Application::closeWindow()
 {
@@ -170,6 +186,21 @@ QString Application::confValue( ConfParameter parameter, const QVariant &value )
 	return r.empty() ? value.toString() : QString::fromStdString( r );
 }
 
+void Application::dataChanged( const QStringList &cards, const QString &card,
+	const QSslCertificate &sign )
+{
+	bool changed = false;
+	changed = qMax( changed, d->cards != cards );
+	changed = qMax( changed, d->card != card );
+	changed = qMax( changed, d->signCert != sign );
+	d->cards = cards;
+	d->card = card;
+	d->signCert = sign;
+	if( changed )
+		Q_EMIT dataChanged();
+}
+
+
 bool Application::event( QEvent *e )
 {
 	switch( e->type() )
@@ -192,6 +223,8 @@ bool Application::event( QEvent *e )
 	default: return QApplication::event( e );
 	}
 }
+
+QStringList Application::presentCards() const { return d->cards; }
 
 void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 {
@@ -225,3 +258,7 @@ void Application::showWarning( const QString &msg )
 	if( d.exec() == QMessageBox::Help )
 		Common::showHelp( msg );
 }
+
+QSslCertificate Application::signCert() const { return d->signCert; }
+
+QSigner* Application::signer() const { return d->signer; }

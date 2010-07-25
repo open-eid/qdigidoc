@@ -272,18 +272,11 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate()
 DigiDoc::DigiDoc( QObject *parent )
 :	QObject( parent )
 ,	b(0)
-,	m_signer(0)
 {
 	connect( this, SIGNAL(error(QString)), qApp, SLOT(showWarning(QString)) );
 }
 
-DigiDoc::~DigiDoc()
-{
-	delete m_signer;
-	clear();
-}
-
-QString DigiDoc::activeCard() const { return m_card; }
+DigiDoc::~DigiDoc() { clear(); }
 
 void DigiDoc::addFile( const QString &file )
 {
@@ -326,29 +319,6 @@ void DigiDoc::create( const QString &file )
 	}
 }
 
-void DigiDoc::dataChanged( const QStringList &cards, const QString &card,
-	const QSslCertificate &sign )
-{
-	bool changed = false;
-	if( m_cards != cards )
-	{
-		changed = true;
-		m_cards = cards;
-	}
-	if( m_card != card )
-	{
-		changed = true;
-		m_card = card;
-	}
-	if( m_signCert != sign )
-	{
-		changed = true;
-		m_signCert = sign;
-	}
-	if( changed )
-		Q_EMIT dataChanged();
-}
-
 QList<Document> DigiDoc::documents()
 {
 	QList<Document> list;
@@ -366,17 +336,6 @@ QList<Document> DigiDoc::documents()
 }
 
 QString DigiDoc::fileName() const { return m_fileName; }
-
-bool DigiDoc::init()
-{
-	m_signer = new QSigner();
-	connect( m_signer, SIGNAL(dataChanged(QStringList,QString,QSslCertificate)),
-		SLOT(dataChanged(QStringList,QString,QSslCertificate)) );
-	connect( m_signer, SIGNAL(error(QString)), SLOT(setLastError(QString)) );
-	m_signer->start();
-	return true;
-}
-
 bool DigiDoc::isNull() const { return b == 0; }
 QString DigiDoc::lastError() const { return m_lastError; }
 
@@ -422,8 +381,6 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes, Exception
 	return true;
 }
 
-QStringList DigiDoc::presentCards() const { return m_cards; }
-
 void DigiDoc::removeDocument( unsigned int num )
 {
 	if( !checkDoc( num >= b->documentCount(), tr("Missing document") ) )
@@ -451,9 +408,6 @@ void DigiDoc::save()
 	}
 	catch( const Exception &e ) { setLastError( e ); }
 }
-
-void DigiDoc::selectCard( const QString &card )
-{ QMetaObject::invokeMethod( m_signer, "selectCard", Qt::QueuedConnection, Q_ARG(QString,card) ); }
 
 void DigiDoc::setLastError( const Exception &e )
 {
@@ -494,7 +448,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 	bool result = false;
 	try
 	{
-		m_signer->setSignatureProductionPlace( SignatureProductionPlace(
+		qApp->signer()->setSignatureProductionPlace( SignatureProductionPlace(
 			city.toUtf8().constData(),
 			state.toUtf8().constData(),
 			zip.toUtf8().constData(),
@@ -502,8 +456,8 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		SignerRole sRole( role.toUtf8().constData() );
 		if ( !role2.isEmpty() )
 			sRole.claimedRoles.push_back( role2.toUtf8().constData() );
-		m_signer->setSignerRole( sRole );
-		b->sign( m_signer, Signature::TM );
+		qApp->signer()->setSignerRole( sRole );
+		b->sign( qApp->signer(), Signature::TM );
 		result = true;
 	}
 	catch( const Exception &e )
@@ -521,9 +475,6 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 	}
 	return result;
 }
-
-QSslCertificate DigiDoc::signCert() { return m_signCert; }
-QSigner *DigiDoc::signer() const { return m_signer; }
 
 bool DigiDoc::signMobile( const QString &fName )
 {

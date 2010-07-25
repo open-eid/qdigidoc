@@ -24,9 +24,6 @@
 
 #include <QObject>
 
-#include <QSslCertificate>
-#include <QStringList>
-
 #include <digidocpp/WDoc.h>
 
 namespace digidoc
@@ -39,7 +36,8 @@ namespace digidoc
 
 class DigiDoc;
 class QDateTime;
-class QSigner;
+class QSslCertificate;
+class QStringList;
 
 class DigiDocSignature
 {
@@ -92,17 +90,14 @@ public:
 	DigiDoc( QObject *parent = 0 );
 	~DigiDoc();
 
-	QString activeCard() const;
 	void addFile( const QString &file );
 	void create( const QString &file );
 	void clear();
 	QList<digidoc::Document> documents();
 	QString fileName() const;
-	bool init();
 	bool isNull() const;
 	QString lastError() const;
 	bool open( const QString &file );
-	QStringList presentCards() const;
 	void removeDocument( unsigned int num );
 	void removeSignature( unsigned int num );
 	void save();
@@ -113,8 +108,6 @@ public:
 		const QString &country,
 		const QString &role,
 		const QString &role2 );
-	QSslCertificate signCert();
-	QSigner *signer() const;
 	bool signMobile( const QString &fName );
 	QList<DigiDocSignature> signatures();
 	digidoc::WDoc::DocumentType documentType();
@@ -123,13 +116,9 @@ public:
 	static bool parseException( const digidoc::Exception &e, QStringList &causes, digidoc::Exception::ExceptionCode &code );
 
 Q_SIGNALS:
-	void dataChanged();
 	void error( const QString &err );
 
 private Q_SLOTS:
-	void dataChanged( const QStringList &cards, const QString &card,
-		const QSslCertificate &sign );
-	void selectCard( const QString &card );
 	void setLastError( const QString &err );
 
 private:
@@ -137,10 +126,6 @@ private:
 	void setLastError( const digidoc::Exception &e );
 
 	digidoc::WDoc	*b;
-	QSigner			*m_signer;
-	QSslCertificate	m_signCert;
-	QStringList		m_cards;
-	QString			m_card;
 	QString			m_fileName;
 	QString			m_lastError;
 };
