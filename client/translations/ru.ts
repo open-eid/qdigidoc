@@ -63,6 +63,29 @@ Start downloading?</source>
     </message>
 </context>
 <context>
+    <name>Application</name>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished">Закрыть</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation type="unfinished">&amp;Файл</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">Настройки</translation>
+    </message>
+    <message>
+        <source>Failed to initalize.&lt;br /&gt;%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DigiDoc3 client</source>
+        <translation type="unfinished">DigiDoc3 клиент</translation>
+    </message>
+</context>
+<context>
     <name>DigiDoc</name>
     <message>
         <source>Container is not open</source>
@@ -374,14 +397,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 клиент</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Файл</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation>Закрыть</translation>
     </message>
     <message numerus="yes">
         <source>Signature(s)</source>

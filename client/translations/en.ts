@@ -63,6 +63,29 @@ Start downloading?</translation>
     </message>
 </context>
 <context>
+    <name>Application</name>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished">Close</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation type="unfinished">&amp;File</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished">Settings</translation>
+    </message>
+    <message>
+        <source>Failed to initalize.&lt;br /&gt;%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DigiDoc3 client</source>
+        <translation type="unfinished">DigiDoc3 client</translation>
+    </message>
+</context>
+<context>
     <name>DigiDoc</name>
     <message>
         <source>Container is not open</source>
@@ -374,14 +397,6 @@ Also an active internet connection is needed.&lt;/p&gt;
     <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 client</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;File</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation>Close</translation>
     </message>
     <message numerus="yes">
         <source>Signature(s)</source>
