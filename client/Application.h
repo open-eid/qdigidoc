@@ -1,7 +1,7 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009 Jargo KÅ‘ster <jargo@innovaatik.ee>
  * Copyright (C) 2009 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
@@ -20,9 +20,19 @@
  *
  */
 
-#include "Application.h"
+#pragma once
 
-int main( int argc, char *argv[] )
+#include <QApplication>
+
+class Application: public QApplication
 {
-	return Application( argc, argv ).exec();
-}
+	Q_OBJECT
+
+public:
+	Application( int &argc, char **argv );
+
+#ifdef Q_OS_LINUX
+	static QByteArray fileEncoder( const QString &filename ) { return filename.toUtf8(); }
+	static QString fileDecoder( const QByteArray &filename ) { return QString::fromUtf8( filename ); }
+#endif
+};

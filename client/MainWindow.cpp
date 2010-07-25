@@ -57,8 +57,7 @@ MainWindow::MainWindow( QWidget *parent )
 ,	m_loaded( false )
 ,	quitOnClose( false )
 {
-	qRegisterMetaType<QSslCertificate>("QSslCertificate");
-
+	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
 
 	cards->hide();
@@ -73,10 +72,6 @@ MainWindow::MainWindow( QWidget *parent )
 #endif
 
 	QApplication::instance()->installEventFilter( this );
-
-	Common *common = new Common( this );
-	QDesktopServices::setUrlHandler( "browse", common, "browse" );
-	QDesktopServices::setUrlHandler( "mailto", common, "mailTo" );
 
 	Settings s;
 	// Mobile
