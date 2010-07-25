@@ -21,6 +21,8 @@
  */
 
 #include "MobileDialog.h"
+
+#include "Application.h"
 #include "DigiDoc.h"
 
 #include <common/Settings.h>
@@ -29,7 +31,6 @@
 #include <digidocpp/Document.h>
 #include <digidocpp/Exception.h>
 #include <digidocpp/crypto/Digest.h>
-#include <digidocpp/WDoc.h>
 
 #include <QDir>
 #include <QDomElement>
@@ -77,14 +78,14 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	connect( manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
 		SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
 
-	if( !DigiDoc::getConfValue( DigiDoc::ProxyHost ).isEmpty() )
+	if( !Application::confValue( Application::ProxyHost ).isEmpty() )
 	{
 		manager->setProxy( QNetworkProxy(
 			QNetworkProxy::HttpProxy,
-			DigiDoc::getConfValue( DigiDoc::ProxyHost ),
-			DigiDoc::getConfValue( DigiDoc::ProxyPort ).toUInt(),
-			DigiDoc::getConfValue( DigiDoc::ProxyUser ),
-			DigiDoc::getConfValue( DigiDoc::ProxyPass ) ) );
+			Application::confValue( Application::ProxyHost ),
+			Application::confValue( Application::ProxyPort ).toUInt(),
+			Application::confValue( Application::ProxyUser ),
+			Application::confValue( Application::ProxyPass ) ) );
 	}
 
 	if ( m_doc->documentType() == digidoc::WDoc::BDocType )
@@ -92,7 +93,7 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	else
 		request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
 
-	QString certFile = DigiDoc::getConfValue( DigiDoc::PKCS12Cert );
+	QString certFile = Application::confValue( Application::PKCS12Cert );
 	if( certFile.isEmpty() || !QFile::exists( certFile ) )
 		return;
 
@@ -100,7 +101,7 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	if( !f.open( QIODevice::ReadOnly ) )
 		return;
 
-	PKCS12Certificate pkcs12Cert( &f, DigiDoc::getConfValue( DigiDoc::PKCS12Pass ).toLatin1() );
+	PKCS12Certificate pkcs12Cert( &f, Application::confValue( Application::PKCS12Pass ).toLatin1() );
 	if( pkcs12Cert.isNull() )
 		return;
 

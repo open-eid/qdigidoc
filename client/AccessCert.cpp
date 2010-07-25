@@ -22,7 +22,7 @@
 
 #include "AccessCert.h"
 
-#include "DigiDoc.h"
+#include "Application.h"
 #include "QSigner.h"
 
 #include "common/SslCertificate.h"
@@ -41,21 +41,21 @@ AccessCert::AccessCert( QWidget *parent )
 :	QObject( parent )
 ,	m_parent( parent )
 {
-	m_cert = DigiDoc::getConfValue( DigiDoc::PKCS12Cert );
-	m_pass = DigiDoc::getConfValue( DigiDoc::PKCS12Pass );
+	m_cert = Application::confValue( Application::PKCS12Cert );
+	m_pass = Application::confValue( Application::PKCS12Pass );
 }
 
 AccessCert::~AccessCert()
 {
-	DigiDoc::setConfValue( DigiDoc::PKCS12Cert, m_cert );
-	DigiDoc::setConfValue( DigiDoc::PKCS12Pass, m_pass );
+	Application::setConfValue( Application::PKCS12Cert, m_cert );
+	Application::setConfValue( Application::PKCS12Pass, m_pass );
 }
 
 bool AccessCert::download( QSigner *signer, const QString &card, const QString &filename )
 {
 	signer->lock();
 	SSLConnect *ssl = new SSLConnect();
-	ssl->setPKCS11( DigiDoc::getConfValue( DigiDoc::PKCS11Module ), false );
+	ssl->setPKCS11( Application::confValue( Application::PKCS11Module ), false );
 	ssl->setCard( card );
 
 	bool retry = false;
@@ -144,8 +144,8 @@ bool AccessCert::download( QSigner *signer, const QString &card, const QString &
 	}
 	f.write( QByteArray::fromBase64( cert.toLatin1() ) );
 
-	DigiDoc::setConfValue( DigiDoc::PKCS12Cert, m_cert = f.fileName() );
-	DigiDoc::setConfValue( DigiDoc::PKCS12Pass, m_pass = e.elementsByTagName( "TokenPassword" ).item(0).toElement().text() );
+	Application::setConfValue( Application::PKCS12Cert, m_cert = f.fileName() );
+	Application::setConfValue( Application::PKCS12Pass, m_pass = e.elementsByTagName( "TokenPassword" ).item(0).toElement().text() );
 	return true;
 }
 
@@ -160,16 +160,16 @@ bool AccessCert::showWarning2( const QString &msg )
 
 bool AccessCert::validate()
 {
-	m_cert = DigiDoc::getConfValue( DigiDoc::PKCS12Cert );
-	m_pass = DigiDoc::getConfValue( DigiDoc::PKCS12Pass );
+	m_cert = Application::confValue( Application::PKCS12Cert );
+	m_pass = Application::confValue( Application::PKCS12Pass );
 
 	QFile f( m_cert );
 	if( !f.exists() )
 	{
 		if( showWarning2( tr("Did not find any server access certificate!\nStart downloading?") ) )
 		{
-			DigiDoc::setConfValue( DigiDoc::PKCS12Cert, QVariant() );
-			DigiDoc::setConfValue( DigiDoc::PKCS12Pass, QVariant() );
+			Application::setConfValue( Application::PKCS12Cert, QVariant() );
+			Application::setConfValue( Application::PKCS12Pass, QVariant() );
 			return true;
 		}
 	}
@@ -177,8 +177,8 @@ bool AccessCert::validate()
 	{
 		if( showWarning2( tr("Failed to read server access certificate!\nStart downloading?") ) )
 		{
-			DigiDoc::setConfValue( DigiDoc::PKCS12Cert, QVariant() );
-			DigiDoc::setConfValue( DigiDoc::PKCS12Pass, QVariant() );
+			Application::setConfValue( Application::PKCS12Cert, QVariant() );
+			Application::setConfValue( Application::PKCS12Pass, QVariant() );
 			return true;
 		}
 	}
@@ -190,8 +190,8 @@ bool AccessCert::validate()
 		{
 			if( showWarning2( tr("Server access certificate password is not valid!\nStart downloading?") ) )
 			{
-				DigiDoc::setConfValue( DigiDoc::PKCS12Cert, QVariant() );
-				DigiDoc::setConfValue( DigiDoc::PKCS12Pass, QVariant() );
+				Application::setConfValue( Application::PKCS12Cert, QVariant() );
+				Application::setConfValue( Application::PKCS12Pass, QVariant() );
 				return true;
 			}
 		}
@@ -199,8 +199,8 @@ bool AccessCert::validate()
 		{
 			if( showWarning2( tr("Server access certificate is not valid!\nStart downloading?") ) )
 			{
-				DigiDoc::setConfValue( DigiDoc::PKCS12Cert, QVariant() );
-				DigiDoc::setConfValue( DigiDoc::PKCS12Pass, QVariant() );
+				Application::setConfValue( Application::PKCS12Cert, QVariant() );
+				Application::setConfValue( Application::PKCS12Pass, QVariant() );
 				return true;
 			}
 		}

@@ -22,7 +22,7 @@
 
 #include "SettingsDialog.h"
 
-#include "DigiDoc.h"
+#include "Application.h"
 #include "version.h"
 
 #include <common/CertificateWidget.h>
@@ -58,19 +58,19 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 
 	signOverwrite->setChecked( s.value( "Overwrite", false ).toBool() );
 
-	proxyHost->setText( DigiDoc::getConfValue( DigiDoc::ProxyHost ) );
-	proxyPort->setText( DigiDoc::getConfValue( DigiDoc::ProxyPort ) );
-	proxyUser->setText( DigiDoc::getConfValue( DigiDoc::ProxyUser ) );
-	proxyPass->setText( DigiDoc::getConfValue( DigiDoc::ProxyPass ) );
-	p12Cert->setText( DigiDoc::getConfValue( DigiDoc::PKCS12Cert ) );
-	p12Pass->setText( DigiDoc::getConfValue( DigiDoc::PKCS12Pass ) );
+	proxyHost->setText( Application::confValue( Application::ProxyHost ) );
+	proxyPort->setText( Application::confValue( Application::ProxyPort ) );
+	proxyUser->setText( Application::confValue( Application::ProxyUser ) );
+	proxyPass->setText( Application::confValue( Application::ProxyPass ) );
+	p12Cert->setText( Application::confValue( Application::PKCS12Cert ) );
+	p12Pass->setText( Application::confValue( Application::PKCS12Pass ) );
 
 	s.endGroup();
 }
 
 void SettingsDialog::on_p12Button_clicked()
 {
-	QString cert = DigiDoc::getConfValue( DigiDoc::PKCS12Cert );
+	QString cert = Application::confValue( Application::PKCS12Cert );
 	if( cert.isEmpty() )
 		cert = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
 	else
@@ -126,12 +126,12 @@ void SettingsDialog::save()
 		s.remove( "DefaultDir" );
 	}
 
-	DigiDoc::setConfValue( DigiDoc::ProxyHost, proxyHost->text() );
-	DigiDoc::setConfValue( DigiDoc::ProxyPort, proxyPort->text() );
-	DigiDoc::setConfValue( DigiDoc::ProxyUser, proxyUser->text() );
-	DigiDoc::setConfValue( DigiDoc::ProxyPass, proxyPass->text() );
-	DigiDoc::setConfValue( DigiDoc::PKCS12Cert, p12Cert->text() );
-	DigiDoc::setConfValue( DigiDoc::PKCS12Pass, p12Pass->text() );
+	Application::setConfValue( Application::ProxyHost, proxyHost->text() );
+	Application::setConfValue( Application::ProxyPort, proxyPort->text() );
+	Application::setConfValue( Application::ProxyUser, proxyUser->text() );
+	Application::setConfValue( Application::ProxyPass, proxyPass->text() );
+	Application::setConfValue( Application::PKCS12Cert, p12Cert->text() );
+	Application::setConfValue( Application::PKCS12Pass, p12Pass->text() );
 
 	s.endGroup();
 
@@ -170,7 +170,7 @@ void SettingsDialog::saveSignatureInfo(
 
 void SettingsDialog::setP12Cert( const QString &cert )
 {
-	DigiDoc::setConfValue( DigiDoc::PKCS12Cert, cert );
+	Application::setConfValue( Application::PKCS12Cert, cert );
 	p12Cert->setText( cert );
 	tabWidget->setCurrentIndex( 1 );
 }

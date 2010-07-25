@@ -24,18 +24,34 @@
 
 #include <QApplication>
 
+#include <QVariant>
+
 #if defined(qApp)
 #undef qApp
 #endif
 #define qApp (static_cast<Application*>(QCoreApplication::instance()))
+
 class Application: public QApplication
 {
 	Q_OBJECT
 
 public:
+	enum ConfParameter
+	{
+		PKCS11Module,
+		ProxyHost,
+		ProxyPort,
+		ProxyUser,
+		ProxyPass,
+		PKCS12Cert,
+		PKCS12Pass,
+	};
+
 	explicit Application( int &argc, char **argv );
 	~Application();
 
+	static QString confValue( ConfParameter parameter, const QVariant &value = QVariant() );
+	static void setConfValue( ConfParameter parameter, const QVariant &value );
 #ifdef Q_OS_LINUX
 	static QByteArray fileEncoder( const QString &filename ) { return filename.toUtf8(); }
 	static QString fileDecoder( const QByteArray &filename ) { return QString::fromUtf8( filename ); }

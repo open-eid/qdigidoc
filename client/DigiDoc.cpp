@@ -27,7 +27,6 @@
 #include "QMobileSigner.h"
 #include "QSigner.h"
 
-#include <digidocpp/Conf.h>
 #include <digidocpp/DDoc.h>
 #include <digidocpp/Document.h>
 #include <digidocpp/SignatureTM.h>
@@ -452,46 +451,6 @@ void DigiDoc::save()
 
 void DigiDoc::selectCard( const QString &card )
 { QMetaObject::invokeMethod( m_signer, "selectCard", Qt::QueuedConnection, Q_ARG(QString,card) ); }
-
-QString DigiDoc::getConfValue( ConfParameter parameter, const QVariant &value )
-{
-	digidoc::Conf *i = NULL;
-	try { i = digidoc::Conf::getInstance(); }
-	catch( const Exception & ) { return value.toString(); }
-
-	std::string r;
-	switch( parameter )
-	{
-	case PKCS11Module: r = i->getPKCS11DriverPath(); break;
-	case ProxyHost: r = i->getProxyHost(); break;
-	case ProxyPort: r = i->getProxyPort(); break;
-	case ProxyUser: r = i->getProxyUser(); break;
-	case ProxyPass: r = i->getProxyPass(); break;
-	case PKCS12Cert: r = i->getPKCS12Cert(); break;
-	case PKCS12Pass: r = i->getPKCS12Pass(); break;
-	default: break;
-	}
-	return r.empty() ? value.toString() : QString::fromStdString( r );
-}
-
-void DigiDoc::setConfValue( ConfParameter parameter, const QVariant &value )
-{
-	digidoc::Conf *i = NULL;
-	try { i = digidoc::Conf::getInstance(); }
-	catch( const Exception & ) { return; }
-
-	const std::string v = value.toString().toStdString();
-	switch( parameter )
-	{
-	case ProxyHost: i->setProxyHost( v ); break;
-	case ProxyPort: i->setProxyPort( v ); break;
-	case ProxyUser: i->setProxyUser( v ); break;
-	case ProxyPass: i->setProxyPass( v ); break;
-	case PKCS12Cert: i->setPKCS12Cert( v ); break;
-	case PKCS12Pass: i->setPKCS12Pass( v ); break;
-	default: break;
-	}
-}
 
 void DigiDoc::setLastError( const Exception &e )
 {

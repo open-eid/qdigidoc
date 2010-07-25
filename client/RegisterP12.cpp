@@ -24,7 +24,6 @@
 
 #include "common/Settings.h"
 #include "Application.h"
-#include "DigiDoc.h"
 
 #include <QDesktopServices>
 #include <QFile>
@@ -72,8 +71,8 @@ void RegisterP12::on_buttonBox_accepted()
 		return;
 	}
 
-	DigiDoc::setConfValue( DigiDoc::PKCS12Cert, dest );
-	DigiDoc::setConfValue( DigiDoc::PKCS12Pass, p12Pass->text() );
+	Application::setConfValue( Application::PKCS12Cert, dest );
+	Application::setConfValue( Application::PKCS12Pass, p12Pass->text() );
 	close();
 }
 
