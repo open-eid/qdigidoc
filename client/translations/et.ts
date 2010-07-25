@@ -66,15 +66,15 @@ Alustame laadimist?</translation>
     <name>Application</name>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Sulge</translation>
+        <translation>Sulge</translation>
     </message>
     <message>
         <source>&amp;File</source>
-        <translation type="unfinished">&amp;Fail</translation>
+        <translation>&amp;Fail</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Seaded</translation>
+        <translation>Seaded</translation>
     </message>
     <message>
         <source>Failed to initalize.&lt;br /&gt;%1</source>
@@ -82,7 +82,7 @@ Alustame laadimist?</translation>
     </message>
     <message>
         <source>DigiDoc3 client</source>
-        <translation type="unfinished">DigiDoc3 klient</translation>
+        <translation>DigiDoc3 klient</translation>
     </message>
 </context>
 <context>
@@ -216,7 +216,7 @@ Alustame laadimist?</translation>
     </message>
     <message>
         <source>You have not signed this container</source>
-        <translation type="unfinished">Sina pole seda ümbrikut allkirjastanud</translation>
+        <translation>Sina pole seda ümbrikut allkirjastanud</translation>
     </message>
     <message>
         <source>Container is unsigned</source>

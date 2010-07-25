@@ -66,23 +66,23 @@ Start downloading?</translation>
     <name>Application</name>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Close</translation>
+        <translation>Close</translation>
     </message>
     <message>
         <source>&amp;File</source>
-        <translation type="unfinished">&amp;File</translation>
+        <translation>&amp;File</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Settings</translation>
+        <translation>Settings</translation>
     </message>
     <message>
         <source>Failed to initalize.&lt;br /&gt;%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Failed to initalize.&lt;br /&gt;%1</translation>
     </message>
     <message>
         <source>DigiDoc3 client</source>
-        <translation type="unfinished">DigiDoc3 client</translation>
+        <translation>DigiDoc3 client</translation>
     </message>
 </context>
 <context>

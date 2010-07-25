@@ -66,15 +66,15 @@ Start downloading?</source>
     <name>Application</name>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Закрыть</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <source>&amp;File</source>
-        <translation type="unfinished">&amp;Файл</translation>
+        <translation>&amp;Файл</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Настройки</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <source>Failed to initalize.&lt;br /&gt;%1</source>
@@ -82,7 +82,7 @@ Start downloading?</source>
     </message>
     <message>
         <source>DigiDoc3 client</source>
-        <translation type="unfinished">DigiDoc3 клиент</translation>
+        <translation>DigiDoc3 клиент</translation>
     </message>
 </context>
 <context>
