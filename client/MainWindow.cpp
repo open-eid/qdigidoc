@@ -44,7 +44,6 @@
 #include <QMessageBox>
 #include <QPrintPreviewDialog>
 #include <QTextStream>
-#include <QTranslator>
 #include <QUrl>
 
 MainWindow::MainWindow( const QStringList &_params )
@@ -111,12 +110,6 @@ MainWindow::MainWindow( const QStringList &_params )
 	doc = new DigiDoc( this );
 
 	// Translations
-	appTranslator = new QTranslator( this );
-	commonTranslator = new QTranslator( this );
-	qtTranslator = new QTranslator( this );
-	qApp->installTranslator( appTranslator );
-	qApp->installTranslator( commonTranslator );
-	qApp->installTranslator( qtTranslator );
 	lang << "et" << "en" << "ru";
 	QString deflang;
 	switch( QLocale().language() )
@@ -508,9 +501,7 @@ void MainWindow::on_languages_activated( int index )
 	case 2: QLocale::setDefault( QLocale( QLocale::Russian, QLocale::RussianFederation ) ); break;
 	default: QLocale::setDefault( QLocale( QLocale::Estonian, QLocale::Estonia ) ); break;
 	}
-	appTranslator->load( ":/translations/" + lang[index] );
-	commonTranslator->load( ":/translations/common_" + lang[index] );
-	qtTranslator->load( ":/translations/qt_" + lang[index] );
+	qApp->loadTranslation( lang[index] );
 	retranslateUi( this );
 	languages->setCurrentIndex( index );
 	introNext->setText( tr( "Next" ) );

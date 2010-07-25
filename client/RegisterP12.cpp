@@ -30,19 +30,11 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMessageBox>
-#include <QTranslator>
 
 RegisterP12::RegisterP12( const QString &cert )
 :	QWidget()
 {
-	QString lang = Settings().value( "Main/Language", "et" ).toString();
-	QTranslator *appTranslator = new QTranslator( this );
-	QTranslator *qtTranslator = new QTranslator( this );
-	qApp->installTranslator( appTranslator );
-	qApp->installTranslator( qtTranslator );
-	appTranslator->load( ":/translations/" + lang );
-	qtTranslator->load( ":/translations/qt_" + lang );
-
+	qApp->loadTranslation( Settings().value( "Main/Language", "et" ).toString() );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
 	p12Cert->setText( cert );

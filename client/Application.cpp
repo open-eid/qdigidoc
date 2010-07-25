@@ -48,6 +48,7 @@
 #include <QMessageBox>
 #include <QPalette>
 #include <QSslCertificate>
+#include <QTranslator>
 
 #include <openssl/ssl.h>
 
@@ -61,6 +62,7 @@ public:
 	QAction *closeAction;
 	QSslCertificate	signCert;
 	QSigner *signer;
+	QTranslator *appTranslator, *commonTranslator, *qtTranslator;
 };
 
 Application::Application( int &argc, char **argv )
@@ -118,6 +120,10 @@ Application::Application( int &argc, char **argv )
 		showWarning( tr("Failed to initalize QDigiDocClient.<br />%1").arg( causes.join("\n") ) );
 		return;
 	}
+
+	installTranslator( d->appTranslator = new QTranslator( this ) );
+	installTranslator( d->commonTranslator = new QTranslator( this ) );
+	installTranslator( d->qtTranslator = new QTranslator( this ) );
 
 	QWidget *widget;
 	QStringList args = arguments();
@@ -222,6 +228,13 @@ bool Application::event( QEvent *e )
 	}
 	default: return QApplication::event( e );
 	}
+}
+
+void Application::loadTranslation( const QString &lang )
+{
+	d->appTranslator->load( ":/translations/" + lang );
+	d->commonTranslator->load( ":/translations/common_" + lang );
+	d->qtTranslator->load( ":/translations/qt_" + lang );
 }
 
 QStringList Application::presentCards() const { return d->cards; }

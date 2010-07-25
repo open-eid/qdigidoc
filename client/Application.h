@@ -54,6 +54,7 @@ public:
 	~Application();
 
 	QString activeCard() const;
+	void loadTranslation( const QString &lang );
 	QStringList presentCards() const;
 	QSslCertificate signCert() const;
 	QSigner* signer() const;

@@ -27,7 +27,6 @@
 #include <QStringList>
 
 class DigiDoc;
-class QTranslator;
 
 class MainWindow: public QWidget, private Ui::MainWindow
 {
@@ -77,7 +76,6 @@ private:
 
 	QActionGroup *cardsGroup;
 	DigiDoc	*doc;
-	QTranslator *appTranslator, *commonTranslator, *qtTranslator;
 	QStringList lang, params;
 	QPushButton *introNext, *signButton, *viewAddSignature;
 	bool quitOnClose;
