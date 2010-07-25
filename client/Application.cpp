@@ -22,17 +22,22 @@
 
 #include "Application.h"
 
+#include "DigiDoc.h"
 #include "MainWindow.h"
 #include "RegisterP12.h"
 #include "version.h"
 
 #include "common/Common.h"
 
+#include <digidocpp/ADoc.h>
+#include <digidocpp/crypto/cert/DirectoryX509CertStore.h>
+
 #include <QDesktopServices>
 #ifdef Q_OS_LINUX
 #include <QFile>
 #endif
 #include <QFileInfo>
+#include <QMessageBox>
 #include <QPalette>
 #include <QSslCertificate>
 
@@ -66,6 +71,20 @@ Application::Application( int &argc, char **argv )
 	QDesktopServices::setUrlHandler( "browse", common, "browse" );
 	QDesktopServices::setUrlHandler( "mailto", common, "mailTo" );
 
+	try
+	{
+		digidoc::initialize();
+		digidoc::X509CertStore::init( new digidoc::DirectoryX509CertStore() );
+	}
+	catch( const digidoc::Exception &e )
+	{
+		QStringList causes;
+		digidoc::Exception::ExceptionCode code;
+		DigiDoc::parseException( e, causes, code );
+		showWarning( tr("Failed to initalize QDigiDocClient.<br />%1").arg( causes.join("\n") ) );
+		return;
+	}
+
 	QWidget *widget;
 	QStringList args = arguments();
 	args.removeFirst();
@@ -83,4 +102,17 @@ Application::Application( int &argc, char **argv )
 	}
 
 	widget->show();
+}
+
+Application::~Application()
+{
+	digidoc::X509CertStore::destroy();
+	digidoc::terminate();
+}
+
+void Application::showWarning( const QString &msg )
+{
+	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
+	if( d.exec() == QMessageBox::Help )
+		Common::showHelp( msg );
 }

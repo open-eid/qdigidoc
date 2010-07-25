@@ -32,7 +32,7 @@
 #include <digidocpp/Document.h>
 #include <digidocpp/SignatureTM.h>
 #include <digidocpp/WDoc.h>
-#include <digidocpp/crypto/cert/DirectoryX509CertStore.h>
+#include <digidocpp/crypto/cert/X509Cert.h>
 #include <digidocpp/io/ZipSerialize.h>
 
 #include <QDateTime>
@@ -279,8 +279,6 @@ DigiDoc::~DigiDoc()
 {
 	delete m_signer;
 	clear();
-	X509CertStore::destroy();
-	digidoc::terminate();
 }
 
 QString DigiDoc::activeCard() const { return m_card; }
@@ -369,13 +367,6 @@ QString DigiDoc::fileName() const { return m_fileName; }
 
 bool DigiDoc::init()
 {
-	try
-	{
-		digidoc::initialize();
-		X509CertStore::init( new DirectoryX509CertStore() );
-	}
-	catch( const Exception &e ) { setLastError( e ); return false; }
-
 	m_signer = new QSigner();
 	connect( m_signer, SIGNAL(dataChanged(QStringList,QString,QSslCertificate)),
 		SLOT(dataChanged(QStringList,QString,QSslCertificate)) );

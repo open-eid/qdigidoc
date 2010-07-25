@@ -24,15 +24,23 @@
 
 #include <QApplication>
 
+#if defined(qApp)
+#undef qApp
+#endif
+#define qApp (static_cast<Application*>(QCoreApplication::instance()))
 class Application: public QApplication
 {
 	Q_OBJECT
 
 public:
-	Application( int &argc, char **argv );
+	explicit Application( int &argc, char **argv );
+	~Application();
 
 #ifdef Q_OS_LINUX
 	static QByteArray fileEncoder( const QString &filename ) { return filename.toUtf8(); }
 	static QString fileDecoder( const QByteArray &filename ) { return QString::fromUtf8( filename ); }
 #endif
+
+public Q_SLOTS:
+	void showWarning( const QString &msg );
 };

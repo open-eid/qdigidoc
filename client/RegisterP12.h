@@ -28,8 +28,7 @@ class RegisterP12: public QWidget, private Ui::RegisterP12
 {
 	Q_OBJECT
 public:
-	RegisterP12( const QString &cert, QWidget *parent = 0 );
-	~RegisterP12();
+	explicit RegisterP12( const QString &cert );
 
 private Q_SLOTS:
 	void on_buttonBox_accepted();

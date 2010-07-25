@@ -34,9 +34,7 @@ class MainWindow: public QWidget, private Ui::MainWindow
 	Q_OBJECT
 
 public:
-	MainWindow( QWidget *parent = 0 );
-
-	bool isLoaded() const;
+	explicit MainWindow();
 
 private Q_SLOTS:
 	void buttonClicked( int button );
@@ -50,7 +48,6 @@ private Q_SLOTS:
 	void removeDocument( unsigned int index );
 	void showCardStatus();
 	void showSettings();
-	void showWarning( const QString &msg );
 	void viewSignaturesRemove( unsigned int num );
 
 private:
@@ -85,5 +82,5 @@ private:
 	QTranslator *appTranslator, *commonTranslator, *qtTranslator;
 	QStringList lang, params;
 	QPushButton *introNext, *signButton, *viewAddSignature;
-	bool m_loaded, quitOnClose;
+	bool quitOnClose;
 };

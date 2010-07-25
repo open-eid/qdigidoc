@@ -22,7 +22,8 @@
 
 #include "RegisterP12.h"
 
-#include <common/Settings.h>
+#include "common/Settings.h"
+#include "Application.h"
 #include "DigiDoc.h"
 
 #include <QDesktopServices>
@@ -32,24 +33,21 @@
 #include <QMessageBox>
 #include <QTranslator>
 
-RegisterP12::RegisterP12( const QString &cert, QWidget *parent )
-:	QWidget( parent )
+RegisterP12::RegisterP12( const QString &cert )
+:	QWidget()
 {
 	QString lang = Settings().value( "Main/Language", "et" ).toString();
 	QTranslator *appTranslator = new QTranslator( this );
 	QTranslator *qtTranslator = new QTranslator( this );
-	QApplication::instance()->installTranslator( appTranslator );
-	QApplication::instance()->installTranslator( qtTranslator );
+	qApp->installTranslator( appTranslator );
+	qApp->installTranslator( qtTranslator );
 	appTranslator->load( ":/translations/" + lang );
 	qtTranslator->load( ":/translations/qt_" + lang );
 
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
-	try { digidoc::initialize(); } catch( const digidoc::Exception & ) {}
 	p12Cert->setText( cert );
 }
-
-RegisterP12::~RegisterP12() { digidoc::terminate(); }
 
 void RegisterP12::on_buttonBox_accepted()
 {

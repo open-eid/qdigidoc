@@ -29,6 +29,7 @@
 #include "common/SslCertificate.h"
 
 #include "AccessCert.h"
+#include "Application.h"
 #include "MobileDialog.h"
 #include "PrintSheet.h"
 #include "SettingsDialog.h"
@@ -36,7 +37,6 @@
 
 #include <digidocpp/Document.h>
 
-#include <QApplication>
 #include <QDesktopServices>
 #include <QDragEnterEvent>
 #include <QFileDialog>
@@ -51,10 +51,9 @@
 #include <QMenuBar>
 #endif
 
-MainWindow::MainWindow( QWidget *parent )
-:	QWidget( parent )
+MainWindow::MainWindow()
+:	QWidget()
 ,	cardsGroup( new QActionGroup( this ) )
-,	m_loaded( false )
 ,	quitOnClose( false )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
@@ -117,15 +116,15 @@ MainWindow::MainWindow( QWidget *parent )
 	connect( cards, SIGNAL(activated(QString)), doc, SLOT(selectCard(QString)) );
 	connect( doc, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
 	connect( doc, SIGNAL(dataChanged()), SLOT(showCardStatus()) );
-	m_loaded = doc->init();
+	doc->init();
 
 	// Translations
 	appTranslator = new QTranslator( this );
 	commonTranslator = new QTranslator( this );
 	qtTranslator = new QTranslator( this );
-	QApplication::instance()->installTranslator( appTranslator );
-	QApplication::instance()->installTranslator( commonTranslator );
-	QApplication::instance()->installTranslator( qtTranslator );
+	qApp->installTranslator( appTranslator );
+	qApp->installTranslator( commonTranslator );
+	qApp->installTranslator( qtTranslator );
 	lang << "et" << "en" << "ru";
 	QString deflang;
 	switch( QLocale().language() )
@@ -291,7 +290,7 @@ void MainWindow::buttonClicked( int button )
 	}
 	case HomeCrypt:
 		if( !Common::startDetached( "qdigidoccrypto" ) )
-			showWarning( tr("Failed to start process 'qdigidoccrypto'") );
+			qApp->showWarning( tr("Failed to start process 'qdigidoccrypto'") );
 		break;
 	case HomeSign:
 		if( stack->currentIndex() == Home &&
@@ -389,7 +388,7 @@ void MainWindow::buttonClicked( int button )
 		CheckConnection connection;
 		if( !connection.check( "http://ocsp.sk.ee" ) )
 		{
-			showWarning( connection.error() );
+			qApp->showWarning( connection.error() );
 			break;
 		}
 		AccessCert access( this );
@@ -550,8 +549,6 @@ void MainWindow::enableSign()
 	signButton->setToolTip( cardOwnerSignature ? tr("This container is signed by you") : QString() );
 }
 
-bool MainWindow::isLoaded() const { return m_loaded; }
-
 void MainWindow::on_introCheck_stateChanged( int state )
 { Settings().setValue( "Client/Intro", state == Qt::Unchecked ); }
 
@@ -653,7 +650,7 @@ void MainWindow::parseLink( const QString &link )
 	else if( link == "openUtility" )
 	{
 		if( !Common::startDetached( "qesteidutil" ) )
-			showWarning( tr("Failed to start process 'qesteidutil'") );
+			qApp->showWarning( tr("Failed to start process 'qesteidutil'") );
 	}
 }
 
@@ -786,13 +783,6 @@ void MainWindow::showSettings()
 	SettingsDialog e( this );
 	e.addAction( closeAction );
 	e.exec();
-}
-
-void MainWindow::showWarning( const QString &msg )
-{
-	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close | QMessageBox::Help, this );
-	if( d.exec() == QMessageBox::Help )
-		Common::showHelp( msg );
 }
 
 void MainWindow::viewSignaturesRemove( unsigned int num )
