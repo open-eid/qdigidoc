@@ -46,12 +46,7 @@
 #include <QTranslator>
 #include <QUrl>
 
-#if defined(Q_OS_MAC)
-#include <QMenu>
-#include <QMenuBar>
-#endif
-
-MainWindow::MainWindow()
+MainWindow::MainWindow( const QStringList &_params )
 :	QWidget()
 ,	cardsGroup( new QActionGroup( this ) )
 ,	quitOnClose( false )
@@ -69,8 +64,6 @@ MainWindow::MainWindow()
 #else
 	setWindowFlags( windowFlags() | Qt::WindowSystemMenuHint );
 #endif
-
-	QApplication::instance()->installEventFilter( this );
 
 	Settings s;
 	// Mobile
@@ -114,7 +107,6 @@ MainWindow::MainWindow()
 	// Digidoc
 	doc = new DigiDoc( this );
 	connect( cards, SIGNAL(activated(QString)), doc, SLOT(selectCard(QString)) );
-	connect( doc, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
 	connect( doc, SIGNAL(dataChanged()), SLOT(showCardStatus()) );
 	doc->init();
 
@@ -160,26 +152,10 @@ MainWindow::MainWindow()
 	connect( viewContentView, SIGNAL(remove(unsigned int)),
 		SLOT(removeDocument(unsigned int)) );
 
-	// Actions
-	closeAction = new QAction( tr("Close"), this );
-	closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
-	connect( closeAction, SIGNAL(triggered()), this, SLOT(closeDoc()) );
-	addAction( closeAction );
-#if defined(Q_OS_MAC)
-	QMenuBar *bar = new QMenuBar;
-	QMenu *menu = bar->addMenu( tr("&File") );
-	QAction *pref = menu->addAction( tr("Settings"), this, SLOT(showSettings()) );
-	pref->setMenuRole( QAction::PreferencesRole );
-	menu->addAction( closeAction );
-#endif
-
-	// Arguments
-	QStringList args = qApp->arguments();
-	if( args.size() > 1 )
+	if( !_params.empty() )
 	{
 		quitOnClose = true;
-		args.removeAt( 0 );
-		params = args;
+		params = _params;
 		buttonClicked( HomeSign );
 	}
 }
@@ -274,7 +250,7 @@ void MainWindow::buttonClicked( int button )
 	switch( button )
 	{
 	case HeadSettings:
-		showSettings();
+		qApp->showSettings();
 		break;
 	case HeadHelp:
 		QDesktopServices::openUrl( QUrl( "http://support.sk.ee/" ) );
@@ -450,12 +426,7 @@ void MainWindow::changeCard( QAction *a )
 void MainWindow::changeLang( QAction *a ) { on_languages_activated( a->data().toUInt() ); }
 
 void MainWindow::closeDoc()
-{
-	if( SettingsDialog *d = findChild<SettingsDialog*>() )
-		d->reject();
-	else
-		buttonClicked( stack->currentIndex() == Sign ? SignCancel : ViewClose );
-}
+{ buttonClicked( stack->currentIndex() == Sign ? SignCancel : ViewClose ); }
 
 void MainWindow::dragEnterEvent( QDragEnterEvent *e )
 {
@@ -471,30 +442,6 @@ void MainWindow::dropEvent( QDropEvent *e )
 			params << u.toLocalFile();
 	}
 	buttonClicked( HomeSign );
-}
-
-bool MainWindow::eventFilter( QObject *o, QEvent *e )
-{
-	if( e->type() == QEvent::FileOpen )
-	{
-		QFileOpenEvent *o = static_cast<QFileOpenEvent*>(e);
-		QStringList exts = QStringList() << "p12" << "p12d";
-		if( exts.contains( QFileInfo( o->file() ).suffix(), Qt::CaseInsensitive ) )
-		{
-			SettingsDialog s( this );
-			s.addAction( closeAction );
-			s.setP12Cert( o->file() );
-			s.exec();
-		}
-		else
-		{
-			params << o->file();
-			buttonClicked( HomeSign );
-		}
-		return true;
-	}
-	else
-		return QWidget::eventFilter( o, e );
 }
 
 void MainWindow::enableSign()
@@ -776,13 +723,6 @@ void MainWindow::showCardStatus()
 
 	enableSign();
 	setCurrentPage( (Pages)stack->currentIndex() );
-}
-
-void MainWindow::showSettings()
-{
-	SettingsDialog e( this );
-	e.addAction( closeAction );
-	e.exec();
 }
 
 void MainWindow::viewSignaturesRemove( unsigned int num )

@@ -31,6 +31,7 @@
 #endif
 #define qApp (static_cast<Application*>(QCoreApplication::instance()))
 
+class ApplicationPrivate;
 class Application: public QApplication
 {
 	Q_OBJECT
@@ -58,5 +59,13 @@ public:
 #endif
 
 public Q_SLOTS:
+	void showSettings();
 	void showWarning( const QString &msg );
+private Q_SLOTS:
+	void closeWindow();
+
+private:
+	bool event( QEvent *e );
+
+	ApplicationPrivate *d;
 };

@@ -34,20 +34,20 @@ class MainWindow: public QWidget, private Ui::MainWindow
 	Q_OBJECT
 
 public:
-	explicit MainWindow();
+	explicit MainWindow( const QStringList &params );
+
+	void closeDoc();
 
 private Q_SLOTS:
 	void buttonClicked( int button );
 	void changeCard( QAction *a );
 	void changeLang( QAction *a );
-	void closeDoc();
 	void enableSign();
 	void on_introCheck_stateChanged( int state );
 	void on_languages_activated( int index );
 	void parseLink( const QString &link );
 	void removeDocument( unsigned int index );
 	void showCardStatus();
-	void showSettings();
 	void viewSignaturesRemove( unsigned int num );
 
 private:
@@ -73,11 +73,9 @@ private:
 	bool addFile( const QString &file );
 	void dragEnterEvent( QDragEnterEvent *e );
 	void dropEvent( QDropEvent *e );
-	bool eventFilter( QObject *o, QEvent *e );
 	void setCurrentPage( Pages page );
 
 	QActionGroup *cardsGroup;
-	QAction *closeAction;
 	DigiDoc	*doc;
 	QTranslator *appTranslator, *commonTranslator, *qtTranslator;
 	QStringList lang, params;

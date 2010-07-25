@@ -25,6 +25,7 @@
 #include "DigiDoc.h"
 #include "MainWindow.h"
 #include "RegisterP12.h"
+#include "SettingsDialog.h"
 #include "version.h"
 
 #include "common/Common.h"
@@ -38,14 +39,26 @@
 #include <QFile>
 #endif
 #include <QFileInfo>
+#include <QFileOpenEvent>
+#ifdef Q_OS_MAC
+#include <QMenu>
+#include <QMenuBar>
+#endif
 #include <QMessageBox>
 #include <QPalette>
 #include <QSslCertificate>
 
 #include <openssl/ssl.h>
 
+class ApplicationPrivate
+{
+public:
+	QAction *closeAction;
+};
+
 Application::Application( int &argc, char **argv )
 :	QApplication( argc, argv )
+,	d( new ApplicationPrivate )
 {
 	qputenv( "LANG", "en_US.UTF-8" );
 #ifdef Q_OS_LINUX
@@ -71,6 +84,19 @@ Application::Application( int &argc, char **argv )
 	Common *common = new Common( this );
 	QDesktopServices::setUrlHandler( "browse", common, "browse" );
 	QDesktopServices::setUrlHandler( "mailto", common, "mailTo" );
+
+	// Actions
+	d->closeAction = new QAction( tr("Close"), this );
+	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
+	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
+
+#if defined(Q_OS_MAC)
+	QMenuBar *bar = new QMenuBar;
+	QMenu *menu = bar->addMenu( tr("&File") );
+	QAction *pref = menu->addAction( tr("Settings"), SLOT(showSettings()) );
+	pref->setMenuRole( QAction::PreferencesRole );
+	menu->addAction( d->closeAction );
+#endif
 
 	try
 	{
@@ -99,9 +125,10 @@ Application::Application( int &argc, char **argv )
 		SSL_load_error_strings();
 		SSL_library_init();
 
-		widget = new MainWindow();
+		widget = new MainWindow( args );
 	}
 
+	widget->addAction( d->closeAction );
 	widget->show();
 }
 
@@ -109,6 +136,17 @@ Application::~Application()
 {
 	digidoc::X509CertStore::destroy();
 	digidoc::terminate();
+	delete d;
+}
+
+void Application::closeWindow()
+{
+	if( MainWindow *w = qobject_cast<MainWindow*>(activeWindow()) )
+		w->closeDoc();
+	else if( QDialog *d = qobject_cast<QDialog*>(activeWindow()) )
+		d->reject();
+	else if( QWidget *w = qobject_cast<QDialog*>(activeWindow()) )
+		w->deleteLater();
 }
 
 QString Application::confValue( ConfParameter parameter, const QVariant &value )
@@ -132,6 +170,29 @@ QString Application::confValue( ConfParameter parameter, const QVariant &value )
 	return r.empty() ? value.toString() : QString::fromStdString( r );
 }
 
+bool Application::event( QEvent *e )
+{
+	switch( e->type() )
+	{
+	case QEvent::FileOpen:
+	{
+		QFileOpenEvent *o = static_cast<QFileOpenEvent*>(e);
+		QStringList exts = QStringList() << "p12" << "p12d";
+		if( exts.contains( QFileInfo( o->file() ).suffix(), Qt::CaseInsensitive ) )
+		{
+			SettingsDialog s( activeWindow() );
+			s.addAction( d->closeAction );
+			s.setP12Cert( o->file() );
+			s.exec();
+		}
+		else
+			(new MainWindow( QStringList( o->file() ) ))->show();
+		return true;
+	}
+	default: return QApplication::event( e );
+	}
+}
+
 void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 {
 	digidoc::Conf *i = NULL;
@@ -149,6 +210,13 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 	case PKCS12Pass: i->setPKCS12Pass( v ); break;
 	default: break;
 	}
+}
+
+void Application::showSettings()
+{
+	SettingsDialog s( activeWindow() );
+	s.addAction( d->closeAction );
+	s.exec();
 }
 
 void Application::showWarning( const QString &msg )

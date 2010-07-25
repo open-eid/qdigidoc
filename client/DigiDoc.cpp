@@ -24,6 +24,7 @@
 
 #include "common/SslCertificate.h"
 
+#include "Application.h"
 #include "QMobileSigner.h"
 #include "QSigner.h"
 
@@ -272,7 +273,9 @@ DigiDoc::DigiDoc( QObject *parent )
 :	QObject( parent )
 ,	b(0)
 ,	m_signer(0)
-{}
+{
+	connect( this, SIGNAL(error(QString)), qApp, SLOT(showWarning(QString)) );
+}
 
 DigiDoc::~DigiDoc()
 {
