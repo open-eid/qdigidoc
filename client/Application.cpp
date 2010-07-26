@@ -99,7 +99,7 @@ Application::Application( int &argc, char **argv )
 	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
-#if defined(Q_OS_MAC)
+#ifdef Q_OS_MAC
 	QMenuBar *bar = new QMenuBar;
 	QMenu *menu = bar->addMenu( tr("&File") );
 	QAction *pref = menu->addAction( tr("Settings"), SLOT(showSettings()) );
@@ -117,7 +117,7 @@ Application::Application( int &argc, char **argv )
 		QStringList causes;
 		digidoc::Exception::ExceptionCode code;
 		DigiDoc::parseException( e, causes, code );
-		showWarning( tr("Failed to initalize QDigiDocClient.<br />%1").arg( causes.join("\n") ) );
+		showWarning( tr("Failed to initalize.<br />%1").arg( causes.join("\n") ) );
 		return;
 	}
 
@@ -223,7 +223,11 @@ bool Application::event( QEvent *e )
 			s.exec();
 		}
 		else
-			(new MainWindow( QStringList( o->file() ) ))->show();
+		{
+			MainWindow *w = new MainWindow( QStringList( o->file() ) );
+			w->addAction( d->closeAction );
+			w->show();
+		}
 		return true;
 	}
 	default: return QApplication::event( e );
