@@ -79,7 +79,7 @@ bool QSigner::loadDriver()
 	{
 		name = Conf::getInstance()->getPKCS11DriverPath();
 	}
-	catch( const Exception &e )
+	catch( const Exception & )
 	{
 		Q_EMIT error( tr("Failed to load PKCS#11 module") );
 		return false;
