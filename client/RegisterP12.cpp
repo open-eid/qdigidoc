@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009,2010 Jargo KÃµster <jargo@innovaatik.ee>
+ * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -50,10 +50,9 @@ void RegisterP12::on_buttonBox_accepted()
 		return;
 	}
 
-	QDir().mkpath( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) );
-	QString dest = QString( "%1/%2" )
-		.arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) )
-		.arg( file.fileName() );
+	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
+	QDir().mkpath( path );
+	QString dest = QString( "%1/%2" ).arg( path, file.fileName() );
 
 	if( QFile::exists( dest ) )
 		QFile::remove( dest );
