@@ -26,6 +26,8 @@ set( QT_USE_QTXML true )
 
 include( ${QT_USE_FILE} )
 
+add_subdirectory( qtsingleapplication )
+
 find_package(Subversion)
 if (Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn)
     Subversion_WC_INFO(${PROJECT_SOURCE_DIR} PROJECT)

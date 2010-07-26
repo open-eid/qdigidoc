@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <QApplication>
+#include "qtsingleapplication/src/QtSingleApplication"
 
 #include <QVariant>
 
@@ -34,7 +34,7 @@
 class QSigner;
 class QSslCertificate;
 class ApplicationPrivate;
-class Application: public QApplication
+class Application: public QtSingleApplication
 {
 	Q_OBJECT
 
@@ -74,9 +74,10 @@ Q_SIGNALS:
 	void dataChanged();
 
 private Q_SLOTS:
+	void closeWindow();
 	void dataChanged( const QStringList &cards, const QString &card,
 		const QSslCertificate &sign );
-	void closeWindow();
+	void parseArgs( const QString &msg );
 
 private:
 	bool event( QEvent *e );

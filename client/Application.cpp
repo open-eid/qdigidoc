@@ -66,9 +66,19 @@ public:
 };
 
 Application::Application( int &argc, char **argv )
-:	QApplication( argc, argv )
+:	QtSingleApplication( argc, argv )
 ,	d( new ApplicationPrivate )
 {
+	QStringList args = arguments();
+	args.removeFirst();
+	if( isRunning() )
+	{
+		sendMessage( args.join( "\", \"" ) );
+		return;
+	}
+
+	connect( this, SIGNAL(messageReceived(QString)), SLOT(parseArgs(QString)) );
+
 	qputenv( "LANG", "en_US.UTF-8" );
 #ifdef Q_OS_LINUX
 	QFile::setEncodingFunction( fileEncoder );
@@ -125,37 +135,23 @@ Application::Application( int &argc, char **argv )
 	installTranslator( d->commonTranslator = new QTranslator( this ) );
 	installTranslator( d->qtTranslator = new QTranslator( this ) );
 
-	QWidget *widget;
-	QStringList args = arguments();
-	args.removeFirst();
-	QStringList exts = QStringList() << "p12" << "p12d";
-	if( !args.isEmpty() && exts.contains( QFileInfo( args.value(0) ).suffix(), Qt::CaseInsensitive ) )
-	{
-		widget = new RegisterP12( args.value(0) );
-	}
-	else
-	{
-		SSL_load_error_strings();
-		SSL_library_init();
+	d->signer = new QSigner();
+	connect( d->signer, SIGNAL(dataChanged(QStringList,QString,QSslCertificate)),
+		SLOT(dataChanged(QStringList,QString,QSslCertificate)) );
+	connect( d->signer, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
+	d->signer->start();
 
-		d->signer = new QSigner();
-		connect( d->signer, SIGNAL(dataChanged(QStringList,QString,QSslCertificate)),
-			SLOT(dataChanged(QStringList,QString,QSslCertificate)) );
-		connect( d->signer, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
-		d->signer->start();
-
-		widget = new MainWindow( args );
-	}
-
-	widget->addAction( d->closeAction );
-	widget->show();
+	parseArgs( args.join( "\", \"" ) );
 }
 
 Application::~Application()
 {
-	digidoc::X509CertStore::destroy();
-	digidoc::terminate();
-	delete d->signer;
+	if( !isRunning() )
+	{
+		digidoc::X509CertStore::destroy();
+		digidoc::terminate();
+		delete d->signer;
+	}
 	delete d;
 }
 
@@ -213,21 +209,7 @@ bool Application::event( QEvent *e )
 	{
 	case QEvent::FileOpen:
 	{
-		QFileOpenEvent *o = static_cast<QFileOpenEvent*>(e);
-		QStringList exts = QStringList() << "p12" << "p12d";
-		if( exts.contains( QFileInfo( o->file() ).suffix(), Qt::CaseInsensitive ) )
-		{
-			SettingsDialog s( activeWindow() );
-			s.addAction( d->closeAction );
-			s.setP12Cert( o->file() );
-			s.exec();
-		}
-		else
-		{
-			MainWindow *w = new MainWindow( QStringList( o->file() ) );
-			w->addAction( d->closeAction );
-			w->show();
-		}
+		parseArgs( static_cast<QFileOpenEvent*>(e)->file() );
 		return true;
 	}
 	default: return QApplication::event( e );
@@ -239,6 +221,24 @@ void Application::loadTranslation( const QString &lang )
 	d->appTranslator->load( ":/translations/" + lang );
 	d->commonTranslator->load( ":/translations/common_" + lang );
 	d->qtTranslator->load( ":/translations/qt_" + lang );
+}
+
+void Application::parseArgs( const QString &msg )
+{
+	QStringList params = msg.split( "\", \"", QString::SkipEmptyParts );
+	QStringList exts = QStringList() << "p12" << "p12d";
+	if( exts.contains( QFileInfo( params.value( 0 ) ).suffix(), Qt::CaseInsensitive ) )
+	{
+		RegisterP12 *s = new RegisterP12( params[0] );
+		s->addAction( d->closeAction );
+		s->show();
+	}
+	else
+	{
+		MainWindow *w = new MainWindow( params );
+		w->addAction( d->closeAction );
+		w->show();
+	}
 }
 
 QStringList Application::presentCards() const { return d->cards; }
