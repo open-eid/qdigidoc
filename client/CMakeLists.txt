@@ -123,6 +123,12 @@ if(APPLE)
     	MACOSX_BUNDLE_INFO_PLIST ${APP_CONTENTS_DIR}/Info.plist)
 endif(APPLE)
 
+if(WIN32)
+	SET_TARGET_PROPERTIES(qdigidocclient
+		PROPERTIES
+		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"")
+endif(WIN32)
+
 TARGET_LINK_LIBRARIES( qdigidocclient
 	${QT_QTMAIN_LIBRARY}
 	${QT_LIBRARIES}

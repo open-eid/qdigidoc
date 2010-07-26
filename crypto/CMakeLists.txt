@@ -105,6 +105,12 @@ if(APPLE)
     set(EXTRA_LIBRARIES ${CARBON_LIBRARY})
 endif(APPLE)
 
+if(WIN32)
+	SET_TARGET_PROPERTIES(qdigidoccrypto
+		PROPERTIES
+		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"")
+endif(WIN32)
+
 TARGET_LINK_LIBRARIES( qdigidoccrypto
 	${QT_QTMAIN_LIBRARY}
 	${QT_QTCORE_LIBRARY}
