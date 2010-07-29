@@ -24,6 +24,7 @@
 
 #include "Application.h"
 #include "KeyDialog.h"
+#include "Poller.h"
 #include "common/Common.h"
 #include "common/Settings.h"
 
@@ -71,10 +72,11 @@ MainWindow::MainWindow( const QStringList &args )
 	connect( buttonGroup, SIGNAL(buttonClicked(int)),
 		SLOT(buttonClicked(int)) );
 
+	connect( cards, SIGNAL(activated(QString)), qApp->poller(), SLOT(selectCard(QString)), Qt::QueuedConnection );
+	connect( qApp, SIGNAL(dataChanged()), SLOT(showCardStatus()) );
+
 	doc = new CryptoDoc( this );
-	connect( cards, SIGNAL(activated(QString)), doc, SLOT(selectCard(QString)) );
 	connect( doc, SIGNAL(error(QString,int,QString)), SLOT(showWarning(QString,int,QString)) );
-	connect( doc, SIGNAL(dataChanged()), SLOT(showCardStatus()) );
 
 	connect( viewContentView, SIGNAL(remove(int)),
 		SLOT(removeDocument(int)) );
@@ -140,7 +142,7 @@ bool MainWindow::addFile( const QString &file )
 		if( !Common::canWrite( docname ) )
 		{
 			select = true;
-			showWarning( tr("You dont have permissions to write file %1").arg( docname ) );
+			qApp->showWarning( tr("You dont have permissions to write file %1").arg( docname ) );
 		}
 
 		while( select )
@@ -152,7 +154,7 @@ bool MainWindow::addFile( const QString &file )
 			if( QFileInfo( docname ).suffix().toLower() != "cdoc" )
 				docname.append( ".cdoc" );
 			if( !Common::canWrite( docname ) )
-				showWarning( tr("You dont have permissions to write file %1").arg( docname ) );
+				qApp->showWarning( tr("You dont have permissions to write file %1").arg( docname ) );
 			else
 				select = false;
 		}
@@ -164,7 +166,7 @@ bool MainWindow::addFile( const QString &file )
 
 	if( !QFile::exists( file ) )
 	{
-		showWarning( tr("File does not exists %1").arg( file ) );
+		qApp->showWarning( tr("File does not exists %1").arg( file ) );
 		return false;
 	}
 
@@ -306,7 +308,7 @@ void MainWindow::buttonClicked( int button )
 }
 
 void MainWindow::changeCard( QAction *a )
-{ QMetaObject::invokeMethod( doc, "selectCard", Q_ARG(QString,a->data().toString()) ); }
+{ QMetaObject::invokeMethod( qApp->poller(), "selectCard", Qt::QueuedConnection, Q_ARG(QString,a->data().toString()) ); }
 void MainWindow::changeLang( QAction *a ) { on_languages_activated( a->data().toUInt() ); }
 
 void MainWindow::closeDoc() { buttonClicked( ViewClose ); }
@@ -469,7 +471,7 @@ void MainWindow::setCurrentPage( Pages page )
 		viewCrypt->setText( doc->isEncrypted() ? tr("Decrypt") : tr("Encrypt") );
 		viewCrypt->setEnabled(
 			(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
-			(doc->isEncrypted() && keys.contains( CKey( doc->authCert() ) )) );
+			(doc->isEncrypted() && keys.contains( CKey( qApp->authCert() ) )) );
 		break;
 	}
 	default: break;
@@ -478,36 +480,29 @@ void MainWindow::setCurrentPage( Pages page )
 
 void MainWindow::showCardStatus()
 {
-	if( !doc->activeCard().isEmpty() && !doc->authCert().isNull() )
-		infoCard->setText( Common::tokenInfo( Common::AuthCert, doc->activeCard(), doc->authCert() ) );
-	else if( !doc->activeCard().isEmpty() )
+	if( !qApp->activeCard().isEmpty() && !qApp->authCert().isNull() )
+		infoCard->setText( Common::tokenInfo( Common::AuthCert, qApp->activeCard(), qApp->authCert() ) );
+	else if( !qApp->activeCard().isEmpty() )
 		infoCard->setText( tr("Loading data") );
-	else if( doc->activeCard().isEmpty() )
+	else if( qApp->activeCard().isEmpty() )
 		infoCard->setText( tr("No card in reader") );
 
 	viewCrypt->setEnabled(
 		(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
-		(doc->isEncrypted() && doc->keys().contains( CKey( doc->authCert() ) )) );
+		(doc->isEncrypted() && doc->keys().contains( CKey( qApp->authCert() ) )) );
 
 	cards->clear();
-	cards->addItems( doc->presentCards() );
-	cards->setVisible( doc->presentCards().size() > 1 );
-	cards->setCurrentIndex( cards->findText( doc->activeCard() ) );
+	cards->addItems( qApp->presentCards() );
+	cards->setVisible( qApp->presentCards().size() > 1 );
+	cards->setCurrentIndex( cards->findText( qApp->activeCard() ) );
 	qDeleteAll( cardsGroup->actions() );
-	for( int i = 0; i < doc->presentCards().size(); ++i )
+	for( int i = 0; i < qApp->presentCards().size(); ++i )
 	{
 		QAction *a = cardsGroup->addAction( new QAction( cardsGroup ) );
-		a->setData( doc->presentCards().at( i ) );
+		a->setData( qApp->presentCards().at( i ) );
 		a->setShortcut( Qt::CTRL + (Qt::Key_1 + i) );
 		addAction( a );
 	}
-}
-
-void MainWindow::showWarning( const QString &msg )
-{
-	QMessageBox d( QMessageBox::Warning, windowTitle(), msg, QMessageBox::Close | QMessageBox::Help, this );
-	if( d.exec() == QMessageBox::Help )
-		Common::showHelp( msg );
 }
 
 void MainWindow::showWarning( const QString &msg, int err, const QString &errmsg )
@@ -524,7 +519,7 @@ void MainWindow::showWarning( const QString &msg, int err, const QString &errmsg
 		if( !errmsg.isEmpty() )
 			s += QString(" (%1)").arg( errmsg );
 	}
-	showWarning( s );
+	qApp->showWarning( s );
 }
 
 void MainWindow::updateView() { setCurrentPage( Pages(stack->currentIndex()) ); }

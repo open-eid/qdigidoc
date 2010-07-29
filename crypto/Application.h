@@ -29,6 +29,8 @@
 #endif
 #define qApp (static_cast<Application*>(QCoreApplication::instance()))
 
+class Poller;
+class QSslCertificate;
 class ApplicationPrivate;
 class Application: public QApplication
 {
@@ -38,7 +40,11 @@ public:
 	explicit Application( int &argc, char **argv );
 	~Application();
 
+	QString activeCard() const;
+	QSslCertificate authCert() const;
 	void loadTranslation( const QString &lang );
+	Poller* poller() const;
+	QStringList presentCards() const;
 
 #ifdef Q_OS_LINUX
 	static QByteArray fileEncoder( const QString &filename ) { return filename.toUtf8(); }
@@ -47,9 +53,15 @@ public:
 
 public Q_SLOTS:
 	void showSettings();
+	void showWarning( const QString &msg );
+
+Q_SIGNALS:
+	void dataChanged();
 
 private Q_SLOTS:
 	void closeWindow();
+	void dataChanged( const QStringList &cards, const QString &card,
+		const QSslCertificate &auth );
 
 private:
 	bool event( QEvent *e );

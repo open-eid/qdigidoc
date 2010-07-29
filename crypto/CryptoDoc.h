@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009,2010 Jargo KÃµster <jargo@innovaatik.ee>
+ * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,7 +25,6 @@
 #include <QObject>
 
 #include <QSslCertificate>
-#include <QStringList>
 
 #include <libdigidoc/DigiDocDefs.h>
 #include <libdigidoc/DigiDocLib.h>
@@ -44,7 +43,7 @@ public:
 class CKey
 {
 public:
-	CKey() {};
+	CKey() {}
 	CKey( const QSslCertificate &cert ) { setCert( cert ); }
 	void setCert( const QSslCertificate &cert );
 	bool operator==( const CKey &other ) const { return other.cert == cert; }
@@ -63,12 +62,9 @@ class CryptoDoc: public QObject
 	Q_OBJECT
 public:
 	CryptoDoc( QObject *parent = 0 );
-	~CryptoDoc();
 
-	QString activeCard() const;
 	void addFile( const QString &file, const QString &mime );
 	bool addKey( const CKey &key );
-	QSslCertificate authCert() const;
 	void create( const QString &file );
 	void clear();
 	bool decrypt();
@@ -80,7 +76,6 @@ public:
 	bool isSigned() const;
 	QList<CKey> keys();
 	bool open( const QString &file );
-	QStringList presentCards() const;
 	void removeDocument( int id );
 	void removeKey( int id );
 	void save();
@@ -90,27 +85,19 @@ public Q_SLOTS:
 	void saveDocument( int id, const QString &filepath );
 
 Q_SIGNALS:
-	void dataChanged();
 	void error( const QString &err, int code, const QString &msg );
 
 private Q_SLOTS:
-	void dataChanged( const QStringList &cards, const QString &card,
-		const QSslCertificate &auth );
 	void setLastError( const QString &err, int code = -1 );
 	void setLastPollerError( const QString &err, quint8 code );
-	void selectCard( const QString &card );
 
 private:
 	bool isEncryptedWarning();
 	void cleanProperties();
 	void deleteDDoc();
 
-	QSslCertificate	m_authCert;
-	QStringList		m_cards;
-	QString			m_card;
 	QString			m_ddoc, m_ddocTemp;
 	QString			m_fileName;
 	DEncEncryptedData *m_enc;
 	SignedDoc		*m_doc;
-	Poller			*poller;
 };

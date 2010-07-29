@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009,2010 Jargo KÃµster <jargo@innovaatik.ee>
+ * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -252,7 +252,7 @@ void Poller::run()
 
 	if( !loadDriver() )
 	{
-		emitError( tr("Failed to load PKCS#11 module"), 0 );
+		Q_EMIT error( tr("Failed to load PKCS#11 module") );
 		return;
 	}
 

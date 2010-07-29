@@ -23,29 +23,38 @@
 #include "Application.h"
 
 #include "MainWindow.h"
+#include "Poller.h"
 #include "SettingsDialog.h"
 #include "version.h"
 
 #include "common/Common.h"
 
+#include <libdigidoc/DigiDocConfig.h>
+
 #include <QDesktopServices>
 #ifdef Q_OS_LINUX
 #include <QFile>
 #endif
+#include <QFileInfo>
 #include <QFileOpenEvent>
 #ifdef Q_OS_MAC
 #include <QMenu>
 #include <QMenuBar>
 #endif
+#include <QMessageBox>
 #include <QSslCertificate>
 #include <QTranslator>
 
 class ApplicationPrivate
 {
 public:
-	QAction		*closeAction, *settingsAction;
-	QMenu		*menu;
-	QTranslator *appTranslator, *commonTranslator, *qtTranslator;
+	QSslCertificate	authCert;
+	QStringList		cards;
+	QString			card;
+	QAction			*closeAction, *settingsAction;
+	QMenu			*menu;
+	QTranslator		*appTranslator, *commonTranslator, *qtTranslator;
+	Poller			*poller;
 };
 
 Application::Application( int &argc, char **argv )
@@ -97,6 +106,19 @@ Application::Application( int &argc, char **argv )
 	installTranslator( d->commonTranslator = new QTranslator( this ) );
 	installTranslator( d->qtTranslator = new QTranslator( this ) );
 
+	initDigiDocLib();
+	QString ini = QString( "%1/digidoc.ini" ).arg( applicationDirPath() );
+	if( QFileInfo( ini ).isFile() )
+		initConfigStore( ini.toUtf8() );
+	else
+		initConfigStore( NULL );
+
+	d->poller = new Poller();
+	connect( d->poller, SIGNAL(dataChanged(QStringList,QString,QSslCertificate)),
+		SLOT(dataChanged(QStringList,QString,QSslCertificate)) );
+	connect( d->poller, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
+	d->poller->start();
+
 	QStringList args = arguments();
 	args.removeFirst();
 	MainWindow *w = new MainWindow( args );
@@ -104,7 +126,17 @@ Application::Application( int &argc, char **argv )
 	w->show();
 }
 
-Application::~Application() { delete d; }
+Application::~Application()
+{
+	delete d->poller;
+	cleanupConfigStore( NULL );
+	finalizeDigiDocLib();
+	delete d;
+}
+
+QString Application::activeCard() const { return d->card; }
+QSslCertificate Application::authCert() const { return d->authCert; }
+
 
 void Application::closeWindow()
 {
@@ -114,6 +146,20 @@ void Application::closeWindow()
 		d->reject();
 	else if( QWidget *w = qobject_cast<QDialog*>(activeWindow()) )
 		w->deleteLater();
+}
+
+void Application::dataChanged( const QStringList &cards, const QString &card,
+	const QSslCertificate &auth )
+{
+	bool changed = false;
+	changed = qMax( changed, d->cards != cards );
+	changed = qMax( changed, d->card != card );
+	changed = qMax( changed, d->authCert != auth );
+	d->cards = cards;
+	d->card = card;
+	d->authCert = auth;
+	if( changed )
+		Q_EMIT dataChanged();
 }
 
 bool Application::event( QEvent *e )
@@ -142,9 +188,19 @@ void Application::loadTranslation( const QString &lang )
 #endif
 }
 
+Poller* Application::poller() const { return d->poller; }
+QStringList Application::presentCards() const { return d->cards; }
+
 void Application::showSettings()
 {
 	SettingsDialog e( activeWindow() );
 	e.addAction( d->closeAction );
 	e.exec();
+}
+
+void Application::showWarning( const QString &msg )
+{
+	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
+	if( d.exec() == QMessageBox::Help )
+		Common::showHelp( msg );
 }

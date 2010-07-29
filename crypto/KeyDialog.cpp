@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009,2010 Jargo KÃµster <jargo@innovaatik.ee>
+ * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,6 +25,7 @@
 #include <common/CertificateWidget.h>
 #include <common/IKValidator.h>
 #include <common/SslCertificate.h>
+#include "Application.h"
 #include "LdapSearch.h"
 
 #include <QDateTime>
@@ -141,7 +142,7 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 }
 
 void KeyAddDialog::addCardCert()
-{ addKeys( QList<CKey>() << CKey( doc->authCert() ) ); }
+{ addKeys( QList<CKey>() << CKey( qApp->authCert() ) ); }
 
 void KeyAddDialog::addFile()
 {
@@ -198,7 +199,7 @@ void KeyAddDialog::addKeys( const QList<CKey> &keys )
 	keyAddStatus->setText( status ? tr("Keys added successfully") : tr("Failed to add keys") );
 }
 
-void KeyAddDialog::enableCardCert() { cardButton->setDisabled( doc->authCert().isNull() ); }
+void KeyAddDialog::enableCardCert() { cardButton->setDisabled( qApp->authCert().isNull() ); }
 
 void KeyAddDialog::disableSearch( bool disable )
 {

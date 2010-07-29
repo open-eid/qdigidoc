@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009,2010 Jargo KÃµster <jargo@innovaatik.ee>
+ * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -49,6 +49,7 @@ public:
 Q_SIGNALS:
 	void dataChanged( const QStringList &cards, const QString &card,
 		const QSslCertificate &auth );
+	void error( const QString &msg );
 	void error( const QString &msg, quint8 error );
 
 private Q_SLOTS:

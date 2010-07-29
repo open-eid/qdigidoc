@@ -69,7 +69,6 @@ private:
 	void dragEnterEvent( QDragEnterEvent *e );
 	void dropEvent( QDropEvent *e );
 	void setCurrentPage( Pages page );
-	void showWarning( const QString &msg );
 
 	QActionGroup *cardsGroup;
 	CryptoDoc	*doc;

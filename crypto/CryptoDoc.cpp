@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009,2010 Jargo KÃµster <jargo@innovaatik.ee>
+ * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,10 +24,10 @@
 
 #include "common/Common.h"
 #include "common/SslCertificate.h"
+#include "Application.h"
 #include "Poller.h"
 
 #include <libdigidoc/DigiDocCert.h>
-#include <libdigidoc/DigiDocConfig.h>
 #include <libdigidoc/DigiDocConvert.h>
 #include <libdigidoc/DigiDocGen.h>
 #include <libdigidoc/DigiDocEncGen.h>
@@ -35,7 +35,6 @@
 #include <libdigidoc/DigiDocPKCS11.h>
 #include <libdigidoc/DigiDocSAXParser.h>
 
-#include <QCoreApplication>
 #include <QDateTime>
 #include <QDir>
 #include <QFileInfo>
@@ -55,28 +54,8 @@ CryptoDoc::CryptoDoc( QObject *parent )
 ,	m_enc(0)
 ,	m_doc(0)
 {
-	initDigiDocLib();
-	QString ini = QString( "%1/digidoc.ini" ).arg( QCoreApplication::applicationDirPath() );
-	if( QFileInfo( ini ).isFile() )
-		initConfigStore( ini.toUtf8() );
-	else
-		initConfigStore( NULL );
-
-	poller = new Poller();
-	connect( poller, SIGNAL(dataChanged(QStringList,QString,QSslCertificate)),
-		SLOT(dataChanged(QStringList,QString,QSslCertificate)) );
-	connect( poller, SIGNAL(error(QString,quint8)), SLOT(setLastPollerError(QString,quint8)) );
-	poller->start();
+	connect( qApp->poller(), SIGNAL(error(QString,quint8)), SLOT(setLastPollerError(QString,quint8)) );
 }
-
-CryptoDoc::~CryptoDoc()
-{
-	delete poller;
-	cleanupConfigStore( NULL );
-	finalizeDigiDocLib();
-}
-
-QString CryptoDoc::activeCard() const { return m_card; }
 
 void CryptoDoc::addFile( const QString &file, const QString &mime )
 {
@@ -128,8 +107,6 @@ bool CryptoDoc::addKey( const CKey &key )
 	return err == ERR_OK;
 }
 
-QSslCertificate CryptoDoc::authCert() const { return m_authCert; }
-
 void CryptoDoc::cleanProperties()
 {
 	for( int i = m_enc->encProperties.nEncryptionProperties - 1; i >= 0; --i )
@@ -168,29 +145,6 @@ void CryptoDoc::create( const QString &file )
 	m_fileName = file;
 }
 
-void CryptoDoc::dataChanged( const QStringList &cards, const QString &card,
-	const QSslCertificate &auth )
-{
-	bool changed = false;
-	if( m_cards != cards )
-	{
-		changed = true;
-		m_cards = cards;
-	}
-	if( m_card != card )
-	{
-		changed = true;
-		m_card = card;
-	}
-	if( m_authCert != auth )
-	{
-		changed = true;
-		m_authCert = auth;
-	}
-	if( changed )
-		Q_EMIT dataChanged();
-}
-
 bool CryptoDoc::decrypt()
 {
 	if( isNull() )
@@ -205,7 +159,7 @@ bool CryptoDoc::decrypt()
 	for( int i = 0; i < m_enc->nEncryptedKeys; ++i )
 	{
 		DEncEncryptedKey *tmp = m_enc->arrEncryptedKeys[i];
-		if( m_authCert == SslCertificate::fromX509( Qt::HANDLE(tmp->pCert) ) )
+		if( qApp->authCert() == SslCertificate::fromX509( Qt::HANDLE(tmp->pCert) ) )
 		{
 			key = tmp;
 			break;
@@ -218,9 +172,9 @@ bool CryptoDoc::decrypt()
 	}
 
 	QByteArray in( (const char*)key->mbufTransportKey.pMem, key->mbufTransportKey.nLen ), out;
-	while( !poller->decrypt( in, out ) )
+	while( !qApp->poller()->decrypt( in, out ) )
 	{
-		if( poller->errorCode() != Poller::PinIncorrect )
+		if( qApp->poller()->errorCode() != Poller::PinIncorrect )
 			return false;
 	}
 
@@ -490,8 +444,6 @@ bool CryptoDoc::open( const QString &file )
 	return err == ERR_OK;
 }
 
-QStringList CryptoDoc::presentCards() const { return m_cards; }
-
 void CryptoDoc::removeDocument( int id )
 {
 	if( isEncryptedWarning() )
@@ -561,9 +513,6 @@ void CryptoDoc::saveDocument( int id, const QString &filepath )
 	if( !err )
 		return setLastError( tr("Failed to save file"), err );
 }
-
-void CryptoDoc::selectCard( const QString &card )
-{ QMetaObject::invokeMethod( poller, "selectCard", Qt::QueuedConnection, Q_ARG(QString,card) ); }
 
 void CryptoDoc::setLastError( const QString &err, int code )
 {
