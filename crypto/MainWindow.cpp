@@ -338,6 +338,13 @@ void MainWindow::on_introCheck_stateChanged( int state )
 void MainWindow::on_languages_activated( int index )
 {
 	Settings().setValue( "Main/Language", lang[index] );
+
+	switch( index )
+	{
+	case 1: QLocale::setDefault( QLocale( QLocale::English, QLocale::UnitedKingdom ) ); break;
+	case 2: QLocale::setDefault( QLocale( QLocale::Russian, QLocale::RussianFederation ) ); break;
+	default: QLocale::setDefault( QLocale( QLocale::Estonian, QLocale::Estonia ) ); break;
+	}
 	qApp->loadTranslation( lang[index] );
 	retranslateUi( this );
 	languages->setCurrentIndex( index );
@@ -346,9 +353,9 @@ void MainWindow::on_languages_activated( int index )
 	updateView();
 }
 
-void MainWindow::parseLink( const QString &url )
+void MainWindow::parseLink( const QString &link )
 {
-	if( url == "addFile" )
+	if( link == "addFile" )
 	{
 		QStringList list = QFileDialog::getOpenFileNames( this, tr("Select documents"),
 			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) );
@@ -358,7 +365,7 @@ void MainWindow::parseLink( const QString &url )
 			addFile( file );
 		setCurrentPage( View );
 	}
-	else if( url == "addRecipient" )
+	else if( link == "addRecipient" )
 	{
 		if( doc->isEncrypted() )
 			return;
@@ -368,13 +375,13 @@ void MainWindow::parseLink( const QString &url )
 		key->move( pos() );
 		key->show();
 	}
-	else if( url == "browse" )
+	else if( link == "browse" )
 	{
 		QUrl url = QUrl::fromLocalFile( doc->fileName() );
 		url.setScheme( "browse" );
 		QDesktopServices::openUrl( url );
 	}
-	else if( url == "email" )
+	else if( link == "email" )
 	{
 		QUrl url;
 		url.setScheme( "mailto" );
@@ -382,7 +389,7 @@ void MainWindow::parseLink( const QString &url )
 		url.addQueryItem( "attachment", QFileInfo( doc->fileName() ).absoluteFilePath() );
 		QDesktopServices::openUrl( url );
 	}
-	else if( url == "saveAll" )
+	else if( link == "saveAll" )
 	{
 		QString dir = QFileDialog::getExistingDirectory( this,
 			tr("Select folder where files will be stored"),
@@ -409,7 +416,7 @@ void MainWindow::parseLink( const QString &url )
 			doc->saveDocument( i, file );
 		}
 	}
-	else if( url == "openUtility" )
+	else if( link == "openUtility" )
 	{
 		if( !Common::startDetached( "qesteidutil" ) )
 			showWarning( tr("Failed to start process '%1'").arg( "qesteidutil" ), -1 );
