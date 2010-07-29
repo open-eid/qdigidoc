@@ -24,5 +24,6 @@
 
 int main( int argc, char *argv[] )
 {
-	return Application( argc, argv ).exec();
+	Application a( argc, argv );
+	return a.isRunning() ? 0 : a.exec();
 }

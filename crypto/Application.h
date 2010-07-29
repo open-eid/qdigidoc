@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <QApplication>
+#include "qtsingleapplication/src/QtSingleApplication"
 
 #if defined(qApp)
 #undef qApp
@@ -32,7 +32,7 @@
 class Poller;
 class QSslCertificate;
 class ApplicationPrivate;
-class Application: public QApplication
+class Application: public QtSingleApplication
 {
     Q_OBJECT
 
@@ -62,6 +62,7 @@ private Q_SLOTS:
 	void closeWindow();
 	void dataChanged( const QStringList &cards, const QString &card,
 		const QSslCertificate &auth );
+	void parseArgs( const QString &msg );
 
 private:
 	bool event( QEvent *e );

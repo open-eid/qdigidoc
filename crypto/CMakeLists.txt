@@ -125,6 +125,7 @@ TARGET_LINK_LIBRARIES( qdigidoccrypto
 	${EXTRA_LIBRARIES}
 	${LIBP11_LIBRARY}
 	qdigidoccommon
+	qtsingleapplication
 )
 install(TARGETS qdigidoccrypto DESTINATION ${BIN_INSTALL_DIR})
 

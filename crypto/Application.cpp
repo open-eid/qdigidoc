@@ -58,9 +58,19 @@ public:
 };
 
 Application::Application( int &argc, char **argv )
-:	QApplication( argc, argv )
+:	QtSingleApplication( argc, argv )
 ,	d( new ApplicationPrivate )
 {
+	QStringList args = arguments();
+	args.removeFirst();
+	if( isRunning() )
+	{
+		sendMessage( args.join( "\", \"" ) );
+		return;
+	}
+
+	connect( this, SIGNAL(messageReceived(QString)), SLOT(parseArgs(QString)) );
+
 #ifdef Q_OS_LINUX
 	QFile::setEncodingFunction( fileEncoder );
 	QFile::setDecodingFunction( fileDecoder );
@@ -119,18 +129,17 @@ Application::Application( int &argc, char **argv )
 	connect( d->poller, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
 	d->poller->start();
 
-	QStringList args = arguments();
-	args.removeFirst();
-	MainWindow *w = new MainWindow( args );
-	w->addAction( d->closeAction );
-	w->show();
+	parseArgs( args.join( "\", \"" ) );
 }
 
 Application::~Application()
 {
-	delete d->poller;
-	cleanupConfigStore( NULL );
-	finalizeDigiDocLib();
+	if( isRunning() )
+	{
+		delete d->poller;
+		cleanupConfigStore( NULL );
+		finalizeDigiDocLib();
+	}
 	delete d;
 }
 
@@ -166,10 +175,7 @@ bool Application::event( QEvent *e )
 {
 	if( e->type() == QEvent::FileOpen )
 	{
-		QFileOpenEvent *o = static_cast<QFileOpenEvent*>(e);
-		MainWindow *w = new MainWindow( QStringList( o->file() ) );
-		w->addAction( d->closeAction );
-		w->show();
+		parseArgs( static_cast<QFileOpenEvent*>(e)->file() );
 		return true;
 	}
 	else
@@ -186,6 +192,14 @@ void Application::loadTranslation( const QString &lang )
 	d->settingsAction->setText( tr("Settings") );
 	d->menu->setTitle( tr("&File") );
 #endif
+}
+
+void Application::parseArgs( const QString &msg )
+{
+	QStringList params = msg.split( "\", \"", QString::SkipEmptyParts );
+	MainWindow *w = new MainWindow( params );
+	w->addAction( d->closeAction );
+	w->show();
 }
 
 Poller* Application::poller() const { return d->poller; }
