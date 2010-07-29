@@ -59,9 +59,10 @@ public:
 
 	QStringList	cards;
 	QString		card;
-	QAction *closeAction;
+	QAction		*closeAction, *settingsAction;
+	QMenu		*menu;
 	QSslCertificate	signCert;
-	QSigner *signer;
+	QSigner		*signer;
 	QTranslator *appTranslator, *commonTranslator, *qtTranslator;
 };
 
@@ -105,16 +106,20 @@ Application::Application( int &argc, char **argv )
 	QDesktopServices::setUrlHandler( "mailto", common, "mailTo" );
 
 	// Actions
-	d->closeAction = new QAction( tr("Close"), this );
+	d->closeAction = new QAction( this );
 	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
 #ifdef Q_OS_MAC
+	d->settingsAction = new QAction( this );
+	d->settingsAction->setMenuRole( QAction::PreferencesRole );
+	connect( d->settingsAction, SIGNAL(triggered()), SLOT(showSettings()) );
+
 	QMenuBar *bar = new QMenuBar;
-	QMenu *menu = bar->addMenu( tr("&File") );
-	QAction *pref = menu->addAction( tr("Settings"), SLOT(showSettings()) );
-	pref->setMenuRole( QAction::PreferencesRole );
+	QMenu *menu = new QMenu( bar );
+	menu->addAction( d->settingsAction );
 	menu->addAction( d->closeAction );
+	bar->addMenu( menu );
 #endif
 
 	try
@@ -221,6 +226,11 @@ void Application::loadTranslation( const QString &lang )
 	d->appTranslator->load( ":/translations/" + lang );
 	d->commonTranslator->load( ":/translations/common_" + lang );
 	d->qtTranslator->load( ":/translations/qt_" + lang );
+	d->closeAction->setText( tr("Close") );
+#ifdef Q_OS_MAC
+	d->settingsAction->setText( tr("Settings") );
+	d->menu->setTitle( tr("&File") );
+#endif
 }
 
 void Application::parseArgs( const QString &msg )
