@@ -235,14 +235,6 @@ Start downloading?</translation>
         <translation>Save file</translation>
     </message>
     <message>
-        <source>Failed to start process &apos;qdigidoccrypto&apos;</source>
-        <translation>Failed to start process &apos;Digidoc Crypto&apos;</translation>
-    </message>
-    <message>
-        <source>Failed to start process &apos;qesteidutil&apos;</source>
-        <translation>Failed to start process &apos;qesteidutil&apos;</translation>
-    </message>
-    <message>
         <source>Documents (*.bdoc *.ddoc)</source>
         <translation>Documents (*.bdoc *.ddoc)</translation>
     </message>
@@ -422,6 +414,10 @@ Should I keep unsigned documents or remove these?</numerusform>
     <message>
         <source>Sign certificate is not valid</source>
         <translation>Sign certificate is not valid</translation>
+    </message>
+    <message>
+        <source>Failed to start process &apos;%1&apos;</source>
+        <translation>Failed to start process &apos;%1&apos;</translation>
     </message>
 </context>
 <context>

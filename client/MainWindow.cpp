@@ -259,7 +259,7 @@ void MainWindow::buttonClicked( int button )
 	}
 	case HomeCrypt:
 		if( !Common::startDetached( "qdigidoccrypto" ) )
-			qApp->showWarning( tr("Failed to start process 'qdigidoccrypto'") );
+			qApp->showWarning( tr("Failed to start process '%1'").arg( "qdigidoccrypto" ) );
 		break;
 	case HomeSign:
 		if( stack->currentIndex() == Home &&
@@ -587,7 +587,7 @@ void MainWindow::parseLink( const QString &link )
 	else if( link == "openUtility" )
 	{
 		if( !Common::startDetached( "qesteidutil" ) )
-			qApp->showWarning( tr("Failed to start process 'qesteidutil'") );
+			qApp->showWarning( tr("Failed to start process '%1'").arg( "qesteidutil" ) );
 	}
 }
 

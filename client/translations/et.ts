@@ -235,14 +235,6 @@ Alustame laadimist?</translation>
         <translation>Salvesta fail</translation>
     </message>
     <message>
-        <source>Failed to start process &apos;qdigidoccrypto&apos;</source>
-        <translation>Protsessi &apos;Digidoc Krüpto&apos; käivitamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to start process &apos;qesteidutil&apos;</source>
-        <translation>Protsessi &apos;qesteidutil&apos; käivitamine ebaõnnestus</translation>
-    </message>
-    <message>
         <source>Documents (*.bdoc *.ddoc)</source>
         <translation>Dokumendid (*.bdoc *.ddoc)</translation>
     </message>
@@ -422,6 +414,10 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
     <message>
         <source>Sign certificate is not valid</source>
         <translation>Allkirjastamise sertifikaat ei ole kehtiv</translation>
+    </message>
+    <message>
+        <source>Failed to start process &apos;%1&apos;</source>
+        <translation>Protsessi &apos;%1&apos; käivitamine ebaõnnestus</translation>
     </message>
 </context>
 <context>

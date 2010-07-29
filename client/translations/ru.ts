@@ -171,14 +171,6 @@ Start downloading?</source>
         <translation>%1&lt;br /&gt;уже в контейнере, переписать?</translation>
     </message>
     <message>
-        <source>Failed to start process &apos;qdigidoccrypto&apos;</source>
-        <translation>Запуск процесса &apos;Digidoc Crypto&apos; неудачен</translation>
-    </message>
-    <message>
-        <source>Failed to start process &apos;qesteidutil&apos;</source>
-        <translation>Запуск процесса &apos;qesteidutil&apos; неудачен</translation>
-    </message>
-    <message>
         <source>Select documents</source>
         <translation>Добавить файлы</translation>
     </message>
@@ -425,6 +417,10 @@ Should I keep unsigned documents or remove these?</source>
     <message>
         <source>Sign certificate is not valid</source>
         <translation>Сертификат подписи недействителен</translation>
+    </message>
+    <message>
+        <source>Failed to start process &apos;%1&apos;</source>
+        <translation>Запуск процесса &apos;%1&apos; неудачен</translation>
     </message>
 </context>
 <context>
