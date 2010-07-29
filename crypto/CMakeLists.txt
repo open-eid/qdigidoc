@@ -1,4 +1,5 @@
 SET( MOC_HEADERS
+	Application.h
 	CryptoDoc.h
 	KeyDialog.h
 	LdapSearch.h
@@ -23,6 +24,7 @@ SET( SOURCES
 	${HEADERS}
 	${MOC_SOURCES}
 	main.cpp
+	Application.cpp
 	CryptoDoc.cpp
 	KeyDialog.cpp
 	LdapSearch.cpp

@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009,2010 Jargo KÃµster <jargo@innovaatik.ee>
+ * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -47,10 +47,11 @@ MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )
 ,	cardsGroup( new QActionGroup( this ) )
 {
-	qRegisterMetaType<QSslCertificate>("QSslCertificate");
-
+	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
 	cards->hide();
+	cards->hack();
+	languages->hack();
 
 	setWindowFlags( Qt::Window | Qt::CustomizeWindowHint | Qt::WindowMinimizeButtonHint );
 #if QT_VERSION >= 0x040500
@@ -60,10 +61,6 @@ MainWindow::MainWindow( QWidget *parent )
 #endif
 
 	QApplication::instance()->installEventFilter( this );
-
-	Common *common = new Common( this );
-	QDesktopServices::setUrlHandler( "browse", common, "browse" );
-	QDesktopServices::setUrlHandler( "mailto", common, "mailTo" );
 
 	QButtonGroup *buttonGroup = new QButtonGroup( this );
 

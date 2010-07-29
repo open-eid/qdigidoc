@@ -20,9 +20,24 @@
  *
  */
 
-#include "Application.h"
+#pragma once
 
-int main( int argc, char *argv[] )
+#include <QApplication>
+
+#if defined(qApp)
+#undef qApp
+#endif
+#define qApp (static_cast<Application*>(QCoreApplication::instance()))
+
+class Application : public QApplication
 {
-	return Application( argc, argv ).exec();
-}
+    Q_OBJECT
+
+public:
+	explicit Application( int &argc, char **argv );
+
+#ifdef Q_OS_LINUX
+	static QByteArray fileEncoder( const QString &filename ) { return filename.toUtf8(); }
+	static QString fileDecoder( const QByteArray &filename ) { return QString::fromUtf8( filename ); }
+#endif
+};
