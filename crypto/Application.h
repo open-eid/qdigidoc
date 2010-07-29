@@ -29,15 +29,30 @@
 #endif
 #define qApp (static_cast<Application*>(QCoreApplication::instance()))
 
-class Application : public QApplication
+class ApplicationPrivate;
+class Application: public QApplication
 {
     Q_OBJECT
 
 public:
 	explicit Application( int &argc, char **argv );
+	~Application();
+
+	void loadTranslation( const QString &lang );
 
 #ifdef Q_OS_LINUX
 	static QByteArray fileEncoder( const QString &filename ) { return filename.toUtf8(); }
 	static QString fileDecoder( const QByteArray &filename ) { return QString::fromUtf8( filename ); }
 #endif
+
+public Q_SLOTS:
+	void showSettings();
+
+private Q_SLOTS:
+	void closeWindow();
+
+private:
+	bool event( QEvent *e );
+
+	ApplicationPrivate *d;
 };

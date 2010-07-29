@@ -23,6 +23,7 @@
 #include "Application.h"
 
 #include "MainWindow.h"
+#include "SettingsDialog.h"
 #include "version.h"
 
 #include "common/Common.h"
@@ -31,10 +32,25 @@
 #ifdef Q_OS_LINUX
 #include <QFile>
 #endif
+#include <QFileOpenEvent>
+#ifdef Q_OS_MAC
+#include <QMenu>
+#include <QMenuBar>
+#endif
 #include <QSslCertificate>
+#include <QTranslator>
+
+class ApplicationPrivate
+{
+public:
+	QAction		*closeAction, *settingsAction;
+	QMenu		*menu;
+	QTranslator *appTranslator, *commonTranslator, *qtTranslator;
+};
 
 Application::Application( int &argc, char **argv )
 :	QApplication( argc, argv )
+,	d( new ApplicationPrivate )
 {
 #ifdef Q_OS_LINUX
 	QFile::setEncodingFunction( fileEncoder );
@@ -60,5 +76,75 @@ Application::Application( int &argc, char **argv )
 	QDesktopServices::setUrlHandler( "browse", common, "browse" );
 	QDesktopServices::setUrlHandler( "mailto", common, "mailTo" );
 
-	(new MainWindow())->show();
+	// Actions
+	d->closeAction = new QAction( this );
+	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
+	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
+
+#ifdef Q_OS_MAC
+	d->settingsAction = new QAction( this );
+	d->settingsAction->setMenuRole( QAction::PreferencesRole );
+	connect( d->settingsAction, SIGNAL(triggered()), SLOT(showSettings()) );
+
+	QMenuBar *bar = new QMenuBar;
+	QMenu *menu = new QMenu( bar );
+	menu->addAction( d->settingsAction );
+	menu->addAction( d->closeAction );
+	bar->addMenu( menu );
+#endif
+
+	installTranslator( d->appTranslator = new QTranslator( this ) );
+	installTranslator( d->commonTranslator = new QTranslator( this ) );
+	installTranslator( d->qtTranslator = new QTranslator( this ) );
+
+	QStringList args = arguments();
+	args.removeFirst();
+	MainWindow *w = new MainWindow( args );
+	w->addAction( d->closeAction );
+	w->show();
+}
+
+Application::~Application() { delete d; }
+
+void Application::closeWindow()
+{
+	if( MainWindow *w = qobject_cast<MainWindow*>(activeWindow()) )
+		w->closeDoc();
+	else if( QDialog *d = qobject_cast<QDialog*>(activeWindow()) )
+		d->reject();
+	else if( QWidget *w = qobject_cast<QDialog*>(activeWindow()) )
+		w->deleteLater();
+}
+
+bool Application::event( QEvent *e )
+{
+	if( e->type() == QEvent::FileOpen )
+	{
+		QFileOpenEvent *o = static_cast<QFileOpenEvent*>(e);
+		MainWindow *w = new MainWindow( QStringList( o->file() ) );
+		w->addAction( d->closeAction );
+		w->show();
+		return true;
+	}
+	else
+		return QApplication::event( e );
+}
+
+void Application::loadTranslation( const QString &lang )
+{
+	d->appTranslator->load( ":/translations/" + lang );
+	d->commonTranslator->load( ":/translations/common_" + lang );
+	d->qtTranslator->load( ":/translations/qt_" + lang );
+	d->closeAction->setText( tr("Close") );
+#ifdef Q_OS_MAC
+	d->settingsAction->setText( tr("Settings") );
+	d->menu->setTitle( tr("&File") );
+#endif
+}
+
+void Application::showSettings()
+{
+	SettingsDialog e( activeWindow() );
+	e.addAction( d->closeAction );
+	e.exec();
 }

@@ -22,12 +22,11 @@
 
 #include "MainWindow.h"
 
+#include "Application.h"
 #include "KeyDialog.h"
-#include "SettingsDialog.h"
 #include "common/Common.h"
 #include "common/Settings.h"
 
-#include <QApplication>
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QDragEnterEvent>
@@ -35,16 +34,10 @@
 #include <QMessageBox>
 #include <QSslCertificate>
 #include <QTextStream>
-#include <QTranslator>
 #include <QUrl>
 
-#if defined(Q_OS_MAC)
-#include <QMenu>
-#include <QMenuBar>
-#endif
-
-MainWindow::MainWindow( QWidget *parent )
-:	QWidget( parent )
+MainWindow::MainWindow( const QStringList &args )
+:	QWidget()
 ,	cardsGroup( new QActionGroup( this ) )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
@@ -59,8 +52,6 @@ MainWindow::MainWindow( QWidget *parent )
 #else
 	setWindowFlags( windowFlags() | Qt::WindowSystemMenuHint );
 #endif
-
-	QApplication::instance()->installEventFilter( this );
 
 	QButtonGroup *buttonGroup = new QButtonGroup( this );
 
@@ -79,13 +70,6 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->addButton( viewButtons->button( QDialogButtonBox::Close ), ViewClose );
 	connect( buttonGroup, SIGNAL(buttonClicked(int)),
 		SLOT(buttonClicked(int)) );
-
-	appTranslator = new QTranslator( this );
-	commonTranslator = new QTranslator( this );
-	qtTranslator = new QTranslator( this );
-	QApplication::instance()->installTranslator( appTranslator );
-	QApplication::instance()->installTranslator( commonTranslator );
-	QApplication::instance()->installTranslator( qtTranslator );
 
 	doc = new CryptoDoc( this );
 	connect( cards, SIGNAL(activated(QString)), doc, SLOT(selectCard(QString)) );
@@ -126,22 +110,8 @@ MainWindow::MainWindow( QWidget *parent )
 	connect( langGroup, SIGNAL(triggered(QAction*)), SLOT(changeLang(QAction*)) );
 	connect( cardsGroup, SIGNAL(triggered(QAction*)), SLOT(changeCard(QAction*)) );
 
-	close = new QAction( tr("Close"), this );
-	close->setShortcut( Qt::CTRL + Qt::Key_W );
-	connect( close, SIGNAL(triggered()), this, SLOT(closeDoc()) );
-	addAction( close );
-#if defined(Q_OS_MAC)
-	QMenuBar *bar = new QMenuBar;
-	QMenu *menu = bar->addMenu( tr("&File") );
-	QAction *pref = menu->addAction( tr("Settings"), this, SLOT(showSettings()) );
-	pref->setMenuRole( QAction::PreferencesRole );
-	menu->addAction( close );
-#endif
-
-	QStringList args = qApp->arguments();
-	if( args.size() > 1 )
+	if( !args.isEmpty() )
 	{
-		args.removeAt( 0 );
 		params = args;
 		buttonClicked( HomeCreate );
 	}
@@ -227,7 +197,7 @@ void MainWindow::buttonClicked( int button )
 	switch( button )
 	{
 	case HeadSettings:
-		showSettings();
+		qApp->showSettings();
 		break;
 	case HeadHelp:
 		QDesktopServices::openUrl( QUrl( "http://support.sk.ee/" ) );
@@ -339,13 +309,7 @@ void MainWindow::changeCard( QAction *a )
 { QMetaObject::invokeMethod( doc, "selectCard", Q_ARG(QString,a->data().toString()) ); }
 void MainWindow::changeLang( QAction *a ) { on_languages_activated( a->data().toUInt() ); }
 
-void MainWindow::closeDoc()
-{
-	if( SettingsDialog *d = findChild<SettingsDialog*>() )
-		d->reject();
-	else
-		buttonClicked( ViewClose );
-}
+void MainWindow::closeDoc() { buttonClicked( ViewClose ); }
 
 void MainWindow::dragEnterEvent( QDragEnterEvent *e )
 {
@@ -363,19 +327,6 @@ void MainWindow::dropEvent( QDropEvent *e )
 	buttonClicked( HomeCreate );
 }
 
-bool MainWindow::eventFilter( QObject *o, QEvent *e )
-{
-	if( e->type() == QEvent::FileOpen )
-	{
-		QFileOpenEvent *o = static_cast<QFileOpenEvent*>(e);
-		params << o->file();
-		buttonClicked( HomeCreate );
-		return true;
-	}
-	else
-		return QWidget::eventFilter( o, e );
-}
-
 void MainWindow::on_introCheck_stateChanged( int state )
 {
 	Settings().setValue( "Crypto/Intro", state == Qt::Unchecked );
@@ -385,9 +336,7 @@ void MainWindow::on_introCheck_stateChanged( int state )
 void MainWindow::on_languages_activated( int index )
 {
 	Settings().setValue( "Main/Language", lang[index] );
-	appTranslator->load( ":/translations/" + lang[index] );
-	commonTranslator->load( ":/translations/common_" + lang[index] );
-	qtTranslator->load( ":/translations/qt_" + lang[index] );
+	qApp->loadTranslation( lang[index] );
 	retranslateUi( this );
 	languages->setCurrentIndex( index );
 	introNext->setText( tr( "Next" ) );
@@ -552,13 +501,6 @@ void MainWindow::showCardStatus()
 		a->setShortcut( Qt::CTRL + (Qt::Key_1 + i) );
 		addAction( a );
 	}
-}
-
-void MainWindow::showSettings()
-{
-	SettingsDialog e( this );
-	e.addAction( close );
-	e.exec();
 }
 
 void MainWindow::showWarning( const QString &msg )

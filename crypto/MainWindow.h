@@ -26,26 +26,25 @@
 
 class CKey;
 class CryptoDoc;
-class QTranslator;
 
 class MainWindow: public QWidget, private Ui::MainWindow
 {
 	Q_OBJECT
 
 public:
-	MainWindow( QWidget *parent = 0 );
+	explicit MainWindow( const QStringList &args );
+
+	void closeDoc();
 
 private Q_SLOTS:
 	void buttonClicked( int button );
 	void changeCard( QAction *a );
 	void changeLang( QAction *a );
-	void closeDoc();
 	void on_introCheck_stateChanged( int state );
 	void on_languages_activated( int index );
 	void parseLink( const QString &url );
 	void removeDocument( int index );
 	void showCardStatus();
-	void showSettings();
 	void removeKey( int id );
 	void showWarning( const QString &msg, int err, const QString &errmsg = QString() );
 	void updateView();
@@ -69,14 +68,11 @@ private:
 	bool addFile( const QString &file );
 	void dragEnterEvent( QDragEnterEvent *e );
 	void dropEvent( QDropEvent *e );
-	bool eventFilter( QObject *o, QEvent *e );
 	void setCurrentPage( Pages page );
 	void showWarning( const QString &msg );
 
 	QActionGroup *cardsGroup;
-	QAction		*close;
 	CryptoDoc	*doc;
-	QTranslator *appTranslator, *commonTranslator, *qtTranslator;
 	QStringList	lang, params;
 	QPushButton *introNext, *viewCrypt;
 };
