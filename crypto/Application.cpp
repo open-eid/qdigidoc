@@ -42,12 +42,15 @@
 #include <QMenuBar>
 #endif
 #include <QMessageBox>
+#include <QPalette>
 #include <QSslCertificate>
 #include <QTranslator>
 
 class ApplicationPrivate
 {
 public:
+	ApplicationPrivate(): poller( 0 ) {}
+
 	QSslCertificate	authCert;
 	QStringList		cards;
 	QString			card;
@@ -112,16 +115,16 @@ Application::Application( int &argc, char **argv )
 	bar->addMenu( menu );
 #endif
 
-	installTranslator( d->appTranslator = new QTranslator( this ) );
-	installTranslator( d->commonTranslator = new QTranslator( this ) );
-	installTranslator( d->qtTranslator = new QTranslator( this ) );
-
 	initDigiDocLib();
 	QString ini = QString( "%1/digidoc.ini" ).arg( applicationDirPath() );
 	if( QFileInfo( ini ).isFile() )
 		initConfigStore( ini.toUtf8() );
 	else
 		initConfigStore( NULL );
+
+	installTranslator( d->appTranslator = new QTranslator( this ) );
+	installTranslator( d->commonTranslator = new QTranslator( this ) );
+	installTranslator( d->qtTranslator = new QTranslator( this ) );
 
 	d->poller = new Poller();
 	connect( d->poller, SIGNAL(dataChanged(QStringList,QString,QSslCertificate)),
@@ -134,7 +137,7 @@ Application::Application( int &argc, char **argv )
 
 Application::~Application()
 {
-	if( isRunning() )
+	if( !isRunning() )
 	{
 		delete d->poller;
 		cleanupConfigStore( NULL );
@@ -173,13 +176,15 @@ void Application::dataChanged( const QStringList &cards, const QString &card,
 
 bool Application::event( QEvent *e )
 {
-	if( e->type() == QEvent::FileOpen )
+	switch( e->type() )
+	{
+	case QEvent::FileOpen:
 	{
 		parseArgs( static_cast<QFileOpenEvent*>(e)->file() );
 		return true;
 	}
-	else
-		return QApplication::event( e );
+	default: return QApplication::event( e );
+	}
 }
 
 void Application::loadTranslation( const QString &lang )
@@ -207,9 +212,9 @@ QStringList Application::presentCards() const { return d->cards; }
 
 void Application::showSettings()
 {
-	SettingsDialog e( activeWindow() );
-	e.addAction( d->closeAction );
-	e.exec();
+	SettingsDialog s( activeWindow() );
+	s.addAction( d->closeAction );
+	s.exec();
 }
 
 void Application::showWarning( const QString &msg )
