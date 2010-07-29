@@ -2,6 +2,25 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ru">
 <context>
+    <name>Application</name>
+    <message>
+        <source>Close</source>
+        <translation>Закрыть</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation>&amp;Файл</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Crypto</translation>
+    </message>
+</context>
+<context>
     <name>CryptoDoc</name>
     <message>
         <source>Container is not open</source>
@@ -412,14 +431,6 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
     <message>
         <source>DigiDoc3 Crypto</source>
         <translation>DigiDoc3 Crypto</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Файл</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation>Закрыть</translation>
     </message>
     <message>
         <source>File does not exists %1</source>

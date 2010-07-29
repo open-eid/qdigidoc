@@ -2,6 +2,25 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="et">
 <context>
+    <name>Application</name>
+    <message>
+        <source>Close</source>
+        <translation>Sulge</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Seaded</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation>&amp;Fail</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Krüpto</translation>
+    </message>
+</context>
+<context>
     <name>CryptoDoc</name>
     <message>
         <source>Container is not open</source>
@@ -412,14 +431,6 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
     <message>
         <source>DigiDoc3 Crypto</source>
         <translation>DigiDoc3 Krüpto</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Fail</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation>Sulge</translation>
     </message>
     <message>
         <source>File does not exists %1</source>
