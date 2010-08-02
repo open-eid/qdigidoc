@@ -107,6 +107,7 @@ Application::Application( int &argc, char **argv )
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
 #ifdef Q_OS_MAC
+	setQuitOnLastWindowClosed( false );
 	d->settingsAction = new QAction( this );
 	d->settingsAction->setMenuRole( QAction::PreferencesRole );
 	connect( d->settingsAction, SIGNAL(triggered()), SLOT(showSettings()) );
@@ -140,11 +141,11 @@ Application::Application( int &argc, char **argv )
 
 Application::~Application()
 {
-#ifdef Q_OS_MAC
-	delete d->bar;
-#endif
 	if( !isRunning() )
 	{
+#ifdef Q_OS_MAC
+		delete d->bar;
+#endif
 		delete d->poller;
 		cleanupConfigStore( NULL );
 		finalizeDigiDocLib();
