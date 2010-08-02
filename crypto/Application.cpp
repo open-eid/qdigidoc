@@ -55,7 +55,10 @@ public:
 	QStringList		cards;
 	QString			card;
 	QAction			*closeAction, *settingsAction;
+#ifdef Q_OS_MAC
 	QMenu			*menu;
+	QMenuBar		*bar;
+#endif
 	QTranslator		*appTranslator, *commonTranslator, *qtTranslator;
 	Poller			*poller;
 };
@@ -108,11 +111,11 @@ Application::Application( int &argc, char **argv )
 	d->settingsAction->setMenuRole( QAction::PreferencesRole );
 	connect( d->settingsAction, SIGNAL(triggered()), SLOT(showSettings()) );
 
-	QMenuBar *bar = new QMenuBar;
-	QMenu *menu = new QMenu( bar );
-	menu->addAction( d->settingsAction );
-	menu->addAction( d->closeAction );
-	bar->addMenu( menu );
+	d->bar = new QMenuBar;
+	d->menu = new QMenu( d->bar );
+	d->menu->addAction( d->settingsAction );
+	d->menu->addAction( d->closeAction );
+	d->bar->addMenu( d->menu );
 #endif
 
 	initDigiDocLib();
@@ -137,6 +140,9 @@ Application::Application( int &argc, char **argv )
 
 Application::~Application()
 {
+#ifdef Q_OS_MAC
+	delete d->bar;
+#endif
 	if( !isRunning() )
 	{
 		delete d->poller;
@@ -148,7 +154,6 @@ Application::~Application()
 
 QString Application::activeCard() const { return d->card; }
 QSslCertificate Application::authCert() const { return d->authCert; }
-
 
 void Application::closeWindow()
 {
