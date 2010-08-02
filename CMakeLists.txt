@@ -14,21 +14,14 @@ find_package( LibDigiDoc REQUIRED )
 find_package( LibDigiDocpp REQUIRED )
 find_package( LibP11 REQUIRED )
 find_package( OpenSSL REQUIRED )
+if( ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 2.8 )
 find_package( OpenSSLCrypto REQUIRED )
-find_package( Qt4 REQUIRED )
+endif( ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 2.8 )
+find_package( Qt4 4.4.0 COMPONENTS QtCore QtGui QtNetwork QtWebkit QtXml REQUIRED )
 find_package( XercesC REQUIRED )
 find_package( XSD REQUIRED )
+find_package( Subversion )
 
-set( QT_MIN_VERSION 4.4.0 )
-set( QT_USE_QTNETWORK true )
-set( QT_USE_QTWEBKIT true )
-set( QT_USE_QTXML true )
-
-include( ${QT_USE_FILE} )
-
-add_subdirectory( qtsingleapplication )
-
-find_package(Subversion)
 if (Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn)
     Subversion_WC_INFO(${PROJECT_SOURCE_DIR} PROJECT)
     message(STATUS "Current SVN revision is ${PROJECT_WC_REVISION}")
@@ -49,7 +42,9 @@ set( COMMON_TS
 	${COMMON}/translations/qt_ru.ts
 	)
 
-add_definitions( -DQT_NO_KEYWORDS )
+include( ${QT_USE_FILE} )
+add_subdirectory( qtsingleapplication )
 add_subdirectory( common )
+add_definitions( -DQT_NO_KEYWORDS )
 add_subdirectory( client )
 add_subdirectory( crypto )
