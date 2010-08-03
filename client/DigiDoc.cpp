@@ -45,6 +45,9 @@
 
 using namespace digidoc;
 
+static std::string to( const QString &str ) { return std::string( str.toUtf8().constData() ); }
+static QString from( const std::string &str ) { return QString::fromUtf8( str.c_str() ); }
+
 DigiDocSignature::DigiDocSignature( const digidoc::Signature *signature, DigiDoc *parent )
 :	s(signature)
 ,	m_parent(parent)
@@ -69,18 +72,16 @@ QDateTime DigiDocSignature::dateTime() const
 	switch( type() )
 	{
 	case TMType:
-		dateTime = QString::fromUtf8(
-			static_cast<const SignatureTM*>(s)->getProducedAt().c_str() );
+		dateTime = from( static_cast<const SignatureTM*>(s)->getProducedAt() );
 		break;
 	case DDocType:
-		dateTime = QString::fromUtf8(
-			static_cast<const SignatureDDOC*>(s)->getProducedAt().c_str() );
+		dateTime = from( static_cast<const SignatureDDOC*>(s)->getProducedAt() );
 		break;
 	default: break;
 	}
 
 	if( dateTime.isEmpty() )
-		dateTime = QString::fromUtf8( s->getSigningTime().c_str() );
+		dateTime = from( s->getSigningTime() );
 
 	if( dateTime.isEmpty() )
 		return QDateTime();
@@ -106,7 +107,7 @@ QString DigiDocSignature::digestMethod() const
 			break;
 		default: return QString();
 		}
-		return QString::fromUtf8( method.c_str() );
+		return from( method );
 	}
 	catch( const Exception & ) {}
 	return QString();
@@ -146,17 +147,16 @@ QString DigiDocSignature::location() const
 
 QStringList DigiDocSignature::locations() const
 {
-	QStringList l;
 	const SignatureProductionPlace p = s->getProductionPlace();
-	l << QString::fromUtf8( p.city.c_str() ).trimmed();
-	l << QString::fromUtf8( p.stateOrProvince.c_str() ).trimmed();
-	l << QString::fromUtf8( p.postalCode.c_str() ).trimmed();
-	l << QString::fromUtf8( p.countryName.c_str() ).trimmed();
-	return l;
+	return QStringList()
+		<< from( p.city ).trimmed()
+		<< from( p.stateOrProvince ).trimmed()
+		<< from( p.postalCode ).trimmed()
+		<< from( p.countryName ).trimmed();
 }
 
 QString DigiDocSignature::mediaType() const
-{ return QString::fromUtf8( s->getMediaType().c_str() ); }
+{ return from( s->getMediaType() ); }
 
 QSslCertificate DigiDocSignature::ocspCert() const
 {
@@ -192,7 +192,7 @@ int DigiDocSignature::parseException( const digidoc::Exception &e )
 
 void DigiDocSignature::parseExceptionStrings( const digidoc::Exception &e, QStringList &causes )
 {
-	causes << QString::fromUtf8( e.getMsg().c_str() );
+	causes << from( e.getMsg() );
 	Q_FOREACH( const Exception &c, e.getCauses() )
 		parseExceptionStrings( c, causes );
 }
@@ -210,7 +210,7 @@ QStringList DigiDocSignature::roles() const
 	const SignerRole::TRoles roles = s->getSignerRole().claimedRoles;
 	SignerRole::TRoles::const_iterator i = roles.begin();
 	for( ; i != roles.end(); ++i )
-		list << QString::fromUtf8( i->data() ).trimmed();
+		list << QString::fromUtf8( i->c_str() ).trimmed();
 	return list;
 }
 
@@ -282,7 +282,7 @@ void DigiDoc::addFile( const QString &file )
 {
 	if( !checkDoc( b->signatureCount() > 0, tr("Cannot add files to signed container") ) )
 		return;
-	try { b->addDocument( Document( file.toUtf8().constData(), "file" ) ); }
+	try { b->addDocument( Document( to(file), "file" ) ); }
 	catch( const Exception &e ) { setLastError( e ); }
 }
 
@@ -307,15 +307,10 @@ void DigiDoc::create( const QString &file )
 	clear();
 	QString type = QFileInfo( file ).suffix().toLower();
 	if( type == "bdoc" )
-	{
 		b = new WDoc( WDoc::BDocType );
-		m_fileName = file;
-	}
 	else if( type == "ddoc" )
-	{
 		b = new WDoc( WDoc::DDocType );
-		m_fileName = file;
-	}
+	m_fileName = file;
 }
 
 QList<Document> DigiDoc::documents()
@@ -343,7 +338,7 @@ bool DigiDoc::open( const QString &file )
 	m_fileName = file;
 	try
 	{
-		b = new WDoc( file.toUtf8().constData() );
+		b = new WDoc( to(file) );
 		return true;
 	}
 	catch( const Exception &e )
@@ -370,7 +365,7 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes, Exception
 	case Exception::PINLocked:
 		code = e.code(); return false;
 	default:
-		causes << QString::fromUtf8( e.getMsg().c_str() );
+		causes << from( e.getMsg() );
 		break;
 	}
 	Q_FOREACH( const Exception &c, e.getCauses() )
@@ -401,7 +396,7 @@ void DigiDoc::save()
 		return; */
 	try
 	{
-		std::auto_ptr<ISerialize> s(new ZipSerialize(m_fileName.toUtf8().constData()));
+		std::auto_ptr<ISerialize> s(new ZipSerialize( to(m_fileName) ));
 		b->saveTo( s );
 	}
 	catch( const Exception &e ) { setLastError( e ); }
@@ -444,14 +439,11 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 	bool result = false;
 	try
 	{
-		qApp->signer()->setSignatureProductionPlace( SignatureProductionPlace(
-			city.toUtf8().constData(),
-			state.toUtf8().constData(),
-			zip.toUtf8().constData(),
-			country.toUtf8().constData() ) );
-		SignerRole sRole( role.toUtf8().constData() );
+		qApp->signer()->setSignatureProductionPlace(
+			SignatureProductionPlace( to(city), to(state), to(zip), to(country) ) );
+		SignerRole sRole( to(role) );
 		if ( !role2.isEmpty() )
-			sRole.claimedRoles.push_back( role2.toUtf8().constData() );
+			sRole.claimedRoles.push_back( to(role2) );
 		qApp->signer()->setSignerRole( sRole );
 		b->sign( qApp->signer(), Signature::TM );
 		result = true;
