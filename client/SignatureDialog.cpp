@@ -114,13 +114,13 @@ bool SignatureWidget::isValid() const { return valid; }
 void SignatureWidget::link( const QString &url )
 {
 	if( url == "details" )
-		SignatureDialog( s, qobject_cast<QWidget*>(parent()) ).exec();
+		SignatureDialog( s, qApp->activeWindow() ).exec();
 	else if( url == "remove" )
 	{
 		SslCertificate c = s.cert();
 		QString msg = tr("Remove signature %1")
 			.arg( c.toString( c.isTempel() ? "CN serialNumber" : "GN SN serialNumber" ) );
-		QMessageBox::StandardButton b = QMessageBox::warning( this, msg, msg,
+		QMessageBox::StandardButton b = QMessageBox::warning( qApp->activeWindow(), msg, msg,
 			QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel );
 		if( b == QMessageBox::Ok )
 			Q_EMIT removeSignature( num );

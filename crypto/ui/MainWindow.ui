@@ -39,13 +39,22 @@
     <normaloff>:/images/crypto_48x48.png</normaloff>:/images/crypto_48x48.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">* {
+   <string notr="true">#background { background-image: url(&quot;:/images/background.png&quot;); }</string>
+  </property>
+  <layout class="QVBoxLayout" name="MainLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="background">
+     <property name="styleSheet">
+      <string notr="true">* {
 color: #355670;
 font: 12px &quot;Arial, Liberation Sans&quot;;
 }
-
-#background
-{ background-image: url(&quot;:/images/background.png&quot;); }
 
 /* widgets */
 QPushButton
@@ -153,16 +162,7 @@ padding: 5px;
 background-color: transparent;
 color: #71889A;
 }</string>
-  </property>
-  <layout class="QVBoxLayout" name="MainLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <property name="margin">
-    <number>0</number>
-   </property>
-   <item>
-    <widget class="QFrame" name="background">
+     </property>
      <layout class="QVBoxLayout" name="backgroundLayout">
       <property name="spacing">
        <number>0</number>

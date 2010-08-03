@@ -65,7 +65,7 @@ KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 void KeyWidget::link( const QString &url )
 {
 	if( url == "details" )
-		(new KeyDialog( m_key, this ))->show();
+		(new KeyDialog( m_key, qApp->activeWindow() ))->show();
 	else if( url == "remove" )
 		Q_EMIT remove( m_id );
 }
