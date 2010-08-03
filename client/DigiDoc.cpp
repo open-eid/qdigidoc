@@ -289,9 +289,9 @@ void DigiDoc::addFile( const QString &file )
 bool DigiDoc::checkDoc( bool status, const QString &msg )
 {
 	if( isNull() )
-		setLastError( tr("Container is not open") );
+		Q_EMIT error( tr("Container is not open") );
 	else if( status )
-		setLastError( msg );
+		Q_EMIT error( msg );
 	return !isNull() && !status;
 }
 
@@ -300,7 +300,6 @@ void DigiDoc::clear()
 	delete b;
 	b = 0;
 	m_fileName.clear();
-	m_lastError.clear();
 }
 
 void DigiDoc::create( const QString &file )
@@ -337,7 +336,6 @@ QList<Document> DigiDoc::documents()
 
 QString DigiDoc::fileName() const { return m_fileName; }
 bool DigiDoc::isNull() const { return b == 0; }
-QString DigiDoc::lastError() const { return m_lastError; }
 
 bool DigiDoc::open( const QString &file )
 {
@@ -353,7 +351,7 @@ bool DigiDoc::open( const QString &file )
 		QStringList causes;
 		Exception::ExceptionCode code;
 		parseException( e, causes, code );
-		setLastError( tr("An error occurred while opening the document.<br />%1").arg( causes.join("\n") ) );
+		Q_EMIT error( tr("An error occurred while opening the document.<br />%1").arg( causes.join("\n") ) );
 	}
 	return false;
 }
@@ -417,27 +415,25 @@ void DigiDoc::setLastError( const Exception &e )
 	switch( code )
 	{
 	case Exception::CertificateRevoked:
-		setLastError( tr("Certificate status revoked") ); break;
+		Q_EMIT error( tr("Certificate status revoked") ); break;
 	case Exception::CertificateUnknown:
-		setLastError( tr("Certificate status unknown") ); break;
+		Q_EMIT error( tr("Certificate status unknown") ); break;
 	case Exception::OCSPTimeSlot:
-		setLastError( tr("Check your computer time") ); break;
+		Q_EMIT error( tr("Check your computer time") ); break;
 	case Exception::OCSPRequestUnauthorized:
-		setLastError( tr("Server access certificate is required")); break;
+		Q_EMIT error( tr("Server access certificate is required")); break;
 	case Exception::PINCanceled:
 		break;
 	case Exception::PINFailed:
-		setLastError( tr("PIN Login failed") ); break;
+		Q_EMIT error( tr("PIN Login failed") ); break;
 	case Exception::PINIncorrect:
-		setLastError( tr("PIN Incorrect") ); break;
+		Q_EMIT error( tr("PIN Incorrect") ); break;
 	case Exception::PINLocked:
-		setLastError( tr("PIN Locked") ); break;
+		Q_EMIT error( tr("PIN Locked") ); break;
 	default:
-		setLastError( causes.join( "\n" ) ); break;
+		Q_EMIT error( causes.join( "\n" ) ); break;
 	}
 }
-
-void DigiDoc::setLastError( const QString &err ) { Q_EMIT error( m_lastError = err ); }
 
 bool DigiDoc::sign( const QString &city, const QString &state, const QString &zip,
 	const QString &country, const QString &role, const QString &role2 )
@@ -467,7 +463,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		parseException( e, causes, code );
 		if( code == Exception::PINIncorrect )
 		{
-			setLastError( tr("PIN Incorrect") );
+			Q_EMIT error( tr("PIN Incorrect") );
 			return sign( city, state, zip, country, role, role2 );
 		}
 		else

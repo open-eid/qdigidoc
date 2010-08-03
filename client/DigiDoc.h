@@ -96,7 +96,6 @@ public:
 	QList<digidoc::Document> documents();
 	QString fileName() const;
 	bool isNull() const;
-	QString lastError() const;
 	bool open( const QString &file );
 	void removeDocument( unsigned int num );
 	void removeSignature( unsigned int num );
@@ -118,14 +117,10 @@ public:
 Q_SIGNALS:
 	void error( const QString &err );
 
-private Q_SLOTS:
-	void setLastError( const QString &err );
-
 private:
 	bool checkDoc( bool status = false, const QString &msg = QString() );
 	void setLastError( const digidoc::Exception &e );
 
 	digidoc::WDoc	*b;
 	QString			m_fileName;
-	QString			m_lastError;
 };
