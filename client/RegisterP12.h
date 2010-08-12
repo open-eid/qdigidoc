@@ -33,4 +33,7 @@ public:
 private Q_SLOTS:
 	void on_buttonBox_accepted();
 	void on_p12Button_clicked();
+
+private:
+	bool eventFilter( QObject *o, QEvent *e );
 };

@@ -48,4 +48,7 @@ private Q_SLOTS:
 	void on_selectDefaultDir_clicked();
 	void on_showP12Cert_clicked();
 	void save();
+
+private:
+	bool eventFilter( QObject *o, QEvent *e );
 };

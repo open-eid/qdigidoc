@@ -30,12 +30,15 @@
 #include <common/SslCertificate.h>
 
 #include <QDesktopServices>
+#include <QDropEvent>
 #include <QFileDialog>
+#include <QUrl>
 
 SettingsDialog::SettingsDialog( QWidget *parent )
 :	QDialog( parent )
 {
 	setupUi( this );
+	p12Cert->installEventFilter( this );
 
 	Settings s;
 	s.beginGroup( "Client" );
@@ -66,6 +69,20 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	p12Pass->setText( Application::confValue( Application::PKCS12Pass ) );
 
 	s.endGroup();
+}
+
+bool SettingsDialog::eventFilter( QObject *o, QEvent *e )
+{
+	if( o == p12Cert && e->type() == QEvent::Drop )
+	{
+		QDropEvent *d = static_cast<QDropEvent*>(e);
+		if( d->mimeData()->hasUrls() )
+		{
+			setP12Cert( d->mimeData()->urls().value( 0 ).toLocalFile() );
+			return true;
+		}
+	}
+	return QDialog::eventFilter( o, e );
 }
 
 void SettingsDialog::on_p12Button_clicked()

@@ -26,10 +26,12 @@
 #include "Application.h"
 
 #include <QDesktopServices>
+#include <QDropEvent>
 #include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QUrl>
 
 RegisterP12::RegisterP12( const QString &cert )
 :	QWidget()
@@ -37,7 +39,23 @@ RegisterP12::RegisterP12( const QString &cert )
 	qApp->loadTranslation( Settings().value( "Main/Language", "et" ).toString() );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
+	p12Cert->installEventFilter( this );
 	p12Cert->setText( cert );
+}
+
+
+bool RegisterP12::eventFilter( QObject *o, QEvent *e )
+{
+	if( o == p12Cert && e->type() == QEvent::Drop )
+	{
+		QDropEvent *d = static_cast<QDropEvent*>(e);
+		if( d->mimeData()->hasUrls() )
+		{
+			p12Cert->setText( d->mimeData()->urls().value( 0 ).toLocalFile() );
+			return true;
+		}
+	}
+	return QWidget::eventFilter( o, e );
 }
 
 void RegisterP12::on_buttonBox_accepted()
