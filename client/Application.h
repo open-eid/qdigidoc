@@ -67,7 +67,7 @@ public:
 #endif
 
 public Q_SLOTS:
-	void showSettings();
+	void showSettings( int page = 0 );
 	void showWarning( const QString &msg );
 
 Q_SIGNALS:

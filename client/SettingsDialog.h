@@ -32,6 +32,7 @@ public:
 	SettingsDialog( QWidget *parent = 0 );
 
 	void setP12Cert( const QString &cert );
+	void setPage( int page );
 
 	static void saveSignatureInfo(
 		const QString &role,

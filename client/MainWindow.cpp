@@ -42,6 +42,7 @@
 #include <QDragEnterEvent>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QNetworkProxy>
 #include <QPrintPreviewDialog>
 #include <QTextStream>
 #include <QUrl>
@@ -355,9 +356,29 @@ void MainWindow::buttonClicked( int button )
 	case SignSign:
 	{
 		CheckConnection connection;
+		if( !qApp->confValue( Application::ProxyHost ).isEmpty() )
+		{
+			connection.setProxy( QNetworkProxy(
+				QNetworkProxy::HttpProxy,
+				qApp->confValue( Application::ProxyHost ),
+				qApp->confValue( Application::ProxyPort ).toUInt(),
+				qApp->confValue( Application::ProxyUser ),
+				qApp->confValue( Application::ProxyPass ) ) );
+		}
+
 		if( !connection.check( "http://ocsp.sk.ee" ) )
 		{
-			qApp->showWarning( connection.error() );
+			qApp->showWarning( connection.errorString() );
+			switch( connection.error() )
+			{
+			case QNetworkReply::ProxyConnectionRefusedError:
+			case QNetworkReply::ProxyConnectionClosedError:
+			case QNetworkReply::ProxyNotFoundError:
+			case QNetworkReply::ProxyTimeoutError:
+			case QNetworkReply::ProxyAuthenticationRequiredError:
+				qApp->showSettings( 3 );
+			default: break;
+			}
 			break;
 		}
 		AccessCert access( this );

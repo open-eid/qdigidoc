@@ -191,3 +191,5 @@ void SettingsDialog::setP12Cert( const QString &cert )
 	p12Cert->setText( cert );
 	tabWidget->setCurrentIndex( 1 );
 }
+
+void SettingsDialog::setPage( int page ) { tabWidget->setCurrentIndex( page ); }
