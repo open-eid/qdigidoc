@@ -24,6 +24,7 @@
 
 #include "common/PinDialog.h"
 #include "common/SslCertificate.h"
+#include "common/TokenData.h"
 
 #include <libdigidoc/DigiDocConfig.h>
 #include <libp11.h>
@@ -45,6 +46,7 @@ class PollerPrivate
 public:
 	PollerPrivate()
 	: code( Poller::NullCode )
+	, flags(0)
 	, login(false)
 	, terminate(false)
 	, handle(0)
@@ -53,12 +55,13 @@ public:
 	, loginResult(CKR_OK)
 	{}
 
+	QSslCertificate	cert;
 	Poller::ErrorCode code;
+	TokenData::TokenFlags flags;
 	volatile bool	login, terminate;
 	QMutex			m;
 	QHash<QString,unsigned int> cards;
 	QString			selectedCard, select;
-	QSslCertificate	sign;
 	PKCS11_CTX		*handle;
 	PKCS11_SLOT     *slot, *slots;
 	unsigned int	slotCount;
@@ -77,7 +80,7 @@ Poller::~Poller() { unloadDriver(); delete d; }
 bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 {
 	QMutexLocker locker(&d->m);
-	if( !d->cards.contains( d->selectedCard ) || d->sign.isNull() )
+	if( !d->cards.contains( d->selectedCard ) || d->cert.isNull() )
 	{
 		emitError( tr("Authentication certificate is not selected."), 0 );
 		return false;
@@ -103,7 +106,7 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 		if( d->slot->token->secureLogin )
 		{
 			d->login = true;
-			PinDialog *p = new PinDialog( PinDialog::Pin1PinpadType, d->sign, qApp->activeWindow() );
+			PinDialog *p = new PinDialog( PinDialog::Pin1PinpadType, d->cert, qApp->activeWindow() );
 			p->show();
 			do
 			{
@@ -115,7 +118,7 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 		}
 		else
 		{
-			PinDialog p( PinDialog::Pin1Type, d->sign, qApp->activeWindow() );
+			PinDialog p( PinDialog::Pin1Type, d->cert, qApp->activeWindow() );
 			if( !p.exec() )
 			{
 				emitError( tr("PIN acquisition canceled."), 0, PinCanceled );
@@ -173,6 +176,16 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 	return size;
 }
 
+void Poller::emitDataChanged()
+{
+	TokenData data;
+	data.setCard( d->selectedCard );
+	data.setCards( d->cards.keys() );
+	data.setCert( d->cert );
+	data.setFlags( d->flags );
+	Q_EMIT dataChanged( data );
+}
+
 void Poller::emitError( const QString &msg, unsigned long err, ErrorCode code )
 {
 	d->code = code;
@@ -213,9 +226,9 @@ void Poller::read()
 
 	if( PKCS11_enumerate_slots( d->handle, &d->slots, &d->slotCount ) )
 	{
-		d->sign = QSslCertificate();
+		d->cert = QSslCertificate();
 		d->selectedCard.clear();
-		Q_EMIT dataChanged( d->cards.keys(), d->selectedCard, d->sign );
+		emitDataChanged();
 		return;
 	}
 
@@ -232,10 +245,10 @@ void Poller::read()
 
 	if( !d->selectedCard.isEmpty() && !d->cards.contains( d->selectedCard ) )
 	{
-		d->sign = QSslCertificate();
+		d->cert = QSslCertificate();
 		d->selectedCard.clear();
 	}
-	Q_EMIT dataChanged( d->cards.keys(), d->selectedCard, d->sign );
+	emitDataChanged();
 
 	if( d->selectedCard.isEmpty() && !d->cards.isEmpty() )
 		selectCert( d->cards.keys().first() );
@@ -247,8 +260,8 @@ void Poller::run()
 
 	d->cards["loading"] = 0;
 	d->selectedCard = "loading";
-	d->sign = QSslCertificate();
-	Q_EMIT dataChanged( d->cards.keys(), d->selectedCard, d->sign );
+	d->cert = QSslCertificate();
+	emitDataChanged();
 
 	if( !loadDriver() )
 	{
@@ -284,8 +297,8 @@ void Poller::selectCard( const QString &card ) { d->select = card; }
 void Poller::selectCert( const QString &card )
 {
 	d->selectedCard = card;
-	d->sign = QSslCertificate();
-	Q_EMIT dataChanged( d->cards.keys(), d->selectedCard, d->sign );
+	d->cert = QSslCertificate();
+	emitDataChanged();
 	PKCS11_CERT* certs;
 	unsigned int numberOfCerts;
 	for( unsigned int i = 0; i < d->slotCount; ++i )
@@ -300,12 +313,20 @@ void Poller::selectCert( const QString &card )
 		SslCertificate cert = SslCertificate::fromX509( Qt::HANDLE((&certs[0])->x509) );
 		if( cert.keyUsage().keys().contains( SslCertificate::DataEncipherment ) )
 		{
-			d->sign = cert;
+			d->cert = cert;
 			d->cards[d->selectedCard] = i;
+#ifdef LIBP11_TOKEN_FLAGS
+			if( slot->token->userPinCountLow || slot->token->soPinCountLow)
+				d->flags |= TokenData::PinCountLow;
+			if( slot->token->userPinFinalTry || slot->token->soPinFinalTry)
+				d->flags |= TokenData::PinFinalTry;
+			if( slot->token->userPinLocked || slot->token->soPinLocked)
+				d->flags |= TokenData::PinLocked;
+#endif
 			break;
 		}
 	}
-	Q_EMIT dataChanged( d->cards.keys(), d->selectedCard, d->sign );
+	emitDataChanged();
 }
 
 void Poller::unloadDriver()

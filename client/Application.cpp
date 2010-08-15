@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2010 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2010 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,6 +30,7 @@
 #include "version.h"
 
 #include "common/Common.h"
+#include "common/TokenData.h"
 
 #include <digidocpp/ADoc.h>
 #include <digidocpp/Conf.h>
@@ -55,14 +56,12 @@ class ApplicationPrivate
 public:
 	ApplicationPrivate(): signer(0) {}
 
-	QStringList	cards;
-	QString		card;
+	TokenData	data;
 	QAction		*closeAction, *settingsAction;
 #ifdef Q_OS_MAC
 	QMenu		*menu;
 	QMenuBar	*bar;
 #endif
-	QSslCertificate	signCert;
 	QSigner		*signer;
 	QTranslator *appTranslator, *commonTranslator, *qtTranslator;
 };
@@ -101,6 +100,7 @@ Application::Application( int &argc, char **argv )
 	setPalette( p );
 
 	qRegisterMetaType<QSslCertificate>("QSslCertificate");
+	qRegisterMetaType<TokenData>("TokenData");
 
 	Common *common = new Common( this );
 	QDesktopServices::setUrlHandler( "browse", common, "browse" );
@@ -143,8 +143,7 @@ Application::Application( int &argc, char **argv )
 	installTranslator( d->qtTranslator = new QTranslator( this ) );
 
 	d->signer = new QSigner();
-	connect( d->signer, SIGNAL(dataChanged(QStringList,QString,QSslCertificate)),
-		SLOT(dataChanged(QStringList,QString,QSslCertificate)) );
+	connect( d->signer, SIGNAL(dataChanged(TokenData)), SLOT(dataChanged(TokenData)) );
 	connect( d->signer, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
 	d->signer->start();
 
@@ -164,8 +163,6 @@ Application::~Application()
 	}
 	delete d;
 }
-
-QString Application::activeCard() const { return d->card; }
 
 void Application::closeWindow()
 {
@@ -198,18 +195,11 @@ QString Application::confValue( ConfParameter parameter, const QVariant &value )
 	return r.empty() ? value.toString() : QString::fromStdString( r );
 }
 
-void Application::dataChanged( const QStringList &cards, const QString &card,
-	const QSslCertificate &sign )
+void Application::dataChanged( const TokenData &data )
 {
-	bool changed = false;
-	changed = qMax( changed, d->cards != cards );
-	changed = qMax( changed, d->card != card );
-	changed = qMax( changed, d->signCert != sign );
-	d->cards = cards;
-	d->card = card;
-	d->signCert = sign;
-	if( changed )
-		Q_EMIT dataChanged();
+	bool changed = d->data != data;
+	d->data = data;
+	if( changed ) Q_EMIT dataChanged();
 }
 
 bool Application::event( QEvent *e )
@@ -255,8 +245,6 @@ void Application::parseArgs( const QString &msg )
 	}
 }
 
-QStringList Application::presentCards() const { return d->cards; }
-
 void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 {
 	digidoc::Conf *i = NULL;
@@ -291,6 +279,6 @@ void Application::showWarning( const QString &msg )
 		Common::showHelp( msg );
 }
 
-QSslCertificate Application::signCert() const { return d->signCert; }
-
 QSigner* Application::signer() const { return d->signer; }
+
+TokenData Application::tokenData() const { return d->data; }

@@ -24,6 +24,7 @@
 
 #include "common/PinDialog.h"
 #include "common/SslCertificate.h"
+#include "common/TokenData.h"
 
 #include <digidocpp/Conf.h>
 
@@ -42,12 +43,14 @@
 class QSignerPrivate
 {
 public:
-	QSignerPrivate(): login(false), terminate(false), handle(0), slot(0), slotCount(0), loginResult(CKR_OK) {}
+	QSignerPrivate(): flags(0), login(false), terminate(false), handle(0), slot(0), slotCount(0), loginResult(CKR_OK) {}
+
+	QSslCertificate	cert;
+	TokenData::TokenFlags flags;
 	volatile bool	login, terminate;
 	QMutex			m;
 	QHash<QString,unsigned int> cards;
 	QString			selectedCard, select;
-	QSslCertificate	sign;
 	PKCS11_CTX		*handle;
 	PKCS11_SLOT     *slot, *slots;
 	unsigned int	slotCount;
@@ -67,9 +70,19 @@ QSigner::~QSigner() { unloadDriver(); delete d; }
 
 X509* QSigner::getCert() throw(digidoc::SignException)
 {
-	if( d->sign.isNull() )
+	if( d->cert.isNull() )
 		throw SignException( __FILE__, __LINE__, tr("Sign certificate is not selected").toUtf8().constData() );
-	return (X509*)d->sign.handle();
+	return (X509*)d->cert.handle();
+}
+
+void QSigner::emitDataChanged()
+{
+	TokenData data;
+	data.setCard( d->selectedCard );
+	data.setCards( d->cards.keys() );
+	data.setCert( d->cert );
+	data.setFlags( d->flags );
+	Q_EMIT dataChanged( data );
 }
 
 bool QSigner::loadDriver()
@@ -110,9 +123,9 @@ void QSigner::read()
 
 	if( PKCS11_enumerate_slots( d->handle, &d->slots, &d->slotCount ) )
 	{
-		d->sign = QSslCertificate();
+		d->cert = QSslCertificate();
 		d->selectedCard.clear();
-		Q_EMIT dataChanged( d->cards.keys(), d->selectedCard, d->sign );
+		emitDataChanged();
 		return;
 	}
 
@@ -129,10 +142,10 @@ void QSigner::read()
 
 	if( !d->selectedCard.isEmpty() && !d->cards.contains( d->selectedCard ) )
 	{
-		d->sign = QSslCertificate();
+		d->cert = QSslCertificate();
 		d->selectedCard.clear();
 	}
-	Q_EMIT dataChanged( d->cards.keys(), d->selectedCard, d->sign );
+	emitDataChanged();
 
 	if( d->selectedCard.isEmpty() && !d->cards.isEmpty() )
 		selectCert( d->cards.keys().first() );
@@ -144,8 +157,8 @@ void QSigner::run()
 
 	d->cards["loading"] = 0;
 	d->selectedCard = "loading";
-	d->sign = QSslCertificate();
-	Q_EMIT dataChanged( d->cards.keys(), d->selectedCard, d->sign );
+	d->cert = QSslCertificate();
+	emitDataChanged();
 
 	if( !loadDriver() )
 	{
@@ -181,8 +194,8 @@ void QSigner::selectCard( const QString &card ) { d->select = card; }
 void QSigner::selectCert( const QString &card )
 {
 	d->selectedCard = card;
-	d->sign = QSslCertificate();
-	Q_EMIT dataChanged( d->cards.keys(), d->selectedCard, d->sign );
+	d->cert = QSslCertificate();
+	emitDataChanged();
 	PKCS11_CERT* certs;
 	unsigned int numberOfCerts;
 	for( unsigned int i = 0; i < d->slotCount; ++i )
@@ -197,18 +210,26 @@ void QSigner::selectCert( const QString &card )
 		SslCertificate cert = SslCertificate::fromX509( Qt::HANDLE((&certs[0])->x509) );
 		if( cert.keyUsage().keys().contains( SslCertificate::NonRepudiation ) )
 		{
-			d->sign = cert;
+			d->cert = cert;
 			d->cards[d->selectedCard] = i;
+#ifdef LIBP11_TOKEN_FLAGS
+			if( slot->token->userPinCountLow || slot->token->soPinCountLow)
+				d->flags |= TokenData::PinCountLow;
+			if( slot->token->userPinFinalTry || slot->token->soPinFinalTry)
+				d->flags |= TokenData::PinFinalTry;
+			if( slot->token->userPinLocked || slot->token->soPinLocked)
+				d->flags |= TokenData::PinLocked;
+#endif
 			break;
 		}
 	}
-	Q_EMIT dataChanged( d->cards.keys(), d->selectedCard, d->sign );
+	emitDataChanged();
 }
 
 void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::SignException)
 {
 	QMutexLocker locker( &d->m );
-	if( !d->cards.contains( d->selectedCard ) || d->sign.isNull() )
+	if( !d->cards.contains( d->selectedCard ) || d->cert.isNull() )
 		throwException( tr("Signing certificate is not selected."), 0, Exception::NoException, __LINE__ );
 
 	if( d->slotCount )
@@ -228,7 +249,7 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		if( d->slot->token->secureLogin )
 		{
 			d->login = true;
-			PinDialog *p = new PinDialog( PinDialog::Pin2PinpadType, d->sign, qApp->activeWindow() );
+			PinDialog *p = new PinDialog( PinDialog::Pin2PinpadType, d->cert, qApp->activeWindow() );
 			p->show();
 			do
 			{
@@ -240,7 +261,7 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		}
 		else
 		{
-			PinDialog p( PinDialog::Pin2Type, d->sign, qApp->activeWindow() );
+			PinDialog p( PinDialog::Pin2Type, d->cert, qApp->activeWindow() );
 			if( !p.exec() )
 				throwException( tr("PIN acquisition canceled."), 0, Exception::PINCanceled, __LINE__ );
 			if( PKCS11_login( d->slot, 0, p.text().toUtf8() ) < 0 )

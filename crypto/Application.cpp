@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2010 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2010 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,6 +28,7 @@
 #include "version.h"
 
 #include "common/Common.h"
+#include "common/TokenData.h"
 
 #include <libdigidoc/DigiDocConfig.h>
 
@@ -51,16 +52,14 @@ class ApplicationPrivate
 public:
 	ApplicationPrivate(): poller( 0 ) {}
 
-	QSslCertificate	authCert;
-	QStringList		cards;
-	QString			card;
+	TokenData		data;
 	QAction			*closeAction, *settingsAction;
 #ifdef Q_OS_MAC
 	QMenu			*menu;
 	QMenuBar		*bar;
 #endif
-	QTranslator		*appTranslator, *commonTranslator, *qtTranslator;
 	Poller			*poller;
+	QTranslator		*appTranslator, *commonTranslator, *qtTranslator;
 };
 
 Application::Application( int &argc, char **argv )
@@ -96,6 +95,7 @@ Application::Application( int &argc, char **argv )
 	setPalette( p );
 
 	qRegisterMetaType<QSslCertificate>("QSslCertificate");
+	qRegisterMetaType<TokenData>("TokenData");
 
 	Common *common = new Common( this );
 	QDesktopServices::setUrlHandler( "browse", common, "browse" );
@@ -131,8 +131,7 @@ Application::Application( int &argc, char **argv )
 	installTranslator( d->qtTranslator = new QTranslator( this ) );
 
 	d->poller = new Poller();
-	connect( d->poller, SIGNAL(dataChanged(QStringList,QString,QSslCertificate)),
-		SLOT(dataChanged(QStringList,QString,QSslCertificate)) );
+	connect( d->poller, SIGNAL(dataChanged(TokenData)), SLOT(dataChanged(TokenData)) );
 	connect( d->poller, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
 	d->poller->start();
 
@@ -153,9 +152,6 @@ Application::~Application()
 	delete d;
 }
 
-QString Application::activeCard() const { return d->card; }
-QSslCertificate Application::authCert() const { return d->authCert; }
-
 void Application::closeWindow()
 {
 	if( MainWindow *w = qobject_cast<MainWindow*>(activeWindow()) )
@@ -166,18 +162,11 @@ void Application::closeWindow()
 		w->deleteLater();
 }
 
-void Application::dataChanged( const QStringList &cards, const QString &card,
-	const QSslCertificate &auth )
+void Application::dataChanged( const TokenData &data )
 {
-	bool changed = false;
-	changed = qMax( changed, d->cards != cards );
-	changed = qMax( changed, d->card != card );
-	changed = qMax( changed, d->authCert != auth );
-	d->cards = cards;
-	d->card = card;
-	d->authCert = auth;
-	if( changed )
-		Q_EMIT dataChanged();
+	bool changed = d->data != data;
+	d->data = data;
+	if( changed ) Q_EMIT dataChanged();
 }
 
 bool Application::event( QEvent *e )
@@ -214,7 +203,6 @@ void Application::parseArgs( const QString &msg )
 }
 
 Poller* Application::poller() const { return d->poller; }
-QStringList Application::presentCards() const { return d->cards; }
 
 void Application::showSettings()
 {
@@ -229,3 +217,5 @@ void Application::showWarning( const QString &msg )
 	if( d.exec() == QMessageBox::Help )
 		Common::showHelp( msg );
 }
+
+TokenData Application::tokenData() const { return d->data; }

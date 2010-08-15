@@ -24,9 +24,10 @@
 
 #include <QThread>
 
-class QSslCertificate;
-
 class PollerPrivate;
+class QSslCertificate;
+class TokenData;
+
 class Poller: public QThread
 {
 	Q_OBJECT
@@ -47,8 +48,7 @@ public:
 	ErrorCode errorCode() const;
 
 Q_SIGNALS:
-	void dataChanged( const QStringList &cards, const QString &card,
-		const QSslCertificate &auth );
+	void dataChanged( const TokenData &data );
 	void error( const QString &msg );
 	void error( const QString &msg, quint8 error );
 
@@ -56,6 +56,7 @@ private Q_SLOTS:
 	void selectCard( const QString &card );
 
 private:
+	void emitDataChanged();
 	void emitError( const QString &msg, unsigned long err, ErrorCode code = NullCode );
 	bool loadDriver();
 	void read();

@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2010 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2010 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,7 +32,7 @@
 #define qApp (static_cast<Application*>(QCoreApplication::instance()))
 
 class QSigner;
-class QSslCertificate;
+class TokenData;
 class ApplicationPrivate;
 class Application: public QtSingleApplication
 {
@@ -53,11 +53,9 @@ public:
 	explicit Application( int &argc, char **argv );
 	~Application();
 
-	QString activeCard() const;
 	void loadTranslation( const QString &lang );
-	QStringList presentCards() const;
-	QSslCertificate signCert() const;
 	QSigner* signer() const;
+	TokenData tokenData() const;
 
 	static QString confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
@@ -75,8 +73,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
 	void closeWindow();
-	void dataChanged( const QStringList &cards, const QString &card,
-		const QSslCertificate &sign );
+	void dataChanged( const TokenData &data );
 	void parseArgs( const QString &msg );
 
 private:

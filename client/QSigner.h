@@ -25,9 +25,10 @@
 #include <QThread>
 #include <digidocpp/crypto/signer/Signer.h>
 
-class QSslCertificate;
 class PinDialog;
+class QSslCertificate;
 class QSignerPrivate;
+class TokenData;
 
 class QSigner: public QThread, public digidoc::Signer
 {
@@ -43,14 +44,14 @@ public:
 	void unlock();
 
 Q_SIGNALS:
-	void dataChanged( const QStringList &cards, const QString &card,
-		const QSslCertificate &sign );
+	void dataChanged( const TokenData &data );
 	void error( const QString &msg );
 
 private Q_SLOTS:
 	void selectCard( const QString &card );
 
 private:
+	void emitDataChanged();
 	bool loadDriver();
 	void read();
 	void run();

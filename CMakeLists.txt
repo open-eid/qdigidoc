@@ -42,6 +42,10 @@ set( COMMON_TS
 	${COMMON}/translations/qt_ru.ts
 	)
 
+if( LIBP11_TOKEN_FLAGS )
+add_definitions( -DLIBP11_TOKEN_FLAGS )
+endif( LIBP11_TOKEN_FLAGS )
+
 include( ${QT_USE_FILE} )
 add_subdirectory( qtsingleapplication )
 add_subdirectory( common )

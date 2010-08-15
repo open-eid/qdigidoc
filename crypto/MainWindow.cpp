@@ -27,6 +27,7 @@
 #include "Poller.h"
 #include "common/Common.h"
 #include "common/Settings.h"
+#include "common/TokenData.h"
 
 #include <QDateTime>
 #include <QDesktopServices>
@@ -478,7 +479,7 @@ void MainWindow::setCurrentPage( Pages page )
 		viewCrypt->setText( doc->isEncrypted() ? tr("Decrypt") : tr("Encrypt") );
 		viewCrypt->setEnabled(
 			(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
-			(doc->isEncrypted() && keys.contains( CKey( qApp->authCert() ) )) );
+			(doc->isEncrypted() && keys.contains( CKey( qApp->tokenData().cert() ) )) );
 		break;
 	}
 	default: break;
@@ -487,26 +488,26 @@ void MainWindow::setCurrentPage( Pages page )
 
 void MainWindow::showCardStatus()
 {
-	if( !qApp->activeCard().isEmpty() && !qApp->authCert().isNull() )
-		infoCard->setText( Common::tokenInfo( Common::AuthCert, qApp->activeCard(), qApp->authCert() ) );
-	else if( !qApp->activeCard().isEmpty() )
+	if( !qApp->tokenData().card().isEmpty() && !qApp->tokenData().cert().isNull() )
+		infoCard->setText( Common::tokenInfo( Common::AuthCert, qApp->tokenData().card(), qApp->tokenData().cert() ) );
+	else if( !qApp->tokenData().card().isEmpty() )
 		infoCard->setText( tr("Loading data") );
-	else if( qApp->activeCard().isEmpty() )
+	else if( qApp->tokenData().card().isEmpty() )
 		infoCard->setText( tr("No card in reader") );
 
 	viewCrypt->setEnabled(
 		(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
-		(doc->isEncrypted() && doc->keys().contains( CKey( qApp->authCert() ) )) );
+		(doc->isEncrypted() && doc->keys().contains( CKey( qApp->tokenData().cert() ) )) );
 
 	cards->clear();
-	cards->addItems( qApp->presentCards() );
-	cards->setVisible( qApp->presentCards().size() > 1 );
-	cards->setCurrentIndex( cards->findText( qApp->activeCard() ) );
+	cards->addItems( qApp->tokenData().cards() );
+	cards->setVisible( qApp->tokenData().cards().size() > 1 );
+	cards->setCurrentIndex( cards->findText( qApp->tokenData().card() ) );
 	qDeleteAll( cardsGroup->actions() );
-	for( int i = 0; i < qApp->presentCards().size(); ++i )
+	for( int i = 0; i < qApp->tokenData().cards().size(); ++i )
 	{
 		QAction *a = cardsGroup->addAction( new QAction( cardsGroup ) );
-		a->setData( qApp->presentCards().at( i ) );
+		a->setData( qApp->tokenData().cards().at( i ) );
 		a->setShortcut( Qt::CTRL + (Qt::Key_1 + i) );
 		addAction( a );
 	}

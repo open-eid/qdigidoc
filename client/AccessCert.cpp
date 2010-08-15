@@ -27,6 +27,7 @@
 
 #include "common/SslCertificate.h"
 #include "common/sslConnect.h"
+#include "common/TokenData.h"
 
 #include <QDateTime>
 #include <QDesktopServices>
@@ -56,7 +57,7 @@ bool AccessCert::download()
 	qApp->signer()->lock();
 	SSLConnect *ssl = new SSLConnect();
 	ssl->setPKCS11( Application::confValue( Application::PKCS11Module ), false );
-	ssl->setCard( qApp->activeCard() );
+	ssl->setCard( qApp->tokenData().card() );
 
 	bool retry = false;
 	do
@@ -134,7 +135,7 @@ bool AccessCert::download()
 	if ( !QDir( path ).exists() )
 		QDir().mkpath( path );
 
-	QFile f( QString( "%1/%2.p12" ).arg( path, SslCertificate( qApp->signCert() ).subjectInfo( "serialNumber" ) ) );
+	QFile f( QString( "%1/%2.p12" ).arg( path, SslCertificate( qApp->tokenData().cert() ).subjectInfo( "serialNumber" ) ) );
 	if ( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
 	{
 		showWarning( tr("Failed to save server access certificate file to %1!\n%2")

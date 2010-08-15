@@ -25,6 +25,7 @@
 #include <common/CertificateWidget.h>
 #include <common/IKValidator.h>
 #include <common/SslCertificate.h>
+#include <common/TokenData.h>
 #include "Application.h"
 #include "LdapSearch.h"
 
@@ -142,7 +143,7 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 }
 
 void KeyAddDialog::addCardCert()
-{ addKeys( QList<CKey>() << CKey( qApp->authCert() ) ); }
+{ addKeys( QList<CKey>() << CKey( qApp->tokenData().cert() ) ); }
 
 void KeyAddDialog::addFile()
 {
@@ -199,7 +200,7 @@ void KeyAddDialog::addKeys( const QList<CKey> &keys )
 	keyAddStatus->setText( status ? tr("Keys added successfully") : tr("Failed to add keys") );
 }
 
-void KeyAddDialog::enableCardCert() { cardButton->setDisabled( qApp->authCert().isNull() ); }
+void KeyAddDialog::enableCardCert() { cardButton->setDisabled( qApp->tokenData().cert().isNull() ); }
 
 void KeyAddDialog::disableSearch( bool disable )
 {
