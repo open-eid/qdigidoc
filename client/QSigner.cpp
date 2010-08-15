@@ -125,6 +125,7 @@ void QSigner::read()
 	{
 		d->cert = QSslCertificate();
 		d->selectedCard.clear();
+		d->flags = 0;
 		emitDataChanged();
 		return;
 	}
@@ -144,6 +145,7 @@ void QSigner::read()
 	{
 		d->cert = QSslCertificate();
 		d->selectedCard.clear();
+		d->flags = 0;
 	}
 	emitDataChanged();
 
@@ -157,6 +159,7 @@ void QSigner::run()
 
 	d->cards["loading"] = 0;
 	d->selectedCard = "loading";
+	d->flags = 0;
 	d->cert = QSslCertificate();
 	emitDataChanged();
 
@@ -194,6 +197,7 @@ void QSigner::selectCard( const QString &card ) { d->select = card; }
 void QSigner::selectCert( const QString &card )
 {
 	d->selectedCard = card;
+	d->flags = 0;
 	d->cert = QSslCertificate();
 	emitDataChanged();
 	PKCS11_CERT* certs;
@@ -243,13 +247,21 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		!d->slot->token )
 		throwException( tr("Failed to login token"), ERR_get_error(), Exception::NoException, __LINE__ );
 
+#ifdef LIBP11_TOKEN_FLAGS
+	if( d->slot->token->userPinCountLow || d->slot->token->soPinCountLow)
+		d->flags |= TokenData::PinCountLow;
+	if( d->slot->token->userPinFinalTry || d->slot->token->soPinFinalTry)
+		d->flags |= TokenData::PinFinalTry;
+	if( d->slot->token->userPinLocked || d->slot->token->soPinLocked)
+		d->flags |= TokenData::PinLocked;
+#endif
 	if( d->slot->token->loginRequired )
 	{
 		unsigned long err = CKR_OK;
 		if( d->slot->token->secureLogin )
 		{
 			d->login = true;
-			PinDialog *p = new PinDialog( PinDialog::Pin2PinpadType, d->cert, qApp->activeWindow() );
+			PinDialog *p = new PinDialog( PinDialog::Pin2PinpadType, d->cert, d->flags, qApp->activeWindow() );
 			p->show();
 			do
 			{
@@ -261,7 +273,7 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		}
 		else
 		{
-			PinDialog p( PinDialog::Pin2Type, d->cert, qApp->activeWindow() );
+			PinDialog p( PinDialog::Pin2Type, d->cert, d->flags, qApp->activeWindow() );
 			if( !p.exec() )
 				throwException( tr("PIN acquisition canceled."), 0, Exception::PINCanceled, __LINE__ );
 			if( PKCS11_login( d->slot, 0, p.text().toUtf8() ) < 0 )

@@ -100,13 +100,21 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 		return false;
 	}
 
+#ifdef LIBP11_TOKEN_FLAGS
+	if( d->slot->token->userPinCountLow || d->slot->token->soPinCountLow)
+		d->flags |= TokenData::PinCountLow;
+	if( d->slot->token->userPinFinalTry || d->slot->token->soPinFinalTry)
+		d->flags |= TokenData::PinFinalTry;
+	if( d->slot->token->userPinLocked || d->slot->token->soPinLocked)
+		d->flags |= TokenData::PinLocked;
+#endif
 	if( d->slot->token->loginRequired )
 	{
 		unsigned long err = CKR_OK;
 		if( d->slot->token->secureLogin )
 		{
 			d->login = true;
-			PinDialog *p = new PinDialog( PinDialog::Pin1PinpadType, d->cert, qApp->activeWindow() );
+			PinDialog *p = new PinDialog( PinDialog::Pin1PinpadType, d->cert, d->flags, qApp->activeWindow() );
 			p->show();
 			do
 			{
@@ -118,7 +126,7 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 		}
 		else
 		{
-			PinDialog p( PinDialog::Pin1Type, d->cert, qApp->activeWindow() );
+			PinDialog p( PinDialog::Pin1Type, d->cert, d->flags, qApp->activeWindow() );
 			if( !p.exec() )
 			{
 				emitError( tr("PIN acquisition canceled."), 0, PinCanceled );
@@ -228,6 +236,7 @@ void Poller::read()
 	{
 		d->cert = QSslCertificate();
 		d->selectedCard.clear();
+		d->flags = 0;
 		emitDataChanged();
 		return;
 	}
@@ -247,6 +256,7 @@ void Poller::read()
 	{
 		d->cert = QSslCertificate();
 		d->selectedCard.clear();
+		d->flags = 0;
 	}
 	emitDataChanged();
 
@@ -260,6 +270,7 @@ void Poller::run()
 
 	d->cards["loading"] = 0;
 	d->selectedCard = "loading";
+	d->flags = 0;
 	d->cert = QSslCertificate();
 	emitDataChanged();
 
@@ -297,6 +308,7 @@ void Poller::selectCard( const QString &card ) { d->select = card; }
 void Poller::selectCert( const QString &card )
 {
 	d->selectedCard = card;
+	d->flags = 0;
 	d->cert = QSslCertificate();
 	emitDataChanged();
 	PKCS11_CERT* certs;

@@ -422,6 +422,10 @@ Should I keep unsigned documents or remove these?</source>
         <source>Failed to start process &apos;%1&apos;</source>
         <translation>Запуск процесса &apos;%1&apos; неудачен</translation>
     </message>
+    <message>
+        <source>PIN is locked</source>
+        <translation>PIN заблокирован</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

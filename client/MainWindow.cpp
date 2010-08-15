@@ -483,13 +483,17 @@ void MainWindow::enableSign()
 #warning revert before release
 #endif
 	if( (mobile && false /*&& !IKValidator::isValid( infoMobileCode->text() )*/) ||
-		(!mobile && !qApp->tokenData().cert().isValid()) )
+		(!mobile &&
+		 !(qApp->tokenData().flags() & TokenData::PinLocked) &&
+		 !qApp->tokenData().cert().isValid()) )
 	{
 		signButton->setEnabled( false );
 		if( mobile )
 			signButton->setToolTip( tr("Personal code is not valid") );
 		else if( !qApp->tokenData().cert().isValid() )
 			signButton->setToolTip( tr("Sign certificate is not valid") );
+		else if( !qApp->tokenData().flags() & TokenData::PinLocked )
+			signButton->setToolTip( tr("PIN is locked") );
 		else if( qApp->tokenData().cert().isNull() )
 			signButton->setToolTip( tr("No card in reader") );
 		return;
@@ -710,7 +714,7 @@ void MainWindow::showCardStatus()
 		infoStack->setCurrentIndex( 0 );
 		if( !qApp->tokenData().card().isEmpty() && !qApp->tokenData().cert().isNull() )
 		{
-			infoCard->setText( Common::tokenInfo( Common::SignCert, qApp->tokenData().card(), qApp->tokenData().cert() ) );
+			infoCard->setText( Common::tokenInfo( Common::SignCert, qApp->tokenData() ) );
 			SslCertificate c( qApp->tokenData().cert() );
 			signSigner->setText( c.toString( c.isTempel() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
 		}

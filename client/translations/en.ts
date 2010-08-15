@@ -419,6 +419,10 @@ Should I keep unsigned documents or remove these?</numerusform>
         <source>Failed to start process &apos;%1&apos;</source>
         <translation>Failed to start process &apos;%1&apos;</translation>
     </message>
+    <message>
+        <source>PIN is locked</source>
+        <translation>PIN Locked</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

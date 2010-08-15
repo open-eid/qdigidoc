@@ -489,7 +489,7 @@ void MainWindow::setCurrentPage( Pages page )
 void MainWindow::showCardStatus()
 {
 	if( !qApp->tokenData().card().isEmpty() && !qApp->tokenData().cert().isNull() )
-		infoCard->setText( Common::tokenInfo( Common::AuthCert, qApp->tokenData().card(), qApp->tokenData().cert() ) );
+		infoCard->setText( Common::tokenInfo( Common::AuthCert, qApp->tokenData() ) );
 	else if( !qApp->tokenData().card().isEmpty() )
 		infoCard->setText( tr("Loading data") );
 	else if( qApp->tokenData().card().isEmpty() )
@@ -497,7 +497,9 @@ void MainWindow::showCardStatus()
 
 	viewCrypt->setEnabled(
 		(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
-		(doc->isEncrypted() && doc->keys().contains( CKey( qApp->tokenData().cert() ) )) );
+		(doc->isEncrypted() &&
+		 !(qApp->tokenData().flags() & TokenData::PinLocked) &&
+		 doc->keys().contains( CKey( qApp->tokenData().cert() ) )) );
 
 	cards->clear();
 	cards->addItems( qApp->tokenData().cards() );

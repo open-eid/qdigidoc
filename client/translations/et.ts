@@ -419,6 +419,10 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <source>Failed to start process &apos;%1&apos;</source>
         <translation>Protsessi &apos;%1&apos; käivitamine ebaõnnestus</translation>
     </message>
+    <message>
+        <source>PIN is locked</source>
+        <translation>PIN on lukus</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
