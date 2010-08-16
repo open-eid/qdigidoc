@@ -98,6 +98,7 @@ Application::Application( int &argc, char **argv )
 	p.setBrush( QPalette::Link, QBrush( "#509B00" ) );
 	p.setBrush( QPalette::LinkVisited, QBrush( "#509B00" ) );
 	setPalette( p );
+	setWindowIcon( QIcon( ":/images/digidoc_icon_48x48.png" ) );
 
 	qRegisterMetaType<QSslCertificate>("QSslCertificate");
 	qRegisterMetaType<TokenData>("TokenData");
