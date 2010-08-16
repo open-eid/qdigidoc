@@ -692,6 +692,14 @@ Please check your server access sertificate.</source>
         <translation>Подтверждение действительности сервера справки доступа можно получить с веб-страницы SK&lt;br /&gt;
 &lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Show certificate</source>
+        <translation>См. сертификат</translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation>Ошибочная пароль</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
@@ -802,6 +810,10 @@ Please check your server access sertificate.</source>
     <message>
         <source>Show certificate</source>
         <translation>См. сертификат</translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation>Ошибочная пароль</translation>
     </message>
 </context>
 <context>

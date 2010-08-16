@@ -21,6 +21,7 @@
  */
 
 #include "SettingsDialog.h"
+#include "ui_SettingsDialog.h"
 
 #include "Application.h"
 #include "version.h"
@@ -36,44 +37,47 @@
 
 SettingsDialog::SettingsDialog( QWidget *parent )
 :	QDialog( parent )
+,	d( new Ui::SettingsDialog )
 {
-	setupUi( this );
-	p12Cert->installEventFilter( this );
+	d->setupUi( this );
+	d->p12Cert->installEventFilter( this );
 
 	Settings s;
 	s.beginGroup( "Client" );
 
-	defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
-	defaultDir->setText( s.value( "DefaultDir" ).toString() );
-	showIntro->setChecked( s.value( "Intro", true ).toBool() );
-	askSaveAs->setChecked( s.value( "AskSaveAs", false ).toBool() );
+	d->defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
+	d->defaultDir->setText( s.value( "DefaultDir" ).toString() );
+	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
+	d->askSaveAs->setChecked( s.value( "AskSaveAs", false ).toBool() );
 
 	const QString type = s.value( "type", "ddoc" ).toString();
-	typeBDoc->setChecked( type == "bdoc" );
-	typeDDoc->setChecked( type == "ddoc" );
+	d->typeBDoc->setChecked( type == "bdoc" );
+	d->typeDDoc->setChecked( type == "ddoc" );
 
-	signRoleInput->setText( s.value( "Role" ).toString() );
-	signResolutionInput->setText( s.value( "Resolution" ).toString() );
-	signCityInput->setText( s.value( "City" ).toString() );
-	signStateInput->setText( s.value( "State" ).toString() );
-	signCountryInput->setText( s.value( "Country" ).toString() );
-	signZipInput->setText( s.value( "Zip" ).toString() );
+	d->signRoleInput->setText( s.value( "Role" ).toString() );
+	d->signResolutionInput->setText( s.value( "Resolution" ).toString() );
+	d->signCityInput->setText( s.value( "City" ).toString() );
+	d->signStateInput->setText( s.value( "State" ).toString() );
+	d->signCountryInput->setText( s.value( "Country" ).toString() );
+	d->signZipInput->setText( s.value( "Zip" ).toString() );
 
-	signOverwrite->setChecked( s.value( "Overwrite", false ).toBool() );
+	d->signOverwrite->setChecked( s.value( "Overwrite", false ).toBool() );
 
-	proxyHost->setText( Application::confValue( Application::ProxyHost ) );
-	proxyPort->setText( Application::confValue( Application::ProxyPort ) );
-	proxyUser->setText( Application::confValue( Application::ProxyUser ) );
-	proxyPass->setText( Application::confValue( Application::ProxyPass ) );
-	p12Cert->setText( Application::confValue( Application::PKCS12Cert ) );
-	p12Pass->setText( Application::confValue( Application::PKCS12Pass ) );
+	d->proxyHost->setText( Application::confValue( Application::ProxyHost ) );
+	d->proxyPort->setText( Application::confValue( Application::ProxyPort ) );
+	d->proxyUser->setText( Application::confValue( Application::ProxyUser ) );
+	d->proxyPass->setText( Application::confValue( Application::ProxyPass ) );
+	d->p12Cert->setText( Application::confValue( Application::PKCS12Cert ) );
+	d->p12Pass->setText( Application::confValue( Application::PKCS12Pass ) );
 
 	s.endGroup();
 }
 
+SettingsDialog::~SettingsDialog() { delete d; }
+
 bool SettingsDialog::eventFilter( QObject *o, QEvent *e )
 {
-	if( o == p12Cert && e->type() == QEvent::Drop )
+	if( o == d->p12Cert && e->type() == QEvent::Drop )
 	{
 		QDropEvent *d = static_cast<QDropEvent*>(e);
 		if( d->mimeData()->hasUrls() )
@@ -98,8 +102,11 @@ void SettingsDialog::on_p12Button_clicked()
 		setP12Cert( cert );
 }
 
-void SettingsDialog::on_p12Cert_textChanged( const QString &text )
-{ showP12Cert->setEnabled( QFile::exists( text ) ); }
+void SettingsDialog::on_p12Cert_textChanged( const QString & )
+{ validateP12Cert(); }
+
+void SettingsDialog::on_p12Pass_textChanged( const QString & )
+{ validateP12Cert(); }
 
 void SettingsDialog::on_selectDefaultDir_clicked()
 {
@@ -110,18 +117,18 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 	if( !dir.isEmpty() )
 	{
 		Settings().setValue( "Client/DefaultDir", dir );
-		defaultDir->setText( dir );
+		d->defaultDir->setText( dir );
 	}
-	defaultSameDir->setChecked( defaultDir->text().isEmpty() );
+	d->defaultSameDir->setChecked( d->defaultDir->text().isEmpty() );
 }
 
 void SettingsDialog::on_showP12Cert_clicked()
 {
-	QFile f( p12Cert->text() );
+	QFile f( d->p12Cert->text() );
 	if( !f.open( QIODevice::ReadOnly ) )
 		return;
 
-	PKCS12Certificate cert( &f, p12Pass->text().toLatin1() );
+	PKCS12Certificate cert( &f, d->p12Pass->text().toLatin1() );
 	f.close();
 	if( cert.certificate().isNull() )
 		return;
@@ -133,32 +140,32 @@ void SettingsDialog::save()
 {
 	Settings s;
 	s.beginGroup( "Client" );
-	s.setValue( "Intro", showIntro->isChecked() );
-	s.setValue( "Overwrite", signOverwrite->isChecked() );
-	s.setValue( "AskSaveAs", askSaveAs->isChecked() );
-	s.setValue( "type", typeBDoc->isChecked() ? "bdoc" : "ddoc" );
-	if( defaultSameDir->isChecked() )
+	s.setValue( "Intro", d->showIntro->isChecked() );
+	s.setValue( "Overwrite", d->signOverwrite->isChecked() );
+	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
+	s.setValue( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc" );
+	if( d->defaultSameDir->isChecked() )
 	{
-		defaultDir->clear();
+		d->defaultDir->clear();
 		s.remove( "DefaultDir" );
 	}
 
-	Application::setConfValue( Application::ProxyHost, proxyHost->text() );
-	Application::setConfValue( Application::ProxyPort, proxyPort->text() );
-	Application::setConfValue( Application::ProxyUser, proxyUser->text() );
-	Application::setConfValue( Application::ProxyPass, proxyPass->text() );
-	Application::setConfValue( Application::PKCS12Cert, p12Cert->text() );
-	Application::setConfValue( Application::PKCS12Pass, p12Pass->text() );
+	Application::setConfValue( Application::ProxyHost, d->proxyHost->text() );
+	Application::setConfValue( Application::ProxyPort, d->proxyPort->text() );
+	Application::setConfValue( Application::ProxyUser, d->proxyUser->text() );
+	Application::setConfValue( Application::ProxyPass, d->proxyPass->text() );
+	Application::setConfValue( Application::PKCS12Cert, d->p12Cert->text() );
+	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
 
 	s.endGroup();
 
 	saveSignatureInfo(
-		signRoleInput->text(),
-		signResolutionInput->text(),
-		signCityInput->text(),
-		signStateInput->text(),
-		signCountryInput->text(),
-		signZipInput->text(),
+		d->signRoleInput->text(),
+		d->signResolutionInput->text(),
+		d->signCityInput->text(),
+		d->signStateInput->text(),
+		d->signCountryInput->text(),
+		d->signZipInput->text(),
 		true );
 }
 
@@ -188,8 +195,28 @@ void SettingsDialog::saveSignatureInfo(
 void SettingsDialog::setP12Cert( const QString &cert )
 {
 	Application::setConfValue( Application::PKCS12Cert, cert );
-	p12Cert->setText( cert );
-	tabWidget->setCurrentIndex( 1 );
+	d->p12Cert->setText( cert );
+	d->tabWidget->setCurrentIndex( 1 );
 }
 
-void SettingsDialog::setPage( int page ) { tabWidget->setCurrentIndex( page ); }
+void SettingsDialog::setPage( int page ) { d->tabWidget->setCurrentIndex( page ); }
+
+void SettingsDialog::validateP12Cert()
+{
+	d->showP12Cert->setEnabled( false );
+	d->p12Error->clear();
+	QFile f( d->p12Cert->text() );
+	if( !f.open( QIODevice::ReadOnly ) )
+		return;
+
+	PKCS12Certificate cert( &f, d->p12Pass->text().toLatin1() );
+	switch( cert.error() )
+	{
+	case PKCS12Certificate::InvalidPassword:
+		d->p12Error->setText( tr("Invalid password") );
+		break;
+	default:
+		d->showP12Cert->setEnabled( !cert.isNull() );
+		break;
+	}
+}

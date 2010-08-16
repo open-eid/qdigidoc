@@ -689,6 +689,14 @@ Palun kontrollige juurdepääsutõendi olemasolu.</translation>
         <translation>Kehtivuskinnituse serveri juurdepääsutõendi saab SK leheküljelt&lt;br /&gt;
 &lt;a href=&quot;http://www.sk.ee/getaccess/?lang=est&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Show certificate</source>
+        <translation>Näita sertifikaati</translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation>Vigane parool</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
@@ -799,6 +807,10 @@ Palun kontrollige juurdepääsutõendi olemasolu.</translation>
     <message>
         <source>Show certificate</source>
         <translation>Näita sertifikaati</translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation>Vigane parool</translation>
     </message>
 </context>
 <context>

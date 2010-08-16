@@ -22,14 +22,17 @@
 
 #pragma once
 
-#include "ui_SettingsDialog.h"
+#include <QDialog>
 
-class SettingsDialog: public QDialog, private Ui::SettingsDialog
+namespace Ui { class SettingsDialog; }
+
+class SettingsDialog: public QDialog
 {
 	Q_OBJECT
 
 public:
-	SettingsDialog( QWidget *parent = 0 );
+	explicit SettingsDialog( QWidget *parent = 0 );
+	~SettingsDialog();
 
 	void setP12Cert( const QString &cert );
 	void setPage( int page );
@@ -46,10 +49,14 @@ public:
 private Q_SLOTS:
 	void on_p12Button_clicked();
 	void on_p12Cert_textChanged( const QString &text );
+	void on_p12Pass_textChanged( const QString &text );
 	void on_selectDefaultDir_clicked();
 	void on_showP12Cert_clicked();
 	void save();
 
 private:
 	bool eventFilter( QObject *o, QEvent *e );
+	void validateP12Cert();
+
+	Ui::SettingsDialog *d;
 };

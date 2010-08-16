@@ -22,18 +22,27 @@
 
 #pragma once
 
-#include "ui_RegisterP12.h"
+#include <QWidget>
 
-class RegisterP12: public QWidget, private Ui::RegisterP12
+namespace Ui { class RegisterP12; }
+
+class RegisterP12: public QWidget
 {
 	Q_OBJECT
 public:
 	explicit RegisterP12( const QString &cert );
+	~RegisterP12();
 
 private Q_SLOTS:
 	void on_buttonBox_accepted();
+	void on_showP12Cert_clicked();
 	void on_p12Button_clicked();
+	void on_p12Cert_textChanged( const QString &text );
+	void on_p12Pass_textChanged( const QString &text );
 
 private:
 	bool eventFilter( QObject *o, QEvent *e );
+	void validateP12Cert();
+
+	Ui::RegisterP12 *d;
 };

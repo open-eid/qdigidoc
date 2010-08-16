@@ -689,6 +689,14 @@ Please check your server access sertificate.</translation>
         <translation>Confirmation of validity of the server reference access can be obtained from the SK web page&lt;br /&gt;
 &lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Show certificate</source>
+        <translation>Show certificate</translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation>Invalid password</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
@@ -799,6 +807,10 @@ Please check your server access sertificate.</translation>
     <message>
         <source>Show certificate</source>
         <translation>Show certificate</translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation>Invalid password</translation>
     </message>
 </context>
 <context>

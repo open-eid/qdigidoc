@@ -13,10 +13,6 @@
   <property name="windowTitle">
    <string>OCSP PKCS#12 certificate installer</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="../images/images.qrc">
-    <normaloff>:/images/digidoc_icon_48x48.png</normaloff>:/images/digidoc_icon_48x48.png</iconset>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="p12CertLabel">
@@ -42,6 +38,27 @@
    <item>
     <layout class="QHBoxLayout" name="p12PassLayout">
      <item>
+      <widget class="QLabel" name="p12PassLabel">
+       <property name="text">
+        <string>Password</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="p12Pass">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="p12Error">
+       <property name="styleSheet">
+        <string notr="true">color: red;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="p12PassSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -55,16 +72,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="p12PassLabel">
+      <widget class="QPushButton" name="showP12Cert">
        <property name="text">
-        <string>Password</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="p12Pass">
-       <property name="echoMode">
-        <enum>QLineEdit::Password</enum>
+        <string>Show certificate</string>
        </property>
       </widget>
      </item>
