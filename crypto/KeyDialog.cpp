@@ -39,6 +39,7 @@
 #include <QProgressBar>
 #include <QRegExpValidator>
 #include <QTextStream>
+#include <QTimer>
 
 KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 :	QWidget( parent )
@@ -198,6 +199,7 @@ void KeyAddDialog::addKeys( const QList<CKey> &keys )
 	}
 	Q_EMIT updateView();
 	keyAddStatus->setText( status ? tr("Keys added successfully") : tr("Failed to add keys") );
+	QTimer::singleShot( 3*1000, keyAddStatus, SLOT(hide()) );
 }
 
 void KeyAddDialog::enableCardCert() { cardButton->setDisabled( qApp->tokenData().cert().isNull() ); }
