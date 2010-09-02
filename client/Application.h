@@ -74,7 +74,7 @@ Q_SIGNALS:
 private Q_SLOTS:
 	void closeWindow();
 	void dataChanged( const TokenData &data );
-	void parseArgs( const QString &msg );
+	void parseArgs( const QString &msg = QString() );
 
 private:
 	bool event( QEvent *e );

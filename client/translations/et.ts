@@ -84,6 +84,10 @@ Alustame laadimist?</translation>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 klient</translation>
     </message>
+    <message>
+        <source>New Window</source>
+        <translation>Uus Aken</translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>

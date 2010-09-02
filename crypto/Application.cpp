@@ -47,19 +47,23 @@
 #include <QSslCertificate>
 #include <QTranslator>
 
+#ifdef Q_OS_MAC
+void qt_mac_set_dock_menu( QMenu *menu );
+#endif
+
 class ApplicationPrivate
 {
 public:
 	ApplicationPrivate(): poller( 0 ) {}
 
-	TokenData		data;
-	QAction			*closeAction, *settingsAction;
+	TokenData	data;
+	QAction		*newWindowAction, *closeAction, *settingsAction;
 #ifdef Q_OS_MAC
-	QMenu			*menu;
-	QMenuBar		*bar;
+	QMenu		*menu;
+	QMenuBar	*bar;
 #endif
-	Poller			*poller;
-	QTranslator		*appTranslator, *commonTranslator, *qtTranslator;
+	Poller		*poller;
+	QTranslator	*appTranslator, *commonTranslator, *qtTranslator;
 };
 
 Application::Application( int &argc, char **argv )
@@ -113,11 +117,18 @@ Application::Application( int &argc, char **argv )
 	d->settingsAction->setMenuRole( QAction::PreferencesRole );
 	connect( d->settingsAction, SIGNAL(triggered()), SLOT(showSettings()) );
 
+	d->newWindowAction = new QAction( this );
+	connect( d->newWindowAction, SIGNAL(triggered()), SLOT(parseArgs()) );
+
 	d->bar = new QMenuBar;
-	d->menu = new QMenu( d->bar );
-	d->menu->addAction( d->settingsAction );
+	QMenu *macmenu = new QMenu( d->bar );
+	macmenu->addAction( d->settingsAction );
+	d->bar->addMenu( macmenu );
+	d->menu = new QMenu();
+	d->menu->addAction( d->newWindowAction );
 	d->menu->addAction( d->closeAction );
 	d->bar->addMenu( d->menu );
+	qt_mac_set_dock_menu( d->menu );
 #endif
 
 	initDigiDocLib();
@@ -190,6 +201,7 @@ void Application::loadTranslation( const QString &lang )
 	d->qtTranslator->load( ":/translations/qt_" + lang );
 	d->closeAction->setText( tr("Close") );
 #ifdef Q_OS_MAC
+	d->newWindowAction->setText( tr("New Window") );
 	d->settingsAction->setText( tr("Settings") );
 	d->menu->setTitle( tr("&File") );
 #endif

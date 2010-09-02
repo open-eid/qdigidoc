@@ -84,6 +84,10 @@ Start downloading?</source>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 клиент</translation>
     </message>
+    <message>
+        <source>New Window</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>

@@ -19,6 +19,10 @@
         <source>DigiDoc3 crypto</source>
         <translation>DigiDoc3 Krüpto</translation>
     </message>
+    <message>
+        <source>New Window</source>
+        <translation>Uus Aken</translation>
+    </message>
 </context>
 <context>
     <name>CryptoDoc</name>

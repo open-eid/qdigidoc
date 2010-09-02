@@ -19,6 +19,10 @@
         <source>DigiDoc3 crypto</source>
         <translation>DigiDoc3 Crypto</translation>
     </message>
+    <message>
+        <source>New Window</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CryptoDoc</name>
