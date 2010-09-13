@@ -69,11 +69,9 @@ MainWindow::MainWindow( const QStringList &_params )
 
 	Settings s;
 	// Mobile
-#ifndef Q_OS_WIN32
-#warning revert before release
+#ifndef DISABLE_MOBILEID_CHECKS
+	infoMobileCode->setValidator( new IKValidator( infoMobileCode ) );
 #endif
-	//disabled for testing
-	//infoMobileCode->setValidator( new IKValidator( infoMobileCode ) );
 	infoMobileCode->setText( s.value( "Client/MobileCode" ).toString() );
 	infoMobileCell->setText( s.value( "Client/MobileNumber", "+372" ).toString() );
 	connect( infoMobileCode, SIGNAL(textEdited(QString)), SLOT(enableSign()) );
@@ -479,13 +477,16 @@ void MainWindow::enableSign()
 			.arg( infoMobileCell->text() ).arg( infoMobileCode->text() ) );
 	}
 
-#ifndef Q_OS_WIN32
-#warning revert before release
-#endif
-	if( (mobile && false /*&& !IKValidator::isValid( infoMobileCode->text() )*/) ||
+#ifndef DISABLE_MOBILEID_CHECKS
+	if( (mobile && !IKValidator::isValid( infoMobileCode->text() )) ||
 		(!mobile &&
 		 !(qApp->tokenData().flags() & TokenData::PinLocked) &&
 		 !qApp->tokenData().cert().isValid()) )
+#else
+	if( !mobile &&
+		 !(qApp->tokenData().flags() & TokenData::PinLocked) &&
+		 !qApp->tokenData().cert().isValid() )
+#endif
 	{
 		signButton->setEnabled( false );
 		if( mobile )

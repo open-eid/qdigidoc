@@ -102,6 +102,11 @@ IF(WIN32)
 	SET( SOURCES ${SOURCES} qdigidocclient.rc )
 ENDIF(WIN32)
 
+set(DISABLE_MOBILEID_CHECKS "false" CACHE STRING "Disable MobileID checks for testing")
+if(DISABLE_MOBILEID_CHECKS)
+	add_definitions( -DDISABLE_MOBILEID_CHECKS )
+endif(DISABLE_MOBILEID_CHECKS)
+
 ADD_EXECUTABLE(
 	qdigidocclient
 	WIN32
