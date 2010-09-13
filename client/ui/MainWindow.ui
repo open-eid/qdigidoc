@@ -692,16 +692,15 @@ Also an active internet connection is needed.&lt;/p&gt;
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="2">
-           <widget class="QDialogButtonBox" name="signButtons">
-            <property name="standardButtons">
-             <set>QDialogButtonBox::Cancel</set>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="1">
            <widget class="QFrame" name="signSignerRole">
             <layout class="QGridLayout" name="signSignerRoleLayout">
+             <property name="margin">
+              <number>4</number>
+             </property>
+             <property name="spacing">
+              <number>4</number>
+             </property>
              <item row="1" column="0">
               <widget class="QLabel" name="signRoleLabel">
                <property name="font">
@@ -878,6 +877,12 @@ p, li { white-space: pre-wrap; }
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="signContentFrameLayoue">
+             <property name="spacing">
+              <number>4</number>
+             </property>
+             <property name="margin">
+              <number>4</number>
+             </property>
              <item>
               <widget class="TreeWidget" name="signContentView">
                <property name="frameShape">
@@ -934,6 +939,13 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
             </layout>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QDialogButtonBox" name="signButtons">
+            <property name="standardButtons">
+             <set>QDialogButtonBox::Cancel</set>
+            </property>
            </widget>
           </item>
          </layout>
