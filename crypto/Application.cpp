@@ -102,9 +102,7 @@ Application::Application( int &argc, char **argv )
 	qRegisterMetaType<QSslCertificate>("QSslCertificate");
 	qRegisterMetaType<TokenData>("TokenData");
 
-	Common *common = new Common( this );
-	QDesktopServices::setUrlHandler( "browse", common, "browse" );
-	QDesktopServices::setUrlHandler( "mailto", common, "mailTo" );
+	new Common( this );
 
 	// Actions
 	d->closeAction = new QAction( this );
