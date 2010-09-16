@@ -22,13 +22,20 @@ find_package( XercesC REQUIRED )
 find_package( XSD REQUIRED )
 find_package( Subversion )
 
-if (Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn)
-    Subversion_WC_INFO(${PROJECT_SOURCE_DIR} PROJECT)
-    message(STATUS "Current SVN revision is ${PROJECT_WC_REVISION}")
-    add_definitions(-DBUILD_VER=${PROJECT_WC_REVISION})
-else (Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn)
-    add_definitions(-DBUILD_VER=0)
-endif (Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn)
+set( MAJOR_VER 0 )
+set( MINOR_VER 1 )
+set( RELEASE_VER 0 )
+
+if( Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn )
+	Subversion_WC_INFO( ${PROJECT_SOURCE_DIR} PROJECT )
+	message( STATUS "Current SVN revision is ${PROJECT_WC_REVISION}" )
+	set( BUILD_VER ${PROJECT_WC_REVISION} )
+else( Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn )
+	set( BUILD_VER 0 )
+endif( Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn )
+
+set( VERSION ${MAJOR_VER}.${MINOR_VER}.${RELEASE_VER}.${BUILD_VER} )
+add_definitions( -DMAJOR_VER=${MAJOR_VER} -DMINOR_VER=${MINOR_VER} -DRELEASE_VER=${RELEASE_VER} -DBUILD_VER=${BUILD_VER} )
 
 set( COMMON ${CMAKE_SOURCE_DIR}/common )
 set( COMMON_RCS
