@@ -147,11 +147,11 @@ TARGET_LINK_LIBRARIES( qdigidocclient
 )
 install(TARGETS qdigidocclient DESTINATION ${BIN_INSTALL_DIR})
 
-install(FILES qdigidoc-client.desktop DESTINATION ${SHARE_INSTALL_PREFIX}/applications)
-install(FILES qdigidoc-client.xml DESTINATION ${SHARE_INSTALL_PREFIX}/mime/packages)
-
 if(UNIX AND NOT APPLE)
-    # Install icons
+	install(FILES qdigidoc-client.desktop DESTINATION ${SHARE_INSTALL_PREFIX}/applications)
+	install(FILES qdigidoc-client.xml DESTINATION ${SHARE_INSTALL_PREFIX}/mime/packages)
+
+	# Install icons
     foreach(RES 16 22 32 48 128)
         set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/mimetypes/)
         foreach(TGT application-x-bdoc.png application-x-ddoc.png application-x-p12d.png)
