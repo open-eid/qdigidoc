@@ -291,10 +291,10 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 
 void Application::showSettings( int page )
 {
-	SettingsDialog s( activeWindow() );
-	s.addAction( d->closeAction );
-	s.setPage( page );
-	s.exec();
+	SettingsDialog *s = new SettingsDialog( activeWindow() );
+	s->addAction( d->closeAction );
+	s->setPage( page );
+	s->show();
 }
 
 void Application::showWarning( const QString &msg )

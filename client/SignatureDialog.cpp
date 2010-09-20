@@ -22,6 +22,8 @@
 
 #include "SignatureDialog.h"
 
+#include "ui_SignatureDialog.h"
+
 #include <common/CertificateWidget.h>
 #include <common/Common.h>
 #include <common/SslCertificate.h>
@@ -114,7 +116,7 @@ bool SignatureWidget::isValid() const { return valid; }
 void SignatureWidget::link( const QString &url )
 {
 	if( url == "details" )
-		SignatureDialog( s, qApp->activeWindow() ).exec();
+		(new SignatureDialog( s, qApp->activeWindow() ))->show();
 	else if( url == "remove" )
 	{
 		SslCertificate c = s.cert();
@@ -129,15 +131,21 @@ void SignatureWidget::link( const QString &url )
 
 
 
+
+class SignatureDialogPrivate: public Ui::SignatureDialog {};
+
 SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *parent )
-:	QDialog( parent )
+:	QWidget( parent )
 ,	s( signature )
+,	d( new SignatureDialogPrivate )
 {
-	setupUi( this );
+	d->setupUi( this );
+	setAttribute( Qt::WA_DeleteOnClose );
+	setWindowFlags( Qt::Sheet );
 
 	const SslCertificate c = s.cert();
 	QString titleText = c.toString( c.isTempel() ? "CN serialNumber" : "GN SN serialNumber" );
-	title->setText( titleText );
+	d->title->setText( titleText );
 	setWindowTitle( titleText );
 
 	QString msg;
@@ -161,20 +169,20 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 			<< "(" << (s.lastError().isEmpty() ? tr("Unknown error") : s.lastError()) << ")";
 		break;
 	}
-	error->setText( msg );
+	d->error->setText( msg );
 
 	const QStringList l = s.locations();
-	signerCity->setText( l.value( 0 ) );
-	signerState->setText( l.value( 1 ) );
-	signerZip->setText( l.value( 2 ) );
-	signerCountry->setText( l.value( 3 ) );
+	d->signerCity->setText( l.value( 0 ) );
+	d->signerState->setText( l.value( 1 ) );
+	d->signerZip->setText( l.value( 2 ) );
+	d->signerCountry->setText( l.value( 3 ) );
 
 	QStringList roles = s.roles();
-	signerRole->setText( roles.value(0) );
-	signerResolution->setText( roles.value(1) );
+	d->signerRole->setText( roles.value(0) );
+	d->signerResolution->setText( roles.value(1) );
 
 	// Certificate info
-	QTreeWidget *t = signatureView;
+	QTreeWidget *t = d->signatureView;
 	addItem( t, tr("Signing time"), s.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature type"), c.publicKey().algorithm() == QSsl::Rsa ? "RSA" : "DSA" );
 	addItem( t, tr("Signature format"), s.mediaType() );
@@ -190,15 +198,17 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		s.type() == DigiDocSignature::TMType )
 	{
 		SslCertificate ocsp = s.ocspCert();
-		addItem( ocspView, tr("Certificate issuer"), ocsp.issuerInfo( QSslCertificate::CommonName ) );
-		addItem( ocspView, tr("Certificate serialnumber"), ocsp.serialNumber() );
-		addItem( ocspView, tr("Time"), s.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( ocspView, tr("Hash value of validity confirmation"), ocsp.toHex( s.digestValue() ) );
-		ocspView->resizeColumnToContents( 0 );
+		addItem( d->ocspView, tr("Certificate issuer"), ocsp.issuerInfo( QSslCertificate::CommonName ) );
+		addItem( d->ocspView, tr("Certificate serialnumber"), ocsp.serialNumber() );
+		addItem( d->ocspView, tr("Time"), s.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
+		addItem( d->ocspView, tr("Hash value of validity confirmation"), ocsp.toHex( s.digestValue() ) );
+		d->ocspView->resizeColumnToContents( 0 );
 	}
 	else
-		tabWidget->removeTab( 2 );
+		d->tabWidget->removeTab( 2 );
 }
+
+SignatureDialog::~SignatureDialog() { delete d; }
 
 void SignatureDialog::addItem( QTreeWidget *view, const QString &variable, const QString &value )
 {

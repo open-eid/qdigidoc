@@ -36,10 +36,12 @@
 #include <QUrl>
 
 SettingsDialog::SettingsDialog( QWidget *parent )
-:	QDialog( parent )
+:	QWidget( parent )
 ,	d( new Ui::SettingsDialog )
 {
 	d->setupUi( this );
+	setAttribute( Qt::WA_DeleteOnClose );
+	setWindowFlags( Qt::Sheet );
 	d->p12Cert->installEventFilter( this );
 
 	Settings s;
@@ -86,7 +88,7 @@ bool SettingsDialog::eventFilter( QObject *o, QEvent *e )
 			return true;
 		}
 	}
-	return QDialog::eventFilter( o, e );
+	return QWidget::eventFilter( o, e );
 }
 
 void SettingsDialog::on_p12Button_clicked()

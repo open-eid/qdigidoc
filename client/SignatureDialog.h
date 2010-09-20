@@ -22,9 +22,13 @@
 
 #pragma once
 
-#include "ui_SignatureDialog.h"
+#include <QLabel>
+#include <QWidget>
 
 #include "DigiDoc.h"
+
+class QTreeWidget;
+class SignatureDialogPrivate;
 
 class SignatureWidget: public QLabel
 {
@@ -48,12 +52,13 @@ private:
 	bool test, valid;
 };
 
-class SignatureDialog: public QDialog, private Ui::SignatureDialog
+class SignatureDialog: public QWidget
 {
 	Q_OBJECT
 
 public:
-	SignatureDialog( const DigiDocSignature &signature, QWidget *parent = 0 );
+	explicit SignatureDialog( const DigiDocSignature &signature, QWidget *parent = 0 );
+	~SignatureDialog();
 
 private Q_SLOTS:
 	void showCertificate();
@@ -64,4 +69,5 @@ private:
 	void addItem( QTreeWidget *view, const QString &variable, const QString &value );
 
 	DigiDocSignature s;
+	SignatureDialogPrivate *d;
 };

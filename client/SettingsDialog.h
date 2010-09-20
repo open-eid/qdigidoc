@@ -26,7 +26,7 @@
 
 namespace Ui { class SettingsDialog; }
 
-class SettingsDialog: public QDialog
+class SettingsDialog: public QWidget
 {
 	Q_OBJECT
 
