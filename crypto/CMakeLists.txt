@@ -103,8 +103,9 @@ if(APPLE)
     	MACOSX_BUNDLE_INFO_PLIST ${APP_CONTENTS_DIR}/Info.plist)
     
     include_directories(/Developer/Headers/FlatCarbon)
-    find_library(CARBON_LIBRARY Carbon)
-    set(EXTRA_LIBRARIES ${CARBON_LIBRARY})
+	find_library( CARBON_LIBRARY Carbon )
+	find_library( COCOA_LIBRARY Cocoa )
+	set( EXTRA_LIBRARIES ${CARBON_LIBRARY} ${COCOA_LIBRARY} )
 endif(APPLE)
 
 if(WIN32)

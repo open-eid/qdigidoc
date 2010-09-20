@@ -37,21 +37,23 @@
 #include <digidocpp/crypto/cert/DirectoryX509CertStore.h>
 
 #include <QDesktopServices>
-#ifdef Q_OS_LINUX
-#include <QFile>
-#endif
 #include <QFileInfo>
 #include <QFileOpenEvent>
-#ifdef Q_OS_MAC
-#include <QMenu>
-#include <QMenuBar>
-#endif
 #include <QMessageBox>
 #include <QPalette>
 #include <QSslCertificate>
 #include <QTranslator>
 
+#ifdef Q_OS_LINUX
+#include <QFile>
+#endif
+
 #ifdef Q_OS_MAC
+#include <common/Application_mac.h>
+
+#include <QMenu>
+#include <QMenuBar>
+
 void qt_mac_set_dock_menu( QMenu *menu );
 #endif
 
@@ -65,6 +67,7 @@ public:
 #ifdef Q_OS_MAC
 	QMenu		*menu;
 	QMenuBar	*bar;
+	bool		eventsLoaded;
 #endif
 	QSigner		*signer;
 	QTranslator	*appTranslator, *commonTranslator, *qtTranslator;
@@ -115,7 +118,8 @@ Application::Application( int &argc, char **argv )
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
 #ifdef Q_OS_MAC
-	//setQuitOnLastWindowClosed( false ); //Disable for now need to figure out how to act on cocoa kAEReopenApplication event
+	d->eventsLoaded = false;
+	setQuitOnLastWindowClosed( false );
 	d->settingsAction = new QAction( this );
 	d->settingsAction->setMenuRole( QAction::PreferencesRole );
 	connect( d->settingsAction, SIGNAL(triggered()), SLOT(showSettings()) );
@@ -216,6 +220,16 @@ bool Application::event( QEvent *e )
 {
 	switch( e->type() )
 	{
+#ifdef Q_OS_MAC
+	case QEvent::ApplicationActivate: // Load here because cocoa NSApplication overides events
+		if( !d->eventsLoaded )
+			mac_install_event_handler( this );
+		d->eventsLoaded = true;
+		return QApplication::event( e );
+	case REOpenEvent::Type:
+		parseArgs();
+		return true;
+#endif
 	case QEvent::FileOpen:
 	{
 		parseArgs( static_cast<QFileOpenEvent*>(e)->file() );
