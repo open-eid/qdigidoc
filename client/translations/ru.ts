@@ -430,6 +430,10 @@ Should I keep unsigned documents or remove these?</source>
         <source>PIN is locked</source>
         <translation>PIN заблокирован</translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

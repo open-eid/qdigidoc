@@ -444,6 +444,10 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
         <source>Wrong PIN or PIN is blocked</source>
         <translation>Неправильный PIN или PIN заблокирован</translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Poller</name>

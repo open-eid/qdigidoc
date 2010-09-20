@@ -25,9 +25,11 @@
 #include "Application.h"
 #include "KeyDialog.h"
 #include "Poller.h"
-#include "common/Common.h"
-#include "common/Settings.h"
-#include "common/TokenData.h"
+
+#include <common/AboutWidget.h>
+#include <common/Common.h>
+#include <common/Settings.h>
+#include <common/TokenData.h>
 
 #include <QDateTime>
 #include <QDesktopServices>
@@ -59,6 +61,7 @@ MainWindow::MainWindow( const QStringList &args )
 
 	buttonGroup->addButton( settings, HeadSettings );
 	buttonGroup->addButton( help, HeadHelp );
+	buttonGroup->addButton( about, HeadAbout );
 
 	buttonGroup->addButton( homeCreate, HomeCreate );
 	buttonGroup->addButton( homeView, HomeView );
@@ -199,6 +202,9 @@ void MainWindow::buttonClicked( int button )
 {
 	switch( button )
 	{
+	case HeadAbout:
+		(new AboutWidget( this ))->show();
+		break;
 	case HeadSettings:
 		qApp->showSettings();
 		break;

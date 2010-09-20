@@ -56,6 +56,7 @@ private:
 		View,
 	};
 	enum Buttons {
+		HeadAbout,
 		HeadSettings,
 		HeadHelp,
 		HomeCreate,

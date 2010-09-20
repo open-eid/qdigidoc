@@ -427,6 +427,10 @@ Should I keep unsigned documents or remove these?</numerusform>
         <source>PIN is locked</source>
         <translation>PIN Locked</translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation>About</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

@@ -22,13 +22,6 @@
 
 #include "MainWindow.h"
 
-#include "common/CheckConnection.h"
-#include "common/Common.h"
-#include "common/IKValidator.h"
-#include "common/Settings.h"
-#include "common/SslCertificate.h"
-#include "common/TokenData.h"
-
 #include "AccessCert.h"
 #include "Application.h"
 #include "MobileDialog.h"
@@ -36,6 +29,14 @@
 #include "QSigner.h"
 #include "SettingsDialog.h"
 #include "SignatureDialog.h"
+
+#include <common/AboutWidget.h>
+#include <common/CheckConnection.h>
+#include <common/Common.h>
+#include <common/IKValidator.h>
+#include <common/Settings.h>
+#include <common/SslCertificate.h>
+#include <common/TokenData.h>
 
 #include <digidocpp/Document.h>
 
@@ -83,6 +84,7 @@ MainWindow::MainWindow( const QStringList &_params )
 
 	buttonGroup->addButton( settings, HeadSettings );
 	buttonGroup->addButton( help, HeadHelp );
+	buttonGroup->addButton( about, HeadAbout );
 
 	buttonGroup->addButton( homeSign, HomeSign );
 	buttonGroup->addButton( homeView, HomeView );
@@ -242,6 +244,9 @@ void MainWindow::buttonClicked( int button )
 {
 	switch( button )
 	{
+	case HeadAbout:
+		(new AboutWidget( this ))->show();
+		break;
 	case HeadSettings:
 		qApp->showSettings();
 		break;

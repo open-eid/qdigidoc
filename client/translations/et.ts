@@ -427,6 +427,10 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <source>PIN is locked</source>
         <translation>PIN on lukus</translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation>Info</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

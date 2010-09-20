@@ -444,6 +444,10 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
         <source>Wrong PIN or PIN is blocked</source>
         <translation>Vale PIN või PIN on lukus</translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation>Info</translation>
+    </message>
 </context>
 <context>
     <name>Poller</name>
