@@ -1,4 +1,6 @@
-SET( MOC_HEADERS
+set( PROGNAME qdigidocclient )
+
+set( MOC_HEADERS
 	AccessCert.h
 	Application.h
 	DigiDoc.h
@@ -18,14 +20,14 @@ QT4_WRAP_UI( UI_HEADERS
 	ui/SettingsDialog.ui
 	ui/SignatureDialog.ui
 	)
-SET( HEADERS
+set( HEADERS
 	${MOC_HEADERS}
 	${UI_HEADERS}
 	QMobileSigner.h
 	version.h
 	)
 QT4_WRAP_CPP( MOC_SOURCES ${MOC_HEADERS} )
-SET( SOURCES
+set( SOURCES
 	${HEADERS}
 	${MOC_SOURCES}
 	main.cpp
@@ -71,28 +73,30 @@ INCLUDE_DIRECTORIES(
 	${LIBP11_INCLUDE_DIR}
 	)
 
-if(APPLE)
-    set(APP_CONTENTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/mac")
- 
-    # xCode hacks
-    include_directories(/usr/local/include/../include)
+if( APPLE )
+	# xCode hacks
+	include_directories(/usr/local/include/../include)
 
-    # Bundle resources
-    file(GLOB_RECURSE RESOURCE_FILES
-        ${APP_CONTENTS_DIR}/Resources/*.icns
-        ${APP_CONTENTS_DIR}/Resources/**/*.strings)
+	# Bundle resources
+	set( APP_CONTENTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/mac" )
 
-    foreach(_file ${RESOURCE_FILES})
-        get_filename_component(_file_dir ${_file} PATH)
-        file(RELATIVE_PATH _file_dir ${APP_CONTENTS_DIR}/Resources ${_file_dir})
-        set_source_files_properties(${_file} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources/${_file_dir}" )
-    endforeach(_file)
-    
-    include_directories(/Developer/Headers/FlatCarbon)
+	configure_file( ${APP_CONTENTS_DIR}/Info.plist.cmake ${CMAKE_CURRENT_BINARY_DIR}/mac/Info.plist @ONLY )
+
+	file( GLOB_RECURSE RESOURCE_FILES
+		${APP_CONTENTS_DIR}/Resources/*.icns
+		${APP_CONTENTS_DIR}/Resources/**/*.strings )
+
+	foreach( _file ${RESOURCE_FILES} )
+		get_filename_component( _file_dir ${_file} PATH )
+		file( RELATIVE_PATH _file_dir ${APP_CONTENTS_DIR}/Resources ${_file_dir} )
+		set_source_files_properties( ${_file} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources/${_file_dir}" )
+	endforeach( _file )
+
+	include_directories( /Developer/Headers/FlatCarbon )
 	find_library( CARBON_LIBRARY Carbon )
 	find_library( COCOA_LIBRARY Cocoa )
 	set( EXTRA_LIBRARIES ${CARBON_LIBRARY} ${COCOA_LIBRARY} )
-endif(APPLE)
+endif( APPLE )
 
 if(MSVC)
 	# disable warning C4290: C++ exception specification ignored
@@ -108,8 +112,8 @@ if(DISABLE_MOBILEID_CHECKS)
 	add_definitions( -DDISABLE_MOBILEID_CHECKS )
 endif(DISABLE_MOBILEID_CHECKS)
 
-ADD_EXECUTABLE(
-	qdigidocclient
+add_executable(
+	${PROGNAME}
 	WIN32
 	MACOSX_BUNDLE
 	${SOURCES}
@@ -118,24 +122,18 @@ ADD_EXECUTABLE(
 	${RESOURCE_FILES}
 	)
 
-if(APPLE)
-    configure_file(
-        ${APP_CONTENTS_DIR}/Info.plist.cmake
-        ${APP_CONTENTS_DIR}/Info.plist
-        @ONLY)
-
-    set_target_properties(qdigidocclient
+if( APPLE )
+	set_target_properties( ${PROGNAME}
     	PROPERTIES
-    	MACOSX_BUNDLE_INFO_PLIST ${APP_CONTENTS_DIR}/Info.plist)
-endif(APPLE)
-
-if(WIN32)
-	SET_TARGET_PROPERTIES(qdigidocclient
+		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/mac/Info.plist )
+endif( APPLE )
+if( WIN32 )
+	set_target_properties( ${PROGNAME}
 		PROPERTIES
-		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"")
-endif(WIN32)
+		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
+endif( WIN32 )
 
-TARGET_LINK_LIBRARIES( qdigidocclient
+target_link_libraries( ${PROGNAME}
 	${QT_QTMAIN_LIBRARY}
 	${QT_LIBRARIES}
 	${LIBDIGIDOCPP_LIBRARY}
@@ -146,7 +144,7 @@ TARGET_LINK_LIBRARIES( qdigidocclient
 	qdigidoccommon
 	qtsingleapplication
 )
-install(TARGETS qdigidocclient DESTINATION ${BIN_INSTALL_DIR})
+install( TARGETS ${PROGNAME} DESTINATION ${BIN_INSTALL_DIR} )
 
 if(UNIX AND NOT APPLE)
 	install(FILES qdigidoc-client.desktop DESTINATION ${SHARE_INSTALL_PREFIX}/applications)
