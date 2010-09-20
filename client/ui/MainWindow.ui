@@ -78,7 +78,7 @@ QPushButton:disabled
 { background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #A3AFC0, stop: 0.75 #80909D); }
 
 /* header */
-#headerLine, #headerLine2
+#headerLine, #headerLine2, #headerLine3
 { background-color: #00355F; }
 
 #cards, #languages
@@ -102,7 +102,7 @@ color: #355670;
 #cards::drop-down, #languages::drop-down
 { border: 0px; }
 
-#settings, #help
+#settings, #help, #about
 {
 background-color: #00355F;
 color: #afc6d1;
@@ -194,15 +194,6 @@ padding: 5px;
         </item>
         <item>
          <widget class="QPushButton" name="settings">
-          <property name="font">
-           <font>
-            <family>Arial, Liberation Sans</family>
-            <pointsize>-1</pointsize>
-            <weight>75</weight>
-            <italic>false</italic>
-            <bold>true</bold>
-           </font>
-          </property>
           <property name="text">
            <string>Settings</string>
           </property>
@@ -226,15 +217,6 @@ padding: 5px;
         </item>
         <item>
          <widget class="QPushButton" name="help">
-          <property name="font">
-           <font>
-            <family>Arial, Liberation Sans</family>
-            <pointsize>-1</pointsize>
-            <weight>75</weight>
-            <italic>false</italic>
-            <bold>true</bold>
-           </font>
-          </property>
           <property name="text">
            <string>Help</string>
           </property>
@@ -242,6 +224,29 @@ padding: 5px;
         </item>
         <item>
          <widget class="Line" name="headerLine2">
+          <property name="maximumSize">
+           <size>
+            <width>2</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="about">
+          <property name="text">
+           <string>About</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="headerLine3">
           <property name="maximumSize">
            <size>
             <width>2</width>
@@ -363,7 +368,7 @@ padding: 5px;
            <item>
             <widget class="QStackedWidget" name="infoStack">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QLabel" name="infoCard">
               <property name="font">
@@ -589,7 +594,7 @@ padding: 5px;
             <item>
              <widget class="QLabel" name="label">
               <property name="pixmap">
-               <pixmap resource="../images/images.qrc">:/images/EL_Regionaalareng_horisontaal.png</pixmap>
+               <pixmap>:/images/EL_Regionaalareng_horisontaal.png</pixmap>
               </property>
              </widget>
             </item>
@@ -1004,8 +1009,8 @@ p, li { white-space: pre-wrap; }
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>288</width>
-               <height>209</height>
+               <width>88</width>
+               <height>18</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="viewSignaturesLayout">
