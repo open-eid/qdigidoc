@@ -22,26 +22,35 @@
 
 #include "SettingsDialog.h"
 
-#include <common/Settings.h>
+#include "ui_SettingsDialog.h"
 #include "version.h"
+
+#include <common/Settings.h>
 
 #include <QDesktopServices>
 #include <QFileDialog>
 
+class SettingsDialogPrivate: public Ui::SettingsDialog {};
+
 SettingsDialog::SettingsDialog( QWidget *parent )
-:	QDialog( parent )
+:	QWidget( parent )
+,	d( new SettingsDialogPrivate )
 {
-	setupUi( this );
+	d->setupUi( this );
+	setAttribute( Qt::WA_DeleteOnClose );
+	setWindowFlags( Qt::Sheet );
 
 	Settings s;
 	s.beginGroup( "Crypto" );
 
-	defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
-	defaultDir->setText( s.value( "DefaultDir" ).toString() );
-	showIntro->setChecked( s.value( "Intro", true ).toBool() );
-	askSaveAs->setChecked( s.value( "AskSaveAs", false ).toBool() );
+	d->defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
+	d->defaultDir->setText( s.value( "DefaultDir" ).toString() );
+	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
+	d->askSaveAs->setChecked( s.value( "AskSaveAs", false ).toBool() );
 	s.endGroup();
 }
+
+SettingsDialog::~SettingsDialog() { delete d; }
 
 void SettingsDialog::on_selectDefaultDir_clicked()
 {
@@ -52,20 +61,20 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 	if( !dir.isEmpty() )
 	{
 		Settings().setValue( "Crypto/DefaultDir", dir );
-		defaultDir->setText( dir );
+		d->defaultDir->setText( dir );
 	}
-	defaultSameDir->setChecked( defaultDir->text().isEmpty() );
+	d->defaultSameDir->setChecked( d->defaultDir->text().isEmpty() );
 }
 
 void SettingsDialog::save()
 {
 	Settings s;
 	s.beginGroup( "Crypto" );
-	s.setValue( "Intro", showIntro->isChecked() );
-	s.setValue( "AskSaveAs", askSaveAs->isChecked() );
-	if( defaultSameDir->isChecked() )
+	s.setValue( "Intro", d->showIntro->isChecked() );
+	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
+	if( d->defaultSameDir->isChecked() )
 	{
-		defaultDir->clear();
+		d->defaultDir->clear();
 		s.remove( "DefaultDir" );
 	}
 	s.endGroup();

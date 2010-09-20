@@ -231,9 +231,9 @@ Poller* Application::poller() const { return d->poller; }
 
 void Application::showSettings()
 {
-	SettingsDialog s( activeWindow() );
-	s.addAction( d->closeAction );
-	s.exec();
+	SettingsDialog *s = new SettingsDialog( activeWindow() );
+	s->addAction( d->closeAction );
+	s->show();
 }
 
 void Application::showWarning( const QString &msg )

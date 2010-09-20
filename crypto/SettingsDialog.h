@@ -22,18 +22,21 @@
 
 #pragma once
 
-#include "ui_SettingsDialog.h"
+#include <QWidget>
 
-#include <QSettings>
-
-class SettingsDialog: public QDialog, private Ui::SettingsDialog
+class SettingsDialogPrivate;
+class SettingsDialog: public QWidget
 {
 	Q_OBJECT
 
 public:
-	SettingsDialog( QWidget *parent = 0 );
+	explicit SettingsDialog( QWidget *parent = 0 );
+	~SettingsDialog();
 
 private Q_SLOTS:
 	void on_selectDefaultDir_clicked();
 	void save();
+
+private:
+	SettingsDialogPrivate *d;
 };
