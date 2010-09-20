@@ -1111,6 +1111,9 @@ color: red;</string>
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="viewContentFrameLayout">
+             <property name="margin">
+              <number>4</number>
+             </property>
              <item>
               <widget class="TreeWidget" name="viewContentView">
                <property name="frameShape">
