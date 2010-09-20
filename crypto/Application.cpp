@@ -110,7 +110,7 @@ Application::Application( int &argc, char **argv )
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
 #ifdef Q_OS_MAC
-	setQuitOnLastWindowClosed( false );
+	//setQuitOnLastWindowClosed( false ); //Disable for now need to figure out how to act on cocoa kAEReopenApplication event
 	d->settingsAction = new QAction( this );
 	d->settingsAction->setMenuRole( QAction::PreferencesRole );
 	connect( d->settingsAction, SIGNAL(triggered()), SLOT(showSettings()) );
