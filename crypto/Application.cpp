@@ -100,7 +100,7 @@ Application::Application( int &argc, char **argv )
 	p.setBrush( QPalette::Link, QBrush( "#E99401" ) );
 	p.setBrush( QPalette::LinkVisited, QBrush( "#E99401" ) );
 	setPalette( p );
-	setWindowIcon( QIcon( ":/images/crypto_48x48.png" ) );
+	setWindowIcon( QIcon( ":/images/crypto_128x128.png" ) );
 
 	qRegisterMetaType<QSslCertificate>("QSslCertificate");
 	qRegisterMetaType<TokenData>("TokenData");

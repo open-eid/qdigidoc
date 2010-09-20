@@ -1,6 +1,6 @@
 <RCC>
   <qresource prefix="images" >
     <file >background.png</file>
-    <file >crypto_48x48.png</file>
+	<file >crypto_128x128.png</file>
   </qresource>
 </RCC>
