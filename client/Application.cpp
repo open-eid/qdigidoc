@@ -227,7 +227,8 @@ bool Application::event( QEvent *e )
 		d->eventsLoaded = true;
 		return QApplication::event( e );
 	case REOpenEvent::Type:
-		parseArgs();
+		if( !activeWindow() )
+			parseArgs();
 		return true;
 #endif
 	case QEvent::FileOpen:
