@@ -5,10 +5,6 @@ set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules" )
 
 include( InstallSettings )
 
-if(PKCS11_MODULE)
-    add_definitions(-DPKCS11_MODULE="${PKCS11_MODULE}")
-endif(PKCS11_MODULE)
-
 find_package( Ldap REQUIRED )
 find_package( LibDigiDoc REQUIRED )
 find_package( LibDigiDocpp REQUIRED )
@@ -17,6 +13,7 @@ find_package( OpenSSL REQUIRED )
 if( ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 2.8 )
 find_package( OpenSSLCrypto REQUIRED )
 endif( ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 2.8 )
+find_package( PKCS11 REQUIRED )
 find_package( Qt4 4.4.0 COMPONENTS QtCore QtGui QtNetwork QtWebkit QtXml REQUIRED )
 find_package( XercesC REQUIRED )
 find_package( XSD REQUIRED )
@@ -36,6 +33,7 @@ endif( Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn )
 
 set( VERSION ${MAJOR_VER}.${MINOR_VER}.${RELEASE_VER}.${BUILD_VER} )
 add_definitions( -DMAJOR_VER=${MAJOR_VER} -DMINOR_VER=${MINOR_VER} -DRELEASE_VER=${RELEASE_VER} -DBUILD_VER=${BUILD_VER} )
+add_definitions( -DPKCS11_MODULE="${PKCS11_MODULE}" )
 
 set( COMMON ${CMAKE_SOURCE_DIR}/common )
 set( COMMON_RCS
