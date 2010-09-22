@@ -143,6 +143,12 @@ Start downloading?</translation>
         <source>Server access certificate is required</source>
         <translation>Server access certificate is required</translation>
     </message>
+    <message>
+        <source>This file is in old format and it is not advised to add digital signatures in that file.
+This old format is supported &quot;as is&quot; and is not fully tested.</source>
+        <translation>This file is in old format and it is not advised to add digital signatures in that file.
+This old format is supported &quot;as is&quot; and is not fully tested.</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>

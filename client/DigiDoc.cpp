@@ -223,14 +223,15 @@ void DigiDocSignature::setLastError( const Exception &e )
 
 DigiDocSignature::SignatureType DigiDocSignature::type() const
 {
-	if( s->getMediaType().compare( "signature/bdoc-1.0/TM" ) == 0 )
+	const std::string ver = s->getMediaType();
+	if( ver.compare( "signature/bdoc-1.0/TM" ) == 0 )
 		return TMType;
-	if( s->getMediaType().compare( "signature/bdoc-1.0/TS" ) == 0 )
+	if( ver.compare( "signature/bdoc-1.0/TS" ) == 0 )
 		return TSType;
-	if( s->getMediaType().compare( "signature/bdoc-1.0/BES" ) == 0 )
+	if( ver.compare( "signature/bdoc-1.0/BES" ) == 0 )
 		return BESType;
-	if( s->getMediaType().compare( 0, 11, "DIGIDOC-XML" ) == 0 ||
-		s->getMediaType().compare( 0, 6, "SK-XML" ) == 0 )
+	if( ver.compare( 0, 11, "DIGIDOC-XML" ) == 0 ||
+		ver.compare( 0, 6, "SK-XML" ) == 0 )
 		return DDocType;
 	return UnknownType;
 }
@@ -339,6 +340,18 @@ bool DigiDoc::open( const QString &file )
 	try
 	{
 		b = new WDoc( to(file) );
+		if( b->documentType() == WDoc::DDocType && b->signatureCount() )
+		{
+			std::string ver = b->getSignature( 0 )->getMediaType();
+			if( ver.compare( 0, 6, "SK-XML" ) == 0 ||
+				ver.compare( 0, 15, "DIGIDOC-XML/1.1" ) == 0 ||
+				ver.compare( 0, 15, "DIGIDOC-XML/1.2" ) == 0 )
+			{
+				Q_EMIT error( tr(
+					"This file is in old format and it is not advised to add digital signatures in that file.\n"
+					"This old format is supported \"as is\" and is not fully tested.") );
+			}
+		}
 		return true;
 	}
 	catch( const Exception &e )
