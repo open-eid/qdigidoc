@@ -49,9 +49,7 @@ LdapSearch::~LdapSearch() { if( ldap ) ldap_unbind_s( ldap ); }
 
 void LdapSearch::search( const QString &search )
 {
-	char *attrs[3] = {
-		const_cast<char*>("cn"),
-		const_cast<char*>("userCertificate;binary"), '\0' };
+	char *attrs[] = { const_cast<char*>("userCertificate;binary"), '\0' };
 
 	int err = ldap_search_ext( ldap, "c=EE", LDAP_SCOPE_SUBTREE,
 		const_cast<char*>(search.toUtf8().constData()), attrs, 0, NULL, NULL, NULL, 0, &msg_id );
@@ -111,22 +109,15 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 		char *attr = ldap_first_attribute( ldap, entry, &pos );
 		do
 		{
-			if( qstrcmp( attr, "cn" ) == 0 )
-				name = ldap_get_values( ldap, entry, attr );
-			else if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
+			if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
 				cert = ldap_get_values_len( ldap, entry, attr );
 			ldap_memfree( attr );
 		}
 		while( (attr = ldap_next_attribute( ldap, entry, pos ) ) );
 		ber_free( pos, 0 );
 
-		if( ldap_count_values(name) && ldap_count_values_len(cert) )
-		{
-			CKey key;
-			key.cert = QSslCertificate( QByteArray( cert[0]->bv_val, cert[0]->bv_len ), QSsl::Der );
-			key.recipient = QString::fromUtf8( name[0] );
-			list << key;
-		}
+		if( ldap_count_values_len(cert) )
+			list << CKey( QSslCertificate( QByteArray( cert[0]->bv_val, cert[0]->bv_len ), QSsl::Der ) );
 
 		ldap_value_free( name );
 		ldap_value_free_len( cert );
