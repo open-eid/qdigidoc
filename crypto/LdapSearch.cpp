@@ -103,7 +103,6 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 	QList<CKey> list;
 	do
 	{
-		char **name = 0;
 		berval **cert = 0;
 		BerElement *pos;
 		char *attr = ldap_first_attribute( ldap, entry, &pos );
@@ -119,7 +118,6 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 		if( ldap_count_values_len(cert) )
 			list << CKey( QSslCertificate( QByteArray( cert[0]->bv_val, cert[0]->bv_len ), QSsl::Der ) );
 
-		ldap_value_free( name );
 		ldap_value_free_len( cert );
 	}
 	while( (entry = ldap_next_entry( ldap, entry )) );
