@@ -65,6 +65,25 @@ private:
 	CKey k;
 };
 
+class KeyModel: public QAbstractTableModel
+{
+	Q_OBJECT
+
+public:
+	KeyModel( QObject *parent = 0 );
+
+	int columnCount( const QModelIndex &index = QModelIndex() ) const;
+	QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+	QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
+	int rowCount( const QModelIndex &index = QModelIndex() ) const;
+
+	void clear();
+	CKey key( const QModelIndex &index ) const;
+	void load( const QList<CKey> &result );
+
+private:
+	QList<CKey> skKeys;
+};
 
 class KeyAddDialog: public QWidget, private Ui::KeyAddDialog
 {
@@ -97,6 +116,6 @@ private:
 	QPushButton *cardButton;
 	CryptoDoc	*doc;
 	IKValidator *validator;
+	KeyModel	*keyModel;
 	LdapSearch	*ldap;
-	QList<CKey> skKeys;
 };

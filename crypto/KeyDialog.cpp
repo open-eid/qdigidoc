@@ -106,6 +106,69 @@ void KeyDialog::showCertificate()
 
 
 
+KeyModel::KeyModel( QObject *parent )
+:	QAbstractTableModel( parent )
+{}
+
+void KeyModel::clear()
+{ skKeys.clear(); reset(); }
+
+int KeyModel::columnCount( const QModelIndex &index ) const
+{ return index.isValid() ? 0 : 3; }
+
+QVariant KeyModel::headerData( int section, Qt::Orientation orientation, int role ) const
+{
+	if( role != Qt::DisplayRole || orientation == Qt::Vertical )
+		return QString();
+	switch( section )
+	{
+	case 0: return tr("Owner");
+	case 1: return tr("Issuer");
+	case 2: return tr("Expiry date");
+	default: return QString();
+	}
+}
+
+QVariant KeyModel::data( const QModelIndex &index, int role ) const
+{
+	if( !index.isValid() && index.row() >= skKeys.count() )
+		return QVariant();
+
+	CKey k = skKeys[index.row()];
+	switch( role )
+	{
+	case Qt::DisplayRole:
+		switch( index.column() )
+		{
+		case 0: return k.recipient;
+		case 1: return k.cert.issuerInfo( QSslCertificate::CommonName );
+		case 2: return k.cert.expiryDate().toLocalTime().toString( "dd.MM.yyyy" );
+		default: break;
+		}
+	case Qt::UserRole:
+		return SslCertificate( k.cert ).isTempel();
+	default: break;
+	}
+	return QVariant();
+}
+
+CKey KeyModel::key(const QModelIndex &index) const
+{ return skKeys.value( index.column() ); }
+
+void KeyModel::load( const QList<CKey> &result )
+{
+	skKeys.clear();
+	Q_FOREACH( const CKey &k, result )
+		if( SslCertificate( k.cert ).keyUsage().contains( SslCertificate::DataEncipherment ) )
+			skKeys << k;
+	reset();
+}
+
+int KeyModel::rowCount( const QModelIndex &index ) const
+{ return index.isValid() ? 0 : skKeys.count(); }
+
+
+
 KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 :	QWidget( parent )
 ,	doc( _doc )
@@ -121,6 +184,7 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 	connect( doc, SIGNAL(dataChanged()), SLOT(enableCardCert()) );
 	enableCardCert();
 
+	skView->setModel( keyModel = new KeyModel( this ) );
 	skView->header()->setStretchLastSection( false );
 	skView->header()->setResizeMode( 0, QHeaderView::Stretch );
 	skView->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
@@ -246,8 +310,8 @@ void KeyAddDialog::on_add_clicked()
 	QList<CKey> keys;
 	Q_FOREACH( const QModelIndex &index, skView->selectionModel()->selectedRows() )
 	{
-		const CKey k = skKeys.value( index.row() );
-		keys << skKeys.value( index.row() );
+		const CKey k = keyModel->key( index );
+		keys << k;
 		if( usedView->findItems( k.recipient, Qt::MatchExactly ).isEmpty() )
 		{
 			QTreeWidgetItem *i = new QTreeWidgetItem( usedView );
@@ -279,7 +343,7 @@ void KeyAddDialog::on_search_clicked()
 	}
 	else
 	{
-		skView->clear();
+		keyModel->clear();
 		add->setEnabled( false );
 		disableSearch( true );
 		if( searchType->currentIndex() == 0 )
@@ -295,7 +359,7 @@ void KeyAddDialog::on_searchType_currentIndexChanged( int index )
 		searchContent->setValidator( validator );
 	else
 		searchContent->setValidator( 0 );
-	skView->clear();
+	keyModel->clear();
 	searchContent->clear();
 	searchContent->setFocus();
 }
@@ -339,26 +403,12 @@ void KeyAddDialog::showError( const QString &msg )
 
 void KeyAddDialog::showResult( const QList<CKey> &result )
 {
-	skKeys.clear();
-
-	Q_FOREACH( const CKey &k, result )
-	{
-		if( !SslCertificate( k.cert ).keyUsage().contains( SslCertificate::DataEncipherment ) )
-			continue;
-
-		skKeys << k;
-		QTreeWidgetItem *i = new QTreeWidgetItem( skView );
-		i->setText( 0, k.recipient );
-		i->setText( 1, k.cert.issuerInfo( QSslCertificate::CommonName ) );
-		i->setText( 2, k.cert.expiryDate().toLocalTime().toString( "dd.MM.yyyy" ) );
-		i->setData( 0, Qt::UserRole, SslCertificate( k.cert ).isTempel() );
-		skView->addTopLevelItem( i );
-	}
+	keyModel->load( result );
 
 	disableSearch( false );
 	add->setEnabled( true );
 
-	if( !skKeys.isEmpty() )
+	if( keyModel->rowCount() )
 	{
 		skView->setCurrentIndex( skView->model()->index( 0, 0 ) );
 		add->setFocus();
