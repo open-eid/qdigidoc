@@ -56,28 +56,13 @@
         </layout>
        </item>
        <item>
-        <widget class="QTreeWidget" name="skView">
+        <widget class="QTreeView" name="skView">
          <property name="horizontalScrollBarPolicy">
           <enum>Qt::ScrollBarAlwaysOff</enum>
          </property>
          <property name="rootIsDecorated">
           <bool>false</bool>
          </property>
-         <column>
-          <property name="text">
-           <string>Owner</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Issuer</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Expiry date</string>
-          </property>
-         </column>
         </widget>
        </item>
        <item>

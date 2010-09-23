@@ -25,6 +25,17 @@
     </message>
 </context>
 <context>
+    <name>CKey</name>
+    <message>
+        <source>ID-CARD</source>
+        <translation>ID-KAART</translation>
+    </message>
+    <message>
+        <source>DIGI-ID</source>
+        <translation>DIGI-ID</translation>
+    </message>
+</context>
+<context>
     <name>CryptoDoc</name>
     <message>
         <source>Container is not open</source>
@@ -239,6 +250,21 @@
     <message>
         <source>Key</source>
         <translation>Adressaat</translation>
+    </message>
+</context>
+<context>
+    <name>KeyModel</name>
+    <message>
+        <source>Owner</source>
+        <translation>Omanik</translation>
+    </message>
+    <message>
+        <source>Issuer</source>
+        <translation>Väljaandja</translation>
+    </message>
+    <message>
+        <source>Expiry date</source>
+        <translation>Aegumiskuupäev</translation>
     </message>
 </context>
 <context>
