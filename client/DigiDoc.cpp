@@ -357,7 +357,7 @@ bool DigiDoc::open( const QString &file )
 	catch( const Exception &e )
 	{
 		QStringList causes;
-		Exception::ExceptionCode code = Exception::ExceptionCode;
+		Exception::ExceptionCode code = Exception::NoException;
 		parseException( e, causes, code );
 		Q_EMIT error( tr("An error occurred while opening the document.<br />%1").arg( causes.join("\n") ) );
 	}

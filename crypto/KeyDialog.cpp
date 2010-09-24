@@ -119,13 +119,13 @@ int KeyModel::columnCount( const QModelIndex &index ) const
 QVariant KeyModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
 	if( role != Qt::DisplayRole || orientation == Qt::Vertical )
-		return QString();
+		return QVariant();
 	switch( section )
 	{
 	case 0: return tr("Owner");
 	case 1: return tr("Issuer");
 	case 2: return tr("Expiry date");
-	default: return QString();
+	default: return QVariant();
 	}
 }
 
