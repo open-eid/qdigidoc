@@ -88,10 +88,12 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 			Application::confValue( Application::ProxyPass ) ) );
 	}
 
+	/*
 	if ( m_doc->documentType() == digidoc::WDoc::BDocType )
-		request.setUrl( QUrl( Settings().value("Client/bdocurl", "https://www.sk.ee:8097").toString() ) );
+		request.setUrl( QUrl( Settings().value("Client/bdocurl", "https://digidocservice.sk.ee").toString() ) );
 	else
-		request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
+	*/
+	request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
 
 	QString certFile = Application::confValue( Application::PKCS12Cert );
 	if( certFile.isEmpty() || !QFile::exists( certFile ) )
@@ -305,7 +307,7 @@ bool MobileDialog::getFiles()
 		QString name = "sha1";
 		if ( m_doc->documentType() == digidoc::WDoc::BDocType )
 		{
-			std::auto_ptr<digidoc::Digest> calc = digidoc::Digest::create();
+			std::auto_ptr<digidoc::Digest> calc = digidoc::Digest::create( NID_sha1 );
 			std::vector<unsigned char> d;
 			try {
 				 d = file.calcDigest( calc.get() );
