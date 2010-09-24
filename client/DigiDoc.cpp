@@ -357,7 +357,7 @@ bool DigiDoc::open( const QString &file )
 	catch( const Exception &e )
 	{
 		QStringList causes;
-		Exception::ExceptionCode code;
+		Exception::ExceptionCode code = Exception::ExceptionCode;
 		parseException( e, causes, code );
 		Q_EMIT error( tr("An error occurred while opening the document.<br />%1").arg( causes.join("\n") ) );
 	}
@@ -418,7 +418,7 @@ void DigiDoc::save()
 void DigiDoc::setLastError( const Exception &e )
 {
 	QStringList causes;
-	Exception::ExceptionCode code;
+	Exception::ExceptionCode code = Exception::NoException;
 	parseException( e, causes, code );
 	switch( code )
 	{
@@ -464,7 +464,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 	catch( const Exception &e )
 	{
 		QStringList causes;
-		Exception::ExceptionCode code;
+		Exception::ExceptionCode code = Exception::NoException;
 		parseException( e, causes, code );
 		if( code == Exception::PINIncorrect )
 		{
