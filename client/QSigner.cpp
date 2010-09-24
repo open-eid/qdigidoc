@@ -261,14 +261,13 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		if( d->slot->token->secureLogin )
 		{
 			d->login = true;
-			PinDialog *p = new PinDialog( PinDialog::Pin2PinpadType, d->cert, d->flags, qApp->activeWindow() );
-			p->show();
+			PinDialog p( PinDialog::Pin2PinpadType, d->cert, d->flags, qApp->activeWindow() );
+			p.open();
 			do
 			{
 				wait( 1 );
 				qApp->processEvents();
 			} while( d->login );
-			delete p;
 			err = d->loginResult;
 		}
 		else
