@@ -160,21 +160,25 @@ QString DigiDocSignature::mediaType() const
 
 QSslCertificate DigiDocSignature::ocspCert() const
 {
+	X509 *x = 0;
 	try
 	{
 		switch( type() )
 		{
 		case TMType:
-			return SslCertificate::fromX509( Qt::HANDLE(
-				static_cast<const SignatureTM*>(s)->getOCSPCertificate().getX509()) );
+			x = static_cast<const SignatureTM*>(s)->getOCSPCertificate().getX509();
+			break;
 		case DDocType:
-			return SslCertificate::fromX509( Qt::HANDLE(
-				static_cast<const SignatureDDOC*>(s)->getOCSPCertificate().getX509()) );
-		default: return QSslCertificate();
+			x = static_cast<const SignatureDDOC*>(s)->getOCSPCertificate().getX509();
+			break;
+		default: break;
 		}
 	}
 	catch( const Exception & ) {}
-		return QSslCertificate();
+
+	QSslCertificate c = SslCertificate::fromX509( Qt::HANDLE(x) );
+	X509_free( x );
+	return c;
 }
 
 DigiDoc* DigiDocSignature::parent() const { return m_parent; }
