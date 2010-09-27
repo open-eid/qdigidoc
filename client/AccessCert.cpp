@@ -25,9 +25,10 @@
 #include "Application.h"
 #include "QSigner.h"
 
-#include "common/SslCertificate.h"
-#include "common/sslConnect.h"
-#include "common/TokenData.h"
+#include <common/Settings.h>
+#include <common/SslCertificate.h>
+#include <common/sslConnect.h>
+#include <common/TokenData.h>
 
 #include <QDateTime>
 #include <QDesktopServices>
@@ -161,6 +162,8 @@ bool AccessCert::showWarning2( const QString &msg )
 
 bool AccessCert::validate()
 {
+	if( Settings().value( "Client/ignoreP12", false ).toBool() )
+		return true;
 	m_cert = Application::confValue( Application::PKCS12Cert );
 	m_pass = Application::confValue( Application::PKCS12Pass );
 

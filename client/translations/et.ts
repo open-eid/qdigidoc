@@ -826,6 +826,10 @@ Palun kontrollige juurdepääsutõendi olemasolu.</translation>
         <source>Invalid password</source>
         <translation>Vigane parool</translation>
     </message>
+    <message>
+        <source>Ignore PKCS#12 certificate (IP based access)</source>
+        <translation>Ignoreeri juurdepääsutõendit (IP põhine ligipääs)</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

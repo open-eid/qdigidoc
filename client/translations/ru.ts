@@ -828,6 +828,10 @@ Please check your server access sertificate.</source>
         <source>Invalid password</source>
         <translation>Ошибочная пароль</translation>
     </message>
+    <message>
+        <source>Ignore PKCS#12 certificate (IP based access)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

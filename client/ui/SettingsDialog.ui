@@ -217,6 +217,13 @@
         </layout>
        </item>
        <item row="3" column="1">
+        <widget class="QCheckBox" name="p12Ignore">
+         <property name="text">
+          <string>Ignore PKCS#12 certificate (IP based access)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
         <spacer name="tabPKCS12Spacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -728,6 +735,22 @@
     </hint>
     <hint type="destinationlabel">
      <x>231</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>p12Ignore</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>236</x>
+     <y>138</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>233</x>
      <y>157</y>
     </hint>
    </hints>

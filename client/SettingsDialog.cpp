@@ -71,6 +71,7 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->proxyPass->setText( Application::confValue( Application::ProxyPass ) );
 	d->p12Cert->setText( Application::confValue( Application::PKCS12Cert ) );
 	d->p12Pass->setText( Application::confValue( Application::PKCS12Pass ) );
+	d->p12Ignore->setChecked( s.value( "ignoreP12", false ).toBool() );
 
 	s.endGroup();
 }
@@ -158,6 +159,7 @@ void SettingsDialog::save()
 	Application::setConfValue( Application::ProxyPass, d->proxyPass->text() );
 	Application::setConfValue( Application::PKCS12Cert, d->p12Cert->text() );
 	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
+	s.setValue( "ignoreP12", d->p12Ignore->isChecked() );
 
 	s.endGroup();
 
