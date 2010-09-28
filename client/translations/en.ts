@@ -711,6 +711,10 @@ Please check your server access sertificate.</translation>
         <source>Invalid password</source>
         <translation>Invalid password</translation>
     </message>
+    <message>
+        <source>PKCS12 Certificate error: %1</source>
+        <translation>PKCS12 Certificate error: %1</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
@@ -825,6 +829,10 @@ Please check your server access sertificate.</translation>
     <message>
         <source>Invalid password</source>
         <translation>Invalid password</translation>
+    </message>
+    <message>
+        <source>PKCS12 Certificate error: %1</source>
+        <translation>PKCS12 Certificate error: %1</translation>
     </message>
     <message>
         <source>Ignore PKCS#12 certificate (IP based access)</source>

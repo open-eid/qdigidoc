@@ -190,7 +190,7 @@ bool AccessCert::validate()
 	{
 		PKCS12Certificate p12Cert( &f, m_pass.toLatin1() );
 
-		if( p12Cert.error() == PKCS12Certificate::InvalidPassword )
+		if( p12Cert.error() == PKCS12Certificate::InvalidPasswordError )
 		{
 			if( showWarning2( tr("Server access certificate password is not valid!\nStart downloading?") ) )
 			{

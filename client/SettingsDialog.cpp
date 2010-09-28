@@ -216,11 +216,14 @@ void SettingsDialog::validateP12Cert()
 	PKCS12Certificate cert( &f, d->p12Pass->text().toLatin1() );
 	switch( cert.error() )
 	{
-	case PKCS12Certificate::InvalidPassword:
+	case PKCS12Certificate::NullError:
+		d->showP12Cert->setEnabled( !cert.isNull() );
+		break;
+	case PKCS12Certificate::InvalidPasswordError:
 		d->p12Error->setText( tr("Invalid password") );
 		break;
 	default:
-		d->showP12Cert->setEnabled( !cert.isNull() );
+		d->p12Error->setText( tr("PKCS12 Certificate error: %1").arg( cert.errorString() ) );
 		break;
 	}
 }

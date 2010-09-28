@@ -711,6 +711,10 @@ Palun kontrollige juurdepääsutõendi olemasolu.</translation>
         <source>Invalid password</source>
         <translation>Vigane parool</translation>
     </message>
+    <message>
+        <source>PKCS12 Certificate error: %1</source>
+        <translation>Ligipääsutõendi viga: %1</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
@@ -825,6 +829,10 @@ Palun kontrollige juurdepääsutõendi olemasolu.</translation>
     <message>
         <source>Invalid password</source>
         <translation>Vigane parool</translation>
+    </message>
+    <message>
+        <source>PKCS12 Certificate error: %1</source>
+        <translation>Ligipääsutõendi viga: %1</translation>
     </message>
     <message>
         <source>Ignore PKCS#12 certificate (IP based access)</source>
