@@ -307,17 +307,20 @@ bool MobileDialog::getFiles()
 		QString name = "sha1";
 		if ( m_doc->documentType() == digidoc::WDoc::BDocType )
 		{
-			std::auto_ptr<digidoc::Digest> calc = digidoc::Digest::create( NID_sha1 );
-			std::vector<unsigned char> d;
-			try {
-				 d = file.calcDigest( calc.get() );
-			} catch( const digidoc::IOException &e ) {
+			try
+			{
+				std::auto_ptr<digidoc::Digest> calc = digidoc::Digest::create( NID_sha1 );
+				name = QString::fromStdString( calc->getName() );
+				std::vector<unsigned char> d = file.calcDigest( calc.get() );
+				digest = QByteArray( (char*)&d[0], d.size() );
+			}
+			catch( const digidoc::IOException &e )
+			{
 				labelError->setText( QString::fromStdString( e.getMsg() ) );
 				return false;
 			}
-			digest = QByteArray( (char*)&d[0], d.size() );
-			name = QString::fromStdString( calc->getName() );
-		} else
+		}
+		else
 			digest = m_doc->getFileDigest( i ).left( 20 );
 
 		QFileInfo f( QString::fromStdString( file.getPath() ) );
