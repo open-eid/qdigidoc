@@ -131,6 +131,7 @@ target_link_libraries( ${PROGNAME}
 	${LDAP_LIBRARIES}
 	${EXTRA_LIBRARIES}
 	${LIBP11_LIBRARY}
+	${LIBDL_LIBRARIES}
 	qdigidoccommon
 	qtsingleapplication
 )

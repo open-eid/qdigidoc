@@ -149,6 +149,7 @@ target_link_libraries( ${PROGNAME}
 	${OPENSSLCRYPTO_LIBRARIES}
 	${LIBP11_LIBRARY}
 	${EXTRA_LIBRARIES}
+        ${LIBDL_LIBRARIES}
 	qdigidoccommon
 	qtsingleapplication
 )
