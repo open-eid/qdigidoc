@@ -153,7 +153,7 @@ QVariant KeyModel::data( const QModelIndex &index, int role ) const
 }
 
 CKey KeyModel::key(const QModelIndex &index) const
-{ return skKeys.value( index.column() ); }
+{ return skKeys.value( index.row() ); }
 
 void KeyModel::load( const QList<CKey> &result )
 {
@@ -411,6 +411,8 @@ void KeyAddDialog::showResult( const QList<CKey> &result )
 	if( keyModel->rowCount() )
 	{
 		skView->setCurrentIndex( skView->model()->index( 0, 0 ) );
+		if( searchType->currentIndex() == 0 )
+			skView->selectAll();
 		add->setFocus();
 	}
 	else
