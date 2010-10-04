@@ -495,10 +495,21 @@ bool CryptoDoc::saveDDoc( const QString &filename )
 		return false;
 	}
 
-	int err = createSignedDoc( m_doc, NULL, filename.toUtf8() );
-	if( err != ERR_OK )
-		setLastError( tr("Failed to save file"), err );
-	return err == ERR_OK;
+	// use existing ddoc, createSignedDoc breaks signed doc
+	if( !m_ddoc.isEmpty() )
+	{
+		bool result = QFile::copy( m_ddoc, filename );
+		if( !result )
+			setLastError( tr("Failed to save file") );
+		return result;
+	}
+	else
+	{
+		int err = createSignedDoc( m_doc, NULL, filename.toUtf8() );
+		if( err != ERR_OK )
+			setLastError( tr("Failed to save file"), err );
+		return err == ERR_OK;
+	}
 }
 
 void CryptoDoc::saveDocument( int id, const QString &filepath )
