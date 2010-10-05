@@ -32,11 +32,6 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>${APPLE_GUI_COPYRIGHT}</string>
-	<key>LSEnvironment</key>
-	<dict>
-		<key>DIGIDOCPP_OVERRIDE_CONF</key>
-		<string>${LIBDIGIDOCPP_CONF}</string>
-	</dict>
 	<key>LSHasLocalizedDisplayName</key>
 	<true/>
 	<key>CFBundleDocumentTypes</key>
