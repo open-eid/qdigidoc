@@ -34,8 +34,8 @@
 	<string>${APPLE_GUI_COPYRIGHT}</string>
 	<key>LSEnvironment</key>
 	<dict>
-		<key>BDOCLIB_CONF_XML</key>
-		<string>/usr/local/etc/digidocpp/digidocpp.conf</string>
+		<key>DIGIDOCPP_OVERRIDE_CONF</key>
+		<string>${LIBDIGIDOCPP_CONF}</string>
 	</dict>
 	<key>LSHasLocalizedDisplayName</key>
 	<true/>
