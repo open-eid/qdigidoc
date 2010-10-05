@@ -88,12 +88,10 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 			Application::confValue( Application::ProxyPass ) ) );
 	}
 
-	/*
 	if ( m_doc->documentType() == digidoc::WDoc::BDocType )
 		request.setUrl( QUrl( Settings().value("Client/bdocurl", "https://digidocservice.sk.ee").toString() ) );
 	else
-	*/
-	request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
+		request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
 
 	QString certFile = Application::confValue( Application::PKCS12Cert );
 	if( certFile.isEmpty() || !QFile::exists( certFile ) )
