@@ -48,6 +48,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Preferred );
 	setWordWrap( true );
 	const SslCertificate cert = s.cert();
+	test = cert.isTest() || SslCertificate( s.ocspCert() ).type() != SslCertificate::OCSPType;
 	QString content;
 	QTextStream st( &content );
 
@@ -95,7 +96,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	case DigiDocSignature::Invalid: st << "<font color=\"red\">" << tr("not valid"); break;
 	case DigiDocSignature::Unknown: st << "<font color=\"red\">" << tr("unknown"); break;
 	}
-	if( (test = cert.isTest()) )
+	if( test )
 		st << " (" << tr("Test signature") << ")";
 	st << "</font>";
 	st << "</td><td align=\"right\">";
