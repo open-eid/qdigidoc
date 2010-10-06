@@ -78,7 +78,7 @@ Alustame laadimist?</translation>
     </message>
     <message>
         <source>Failed to initalize.&lt;br /&gt;%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Käivitamine ebaõnnestus.&lt;br /&gt;%1</translation>
     </message>
     <message>
         <source>DigiDoc3 client</source>
@@ -489,10 +489,6 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <translation>Allkirjastan Mobiil-ID -ga</translation>
     </message>
     <message>
-        <source>Control code: %1</source>
-        <translation>Kontrollkood: %1</translation>
-    </message>
-    <message>
         <source>%v sec</source>
         <translation>%v sek</translation>
     </message>
@@ -531,6 +527,14 @@ Palun kontrollige juurdepääsutõendi olemasolu.</translation>
     <message>
         <source>Certificate status unknown</source>
         <translation>Sertifikaadi staatus on teadmata</translation>
+    </message>
+    <message>
+        <source>Make sure control code matches with one in phone screen
+and enter Mobile-ID PIN.
+Control code: %1</source>
+        <translation>Veendu kontrollkoodi õigsuses
+ja sisesta telefoni Mobiil-ID PIN.
+Kontrollkood: %1</translation>
     </message>
 </context>
 <context>

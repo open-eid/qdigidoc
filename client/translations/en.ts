@@ -489,10 +489,6 @@ Should I keep unsigned documents or remove these?</numerusform>
         <translation>Signing with Mobile-ID</translation>
     </message>
     <message>
-        <source>Control code: %1</source>
-        <translation>Control code: %1</translation>
-    </message>
-    <message>
         <source>%v sec</source>
         <translation>%v sec</translation>
     </message>
@@ -531,6 +527,14 @@ Please check your server access sertificate.</translation>
     <message>
         <source>Certificate status unknown</source>
         <translation>Certificate status unknown</translation>
+    </message>
+    <message>
+        <source>Make sure control code matches with one in phone screen
+and enter Mobile-ID PIN.
+Control code: %1</source>
+        <translation>Make sure control code matches with one in phone screen
+and enter Mobile-ID PIN.
+Control code: %1</translation>
     </message>
 </context>
 <context>

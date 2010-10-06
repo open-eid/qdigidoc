@@ -65,5 +65,5 @@ private:
 	QString signature, files;
 
 	int sessionCode;
-	QHash< QByteArray, QString > mobileResults;
+	QHash<QString,QString> mobileResults;
 };

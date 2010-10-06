@@ -173,9 +173,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 	if( result.contains( "Fault" ) )
 	{
 		QString error = elementText( e, "message" );
-		if( mobileResults.contains( error.toLatin1() ) )
-			error = mobileResults.value( error.toLatin1() );
-		labelError->setText( error );
+		labelError->setText( mobileResults.value( error, error ) );
 		statusTimer->stop();
 		return;
 	}
@@ -185,11 +183,12 @@ void MobileDialog::finished( QNetworkReply *reply )
 		sessionCode = elementText( e, "Sesscode" ).toInt();
 		if ( !sessionCode )
 		{
-			labelError->setText( mobileResults.value( elementText( e, "message" ).toLatin1() ) );
+			labelError->setText( mobileResults.value( elementText( e, "message" ) ) );
 			statusTimer->stop();
 		}
 		else
-			code->setText( tr("Control code: %1").arg( elementText( e, "ChallengeID" ) ) );
+			code->setText( tr("Make sure control code matches with one in phone screen\n"
+				"and enter Mobile-ID PIN.\nControl code: %1").arg( elementText( e, "ChallengeID" ) ) );
 		return;
 	}
 
@@ -197,7 +196,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 		return;
 
 	QString status = elementText( e, "Status" );
-	labelError->setText( mobileResults.value( status.toLatin1() ) );
+	labelError->setText( mobileResults.value( status ) );
 
 	if( status == "REQUEST_OK" || status == "OUTSTANDING_TRANSACTION" )
 		return;

@@ -491,10 +491,6 @@ Should I keep unsigned documents or remove these?</source>
         <translation>Подписывается с Mobiil-ID</translation>
     </message>
     <message>
-        <source>Control code: %1</source>
-        <translation>Контрольный код: %1</translation>
-    </message>
-    <message>
         <source>%v sec</source>
         <translation>%v сек</translation>
     </message>
@@ -533,6 +529,14 @@ Please check your server access sertificate.</source>
     <message>
         <source>Certificate status unknown</source>
         <translation>Статус сертификата неизвестен</translation>
+    </message>
+    <message>
+        <source>Make sure control code matches with one in phone screen
+and enter Mobile-ID PIN.
+Control code: %1</source>
+        <translation>Убедитесь в правильности контрольного кодаи
+введите PIN для Mobiil-ID.
+Контрольный код: %1</translation>
     </message>
 </context>
 <context>
