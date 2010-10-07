@@ -48,7 +48,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Preferred );
 	setWordWrap( true );
 	const SslCertificate cert = s.cert();
-	test = cert.isTest() || SslCertificate( s.ocspCert() ).type() != SslCertificate::OCSPType;
+	test = cert.isTest() || SslCertificate( s.ocspCert() ).type() == SslCertificate::OCSPTestType;
 	QString content;
 	QTextStream st( &content );
 
