@@ -115,7 +115,7 @@ IF(WIN32)
 	SET( SOURCES ${SOURCES} qdigidocclient.rc )
 ENDIF(WIN32)
 
-set(DISABLE_MOBILEID_CHECKS "false" CACHE STRING "Disable MobileID checks for testing")
+set(DISABLE_MOBILEID_CHECKS "false" CACHE BOOL "Disable MobileID checks for testing")
 if(DISABLE_MOBILEID_CHECKS)
 	add_definitions( -DDISABLE_MOBILEID_CHECKS )
 endif(DISABLE_MOBILEID_CHECKS)
@@ -149,7 +149,7 @@ target_link_libraries( ${PROGNAME}
 	${OPENSSLCRYPTO_LIBRARIES}
 	${LIBP11_LIBRARY}
 	${EXTRA_LIBRARIES}
-        ${LIBDL_LIBRARIES}
+	${LIBDL_LIBRARIES}
 	qdigidoccommon
 	qtsingleapplication
 )
