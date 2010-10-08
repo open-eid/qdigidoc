@@ -534,8 +534,8 @@ Please check your server access sertificate.</source>
         <source>Make sure control code matches with one in phone screen
 and enter Mobile-ID PIN.
 Control code: %1</source>
-        <translation>Убедитесь в правильности контрольного кодаи
-введите PIN для Mobiil-ID.
+        <translation>Убедитесь в правильности контрольного кода
+и введите PIN для Mobiil-ID.
 Контрольный код: %1</translation>
     </message>
 </context>
