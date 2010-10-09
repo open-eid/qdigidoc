@@ -63,10 +63,6 @@ INCLUDE_DIRECTORIES(
 	)
 
 if( APPLE )
-	# xCode hacks
-	include_directories(/usr/local/include/../include)
-
-	# Bundle resources
 	set( APP_CONTENTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/mac" )
 
 	set( APPLE_GUI_BUNDLE_NAME ${PROGNAME} )
@@ -77,7 +73,7 @@ if( APPLE )
 	set( APPLE_GUI_BUNDLE_VERSION ${VERSION} )
 	set( APPLE_GUI_LONG_VERSION_STRING Version ${VERSION} )
 	set( APPLE_GUI_ICON Icon.icns )
-	configure_file( ${APP_CONTENTS_DIR}/Info.plist.cmake ${CMAKE_CURRENT_BINARY_DIR}/mac/Info.plist @ONLY )
+	configure_file( mac/Info.plist.cmake mac/Info.plist )
 
 	file( GLOB_RECURSE RESOURCE_FILES
 		${APP_CONTENTS_DIR}/Resources/*.icns
@@ -89,10 +85,8 @@ if( APPLE )
 		set_source_files_properties( ${_file} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources/${_file_dir}" )
 	endforeach( _file )
 
-	include_directories( /Developer/Headers/FlatCarbon )
-	find_library( CARBON_LIBRARY Carbon )
 	find_library( COCOA_LIBRARY Cocoa )
-	set( EXTRA_LIBRARIES ${CARBON_LIBRARY} ${COCOA_LIBRARY} )
+	set( EXTRA_LIBRARIES ${COCOA_LIBRARY} )
 endif( APPLE )
 
 IF(WIN32)
