@@ -22,11 +22,12 @@
 
 #include "DigiDoc.h"
 
-#include "common/SslCertificate.h"
-
 #include "Application.h"
 #include "QMobileSigner.h"
 #include "QSigner.h"
+
+#include <common/SslCertificate.h>
+#include <common/TokenData.h>
 
 #include <digidocpp/DDoc.h>
 #include <digidocpp/Document.h>
@@ -473,7 +474,8 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		if( code == Exception::PINIncorrect )
 		{
 			Q_EMIT error( tr("PIN Incorrect") );
-			return sign( city, state, zip, country, role, role2 );
+			if( !(qApp->tokenData().flags() & TokenData::PinLocked) )
+				return sign( city, state, zip, country, role, role2 );
 		}
 		else
 			setLastError( e );
