@@ -61,6 +61,12 @@ Start downloading?</source>
         <translation>Juurdepääsutõend aegub varsti!
 Alustame laadimist?</translation>
     </message>
+    <message>
+        <source>Error downloading server access certificate!
+PIN1 is blocked</source>
+        <translation>Viga juurdepääsutõendi laadimisel!
+PIN1 on blokeeritud</translation>
+    </message>
 </context>
 <context>
     <name>Application</name>

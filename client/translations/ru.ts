@@ -61,6 +61,12 @@ Start downloading?</source>
         <translation>Срок действия справки допуска скоро истечёт!
 Начнём загрузку?</translation>
     </message>
+    <message>
+        <source>Error downloading server access certificate!
+PIN1 is blocked</source>
+        <translation>Ошибка при загрузке справки допуска!
+PIN заблокирован</translation>
+    </message>
 </context>
 <context>
     <name>Application</name>

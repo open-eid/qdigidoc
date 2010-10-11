@@ -61,6 +61,12 @@ Start downloading?</source>
         <translation>Server access certificate is about to expire!
 Start downloading?</translation>
     </message>
+    <message>
+        <source>Error downloading server access certificate!
+PIN1 is blocked</source>
+        <translation>Error downloading server access certificate!
+PIN1 is blocked</translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
