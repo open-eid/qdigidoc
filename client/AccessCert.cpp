@@ -37,6 +37,7 @@
 #include <QDomNodeList>
 #include <QFile>
 #include <QMessageBox>
+#include <QScopedPointer>
 #include <QUrl>
 
 AccessCert::AccessCert( QWidget *parent )
@@ -56,7 +57,7 @@ AccessCert::~AccessCert()
 bool AccessCert::download()
 {
 	qApp->signer()->lock();
-	SSLConnect *ssl = new SSLConnect();
+	QScopedPointer<SSLConnect> ssl( new SSLConnect() );
 	ssl->setPKCS11( Application::confValue( Application::PKCS11Module ), false );
 	ssl->setCard( qApp->tokenData().card() );
 
@@ -64,11 +65,16 @@ bool AccessCert::download()
 	do
 	{
 		retry = false;
+		if( ssl->flags() & TokenData::PinLocked )
+		{
+			showWarning( tr("Error downloading server access certificate!\nPIN1 is blocked" ) );
+			qApp->signer()->unlock();
+			return false;
+		}
 		ssl->waitForFinished( SSLConnect::AccessCert );
 		switch( ssl->error() )
 		{
 		case SSLConnect::PinCanceledError:
-			delete ssl;
 			qApp->signer()->unlock();
 			return false;
 		case SSLConnect::PinInvalidError:
@@ -79,7 +85,6 @@ bool AccessCert::download()
 			if( !ssl->errorString().isEmpty() )
 			{
 				showWarning( tr("Error downloading server access certificate!\n%1").arg( ssl->errorString() ) );
-				delete ssl;
 				qApp->signer()->unlock();
 				return false;
 			}
@@ -89,7 +94,6 @@ bool AccessCert::download()
 	while( retry );
 
 	QByteArray result = ssl->result();
-	delete ssl;
 	qApp->signer()->unlock();
 
 	if( result.isEmpty() )
