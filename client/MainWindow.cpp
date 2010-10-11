@@ -481,22 +481,24 @@ void MainWindow::enableSign()
 			.arg( infoMobileCell->text() ).arg( infoMobileCode->text() ) );
 	}
 
-	if( (mobile && !IKValidator::isValid( infoMobileCode->text() )) ||
-		(!mobile &&
-		 !(qApp->tokenData().flags() & TokenData::PinLocked) &&
-		 !qApp->tokenData().cert().isValid()) )
+	signButton->setToolTip( QString() );
+	if( !mobile )
 	{
-		signButton->setEnabled( false );
-		if( mobile )
-			signButton->setToolTip( tr("Personal code is not valid") );
+		if( qApp->tokenData().flags() & TokenData::PinLocked )
+			signButton->setToolTip( tr("PIN is locked") );
 		else if( !qApp->tokenData().cert().isValid() )
 			signButton->setToolTip( tr("Sign certificate is not valid") );
-		else if( !qApp->tokenData().flags() & TokenData::PinLocked )
-			signButton->setToolTip( tr("PIN is locked") );
 		else if( qApp->tokenData().cert().isNull() )
 			signButton->setToolTip( tr("No card in reader") );
-		return;
 	}
+	else
+	{
+		if( !IKValidator::isValid( infoMobileCode->text() ) )
+			signButton->setToolTip( tr("Personal code is not valid") );
+	}
+	signButton->setEnabled( signButton->toolTip().isEmpty() );
+	if( !signButton->isEnabled() )
+		return;
 
 	bool cardOwnerSignature = false;
 	const QByteArray serialNumber = mobile ?
