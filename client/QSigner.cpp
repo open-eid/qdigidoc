@@ -22,9 +22,9 @@
 
 #include "QSigner.h"
 
-#include "common/PinDialog.h"
-#include "common/SslCertificate.h"
-#include "common/TokenData.h"
+#include <common/PinDialog.h>
+#include <common/SslCertificate.h>
+#include <common/TokenData.h>
 
 #include <digidocpp/Conf.h>
 
@@ -200,14 +200,24 @@ void QSigner::selectCert( const QString &card )
 	d->flags = 0;
 	d->cert = QSslCertificate();
 	emitDataChanged();
+
+	if( d->slotCount )
+	{
+		PKCS11_release_all_slots( d->handle, d->slots, d->slotCount );
+		d->slotCount = 0;
+	}
+	if( PKCS11_enumerate_slots( d->handle, &d->slots, &d->slotCount ) ||
+		d->cards[card] >= d->slotCount ||
+		!(d->slot = &d->slots[d->cards[card]]) )
+		return;
+
 	PKCS11_CERT* certs;
 	unsigned int numberOfCerts;
 	for( unsigned int i = 0; i < d->slotCount; ++i )
 	{
-		PKCS11_SLOT* slot = &d->slots[i];
-		if( !slot->token ||
-			d->selectedCard != QByteArray( (const char*)slot->token->serialnr, 16 ).trimmed() ||
-			PKCS11_enumerate_certs( slot->token, &certs, &numberOfCerts ) ||
+		if( !d->slot->token ||
+			d->selectedCard != QByteArray( (const char*)d->slot->token->serialnr, 16 ).trimmed() ||
+			PKCS11_enumerate_certs( d->slot->token, &certs, &numberOfCerts ) ||
 			numberOfCerts <= 0 )
 			continue;
 
@@ -217,11 +227,11 @@ void QSigner::selectCert( const QString &card )
 			d->cert = cert;
 			d->cards[d->selectedCard] = i;
 #ifdef LIBP11_TOKEN_FLAGS
-			if( slot->token->userPinCountLow || slot->token->soPinCountLow)
+			if( d->slot->token->userPinCountLow || d->slot->token->soPinCountLow )
 				d->flags |= TokenData::PinCountLow;
-			if( slot->token->userPinFinalTry || slot->token->soPinFinalTry)
+			if( d->slot->token->userPinFinalTry || d->slot->token->soPinFinalTry )
 				d->flags |= TokenData::PinFinalTry;
-			if( slot->token->userPinLocked || slot->token->soPinLocked)
+			if( d->slot->token->userPinLocked || d->slot->token->soPinLocked )
 				d->flags |= TokenData::PinLocked;
 #endif
 			break;
@@ -236,25 +246,10 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 	if( !d->cards.contains( d->selectedCard ) || d->cert.isNull() )
 		throwException( tr("Signing certificate is not selected."), 0, Exception::NoException, __LINE__ );
 
-	if( d->slotCount )
-	{
-		PKCS11_release_all_slots( d->handle, d->slots, d->slotCount );
-		d->slotCount = 0;
-	}
-	if( PKCS11_enumerate_slots( d->handle, &d->slots, &d->slotCount ) ||
-		d->cards[d->selectedCard] >= d->slotCount ||
-		!(d->slot = &d->slots[d->cards[d->selectedCard]]) ||
-		!d->slot->token )
+	selectCard( d->selectedCard );
+	if( !d->slot && !d->slot->token )
 		throwException( tr("Failed to login token"), ERR_get_error(), Exception::NoException, __LINE__ );
 
-#ifdef LIBP11_TOKEN_FLAGS
-	if( d->slot->token->userPinCountLow || d->slot->token->soPinCountLow)
-		d->flags |= TokenData::PinCountLow;
-	if( d->slot->token->userPinFinalTry || d->slot->token->soPinFinalTry)
-		d->flags |= TokenData::PinFinalTry;
-	if( d->slot->token->userPinLocked || d->slot->token->soPinLocked)
-		d->flags |= TokenData::PinLocked;
-#endif
 	if( d->slot->token->loginRequired )
 	{
 		unsigned long err = CKR_OK;
@@ -278,6 +273,7 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 			if( PKCS11_login( d->slot, 0, p.text().toUtf8() ) < 0 )
 				err = ERR_get_error();
 		}
+		selectCard( d->selectedCard );
 		switch( ERR_GET_REASON(err) )
 		{
 		case CKR_OK: break;
