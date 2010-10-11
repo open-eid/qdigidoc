@@ -47,7 +47,7 @@
     </message>
     <message>
         <source>Failed to add file</source>
-        <translation>Faili lisamine ebaõnestus</translation>
+        <translation>Faili lisamine ebaõnnestus</translation>
     </message>
     <message>
         <source>Failed to calculate digest</source>
@@ -75,7 +75,7 @@
     </message>
     <message>
         <source>Failed to remove file</source>
-        <translation>Faili eemaldamine ebaõnestus</translation>
+        <translation>Faili eemaldamine ebaõnnestus</translation>
     </message>
     <message>
         <source>Failed to remove key</source>
@@ -91,7 +91,7 @@
     </message>
     <message>
         <source>Failed to save file</source>
-        <translation>Faili salvestamine ebaõnestus</translation>
+        <translation>Faili salvestamine ebaõnnestus</translation>
     </message>
     <message>
         <source>Document not open</source>
