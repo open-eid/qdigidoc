@@ -181,7 +181,7 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 	connect( cardButton, SIGNAL(clicked()), SLOT(addCardCert()) );
 	connect( buttonBox->addButton( tr("Add cert from file"), QDialogButtonBox::ActionRole ),
 		SIGNAL(clicked()), SLOT(addFile()) );
-	connect( doc, SIGNAL(dataChanged()), SLOT(enableCardCert()) );
+	connect( qApp, SIGNAL(dataChanged()), SLOT(enableCardCert()) );
 	enableCardCert();
 
 	skView->setModel( keyModel = new KeyModel( this ) );
