@@ -246,8 +246,8 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 	if( !d->cards.contains( d->selectedCard ) || d->cert.isNull() )
 		throwException( tr("Signing certificate is not selected."), 0, Exception::NoException, __LINE__ );
 
-	selectCard( d->selectedCard );
-	if( !d->slot && !d->slot->token )
+	selectCert( d->selectedCard );
+	if( !d->slot || !d->slot->token )
 		throwException( tr("Failed to login token"), ERR_get_error(), Exception::NoException, __LINE__ );
 
 	if( d->slot->token->loginRequired )
@@ -273,7 +273,6 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 			if( PKCS11_login( d->slot, 0, p.text().toUtf8() ) < 0 )
 				err = ERR_get_error();
 		}
-		selectCard( d->selectedCard );
 		switch( ERR_GET_REASON(err) )
 		{
 		case CKR_OK: break;
@@ -281,6 +280,7 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		case CKR_FUNCTION_CANCELED:
 			throwException( tr("PIN acquisition canceled."), 0, Exception::PINCanceled, __LINE__ );
 		case CKR_PIN_INCORRECT:
+			selectCert( d->selectedCard );
 			throwException( tr("PIN Incorrect"), 0, Exception::PINIncorrect, __LINE__ );
 		case CKR_PIN_LOCKED:
 			throwException( tr("PIN Locked"), 0, Exception::PINLocked, __LINE__ );
