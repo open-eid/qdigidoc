@@ -108,6 +108,8 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 		char *attr = ldap_first_attribute( ldap, entry, &pos );
 		do
 		{
+			if( !attr )
+				break;
 			if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
 				cert = ldap_get_values_len( ldap, entry, attr );
 			ldap_memfree( attr );
