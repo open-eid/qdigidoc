@@ -86,7 +86,7 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 		return false;
 	}
 
-	selectCard( d->selectedCard );
+	selectCert( d->selectedCard );
 	if( !d->slot || !d->slot->token )
 	{
 		emitError( tr("Failed to login token"), ERR_get_error() );
@@ -120,7 +120,6 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 			if( PKCS11_login( d->slot, 0, p.text().toUtf8() ) < 0 )
 				err = ERR_get_error();
 		}
-		selectCard( d->selectedCard );
 		switch( ERR_GET_REASON(err) )
 		{
 		case CKR_OK: break;
@@ -129,6 +128,7 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 			emitError( tr("PIN acquisition canceled."), 0, PinCanceled );
 			return false;
 		case CKR_PIN_INCORRECT:
+			selectCert( d->selectedCard );
 			emitError( tr("PIN Incorrect"), 0, PinIncorrect );
 			return false;
 		case CKR_PIN_LOCKED:
