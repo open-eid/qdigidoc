@@ -599,7 +599,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>NOT VALID</source>
-        <translation>KETHETU</translation>
+        <translation>KEHTETU</translation>
     </message>
     <message>
         <source>ROLE / RESOLUTION</source>
