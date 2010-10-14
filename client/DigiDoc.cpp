@@ -353,8 +353,9 @@ bool DigiDoc::open( const QString &file )
 				ver.compare( 0, 15, "DIGIDOC-XML/1.2" ) == 0 )
 			{
 				Q_EMIT error( tr(
-					"This file is in old format and it is not advised to add digital signatures in that file.\n"
-					"This old format is supported \"as is\" and is not fully tested.") );
+					"The current file is a DigiDoc container not supported officially any longer.\n"
+					"We do not recommend you to add signature to this document.\n"
+					"There is an option to re-sign this document in a new container.") );
 			}
 		}
 		return true;

@@ -150,10 +150,12 @@ PIN1 is blocked</translation>
         <translation>Server access certificate is required</translation>
     </message>
     <message>
-        <source>This file is in old format and it is not advised to add digital signatures in that file.
-This old format is supported &quot;as is&quot; and is not fully tested.</source>
-        <translation>This file is in old format and it is not advised to add digital signatures in that file.
-This old format is supported &quot;as is&quot; and is not fully tested.</translation>
+        <source>The current file is a DigiDoc container not supported officially any longer.
+We do not recommend you to add signature to this document.
+There is an option to re-sign this document in a new container.</source>
+        <translation>The current file is a DigiDoc container not supported officially any longer.
+We do not recommend you to add signature to this document.
+There is an option to re-sign this document in a new container.</translation>
     </message>
 </context>
 <context>
@@ -249,10 +251,6 @@ This old format is supported &quot;as is&quot; and is not fully tested.</transla
     <message>
         <source>Save file</source>
         <translation>Save file</translation>
-    </message>
-    <message>
-        <source>Documents (*.bdoc *.ddoc)</source>
-        <translation>Documents (*.bdoc *.ddoc)</translation>
     </message>
     <message>
         <source>No card in reader</source>
@@ -442,6 +440,10 @@ Should I keep unsigned documents or remove these?</numerusform>
     <message>
         <source>About</source>
         <translation>About</translation>
+    </message>
+    <message>
+        <source>Documents (*.%1 *.%2)</source>
+        <translation>Documents (*.%1 *.%2)</translation>
     </message>
 </context>
 <context>

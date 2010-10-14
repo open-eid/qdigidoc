@@ -150,9 +150,12 @@ PIN заблокирован</translation>
         <translation>Необходима справка допуска</translation>
     </message>
     <message>
-        <source>This file is in old format and it is not advised to add digital signatures in that file.
-This old format is supported &quot;as is&quot; and is not fully tested.</source>
-        <translation type="unfinished"></translation>
+        <source>The current file is a DigiDoc container not supported officially any longer.
+We do not recommend you to add signature to this document.
+There is an option to re-sign this document in a new container.</source>
+        <translation>Данный digidoc контейнер имеет устаревший формат, на который больше не распространяется официальная поддержка.
+Рекомендуем не добавлять к данному документу цифровую подпись.
+При желании Вы можете повторно подписать документ в новом конверте.</translation>
     </message>
 </context>
 <context>
@@ -172,10 +175,6 @@ This old format is supported &quot;as is&quot; and is not fully tested.</source>
     <message>
         <source>Save file</source>
         <translation>Сохранить файл</translation>
-    </message>
-    <message>
-        <source>Documents (*.bdoc *.ddoc)</source>
-        <translation>Документы (*.bdoc *.ddoc)</translation>
     </message>
     <message>
         <source>File already in container</source>
@@ -444,6 +443,10 @@ Should I keep unsigned documents or remove these?</source>
     <message>
         <source>About</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Documents (*.%1 *.%2)</source>
+        <translation>Документы (*.%1 *.%2)</translation>
     </message>
 </context>
 <context>

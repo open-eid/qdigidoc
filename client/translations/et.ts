@@ -150,10 +150,12 @@ PIN1 on blokeeritud</translation>
         <translation>Juurdepääsutõend on vajalik</translation>
     </message>
     <message>
-        <source>This file is in old format and it is not advised to add digital signatures in that file.
-This old format is supported &quot;as is&quot; and is not fully tested.</source>
-        <translation>Tegemist on vana formaadi ja parem oleks sellel allkirja mitte lisada.
-Vanad formaadid on toetatud &quot;as is&quot; ja ei ole testilugudega kaetud.</translation>
+        <source>The current file is a DigiDoc container not supported officially any longer.
+We do not recommend you to add signature to this document.
+There is an option to re-sign this document in a new container.</source>
+        <translation>Tegemist on vanas formaadis digidoc konteineriga, mida enam ametlikult ei toetata.
+Soovitame Teil sellele dokumendile mitte allkirja lisada.
+Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjastada.</translation>
     </message>
 </context>
 <context>
@@ -249,10 +251,6 @@ Vanad formaadid on toetatud &quot;as is&quot; ja ei ole testilugudega kaetud.</t
     <message>
         <source>Save file</source>
         <translation>Salvesta fail</translation>
-    </message>
-    <message>
-        <source>Documents (*.bdoc *.ddoc)</source>
-        <translation>Dokumendid (*.bdoc *.ddoc)</translation>
     </message>
     <message>
         <source>No card in reader</source>
@@ -442,6 +440,10 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
     <message>
         <source>About</source>
         <translation>Info</translation>
+    </message>
+    <message>
+        <source>Documents (*.%1 *.%2)</source>
+        <translation>Dokumendid (*.%1 *.%2)</translation>
     </message>
 </context>
 <context>
