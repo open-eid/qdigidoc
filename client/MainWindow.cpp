@@ -313,15 +313,7 @@ void MainWindow::buttonClicked( int button )
 			else if( doc->isNull() )
 				setCurrentPage( Home );
 		}
-
-		Settings s;
-		s.beginGroup( "Client" );
-		signRoleInput->setText( s.value( "Role" ).toString() );
-		signResolutionInput->setText( s.value( "Resolution" ).toString() );
-		signCityInput->setText( s.value( "City" ).toString() );
-		signStateInput->setText( s.value( "State" ).toString() );
-		signCountryInput->setText( s.value( "Country" ).toString() );
-		signZipInput->setText( s.value( "Zip" ).toString() );
+		loadRoles();
 		break;
 	}
 	case SignCancel:
@@ -433,6 +425,7 @@ void MainWindow::buttonClicked( int button )
 	}
 	case ViewAddSignature:
 		setCurrentPage( Sign );
+		loadRoles();
 		break;
 	default: break;
 	}
@@ -514,6 +507,18 @@ void MainWindow::enableSign()
 	}
 	signButton->setEnabled( !cardOwnerSignature );
 	signButton->setToolTip( cardOwnerSignature ? tr("This container is signed by you") : QString() );
+}
+
+void MainWindow::loadRoles()
+{
+	Settings s;
+	s.beginGroup( "Client" );
+	signRoleInput->setText( s.value( "Role" ).toString() );
+	signResolutionInput->setText( s.value( "Resolution" ).toString() );
+	signCityInput->setText( s.value( "City" ).toString() );
+	signStateInput->setText( s.value( "State" ).toString() );
+	signCountryInput->setText( s.value( "Country" ).toString() );
+	signZipInput->setText( s.value( "Zip" ).toString() );
 }
 
 void MainWindow::on_introCheck_stateChanged( int state )

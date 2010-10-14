@@ -73,6 +73,7 @@ private:
 	bool addFile( const QString &file );
 	void dragEnterEvent( QDragEnterEvent *e );
 	void dropEvent( QDropEvent *e );
+	void loadRoles();
 	void setCurrentPage( Pages page );
 
 	QActionGroup *cardsGroup;
