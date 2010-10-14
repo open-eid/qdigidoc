@@ -183,13 +183,14 @@ bool MainWindow::addFile( const QString &file )
 
 		while( select )
 		{
-			docname = QFileDialog::getSaveFileName(
-				this, tr("Save file"), docname, tr("Documents (*.bdoc *.ddoc)") );
+			QStringList exts = QStringList() << s.value( "type", "ddoc" ).toString();
+			exts << (exts[0] == "ddoc" ? "bdoc" : "ddoc");
+			docname = QFileDialog::getSaveFileName( this, tr("Save file"), docname,
+				tr("Documents (*.%1 *.%2)").arg( exts[0], exts[1] ) );
 			if( docname.isEmpty() )
 				return false;
-			QStringList exts = QStringList() << "bdoc" << "ddoc";
 			if( !exts.contains( QFileInfo( docname ).suffix(), Qt::CaseInsensitive ) )
-				docname.append( "." + s.value( "type" ,"ddoc" ).toString() );
+				docname.append( "." + exts[0] );
 			if( !Common::canWrite( docname ) )
 			{
 				QMessageBox::warning( this, tr("DigiDoc3 client"),
