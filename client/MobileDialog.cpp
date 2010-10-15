@@ -63,7 +63,7 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	mobileResults["HOSTNOTFOUND"] = tr("Connecting to SK server failed!\nPlease check your internet connection.");
 	mobileResults["User is not a Mobile-ID client"] = tr("User is not a Mobile-ID client");
 	mobileResults["ID and phone number do not match"] = tr("ID and phone number do not match");
-	mobileResults["Certificate status unknown"] = tr("Certificate status unknown");
+	mobileResults["Certificate status unknown"] = tr("User Mobile-ID is not activated, please use ID-card Utility to activate");
 
 	setupUi( this );
 

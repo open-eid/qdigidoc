@@ -536,16 +536,16 @@ Please check your server access sertificate.</source>
         <translation>Подписать</translation>
     </message>
     <message>
-        <source>Certificate status unknown</source>
-        <translation>Статус сертификата неизвестен</translation>
-    </message>
-    <message>
         <source>Make sure control code matches with one in phone screen
 and enter Mobile-ID PIN.
 Control code: %1</source>
         <translation>Убедитесь в правильности контрольного кода
 и введите PIN для Mobiil-ID.
 Контрольный код: %1</translation>
+    </message>
+    <message>
+        <source>User Mobile-ID is not activated, please use ID-card Utility to activate</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

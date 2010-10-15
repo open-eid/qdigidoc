@@ -533,16 +533,16 @@ Palun kontrollige juurdepääsutõendi olemasolu.</translation>
         <translation>Allkirjastan</translation>
     </message>
     <message>
-        <source>Certificate status unknown</source>
-        <translation>Sertifikaadi staatus on teadmata</translation>
-    </message>
-    <message>
         <source>Make sure control code matches with one in phone screen
 and enter Mobile-ID PIN.
 Control code: %1</source>
         <translation>Veendu kontrollkoodi õigsuses
 ja sisesta telefoni Mobiil-ID PIN.
 Kontrollkood: %1</translation>
+    </message>
+    <message>
+        <source>User Mobile-ID is not activated, please use ID-card Utility to activate</source>
+        <translation>Mobiil-ID aktiveerimata, palun aktiveerige ID-kaardi haldusvahendi abil</translation>
     </message>
 </context>
 <context>

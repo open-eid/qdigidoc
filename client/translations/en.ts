@@ -533,16 +533,16 @@ Please check your server access sertificate.</translation>
         <translation>Sign</translation>
     </message>
     <message>
-        <source>Certificate status unknown</source>
-        <translation>Certificate status unknown</translation>
-    </message>
-    <message>
         <source>Make sure control code matches with one in phone screen
 and enter Mobile-ID PIN.
 Control code: %1</source>
         <translation>Make sure control code matches with one in phone screen
 and enter Mobile-ID PIN.
 Control code: %1</translation>
+    </message>
+    <message>
+        <source>User Mobile-ID is not activated, please use ID-card Utility to activate</source>
+        <translation>User Mobile-ID is not activated, please use ID-card Utility to activate</translation>
     </message>
 </context>
 <context>
