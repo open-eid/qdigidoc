@@ -445,6 +445,10 @@ Should I keep unsigned documents or remove these?</numerusform>
         <source>Documents (*.%1 *.%2)</source>
         <translation>Documents (*.%1 *.%2)</translation>
     </message>
+    <message>
+        <source>Documents (*.ddoc *.DDOC)</source>
+        <translation>Documents (*.ddoc *.DDOC)</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

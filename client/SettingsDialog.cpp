@@ -52,9 +52,16 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
 	d->askSaveAs->setChecked( s.value( "AskSaveAs", false ).toBool() );
 
+#ifdef BDOC_ENABLED
 	const QString type = s.value( "type", "ddoc" ).toString();
 	d->typeBDoc->setChecked( type == "bdoc" );
 	d->typeDDoc->setChecked( type == "ddoc" );
+#else
+	d->typeBDoc->deleteLater();
+	d->typeDDoc->deleteLater();
+	d->typeLabel->deleteLater();
+	d->typeInfo->deleteLater();
+#endif
 
 	d->signRoleInput->setText( s.value( "Role" ).toString() );
 	d->signResolutionInput->setText( s.value( "Resolution" ).toString() );
@@ -146,7 +153,9 @@ void SettingsDialog::save()
 	s.setValue( "Intro", d->showIntro->isChecked() );
 	s.setValue( "Overwrite", d->signOverwrite->isChecked() );
 	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
+#ifdef BDOC_ENABLED
 	s.setValue( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc" );
+#endif
 	if( d->defaultSameDir->isChecked() )
 	{
 		d->defaultDir->clear();

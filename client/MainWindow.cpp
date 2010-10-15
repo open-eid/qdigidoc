@@ -183,8 +183,12 @@ bool MainWindow::addFile( const QString &file )
 
 		while( select )
 		{
+#ifdef BDOC_ENABLED
 			QStringList exts = QStringList() << s.value( "type", "ddoc" ).toString();
 			exts << (exts[0] == "ddoc" ? "bdoc" : "ddoc");
+#else
+			QStringList exts = QStringList() << "ddoc";
+#endif
 			docname = QFileDialog::getSaveFileName( this, tr("Save file"), docname,
 				tr("Documents (*.%1 *.%2)").arg( exts[0], exts[1] ) );
 			if( docname.isEmpty() )
@@ -256,7 +260,11 @@ void MainWindow::buttonClicked( int button )
 	{
 		QString file = QFileDialog::getOpenFileName( this, tr("Open container"),
 			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ),
+#ifdef BDOC_ENABLED
 			tr("Documents (*.bdoc *.BDOC *.ddoc *.DDOC)") );
+#else
+			tr("Documents (*.ddoc *.DDOC)") );
+#endif
 		if( !file.isEmpty() && doc->open( file ) )
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 		break;
@@ -285,6 +293,14 @@ void MainWindow::buttonClicked( int button )
 				QStringList exts = QStringList() << "bdoc" << "ddoc";
 				if( doc->isNull() && exts.contains( f.suffix(), Qt::CaseInsensitive ) )
 				{
+#ifndef BDOC_ENABLED
+					if( f.suffix().toLower() == "bdoc" )
+					{
+						qApp->showWarning( tr("BDOC format is not supported, please upgrade!") );
+						setCurrentPage( Home );
+						return;
+					}
+#endif
 					if( doc->open( f.absoluteFilePath() ) )
 						setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 					params.clear();

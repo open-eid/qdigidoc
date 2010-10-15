@@ -445,6 +445,10 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <source>Documents (*.%1 *.%2)</source>
         <translation>Dokumendid (*.%1 *.%2)</translation>
     </message>
+    <message>
+        <source>Documents (*.ddoc *.DDOC)</source>
+        <translation>Dokumendid (*.ddoc *.DDOC)</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

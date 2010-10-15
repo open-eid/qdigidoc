@@ -448,6 +448,10 @@ Should I keep unsigned documents or remove these?</source>
         <source>Documents (*.%1 *.%2)</source>
         <translation>Документы (*.%1 *.%2)</translation>
     </message>
+    <message>
+        <source>Documents (*.ddoc *.DDOC)</source>
+        <translation>Документы (*.ddoc *.DDOC)</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
