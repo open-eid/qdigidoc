@@ -59,11 +59,11 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	mobileResults["SENDING_ERROR"] = tr("Request sending error");
 	mobileResults["SIM_ERROR"] = tr("SIM error");
 	mobileResults["INTERNAL_ERROR"] = tr("Service internal error");
-	mobileResults["OCSP_UNAUTHORIZED"] = tr("Not allowed to use OCSP service!\nPlease check your server access sertificate.");
-	mobileResults["HOSTNOTFOUND"] = tr("Connecting to SK server failed!\nPlease check your internet connection.");
+	mobileResults["OCSP_UNAUTHORIZED"] = tr("Not allowed to use OCSP service!<br/>Please check your server access sertificate.");
+	mobileResults["HOSTNOTFOUND"] = tr("Connecting to SK server failed!<br/>Please check your internet connection.");
 	mobileResults["User is not a Mobile-ID client"] = tr("User is not a Mobile-ID client");
 	mobileResults["ID and phone number do not match"] = tr("ID and phone number do not match");
-	mobileResults["Certificate status unknown"] = tr("User Mobile-ID is not activated, please use ID-card Utility to activate");
+	mobileResults["Certificate status unknown"] = tr("Your Mobile-ID service is not activated.<br/>Please activate your Mobiil-ID at <a href=\"http://mobiil.id.ee/akt\">http://mobiil.id.ee/akt</a>");
 
 	setupUi( this );
 

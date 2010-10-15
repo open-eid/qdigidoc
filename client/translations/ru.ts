@@ -504,12 +504,6 @@ Should I keep unsigned documents or remove these?</source>
         <translation>%v сек</translation>
     </message>
     <message>
-        <source>Connecting to SK server failed!
-Please check your internet connection.</source>
-        <translation>Ошибка при подключении с SK сервером
-Пожалуйста проверьте подключение к интернету.</translation>
-    </message>
-    <message>
         <source>User is not a Mobile-ID client</source>
         <translation></translation>
     </message>
@@ -526,12 +520,6 @@ Please check your internet connection.</source>
         <translation>Ошибка при разборе XML документа</translation>
     </message>
     <message>
-        <source>Not allowed to use OCSP service!
-Please check your server access sertificate.</source>
-        <translation>Не разрешено использовать OCSP услугу!
-Пожалуйста проверьте действительность справки допуска.</translation>
-    </message>
-    <message>
         <source>Sign</source>
         <translation>Подписать</translation>
     </message>
@@ -544,8 +532,16 @@ Control code: %1</source>
 Контрольный код: %1</translation>
     </message>
     <message>
-        <source>User Mobile-ID is not activated, please use ID-card Utility to activate</source>
-        <translation type="unfinished"></translation>
+        <source>Not allowed to use OCSP service!&lt;br/&gt;Please check your server access sertificate.</source>
+        <translation>Не разрешено использовать OCSP услугу!&lt;br/&gt;Пожалуйста проверьте действительность справки допуска.</translation>
+    </message>
+    <message>
+        <source>Connecting to SK server failed!&lt;br/&gt;Please check your internet connection.</source>
+        <translation>Ошибка при подключении с SK сервером&lt;br/&gt;Пожалуйста проверьте подключение к интернету.</translation>
+    </message>
+    <message>
+        <source>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</source>
+        <translation>Не активирована услуга Mobiil-ID.&lt;br/&gt;Для активации услуги Mobiil-ID адресом &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

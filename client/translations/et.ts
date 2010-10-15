@@ -501,12 +501,6 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <translation>%v sek</translation>
     </message>
     <message>
-        <source>Connecting to SK server failed!
-Please check your internet connection.</source>
-        <translation>Viga SK serveriga ühenduse saamisel!
-Palun kontrollige internetiühendust.</translation>
-    </message>
-    <message>
         <source>User is not a Mobile-ID client</source>
         <translation>Kasutaja ei ole Mobiil-ID klient</translation>
     </message>
@@ -523,12 +517,6 @@ Palun kontrollige internetiühendust.</translation>
         <translation>XML dokumendi parsimine ebaõnnestus</translation>
     </message>
     <message>
-        <source>Not allowed to use OCSP service!
-Please check your server access sertificate.</source>
-        <translation>Puudub juurdepääs OCSP teenusele!
-Palun kontrollige juurdepääsutõendi olemasolu.</translation>
-    </message>
-    <message>
         <source>Sign</source>
         <translation>Allkirjastan</translation>
     </message>
@@ -541,8 +529,16 @@ ja sisesta telefoni Mobiil-ID PIN.
 Kontrollkood: %1</translation>
     </message>
     <message>
-        <source>User Mobile-ID is not activated, please use ID-card Utility to activate</source>
-        <translation>Mobiil-ID aktiveerimata, palun aktiveerige ID-kaardi haldusvahendi abil</translation>
+        <source>Not allowed to use OCSP service!&lt;br/&gt;Please check your server access sertificate.</source>
+        <translation>Puudub juurdepääs OCSP teenusele!&lt;br/&gt;Palun kontrollige juurdepääsutõendi olemasolu.</translation>
+    </message>
+    <message>
+        <source>Connecting to SK server failed!&lt;br/&gt;Please check your internet connection.</source>
+        <translation>Viga SK serveriga ühenduse saamisel!&lt;br/&gt;Palun kontrollige internetiühendust.</translation>
+    </message>
+    <message>
+        <source>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</source>
+        <translation>Mobiil-ID sertifikaadid ei ole aktiveeritud.&lt;br/&gt;Mobiil-ID saate aktiveerida &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

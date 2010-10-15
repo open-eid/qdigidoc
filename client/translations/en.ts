@@ -501,12 +501,6 @@ Should I keep unsigned documents or remove these?</numerusform>
         <translation>%v sec</translation>
     </message>
     <message>
-        <source>Connecting to SK server failed!
-Please check your internet connection.</source>
-        <translation>Connecting to SK server failed!
-Please check your internet connection.</translation>
-    </message>
-    <message>
         <source>User is not a Mobile-ID client</source>
         <translation>User is not a Mobile-ID client</translation>
     </message>
@@ -523,12 +517,6 @@ Please check your internet connection.</translation>
         <translation>Failed to parse XML document</translation>
     </message>
     <message>
-        <source>Not allowed to use OCSP service!
-Please check your server access sertificate.</source>
-        <translation>Not allowed to use OCSP service!
-Please check your server access sertificate.</translation>
-    </message>
-    <message>
         <source>Sign</source>
         <translation>Sign</translation>
     </message>
@@ -541,8 +529,16 @@ and enter Mobile-ID PIN.
 Control code: %1</translation>
     </message>
     <message>
-        <source>User Mobile-ID is not activated, please use ID-card Utility to activate</source>
-        <translation>User Mobile-ID is not activated, please use ID-card Utility to activate</translation>
+        <source>Not allowed to use OCSP service!&lt;br/&gt;Please check your server access sertificate.</source>
+        <translation>Not allowed to use OCSP service!&lt;br/&gt;Please check your server access sertificate.</translation>
+    </message>
+    <message>
+        <source>Connecting to SK server failed!&lt;br/&gt;Please check your internet connection.</source>
+        <translation>Connecting to SK server failed!&lt;br/&gt;Please check your internet connection.</translation>
+    </message>
+    <message>
+        <source>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</source>
+        <translation>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
