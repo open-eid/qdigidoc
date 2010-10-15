@@ -449,6 +449,10 @@ Should I keep unsigned documents or remove these?</numerusform>
         <source>Documents (*.ddoc *.DDOC)</source>
         <translation>Documents (*.ddoc *.DDOC)</translation>
     </message>
+    <message>
+        <source>BDOC format is not supported, please upgrade!</source>
+        <translation>BDOC format is not supported, please upgrade!</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -543,6 +547,10 @@ Control code: %1</translation>
     <message>
         <source>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</source>
         <translation>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Mobile-ID user certificates are revoked or suspended.</source>
+        <translation>Mobile-ID user certificates are revoked or suspended.</translation>
     </message>
 </context>
 <context>

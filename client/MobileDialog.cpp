@@ -64,6 +64,7 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	mobileResults["User is not a Mobile-ID client"] = tr("User is not a Mobile-ID client");
 	mobileResults["ID and phone number do not match"] = tr("ID and phone number do not match");
 	mobileResults["Certificate status unknown"] = tr("Your Mobile-ID service is not activated.<br/>Please activate your Mobiil-ID at <a href=\"http://mobiil.id.ee/akt\">http://mobiil.id.ee/akt</a>");
+	mobileResults["Certificate is revoked"] = tr("Mobile-ID user certificates are revoked or suspended.");
 
 	setupUi( this );
 

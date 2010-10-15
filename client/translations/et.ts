@@ -449,6 +449,10 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <source>Documents (*.ddoc *.DDOC)</source>
         <translation>Dokumendid (*.ddoc *.DDOC)</translation>
     </message>
+    <message>
+        <source>BDOC format is not supported, please upgrade!</source>
+        <translation>BDOC formaat ei ole toetatud, palun uuendage tarkvara!</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -543,6 +547,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</source>
         <translation>Mobiil-ID sertifikaadid ei ole aktiveeritud.&lt;br/&gt;Mobiil-ID saate aktiveerida &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Mobile-ID user certificates are revoked or suspended.</source>
+        <translation>Kasutaja Mobiil-ID sertifikaadid on tühistatud või peatatud.</translation>
     </message>
 </context>
 <context>
