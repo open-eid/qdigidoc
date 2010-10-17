@@ -393,10 +393,6 @@ p, li { white-space: pre-wrap; }
         <translation>NB: Ошибочная подпись</translation>
     </message>
     <message>
-        <source>You dont have suficient privilegs to write this fail into folder %1</source>
-        <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 клиент</translation>
     </message>
@@ -447,6 +443,10 @@ Should I keep unsigned documents or remove these?</source>
     <message>
         <source>Documents (%1)</source>
         <translation>Документы (%1)</translation>
+    </message>
+    <message>
+        <source>You dont have sufficient privilegs to write this file into folder %1</source>
+        <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
 </context>
 <context>
@@ -1021,6 +1021,14 @@ Control code: %1</source>
     <message>
         <source>Save file</source>
         <translation>Сохранить файл</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 клиент</translation>
+    </message>
+    <message>
+        <source>You dont have sufficient privilegs to write this file into folder %1</source>
+        <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
 </context>
 </TS>

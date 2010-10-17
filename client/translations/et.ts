@@ -393,10 +393,6 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.&lt;/p&gt;
         <translation>NB: Vigane allkiri</translation>
     </message>
     <message>
-        <source>You dont have suficient privilegs to write this fail into folder %1</source>
-        <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 klient</translation>
     </message>
@@ -444,6 +440,10 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
     <message>
         <source>Documents (%1)</source>
         <translation>Dokumendid (%1)</translation>
+    </message>
+    <message>
+        <source>You dont have sufficient privilegs to write this file into folder %1</source>
+        <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
     </message>
 </context>
 <context>
@@ -1018,6 +1018,14 @@ Kontrollkood: %1</translation>
     <message>
         <source>Save file</source>
         <translation>Salvesta fail</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 klient</translation>
+    </message>
+    <message>
+        <source>You dont have sufficient privilegs to write this file into folder %1</source>
+        <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
     </message>
 </context>
 </TS>

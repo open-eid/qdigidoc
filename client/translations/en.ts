@@ -393,10 +393,6 @@ Also an active internet connection is needed.&lt;/p&gt;
         <translation>NB! Invalid signature</translation>
     </message>
     <message>
-        <source>You dont have suficient privilegs to write this fail into folder %1</source>
-        <translation>You dont have suficient privilegs to write this fail into folder %1</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 client</translation>
     </message>
@@ -444,6 +440,10 @@ Should I keep unsigned documents or remove these?</numerusform>
     <message>
         <source>Documents (%1)</source>
         <translation>Documents (%1)</translation>
+    </message>
+    <message>
+        <source>You dont have sufficient privilegs to write this file into folder %1</source>
+        <translation>You dont have sufficient privilegs to write this file into folder %1</translation>
     </message>
 </context>
 <context>
@@ -1018,6 +1018,14 @@ Control code: %1</translation>
     <message>
         <source>Save file</source>
         <translation>Save file</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 client</translation>
+    </message>
+    <message>
+        <source>You dont have sufficient privilegs to write this file into folder %1</source>
+        <translation>You dont have sufficient privilegs to write this file into folder %1</translation>
     </message>
 </context>
 </TS>

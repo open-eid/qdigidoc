@@ -31,6 +31,7 @@
 #include <QFileInfo>
 #include <QHeaderView>
 #include <QKeyEvent>
+#include <QMessageBox>
 #include <QMimeData>
 #include <QUrl>
 
@@ -54,10 +55,21 @@ void TreeWidget::clicked( const QModelIndex &index )
 	case 2:
 	{
 		QString source = model()->index( index.row(), 0 ).data( Qt::UserRole ).toString();
-		QString dest = QFileDialog::getSaveFileName( this,
-			tr("Save file"), QString( "%1/%2" )
-				.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-				.arg( model()->index( index.row(), 0 ).data().toString() ) );
+		QString dest;
+		while( true )
+		{
+			dest = QFileDialog::getSaveFileName( this,
+				tr("Save file"), QString( "%1/%2" )
+					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
+					.arg( model()->index( index.row(), 0 ).data().toString() ) );
+			if( !Common::canWrite( dest ) )
+			{
+				QMessageBox::warning( this, tr("DigiDoc3 client"),
+					tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( dest ) );
+			}
+			else
+				break;
+		}
 		if( !dest.isEmpty() && source != dest )
 			QFile::copy( source, dest );
 		break;
