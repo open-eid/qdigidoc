@@ -180,7 +180,10 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 
 	QStringList roles = s.roles();
 	d->signerRole->setText( roles.value(0) );
-	d->signerResolution->setText( roles.value(1) );
+	if( s.type() == DigiDocSignature::DDocType )
+		delete d->signerResolution;
+	else
+		d->signerResolution->setText( roles.value(1) );
 
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
