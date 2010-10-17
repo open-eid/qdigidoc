@@ -163,7 +163,11 @@ bool MainWindow::addFile( const QString &file )
 		QString docname = QString( "%1/%2.%3" )
 			.arg( s.value( "DefaultDir", info.absolutePath() ).toString() )
 			.arg( info.fileName() )
+#ifdef BDOC_ENABLED
 			.arg( s.value( "type" ,"ddoc" ).toString() );
+#else
+			.arg( "ddoc" );
+#endif
 
 		bool select = s.value( "AskSaveAs", false ).toBool();
 		if( !select && QFile::exists( docname ) )
