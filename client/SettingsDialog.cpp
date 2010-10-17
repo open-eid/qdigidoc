@@ -57,10 +57,10 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->typeBDoc->setChecked( type == "bdoc" );
 	d->typeDDoc->setChecked( type == "ddoc" );
 #else
-	d->typeBDoc->deleteLater();
-	d->typeDDoc->deleteLater();
-	d->typeLabel->deleteLater();
-	d->typeInfo->deleteLater();
+	delete d->typeBDoc;
+	delete d->typeDDoc;
+	delete d->typeLabel;
+	delete d->typeInfo;
 #endif
 
 	d->signRoleInput->setText( s.value( "Role" ).toString() );

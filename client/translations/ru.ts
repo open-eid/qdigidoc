@@ -397,10 +397,6 @@ p, li { white-space: pre-wrap; }
         <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
     <message>
-        <source>Documents (*.bdoc *.BDOC *.ddoc *.DDOC)</source>
-        <translation>Документы (*.bdoc *.BDOC *.ddoc *.DDOC)</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 клиент</translation>
     </message>
@@ -445,16 +441,12 @@ Should I keep unsigned documents or remove these?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Documents (*.%1 *.%2)</source>
-        <translation>Документы (*.%1 *.%2)</translation>
-    </message>
-    <message>
-        <source>Documents (*.ddoc *.DDOC)</source>
-        <translation>Документы (*.ddoc *.DDOC)</translation>
-    </message>
-    <message>
         <source>BDOC format is not supported, please upgrade!</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Documents (%1)</source>
+        <translation>Документы (%1)</translation>
     </message>
 </context>
 <context>

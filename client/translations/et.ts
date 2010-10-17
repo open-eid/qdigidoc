@@ -397,10 +397,6 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.&lt;/p&gt;
         <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
     </message>
     <message>
-        <source>Documents (*.bdoc *.BDOC *.ddoc *.DDOC)</source>
-        <translation>Dokumendid (*.bdoc *.BDOC *.ddoc *.DDOC)</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 klient</translation>
     </message>
@@ -442,16 +438,12 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <translation>Info</translation>
     </message>
     <message>
-        <source>Documents (*.%1 *.%2)</source>
-        <translation>Dokumendid (*.%1 *.%2)</translation>
-    </message>
-    <message>
-        <source>Documents (*.ddoc *.DDOC)</source>
-        <translation>Dokumendid (*.ddoc *.DDOC)</translation>
-    </message>
-    <message>
         <source>BDOC format is not supported, please upgrade!</source>
         <translation>BDOC formaat ei ole toetatud, palun uuendage tarkvara!</translation>
+    </message>
+    <message>
+        <source>Documents (%1)</source>
+        <translation>Dokumendid (%1)</translation>
     </message>
 </context>
 <context>

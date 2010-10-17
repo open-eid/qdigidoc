@@ -397,10 +397,6 @@ Also an active internet connection is needed.&lt;/p&gt;
         <translation>You dont have suficient privilegs to write this fail into folder %1</translation>
     </message>
     <message>
-        <source>Documents (*.bdoc *.BDOC *.ddoc *.DDOC)</source>
-        <translation>Documents (*.bdoc *.BDOC *.ddoc *.DDOC)</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 client</translation>
     </message>
@@ -442,16 +438,12 @@ Should I keep unsigned documents or remove these?</numerusform>
         <translation>About</translation>
     </message>
     <message>
-        <source>Documents (*.%1 *.%2)</source>
-        <translation>Documents (*.%1 *.%2)</translation>
-    </message>
-    <message>
-        <source>Documents (*.ddoc *.DDOC)</source>
-        <translation>Documents (*.ddoc *.DDOC)</translation>
-    </message>
-    <message>
         <source>BDOC format is not supported, please upgrade!</source>
         <translation>BDOC format is not supported, please upgrade!</translation>
+    </message>
+    <message>
+        <source>Documents (%1)</source>
+        <translation>Documents (%1)</translation>
     </message>
 </context>
 <context>
