@@ -302,7 +302,7 @@ void MainWindow::buttonClicked( int button )
 #ifndef BDOC_ENABLED
 					if( f.suffix().toLower() == "bdoc" )
 					{
-						qApp->showWarning( tr("BDOC format is not supported, please upgrade!") );
+						qApp->showWarning( tr("File is in BDOC format. Software needs to be updated in order to see file contents.") );
 						params.clear();
 						setCurrentPage( Home );
 						return;

@@ -434,16 +434,16 @@ Should I keep unsigned documents or remove these?</numerusform>
         <translation>About</translation>
     </message>
     <message>
-        <source>BDOC format is not supported, please upgrade!</source>
-        <translation>BDOC format is not supported, please upgrade!</translation>
-    </message>
-    <message>
         <source>Documents (%1)</source>
         <translation>Documents (%1)</translation>
     </message>
     <message>
         <source>You dont have sufficient privilegs to write this file into folder %1</source>
         <translation>You dont have sufficient privilegs to write this file into folder %1</translation>
+    </message>
+    <message>
+        <source>File is in BDOC format. Software needs to be updated in order to see file contents.</source>
+        <translation>File is in BDOC format. Software needs to be updated in order to see file contents.</translation>
     </message>
 </context>
 <context>

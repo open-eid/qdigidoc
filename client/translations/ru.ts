@@ -437,16 +437,16 @@ Should I keep unsigned documents or remove these?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>BDOC format is not supported, please upgrade!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Documents (%1)</source>
         <translation>Документы (%1)</translation>
     </message>
     <message>
         <source>You dont have sufficient privilegs to write this file into folder %1</source>
         <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
+    </message>
+    <message>
+        <source>File is in BDOC format. Software needs to be updated in order to see file contents.</source>
+        <translation>Формат файла BDOC. Чтобы увидеть содержимое файла программное обеспечение должно быть обновлено.</translation>
     </message>
 </context>
 <context>

@@ -434,16 +434,16 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <translation>Info</translation>
     </message>
     <message>
-        <source>BDOC format is not supported, please upgrade!</source>
-        <translation>BDOC formaat ei ole toetatud, palun uuendage tarkvara!</translation>
-    </message>
-    <message>
         <source>Documents (%1)</source>
         <translation>Dokumendid (%1)</translation>
     </message>
     <message>
         <source>You dont have sufficient privilegs to write this file into folder %1</source>
         <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
+    </message>
+    <message>
+        <source>File is in BDOC format. Software needs to be updated in order to see file contents.</source>
+        <translation>Avatud fail on BDOC formaadis. Faili sisu vaatamiseks on vajalik tarkvara uuendmiane.</translation>
     </message>
 </context>
 <context>
