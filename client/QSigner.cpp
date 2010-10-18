@@ -250,6 +250,9 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 	if( !d->slot || !d->slot->token )
 		throwException( tr("Failed to login token"), ERR_get_error(), Exception::NoException, __LINE__ );
 
+	// HACK: clean Fedora 13 ssl error queue
+	// ERROR: 185073780 - error:0B080074:x509 certificate routines:X509_check_private_key:key values mismatch
+	ERR_get_error();
 	if( d->slot->token->loginRequired )
 	{
 		unsigned long err = CKR_OK;
