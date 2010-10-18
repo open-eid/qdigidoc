@@ -443,7 +443,7 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
     </message>
     <message>
         <source>File is in BDOC format. Software needs to be updated in order to see file contents.</source>
-        <translation>Avatud fail on BDOC formaadis. Faili sisu vaatamiseks on vajalik tarkvara uuendmiane.</translation>
+        <translation>Avatud fail on BDOC formaadis. Faili sisu vaatamiseks on vajalik tarkvara uuendamine.</translation>
     </message>
 </context>
 <context>
