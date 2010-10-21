@@ -408,11 +408,11 @@ p, li { white-space: pre-wrap; }
         <source>You added %n file(s) to container, but these are not signed yet.
 Should I keep unsigned documents or remove these?</source>
         <translation>
-            <numerusform>В контейнер добавлено %n файл(а), но они не подписаны.
+            <numerusform>В контейнер добавлено %n файл, но они не подписаны.
 Оставить неподписанный контейнер или стереть?</numerusform>
-            <numerusform>В контейнер добавлено %n файл(а), но они не подписаны.
+            <numerusform>В контейнер добавлено %n файла, но они не подписаны.
 Оставить неподписанный контейнер или стереть?</numerusform>
-            <numerusform>В контейнер добавлено %n файл(а), но они не подписаны.
+            <numerusform>В контейнер добавлено %n файлов, но они не подписаны.
 Оставить неподписанный контейнер или стереть?</numerusform>
         </translation>
     </message>
