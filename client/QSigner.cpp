@@ -43,13 +43,21 @@
 class QSignerPrivate
 {
 public:
-	QSignerPrivate(): flags(0), login(false), terminate(false), handle(0), slot(0), slotCount(0), loginResult(CKR_OK) {}
+	QSignerPrivate()
+	: flags(0)
+	, login(false)
+	, terminate(false)
+	, handle(0)
+	, slot(0)
+	, slotCount(0)
+	, loginResult(CKR_OK)
+	{}
 
 	QSslCertificate	cert;
 	TokenData::TokenFlags flags;
 	volatile bool	login, terminate;
 	QMutex			m;
-	QHash<QString,unsigned int> cards;
+	QStringList		cards;
 	QString			selectedCard, select;
 	PKCS11_CTX		*handle;
 	PKCS11_SLOT     *slot, *slots;
@@ -79,7 +87,7 @@ void QSigner::emitDataChanged()
 {
 	TokenData data;
 	data.setCard( d->selectedCard );
-	data.setCards( d->cards.keys() );
+	data.setCards( d->cards );
 	data.setCert( d->cert );
 	data.setFlags( d->flags );
 	Q_EMIT dataChanged( data );
@@ -133,13 +141,10 @@ void QSigner::read()
 	for( unsigned int i = 0; i < d->slotCount; ++i )
 	{
 		PKCS11_SLOT* slot = &d->slots[i];
-		if( !slot->token )
-			continue;
-
-		QString serialNumber = QByteArray( (const char*)slot->token->serialnr, 16 ).trimmed();
-		if( !d->cards.contains( serialNumber ) )
-			d->cards[serialNumber] = i + 1;
+		if( slot->token )
+			d->cards << QString::fromUtf8( QByteArray( (const char*)slot->token->serialnr, 16 ).trimmed() );
 	}
+	d->cards.removeDuplicates();
 
 	if( !d->selectedCard.isEmpty() && !d->cards.contains( d->selectedCard ) )
 	{
@@ -150,14 +155,14 @@ void QSigner::read()
 	emitDataChanged();
 
 	if( d->selectedCard.isEmpty() && !d->cards.isEmpty() )
-		selectCert( d->cards.keys().first() );
+		selectCert( d->cards.first() );
 }
 
 void QSigner::run()
 {
 	d->terminate = false;
 
-	d->cards["loading"] = 0;
+	d->cards << "loading";
 	d->selectedCard = "loading";
 	d->flags = 0;
 	d->cert = QSslCertificate();
@@ -207,9 +212,7 @@ void QSigner::selectCert( const QString &card )
 		PKCS11_release_all_slots( d->handle, d->slots, d->slotCount );
 		d->slotCount = 0;
 	}
-	if( PKCS11_enumerate_slots( d->handle, &d->slots, &d->slotCount ) ||
-		d->cards[card] >= d->slotCount ||
-		!(d->slot = &d->slots[d->cards[card]]) )
+	if( PKCS11_enumerate_slots( d->handle, &d->slots, &d->slotCount ) )
 		return;
 
 	for( unsigned int i = 0; i < d->slotCount; ++i )
@@ -228,7 +231,6 @@ void QSigner::selectCert( const QString &card )
 		{
 			d->slot = slot;
 			d->cert = cert;
-			d->cards[d->selectedCard] = i;
 #ifdef LIBP11_TOKEN_FLAGS
 			if( d->slot->token->userPinCountLow || d->slot->token->soPinCountLow )
 				d->flags |= TokenData::PinCountLow;
