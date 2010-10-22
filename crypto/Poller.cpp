@@ -294,6 +294,7 @@ void Poller::selectCard( const QString &card ) { d->select = card; }
 void Poller::selectCert( const QString &card )
 {
 	d->selectedCard = card;
+	d->slot = 0;
 	d->flags = 0;
 	d->cert = QSslCertificate();
 	emitDataChanged();
@@ -308,19 +309,21 @@ void Poller::selectCert( const QString &card )
 		!(d->slot = &d->slots[d->cards[card]]) )
 		return;
 
-	PKCS11_CERT* certs;
-	unsigned int numberOfCerts;
 	for( unsigned int i = 0; i < d->slotCount; ++i )
 	{
-		if( !d->slot->token ||
-			d->selectedCard != QByteArray( (const char*)d->slot->token->serialnr, 16 ).trimmed() ||
-			PKCS11_enumerate_certs( d->slot->token, &certs, &numberOfCerts ) ||
+		PKCS11_SLOT *slot = &(d->slots[i]);
+		PKCS11_CERT *certs;
+		unsigned int numberOfCerts;
+		if( !slot->token ||
+			d->selectedCard != QByteArray( (const char*)slot->token->serialnr, 16 ).trimmed() ||
+			PKCS11_enumerate_certs( slot->token, &certs, &numberOfCerts ) ||
 			numberOfCerts <= 0 )
 			continue;
 
 		SslCertificate cert = SslCertificate::fromX509( Qt::HANDLE((&certs[0])->x509) );
 		if( cert.keyUsage().keys().contains( SslCertificate::DataEncipherment ) )
 		{
+			d->slot = slot;
 			d->cert = cert;
 			d->cards[d->selectedCard] = i;
 #ifdef LIBP11_TOKEN_FLAGS
