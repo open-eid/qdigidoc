@@ -94,6 +94,10 @@ PIN1 on blokeeritud</translation>
         <source>New Window</source>
         <translation>Uus Aken</translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished">Info</translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>

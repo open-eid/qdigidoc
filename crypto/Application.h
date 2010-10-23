@@ -50,6 +50,7 @@ public:
 #endif
 
 public Q_SLOTS:
+	void showAbout();
 	void showSettings();
 	void showWarning( const QString &msg );
 

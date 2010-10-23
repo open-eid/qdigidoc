@@ -30,7 +30,6 @@
 #include "SettingsDialog.h"
 #include "SignatureDialog.h"
 
-#include <common/AboutWidget.h>
 #include <common/CheckConnection.h>
 #include <common/Common.h>
 #include <common/IKValidator.h>
@@ -254,7 +253,7 @@ void MainWindow::buttonClicked( int button )
 	switch( button )
 	{
 	case HeadAbout:
-		(new AboutWidget( this ))->show();
+		qApp->showAbout();
 		break;
 	case HeadSettings:
 		qApp->showSettings();

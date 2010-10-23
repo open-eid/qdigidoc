@@ -94,6 +94,10 @@ PIN заблокирован</translation>
         <source>New Window</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>

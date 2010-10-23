@@ -203,7 +203,7 @@ void MainWindow::buttonClicked( int button )
 	switch( button )
 	{
 	case HeadAbout:
-		(new AboutWidget( this ))->show();
+		qApp->showAbout();
 		break;
 	case HeadSettings:
 		qApp->showSettings();

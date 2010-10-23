@@ -27,6 +27,7 @@
 #include "SettingsDialog.h"
 #include "version.h"
 
+#include <common/AboutWidget.h>
 #include <common/Common.h>
 #include <common/TokenData.h>
 
@@ -59,8 +60,9 @@ public:
 	ApplicationPrivate(): poller( 0 ) {}
 
 	TokenData	data;
-	QAction		*newWindowAction, *closeAction, *settingsAction;
+	QAction		*closeAction;
 #ifdef Q_OS_MAC
+	QAction		*aboutAction, *newWindowAction, *settingsAction;
 	QMenu		*menu;
 	QMenuBar	*bar;
 	bool		eventsLoaded;
@@ -115,6 +117,11 @@ Application::Application( int &argc, char **argv )
 #ifdef Q_OS_MAC
 	d->eventsLoaded = false;
 	setQuitOnLastWindowClosed( false );
+
+	d->aboutAction = new QAction( this );
+	d->aboutAction->setMenuRole( QAction::AboutRole );
+	connect( d->aboutAction, SIGNAL(triggered()), SLOT(showAbout()) );
+
 	d->settingsAction = new QAction( this );
 	d->settingsAction->setMenuRole( QAction::PreferencesRole );
 	connect( d->settingsAction, SIGNAL(triggered()), SLOT(showSettings()) );
@@ -125,6 +132,7 @@ Application::Application( int &argc, char **argv )
 	d->bar = new QMenuBar;
 	QMenu *macmenu = new QMenu( d->bar );
 	macmenu->addAction( d->settingsAction );
+	macmenu->addAction( d->aboutAction );
 	d->bar->addMenu( macmenu );
 	d->menu = new QMenu();
 	d->menu->addAction( d->newWindowAction );
@@ -214,6 +222,7 @@ void Application::loadTranslation( const QString &lang )
 	d->qtTranslator->load( ":/translations/qt_" + lang );
 	d->closeAction->setText( tr("Close") );
 #ifdef Q_OS_MAC
+	d->aboutAction->setText( tr("About") );
 	d->newWindowAction->setText( tr("New Window") );
 	d->settingsAction->setText( tr("Settings") );
 	d->menu->setTitle( tr("&File") );
@@ -229,6 +238,13 @@ void Application::parseArgs( const QString &msg )
 }
 
 Poller* Application::poller() const { return d->poller; }
+
+void Application::showAbout()
+{
+	AboutWidget *a = new AboutWidget( activeWindow() );
+	a->addAction( d->closeAction );
+	a->show();
+}
 
 void Application::showSettings()
 {

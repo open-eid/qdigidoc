@@ -94,6 +94,10 @@ PIN1 is blocked</translation>
         <source>New Window</source>
         <translation>New Window</translation>
     </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished">About</translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>
