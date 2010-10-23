@@ -46,8 +46,6 @@
 #endif
 
 #ifdef Q_OS_MAC
-#include <common/Application_mac.h>
-
 #include <QMenu>
 #include <QMenuBar>
 
@@ -65,7 +63,6 @@ public:
 	QAction		*aboutAction, *newWindowAction, *settingsAction;
 	QMenu		*menu;
 	QMenuBar	*bar;
-	bool		eventsLoaded;
 #endif
 	Poller		*poller;
 	QTranslator	*appTranslator, *commonTranslator, *qtTranslator;
@@ -115,7 +112,6 @@ Application::Application( int &argc, char **argv )
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
 #ifdef Q_OS_MAC
-	d->eventsLoaded = false;
 	setQuitOnLastWindowClosed( false );
 
 	d->aboutAction = new QAction( this );
@@ -196,11 +192,6 @@ bool Application::event( QEvent *e )
 	switch( e->type() )
 	{
 #ifdef Q_OS_MAC
-	case QEvent::ApplicationActivate: // Load here because cocoa NSApplication overides events
-		if( !d->eventsLoaded )
-			mac_install_event_handler( this );
-		d->eventsLoaded = true;
-		return QApplication::event( e );
 	case REOpenEvent::Type:
 		if( !activeWindow() )
 			parseArgs();
