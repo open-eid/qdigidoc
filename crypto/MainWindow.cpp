@@ -152,7 +152,7 @@ bool MainWindow::addFile( const QString &file )
 		while( select )
 		{
 			docname = QFileDialog::getSaveFileName(
-				this, tr("Save file"), docname, tr("Documents (*.cdoc)") );
+				this, tr("Save file"), docname, tr("Documents (*.cdoc)"), 0, Common::defaultFileDialogOptions() );
 			if( docname.isEmpty() )
 				return false;
 			if( QFileInfo( docname ).suffix().toLower() != "cdoc" )
@@ -215,7 +215,7 @@ void MainWindow::buttonClicked( int button )
 	{
 		QString file = QFileDialog::getOpenFileName( this, tr("Open container"),
 			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ),
-			tr("Documents (*.cdoc *.CDOC)") );
+			tr("Documents (*.cdoc *.CDOC)"), 0, Common::defaultFileDialogOptions() );
 		if( !file.isEmpty() && doc->open( file ) )
 			setCurrentPage( View );
 		break;
@@ -254,7 +254,7 @@ void MainWindow::buttonClicked( int button )
 		}
 
 		QStringList list = QFileDialog::getOpenFileNames( this, tr("Select documents"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) );
+			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ), QString(), 0, Common::defaultFileDialogOptions() );
 		if( !list.isEmpty() )
 		{
 			Q_FOREACH( const QString &file, list )
@@ -365,7 +365,7 @@ void MainWindow::parseLink( const QString &link )
 	if( link == "addFile" )
 	{
 		QStringList list = QFileDialog::getOpenFileNames( this, tr("Select documents"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) );
+			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ), QString(), 0, Common::defaultFileDialogOptions() );
 		if( list.isEmpty() )
 			return;
 		Q_FOREACH( const QString &file, list )
@@ -400,7 +400,7 @@ void MainWindow::parseLink( const QString &link )
 	{
 		QString dir = QFileDialog::getExistingDirectory( this,
 			tr("Select folder where files will be stored"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) );
+			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ), Common::defaultFileDialogOptions() );
 		if( dir.isEmpty() )
 			return;
 		QAbstractItemModel *m = viewContentView->model();
@@ -415,7 +415,7 @@ void MainWindow::parseLink( const QString &link )
 					QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 				if( b == QMessageBox::No )
 				{
-					file = QFileDialog::getSaveFileName( this, tr("Save file"), file );
+					file = QFileDialog::getSaveFileName( this, tr("Save file"), file, QString(), 0, Common::defaultFileDialogOptions() );
 					if( file.isEmpty() )
 						continue;
 				}

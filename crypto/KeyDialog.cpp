@@ -22,12 +22,14 @@
 
 #include "KeyDialog.h"
 
+#include "Application.h"
+#include "LdapSearch.h"
+
 #include <common/CertificateWidget.h>
+#include <common/Common.h>
 #include <common/IKValidator.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
-#include "Application.h"
-#include "LdapSearch.h"
 
 #include <QDateTime>
 #include <QDesktopServices>
@@ -214,7 +216,7 @@ void KeyAddDialog::addFile()
 {
 	QString file = QFileDialog::getOpenFileName( this, windowTitle(),
 		QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ),
-		tr("Certificates (*.pem *.cer *.crt)") );
+		tr("Certificates (*.pem *.cer *.crt)"), 0, Common::defaultFileDialogOptions() );
 	if( file.isEmpty() )
 		return;
 

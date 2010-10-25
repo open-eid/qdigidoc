@@ -27,6 +27,7 @@
 #include "version.h"
 
 #include <common/CertificateWidget.h>
+#include <common/Common.h>
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
 
@@ -107,7 +108,7 @@ void SettingsDialog::on_p12Button_clicked()
 	else
 		cert = QFileInfo( cert ).path();
 	cert = QFileDialog::getOpenFileName( this, tr("Select PKCS#12 certificate"), cert,
-		tr("PKCS#12 Certificates (*.p12 *.p12d)") );
+		tr("PKCS#12 Certificates (*.p12 *.p12d)"), 0, Common::defaultFileDialogOptions() );
 	if( !cert.isEmpty() )
 		setP12Cert( cert );
 }
@@ -123,7 +124,7 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 	QString dir = Settings().value( "Client/DefaultDir" ).toString();
 	if( dir.isEmpty() )
 		dir = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
-	dir = QFileDialog::getExistingDirectory( this, tr("Select folder"), dir );
+	dir = QFileDialog::getExistingDirectory( this, tr("Select folder"), dir, Common::defaultFileDialogOptions() );
 	if( !dir.isEmpty() )
 	{
 		Settings().setValue( "Client/DefaultDir", dir );

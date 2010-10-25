@@ -25,6 +25,7 @@
 #include "ui_SettingsDialog.h"
 #include "version.h"
 
+#include <common/Common.h>
 #include <common/Settings.h>
 
 #include <QDesktopServices>
@@ -57,7 +58,7 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 	QString dir = Settings().value( "Crypto/DefaultDir" ).toString();
 	if( dir.isEmpty() )
 		dir = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
-	dir = QFileDialog::getExistingDirectory( this, tr("Select folder"), dir );
+	dir = QFileDialog::getExistingDirectory( this, tr("Select folder"), dir, Common::defaultFileDialogOptions() );
 	if( !dir.isEmpty() )
 	{
 		Settings().setValue( "Crypto/DefaultDir", dir );

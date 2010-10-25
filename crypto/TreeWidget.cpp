@@ -55,7 +55,7 @@ void TreeWidget::clicked( const QModelIndex &index )
 		QString filepath = QFileDialog::getSaveFileName( this,
 			tr("Save file"), QString( "%1/%2" )
 				.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-				.arg( model()->index( index.row(), 0 ).data().toString() ) );
+				.arg( model()->index( index.row(), 0 ).data().toString() ), QString(), 0, Common::defaultFileDialogOptions() );
 		if( !filepath.isEmpty() )
 			Q_EMIT save( index.row(), filepath );
 		break;

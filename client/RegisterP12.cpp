@@ -26,6 +26,7 @@
 #include "Application.h"
 
 #include <common/CertificateWidget.h>
+#include <common/Common.h>
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
 
@@ -108,7 +109,7 @@ void RegisterP12::on_showP12Cert_clicked()
 void RegisterP12::on_p12Button_clicked()
 {
 	QString cert = QFileDialog::getOpenFileName( this, tr("Select PKCS#12 certificate"),
-		QFileInfo( d->p12Cert->text() ).path(), tr("PKCS#12 Certificates (*.p12 *.p12d)") );
+		QFileInfo( d->p12Cert->text() ).path(), tr("PKCS#12 Certificates (*.p12 *.p12d)"), 0, Common::defaultFileDialogOptions() );
 	if( !cert.isEmpty() )
 		d->p12Cert->setText( cert );
 }
