@@ -191,6 +191,7 @@ void QSigner::run()
 			if( PKCS11_login( d->slot, 0, NULL ) < 0 )
 				d->loginResult = ERR_get_error();
 			d->login = false;
+			emit authenticated();
 		}
 
 		sleep( 1 );
@@ -263,14 +264,12 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		unsigned long err = CKR_OK;
 		if( d->slot->token->secureLogin )
 		{
-			d->login = true;
 			PinDialog p( PinDialog::Pin2PinpadType, d->cert, d->flags, qApp->activeWindow() );
 			p.open();
-			do
-			{
-				wait( 1 );
-				qApp->processEvents();
-			} while( d->login );
+			QEventLoop e;
+			connect( this, SIGNAL(authenticated()), &e, SLOT(quit()) );
+			d->login = true;
+			e.exec();
 			err = d->loginResult;
 		}
 		else

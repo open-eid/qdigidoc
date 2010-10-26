@@ -44,6 +44,7 @@ public:
 	void unlock();
 
 Q_SIGNALS:
+	void authenticated();
 	void dataChanged( const TokenData &data );
 	void error( const QString &msg );
 
