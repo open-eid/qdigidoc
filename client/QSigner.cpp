@@ -191,7 +191,7 @@ void QSigner::run()
 			if( PKCS11_login( d->slot, 0, NULL ) < 0 )
 				d->loginResult = ERR_get_error();
 			d->login = false;
-			emit authenticated();
+			Q_EMIT authenticated();
 		}
 
 		sleep( 1 );
