@@ -58,7 +58,7 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 	QString dir = Settings().value( "Crypto/DefaultDir" ).toString();
 	if( dir.isEmpty() )
 		dir = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
-	dir = QFileDialog::getExistingDirectory( this, tr("Select folder"), dir, Common::defaultFileDialogOptions() );
+	dir = Common::normalized( QFileDialog::getExistingDirectory( this, tr("Select folder"), dir ) );
 	if( !dir.isEmpty() )
 	{
 		Settings().setValue( "Crypto/DefaultDir", dir );

@@ -214,9 +214,9 @@ void KeyAddDialog::addCardCert()
 
 void KeyAddDialog::addFile()
 {
-	QString file = QFileDialog::getOpenFileName( this, windowTitle(),
+	QString file = Common::normalized( QFileDialog::getOpenFileName( this, windowTitle(),
 		QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ),
-		tr("Certificates (*.pem *.cer *.crt)"), 0, Common::defaultFileDialogOptions() );
+		tr("Certificates (*.pem *.cer *.crt)") ) );
 	if( file.isEmpty() )
 		return;
 

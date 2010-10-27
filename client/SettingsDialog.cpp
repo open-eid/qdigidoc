@@ -107,8 +107,8 @@ void SettingsDialog::on_p12Button_clicked()
 		cert = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
 	else
 		cert = QFileInfo( cert ).path();
-	cert = QFileDialog::getOpenFileName( this, tr("Select PKCS#12 certificate"), cert,
-		tr("PKCS#12 Certificates (*.p12 *.p12d)"), 0, Common::defaultFileDialogOptions() );
+	cert = Common::normalized( QFileDialog::getOpenFileName( this, tr("Select PKCS#12 certificate"), cert,
+		tr("PKCS#12 Certificates (*.p12 *.p12d)") ) );
 	if( !cert.isEmpty() )
 		setP12Cert( cert );
 }
@@ -124,7 +124,7 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 	QString dir = Settings().value( "Client/DefaultDir" ).toString();
 	if( dir.isEmpty() )
 		dir = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
-	dir = QFileDialog::getExistingDirectory( this, tr("Select folder"), dir, Common::defaultFileDialogOptions() );
+	dir = Common::normalized( QFileDialog::getExistingDirectory( this, tr("Select folder"), dir ) );
 	if( !dir.isEmpty() )
 	{
 		Settings().setValue( "Client/DefaultDir", dir );

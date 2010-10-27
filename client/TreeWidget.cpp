@@ -58,10 +58,10 @@ void TreeWidget::clicked( const QModelIndex &index )
 		QString dest;
 		while( true )
 		{
-			dest = QFileDialog::getSaveFileName( this,
+			dest = Common::normalized( QFileDialog::getSaveFileName( this,
 				tr("Save file"), QString( "%1/%2" )
 					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-					.arg( model()->index( index.row(), 0 ).data().toString() ), QString(), 0, Common::defaultFileDialogOptions() );
+					.arg( model()->index( index.row(), 0 ).data().toString() ) ) );
 			if( !dest.isEmpty() && !Common::canWrite( dest ) )
 			{
 				QMessageBox::warning( this, tr("DigiDoc3 client"),

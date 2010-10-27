@@ -108,8 +108,8 @@ void RegisterP12::on_showP12Cert_clicked()
 
 void RegisterP12::on_p12Button_clicked()
 {
-	QString cert = QFileDialog::getOpenFileName( this, tr("Select PKCS#12 certificate"),
-		QFileInfo( d->p12Cert->text() ).path(), tr("PKCS#12 Certificates (*.p12 *.p12d)"), 0, Common::defaultFileDialogOptions() );
+	QString cert = Common::normalized( QFileDialog::getOpenFileName( this, tr("Select PKCS#12 certificate"),
+		QFileInfo( d->p12Cert->text() ).path(), tr("PKCS#12 Certificates (*.p12 *.p12d)") ) );
 	if( !cert.isEmpty() )
 		d->p12Cert->setText( cert );
 }
