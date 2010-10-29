@@ -2,7 +2,7 @@ set( PROGNAME qdigidocclient )
 
 set( BDOC_ENABLED false CACHE BOOL "Enable BDOC support" )
 if( BDOC_ENABLED )
-	add_definitions( BDOC_ENABLED )
+	add_definitions( -DBDOC_ENABLED )
 endif( BDOC_ENABLED )
 
 set( MOC_HEADERS
