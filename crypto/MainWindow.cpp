@@ -77,7 +77,7 @@ MainWindow::MainWindow( const QStringList &args )
 		SLOT(buttonClicked(int)) );
 
 	connect( cards, SIGNAL(activated(QString)), qApp->poller(), SLOT(selectCard(QString)), Qt::QueuedConnection );
-	connect( qApp, SIGNAL(dataChanged()), SLOT(showCardStatus()) );
+	connect( qApp->poller(), SIGNAL(dataChanged(TokenData)), SLOT(showCardStatus()) );
 
 	doc = new CryptoDoc( this );
 	connect( doc, SIGNAL(error(QString,int,QString)), SLOT(showWarning(QString,int,QString)) );

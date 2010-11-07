@@ -69,9 +69,6 @@ public Q_SLOTS:
 	void showSettings( int page = 0 );
 	void showWarning( const QString &msg );
 
-Q_SIGNALS:
-	void dataChanged();
-
 private Q_SLOTS:
 	void closeWindow();
 	void dataChanged( const TokenData &data );

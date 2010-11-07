@@ -70,9 +70,6 @@ void QSigner::run()
 {
 	d->terminate = false;
 	d->t.clear();
-	d->t.setCard( "loading" );
-	d->t.setCards( QStringList() << "loading" );
-	Q_EMIT dataChanged( d->t ); // notify loading
 
 	bool loaded = false;
 	try

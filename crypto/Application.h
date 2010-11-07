@@ -54,9 +54,6 @@ public Q_SLOTS:
 	void showSettings();
 	void showWarning( const QString &msg, quint8 code = 0 );
 
-Q_SIGNALS:
-	void dataChanged();
-
 private Q_SLOTS:
 	void closeWindow();
 	void dataChanged( const TokenData &data );

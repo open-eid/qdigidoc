@@ -104,9 +104,6 @@ void Poller::run()
 {
 	d->terminate = false;
 	d->t.clear();
-	d->t.setCard( "loading" );
-	d->t.setCards( QStringList() << "loading" );
-	Q_EMIT dataChanged( d->t ); // notify loading
 
 	char driver[200];
 	qsnprintf( driver, sizeof(driver), "DIGIDOC_DRIVER_%d_FILE",

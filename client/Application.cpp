@@ -153,7 +153,6 @@ Application::Application( int &argc, char **argv )
 		digidoc::Exception::ExceptionCode code;
 		DigiDoc::parseException( e, causes, code );
 		showWarning( tr("Failed to initalize.<br />%1").arg( causes.join("\n") ) );
-		return;
 	}
 
 	installTranslator( d->appTranslator = new QTranslator( this ) );
@@ -163,6 +162,7 @@ Application::Application( int &argc, char **argv )
 	d->signer = new QSigner();
 	connect( d->signer, SIGNAL(dataChanged(TokenData)), SLOT(dataChanged(TokenData)) );
 	connect( d->signer, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
+	d->data.setCard( "loading" );
 	d->signer->start();
 
 	parseArgs( args.join( "\", \"" ) );
@@ -213,12 +213,7 @@ QString Application::confValue( ConfParameter parameter, const QVariant &value )
 	return r.empty() ? value.toString() : QString::fromStdString( r );
 }
 
-void Application::dataChanged( const TokenData &data )
-{
-	bool changed = d->data != data;
-	d->data = data;
-	if( changed ) Q_EMIT dataChanged();
-}
+void Application::dataChanged( const TokenData &data ) { d->data = data; }
 
 bool Application::event( QEvent *e )
 {
