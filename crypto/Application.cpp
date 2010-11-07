@@ -150,7 +150,7 @@ Application::Application( int &argc, char **argv )
 
 	d->poller = new Poller();
 	connect( d->poller, SIGNAL(dataChanged(TokenData)), SLOT(dataChanged(TokenData)) );
-	connect( d->poller, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
+	connect( d->poller, SIGNAL(error(QString,quint8)), SLOT(showWarning(QString,quint8)) );
 	d->poller->start();
 
 	parseArgs( args.join( "\", \"" ) );
@@ -244,8 +244,14 @@ void Application::showSettings()
 	s->show();
 }
 
-void Application::showWarning( const QString &msg )
+void Application::showWarning( const QString &msg, quint8 code )
 {
+	switch( code )
+	{
+	case Poller::PinCanceled: return;
+	default: break;
+	}
+
 	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
 	if( d.exec() == QMessageBox::Help )
 		Common::showHelp( msg );

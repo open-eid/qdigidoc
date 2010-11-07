@@ -58,9 +58,7 @@ CryptoDoc::CryptoDoc( QObject *parent )
 :	QObject( parent )
 ,	m_enc(0)
 ,	m_doc(0)
-{
-	connect( qApp->poller(), SIGNAL(error(QString,quint8)), SLOT(setLastPollerError(QString,quint8)) );
-}
+{}
 
 void CryptoDoc::addFile( const QString &file, const QString &mime )
 {
@@ -535,16 +533,4 @@ void CryptoDoc::setLastError( const QString &err, int code )
 	QString errMsg;
 	if( code > 0 ) errMsg = getErrorString( code );
 	Q_EMIT error( err, code, errMsg );
-}
-
-void CryptoDoc::setLastPollerError( const QString &err, quint8 code )
-{
-	switch( code )
-	{
-	case Poller::PinCanceled: break;
-	case Poller::PinIncorrect:
-	case Poller::PinLocked:
-	default:
-		Q_EMIT error( err, -1, QString() );
-	}
 }

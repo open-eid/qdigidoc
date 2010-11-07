@@ -52,7 +52,7 @@ public:
 public Q_SLOTS:
 	void showAbout();
 	void showSettings();
-	void showWarning( const QString &msg );
+	void showWarning( const QString &msg, quint8 code = 0 );
 
 Q_SIGNALS:
 	void dataChanged();

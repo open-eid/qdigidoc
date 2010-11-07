@@ -89,7 +89,6 @@ Q_SIGNALS:
 
 private Q_SLOTS:
 	void setLastError( const QString &err, int code = -1 );
-	void setLastPollerError( const QString &err, quint8 code );
 
 private:
 	bool isEncryptedWarning();

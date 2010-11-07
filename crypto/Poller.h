@@ -25,7 +25,6 @@
 #include <QThread>
 
 class PollerPrivate;
-class QSslCertificate;
 class TokenData;
 
 class Poller: public QThread
@@ -49,20 +48,15 @@ public:
 
 Q_SIGNALS:
 	void dataChanged( const TokenData &data );
-	void error( const QString &msg );
-	void error( const QString &msg, quint8 error );
+	void error( const QString &msg, quint8 error = 0 );
 
 private Q_SLOTS:
 	void selectCard( const QString &card );
 
 private:
-	void emitDataChanged();
-	void emitError( const QString &msg, unsigned long err, ErrorCode code = NullCode );
-	bool loadDriver();
-	void read();
+	void emitError( const QString &msg, ErrorCode code = NullCode );
 	void run();
 	void selectCert( const QString &card );
-	void unloadDriver();
 
 	PollerPrivate *d;
 };
