@@ -96,7 +96,7 @@ PIN1 on blokeeritud</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished">Info</translation>
+        <translation>Info</translation>
     </message>
 </context>
 <context>
@@ -124,10 +124,6 @@ PIN1 on blokeeritud</translation>
     <message>
         <source>PIN Incorrect</source>
         <translation>PIN vigane</translation>
-    </message>
-    <message>
-        <source>PIN Locked</source>
-        <translation>PIN on lukus</translation>
     </message>
     <message>
         <source>PIN Login failed</source>
@@ -160,6 +156,10 @@ There is an option to re-sign this document in a new container.</source>
         <translation>Tegemist on vanas formaadis digidoc konteineriga, mida enam ametlikult ei toetata.
 Soovitame Teil sellele dokumendile mitte allkirja lisada.
 Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjastada.</translation>
+    </message>
+    <message>
+        <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
+        <translation>PIN on lukus. PIN koodi saab avada ID-kaardi haldusvahendis.</translation>
     </message>
 </context>
 <context>
@@ -655,24 +655,12 @@ Kontrollkood: %1</translation>
         <translation>PKCS#11 mooduli laadimine ebaõnnestus</translation>
     </message>
     <message>
-        <source>PIN acquisition canceled.</source>
-        <translation>PIN koodi sisestamine katkestati.</translation>
-    </message>
-    <message>
         <source>Signing certificate is not selected.</source>
         <translation>Allkirjastamise sertifikaat ei ole valitud.</translation>
     </message>
     <message>
         <source>Failed to login token</source>
         <translation>Vale PIN</translation>
-    </message>
-    <message>
-        <source>PIN Incorrect</source>
-        <translation>PIN vigane</translation>
-    </message>
-    <message>
-        <source>PIN Locked</source>
-        <translation>PIN on lukus. PIN koodi saab avada ID-kaardi haldusvahendis.</translation>
     </message>
     <message>
         <source>Failed to sign document</source>

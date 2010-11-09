@@ -96,7 +96,7 @@ PIN1 is blocked</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished">About</translation>
+        <translation>About</translation>
     </message>
 </context>
 <context>
@@ -124,10 +124,6 @@ PIN1 is blocked</translation>
     <message>
         <source>PIN Incorrect</source>
         <translation>PIN Incorrect</translation>
-    </message>
-    <message>
-        <source>PIN Locked</source>
-        <translation>PIN Locked</translation>
     </message>
     <message>
         <source>PIN Login failed</source>
@@ -160,6 +156,10 @@ There is an option to re-sign this document in a new container.</source>
         <translation>The current file is a DigiDoc container not supported officially any longer.
 We do not recommend you to add signature to this document.
 There is an option to re-sign this document in a new container.</translation>
+    </message>
+    <message>
+        <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
+        <translation>PIN Locked. Please use ID-card utility for PIN opening!</translation>
     </message>
 </context>
 <context>
@@ -655,24 +655,12 @@ Control code: %1</translation>
         <translation>Failed to load PKCS#11 module</translation>
     </message>
     <message>
-        <source>PIN acquisition canceled.</source>
-        <translation>PIN acquisition canceled.</translation>
-    </message>
-    <message>
         <source>Signing certificate is not selected.</source>
         <translation>Signing certificate is not selected.</translation>
     </message>
     <message>
         <source>Failed to login token</source>
         <translation>Wrong PIN</translation>
-    </message>
-    <message>
-        <source>PIN Incorrect</source>
-        <translation>PIN Incorrect</translation>
-    </message>
-    <message>
-        <source>PIN Locked</source>
-        <translation>PIN Locked. Please use ID-card utility for PIN opening!</translation>
     </message>
     <message>
         <source>Failed to sign document</source>

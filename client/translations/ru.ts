@@ -126,10 +126,6 @@ PIN заблокирован</translation>
         <translation>Неверный PIN</translation>
     </message>
     <message>
-        <source>PIN Locked</source>
-        <translation>PIN заблокирован</translation>
-    </message>
-    <message>
         <source>PIN Login failed</source>
         <translation>Введенный PIN неверен</translation>
     </message>
@@ -160,6 +156,10 @@ There is an option to re-sign this document in a new container.</source>
         <translation>Данный digidoc контейнер имеет устаревший формат, на который больше не распространяется официальная поддержка.
 Рекомендуем не добавлять к данному документу цифровую подпись.
 При желании Вы можете повторно подписать документ в новом конверте.</translation>
+    </message>
+    <message>
+        <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
+        <translation>PIN заблокирован. Для разблокирования PIN пожалуйста используйте обслуживание ID-карты!</translation>
     </message>
 </context>
 <context>
@@ -658,24 +658,12 @@ Control code: %1</source>
         <translation>Неудачная загрузка модуля PKCS#11</translation>
     </message>
     <message>
-        <source>PIN acquisition canceled.</source>
-        <translation>Введение PIN кода было прервано.</translation>
-    </message>
-    <message>
         <source>Signing certificate is not selected.</source>
         <translation>Сертификат подписи не выбран.</translation>
     </message>
     <message>
         <source>Failed to login token</source>
         <translation>Неверный PIN</translation>
-    </message>
-    <message>
-        <source>PIN Incorrect</source>
-        <translation>Неверный PIN</translation>
-    </message>
-    <message>
-        <source>PIN Locked</source>
-        <translation>PIN заблокирован. Для разблокирования PIN пожалуйста используйте обслуживание ID-карты!</translation>
     </message>
     <message>
         <source>Failed to sign document</source>
