@@ -18,7 +18,9 @@ find_package( Qt4 4.4.0 COMPONENTS QtCore QtGui QtNetwork QtWebkit QtXml REQUIRE
 find_package( XercesC REQUIRED )
 find_package( XSD REQUIRED )
 find_package( Subversion )
-find_package(LibDL REQUIRED)
+if( UNIX )
+	find_package(LibDL REQUIRED)
+endif( UNIX )
 
 set( MAJOR_VER 0 )
 set( MINOR_VER 1 )
