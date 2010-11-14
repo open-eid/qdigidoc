@@ -56,7 +56,6 @@ private Q_SLOTS:
 private:
 	void emitError( const QString &msg, ErrorCode code = NullCode );
 	void run();
-	void selectCert( const QString &card );
 
 	PollerPrivate *d;
 };

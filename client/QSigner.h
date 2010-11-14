@@ -50,7 +50,6 @@ private Q_SLOTS:
 
 private:
 	void run();
-	void selectCert( const QString &card );
 	void throwException( const QString &msg, digidoc::Exception::ExceptionCode code, int line ) throw(digidoc::SignException);
 
 	QSignerPrivate *d;

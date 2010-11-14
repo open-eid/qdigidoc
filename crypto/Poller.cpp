@@ -119,29 +119,26 @@ void Poller::run()
 		if( d->m.tryLock() )
 		{
 			QStringList cards = d->pkcs11.cards();
-			bool update = false;
-			if( (update = d->t.cards() != cards) ) // check if cards have inserted/removed, update list
-				d->t.setCards( cards );
+			bool update = d->t.cards() != cards; // check if cards have inserted/removed, update list
 
 			if( !d->t.card().isEmpty() && !cards.contains( d->t.card() ) ) // check if selected card is still in slot
 			{
-				d->t.setCert( QSslCertificate() );
-				d->t.setCard( QString() );
-				d->t.setFlags( 0 );
+				d->t.clear();
 				update = true;
 			}
 
 			if( !d->select.isEmpty() && cards.contains( d->select ) ) // select forced selection slot
 			{
-				selectCert( d->select );
+				d->t = d->pkcs11.selectSlot( d->select, SslCertificate::DataEncipherment );
 				d->select.clear();
 				update = true;
 			}
 			else if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
 			{
-				selectCert( cards.first() );
+				d->t = d->pkcs11.selectSlot( cards.first(), SslCertificate::DataEncipherment );
 				update = true;
 			}
+			d->t.setCards( cards );
 			if( update ) // update data if something has changed
 				Q_EMIT dataChanged( d->t );
 			d->m.unlock();
@@ -151,11 +148,12 @@ void Poller::run()
 	}
 }
 
-void Poller::selectCard( const QString &card ) { d->select = card; }
-
-void Poller::selectCert( const QString &card )
+void Poller::selectCard( const QString &card )
 {
-	TokenData t = d->pkcs11.selectSlot( card, SslCertificate::DataEncipherment );
+	TokenData t;
+	t.setCard( card );
 	t.setCards( d->t.cards() );
-	d->t = t;
+	Q_EMIT dataChanged( t );
+	d->select = card;
 }
+
