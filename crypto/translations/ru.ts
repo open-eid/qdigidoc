@@ -16,8 +16,8 @@
         <translation>&amp;Файл</translation>
     </message>
     <message>
-        <source>DigiDoc3 crypto</source>
-        <translation>DigiDoc3 Crypto</translation>
+        <source>DigiDoc crypto</source>
+        <translation>DigiDoc Crypto</translation>
     </message>
     <message>
         <source>New Window</source>
@@ -463,8 +463,8 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
         <translation>Документы(*.cdoc *:CDOC)</translation>
     </message>
     <message>
-        <source>DigiDoc3 Crypto</source>
-        <translation>DigiDoc3 Crypto</translation>
+        <source>DigiDoc Crypto</source>
+        <translation>DigiDoc Crypto</translation>
     </message>
     <message>
         <source>File does not exists %1</source>

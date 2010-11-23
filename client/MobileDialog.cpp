@@ -269,7 +269,7 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 		"<IDCode xsi:type=\"xsd:String\">%1</IDCode>"
 		"<PhoneNo xsi:type=\"xsd:String\">%2</PhoneNo>"
 		"<Language xsi:type=\"xsd:String\">%3</Language>"
-		"<ServiceName xsi:type=\"xsd:String\">DigiDoc3</ServiceName>"
+		"<ServiceName xsi:type=\"xsd:String\">DigiDoc</ServiceName>"
 		"<MessageToDisplay xsi:type=\"xsd:String\">%4</MessageToDisplay>"
 		"%5"
 		"<SigningProfile xsi:type=\"xsd:String\"></SigningProfile>"

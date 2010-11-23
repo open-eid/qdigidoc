@@ -87,8 +87,8 @@ PIN заблокирован</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 клиент</translation>
+        <source>DigiDoc client</source>
+        <translation>DigiDoc клиент</translation>
     </message>
     <message>
         <source>New Window</source>
@@ -397,8 +397,8 @@ p, li { white-space: pre-wrap; }
         <translation>NB: Ошибочная подпись</translation>
     </message>
     <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 клиент</translation>
+        <source>DigiDoc client</source>
+        <translation>DigiDoc клиент</translation>
     </message>
     <message numerus="yes">
         <source>Signature(s)</source>
@@ -1015,8 +1015,8 @@ Control code: %1</source>
         <translation>Сохранить файл</translation>
     </message>
     <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 клиент</translation>
+        <source>DigiDoc client</source>
+        <translation>DigiDoc клиент</translation>
     </message>
     <message>
         <source>You dont have sufficient privilegs to write this file into folder %1</source>

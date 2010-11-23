@@ -87,8 +87,8 @@ PIN1 on blokeeritud</translation>
         <translation>Käivitamine ebaõnnestus.&lt;br /&gt;%1</translation>
     </message>
     <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 klient</translation>
+        <source>DigiDoc client</source>
+        <translation>DigiDoc klient</translation>
     </message>
     <message>
         <source>New Window</source>
@@ -397,8 +397,8 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.&lt;/p&gt;
         <translation>NB: Vigane allkiri</translation>
     </message>
     <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 klient</translation>
+        <source>DigiDoc client</source>
+        <translation>DigiDoc klient</translation>
     </message>
     <message numerus="yes">
         <source>Signature(s)</source>
@@ -1012,8 +1012,8 @@ Kontrollkood: %1</translation>
         <translation>Salvesta fail</translation>
     </message>
     <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 klient</translation>
+        <source>DigiDoc client</source>
+        <translation>DigiDoc klient</translation>
     </message>
     <message>
         <source>You dont have sufficient privilegs to write this file into folder %1</source>

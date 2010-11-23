@@ -64,7 +64,7 @@ void TreeWidget::clicked( const QModelIndex &index )
 					.arg( model()->index( index.row(), 0 ).data().toString() ) ) );
 			if( !dest.isEmpty() && !Common::canWrite( dest ) )
 			{
-				QMessageBox::warning( this, tr("DigiDoc3 client"),
+				QMessageBox::warning( this, tr("DigiDoc client"),
 					tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( dest ) );
 			}
 			else

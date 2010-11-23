@@ -302,7 +302,7 @@ void Application::showSettings( int page )
 
 void Application::showWarning( const QString &msg )
 {
-	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
+	QMessageBox d( QMessageBox::Warning, tr("DigiDoc client"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
 	if( d.exec() == QMessageBox::Help )
 		Common::showHelp( msg );
 }

@@ -87,8 +87,8 @@ PIN1 is blocked</translation>
         <translation>Failed to initalize.&lt;br /&gt;%1</translation>
     </message>
     <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 client</translation>
+        <source>DigiDoc client</source>
+        <translation>DigiDoc client</translation>
     </message>
     <message>
         <source>New Window</source>
@@ -397,8 +397,8 @@ Also an active internet connection is needed.&lt;/p&gt;
         <translation>NB! Invalid signature</translation>
     </message>
     <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 client</translation>
+        <source>DigiDoc client</source>
+        <translation>DigiDoc client</translation>
     </message>
     <message numerus="yes">
         <source>Signature(s)</source>
@@ -1012,8 +1012,8 @@ Control code: %1</translation>
         <translation>Save file</translation>
     </message>
     <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 client</translation>
+        <source>DigiDoc client</source>
+        <translation>DigiDoc client</translation>
     </message>
     <message>
         <source>You dont have sufficient privilegs to write this file into folder %1</source>
