@@ -998,6 +998,9 @@ p, li { white-space: pre-wrap; }
           </item>
           <item row="3" column="1">
            <widget class="QScrollArea" name="viewSignaturesScroll">
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
             <property name="horizontalScrollBarPolicy">
              <enum>Qt::ScrollBarAlwaysOff</enum>
             </property>
@@ -1009,8 +1012,8 @@ p, li { white-space: pre-wrap; }
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>88</width>
-               <height>18</height>
+               <width>288</width>
+               <height>208</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="viewSignaturesLayout">
