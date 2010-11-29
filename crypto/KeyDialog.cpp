@@ -24,6 +24,7 @@
 
 #include "Application.h"
 #include "LdapSearch.h"
+#include "Poller.h"
 
 #include <common/CertificateWidget.h>
 #include <common/Common.h>
@@ -40,8 +41,9 @@
 #include <QMessageBox>
 #include <QProgressBar>
 #include <QRegExpValidator>
-#include <QTextStream>
 #include <QTimer>
+#include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
 KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 :	QWidget( parent )
@@ -108,6 +110,137 @@ void KeyDialog::showCertificate()
 
 
 
+HistoryModel::HistoryModel( QObject *parent )
+:	QAbstractTableModel( parent )
+{
+	QFile f( QString( "%1/certhistory.xml" )
+		.arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) ) );
+	if( !f.open( QIODevice::ReadOnly ) )
+		return;
+
+	QXmlStreamReader xml;
+	xml.setDevice( &f );
+
+	if( !xml.readNextStartElement() || xml.name() != "History" )
+		return;
+
+	while( xml.readNextStartElement() )
+	{
+		if( xml.name() == "item" )
+		{
+			m_data << (QStringList()
+				<< xml.attributes().value( "CN" ).toString()
+				<< xml.attributes().value( "type" ).toString()
+				<< xml.attributes().value( "issuer" ).toString()
+				<< xml.attributes().value( "expireDate" ).toString());
+		}
+		xml.skipCurrentElement();
+	}
+}
+
+int HistoryModel::columnCount( const QModelIndex &parent ) const
+{ return parent.isValid() ? 0 : 4; }
+
+QVariant HistoryModel::headerData( int section, Qt::Orientation orientation, int role ) const
+{
+	if( role != Qt::DisplayRole || orientation == Qt::Vertical )
+		return QVariant();
+	switch( section )
+	{
+	case 0: return tr("Owner");
+	case 1: return tr("Type");
+	case 2: return tr("Issuer");
+	case 3: return tr("Expiry date");
+	default: return QVariant();
+	}
+}
+
+bool HistoryModel::insertRows( int row, int count, const QModelIndex &parent )
+{
+	beginInsertRows( parent, row, row + count );
+	for( int i = 0; i < count; ++i )
+		m_data.insert( row + i, QStringList() << "" << "" << "" << "" );
+	endInsertRows();
+	return true;
+}
+
+QVariant HistoryModel::data( const QModelIndex &index, int role ) const
+{
+	if( !index.isValid() || index.row() >= m_data.size() )
+		return QVariant();
+
+	QStringList row = m_data[index.row()];
+	switch( role )
+	{
+	case Qt::DisplayRole:
+		if( index.column() != 1 )
+			return row.value( index.column() );
+		switch( row.value( 1 ).toInt() )
+		{
+		case DigiID: return tr("DIGI-ID");
+		case Tempel: return tr("TEMPEL");
+		default: return tr("ID-CARD");
+		}
+	case Qt::EditRole: return row.value( index.column() );
+	default: return QVariant();
+	}
+}
+
+bool HistoryModel::removeRows( int row, int count, const QModelIndex &parent )
+{
+	beginRemoveRows( parent, row, row + count );
+	for( int i = row + count - 1; i >= row; --i )
+		m_data.removeAt( i );
+	endInsertRows();
+	return true;
+}
+
+int HistoryModel::rowCount( const QModelIndex &parent ) const
+{ return parent.isValid() ? 0 : m_data.size(); }
+
+bool HistoryModel::setData( const QModelIndex &index, const QVariant &value, int role )
+{
+	if( !index.isValid() || index.row() >= m_data.size() )
+		return false;
+	switch( role )
+	{
+	case Qt::EditRole:
+		m_data[index.row()][index.column()] = value.toString();
+		Q_EMIT dataChanged( index, index );
+		return true;
+	default: return false;
+	}
+}
+
+bool HistoryModel::submit()
+{
+	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
+	QDir().mkpath( path );
+	QFile f( path.append( "/certhistory.xml" ) );
+	if( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
+		return false;
+
+	QXmlStreamWriter xml;
+	xml.setDevice( &f );
+	xml.setAutoFormatting( true );
+	xml.writeStartDocument();
+	xml.writeStartElement( "History" );
+	Q_FOREACH( const QStringList &item, m_data )
+	{
+		xml.writeStartElement( "item" );
+		xml.writeAttribute( "CN", item.value(0) );
+		xml.writeAttribute( "type", item.value(1) );
+		xml.writeAttribute( "issuer", item.value(2) );
+		xml.writeAttribute( "expireDate", item.value(3) );
+		xml.writeEndElement();
+	}
+	xml.writeEndDocument();
+
+	return true;
+}
+
+
+
 KeyModel::KeyModel( QObject *parent )
 :	QAbstractTableModel( parent )
 {}
@@ -133,7 +266,7 @@ QVariant KeyModel::headerData( int section, Qt::Orientation orientation, int rol
 
 QVariant KeyModel::data( const QModelIndex &index, int role ) const
 {
-	if( !index.isValid() && index.row() >= skKeys.count() )
+	if( !index.isValid() || index.row() >= skKeys.size() )
 		return QVariant();
 
 	CKey k = skKeys[index.row()];
@@ -147,8 +280,6 @@ QVariant KeyModel::data( const QModelIndex &index, int role ) const
 		case 2: return k.cert.expiryDate().toLocalTime().toString( "dd.MM.yyyy" );
 		default: break;
 		}
-	case Qt::UserRole:
-		return SslCertificate( k.cert ).isTempel();
 	default: break;
 	}
 	return QVariant();
@@ -183,7 +314,7 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 	connect( cardButton, SIGNAL(clicked()), SLOT(addCardCert()) );
 	connect( buttonBox->addButton( tr("Add cert from file"), QDialogButtonBox::ActionRole ),
 		SIGNAL(clicked()), SLOT(addFile()) );
-	connect( qApp, SIGNAL(dataChanged()), SLOT(enableCardCert()) );
+	connect( qApp->poller(), SIGNAL(dataChanged(TokenData)), SLOT(enableCardCert()) );
 	enableCardCert();
 
 	skView->setModel( keyModel = new KeyModel( this ) );
@@ -193,11 +324,11 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 	skView->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
 	connect( skView, SIGNAL(doubleClicked(QModelIndex)), SLOT(on_add_clicked()) );
 
+	usedView->setModel( new HistoryModel( this ) );
 	usedView->header()->setStretchLastSection( false );
 	usedView->header()->setResizeMode( 0, QHeaderView::Stretch );
 	usedView->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
 	usedView->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
-	loadHistory();
 
 	ldap = new LdapSearch( this );
 	connect( ldap, SIGNAL(searchResult(QList<CKey>)), SLOT(showResult(QList<CKey>)) );
@@ -279,60 +410,47 @@ void KeyAddDialog::disableSearch( bool disable )
 	searchContent->setDisabled( disable );
 }
 
-void KeyAddDialog::loadHistory()
-{
-	QFile f( QString( "%1/certhistory.txt" )
-		.arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) ) );
-	if( !f.open( QIODevice::ReadOnly ) )
-		return;
-
-	QTextStream s( &f );
-	while( true )
-	{
-		QString line = s.readLine();
-		if( line.isEmpty() )
-			break;
-		QStringList list = line.split( ';' );
-
-		QTreeWidgetItem *i = new QTreeWidgetItem( usedView );
-		i->setText( 0, list.value( 0 ) );
-		i->setText( 1, list.value( 1 ) );
-		i->setText( 2, list.value( 2 ) );
-		i->setData( 0, Qt::UserRole, list.value( 3 ).toInt() );
-		usedView->addTopLevelItem( i );
-	}
-	f.close();
-}
-
 void KeyAddDialog::on_add_clicked()
 {
 	if( !skView->selectionModel()->hasSelection() )
 		return;
 
+	QAbstractItemModel *m = usedView->model();
 	QList<CKey> keys;
 	Q_FOREACH( const QModelIndex &index, skView->selectionModel()->selectedRows() )
 	{
 		const CKey k = keyModel->key( index );
 		keys << k;
-		if( usedView->findItems( k.recipient, Qt::MatchExactly ).isEmpty() )
+		if( !m->match( m->index( 0, 0 ), Qt::DisplayRole, k.recipient, 1, Qt::MatchExactly ).isEmpty() )
+			continue;
+
+		SslCertificate cert( k.cert );
+		int row = m->rowCount();
+		m->insertRow( row );
+		m->setData( m->index( row, 0 ), cert.subjectInfo( "CN" ) );
+		switch( cert.type() )
 		{
-			QTreeWidgetItem *i = new QTreeWidgetItem( usedView );
-			i->setText( 0, k.recipient );
-			i->setText( 1, k.cert.issuerInfo( "CN" ) );
-			i->setText( 2, k.cert.expiryDate().toLocalTime().toString( "dd.MM.yyyy" ) );
-			i->setData( 0, Qt::UserRole, SslCertificate( k.cert ).isTempel() );
-			usedView->addTopLevelItem( i );
+		case SslCertificate::TempelType: m->setData( m->index( row, 1 ), HistoryModel::Tempel ); break;
+		case SslCertificate::DigiIDTestType:
+		case SslCertificate::DigiIDType: m->setData( m->index( row, 1 ), HistoryModel::DigiID ); break;
+		default: m->setData( m->index( row, 1 ), HistoryModel::IDCard ); break;
 		}
+		m->setData( m->index( row, 2 ), cert.issuerInfo( "CN" ) );
+		m->setData( m->index( row, 3 ), cert.expiryDate().toLocalTime().toString( "dd.MM.yyyy" ) );
 	}
 	addKeys( keys );
-
-	saveHistory();
+	usedView->model()->submit();
 }
 
 void KeyAddDialog::on_remove_clicked()
 {
-	qDeleteAll( usedView->selectedItems() );
-	saveHistory();
+	QList<int> rows;
+	Q_FOREACH( const QModelIndex &i, usedView->selectionModel()->selectedRows() )
+		rows << i.row();
+	qSort( rows );
+	for( int i = rows.size() - 1; i >= 0; --i )
+		usedView->model()->removeRow( rows[i] );
+	usedView->model()->submit();
 }
 
 void KeyAddDialog::on_search_clicked()
@@ -366,35 +484,15 @@ void KeyAddDialog::on_searchType_currentIndexChanged( int index )
 	searchContent->setFocus();
 }
 
-void KeyAddDialog::on_usedView_itemDoubleClicked( QTreeWidgetItem *item, int )
+void KeyAddDialog::on_usedView_doubleClicked( const QModelIndex &index )
 {
-	searchType->setCurrentIndex( item->data( 0, Qt::UserRole ).toInt() );
-	if( searchType->currentIndex() == 0 )
-		searchContent->setText( item->text( 0 ).split( ',' ).value( 2 ) );
-	else
-		searchContent->setText( item->text( 0 ) );
+	QAbstractItemModel *m = usedView->model();
+	QString text = m->index( index.row(), 0 ).data().toString();
 	tabWidget->setCurrentIndex( 0 );
+	searchType->setCurrentIndex(
+		m->index( index.row(), 1 ).data( Qt::EditRole ).toInt() == HistoryModel::Tempel );
+	searchContent->setText( searchType->currentIndex() == 0 ? text.split( ',' ).value( 2 ) : text );
 	on_search_clicked();
-}
-
-void KeyAddDialog::saveHistory()
-{
-	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
-	QDir().mkpath( path );
-	QFile f( path.append( "/certhistory.txt" ) );
-	if( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
-		return;
-
-	QTextStream s( &f );
-	for( int i = 0; i < usedView->topLevelItemCount(); ++i )
-	{
-		QTreeWidgetItem *item = usedView->topLevelItem( i );
-		s << item->text( 0 ) << ';';
-		s << item->text( 1 ) << ';';
-		s << item->text( 2 ) << ';';
-		s << item->data( 0, Qt::UserRole ).toInt() << '\n';
-	}
-	f.close();
 }
 
 void KeyAddDialog::showError( const QString &msg )

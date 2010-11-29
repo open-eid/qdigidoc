@@ -65,6 +65,35 @@ private:
 	CKey k;
 };
 
+class HistoryModel: public QAbstractTableModel
+{
+	Q_OBJECT
+
+public:
+	enum KeyType
+	{
+		IDCard = 0,
+		TEMPEL = 1,
+		DigiID = 2,
+	};
+
+	HistoryModel( QObject *parent = 0 );
+
+	int columnCount( const QModelIndex &parent = QModelIndex() ) const;
+	QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
+	bool insertRows( int row, int count, const QModelIndex &parent = QModelIndex() );
+	QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
+	bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
+	int rowCount( const QModelIndex &parent = QModelIndex() ) const;
+	bool setData( const QModelIndex &index, const QVariant &value, int role = Qt::EditRole );
+
+public Q_SLOTS:
+	bool submit();
+
+private:
+	QList<QStringList> m_data;
+};
+
 class KeyModel: public QAbstractTableModel
 {
 	Q_OBJECT
@@ -104,14 +133,12 @@ private Q_SLOTS:
 	void on_remove_clicked();
 	void on_search_clicked();
 	void on_searchType_currentIndexChanged( int index );
-	void on_usedView_itemDoubleClicked( QTreeWidgetItem *item, int column );
+	void on_usedView_doubleClicked( const QModelIndex &index );
 	void showError( const QString &msg );
 	void showResult( const QList<CKey> &result );
 
 private:
 	void disableSearch( bool disable );
-	void loadHistory();
-	void saveHistory();
 
 	QPushButton *cardButton;
 	CryptoDoc	*doc;

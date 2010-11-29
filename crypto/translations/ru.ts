@@ -131,6 +131,37 @@
     </message>
 </context>
 <context>
+    <name>HistoryModel</name>
+    <message>
+        <source>Owner</source>
+        <translation>Владелец</translation>
+    </message>
+    <message>
+        <source>Issuer</source>
+        <translation>Выдавший</translation>
+    </message>
+    <message>
+        <source>Expiry date</source>
+        <translation>Дата окончания</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DIGI-ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TEMPEL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID-CARD</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>KeyAddDialog</name>
     <message>
         <source>Certificates (*.pem *.cer *.crt)</source>
@@ -167,18 +198,6 @@
     <message>
         <source>Search</source>
         <translation>Поиск</translation>
-    </message>
-    <message>
-        <source>Owner</source>
-        <translation>Владелец</translation>
-    </message>
-    <message>
-        <source>Issuer</source>
-        <translation>Выдавший</translation>
-    </message>
-    <message>
-        <source>Expiry date</source>
-        <translation>Дата окончания</translation>
     </message>
     <message>
         <source>Add cert</source>

@@ -131,6 +131,37 @@
     </message>
 </context>
 <context>
+    <name>HistoryModel</name>
+    <message>
+        <source>Owner</source>
+        <translation>Omanik</translation>
+    </message>
+    <message>
+        <source>Issuer</source>
+        <translation>Väljaandja</translation>
+    </message>
+    <message>
+        <source>Expiry date</source>
+        <translation>Aegumiskuupäev</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tüüp</translation>
+    </message>
+    <message>
+        <source>DIGI-ID</source>
+        <translation>DIGI-ID</translation>
+    </message>
+    <message>
+        <source>TEMPEL</source>
+        <translation>TEMPEL</translation>
+    </message>
+    <message>
+        <source>ID-CARD</source>
+        <translation>ID-KAART</translation>
+    </message>
+</context>
+<context>
     <name>KeyAddDialog</name>
     <message>
         <source>Add Recipient</source>
@@ -143,18 +174,6 @@
     <message>
         <source>Search</source>
         <translation>Otsi</translation>
-    </message>
-    <message>
-        <source>Owner</source>
-        <translation>Omanik</translation>
-    </message>
-    <message>
-        <source>Issuer</source>
-        <translation>Väljaandja</translation>
-    </message>
-    <message>
-        <source>Expiry date</source>
-        <translation>Aegumiskuupäev</translation>
     </message>
     <message>
         <source>Social security number is not valid!</source>
