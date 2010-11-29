@@ -178,7 +178,7 @@ QVariant HistoryModel::data( const QModelIndex &index, int role ) const
 		switch( row.value( 1 ).toInt() )
 		{
 		case DigiID: return tr("DIGI-ID");
-		case Tempel: return tr("TEMPEL");
+		case TEMPEL: return tr("TEMPEL");
 		default: return tr("ID-CARD");
 		}
 	case Qt::EditRole: return row.value( index.column() );
@@ -430,7 +430,7 @@ void KeyAddDialog::on_add_clicked()
 		m->setData( m->index( row, 0 ), cert.subjectInfo( "CN" ) );
 		switch( cert.type() )
 		{
-		case SslCertificate::TempelType: m->setData( m->index( row, 1 ), HistoryModel::Tempel ); break;
+		case SslCertificate::TempelType: m->setData( m->index( row, 1 ), HistoryModel::TEMPEL ); break;
 		case SslCertificate::DigiIDTestType:
 		case SslCertificate::DigiIDType: m->setData( m->index( row, 1 ), HistoryModel::DigiID ); break;
 		default: m->setData( m->index( row, 1 ), HistoryModel::IDCard ); break;
@@ -490,7 +490,7 @@ void KeyAddDialog::on_usedView_doubleClicked( const QModelIndex &index )
 	QString text = m->index( index.row(), 0 ).data().toString();
 	tabWidget->setCurrentIndex( 0 );
 	searchType->setCurrentIndex(
-		m->index( index.row(), 1 ).data( Qt::EditRole ).toInt() == HistoryModel::Tempel );
+		m->index( index.row(), 1 ).data( Qt::EditRole ).toInt() == HistoryModel::TEMPEL );
 	searchContent->setText( searchType->currentIndex() == 0 ? text.split( ',' ).value( 2 ) : text );
 	on_search_clicked();
 }
