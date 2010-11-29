@@ -421,10 +421,10 @@ void KeyAddDialog::on_add_clicked()
 	{
 		const CKey k = keyModel->key( index );
 		keys << k;
-		if( !m->match( m->index( 0, 0 ), Qt::DisplayRole, k.recipient, 1, Qt::MatchExactly ).isEmpty() )
+		SslCertificate cert( k.cert );
+		if( !m->match( m->index( 0, 0 ), Qt::DisplayRole, cert.subjectInfo( "CN" ), 1, Qt::MatchExactly ).isEmpty() )
 			continue;
 
-		SslCertificate cert( k.cert );
 		int row = m->rowCount();
 		m->insertRow( row );
 		m->setData( m->index( row, 0 ), cert.subjectInfo( "CN" ) );
