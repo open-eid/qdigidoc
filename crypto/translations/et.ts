@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished">Info</translation>
+        <translation>Info</translation>
     </message>
 </context>
 <context>

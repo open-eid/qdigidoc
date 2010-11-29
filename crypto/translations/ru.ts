@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация</translation>
     </message>
 </context>
 <context>
@@ -476,7 +476,7 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация</translation>
     </message>
 </context>
 <context>

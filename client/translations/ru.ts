@@ -96,7 +96,7 @@ PIN заблокирован</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация</translation>
     </message>
 </context>
 <context>
@@ -438,7 +438,7 @@ Should I keep unsigned documents or remove these?</source>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация</translation>
     </message>
     <message>
         <source>Documents (%1)</source>
