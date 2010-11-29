@@ -174,3 +174,8 @@ if(UNIX AND NOT APPLE)
         )
     endforeach(RES)
 endif(UNIX AND NOT APPLE)
+
+if(WIN32)
+	install(FILES ../client/images/qdigidoc_client_document_48x48.ico 
+		DESTINATION ${SHARE_INSTALL_PREFIX}/icons)
+endif(WIN32)
