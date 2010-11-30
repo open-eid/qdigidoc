@@ -279,7 +279,7 @@ DigiDoc::DigiDoc( QObject *parent )
 :	QObject( parent )
 ,	b(0)
 {
-	connect( this, SIGNAL(error(QString)), qApp, SLOT(showWarning(QString)) );
+	connect( this, SIGNAL(error(QString,int,QString)), qApp, SLOT(showWarning(QString,int,QString)) );
 }
 
 DigiDoc::~DigiDoc() { clear(); }
@@ -364,13 +364,16 @@ bool DigiDoc::open( const QString &file )
 	{
 		QStringList causes;
 		Exception::ExceptionCode code = Exception::NoException;
-		parseException( e, causes, code );
-		Q_EMIT error( tr("An error occurred while opening the document.<br />%1").arg( causes.join("\n") ) );
+		int ddocError = -1;
+		QString ddocMsg;
+		parseException( e, causes, code, ddocError, ddocMsg );
+		Q_EMIT error( tr("An error occurred while opening the document.<br />%1").arg( causes.join("\n") ), ddocError, ddocMsg );
 	}
 	return false;
 }
 
-bool DigiDoc::parseException( const Exception &e, QStringList &causes, Exception::ExceptionCode &code )
+bool DigiDoc::parseException( const Exception &e, QStringList &causes,
+	Exception::ExceptionCode &code, int &ddocError, QString &ddocMsg )
 {
 	switch( e.code() )
 	{
@@ -385,10 +388,15 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes, Exception
 		code = e.code(); return false;
 	default:
 		causes << from( e.getMsg() );
+		if( e.ddoc() > 0 )
+		{
+			ddocError = e.ddoc();
+			ddocMsg = from( e.ddocMsg() );
+		}
 		break;
 	}
 	Q_FOREACH( const Exception &c, e.getCauses() )
-		if( !parseException( c, causes, code ) )
+		if( !parseException( c, causes, code, ddocError, ddocMsg ) )
 			return false;
 	return true;
 }
@@ -425,7 +433,9 @@ void DigiDoc::setLastError( const Exception &e )
 {
 	QStringList causes;
 	Exception::ExceptionCode code = Exception::NoException;
-	parseException( e, causes, code );
+	int ddocError = -1;
+	QString ddocMsg;
+	parseException( e, causes, code, ddocError, ddocMsg );
 	switch( code )
 	{
 	case Exception::CertificateRevoked:
@@ -435,7 +445,7 @@ void DigiDoc::setLastError( const Exception &e )
 	case Exception::OCSPTimeSlot:
 		Q_EMIT error( tr("Check your computer time") ); break;
 	case Exception::OCSPRequestUnauthorized:
-		Q_EMIT error( tr("Server access certificate is required")); break;
+		Q_EMIT error( tr("Server access certificate is required") ); break;
 	case Exception::PINCanceled:
 		break;
 	case Exception::PINFailed:
@@ -445,7 +455,7 @@ void DigiDoc::setLastError( const Exception &e )
 	case Exception::PINLocked:
 		Q_EMIT error( tr("PIN Locked") ); break;
 	default:
-		Q_EMIT error( causes.join( "\n" ) ); break;
+		Q_EMIT error( causes.join( "\n" ), ddocError, ddocMsg ); break;
 	}
 }
 
@@ -471,7 +481,9 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 	{
 		QStringList causes;
 		Exception::ExceptionCode code = Exception::NoException;
-		parseException( e, causes, code );
+		int ddocError = -1;
+		QString ddocMsg;
+		parseException( e, causes, code, ddocError, ddocMsg );
 		if( code == Exception::PINIncorrect )
 		{
 			Q_EMIT error( tr("PIN Incorrect") );

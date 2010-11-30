@@ -112,10 +112,11 @@ public:
 	digidoc::WDoc::DocumentType documentType();
 	QByteArray getFileDigest( unsigned int i );
 
-	static bool parseException( const digidoc::Exception &e, QStringList &causes, digidoc::Exception::ExceptionCode &code );
+	static bool parseException( const digidoc::Exception &e, QStringList &causes,
+		digidoc::Exception::ExceptionCode &code, int &ddocError, QString &ddocMsg );
 
 Q_SIGNALS:
-	void error( const QString &err );
+	void error( const QString &err, int err = -1, const QString &ddocMsg = QString() );
 
 private:
 	bool checkDoc( bool status = false, const QString &msg = QString() );

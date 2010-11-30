@@ -67,7 +67,7 @@ public:
 public Q_SLOTS:
 	void showAbout();
 	void showSettings( int page = 0 );
-	void showWarning( const QString &msg );
+	void showWarning( const QString &msg, int err = -1, const QString &ddocMsg = QString() );
 
 private Q_SLOTS:
 	void closeWindow();

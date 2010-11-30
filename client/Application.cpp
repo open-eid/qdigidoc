@@ -150,9 +150,11 @@ Application::Application( int &argc, char **argv )
 	catch( const digidoc::Exception &e )
 	{
 		QStringList causes;
-		digidoc::Exception::ExceptionCode code;
-		DigiDoc::parseException( e, causes, code );
-		showWarning( tr("Failed to initalize.<br />%1").arg( causes.join("\n") ) );
+		digidoc::Exception::ExceptionCode code = digidoc::Exception::NoException;
+		int ddocError = -1;
+		QString ddocMsg;
+		DigiDoc::parseException( e, causes, code, ddocError, ddocMsg );
+		showWarning( tr("Failed to initalize.<br />%1").arg( causes.join("\n") ), ddocError );
 	}
 
 	installTranslator( d->appTranslator = new QTranslator( this ) );
@@ -300,11 +302,13 @@ void Application::showSettings( int page )
 	s->show();
 }
 
-void Application::showWarning( const QString &msg )
+void Application::showWarning( const QString &msg, int err, const QString &ddocMsg )
 {
 	QMessageBox d( QMessageBox::Warning, tr("DigiDoc client"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
+	if( err > 0 )
+		d.setDetailedText( tr("libdigidoc code: %1\nmessage: %2").arg( err ).arg( ddocMsg ) );
 	if( d.exec() == QMessageBox::Help )
-		Common::showHelp( msg );
+		Common::showHelp( msg, err );
 }
 
 QSigner* Application::signer() const { return d->signer; }
