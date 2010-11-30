@@ -62,24 +62,25 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 	QMutexLocker locker( &d->m );
 	if( !d->t.cards().contains( d->t.card() ) || d->t.cert().isNull() )
 	{
-		emitError( tr("Authentication certificate is not selected.") );
+		Q_EMIT error( tr("Authentication certificate is not selected.") );
 		return false;
 	}
 
 	switch( d->pkcs11.login( d->t ) )
 	{
-	case QPKCS11::PinOK: break;
+	case QPKCS11::PinOK: d->code = PinOk; break;
 	case QPKCS11::PinCanceled:
-		emitError( tr("PIN acquisition canceled."), PinCanceled );
+		Q_EMIT error( tr("PIN acquisition canceled."), d->code = PinCanceled );
 		return false;
 	case QPKCS11::PinIncorrect:
-		emitError( tr("PIN Incorrect"), PinIncorrect );
+		Q_EMIT error( tr("PIN Incorrect"), d->code = PinIncorrect );
 		return false;
 	case QPKCS11::PinLocked:
-		emitError( tr("PIN Locked"), PinLocked );
+		Q_EMIT error( tr("PIN Locked"), d->code = PinLocked );
 		return false;
 	default:
-		emitError( tr("Failed to login token") );
+		d->code = PinUnknown;
+		Q_EMIT error( tr("Failed to login token") );
 		return false;
 	}
 
@@ -88,15 +89,12 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 	bool status = d->pkcs11.decrypt( in, (unsigned char*)data, &size );
 	d->pkcs11.logout();
 	if( !status )
-		emitError( tr("Failed to decrypt document") );
+		Q_EMIT error( tr("Failed to decrypt document") );
 	else
 		out = QByteArray( data, size );
 	delete [] data;
 	return status;
 }
-
-void Poller::emitError( const QString &msg, ErrorCode code )
-{ Q_EMIT error( msg, quint8(d->code = code) ); }
 
 Poller::ErrorCode Poller::errorCode() const { return d->code; }
 

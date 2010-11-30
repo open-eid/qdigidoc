@@ -35,9 +35,11 @@ public:
 	enum ErrorCode
 	{
 		NullCode = 0,
+		PinOk,
 		PinCanceled,
 		PinIncorrect,
 		PinLocked,
+		PinUnknown,
 	};
 
 	Poller( QObject *parent = 0 );
@@ -54,7 +56,6 @@ private Q_SLOTS:
 	void selectCard( const QString &card );
 
 private:
-	void emitError( const QString &msg, ErrorCode code = NullCode );
 	void run();
 
 	PollerPrivate *d;
