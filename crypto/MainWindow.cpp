@@ -80,7 +80,6 @@ MainWindow::MainWindow( const QStringList &args )
 	connect( qApp->poller(), SIGNAL(dataChanged(TokenData)), SLOT(showCardStatus()) );
 
 	doc = new CryptoDoc( this );
-	connect( doc, SIGNAL(error(QString,int,QString)), SLOT(showWarning(QString,int,QString)) );
 
 	connect( viewContentView, SIGNAL(remove(int)),
 		SLOT(removeDocument(int)) );
@@ -299,7 +298,7 @@ void MainWindow::buttonClicked( int button )
 				if( doc->saveDDoc( file ) )
 				{
 					if( !Common::startDetached( "qdigidocclient", QStringList() << file ) )
-						showWarning( tr("Failed to start process '%1'").arg( "qdigidocclient" ), -1 );
+						qApp->showWarning( tr("Failed to start process '%1'").arg( "qdigidocclient" ) );
 				}
 			}
 		}
@@ -426,7 +425,7 @@ void MainWindow::parseLink( const QString &link )
 	else if( link == "openUtility" )
 	{
 		if( !Common::startDetached( "qesteidutil" ) )
-			showWarning( tr("Failed to start process '%1'").arg( "qesteidutil" ), -1 );
+			qApp->showWarning( tr("Failed to start process '%1'").arg( "qesteidutil" ) );
 	}
 }
 
@@ -519,23 +518,6 @@ void MainWindow::showCardStatus()
 		a->setShortcut( Qt::CTRL + (Qt::Key_1 + i) );
 		addAction( a );
 	}
-}
-
-void MainWindow::showWarning( const QString &msg, int err, const QString &errmsg )
-{
-	QString s( msg );
-	switch( err )
-	{
-	case 60:
-		s += "<br />" + tr("Wrong PIN or PIN is blocked");
-		break;
-	case -1: break;
-	default:
-		s += "<br />" + tr("Error code: %1").arg( err );
-		if( !errmsg.isEmpty() )
-			s += QString(" (%1)").arg( errmsg );
-	}
-	qApp->showWarning( s );
 }
 
 void MainWindow::updateView() { setCurrentPage( Pages(stack->currentIndex()) ); }

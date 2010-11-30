@@ -84,9 +84,6 @@ public:
 public Q_SLOTS:
 	void saveDocument( int id, const QString &filepath );
 
-Q_SIGNALS:
-	void error( const QString &err, int code, const QString &msg );
-
 private Q_SLOTS:
 	void setLastError( const QString &err, int code = -1 );
 
