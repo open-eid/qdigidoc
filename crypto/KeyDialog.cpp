@@ -329,6 +329,7 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 	usedView->header()->setResizeMode( 0, QHeaderView::Stretch );
 	usedView->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
 	usedView->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
+	usedView->header()->setResizeMode( 3, QHeaderView::ResizeToContents );
 
 	ldap = new LdapSearch( this );
 	connect( ldap, SIGNAL(searchResult(QList<CKey>)), SLOT(showResult(QList<CKey>)) );
