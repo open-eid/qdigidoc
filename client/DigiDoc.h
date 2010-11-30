@@ -116,7 +116,7 @@ public:
 		digidoc::Exception::ExceptionCode &code, int &ddocError, QString &ddocMsg );
 
 Q_SIGNALS:
-	void error( const QString &err, int err = -1, const QString &ddocMsg = QString() );
+	void error( const QString &msg, int err = -1, const QString &ddocMsg = QString() );
 
 private:
 	bool checkDoc( bool status = false, const QString &msg = QString() );
