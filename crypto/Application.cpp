@@ -33,6 +33,8 @@
 
 #include <libdigidoc/DigiDocConfig.h>
 
+#include "qtsingleapplication/src/qtlocalpeer.h"
+
 #include <QDesktopServices>
 #include <QFileInfo>
 #include <QFileOpenEvent>
@@ -161,6 +163,9 @@ Application::~Application()
 {
 	if( !isRunning() )
 	{
+		QtLocalPeer *obj = findChild<QtLocalPeer*>();
+		if( obj )
+			delete obj;
 #ifdef Q_OS_MAC
 		delete d->bar;
 #endif
