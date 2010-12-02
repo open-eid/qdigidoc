@@ -453,7 +453,7 @@ void DigiDoc::setLastError( const Exception &e )
 	case Exception::PINIncorrect:
 		Q_EMIT error( tr("PIN Incorrect") ); break;
 	case Exception::PINLocked:
-		Q_EMIT error( tr("PIN Locked") ); break;
+		Q_EMIT error( tr("PIN Locked. Please use ID-card utility for PIN opening!") ); break;
 	default:
 		Q_EMIT error( causes.join( "\n" ), ddocError, ddocMsg ); break;
 	}

@@ -98,6 +98,12 @@ PIN1 on blokeeritud</translation>
         <source>About</source>
         <translation>Info</translation>
     </message>
+    <message>
+        <source>libdigidoc code: %1
+message: %2</source>
+        <translation>libdigidoc&apos;i kood: %1
+teade: %2</translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>

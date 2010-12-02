@@ -98,6 +98,12 @@ PIN1 is blocked</translation>
         <source>About</source>
         <translation>About</translation>
     </message>
+    <message>
+        <source>libdigidoc code: %1
+message: %2</source>
+        <translation>libdigidoc code: %1
+message: %2</translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>

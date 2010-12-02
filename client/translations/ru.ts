@@ -98,6 +98,11 @@ PIN заблокирован</translation>
         <source>About</source>
         <translation>Информация</translation>
     </message>
+    <message>
+        <source>libdigidoc code: %1
+message: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>
