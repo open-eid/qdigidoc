@@ -105,6 +105,8 @@ void QSigner::run()
 			}
 			else if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
 			{
+				d->t.setCard( cards.first() );
+				Q_EMIT dataChanged( d->t );
 				d->t = d->pkcs11.selectSlot( cards.first(), SslCertificate::NonRepudiation );
 				update = true;
 			}
