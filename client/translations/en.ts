@@ -1018,12 +1018,12 @@ Control code: %1</translation>
         <translation>Save file</translation>
     </message>
     <message>
-        <source>DigiDoc client</source>
-        <translation>DigiDoc client</translation>
-    </message>
-    <message>
         <source>You dont have sufficient privilegs to write this file into folder %1</source>
         <translation>You dont have sufficient privilegs to write this file into folder %1</translation>
+    </message>
+    <message>
+        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
+        <translation>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</translation>
     </message>
 </context>
 </TS>

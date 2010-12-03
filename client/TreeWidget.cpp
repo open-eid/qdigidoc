@@ -22,7 +22,9 @@
 
 #include "TreeWidget.h"
 
-#include "common/Common.h"
+#include "Application.h"
+
+#include <common/Common.h>
 
 #include <digidocpp/Document.h>
 
@@ -58,13 +60,13 @@ void TreeWidget::clicked( const QModelIndex &index )
 		QString dest;
 		while( true )
 		{
-			dest = Common::normalized( QFileDialog::getSaveFileName( this,
+			dest = Common::normalized( QFileDialog::getSaveFileName( qApp->activeWindow(),
 				tr("Save file"), QString( "%1/%2" )
 					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
 					.arg( model()->index( index.row(), 0 ).data().toString() ) ) );
 			if( !dest.isEmpty() && !Common::canWrite( dest ) )
 			{
-				QMessageBox::warning( this, tr("DigiDoc client"),
+				QMessageBox::warning( qApp->activeWindow(), qApp->applicationName(),
 					tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( dest ) );
 			}
 			else
@@ -120,14 +122,15 @@ void TreeWidget::openFile( const QModelIndex &index )
 {
 	QUrl u = url( index );
 #ifdef Q_OS_WIN32
-	QList<QByteArray> exts = qgetenv( "PATHEXT" ).split(';');
+	QStringList exts = QString::fromLocal8Bit( qgetenv( "PATHEXT" ) ).split(';');
 	exts << ".PIF" << ".SCR";
-	QFileInfo f( u.toLocalFile() );
-	Q_FOREACH( const QByteArray &ext, exts )
-	{
-		if( QString( ext ).contains( f.suffix(), Qt::CaseInsensitive ) )
-			return;
-	}
+	if( exts.contains( "." + QFileInfo( u.toLocalFile() ).suffix(), Qt::CaseInsensitive ) &&
+		QMessageBox::warning( qApp->activeWindow(), qApp->applicationName(),
+			tr("This is an executable file! "
+			"Executable files may contain viruses or other malicious code that could harm your computer. "
+			"Are you sure you want to launch this file?"),
+			QMessageBox::Yes|QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
+		return;
 #endif
 	QDesktopServices::openUrl( u );
 }
