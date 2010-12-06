@@ -253,7 +253,7 @@ void Application::showWarning( const QString &msg, quint8 code )
 	default: break;
 	}
 
-	QMessageBox d( QMessageBox::Warning, tr("DigiDoc crypto"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
+	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
 	if( d.exec() == QMessageBox::Help )
 		Common::showHelp( msg );
 }

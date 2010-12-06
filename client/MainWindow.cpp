@@ -171,7 +171,7 @@ bool MainWindow::addFile( const QString &file )
 		bool select = s.value( "AskSaveAs", false ).toBool();
 		if( !select && QFile::exists( docname ) )
 		{
-			QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc client"),
+			QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 client"),
 				tr( "%1 already exists.<br />Do you want replace it?" ).arg( docname ),
 				QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 			select = b == QMessageBox::No;
@@ -180,7 +180,7 @@ bool MainWindow::addFile( const QString &file )
 		if( !Common::canWrite( docname ) )
 		{
 			select = true;
-			QMessageBox::warning( this, tr("DigiDoc client"),
+			QMessageBox::warning( this, tr("DigiDoc3 client"),
 				tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( docname ) );
 		}
 
@@ -202,7 +202,7 @@ bool MainWindow::addFile( const QString &file )
 				docname.append( "." + exts[0] );
 			if( !Common::canWrite( docname ) )
 			{
-				QMessageBox::warning( this, tr("DigiDoc client"),
+				QMessageBox::warning( this, tr("DigiDoc3 client"),
 					tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( docname ) );
 			}
 			else
@@ -216,7 +216,7 @@ bool MainWindow::addFile( const QString &file )
 
 	if( !doc->signatures().isEmpty() )
 	{
-		QMessageBox::warning( this, tr("DigiDoc client"),
+		QMessageBox::warning( this, tr("DigiDoc3 client"),
 			tr( "You can not add files to signed document. "
 				"Remove all signatures before adding files.") );
 		return false;
@@ -624,7 +624,7 @@ void MainWindow::parseLink( const QString &link )
 				continue;
 			if( QFile::exists( dest ) )
 			{
-				QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc client"),
+				QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 client"),
 					tr( "%1 already exists.<br />Do you want replace it?" ).arg( dest ),
 					QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 				if( b == QMessageBox::No )
@@ -660,10 +660,10 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 		setWindowTitle( QString( "%1 - %2" )
 			.arg( QFileInfo( doc->fileName() ).fileName() )
-			.arg( tr("DigiDoc client") ) );
+			.arg( tr("DigiDoc3 client") ) );
 	}
 	else
-		setWindowTitle( tr("DigiDoc client") );
+		setWindowTitle( tr("DigiDoc3 client") );
 
 	switch( page )
 	{

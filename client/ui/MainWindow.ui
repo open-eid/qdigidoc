@@ -32,7 +32,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>DigiDoc client</string>
+   <string>DigiDoc3 client</string>
   </property>
   <property name="styleSheet">
    <string notr="true">#background { background-image: url(&quot;:/images/background.png&quot;); }</string>

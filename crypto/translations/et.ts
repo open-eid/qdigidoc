@@ -16,8 +16,8 @@
         <translation>&amp;Fail</translation>
     </message>
     <message>
-        <source>DigiDoc crypto</source>
-        <translation>DigiDoc Krüpto</translation>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Krüpto</translation>
     </message>
     <message>
         <source>New Window</source>
@@ -482,8 +482,8 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
         <translation>Turvaümbrikud (*.cdoc *.CDOC)</translation>
     </message>
     <message>
-        <source>DigiDoc Crypto</source>
-        <translation>DigiDoc Krüpto</translation>
+        <source>DigiDoc3 Crypto</source>
+        <translation>DigiDoc3 Krüpto</translation>
     </message>
     <message>
         <source>File does not exists %1</source>

@@ -87,8 +87,8 @@ PIN заблокирован</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>DigiDoc client</source>
-        <translation>DigiDoc клиент</translation>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 клиент</translation>
     </message>
     <message>
         <source>New Window</source>
@@ -402,8 +402,8 @@ p, li { white-space: pre-wrap; }
         <translation>NB: Ошибочная подпись</translation>
     </message>
     <message>
-        <source>DigiDoc client</source>
-        <translation>DigiDoc клиент</translation>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 клиент</translation>
     </message>
     <message numerus="yes">
         <source>Signature(s)</source>

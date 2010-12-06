@@ -309,7 +309,7 @@ void Application::showSettings( int page )
 
 void Application::showWarning( const QString &msg, int err, const QString &ddocMsg )
 {
-	QMessageBox d( QMessageBox::Warning, tr("DigiDoc client"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
+	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
 	if( err > 0 )
 		d.setDetailedText( tr("libdigidoc code: %1\nmessage: %2").arg( err ).arg( ddocMsg ) );
 	if( d.exec() == QMessageBox::Help )

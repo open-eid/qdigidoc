@@ -449,10 +449,10 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 		setWindowTitle( QString( "%1 - %2" )
 			.arg( QFileInfo( doc->fileName() ).fileName() )
-			.arg( tr("DigiDoc Crypto") ) );
+			.arg( tr("DigiDoc3 Crypto") ) );
 	}
 	else
-		setWindowTitle( tr("DigiDoc Crypto") );
+		setWindowTitle( tr("DigiDoc3 Crypto") );
 
 	switch( page )
 	{

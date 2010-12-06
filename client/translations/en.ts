@@ -87,8 +87,8 @@ PIN1 is blocked</translation>
         <translation>Failed to initalize.&lt;br /&gt;%1</translation>
     </message>
     <message>
-        <source>DigiDoc client</source>
-        <translation>DigiDoc client</translation>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 client</translation>
     </message>
     <message>
         <source>New Window</source>
@@ -403,8 +403,8 @@ Also an active internet connection is needed.&lt;/p&gt;
         <translation>NB! Invalid signature</translation>
     </message>
     <message>
-        <source>DigiDoc client</source>
-        <translation>DigiDoc client</translation>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 client</translation>
     </message>
     <message numerus="yes">
         <source>Signature(s)</source>
