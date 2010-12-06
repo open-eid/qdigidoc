@@ -375,6 +375,11 @@ bool DigiDoc::open( const QString &file )
 bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	Exception::ExceptionCode &code, int &ddocError, QString &ddocMsg )
 {
+	if( e.ddoc() > 0 )
+	{
+		ddocError = e.ddoc();
+		ddocMsg = from( e.ddocMsg() );
+	}
 	switch( e.code() )
 	{
 	case Exception::CertificateRevoked:
@@ -385,14 +390,10 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	case Exception::PINFailed:
 	case Exception::PINIncorrect:
 	case Exception::PINLocked:
-		code = e.code(); return false;
+		code = e.code();
+		return false;
 	default:
 		causes << from( e.getMsg() );
-		if( e.ddoc() > 0 )
-		{
-			ddocError = e.ddoc();
-			ddocMsg = from( e.ddocMsg() );
-		}
 		break;
 	}
 	Q_FOREACH( const Exception &c, e.getCauses() )
@@ -439,21 +440,21 @@ void DigiDoc::setLastError( const Exception &e )
 	switch( code )
 	{
 	case Exception::CertificateRevoked:
-		Q_EMIT error( tr("Certificate status revoked") ); break;
+		Q_EMIT error( tr("Certificate status revoked"), ddocError, ddocMsg ); break;
 	case Exception::CertificateUnknown:
-		Q_EMIT error( tr("Certificate status unknown") ); break;
+		Q_EMIT error( tr("Certificate status unknown"), ddocError, ddocMsg ); break;
 	case Exception::OCSPTimeSlot:
-		Q_EMIT error( tr("Check your computer time") ); break;
+		Q_EMIT error( tr("Check your computer time"), ddocError, ddocMsg ); break;
 	case Exception::OCSPRequestUnauthorized:
-		Q_EMIT error( tr("Server access certificate is required") ); break;
+		Q_EMIT error( tr("Server access certificate is required"), ddocError, ddocMsg ); break;
 	case Exception::PINCanceled:
 		break;
 	case Exception::PINFailed:
-		Q_EMIT error( tr("PIN Login failed") ); break;
+		Q_EMIT error( tr("PIN Login failed"), ddocError, ddocMsg ); break;
 	case Exception::PINIncorrect:
-		Q_EMIT error( tr("PIN Incorrect") ); break;
+		Q_EMIT error( tr("PIN Incorrect"), ddocError, ddocMsg ); break;
 	case Exception::PINLocked:
-		Q_EMIT error( tr("PIN Locked. Please use ID-card utility for PIN opening!") ); break;
+		Q_EMIT error( tr("PIN Locked. Please use ID-card utility for PIN opening!"), ddocError, ddocMsg ); break;
 	default:
 		Q_EMIT error( causes.join( "\n" ), ddocError, ddocMsg ); break;
 	}
