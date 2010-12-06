@@ -125,7 +125,7 @@ void TreeWidget::openFile( const QModelIndex &index )
 	QStringList exts = QString::fromLocal8Bit( qgetenv( "PATHEXT" ) ).split(';');
 	exts << ".PIF" << ".SCR";
 	if( exts.contains( "." + QFileInfo( u.toLocalFile() ).suffix(), Qt::CaseInsensitive ) &&
-		QMessageBox::warning( qApp->activeWindow(), qApp->applicationName(),
+		QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
 			tr("This is an executable file! "
 			"Executable files may contain viruses or other malicious code that could harm your computer. "
 			"Are you sure you want to launch this file?"),

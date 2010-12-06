@@ -1019,6 +1019,10 @@ Control code: %1</source>
         <source>Save file</source>
         <translation>Сохранить файл</translation>
     </message>
+	<message>
+		<source>DigiDoc3 client</source>
+		<translation>DigiDoc3 клиент</translation>
+	</message>
     <message>
         <source>You dont have sufficient privilegs to write this file into folder %1</source>
         <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
