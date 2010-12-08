@@ -31,6 +31,7 @@
 
 #include <common/AboutWidget.h>
 #include <common/Common.h>
+#include <common/Settings.h>
 #include <common/TokenData.h>
 
 #include <digidocpp/ADoc.h>
@@ -144,6 +145,20 @@ Application::Application( int &argc, char **argv )
 	qt_mac_set_dock_menu( d->menu );
 #endif
 
+	installTranslator( d->appTranslator = new QTranslator( this ) );
+	installTranslator( d->commonTranslator = new QTranslator( this ) );
+	installTranslator( d->qtTranslator = new QTranslator( this ) );
+
+	QString deflang;
+	switch( QLocale().language() )
+	{
+	case QLocale::English: deflang = "en"; break;
+	case QLocale::Russian: deflang = "ru"; break;
+	case QLocale::Estonian:
+	default: deflang = "et"; break;
+	}
+	loadTranslation( Settings().value( "Main/Language", deflang ).toString() );
+
 	try
 	{
 		digidoc::initialize();
@@ -158,10 +173,6 @@ Application::Application( int &argc, char **argv )
 		DigiDoc::parseException( e, causes, code, ddocError, ddocMsg );
 		showWarning( tr("Failed to initalize.<br />%1").arg( causes.join("\n") ), ddocError );
 	}
-
-	installTranslator( d->appTranslator = new QTranslator( this ) );
-	installTranslator( d->commonTranslator = new QTranslator( this ) );
-	installTranslator( d->qtTranslator = new QTranslator( this ) );
 
 	d->signer = new QSigner();
 	connect( d->signer, SIGNAL(dataChanged(TokenData)), SLOT(dataChanged(TokenData)) );
@@ -243,6 +254,15 @@ bool Application::event( QEvent *e )
 
 void Application::loadTranslation( const QString &lang )
 {
+	Settings s;
+	if( s.value( "Main/Language" ).toString() == lang )
+		return;
+	s.setValue( "Main/Language", lang );
+
+	if( lang == "en" ) QLocale::setDefault( QLocale( QLocale::English, QLocale::UnitedKingdom ) );
+	else if( lang == "ru" ) QLocale::setDefault( QLocale( QLocale::Russian, QLocale::RussianFederation ) );
+	else QLocale::setDefault( QLocale( QLocale::Estonian, QLocale::Estonia ) );
+
 	d->appTranslator->load( ":/translations/" + lang );
 	d->commonTranslator->load( ":/translations/common_" + lang );
 	d->qtTranslator->load( ":/translations/qt_" + lang );
