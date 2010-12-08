@@ -423,19 +423,23 @@ void KeyAddDialog::on_add_clicked()
 		const CKey k = keyModel->key( index );
 		keys << k;
 		SslCertificate cert( k.cert );
-		if( !m->match( m->index( 0, 0 ), Qt::DisplayRole, cert.subjectInfo( "CN" ), 1, Qt::MatchExactly ).isEmpty() )
+		HistoryModel::KeyType type = HistoryModel::IDCard;
+		switch( cert.type() )
+		{
+		case SslCertificate::TempelType: type = HistoryModel::TEMPEL; break;
+		case SslCertificate::DigiIDTestType:
+		case SslCertificate::DigiIDType: type = HistoryModel::DigiID; break;
+		default: break;
+		}
+
+		if( !m->match( m->index( 0, 0 ), Qt::DisplayRole, cert.subjectInfo( "CN" ), 1, Qt::MatchExactly ).isEmpty() &&
+			!m->match( m->index( 0, 1 ), Qt::EditRole, type, 1, Qt::MatchExactly ).isEmpty() )
 			continue;
 
 		int row = m->rowCount();
 		m->insertRow( row );
 		m->setData( m->index( row, 0 ), cert.subjectInfo( "CN" ) );
-		switch( cert.type() )
-		{
-		case SslCertificate::TempelType: m->setData( m->index( row, 1 ), HistoryModel::TEMPEL ); break;
-		case SslCertificate::DigiIDTestType:
-		case SslCertificate::DigiIDType: m->setData( m->index( row, 1 ), HistoryModel::DigiID ); break;
-		default: m->setData( m->index( row, 1 ), HistoryModel::IDCard ); break;
-		}
+		m->setData( m->index( row, 1 ), type );
 		m->setData( m->index( row, 2 ), cert.issuerInfo( "CN" ) );
 		m->setData( m->index( row, 3 ), cert.expiryDate().toLocalTime().toString( "dd.MM.yyyy" ) );
 	}
