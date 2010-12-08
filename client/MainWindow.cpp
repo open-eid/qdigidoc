@@ -48,8 +48,8 @@
 #include <QTextStream>
 #include <QUrl>
 
-MainWindow::MainWindow( const QStringList &_params )
-:	QWidget()
+MainWindow::MainWindow( QWidget *parent )
+:	QWidget( parent )
 ,	cardsGroup( new QActionGroup( this ) )
 ,	quitOnClose( false )
 {
@@ -112,18 +112,13 @@ MainWindow::MainWindow( const QStringList &_params )
 	lang << "et" << "en" << "ru";
 	retranslate();
 	QActionGroup *langGroup = new QActionGroup( this );
-	QAction *etAction = langGroup->addAction( new QAction( langGroup ) );
-	QAction *enAction = langGroup->addAction( new QAction( langGroup ) );
-	QAction *ruAction = langGroup->addAction( new QAction( langGroup ) );
-	etAction->setData( "et" );
-	enAction->setData( "en" );
-	ruAction->setData( "ru" );
-	etAction->setShortcut( Qt::CTRL + Qt::SHIFT + Qt::Key_1 );
-	enAction->setShortcut( Qt::CTRL + Qt::SHIFT + Qt::Key_2 );
-	ruAction->setShortcut( Qt::CTRL + Qt::SHIFT + Qt::Key_3 );
-	addAction( etAction );
-	addAction( enAction );
-	addAction( ruAction );
+	for( int i = 0; i < lang.size(); ++i )
+	{
+		QAction *a = langGroup->addAction( new QAction( langGroup ) );
+		a->setData( lang[i] );
+		a->setShortcut( Qt::CTRL + Qt::SHIFT + Qt::Key_0 + i );
+	}
+	addActions( langGroup->actions() );
 	connect( langGroup, SIGNAL(triggered(QAction*)), SLOT(changeLang(QAction*)) );
 	connect( cardsGroup, SIGNAL(triggered(QAction*)), SLOT(changeCard(QAction*)) );
 
@@ -134,13 +129,6 @@ MainWindow::MainWindow( const QStringList &_params )
 		SLOT(removeDocument(unsigned int)) );
 	connect( viewContentView, SIGNAL(remove(unsigned int)),
 		SLOT(removeDocument(unsigned int)) );
-
-	if( !_params.empty() )
-	{
-		quitOnClose = true;
-		params = _params;
-		buttonClicked( HomeSign );
-	}
 }
 
 bool MainWindow::addFile( const QString &file )
@@ -548,6 +536,13 @@ void MainWindow::on_introCheck_stateChanged( int state )
 
 void MainWindow::on_languages_activated( int index )
 { qApp->loadTranslation( lang[index] ); }
+
+void MainWindow::open( const QStringList &_params )
+{
+	quitOnClose = true;
+	params = _params;
+	buttonClicked( HomeSign );
+}
 
 void MainWindow::parseLink( const QString &link )
 {

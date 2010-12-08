@@ -73,6 +73,7 @@ public:
 #endif
 	QSigner		*signer;
 	QTranslator	*appTranslator, *commonTranslator, *qtTranslator;
+	QString		lang;
 };
 
 Application::Application( int &argc, char **argv )
@@ -254,10 +255,9 @@ bool Application::event( QEvent *e )
 
 void Application::loadTranslation( const QString &lang )
 {
-	Settings s;
-	if( s.value( "Main/Language" ).toString() == lang )
+	if( d->lang == lang )
 		return;
-	s.setValue( "Main/Language", lang );
+	Settings().setValue( "Main/Language", d->lang = lang );
 
 	if( lang == "en" ) QLocale::setDefault( QLocale( QLocale::English, QLocale::UnitedKingdom ) );
 	else if( lang == "ru" ) QLocale::setDefault( QLocale( QLocale::Russian, QLocale::RussianFederation ) );
@@ -287,9 +287,11 @@ void Application::parseArgs( const QString &msg )
 	}
 	else
 	{
-		MainWindow *w = new MainWindow( params );
+		MainWindow *w = new MainWindow();
 		w->addAction( d->closeAction );
 		w->show();
+		if( !params.isEmpty() )
+			QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
 	}
 }
 
@@ -330,6 +332,7 @@ void Application::showSettings( int page )
 void Application::showWarning( const QString &msg, int err, const QString &ddocMsg )
 {
 	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
+	d.setWindowModality( Qt::WindowModal );
 	if( err > 0 )
 		d.setDetailedText( tr("libdigidoc code: %1\nmessage: %2").arg( err ).arg( ddocMsg ) );
 	if( d.exec() == QMessageBox::Help )

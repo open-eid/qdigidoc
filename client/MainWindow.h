@@ -33,7 +33,7 @@ class MainWindow: public QWidget, private Ui::MainWindow
 	Q_OBJECT
 
 public:
-	explicit MainWindow( const QStringList &params );
+	explicit MainWindow( QWidget *parent = 0 );
 
 	void closeDoc();
 
@@ -44,6 +44,7 @@ private Q_SLOTS:
 	void enableSign();
 	void on_introCheck_stateChanged( int state );
 	void on_languages_activated( int index );
+	void open( const QStringList &params );
 	void parseLink( const QString &link );
 	void removeDocument( unsigned int index );
 	void showCardStatus();
