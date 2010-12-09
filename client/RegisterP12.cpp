@@ -42,7 +42,6 @@ RegisterP12::RegisterP12( const QString &cert )
 :	QWidget()
 ,	d( new Ui::RegisterP12 )
 {
-	qApp->loadTranslation( Settings().value( "Main/Language", "et" ).toString() );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	d->setupUi( this );
 	d->p12Cert->installEventFilter( this );

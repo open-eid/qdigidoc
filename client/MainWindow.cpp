@@ -133,14 +133,14 @@ MainWindow::MainWindow( QWidget *parent )
 
 bool MainWindow::addFile( const QString &file )
 {
+	QFileInfo fileinfo( file );
 	if( doc->isNull() )
 	{
 		Settings s;
 		s.beginGroup( "Client" );
-		QFileInfo info( file );
 		QString docname = QString( "%1/%2.%3" )
-			.arg( s.value( "DefaultDir", info.absolutePath() ).toString() )
-			.arg( info.fileName() )
+			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
+			.arg( fileinfo.fileName() )
 #ifdef BDOC_ENABLED
 			.arg( s.value( "type" ,"ddoc" ).toString() );
 #else
@@ -205,13 +205,11 @@ bool MainWindow::addFile( const QString &file )
 	QList<digidoc::Document> docs = doc->documents();
 	for( int i = 0; i < docs.size(); ++i )
 	{
-		if( QFileInfo( QString::fromUtf8( docs[i].getPath().data() ) ).fileName() ==
-			QFileInfo( file ).fileName() )
+		if( QFileInfo( QString::fromUtf8( docs[i].getPath().data() ) ).fileName() == fileinfo.fileName() )
 		{
 			QMessageBox::StandardButton btn = QMessageBox::warning( this,
 				tr("File already in container"),
-				tr("%1<br />already in container, ovewrite?")
-					.arg( QFileInfo( file ).fileName() ),
+				tr("%1<br />already in container, ovewrite?").arg( fileinfo.fileName() ),
 				QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 			if( btn == QMessageBox::Yes )
 			{
@@ -238,7 +236,7 @@ void MainWindow::buttonClicked( int button )
 		qApp->showSettings();
 		break;
 	case HeadHelp:
-		QDesktopServices::openUrl( QUrl( "http://support.sk.ee/" ) );
+		QDesktopServices::openUrl( QUrl( Common::helpUrl() ) );
 		break;
 	case HomeView:
 	{
@@ -633,7 +631,7 @@ void MainWindow::removeDocument( unsigned int index )
 void MainWindow::retranslate()
 {
 	retranslateUi( this );
-	languages->setCurrentIndex( lang.indexOf( Settings().value( "Main/Language" ).toString() ) );
+	languages->setCurrentIndex( lang.indexOf( Settings::language() ) );
 	introNext->setText( tr("Next") );
 	signButton->setText( tr("Sign") );
 	viewAddSignature->setText( tr("Add signature") );

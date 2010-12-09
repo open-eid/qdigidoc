@@ -144,16 +144,7 @@ Application::Application( int &argc, char **argv )
 	installTranslator( d->appTranslator = new QTranslator( this ) );
 	installTranslator( d->commonTranslator = new QTranslator( this ) );
 	installTranslator( d->qtTranslator = new QTranslator( this ) );
-
-	QString deflang;
-	switch( QLocale().language() )
-	{
-	case QLocale::English: deflang = "en"; break;
-	case QLocale::Russian: deflang = "ru"; break;
-	case QLocale::Estonian:
-	default: deflang = "et"; break;
-	}
-	loadTranslation( Settings().value( "Main/Language", deflang ).toString() );
+	loadTranslation( Settings::language() );
 
 	initDigiDocLib();
 	QString ini = QString( "%1/digidoc.ini" ).arg( applicationDirPath() );

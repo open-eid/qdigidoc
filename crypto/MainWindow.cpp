@@ -107,14 +107,14 @@ MainWindow::MainWindow( QWidget *parent )
 
 bool MainWindow::addFile( const QString &file )
 {
+	QFileInfo fileinfo( file );
 	if( doc->isNull() )
 	{
 		Settings s;
 		s.beginGroup( "Crypto" );
-		QFileInfo info( file );
 		QString docname = QString( "%1/%2.cdoc" )
-			.arg( s.value( "DefaultDir", info.absolutePath() ).toString() )
-			.arg( info.fileName() );
+			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
+			.arg( fileinfo.fileName() );
 
 		bool select = s.value( "AskSaveAs", false ).toBool();
 		if( !select && QFile::exists( docname ) )
@@ -150,9 +150,9 @@ bool MainWindow::addFile( const QString &file )
 		doc->create( docname );
 	}
 
-	if( !QFile::exists( file ) )
+	if( !fileinfo.exists() )
 	{
-		qApp->showWarning( tr("File does not exists %1").arg( file ) );
+		qApp->showWarning( tr("File does not exists %1").arg( fileinfo.absoluteFilePath() ) );
 		return false;
 	}
 
@@ -160,13 +160,11 @@ bool MainWindow::addFile( const QString &file )
 	QList<CDocument> docs = doc->documents();
 	for( int i = 0; i < docs.size(); ++i )
 	{
-		if( QFileInfo( docs[i].filename ).fileName() ==
-			QFileInfo( file ).fileName() )
+		if( QFileInfo( docs[i].filename ).fileName() == fileinfo.fileName() )
 		{
 			QMessageBox::StandardButton btn = QMessageBox::warning( this,
 				tr("File already in container"),
-				tr("%1<br />already in container, ovewrite?")
-					.arg( QFileInfo( file ).fileName() ),
+				tr("%1<br />already in container, ovewrite?").arg( fileinfo.fileName() ),
 				QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 			if( btn == QMessageBox::Yes )
 			{
@@ -193,7 +191,7 @@ void MainWindow::buttonClicked( int button )
 		qApp->showSettings();
 		break;
 	case HeadHelp:
-		QDesktopServices::openUrl( QUrl( "http://support.sk.ee/" ) );
+		QDesktopServices::openUrl( QUrl( Common::helpUrl() ) );
 		break;
 	case HomeView:
 	{
@@ -429,7 +427,7 @@ void MainWindow::removeKey( int id )
 void MainWindow::retranslate()
 {
 	retranslateUi( this );
-	languages->setCurrentIndex( lang.indexOf( Settings().value( "Main/Language" ).toString() ) );
+	languages->setCurrentIndex( lang.indexOf( Settings::language() ) );
 	introNext->setText( tr( "Next" ) );
 	showCardStatus();
 	updateView();
