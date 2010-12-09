@@ -150,14 +150,27 @@
        <property name="fieldGrowthPolicy">
         <enum>QFormLayout::ExpandingFieldsGrow</enum>
        </property>
-       <item row="0" column="0">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="p12Label">
+         <property name="text">
+          <string>Regarding to terms and conditions of validity confirmation service you're allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
         <widget class="QLabel" name="p12CertLabel">
          <property name="text">
           <string>Certificate</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item row="1" column="1">
         <layout class="QHBoxLayout" name="p12Layout">
          <item>
           <widget class="QLineEdit" name="p12Cert"/>
@@ -171,21 +184,21 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="p12PassLabel">
          <property name="text">
           <string>Password</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QLineEdit" name="p12Pass">
          <property name="echoMode">
           <enum>QLineEdit::Password</enum>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <layout class="QHBoxLayout" name="p12ButtonLayout">
          <item>
           <widget class="QLabel" name="p12Error">
@@ -216,14 +229,14 @@
          </item>
         </layout>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="QCheckBox" name="p12Ignore">
          <property name="text">
           <string>Ignore PKCS#12 certificate (IP based access)</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="5" column="1">
         <spacer name="tabPKCS12Spacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

@@ -286,26 +286,6 @@ There is an option to re-sign this document in a new container.</source>
         <translation>Зашифровать файлы для безопасной передачи</translation>
     </message>
     <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;
-&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; font: 12px &apos;Arial,Liberation Sans&apos;;&quot;&gt;
-Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.&lt;/p&gt;
-&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;
-&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; font: 12px &apos;Arial,Liberation Sans&apos;;&quot;&gt;
-Подписывание документов.&lt;br /&gt;&lt;br /&gt;
-Цифровая подпись аналогична физической подписи. Для цифровой подписи нужна ID-карта, которая имеет действующие сертификаты .&lt;br /&gt;&lt;br /&gt;
-При подписывании документов нужен PIN2 код.&lt;br /&gt;&lt;br /&gt;
-Для цифровой подписи необходимо подключение к интернету.&lt;/p&gt;
-&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>Skip this intro</source>
         <translation>Больше не показывать</translation>
     </message>
@@ -314,32 +294,8 @@ Also an active internet connection is needed.&lt;/p&gt;
         <translation>Содержание контейнера:</translation>
     </message>
     <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial, Liberation Sans&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Roll ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial, Liberation Sans&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Роль ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>Role</source>
         <translation>Роль</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial, Liberation Sans&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Resolution ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial, Liberation Sans&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Резолюция ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Resolution</source>
@@ -456,6 +412,24 @@ Should I keep unsigned documents or remove these?</source>
     <message>
         <source>File is in BDOC format. Software needs to be updated in order to see file contents.</source>
         <translation>Формат файла BDOC. Чтобы увидеть содержимое файла программное обеспечение должно быть обновлено.</translation>
+    </message>
+    <message>
+        <source>Server access certificate</source>
+        <translation>Справка допуска</translation>
+    </message>
+    <message>
+        <source>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
+        <translation>Я ознакомлен и полностью согласен с условиями пользования услугой подтверждения действительности и обязуюсь пользоваться услугой в объеме не более 10 цифровых подписей в месяц. Чтобы получить возможность пользоваться услугой в большем объеме или использовать ее в коммерческих целях, обратитесь в службу ИТ-поддержки Вашего учреждения. За дополнительной информацией обращайтесь по адресу &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; или по телефону 1777</translation>
+    </message>
+    <message>
+        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
+Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
+Also an active internet connection is needed.</source>
+        <translation>Подписывание документов.&lt;br /&gt;&lt;br /&gt;
+Цифровая подпись аналогична физической подписи. Для цифровой подписи нужна ID-карта, которая имеет действующие сертификаты .&lt;br /&gt;&lt;br /&gt;
+При подписывании документов нужен PIN2 код.&lt;br /&gt;&lt;br /&gt;
+Для цифровой подписи необходимо подключение к интернету.</translation>
     </message>
 </context>
 <context>
@@ -848,6 +822,10 @@ Control code: %1</source>
     </message>
     <message>
         <source>Ignore PKCS#12 certificate (IP based access)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

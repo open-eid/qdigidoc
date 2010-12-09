@@ -384,6 +384,21 @@ void MainWindow::buttonClicked( int button )
 				QDesktopServices::openUrl( QUrl( "http://www.sk.ee/toend/" ) );
 				break;
 			}
+			QMessageBox d( QMessageBox::Information, tr("Server access certificate"),
+				tr("Hereby I agree to terms and conditions of validity confirmation service and "
+				   "will use the service in extent of 10 signatures per month. If you going to "
+				   "exceed the limit of 10 signatures per month or/and will use the service for "
+				   "commercial purposes, please refer to IT support of your company. Additional "
+				   "information is available from <a href=\"http://www.sk.ee/kehtivuskinnitus\">"
+				   "http://www.sk.ee/kehtivuskinnitus</a> or phone 1777"),
+				QMessageBox::Help|QMessageBox::Close, this );
+			if( QLabel *label = d.findChild<QLabel*>() )
+				label->setOpenExternalLinks( true );
+			if( d.exec() == QMessageBox::Help )
+			{
+				QDesktopServices::openUrl( QUrl( "http://www.sk.ee/kehtivuskinnitus" ) );
+				break;
+			}
 			if( !access.download() )
 				break;
 		}
@@ -750,8 +765,8 @@ void MainWindow::showCardStatus()
 		QAction *a = cardsGroup->addAction( new QAction( cardsGroup ) );
 		a->setData( qApp->tokenData().cards().at( i ) );
 		a->setShortcut( Qt::CTRL + (Qt::Key_1 + i) );
-		addAction( a );
 	}
+	addActions( cardsGroup->actions() );
 
 	enableSign();
 	setCurrentPage( (Pages)stack->currentIndex() );

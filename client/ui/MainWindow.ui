@@ -610,15 +610,10 @@ padding: 5px;
           <item>
            <widget class="QLabel" name="introContent">
             <property name="text">
-             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;
-&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; font: 12px 'Arial,Liberation Sans';&quot;&gt;
-Digital signing.&lt;br /&gt;&lt;br /&gt;
+             <string>Digital signing.&lt;br /&gt;&lt;br /&gt;
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.&lt;/p&gt;
-&lt;/body&gt;&lt;/html&gt;</string>
+Also an active internet connection is needed.</string>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -708,22 +703,6 @@ Also an active internet connection is needed.&lt;/p&gt;
              </property>
              <item row="1" column="0">
               <widget class="QLabel" name="signRoleLabel">
-               <property name="font">
-                <font>
-                 <family>Arial, Liberation Sans</family>
-                 <pointsize>-1</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="toolTip">
-                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial, Liberation Sans'; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Roll ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
                <property name="text">
                 <string>Role</string>
                </property>
@@ -734,22 +713,6 @@ p, li { white-space: pre-wrap; }
              </item>
              <item row="2" column="0">
               <widget class="QLabel" name="signResolutionLabel">
-               <property name="font">
-                <font>
-                 <family>Arial, Liberation Sans</family>
-                 <pointsize>-1</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="toolTip">
-                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial, Liberation Sans'; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Resolution ...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
                <property name="text">
                 <string>Resolution</string>
                </property>
@@ -760,15 +723,6 @@ p, li { white-space: pre-wrap; }
              </item>
              <item row="4" column="0">
               <widget class="QLabel" name="signCityLabel">
-               <property name="font">
-                <font>
-                 <family>Arial, Liberation Sans</family>
-                 <pointsize>-1</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>City</string>
                </property>
@@ -779,15 +733,6 @@ p, li { white-space: pre-wrap; }
              </item>
              <item row="5" column="0">
               <widget class="QLabel" name="signStateLabel">
-               <property name="font">
-                <font>
-                 <family>Arial, Liberation Sans</family>
-                 <pointsize>-1</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>State</string>
                </property>
@@ -798,15 +743,6 @@ p, li { white-space: pre-wrap; }
              </item>
              <item row="6" column="0">
               <widget class="QLabel" name="signCountryLabel">
-               <property name="font">
-                <font>
-                 <family>Arial, Liberation Sans</family>
-                 <pointsize>-1</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Country</string>
                </property>
@@ -817,15 +753,6 @@ p, li { white-space: pre-wrap; }
              </item>
              <item row="7" column="0">
               <widget class="QLabel" name="signZipLabel">
-               <property name="font">
-                <font>
-                 <family>Arial, Liberation Sans</family>
-                 <pointsize>-1</pointsize>
-                 <weight>50</weight>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
                <property name="text">
                 <string>Zip</string>
                </property>
@@ -1012,8 +939,8 @@ p, li { white-space: pre-wrap; }
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>288</width>
-               <height>208</height>
+               <width>16</width>
+               <height>16</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="viewSignaturesLayout">
