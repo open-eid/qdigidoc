@@ -40,12 +40,13 @@
 #include <QTextStream>
 #include <QUrl>
 
-MainWindow::MainWindow( const QStringList &args )
-:	QWidget()
+MainWindow::MainWindow( QWidget *parent )
+:	QWidget( parent )
 ,	cardsGroup( new QActionGroup( this ) )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
+
 	cards->hide();
 	cards->hack();
 	languages->hack();
@@ -57,6 +58,7 @@ MainWindow::MainWindow( const QStringList &args )
 	setWindowFlags( windowFlags() | Qt::WindowSystemMenuHint );
 #endif
 
+	// Buttons
 	QButtonGroup *buttonGroup = new QButtonGroup( this );
 
 	buttonGroup->addButton( settings, HeadSettings );
@@ -79,47 +81,28 @@ MainWindow::MainWindow( const QStringList &args )
 	connect( cards, SIGNAL(activated(QString)), qApp->poller(), SLOT(selectCard(QString)), Qt::QueuedConnection );
 	connect( qApp->poller(), SIGNAL(dataChanged(TokenData)), SLOT(showCardStatus()) );
 
+	// Cryptodoc
 	doc = new CryptoDoc( this );
 
+	// Translations
+	lang << "et" << "en" << "ru";
+	retranslate();
+	QActionGroup *langGroup = new QActionGroup( this );
+	for( int i = 0; i < lang.size(); ++i )
+	{
+		QAction *a = langGroup->addAction( new QAction( langGroup ) );
+		a->setData( lang[i] );
+		a->setShortcut( Qt::CTRL + Qt::SHIFT + Qt::Key_0 + i );
+	}
+	addActions( langGroup->actions() );
+	connect( langGroup, SIGNAL(triggered(QAction*)), SLOT(changeLang(QAction*)) );
+	connect( cardsGroup, SIGNAL(triggered(QAction*)), SLOT(changeCard(QAction*)) );
+
+	// Views
 	connect( viewContentView, SIGNAL(remove(int)),
 		SLOT(removeDocument(int)) );
 	connect( viewContentView, SIGNAL(save(int,QString)),
 		doc, SLOT(saveDocument(int,QString)) );
-
-	cards->hack();
-	languages->hack();
-	lang << "et" << "en" << "ru";
-	QString deflang;
-	switch( QLocale().language() )
-	{
-	case QLocale::English: deflang = "en"; break;
-	case QLocale::Russian: deflang = "ru"; break;
-	case QLocale::Estonian:
-	default: deflang = "et"; break;
-	}
-	on_languages_activated( lang.indexOf(
-		Settings().value( "Main/Language", deflang ).toString() ) );
-	QActionGroup *langGroup = new QActionGroup( this );
-	QAction *etAction = langGroup->addAction( new QAction( langGroup ) );
-	QAction *enAction = langGroup->addAction( new QAction( langGroup ) );
-	QAction *ruAction = langGroup->addAction( new QAction( langGroup ) );
-	etAction->setData( 0 );
-	enAction->setData( 1 );
-	ruAction->setData( 2 );
-	etAction->setShortcut( Qt::CTRL + Qt::SHIFT + Qt::Key_1 );
-	enAction->setShortcut( Qt::CTRL + Qt::SHIFT + Qt::Key_2 );
-	ruAction->setShortcut( Qt::CTRL + Qt::SHIFT + Qt::Key_3 );
-	addAction( etAction );
-	addAction( enAction );
-	addAction( ruAction );
-	connect( langGroup, SIGNAL(triggered(QAction*)), SLOT(changeLang(QAction*)) );
-	connect( cardsGroup, SIGNAL(triggered(QAction*)), SLOT(changeCard(QAction*)) );
-
-	if( !args.isEmpty() )
-	{
-		params = args;
-		buttonClicked( HomeCreate );
-	}
 }
 
 bool MainWindow::addFile( const QString &file )
@@ -136,7 +119,7 @@ bool MainWindow::addFile( const QString &file )
 		bool select = s.value( "AskSaveAs", false ).toBool();
 		if( !select && QFile::exists( docname ) )
 		{
-			QMessageBox::StandardButton b = QMessageBox::warning( this, windowTitle(),
+			QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 crypto"),
 				tr( "%1 already exists.<br />Do you want replace it?" ).arg( docname ),
 				QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 			select = b == QMessageBox::No;
@@ -181,7 +164,9 @@ bool MainWindow::addFile( const QString &file )
 			QFileInfo( file ).fileName() )
 		{
 			QMessageBox::StandardButton btn = QMessageBox::warning( this,
-				windowTitle(), tr("Container contains file with same name, ovewrite?"),
+				tr("File already in container"),
+				tr("%1<br />already in container, ovewrite?")
+					.arg( QFileInfo( file ).fileName() ),
 				QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 			if( btn == QMessageBox::Yes )
 			{
@@ -315,7 +300,7 @@ void MainWindow::buttonClicked( int button )
 
 void MainWindow::changeCard( QAction *a )
 { QMetaObject::invokeMethod( qApp->poller(), "selectCard", Qt::QueuedConnection, Q_ARG(QString,a->data().toString()) ); }
-void MainWindow::changeLang( QAction *a ) { on_languages_activated( a->data().toUInt() ); }
+void MainWindow::changeLang( QAction *a ) { qApp->loadTranslation( a->data().toString() ); }
 
 void MainWindow::closeDoc() { buttonClicked( ViewClose ); }
 
@@ -335,6 +320,15 @@ void MainWindow::dropEvent( QDropEvent *e )
 	buttonClicked( HomeCreate );
 }
 
+bool MainWindow::event( QEvent *e )
+{
+	switch( e->type() )
+	{
+	case QEvent::LanguageChange: retranslate(); return true;
+	default: return QWidget::event( e );
+	}
+}
+
 void MainWindow::on_introCheck_stateChanged( int state )
 {
 	Settings().setValue( "Crypto/Intro", state == Qt::Unchecked );
@@ -342,21 +336,12 @@ void MainWindow::on_introCheck_stateChanged( int state )
 }
 
 void MainWindow::on_languages_activated( int index )
-{
-	Settings().setValue( "Main/Language", lang[index] );
+{ qApp->loadTranslation( lang[index] ); }
 
-	switch( index )
-	{
-	case 1: QLocale::setDefault( QLocale( QLocale::English, QLocale::UnitedKingdom ) ); break;
-	case 2: QLocale::setDefault( QLocale( QLocale::Russian, QLocale::RussianFederation ) ); break;
-	default: QLocale::setDefault( QLocale( QLocale::Estonian, QLocale::Estonia ) ); break;
-	}
-	qApp->loadTranslation( lang[index] );
-	retranslateUi( this );
-	languages->setCurrentIndex( index );
-	introNext->setText( tr( "Next" ) );
-	showCardStatus();
-	updateView();
+void MainWindow::open( const QStringList &_params )
+{
+	params = _params;
+	buttonClicked( HomeCreate );
 }
 
 void MainWindow::parseLink( const QString &link )
@@ -439,6 +424,15 @@ void MainWindow::removeKey( int id )
 {
 	doc->removeKey( id );
 	setCurrentPage( View );
+}
+
+void MainWindow::retranslate()
+{
+	retranslateUi( this );
+	languages->setCurrentIndex( lang.indexOf( Settings().value( "Main/Language" ).toString() ) );
+	introNext->setText( tr( "Next" ) );
+	showCardStatus();
+	updateView();
 }
 
 void MainWindow::setCurrentPage( Pages page )

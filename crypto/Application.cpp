@@ -29,6 +29,7 @@
 
 #include <common/AboutWidget.h>
 #include <common/Common.h>
+#include <common/Settings.h>
 #include <common/TokenData.h>
 
 #include <libdigidoc/DigiDocConfig.h>
@@ -68,6 +69,7 @@ public:
 #endif
 	Poller		*poller;
 	QTranslator	*appTranslator, *commonTranslator, *qtTranslator;
+	QString		lang;
 };
 
 Application::Application( int &argc, char **argv )
@@ -139,16 +141,26 @@ Application::Application( int &argc, char **argv )
 	qt_mac_set_dock_menu( d->menu );
 #endif
 
+	installTranslator( d->appTranslator = new QTranslator( this ) );
+	installTranslator( d->commonTranslator = new QTranslator( this ) );
+	installTranslator( d->qtTranslator = new QTranslator( this ) );
+
+	QString deflang;
+	switch( QLocale().language() )
+	{
+	case QLocale::English: deflang = "en"; break;
+	case QLocale::Russian: deflang = "ru"; break;
+	case QLocale::Estonian:
+	default: deflang = "et"; break;
+	}
+	loadTranslation( Settings().value( "Main/Language", deflang ).toString() );
+
 	initDigiDocLib();
 	QString ini = QString( "%1/digidoc.ini" ).arg( applicationDirPath() );
 	if( QFileInfo( ini ).isFile() )
 		initConfigStore( ini.toUtf8() );
 	else
 		initConfigStore( NULL );
-
-	installTranslator( d->appTranslator = new QTranslator( this ) );
-	installTranslator( d->commonTranslator = new QTranslator( this ) );
-	installTranslator( d->qtTranslator = new QTranslator( this ) );
 
 	d->poller = new Poller();
 	connect( d->poller, SIGNAL(dataChanged(TokenData)), SLOT(dataChanged(TokenData)) );
@@ -209,6 +221,14 @@ bool Application::event( QEvent *e )
 
 void Application::loadTranslation( const QString &lang )
 {
+	if( d->lang == lang )
+		return;
+	Settings().setValue( "Main/Language", d->lang = lang );
+
+	if( lang == "en" ) QLocale::setDefault( QLocale( QLocale::English, QLocale::UnitedKingdom ) );
+	else if( lang == "ru" ) QLocale::setDefault( QLocale( QLocale::Russian, QLocale::RussianFederation ) );
+	else QLocale::setDefault( QLocale( QLocale::Estonian, QLocale::Estonia ) );
+
 	d->appTranslator->load( ":/translations/" + lang );
 	d->commonTranslator->load( ":/translations/common_" + lang );
 	d->qtTranslator->load( ":/translations/qt_" + lang );
@@ -224,9 +244,11 @@ void Application::loadTranslation( const QString &lang )
 void Application::parseArgs( const QString &msg )
 {
 	QStringList params = msg.split( "\", \"", QString::SkipEmptyParts );
-	MainWindow *w = new MainWindow( params );
+	MainWindow *w = new MainWindow();
 	w->addAction( d->closeAction );
 	w->show();
+	if( !params.isEmpty() )
+		QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
 }
 
 Poller* Application::poller() const { return d->poller; }

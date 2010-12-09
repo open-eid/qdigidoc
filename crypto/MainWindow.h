@@ -32,7 +32,7 @@ class MainWindow: public QWidget, private Ui::MainWindow
 	Q_OBJECT
 
 public:
-	explicit MainWindow( const QStringList &args );
+	explicit MainWindow( QWidget *parent = 0 );
 
 	void closeDoc();
 
@@ -42,6 +42,7 @@ private Q_SLOTS:
 	void changeLang( QAction *a );
 	void on_introCheck_stateChanged( int state );
 	void on_languages_activated( int index );
+	void open( const QStringList &params );
 	void parseLink( const QString &url );
 	void removeDocument( int index );
 	void showCardStatus();
@@ -66,12 +67,14 @@ private:
 		ViewCrypt,
 	};
 	bool addFile( const QString &file );
+	bool event( QEvent *e );
 	void dragEnterEvent( QDragEnterEvent *e );
 	void dropEvent( QDropEvent *e );
+	void retranslate();
 	void setCurrentPage( Pages page );
 
 	QActionGroup *cardsGroup;
 	CryptoDoc	*doc;
-	QStringList	lang, params;
+	QStringList lang, params;
 	QPushButton *introNext, *viewCrypt;
 };

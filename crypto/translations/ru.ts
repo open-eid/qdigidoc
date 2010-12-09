@@ -129,6 +129,15 @@
         <source>Failed to encrypt data.&lt;br /&gt;File does not exsist %1</source>
         <translation>Зашифрировка данных неудалась&lt;br /&gt;Выбраный файл не существует %1</translation>
     </message>
+    <message>
+        <source>libdigidoc code: %1
+message: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Crypto</translation>
+    </message>
 </context>
 <context>
     <name>HistoryModel</name>
@@ -339,10 +348,6 @@
         <translation>Документы(*.cdoc)</translation>
     </message>
     <message>
-        <source>Container contains file with same name, ovewrite?</source>
-        <translation>В контейнере уже есть файлы с таким именем, перезаписать?</translation>
-    </message>
-    <message>
         <source>Select documents</source>
         <translation>Добавить файлы</translation>
     </message>
@@ -382,10 +387,6 @@
     <message>
         <source>No card in reader</source>
         <translation>В считывателе нет карты</translation>
-    </message>
-    <message>
-        <source>Error code: %1</source>
-        <translation>Код ошибки:%1</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -490,12 +491,20 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
         <translation>Выбраный файл не существует %1</translation>
     </message>
     <message>
-        <source>Wrong PIN or PIN is blocked</source>
-        <translation>Неправильный PIN или PIN заблокирован</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>Информация</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Crypto</translation>
+    </message>
+    <message>
+        <source>File already in container</source>
+        <translation>Файл уже в контейнере</translation>
+    </message>
+    <message>
+        <source>%1&lt;br /&gt;already in container, ovewrite?</source>
+        <translation>%1&lt;br /&gt;уже в контейнере, переписать?</translation>
     </message>
 </context>
 <context>

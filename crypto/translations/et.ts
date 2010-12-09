@@ -129,6 +129,16 @@
         <source>Failed to encrypt data.&lt;br /&gt;File does not exsist %1</source>
         <translation>Andmete krüpteerimine ebaõnnestus&lt;br /&gt;Valitud faili ei eksisteeri %1</translation>
     </message>
+    <message>
+        <source>libdigidoc code: %1
+message: %2</source>
+        <translation>libdigidoc&apos;i kood: %1
+teade: %2</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Krüpto</translation>
+    </message>
 </context>
 <context>
     <name>HistoryModel</name>
@@ -387,10 +397,6 @@
         <translation>Adressaadid</translation>
     </message>
     <message>
-        <source>Container contains file with same name, ovewrite?</source>
-        <translation>Turvaümbrik sisaldab juba sellise nimega faili, kas kirjutada üle?</translation>
-    </message>
-    <message>
         <source>This container contains signature! Open with QDigiDocClient?</source>
         <translation>See on digitaalallkirjaga fail!
 Kas avan Digidoc kliendiga?</translation>
@@ -402,10 +408,6 @@ Kas avan Digidoc kliendiga?</translation>
     <message>
         <source>Loading data</source>
         <translation>Loen andmeid</translation>
-    </message>
-    <message>
-        <source>Error code: %1</source>
-        <translation>Veakood: %1</translation>
     </message>
     <message>
         <source>Yes, I will use ID-card certificate only for secure transfer</source>
@@ -490,12 +492,20 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
         <translation>Valitud faili ei eksisteeri %1</translation>
     </message>
     <message>
-        <source>Wrong PIN or PIN is blocked</source>
-        <translation>Vale PIN või PIN on lukus</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>Info</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Krüpto</translation>
+    </message>
+    <message>
+        <source>File already in container</source>
+        <translation>Fail on juba ümbrikus</translation>
+    </message>
+    <message>
+        <source>%1&lt;br /&gt;already in container, ovewrite?</source>
+        <translation>%1&lt;br /&gt;on juba ümbrikus. Kas kirjutan üle?</translation>
     </message>
 </context>
 <context>
