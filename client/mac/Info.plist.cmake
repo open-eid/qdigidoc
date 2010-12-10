@@ -18,8 +18,6 @@
 	<string>${APPLE_GUI_LONG_VERSION_STRING}</string>
 	<key>CFBundleName</key>
 	<string>${APPLE_GUI_BUNDLE_NAME}</string>
-	<key>CFBundleDisplayName</key>
-	<string>${APPLE_GUI_BUNDLE_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -34,6 +32,8 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>${APPLE_GUI_COPYRIGHT}</string>
+	<key>LSHasLocalizedDisplayName</key>
+	<true/>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
