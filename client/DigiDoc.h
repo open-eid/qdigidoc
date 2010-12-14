@@ -76,7 +76,8 @@ public:
 private:
 	void setLastError( const digidoc::Exception &e );
 	int parseException( const digidoc::Exception &e );
-	void parseExceptionStrings( const digidoc::Exception &e, QStringList &causes );
+	void parseExceptionStrings( const digidoc::Exception &e,
+		QStringList &causes, int &ddocError, QString &ddocMsg );
 
 	const digidoc::Signature *s;
 	QString m_lastError;

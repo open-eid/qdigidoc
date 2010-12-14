@@ -195,11 +195,17 @@ int DigiDocSignature::parseException( const digidoc::Exception &e )
 	return e.code();
 }
 
-void DigiDocSignature::parseExceptionStrings( const digidoc::Exception &e, QStringList &causes )
+void DigiDocSignature::parseExceptionStrings( const digidoc::Exception &e,
+	QStringList &causes, int &ddocError, QString &ddocMsg )
 {
 	causes << from( e.getMsg() );
+	if( e.ddoc() )
+	{
+		ddocError = e.ddoc();
+		ddocMsg = from( e.ddocMsg() );
+	}
 	Q_FOREACH( const Exception &c, e.getCauses() )
-		parseExceptionStrings( c, causes );
+		parseExceptionStrings( c, causes, ddocError, ddocMsg );
 }
 
 QString DigiDocSignature::role() const
@@ -222,8 +228,12 @@ QStringList DigiDocSignature::roles() const
 void DigiDocSignature::setLastError( const Exception &e )
 {
 	QStringList causes;
-	parseExceptionStrings( e, causes );
+	int ddocError = -1;
+	QString ddocMsg;
+	parseExceptionStrings( e, causes, ddocError, ddocMsg );
 	m_lastError = causes.join( "<br />" );
+	if( ddocError )
+		m_lastError += "<br />" + DigiDoc::tr("libdigidoc code: %1<br />message: %2").arg( ddocError ).arg( ddocMsg );
 }
 
 DigiDocSignature::SignatureType DigiDocSignature::type() const
