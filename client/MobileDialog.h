@@ -64,6 +64,6 @@ private:
 	QNetworkRequest request;
 	QString signature, files;
 
-	int sessionCode;
+	QString sessionCode;
 	QHash<QString,QString> mobileResults;
 };

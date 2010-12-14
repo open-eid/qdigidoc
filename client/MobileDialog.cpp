@@ -46,7 +46,6 @@
 MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 :	QDialog( parent )
 ,	m_doc( doc )
-,	sessionCode( 0 )
 {
 	mobileResults["START"] = tr("Signing in process");
 	mobileResults["REQUEST_OK"] = tr("Request accepted");
@@ -179,10 +178,10 @@ void MobileDialog::finished( QNetworkReply *reply )
 		return;
 	}
 
-	if( !sessionCode )
+	if( sessionCode.isEmpty() )
 	{
-		sessionCode = elementText( e, "Sesscode" ).toInt();
-		if ( !sessionCode )
+		sessionCode = elementText( e, "Sesscode" );
+		if ( sessionCode.isEmpty() )
 		{
 			labelError->setText( mobileResults.value( elementText( e, "message" ) ) );
 			statusTimer->stop();
