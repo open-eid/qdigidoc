@@ -927,7 +927,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Signature is not valid</source>
-        <translation>Allkirja staatus on teadmata</translation>
+        <translation>Allkiri ei ole kehtiv</translation>
     </message>
     <message>
         <source>Help</source>
@@ -935,7 +935,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Signature status unknown</source>
-        <translation>Signature status unknown</translation>
+        <translation>Allkirja staatus on teadmata</translation>
     </message>
 </context>
 <context>
