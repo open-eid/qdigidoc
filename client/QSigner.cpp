@@ -92,23 +92,25 @@ void QSigner::run()
 		{
 			QStringList cards = d->pkcs11.cards();
 			bool update = d->t.cards() != cards; // check if cards have inserted/removed, update list
+			d->t.setCards( cards );
 
 			if( !d->t.card().isEmpty() && !cards.contains( d->t.card() ) ) // check if selected card is still in slot
 			{
-				d->t.clear();
+				d->t.setCard( QString() );
+				d->t.setCert( QSslCertificate() );
 				update = true;
 			}
 
 			if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
 				selectCard( cards.first() );
 
-			if( d->t.cert().isNull() && cards.contains( d->t.card() ) ) // select forced selection slot
+			if( d->t.cert().isNull() && cards.contains( d->t.card() ) ) // read cert
 			{
-				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
+				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::DataEncipherment );
+				d->t.setCards( cards );
 				update = true;
 			}
 
-			d->t.setCards( cards );
 			if( update ) // update data if something has changed
 				Q_EMIT dataChanged();
 			d->m.unlock();
