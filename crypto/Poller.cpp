@@ -40,7 +40,6 @@ public:
 	TokenData		t;
 	volatile bool	terminate;
 	QMutex			m;
-	QString			select;
 };
 
 
@@ -128,10 +127,9 @@ void Poller::run()
 				update = true;
 			}
 
-			if( !d->select.isEmpty() && cards.contains( d->select ) ) // select forced selection slot
+			if( !d->t.cert().isNull() && cards.contains( d->t.card() ) ) // select forced selection slot
 			{
-				d->t = d->pkcs11.selectSlot( d->select, SslCertificate::DataEncipherment );
-				d->select.clear();
+				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::DataEncipherment );
 				update = true;
 			}
 			else if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
@@ -157,7 +155,6 @@ void Poller::selectCard( const QString &card )
 	d->t.setCard( card );
 	d->t.setCert( QSslCertificate() );
 	Q_EMIT dataChanged();
-	d->select = card;
 }
 
 TokenData Poller::token() const { return d->t; }

@@ -39,7 +39,6 @@ public:
 	TokenData		t;
 	volatile bool	terminate;
 	QMutex			m;
-	QString			select;
 };
 
 using namespace digidoc;
@@ -100,10 +99,9 @@ void QSigner::run()
 				update = true;
 			}
 
-			if( !d->select.isEmpty() && cards.contains( d->select ) ) // select forced selection slot
+			if( !d->t.card().isNull() && cards.contains( d->t.card() ) ) // select forced selection slot
 			{
-				d->t = d->pkcs11.selectSlot( d->select, SslCertificate::NonRepudiation );
-				d->select.clear();
+				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
 				update = true;
 			}
 			else if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
@@ -129,7 +127,6 @@ void QSigner::selectCard( const QString &card )
 	d->t.setCard( card );
 	d->t.setCert( QSslCertificate() );
 	Q_EMIT dataChanged();
-	d->select = card;
 }
 
 void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::SignException)
