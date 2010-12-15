@@ -30,7 +30,6 @@
 #define qApp (static_cast<Application*>(QCoreApplication::instance()))
 
 class Poller;
-class TokenData;
 class ApplicationPrivate;
 class Application: public QtSingleApplication
 {
@@ -42,7 +41,6 @@ public:
 
 	void loadTranslation( const QString &lang );
 	Poller* poller() const;
-	TokenData tokenData() const;
 
 #ifdef Q_OS_LINUX
 	static QByteArray fileEncoder( const QString &filename ) { return filename.toUtf8(); }
@@ -56,7 +54,6 @@ public Q_SLOTS:
 
 private Q_SLOTS:
 	void closeWindow();
-	void dataChanged( const TokenData &data );
 	void parseArgs( const QString &msg = QString() );
 
 private:

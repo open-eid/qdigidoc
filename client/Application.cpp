@@ -64,7 +64,6 @@ class ApplicationPrivate
 public:
 	ApplicationPrivate(): signer(0) {}
 
-	TokenData	data;
 	QAction		*closeAction;
 #ifdef Q_OS_MAC
 	QAction		*aboutAction, *newWindowAction, *settingsAction;
@@ -167,9 +166,7 @@ Application::Application( int &argc, char **argv )
 	}
 
 	d->signer = new QSigner();
-	connect( d->signer, SIGNAL(dataChanged(TokenData)), SLOT(dataChanged(TokenData)) );
 	connect( d->signer, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
-	d->data.setCard( "loading" );
 	d->signer->start();
 
 	parseArgs( args.join( "\", \"" ) );
@@ -222,8 +219,6 @@ QString Application::confValue( ConfParameter parameter, const QVariant &value )
 	}
 	return r.empty() ? value.toString() : QString::fromStdString( r );
 }
-
-void Application::dataChanged( const TokenData &data ) { d->data = data; }
 
 bool Application::event( QEvent *e )
 {
@@ -331,5 +326,3 @@ void Application::showWarning( const QString &msg, int err, const QString &ddocM
 }
 
 QSigner* Application::signer() const { return d->signer; }
-
-TokenData Application::tokenData() const { return d->data; }

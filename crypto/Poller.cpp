@@ -48,7 +48,9 @@ public:
 Poller::Poller( QObject *parent )
 :	QThread( parent )
 ,	d( new PollerPrivate )
-{}
+{
+	d->t.setCard( "loading" );
+}
 
 Poller::~Poller()
 {
@@ -102,6 +104,7 @@ void Poller::run()
 {
 	d->terminate = false;
 	d->t.clear();
+	d->t.setCard( "loading" );
 
 	char driver[200];
 	qsnprintf( driver, sizeof(driver), "DIGIDOC_DRIVER_%d_FILE",
@@ -157,3 +160,4 @@ void Poller::selectCard( const QString &card )
 	d->select = card;
 }
 
+TokenData Poller::token() const { return d->t; }

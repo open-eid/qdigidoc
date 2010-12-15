@@ -47,6 +47,7 @@ public:
 
 	bool decrypt( const QByteArray &in, QByteArray &out );
 	ErrorCode errorCode() const;
+	TokenData token() const;
 
 Q_SIGNALS:
 	void dataChanged( const TokenData &data );

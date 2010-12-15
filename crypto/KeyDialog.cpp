@@ -342,7 +342,7 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 }
 
 void KeyAddDialog::addCardCert()
-{ addKeys( QList<CKey>() << CKey( qApp->tokenData().cert() ) ); }
+{ addKeys( QList<CKey>() << CKey( qApp->poller()->token().cert() ) ); }
 
 void KeyAddDialog::addFile()
 {
@@ -400,7 +400,7 @@ void KeyAddDialog::addKeys( const QList<CKey> &keys )
 	QTimer::singleShot( 3*1000, keyAddStatus, SLOT(hide()) );
 }
 
-void KeyAddDialog::enableCardCert() { cardButton->setDisabled( qApp->tokenData().cert().isNull() ); }
+void KeyAddDialog::enableCardCert() { cardButton->setDisabled( qApp->poller()->token().cert().isNull() ); }
 
 void KeyAddDialog::disableSearch( bool disable )
 {

@@ -379,7 +379,7 @@ void MainWindow::buttonClicked( int button )
 		AccessCert access( this );
 		if( !access.validate() )
 		{
-			if( infoSignMobile->isChecked() || qApp->tokenData().card().isEmpty() )
+			if( infoSignMobile->isChecked() || qApp->signer()->token().card().isEmpty() )
 			{
 				QDesktopServices::openUrl( QUrl( "http://www.sk.ee/toend/" ) );
 				break;
@@ -492,11 +492,11 @@ void MainWindow::enableSign()
 	signButton->setToolTip( QString() );
 	if( !mobile )
 	{
-		if( qApp->tokenData().flags() & TokenData::PinLocked )
+		if( qApp->signer()->token().flags() & TokenData::PinLocked )
 			signButton->setToolTip( tr("PIN is locked") );
-		else if( !qApp->tokenData().cert().isValid() )
+		else if( !qApp->signer()->token().cert().isValid() )
 			signButton->setToolTip( tr("Sign certificate is not valid") );
-		else if( qApp->tokenData().cert().isNull() )
+		else if( qApp->signer()->token().cert().isNull() )
 			signButton->setToolTip( tr("No card in reader") );
 	}
 	else
@@ -510,7 +510,7 @@ void MainWindow::enableSign()
 
 	bool cardOwnerSignature = false;
 	const QByteArray serialNumber = mobile ?
-		infoMobileCode->text().toLatin1() : qApp->tokenData().cert().subjectInfo( "serialNumber" ).toLatin1();
+		infoMobileCode->text().toLatin1() : qApp->signer()->token().cert().subjectInfo( "serialNumber" ).toLatin1();
 	Q_FOREACH( const DigiDocSignature &c, doc->signatures() )
 	{
 		if( c.cert().subjectInfo( "serialNumber" ) == serialNumber )
@@ -693,7 +693,7 @@ void MainWindow::setCurrentPage( Pages page )
 			connect( signature, SIGNAL(removeSignature(unsigned int)),
 				SLOT(viewSignaturesRemove(unsigned int)) );
 			cardOwnerSignature = qMax( cardOwnerSignature,
-				c.cert().subjectInfo( "serialNumber" ) == qApp->tokenData().cert().subjectInfo( "serialNumber" ) );
+				c.cert().subjectInfo( "serialNumber" ) == qApp->signer()->token().cert().subjectInfo( "serialNumber" ) );
 			invalid = qMax( invalid, !signature->isValid() );
 			test = qMax( test, signature->isTest() );
 			++i;
@@ -704,7 +704,7 @@ void MainWindow::setCurrentPage( Pages page )
 			.arg( QDir::toNativeSeparators( doc->fileName() ) ) );
 		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName() ) );
 
-		if( !qApp->tokenData().cert().isNull() )
+		if( !qApp->signer()->token().cert().isNull() )
 		{
 			if( !signatures.isEmpty() && cardOwnerSignature )
 				viewFileStatus->setText( tr("This container is signed by you") );
@@ -732,6 +732,7 @@ void MainWindow::setCurrentPage( Pages page )
 
 void MainWindow::showCardStatus()
 {
+	TokenData t = qApp->signer()->token();
 	signSigner->clear();
 
 	if( infoSignMobile->isChecked() )
@@ -743,27 +744,27 @@ void MainWindow::showCardStatus()
 	else
 	{
 		infoStack->setCurrentIndex( 0 );
-		if( !qApp->tokenData().card().isEmpty() && !qApp->tokenData().cert().isNull() )
+		if( !t.card().isEmpty() && !t.cert().isNull() )
 		{
-			infoCard->setText( Common::tokenInfo( Common::SignCert, qApp->tokenData() ) );
-			SslCertificate c( qApp->tokenData().cert() );
+			infoCard->setText( Common::tokenInfo( Common::SignCert, t ) );
+			SslCertificate c( t.cert() );
 			signSigner->setText( c.toString( c.isTempel() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
 		}
-		else if( !qApp->tokenData().card().isEmpty() )
+		else if( !t.card().isEmpty() )
 			infoCard->setText( tr("Loading data") );
-		else if( qApp->tokenData().card().isEmpty() )
+		else if( t.card().isEmpty() )
 			infoCard->setText( tr("No card in reader") );
 	}
 
 	cards->clear();
-	cards->addItems( qApp->tokenData().cards() );
-	cards->setVisible( qApp->tokenData().cards().size() > 1 );
-	cards->setCurrentIndex( cards->findText( qApp->tokenData().card() ) );
+	cards->addItems( t.cards() );
+	cards->setVisible( t.cards().size() > 1 );
+	cards->setCurrentIndex( cards->findText( t.card() ) );
 	qDeleteAll( cardsGroup->actions() );
-	for( int i = 0; i < qApp->tokenData().cards().size(); ++i )
+	for( int i = 0; i < t.cards().size(); ++i )
 	{
 		QAction *a = cardsGroup->addAction( new QAction( cardsGroup ) );
-		a->setData( qApp->tokenData().cards().at( i ) );
+		a->setData( t.cards().at( i ) );
 		a->setShortcut( Qt::CTRL + (Qt::Key_1 + i) );
 	}
 	addActions( cardsGroup->actions() );

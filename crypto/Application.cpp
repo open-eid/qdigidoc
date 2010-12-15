@@ -60,7 +60,6 @@ class ApplicationPrivate
 public:
 	ApplicationPrivate(): poller( 0 ) {}
 
-	TokenData	data;
 	QAction		*closeAction;
 #ifdef Q_OS_MAC
 	QAction		*aboutAction, *newWindowAction, *settingsAction;
@@ -154,9 +153,7 @@ Application::Application( int &argc, char **argv )
 		initConfigStore( NULL );
 
 	d->poller = new Poller();
-	connect( d->poller, SIGNAL(dataChanged(TokenData)), SLOT(dataChanged(TokenData)) );
 	connect( d->poller, SIGNAL(error(QString,quint8)), SLOT(showWarning(QString,quint8)) );
-	d->data.setCard( "loading" );
 	d->poller->start();
 
 	parseArgs( args.join( "\", \"" ) );
@@ -188,8 +185,6 @@ void Application::closeWindow()
 	else if( QWidget *w = qobject_cast<QWidget*>(activeWindow()) )
 		w->deleteLater();
 }
-
-void Application::dataChanged( const TokenData &data ) { d->data = data; }
 
 bool Application::event( QEvent *e )
 {
@@ -270,5 +265,3 @@ void Application::showWarning( const QString &msg, quint8 code )
 	if( d.exec() == QMessageBox::Help )
 		Common::showHelp( msg );
 }
-
-TokenData Application::tokenData() const { return d->data; }

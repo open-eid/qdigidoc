@@ -39,6 +39,7 @@ public:
 	void lock();
 	X509 *getCert() throw(digidoc::SignException);
 	void sign( const Digest& digest, Signature& signature ) throw(digidoc::SignException);
+	TokenData token() const;
 	void unlock();
 
 Q_SIGNALS:

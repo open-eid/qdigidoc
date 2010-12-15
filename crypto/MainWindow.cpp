@@ -476,7 +476,7 @@ void MainWindow::setCurrentPage( Pages page )
 		viewCrypt->setText( doc->isEncrypted() ? tr("Decrypt") : tr("Encrypt") );
 		viewCrypt->setEnabled(
 			(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
-			(doc->isEncrypted() && keys.contains( CKey( qApp->tokenData().cert() ) )) );
+			(doc->isEncrypted() && keys.contains( CKey( qApp->poller()->token().cert() ) )) );
 		break;
 	}
 	default: break;
@@ -485,31 +485,32 @@ void MainWindow::setCurrentPage( Pages page )
 
 void MainWindow::showCardStatus()
 {
-	if( !qApp->tokenData().card().isEmpty() && !qApp->tokenData().cert().isNull() )
-		infoCard->setText( Common::tokenInfo( Common::AuthCert, qApp->tokenData() ) );
-	else if( !qApp->tokenData().card().isEmpty() )
+	TokenData t = qApp->poller()->token();
+	if( !t.card().isEmpty() && !t.cert().isNull() )
+		infoCard->setText( Common::tokenInfo( Common::AuthCert, t ) );
+	else if( !t.card().isEmpty() )
 		infoCard->setText( tr("Loading data") );
-	else if( qApp->tokenData().card().isEmpty() )
+	else if( t.card().isEmpty() )
 		infoCard->setText( tr("No card in reader") );
 
 	viewCrypt->setEnabled(
 		(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
 		(doc->isEncrypted() &&
-		 !(qApp->tokenData().flags() & TokenData::PinLocked) &&
-		 doc->keys().contains( CKey( qApp->tokenData().cert() ) )) );
+		 !(t.flags() & TokenData::PinLocked) &&
+		 doc->keys().contains( CKey( t.cert() ) )) );
 
 	cards->clear();
-	cards->addItems( qApp->tokenData().cards() );
-	cards->setVisible( qApp->tokenData().cards().size() > 1 );
-	cards->setCurrentIndex( cards->findText( qApp->tokenData().card() ) );
+	cards->addItems( t.cards() );
+	cards->setVisible( t.cards().size() > 1 );
+	cards->setCurrentIndex( cards->findText( t.card() ) );
 	qDeleteAll( cardsGroup->actions() );
-	for( int i = 0; i < qApp->tokenData().cards().size(); ++i )
+	for( int i = 0; i < t.cards().size(); ++i )
 	{
 		QAction *a = cardsGroup->addAction( new QAction( cardsGroup ) );
-		a->setData( qApp->tokenData().cards().at( i ) );
+		a->setData( t.cards().at( i ) );
 		a->setShortcut( Qt::CTRL + (Qt::Key_1 + i) );
-		addAction( a );
 	}
+	addActions( cardsGroup->actions() );
 }
 
 void MainWindow::updateView() { setCurrentPage( Pages(stack->currentIndex()) ); }

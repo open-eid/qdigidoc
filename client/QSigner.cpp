@@ -47,7 +47,9 @@ using namespace digidoc;
 QSigner::QSigner( QObject *parent )
 :	QThread( parent )
 ,	d( new QSignerPrivate )
-{}
+{
+	d->t.setCard( "loading" );
+}
 
 QSigner::~QSigner()
 {
@@ -69,6 +71,7 @@ void QSigner::run()
 {
 	d->terminate = false;
 	d->t.clear();
+	d->t.setCard( "loading" );
 
 	bool loaded = false;
 	try
@@ -174,5 +177,7 @@ void QSigner::throwException( const QString &msg, Exception::ExceptionCode code,
 	e.setCode( code );
 	throw e;
 }
+
+TokenData QSigner::token() const { return d->t; }
 
 void QSigner::unlock() { d->m.unlock(); }

@@ -163,7 +163,7 @@ bool CryptoDoc::decrypt()
 	for( int i = 0; i < m_enc->nEncryptedKeys; ++i )
 	{
 		DEncEncryptedKey *tmp = m_enc->arrEncryptedKeys[i];
-		if( qApp->tokenData().cert() == SslCertificate::fromX509( Qt::HANDLE(tmp->pCert) ) )
+		if( qApp->poller()->token().cert() == SslCertificate::fromX509( Qt::HANDLE(tmp->pCert) ) )
 		{
 			key = tmp;
 			break;

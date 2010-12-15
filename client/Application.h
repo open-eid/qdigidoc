@@ -32,7 +32,6 @@
 #define qApp (static_cast<Application*>(QCoreApplication::instance()))
 
 class QSigner;
-class TokenData;
 class ApplicationPrivate;
 class Application: public QtSingleApplication
 {
@@ -55,7 +54,6 @@ public:
 
 	void loadTranslation( const QString &lang );
 	QSigner* signer() const;
-	TokenData tokenData() const;
 
 	static QString confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
@@ -71,7 +69,6 @@ public Q_SLOTS:
 
 private Q_SLOTS:
 	void closeWindow();
-	void dataChanged( const TokenData &data );
 	void parseArgs( const QString &msg = QString() );
 
 private:
