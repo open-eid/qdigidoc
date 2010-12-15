@@ -43,7 +43,7 @@ public:
 	void unlock();
 
 Q_SIGNALS:
-	void dataChanged( const TokenData &data );
+	void dataChanged();
 	void error( const QString &msg );
 
 private Q_SLOTS:

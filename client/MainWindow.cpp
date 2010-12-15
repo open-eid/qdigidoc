@@ -103,7 +103,7 @@ MainWindow::MainWindow( QWidget *parent )
 
 	connect( infoCard, SIGNAL(linkActivated(QString)), SLOT(parseLink(QString)) );
 	connect( cards, SIGNAL(activated(QString)), qApp->signer(), SLOT(selectCard(QString)), Qt::QueuedConnection );
-	connect( qApp->signer(), SIGNAL(dataChanged(TokenData)), SLOT(showCardStatus()) );
+	connect( qApp->signer(), SIGNAL(dataChanged()), SLOT(showCardStatus()) );
 
 	// Digidoc
 	doc = new DigiDoc( this );

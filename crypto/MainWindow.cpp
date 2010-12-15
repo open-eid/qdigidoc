@@ -79,7 +79,7 @@ MainWindow::MainWindow( QWidget *parent )
 		SLOT(buttonClicked(int)) );
 
 	connect( cards, SIGNAL(activated(QString)), qApp->poller(), SLOT(selectCard(QString)), Qt::QueuedConnection );
-	connect( qApp->poller(), SIGNAL(dataChanged(TokenData)), SLOT(showCardStatus()) );
+	connect( qApp->poller(), SIGNAL(dataChanged()), SLOT(showCardStatus()) );
 
 	// Cryptodoc
 	doc = new CryptoDoc( this );

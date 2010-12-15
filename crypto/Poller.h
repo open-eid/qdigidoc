@@ -50,7 +50,7 @@ public:
 	TokenData token() const;
 
 Q_SIGNALS:
-	void dataChanged( const TokenData &data );
+	void dataChanged();
 	void error( const QString &msg, quint8 error = 0 );
 
 private Q_SLOTS:

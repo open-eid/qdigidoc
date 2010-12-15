@@ -137,13 +137,14 @@ void Poller::run()
 			else if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
 			{
 				d->t.setCard( cards.first() );
-				Q_EMIT dataChanged( d->t );
+				d->t.setCert( QSslCertificate() );
+				Q_EMIT dataChanged();
 				d->t = d->pkcs11.selectSlot( cards.first(), SslCertificate::DataEncipherment );
 				update = true;
 			}
 			d->t.setCards( cards );
 			if( update ) // update data if something has changed
-				Q_EMIT dataChanged( d->t );
+				Q_EMIT dataChanged();
 			d->m.unlock();
 		}
 
@@ -153,10 +154,9 @@ void Poller::run()
 
 void Poller::selectCard( const QString &card )
 {
-	TokenData t;
-	t.setCard( card );
-	t.setCards( d->t.cards() );
-	Q_EMIT dataChanged( t );
+	d->t.setCard( card );
+	d->t.setCert( QSslCertificate() );
+	Q_EMIT dataChanged();
 	d->select = card;
 }
 
