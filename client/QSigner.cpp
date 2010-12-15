@@ -106,7 +106,7 @@ void QSigner::run()
 
 			if( d->t.cert().isNull() && cards.contains( d->t.card() ) ) // read cert
 			{
-				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::DataEncipherment );
+				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
 				d->t.setCards( cards );
 				update = true;
 			}
