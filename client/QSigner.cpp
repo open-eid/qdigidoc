@@ -99,17 +99,15 @@ void QSigner::run()
 				update = true;
 			}
 
-			if( !d->t.card().isNull() && cards.contains( d->t.card() ) ) // select forced selection slot
+			if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
+				selectCard( cards.first() );
+
+			if( d->t.cert().isNull() && cards.contains( d->t.card() ) ) // select forced selection slot
 			{
 				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
 				update = true;
 			}
-			else if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
-			{
-				selectCard( cards.first() );
-				d->t = d->pkcs11.selectSlot( cards.first(), SslCertificate::NonRepudiation );
-				update = true;
-			}
+
 			d->t.setCards( cards );
 			if( update ) // update data if something has changed
 				Q_EMIT dataChanged();
