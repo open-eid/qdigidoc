@@ -134,9 +134,7 @@ void Poller::run()
 			}
 			else if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
 			{
-				d->t.setCard( cards.first() );
-				d->t.setCert( QSslCertificate() );
-				Q_EMIT dataChanged();
+				selectCard( cards.first() );
 				d->t = d->pkcs11.selectSlot( cards.first(), SslCertificate::DataEncipherment );
 				update = true;
 			}
