@@ -831,8 +831,8 @@ Kontrollkood: %1</translation>
         <translation>Ignoreeri juurdepääsutõendit (IP põhine ligipääs)</translation>
     </message>
     <message>
-        <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
-        <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;www.sk.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
+        <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from http://www.sk.ee/kehtivuskinnitus or phone 1777</source>
+        <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon http://www.sk.ee/kehtivuskinnitus või ID-abiliini telefonil 1777</translation>
     </message>
 </context>
 <context>
