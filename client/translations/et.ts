@@ -167,6 +167,10 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
         <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
         <translation>PIN on lukus. PIN koodi saab avada ID-kaardi haldusvahendis.</translation>
     </message>
+    <message>
+        <source>libdigidoc code: %1&lt;br /&gt;message: %2</source>
+        <translation>libdigidoc&apos;i kood: %1&lt;br /&gt;teade: %2</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -428,6 +432,10 @@ Also an active internet connection is needed.</source>
 Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.&lt;br /&gt;&lt;br /&gt;
 Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
 Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
+    </message>
+    <message>
+        <source>Agree</source>
+        <translation>Nõustun</translation>
     </message>
 </context>
 <context>

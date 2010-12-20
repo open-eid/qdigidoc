@@ -167,6 +167,10 @@ There is an option to re-sign this document in a new container.</translation>
         <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
         <translation>PIN Locked. Please use ID-card utility for PIN opening!</translation>
     </message>
+    <message>
+        <source>libdigidoc code: %1&lt;br /&gt;message: %2</source>
+        <translation>libdigidoc code: %1&lt;br /&gt;message: %2</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -428,6 +432,10 @@ Also an active internet connection is needed.</source>
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
 Also an active internet connection is needed.</translation>
+    </message>
+    <message>
+        <source>Agree</source>
+        <translation>Agree</translation>
     </message>
 </context>
 <context>

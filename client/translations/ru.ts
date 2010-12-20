@@ -166,6 +166,10 @@ There is an option to re-sign this document in a new container.</source>
         <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
         <translation>PIN заблокирован. Для разблокирования PIN пожалуйста используйте обслуживание ID-карты!</translation>
     </message>
+    <message>
+        <source>libdigidoc code: %1&lt;br /&gt;message: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -430,6 +434,10 @@ Also an active internet connection is needed.</source>
 Цифровая подпись аналогична физической подписи. Для цифровой подписи нужна ID-карта, которая имеет действующие сертификаты .&lt;br /&gt;&lt;br /&gt;
 При подписывании документов нужен PIN2 код.&lt;br /&gt;&lt;br /&gt;
 Для цифровой подписи необходимо подключение к интернету.</translation>
+    </message>
+    <message>
+        <source>Agree</source>
+        <translation>Подтверждаю</translation>
     </message>
 </context>
 <context>
@@ -826,7 +834,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
-        <translation type="unfinished"></translation>
+        <translation>Согласно условиям пользования услугой подтверждения действительности Вы можете пользоваться услугой в объеме не более 10 цифровых подписей в месяц. Чтобы получить возможность пользоваться услугой в большем объеме или использовать ее в коммерческих целях, обратитесь в службу ИТ-поддержки Вашего учреждения. За дополнительной информацией обращайтесь по адресу &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;www.sk.ee/kehtivuskinnitus&lt;/a&gt;, по электронной почте sales@sk.ee или по телефону 1777</translation>
     </message>
 </context>
 <context>

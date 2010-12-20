@@ -391,7 +391,8 @@ void MainWindow::buttonClicked( int button )
 				   "commercial purposes, please refer to IT support of your company. Additional "
 				   "information is available from <a href=\"http://www.sk.ee/kehtivuskinnitus\">"
 				   "http://www.sk.ee/kehtivuskinnitus</a> or phone 1777"),
-				QMessageBox::Help|QMessageBox::Close, this );
+				QMessageBox::Help, this );
+			d.addButton( tr("Agree"), QMessageBox::AcceptRole );
 			if( QLabel *label = d.findChild<QLabel*>() )
 				label->setOpenExternalLinks( true );
 			if( d.exec() == QMessageBox::Help )
