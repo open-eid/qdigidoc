@@ -19,10 +19,10 @@ find_package( XercesC REQUIRED )
 find_package( XSD REQUIRED )
 find_package( Subversion )
 if( UNIX )
-	find_package(LibDL REQUIRED)
+	find_package( LibDL REQUIRED )
 endif( UNIX )
 
-set( MAJOR_VER 0 )
+set( MAJOR_VER 3 )
 set( MINOR_VER 1 )
 set( RELEASE_VER 0 )
 
