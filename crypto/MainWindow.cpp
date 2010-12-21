@@ -485,11 +485,15 @@ void MainWindow::setCurrentPage( Pages page )
 
 void MainWindow::showCardStatus()
 {
+	Application::restoreOverrideCursor();
 	TokenData t = qApp->poller()->token();
 	if( !t.card().isEmpty() && !t.cert().isNull() )
 		infoCard->setText( Common::tokenInfo( Common::AuthCert, t ) );
 	else if( !t.card().isEmpty() )
+	{
 		infoCard->setText( tr("Loading data") );
+		Application::setOverrideCursor( Qt::BusyCursor );
+	}
 	else if( t.card().isEmpty() )
 		infoCard->setText( tr("No card in reader") );
 

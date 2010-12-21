@@ -744,6 +744,7 @@ void MainWindow::showCardStatus()
 	}
 	else
 	{
+		Application::restoreOverrideCursor();
 		infoStack->setCurrentIndex( 0 );
 		if( !t.card().isEmpty() && !t.cert().isNull() )
 		{
@@ -752,7 +753,10 @@ void MainWindow::showCardStatus()
 			signSigner->setText( c.toString( c.isTempel() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
 		}
 		else if( !t.card().isEmpty() )
+		{
 			infoCard->setText( tr("Loading data") );
+			Application::setOverrideCursor( Qt::BusyCursor );
+		}
 		else if( t.card().isEmpty() )
 			infoCard->setText( tr("No card in reader") );
 	}
