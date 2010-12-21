@@ -257,11 +257,9 @@ void Application::showWarning( const QString &msg, quint8 code )
 {
 	switch( code )
 	{
-	case Poller::PinCanceled: return;
-	default: break;
+	case Poller::PinCanceled: break;
+	default:
+		QMessageBox( QMessageBox::Warning, tr("DigiDoc3 crypto"), msg, QMessageBox::Close, activeWindow() ).exec();
+		break;
 	}
-
-	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
-	if( d.exec() == QMessageBox::Help )
-		Common::showHelp( msg );
 }

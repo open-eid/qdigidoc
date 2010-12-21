@@ -531,9 +531,12 @@ void CryptoDoc::saveDocument( int id, const QString &filepath )
 
 void CryptoDoc::setLastError( const QString &err, int code )
 {
-	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), err, QMessageBox::Close | QMessageBox::Help, qApp->activeWindow() );
+	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), err, QMessageBox::Close, qApp->activeWindow() );
 	if( code > 0 )
+	{
+		d.addButton( QMessageBox::Help );
 		d.setDetailedText( tr("libdigidoc code: %1\nmessage: %2").arg( code ).arg( getErrorString( code ) ) );
+	}
 	if( d.exec() == QMessageBox::Help )
 		Common::showHelp( err, code );
 }
