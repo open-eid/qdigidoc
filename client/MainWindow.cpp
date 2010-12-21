@@ -53,19 +53,13 @@ MainWindow::MainWindow( QWidget *parent )
 ,	cardsGroup( new QActionGroup( this ) )
 ,	quitOnClose( false )
 {
+	setWindowFlags( Qt::Window|Qt::CustomizeWindowHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
 
 	cards->hide();
 	cards->hack();
 	languages->hack();
-
-	setWindowFlags( Qt::Window | Qt::CustomizeWindowHint | Qt::WindowMinimizeButtonHint );
-#if QT_VERSION >= 0x040500
-	setWindowFlags( windowFlags() | Qt::WindowCloseButtonHint );
-#else
-	setWindowFlags( windowFlags() | Qt::WindowSystemMenuHint );
-#endif
 
 	Settings s;
 	// Mobile
@@ -376,33 +370,11 @@ void MainWindow::buttonClicked( int button )
 			}
 			break;
 		}
+
 		AccessCert access( this );
-		if( !access.validate() )
-		{
-			if( infoSignMobile->isChecked() || qApp->signer()->token().card().isEmpty() )
-			{
-				QDesktopServices::openUrl( QUrl( "http://www.sk.ee/toend/" ) );
-				break;
-			}
-			QMessageBox d( QMessageBox::Information, tr("Server access certificate"),
-				tr("Hereby I agree to terms and conditions of validity confirmation service and "
-				   "will use the service in extent of 10 signatures per month. If you going to "
-				   "exceed the limit of 10 signatures per month or/and will use the service for "
-				   "commercial purposes, please refer to IT support of your company. Additional "
-				   "information is available from <a href=\"http://www.sk.ee/kehtivuskinnitus\">"
-				   "http://www.sk.ee/kehtivuskinnitus</a> or phone 1777"),
-				QMessageBox::Help, this );
-			d.addButton( tr("Agree"), QMessageBox::AcceptRole );
-			if( QLabel *label = d.findChild<QLabel*>() )
-				label->setOpenExternalLinks( true );
-			if( d.exec() == QMessageBox::Help )
-			{
-				QDesktopServices::openUrl( QUrl( "http://www.sk.ee/kehtivuskinnitus" ) );
-				break;
-			}
-			if( !access.download() )
-				break;
-		}
+		if( !access.validate() &&
+			!access.download( infoSignMobile->isChecked() || qApp->signer()->token().card().isEmpty() ) )
+			break;
 
 		if( infoSignCard->isChecked() )
 		{

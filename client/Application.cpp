@@ -160,7 +160,6 @@ Application::Application( int &argc, char **argv )
 		QStringList causes;
 		digidoc::Exception::ExceptionCode code = digidoc::Exception::NoException;
 		int ddocError = -1;
-		QString ddocMsg;
 		DigiDoc::parseException( e, causes, code, ddocError );
 		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
 	}

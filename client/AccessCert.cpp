@@ -36,6 +36,7 @@
 #include <QDomElement>
 #include <QDomNodeList>
 #include <QFile>
+#include <QLabel>
 #include <QMessageBox>
 #include <QScopedPointer>
 #include <QUrl>
@@ -54,8 +55,31 @@ AccessCert::~AccessCert()
 	Application::setConfValue( Application::PKCS12Pass, m_pass );
 }
 
-bool AccessCert::download()
+bool AccessCert::download( bool noCard )
 {
+	if( noCard )
+	{
+		QDesktopServices::openUrl( QUrl( "http://www.sk.ee/toend/" ) );
+		return false;
+	}
+
+	QMessageBox d( QMessageBox::Information, tr("Server access certificate"),
+		tr("Hereby I agree to terms and conditions of validity confirmation service and "
+		   "will use the service in extent of 10 signatures per month. If you going to "
+		   "exceed the limit of 10 signatures per month or/and will use the service for "
+		   "commercial purposes, please refer to IT support of your company. Additional "
+		   "information is available from <a href=\"http://www.sk.ee/kehtivuskinnitus\">"
+		   "http://www.sk.ee/kehtivuskinnitus</a> or phone 1777"),
+		QMessageBox::Help, m_parent );
+	d.addButton( tr("Agree"), QMessageBox::AcceptRole );
+	if( QLabel *label = d.findChild<QLabel*>() )
+		label->setOpenExternalLinks( true );
+	if( d.exec() == QMessageBox::Help )
+	{
+		QDesktopServices::openUrl( QUrl( "http://www.sk.ee/kehtivuskinnitus" ) );
+		return false;
+	}
+
 	qApp->signer()->lock();
 	QScopedPointer<SSLConnect> ssl( new SSLConnect() );
 	ssl->setPKCS11( Application::confValue( Application::PKCS11Module ), false );

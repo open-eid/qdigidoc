@@ -67,6 +67,14 @@ PIN1 is blocked</source>
         <translation>Viga juurdepääsutõendi laadimisel!
 PIN1 on blokeeritud</translation>
     </message>
+    <message>
+        <source>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
+        <translation>Käesolevaga nõustun kehtivuskinnitusteenuse kasutamise tavatingimustega [link: www.sk.ee/kehtivuskinnitus] ja tarbin teenust mahus kuni 10 allkirja kuus.Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
+    </message>
+    <message>
+        <source>Agree</source>
+        <translation>Nõustun</translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -406,14 +414,6 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <translation>Avatud fail on BDOC formaadis. Faili sisu vaatamiseks on vajalik tarkvara uuendamine.</translation>
     </message>
     <message>
-        <source>Server access certificate</source>
-        <translation>Juurdepääsutõend</translation>
-    </message>
-    <message>
-        <source>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
-        <translation>Käesolevaga nõustun kehtivuskinnitusteenuse kasutamise tavatingimustega [link: www.sk.ee/kehtivuskinnitus] ja tarbin teenust mahus kuni 10 allkirja kuus.Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
-    </message>
-    <message>
         <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
@@ -422,10 +422,6 @@ Also an active internet connection is needed.</source>
 Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.&lt;br /&gt;&lt;br /&gt;
 Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
 Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
-    </message>
-    <message>
-        <source>Agree</source>
-        <translation>Nõustun</translation>
     </message>
 </context>
 <context>
