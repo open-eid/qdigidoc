@@ -83,10 +83,6 @@ PIN1 is blocked</translation>
         <translation>Settings</translation>
     </message>
     <message>
-        <source>Failed to initalize.&lt;br /&gt;%1</source>
-        <translation>Failed to initalize.&lt;br /&gt;%1</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 client</translation>
     </message>
@@ -99,10 +95,8 @@ PIN1 is blocked</translation>
         <translation>About</translation>
     </message>
     <message>
-        <source>libdigidoc code: %1
-message: %2</source>
-        <translation>libdigidoc code: %1
-message: %2</translation>
+        <source>Failed to initalize.</source>
+        <translation>Failed to initalize.</translation>
     </message>
 </context>
 <context>
@@ -148,10 +142,6 @@ message: %2</translation>
         <translation>Check your computer time</translation>
     </message>
     <message>
-        <source>An error occurred while opening the document.&lt;br /&gt;%1</source>
-        <translation>An error occurred while opening the document.&lt;br /&gt;%1</translation>
-    </message>
-    <message>
         <source>Server access certificate is required</source>
         <translation>Server access certificate is required</translation>
     </message>
@@ -168,8 +158,8 @@ There is an option to re-sign this document in a new container.</translation>
         <translation>PIN Locked. Please use ID-card utility for PIN opening!</translation>
     </message>
     <message>
-        <source>libdigidoc code: %1&lt;br /&gt;message: %2</source>
-        <translation>libdigidoc code: %1&lt;br /&gt;message: %2</translation>
+        <source>An error occurred while opening the document.</source>
+        <translation>An error occurred while opening the document.</translation>
     </message>
 </context>
 <context>

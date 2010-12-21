@@ -83,10 +83,6 @@ PIN1 on blokeeritud</translation>
         <translation>Seaded</translation>
     </message>
     <message>
-        <source>Failed to initalize.&lt;br /&gt;%1</source>
-        <translation>Käivitamine ebaõnnestus.&lt;br /&gt;%1</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 klient</translation>
     </message>
@@ -99,10 +95,8 @@ PIN1 on blokeeritud</translation>
         <translation>Info</translation>
     </message>
     <message>
-        <source>libdigidoc code: %1
-message: %2</source>
-        <translation>libdigidoc&apos;i kood: %1
-teade: %2</translation>
+        <source>Failed to initalize.</source>
+        <translation>Käivitamine ebaõnnestus.</translation>
     </message>
 </context>
 <context>
@@ -148,10 +142,6 @@ teade: %2</translation>
         <translation>Kontrollige oma arvuti kella</translation>
     </message>
     <message>
-        <source>An error occurred while opening the document.&lt;br /&gt;%1</source>
-        <translation>Ümbriku avamisel tekkis viga.&lt;br /&gt;%1</translation>
-    </message>
-    <message>
         <source>Server access certificate is required</source>
         <translation>Juurdepääsutõend on vajalik</translation>
     </message>
@@ -168,8 +158,8 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
         <translation>PIN on lukus. PIN koodi saab avada ID-kaardi haldusvahendis.</translation>
     </message>
     <message>
-        <source>libdigidoc code: %1&lt;br /&gt;message: %2</source>
-        <translation>libdigidoc&apos;i kood: %1&lt;br /&gt;teade: %2</translation>
+        <source>An error occurred while opening the document.</source>
+        <translation>Ümbriku avamisel tekkis viga.</translation>
     </message>
 </context>
 <context>

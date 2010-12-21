@@ -195,17 +195,13 @@ int DigiDocSignature::parseException( const digidoc::Exception &e )
 	return e.code();
 }
 
-void DigiDocSignature::parseExceptionStrings( const digidoc::Exception &e,
-	QStringList &causes, int &ddocError, QString &ddocMsg )
+void DigiDocSignature::parseExceptionStrings( const digidoc::Exception &e, QStringList &causes )
 {
 	causes << from( e.getMsg() );
 	if( e.ddoc() )
-	{
-		ddocError = e.ddoc();
-		ddocMsg = from( e.ddocMsg() );
-	}
+		causes << QString("libdigidoc code: %1<br />message: %2").arg( e.ddoc() ).arg( from( e.ddocMsg() ) );
 	Q_FOREACH( const Exception &c, e.getCauses() )
-		parseExceptionStrings( c, causes, ddocError, ddocMsg );
+		parseExceptionStrings( c, causes );
 }
 
 QString DigiDocSignature::role() const
@@ -228,12 +224,8 @@ QStringList DigiDocSignature::roles() const
 void DigiDocSignature::setLastError( const Exception &e )
 {
 	QStringList causes;
-	int ddocError = -1;
-	QString ddocMsg;
-	parseExceptionStrings( e, causes, ddocError, ddocMsg );
+	parseExceptionStrings( e, causes );
 	m_lastError = causes.join( "<br />" );
-	if( ddocError )
-		m_lastError += "<br />" + DigiDoc::tr("libdigidoc code: %1<br />message: %2").arg( ddocError ).arg( ddocMsg );
 }
 
 DigiDocSignature::SignatureType DigiDocSignature::type() const
@@ -375,21 +367,15 @@ bool DigiDoc::open( const QString &file )
 		QStringList causes;
 		Exception::ExceptionCode code = Exception::NoException;
 		int ddocError = -1;
-		QString ddocMsg;
-		parseException( e, causes, code, ddocError, ddocMsg );
-		Q_EMIT error( tr("An error occurred while opening the document.<br />%1").arg( causes.join("\n") ), ddocError, ddocMsg );
+		parseException( e, causes, code, ddocError );
+		Q_EMIT error( tr("An error occurred while opening the document."), ddocError, causes.join("\n") );
 	}
 	return false;
 }
 
 bool DigiDoc::parseException( const Exception &e, QStringList &causes,
-	Exception::ExceptionCode &code, int &ddocError, QString &ddocMsg )
+	Exception::ExceptionCode &code, int &ddocError )
 {
-	if( e.ddoc() > 0 )
-	{
-		ddocError = e.ddoc();
-		ddocMsg = from( e.ddocMsg() );
-	}
 	switch( e.code() )
 	{
 	case Exception::CertificateRevoked:
@@ -401,13 +387,23 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	case Exception::PINIncorrect:
 	case Exception::PINLocked:
 		code = e.code();
+		if( e.ddoc() > 0 )
+		{
+			ddocError = e.ddoc();
+			causes << QString("libdigidoc code: %1\nmessage: %2").arg( e.ddoc() ).arg( from( e.ddocMsg() ) );
+		}
 		return false;
 	default:
 		causes << from( e.getMsg() );
 		break;
 	}
+	if( e.ddoc() > 0 )
+	{
+		ddocError = e.ddoc();
+		causes << QString("libdigidoc code: %1\nmessage: %2").arg( e.ddoc() ).arg( from( e.ddocMsg() ) );
+	}
 	Q_FOREACH( const Exception &c, e.getCauses() )
-		if( !parseException( c, causes, code, ddocError, ddocMsg ) )
+		if( !parseException( c, causes, code, ddocError ) )
 			return false;
 	return true;
 }
@@ -445,28 +441,27 @@ void DigiDoc::setLastError( const Exception &e )
 	QStringList causes;
 	Exception::ExceptionCode code = Exception::NoException;
 	int ddocError = -1;
-	QString ddocMsg;
-	parseException( e, causes, code, ddocError, ddocMsg );
+	parseException( e, causes, code, ddocError );
 	switch( code )
 	{
 	case Exception::CertificateRevoked:
-		Q_EMIT error( tr("Certificate status revoked"), ddocError, ddocMsg ); break;
+		Q_EMIT error( tr("Certificate status revoked"), ddocError, causes.join("\n") ); break;
 	case Exception::CertificateUnknown:
-		Q_EMIT error( tr("Certificate status unknown"), ddocError, ddocMsg ); break;
+		Q_EMIT error( tr("Certificate status unknown"), ddocError, causes.join("\n") ); break;
 	case Exception::OCSPTimeSlot:
-		Q_EMIT error( tr("Check your computer time"), ddocError, ddocMsg ); break;
+		Q_EMIT error( tr("Check your computer time"), ddocError, causes.join("\n") ); break;
 	case Exception::OCSPRequestUnauthorized:
-		Q_EMIT error( tr("Server access certificate is required"), ddocError, ddocMsg ); break;
+		Q_EMIT error( tr("Server access certificate is required"), ddocError, causes.join("\n") ); break;
 	case Exception::PINCanceled:
 		break;
 	case Exception::PINFailed:
-		Q_EMIT error( tr("PIN Login failed"), ddocError, ddocMsg ); break;
+		Q_EMIT error( tr("PIN Login failed"), ddocError, causes.join("\n") ); break;
 	case Exception::PINIncorrect:
-		Q_EMIT error( tr("PIN Incorrect"), ddocError, ddocMsg ); break;
+		Q_EMIT error( tr("PIN Incorrect"), ddocError, causes.join("\n") ); break;
 	case Exception::PINLocked:
-		Q_EMIT error( tr("PIN Locked. Please use ID-card utility for PIN opening!"), ddocError, ddocMsg ); break;
+		Q_EMIT error( tr("PIN Locked. Please use ID-card utility for PIN opening!"), ddocError, causes.join("\n") ); break;
 	default:
-		Q_EMIT error( causes.join( "\n" ), ddocError, ddocMsg ); break;
+		Q_EMIT error( causes.join( "\n" ), ddocError, causes.join("\n") ); break;
 	}
 }
 
@@ -493,8 +488,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		QStringList causes;
 		Exception::ExceptionCode code = Exception::NoException;
 		int ddocError = -1;
-		QString ddocMsg;
-		parseException( e, causes, code, ddocError, ddocMsg );
+		parseException( e, causes, code, ddocError );
 		if( code == Exception::PINIncorrect )
 		{
 			Q_EMIT error( tr("PIN Incorrect") );

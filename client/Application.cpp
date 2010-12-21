@@ -161,8 +161,8 @@ Application::Application( int &argc, char **argv )
 		digidoc::Exception::ExceptionCode code = digidoc::Exception::NoException;
 		int ddocError = -1;
 		QString ddocMsg;
-		DigiDoc::parseException( e, causes, code, ddocError, ddocMsg );
-		showWarning( tr("Failed to initalize.<br />%1").arg( causes.join("\n") ), ddocError );
+		DigiDoc::parseException( e, causes, code, ddocError );
+		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
 	}
 
 	d->signer = new QSigner();
@@ -315,12 +315,12 @@ void Application::showSettings( int page )
 	s->show();
 }
 
-void Application::showWarning( const QString &msg, int err, const QString &ddocMsg )
+void Application::showWarning( const QString &msg, int err, const QString &details )
 {
 	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
 	d.setWindowModality( Qt::WindowModal );
-	if( err > 0 )
-		d.setDetailedText( tr("libdigidoc code: %1\nmessage: %2").arg( err ).arg( ddocMsg ) );
+	if( !details.isEmpty() )
+		d.setDetailedText( details );
 	if( d.exec() == QMessageBox::Help )
 		Common::showHelp( msg, err );
 }

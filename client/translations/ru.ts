@@ -83,10 +83,6 @@ PIN заблокирован</translation>
         <translation>Настройки</translation>
     </message>
     <message>
-        <source>Failed to initalize.&lt;br /&gt;%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 клиент</translation>
     </message>
@@ -99,8 +95,7 @@ PIN заблокирован</translation>
         <translation>Информация</translation>
     </message>
     <message>
-        <source>libdigidoc code: %1
-message: %2</source>
+        <source>Failed to initalize.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -147,10 +142,6 @@ message: %2</source>
         <translation>Проверьте время Вашего компьютера</translation>
     </message>
     <message>
-        <source>An error occurred while opening the document.&lt;br /&gt;%1</source>
-        <translation>При открытии документа произошла ошибка&lt;br /&gt;%1</translation>
-    </message>
-    <message>
         <source>Server access certificate is required</source>
         <translation>Необходима справка допуска</translation>
     </message>
@@ -167,8 +158,8 @@ There is an option to re-sign this document in a new container.</source>
         <translation>PIN заблокирован. Для разблокирования PIN пожалуйста используйте обслуживание ID-карты!</translation>
     </message>
     <message>
-        <source>libdigidoc code: %1&lt;br /&gt;message: %2</source>
-        <translation type="unfinished"></translation>
+        <source>An error occurred while opening the document.</source>
+        <translation>При открытии документа произошла ошибка.</translation>
     </message>
 </context>
 <context>

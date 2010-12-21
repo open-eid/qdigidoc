@@ -76,8 +76,7 @@ public:
 private:
 	void setLastError( const digidoc::Exception &e );
 	int parseException( const digidoc::Exception &e );
-	void parseExceptionStrings( const digidoc::Exception &e,
-		QStringList &causes, int &ddocError, QString &ddocMsg );
+	void parseExceptionStrings( const digidoc::Exception &e, QStringList &causes );
 
 	const digidoc::Signature *s;
 	QString m_lastError;
@@ -114,10 +113,10 @@ public:
 	QByteArray getFileDigest( unsigned int i );
 
 	static bool parseException( const digidoc::Exception &e, QStringList &causes,
-		digidoc::Exception::ExceptionCode &code, int &ddocError, QString &ddocMsg );
+		digidoc::Exception::ExceptionCode &code, int &ddocError );
 
 Q_SIGNALS:
-	void error( const QString &msg, int err = -1, const QString &ddocMsg = QString() );
+	void error( const QString &msg, int err = -1, const QString &details = QString() );
 
 private:
 	bool checkDoc( bool status = false, const QString &msg = QString() );
