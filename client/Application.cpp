@@ -316,10 +316,13 @@ void Application::showSettings( int page )
 
 void Application::showWarning( const QString &msg, int err, const QString &details )
 {
-	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close | QMessageBox::Help, activeWindow() );
+	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close, activeWindow() );
 	d.setWindowModality( Qt::WindowModal );
 	if( !details.isEmpty() )
+	{
+		d.addButton( QMessageBox::Help );
 		d.setDetailedText( details );
+	}
 	if( d.exec() == QMessageBox::Help )
 		Common::showHelp( msg, err );
 }
