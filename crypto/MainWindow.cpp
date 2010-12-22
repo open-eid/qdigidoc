@@ -322,7 +322,7 @@ bool MainWindow::event( QEvent *e )
 {
 	switch( e->type() )
 	{
-	case QEvent::LanguageChange: retranslate(); return true;
+	case QEvent::LanguageChange: retranslate();
 	default: return QWidget::event( e );
 	}
 }
