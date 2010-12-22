@@ -61,6 +61,8 @@ CryptoDoc::CryptoDoc( QObject *parent )
 ,	m_doc(0)
 {}
 
+CryptoDoc::~CryptoDoc() { clear(); }
+
 void CryptoDoc::addFile( const QString &file, const QString &mime )
 {
 	if( isEncryptedWarning() )
@@ -201,14 +203,8 @@ bool CryptoDoc::decrypt()
 
 	QString docName = QFileInfo( m_fileName ).fileName();
 	m_ddocTemp = QString( "%1/%2" ).arg( QDir::tempPath() ).arg( docName );
-	if( QDir().exists( m_ddocTemp ) )
-	{
-		QDir d( m_ddocTemp );
-		Q_FOREACH( const QFileInfo &file, d.entryInfoList( QDir::NoDotAndDotDot|QDir::Files ) )
-			QFile::remove( file.absoluteFilePath() );
-	}
-	else
-		QDir().mkdir( m_ddocTemp );
+	removeFolder( m_ddocTemp );
+	QDir().mkdir( m_ddocTemp );
 
 	m_ddoc = QString( "%1/%2.ddoc" ).arg( m_ddocTemp ).arg( docName );
 	QFile f( m_ddoc );
@@ -256,14 +252,7 @@ void CryptoDoc::deleteDDoc()
 	if( m_ddocTemp.isEmpty() )
 		return;
 
-	QDir d( m_ddocTemp );
-	Q_FOREACH( const QFileInfo &file, d.entryInfoList( QDir::Files|QDir::NoDotAndDotDot ) )
-	{
-		QFile f( file.filePath() );
-		f.setPermissions( QFile::ReadOwner|QFile::WriteOwner );
-		f.remove();
-	}
-	d.rmdir( m_ddocTemp );
+	removeFolder( m_ddocTemp );
 	m_ddoc.clear();
 	m_ddocTemp.clear();
 }
@@ -459,6 +448,20 @@ void CryptoDoc::removeDocument( int id )
 	int err = DataFile_delete( m_doc, m_doc->pDataFiles[id]->szId );
 	if( err != ERR_OK )
 		setLastError( tr("Failed to remove file"), err );
+}
+
+void CryptoDoc::removeFolder( const QString &path )
+{
+	QDir d( path );
+	if( !d.exists() )
+		return;
+	Q_FOREACH( const QFileInfo &file, d.entryInfoList( QDir::Files|QDir::NoDotAndDotDot ) )
+	{
+		QFile f( file.filePath() );
+		f.setPermissions( QFile::ReadOwner|QFile::WriteOwner );
+		f.remove();
+	}
+	d.rmdir( path );
 }
 
 void CryptoDoc::removeKey( int id )

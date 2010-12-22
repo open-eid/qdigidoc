@@ -62,6 +62,7 @@ class CryptoDoc: public QObject
 	Q_OBJECT
 public:
 	CryptoDoc( QObject *parent = 0 );
+	~CryptoDoc();
 
 	void addFile( const QString &file, const QString &mime );
 	bool addKey( const CKey &key );
@@ -91,6 +92,7 @@ private:
 	bool isEncryptedWarning();
 	void cleanProperties();
 	void deleteDDoc();
+	void removeFolder( const QString &path );
 
 	QString			m_ddoc, m_ddocTemp;
 	QString			m_fileName;
