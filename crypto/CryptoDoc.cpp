@@ -22,11 +22,13 @@
 
 #include "CryptoDoc.h"
 
-#include "common/Common.h"
-#include "common/SslCertificate.h"
-#include "common/TokenData.h"
 #include "Application.h"
 #include "Poller.h"
+
+#include <common/Common.h>
+#include <common/MessageBox.h>
+#include <common/SslCertificate.h>
+#include <common/TokenData.h>
 
 #include <libdigidoc/DigiDocCert.h>
 #include <libdigidoc/DigiDocConvert.h>
@@ -39,7 +41,6 @@
 #include <QDateTime>
 #include <QDir>
 #include <QFileInfo>
-#include <QMessageBox>
 #include <QInputDialog>
 #include <QTemporaryFile>
 
@@ -534,7 +535,7 @@ void CryptoDoc::saveDocument( int id, const QString &filepath )
 
 void CryptoDoc::setLastError( const QString &err, int code )
 {
-	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), err, QMessageBox::Close, qApp->activeWindow() );
+	DMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), err, QMessageBox::Close, qApp->activeWindow() );
 	if( code > 0 )
 	{
 		d.addButton( QMessageBox::Help );

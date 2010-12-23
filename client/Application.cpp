@@ -31,6 +31,7 @@
 
 #include <common/AboutWidget.h>
 #include <common/Common.h>
+#include <common/MessageBox.h>
 #include <common/Settings.h>
 #include <common/TokenData.h>
 
@@ -43,7 +44,6 @@
 #include <QDesktopServices>
 #include <QFileInfo>
 #include <QFileOpenEvent>
-#include <QMessageBox>
 #include <QPalette>
 #include <QSslCertificate>
 #include <QTranslator>
@@ -316,7 +316,7 @@ void Application::showSettings( int page )
 
 void Application::showWarning( const QString &msg, int err, const QString &details )
 {
-	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close, activeWindow() );
+	DMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close, activeWindow() );
 	d.setWindowModality( Qt::WindowModal );
 	if( !details.isEmpty() )
 	{
