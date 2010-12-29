@@ -69,7 +69,7 @@ PIN1 on blokeeritud</translation>
     </message>
     <message>
         <source>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
-        <translation>Käesolevaga nõustun kehtivuskinnitusteenuse kasutamise tavatingimustega [link: www.sk.ee/kehtivuskinnitus] ja tarbin teenust mahus kuni 10 allkirja kuus.Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
+        <translation>Käesolevaga nõustun kehtivuskinnitusteenuse kasutamise tavatingimustega ja tarbin teenust mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
     </message>
     <message>
         <source>Agree</source>
