@@ -169,6 +169,34 @@ There is an option to re-sign this document in a new container.</source>
         <source>An error occurred while opening the document.</source>
         <translation>При открытии документа произошла ошибка.</translation>
     </message>
+    <message>
+        <source>Failed add file to container</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to get files from container</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed remove document from container</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed remove signature from container</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to save container</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to sign container</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to get signatures</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>

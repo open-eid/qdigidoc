@@ -120,7 +120,7 @@ Q_SIGNALS:
 
 private:
 	bool checkDoc( bool status = false, const QString &msg = QString() );
-	void setLastError( const digidoc::Exception &e );
+	void setLastError( const QString &msg, const digidoc::Exception &e );
 
 	digidoc::WDoc	*b;
 	QString			m_fileName;

@@ -291,7 +291,7 @@ void DigiDoc::addFile( const QString &file )
 	if( !checkDoc( b->signatureCount() > 0, tr("Cannot add files to signed container") ) )
 		return;
 	try { b->addDocument( Document( to(file), "file" ) ); }
-	catch( const Exception &e ) { setLastError( e ); }
+	catch( const Exception &e ) { setLastError( tr("Failed add file to container"), e ); }
 }
 
 bool DigiDoc::checkDoc( bool status, const QString &msg )
@@ -332,7 +332,7 @@ QList<Document> DigiDoc::documents()
 		for( unsigned int i = 0; i < count; ++i )
 			list << b->getDocument( i );
 	}
-	catch( const Exception &e ) { setLastError( e ); }
+	catch( const Exception &e ) { setLastError( tr("Failed to get files from container"), e ); }
 
 	return list;
 }
@@ -363,13 +363,7 @@ bool DigiDoc::open( const QString &file )
 		return true;
 	}
 	catch( const Exception &e )
-	{
-		QStringList causes;
-		Exception::ExceptionCode code = Exception::NoException;
-		int ddocError = -1;
-		parseException( e, causes, code, ddocError );
-		Q_EMIT error( tr("An error occurred while opening the document."), ddocError, causes.join("\n") );
-	}
+	{ setLastError( tr("An error occurred while opening the document."), e ); }
 	return false;
 }
 
@@ -413,7 +407,7 @@ void DigiDoc::removeDocument( unsigned int num )
 	if( !checkDoc( num >= b->documentCount(), tr("Missing document") ) )
 		return;
 	try { b->removeDocument( num ); }
-	catch( const Exception &e ) { setLastError( e ); }
+	catch( const Exception &e ) { setLastError( tr("Failed remove document from container"), e ); }
 }
 
 void DigiDoc::removeSignature( unsigned int num )
@@ -421,7 +415,7 @@ void DigiDoc::removeSignature( unsigned int num )
 	if( !checkDoc( num >= b->signatureCount(), tr("Missing signature") ) )
 		return;
 	try { b->removeSignature( num ); }
-	catch( const Exception &e ) { setLastError( e ); }
+	catch( const Exception &e ) { setLastError( tr("Failed remove signature from container"), e ); }
 }
 
 void DigiDoc::save()
@@ -433,10 +427,10 @@ void DigiDoc::save()
 		std::auto_ptr<ISerialize> s(new ZipSerialize( to(m_fileName) ));
 		b->saveTo( s );
 	}
-	catch( const Exception &e ) { setLastError( e ); }
+	catch( const Exception &e ) { setLastError( tr("Failed to save container"), e ); }
 }
 
-void DigiDoc::setLastError( const Exception &e )
+void DigiDoc::setLastError( const QString &msg, const Exception &e )
 {
 	QStringList causes;
 	Exception::ExceptionCode code = Exception::NoException;
@@ -461,7 +455,7 @@ void DigiDoc::setLastError( const Exception &e )
 	case Exception::PINLocked:
 		Q_EMIT error( tr("PIN Locked. Please use ID-card utility for PIN opening!"), ddocError, causes.join("\n") ); break;
 	default:
-		Q_EMIT error( causes.join( "\n" ), ddocError, causes.join("\n") ); break;
+		Q_EMIT error( msg, ddocError, causes.join("\n") ); break;
 	}
 }
 
@@ -496,7 +490,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 				return sign( city, state, zip, country, role, role2 );
 		}
 		else
-			setLastError( e );
+			setLastError( tr("Failed to sign container"), e );
 	}
 	return result;
 }
@@ -512,7 +506,7 @@ bool DigiDoc::signMobile( const QString &fName )
 		b->sign( new digidoc::QMobileSigner( fName ), Signature::MOBILE );
 		result = true;
 	}
-	catch( const Exception &e ) { setLastError( e ); }
+	catch( const Exception &e ) { setLastError( tr("Failed to sign container"), e ); }
 	return result;
 }
 
@@ -527,7 +521,7 @@ QList<DigiDocSignature> DigiDoc::signatures()
 		for( unsigned int i = 0; i < count; ++i )
 			list << DigiDocSignature( b->getSignature( i ), this );
 	}
-	catch( const Exception &e ) { setLastError( e ); }
+	catch( const Exception &e ) { setLastError( tr("Failed to get signatures"), e ); }
 	return list;
 }
 

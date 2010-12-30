@@ -169,6 +169,34 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
         <source>An error occurred while opening the document.</source>
         <translation>Ümbriku avamisel tekkis viga.</translation>
     </message>
+    <message>
+        <source>Failed add file to container</source>
+        <translation>Faili lisamine ümbrikusse ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to get files from container</source>
+        <translation>Ümbrikust ei suutnud laadida faile</translation>
+    </message>
+    <message>
+        <source>Failed remove document from container</source>
+        <translation>Faili eemaldamine ümbrikust ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed remove signature from container</source>
+        <translation>Allkirja eemaldamine ümbrikust ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to save container</source>
+        <translation>Ümbriku salvestamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to sign container</source>
+        <translation>Ümbriku allkirjastamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to get signatures</source>
+        <translation>Ümbrikust ei suutnud laadida allkirju</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>

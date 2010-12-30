@@ -169,6 +169,34 @@ There is an option to re-sign this document in a new container.</translation>
         <source>An error occurred while opening the document.</source>
         <translation>An error occurred while opening the document.</translation>
     </message>
+    <message>
+        <source>Failed add file to container</source>
+        <translation>Failed add file to container</translation>
+    </message>
+    <message>
+        <source>Failed to get files from container</source>
+        <translation>Failed to get files from container</translation>
+    </message>
+    <message>
+        <source>Failed remove document from container</source>
+        <translation>Failed remove document from container</translation>
+    </message>
+    <message>
+        <source>Failed remove signature from container</source>
+        <translation>Failed remove signature from container</translation>
+    </message>
+    <message>
+        <source>Failed to save container</source>
+        <translation>Failed to save container</translation>
+    </message>
+    <message>
+        <source>Failed to sign container</source>
+        <translation>Failed to sign container</translation>
+    </message>
+    <message>
+        <source>Failed to get signatures</source>
+        <translation>Failed to get signatures</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
