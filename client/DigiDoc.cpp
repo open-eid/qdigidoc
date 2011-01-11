@@ -198,7 +198,7 @@ int DigiDocSignature::parseException( const digidoc::Exception &e )
 void DigiDocSignature::parseExceptionStrings( const digidoc::Exception &e, QStringList &causes )
 {
 	causes << from( e.getMsg() );
-	if( e.ddoc() )
+	if( e.ddoc() > 0 )
 		causes << QString("libdigidoc code: %1<br />message: %2").arg( e.ddoc() ).arg( from( e.ddocMsg() ) );
 	Q_FOREACH( const Exception &c, e.getCauses() )
 		parseExceptionStrings( c, causes );
