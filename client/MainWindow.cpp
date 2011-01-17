@@ -281,6 +281,7 @@ void MainWindow::buttonClicked( int button )
 					if( doc->open( f.absoluteFilePath() ) )
 						setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 					params.clear();
+					loadRoles();
 					return;
 				}
 				else if( !addFile( f.absoluteFilePath() ) )
