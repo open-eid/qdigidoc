@@ -23,7 +23,7 @@ if( UNIX )
 endif( UNIX )
 
 set( MAJOR_VER 3 )
-set( MINOR_VER 1 )
+set( MINOR_VER 3 )
 set( RELEASE_VER 0 )
 
 if( Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn )
