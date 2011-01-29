@@ -118,10 +118,6 @@ PIN заблокирован</translation>
         <translation>Нельзя добавлять файлы в подписанный контейнер</translation>
     </message>
     <message>
-        <source>Missing document</source>
-        <translation>Документ отсутствует</translation>
-    </message>
-    <message>
         <source>Missing signature</source>
         <translation>Подпись отсутствует</translation>
     </message>
@@ -174,14 +170,6 @@ There is an option to re-sign this document in a new container.</source>
         <translation>Не удается добавить файл в конверт</translation>
     </message>
     <message>
-        <source>Failed to get files from container</source>
-        <translation>Не удается загрузить файлы из конверта</translation>
-    </message>
-    <message>
-        <source>Failed remove document from container</source>
-        <translation>Не удается удалить файл из конверта</translation>
-    </message>
-    <message>
         <source>Failed remove signature from container</source>
         <translation>Не удается удалить подпись из конверта</translation>
     </message>
@@ -196,6 +184,33 @@ There is an option to re-sign this document in a new container.</source>
     <message>
         <source>Failed to get signatures</source>
         <translation>Не удается загрузить подписи</translation>
+    </message>
+</context>
+<context>
+    <name>DocumentModel</name>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Failed to get files from container</source>
+        <translation>Не удается загрузить файлы из конверта</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 клиент</translation>
+    </message>
+    <message>
+        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
+        <translation>Это выполняемый файл! Выполняемый файл может содержать вирусы или другой вредоносный код которые могут повредить ваш компьютер. Вы уверены что хотите запустить?</translation>
+    </message>
+    <message>
+        <source>Failed remove document from container</source>
+        <translation>Не удается удалить файл из конверта</translation>
     </message>
 </context>
 <context>
@@ -1009,14 +1024,6 @@ Control code: %1</source>
 <context>
     <name>TreeWidget</name>
     <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
         <source>Save file</source>
         <translation>Сохранить файл</translation>
     </message>
@@ -1027,10 +1034,6 @@ Control code: %1</source>
     <message>
         <source>You dont have sufficient privilegs to write this file into folder %1</source>
         <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
-    </message>
-    <message>
-        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
-        <translation>Это выполняемый файл! Выполняемый файл может содержать вирусы или другой вредоносный код которые могут повредить ваш компьютер. Вы уверены что хотите запустить?</translation>
     </message>
 </context>
 </TS>

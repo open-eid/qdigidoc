@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <QObject>
+#include <QAbstractTableModel>
 
 #include <digidocpp/WDoc.h>
 
@@ -38,6 +38,31 @@ class DigiDoc;
 class QDateTime;
 class QSslCertificate;
 class QStringList;
+
+class DocumentModel: public QAbstractTableModel
+{
+	Q_OBJECT
+public:
+	DocumentModel( DigiDoc *doc );
+
+	int columnCount( const QModelIndex &parent = QModelIndex() ) const;
+	QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
+	Qt::ItemFlags flags( const QModelIndex &index ) const;
+	QMimeData *mimeData( const QModelIndexList &indexes ) const;
+	QStringList mimeTypes() const;
+	bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
+	int rowCount( const QModelIndex &parent = QModelIndex() ) const;
+
+	digidoc::Document document( const QModelIndex &index ) const;
+
+public Q_SLOTS:
+	void open( const QModelIndex &index );
+
+private:
+	DigiDoc *d;
+
+	friend class DigiDoc;
+};
 
 class DigiDocSignature
 {
@@ -93,11 +118,10 @@ public:
 	void addFile( const QString &file );
 	void create( const QString &file );
 	void clear();
-	QList<digidoc::Document> documents();
+	DocumentModel *documentModel() const;
 	QString fileName() const;
 	bool isNull() const;
 	bool open( const QString &file );
-	void removeDocument( unsigned int num );
 	void removeSignature( unsigned int num );
 	void save();
 	bool sign(
@@ -124,4 +148,7 @@ private:
 
 	digidoc::WDoc	*b;
 	QString			m_fileName;
+	DocumentModel *m_documentModel;
+
+	friend class DocumentModel;
 };

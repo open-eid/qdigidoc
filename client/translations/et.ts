@@ -118,10 +118,6 @@ PIN1 on blokeeritud</translation>
         <translation>Ei saa lisada faile allkirjastatud ümbrikule</translation>
     </message>
     <message>
-        <source>Missing document</source>
-        <translation>Puuduv dokument</translation>
-    </message>
-    <message>
         <source>Cannot add signature to empty container</source>
         <translation>Ei saa lisada allkirja tühjale ümbrikule</translation>
     </message>
@@ -174,14 +170,6 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
         <translation>Faili lisamine ümbrikusse ebaõnnestus</translation>
     </message>
     <message>
-        <source>Failed to get files from container</source>
-        <translation>Ümbrikust ei suutnud laadida faile</translation>
-    </message>
-    <message>
-        <source>Failed remove document from container</source>
-        <translation>Faili eemaldamine ümbrikust ebaõnnestus</translation>
-    </message>
-    <message>
         <source>Failed remove signature from container</source>
         <translation>Allkirja eemaldamine ümbrikust ebaõnnestus</translation>
     </message>
@@ -196,6 +184,33 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
     <message>
         <source>Failed to get signatures</source>
         <translation>Ümbrikust ei suutnud laadida allkirju</translation>
+    </message>
+</context>
+<context>
+    <name>DocumentModel</name>
+    <message>
+        <source>Save</source>
+        <translation>Salvesta</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Eemalda</translation>
+    </message>
+    <message>
+        <source>Failed to get files from container</source>
+        <translation>Ümbrikust ei suutnud laadida faile</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 klient</translation>
+    </message>
+    <message>
+        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
+        <translation>See on käivitatav fail! Käivitatavad failid võivad sisaldada viirusi või muud pahatahtlikku koodi, mis võib kahjustada sinu arvutit. Kas oled kindel, et tahad seda faili käivitada?</translation>
+    </message>
+    <message>
+        <source>Failed remove document from container</source>
+        <translation>Faili eemaldamine ümbrikust ebaõnnestus</translation>
     </message>
 </context>
 <context>
@@ -1006,14 +1021,6 @@ Kontrollkood: %1</translation>
 <context>
     <name>TreeWidget</name>
     <message>
-        <source>Save</source>
-        <translation>Salvesta</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Eemalda</translation>
-    </message>
-    <message>
         <source>Save file</source>
         <translation>Salvesta fail</translation>
     </message>
@@ -1024,10 +1031,6 @@ Kontrollkood: %1</translation>
     <message>
         <source>You dont have sufficient privilegs to write this file into folder %1</source>
         <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
-    </message>
-    <message>
-        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
-        <translation>See on käivitatav fail! Käivitatavad failid võivad sisaldada viirusi või muud pahatahtlikku koodi, mis võib kahjustada sinu arvutit. Kas oled kindel, et tahad seda faili käivitada?</translation>
     </message>
 </context>
 </TS>

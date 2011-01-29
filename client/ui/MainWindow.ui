@@ -835,29 +835,6 @@ Also an active internet connection is needed.</string>
                <property name="headerHidden">
                 <bool>true</bool>
                </property>
-               <property name="columnCount">
-                <number>4</number>
-               </property>
-               <column>
-                <property name="text">
-                 <string/>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string/>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string/>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string/>
-                </property>
-               </column>
               </widget>
              </item>
              <item>
@@ -1064,29 +1041,6 @@ color: red;</string>
                <property name="headerHidden">
                 <bool>true</bool>
                </property>
-               <property name="columnCount">
-                <number>4</number>
-               </property>
-               <column>
-                <property name="text">
-                 <string/>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string/>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string/>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string/>
-                </property>
-               </column>
               </widget>
              </item>
              <item>
@@ -1117,7 +1071,7 @@ color: red;</string>
  <customwidgets>
   <customwidget>
    <class>TreeWidget</class>
-   <extends>QTreeWidget</extends>
+   <extends>QTreeView</extends>
    <header>TreeWidget.h</header>
   </customwidget>
   <customwidget>

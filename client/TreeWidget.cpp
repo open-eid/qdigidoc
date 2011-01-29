@@ -23,47 +23,33 @@
 #include "TreeWidget.h"
 
 #include "Application.h"
+#include "DigiDoc.h"
 
 #include <common/Common.h>
 
-#include <digidocpp/Document.h>
-
 #include <QDesktopServices>
 #include <QFileDialog>
-#include <QFileInfo>
 #include <QHeaderView>
 #include <QKeyEvent>
 #include <QMessageBox>
-#include <QMimeData>
-#include <QUrl>
 
 TreeWidget::TreeWidget( QWidget *parent )
-:	QTreeWidget( parent )
-{
-	setColumnCount( 4 );
-	header()->setStretchLastSection( false );
-	header()->setResizeMode( 0, QHeaderView::Stretch );
-	header()->setResizeMode( 1, QHeaderView::ResizeToContents );
-	header()->setResizeMode( 2, QHeaderView::ResizeToContents );
-	header()->setResizeMode( 3, QHeaderView::ResizeToContents );
-	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
-	connect( this, SIGNAL(doubleClicked(QModelIndex)), SLOT(openFile(QModelIndex)) );
-}
+:	QTreeView( parent )
+{}
 
 void TreeWidget::clicked( const QModelIndex &index )
 {
 	switch( index.column() )
 	{
-	case 2:
+	case 3:
 	{
-		QString source = model()->index( index.row(), 0 ).data( Qt::UserRole ).toString();
 		QString dest;
 		while( true )
 		{
 			dest = Common::normalized( QFileDialog::getSaveFileName( qApp->activeWindow(),
 				tr("Save file"), QString( "%1/%2" )
 					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-					.arg( model()->index( index.row(), 0 ).data().toString() ) ) );
+					.arg( m->index( index.row(), 0 ).data().toString() ) ) );
 			if( !dest.isEmpty() && !Common::canWrite( dest ) )
 			{
 				QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
@@ -72,11 +58,12 @@ void TreeWidget::clicked( const QModelIndex &index )
 			else
 				break;
 		}
-		if( !dest.isEmpty() && source != dest )
-			QFile::copy( source, dest );
+		QString src = m->index( index.row(), 0 ).data( Qt::UserRole ).toString();
+		if( !dest.isEmpty() && !src.isEmpty() && dest != src )
+			QFile::copy( src, dest );
 		break;
 	}
-	case 3: Q_EMIT remove( index.row() ); break;
+	case 4: m->removeRow( index.row() ); break;
 	default: break;
 	}
 }
@@ -89,83 +76,28 @@ void TreeWidget::keyPressEvent( QKeyEvent *e )
 		switch( e->key() )
 		{
 		case Qt::Key_Delete:
-			if( !isColumnHidden( 3 ) )
-			{
-				Q_EMIT remove( i[0].row() );
-				e->accept();
-			}
+			m->removeRow( i[0].row() );
+			e->accept();
 			break;
 		case Qt::Key_Return:
-			openFile( i[0] );
+			m->open( i[0] );
 			e->accept();
 			break;
 		default: break;
 		}
 	}
-	QTreeWidget::keyPressEvent( e );
+	QTreeView::keyPressEvent( e );
 }
 
-QMimeData* TreeWidget::mimeData( const QList<QTreeWidgetItem*> items ) const
+void TreeWidget::setDocumentModel( DocumentModel *model )
 {
-	QList<QUrl> list;
-	Q_FOREACH( QTreeWidgetItem *item, items )
-		list << url( indexFromItem( item ) );
-	QMimeData *data = new QMimeData();
-	data->setUrls( list );
-	return data;
+	setModel( m = model );
+	header()->setStretchLastSection( false );
+	header()->setResizeMode( 0, QHeaderView::Stretch );
+	header()->setResizeMode( 1, QHeaderView::ResizeToContents );
+	header()->setResizeMode( 2, QHeaderView::ResizeToContents );
+	header()->setResizeMode( 3, QHeaderView::ResizeToContents );
+	header()->setResizeMode( 4, QHeaderView::ResizeToContents );
+	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
+	connect( this, SIGNAL(doubleClicked(QModelIndex)), m, SLOT(open(QModelIndex)) );
 }
-
-QStringList TreeWidget::mimeTypes() const
-{ return QStringList() << "text/uri-list"; }
-
-void TreeWidget::openFile( const QModelIndex &index )
-{
-	QUrl u = url( index );
-#ifdef Q_OS_WIN32
-	QStringList exts = QString::fromLocal8Bit( qgetenv( "PATHEXT" ) ).split(';');
-	exts << ".PIF" << ".SCR";
-	if( exts.contains( "." + QFileInfo( u.toLocalFile() ).suffix(), Qt::CaseInsensitive ) &&
-		QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
-			tr("This is an executable file! "
-			"Executable files may contain viruses or other malicious code that could harm your computer. "
-			"Are you sure you want to launch this file?"),
-			QMessageBox::Yes|QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
-		return;
-#endif
-	QDesktopServices::openUrl( u );
-}
-
-void TreeWidget::setContent( const QList<digidoc::Document> &docs )
-{
-	clear();
-	Q_FOREACH( const digidoc::Document &file, docs )
-	{
-		QTreeWidgetItem *i = new QTreeWidgetItem( this );
-		i->setFlags( Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled );
-
-		QFileInfo info( QString::fromUtf8( file.getPath().data() ) );
-		i->setText( 0, info.fileName() );
-		i->setData( 0, Qt::ToolTipRole, info.fileName() );
-		i->setData( 0, Qt::UserRole, info.absoluteFilePath() );
-
-		i->setText( 1, Common::fileSize( info.size() ) );
-		i->setData( 1, Qt::TextAlignmentRole, (int)Qt::AlignRight|Qt::AlignVCenter );
-		i->setData( 1, Qt::ForegroundRole, Qt::gray );
-
-		i->setData( 2, Qt::DecorationRole, QPixmap(":/images/ico_save.png") );
-		i->setData( 2, Qt::ToolTipRole, tr("Save") );
-		i->setData( 2, Qt::SizeHintRole, QSize( 20, 20 ) );
-
-		i->setData( 3, Qt::DecorationRole, QPixmap(":/images/ico_delete.png") );
-		i->setData( 3, Qt::ToolTipRole, tr("Remove") );
-		i->setData( 3, Qt::SizeHintRole, QSize( 20, 20 ) );
-
-		addTopLevelItem( i );
-	}
-}
-
-Qt::DropActions TreeWidget::supportedDropActions() const
-{ return Qt::CopyAction; }
-
-QUrl TreeWidget::url( const QModelIndex &item ) const
-{ return QUrl::fromLocalFile( item.model()->index( item.row(), 0 ).data( Qt::UserRole ).toString() ); }

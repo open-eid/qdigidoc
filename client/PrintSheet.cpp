@@ -23,10 +23,8 @@
 #include "PrintSheet.h"
 
 #include "DigiDoc.h"
-#include "common/Common.h"
-#include "common/SslCertificate.h"
 
-#include <digidocpp/Document.h>
+#include <common/SslCertificate.h>
 
 #include <QDateTime>
 #include <QFileInfo>
@@ -98,14 +96,13 @@ PrintSheet::PrintSheet( DigiDoc *d, QWidget *parent )
 	//<< "<td class=\"label\" width=\"200\">" << tr("FILE TYPE") << "</td>"
 	<< "<td class=\"label\" width=\"100\">" << tr("FILE SIZE") << "</td>"
 	<< "</tr>";
-	Q_FOREACH( const digidoc::Document &doc, d->documents() )
+	for( int i = 0; i < d->documentModel()->rowCount(); ++i )
 	{
-		QFileInfo f( QString::fromUtf8( doc.getPath().data() ) );
 		s
 		<< "<tr>"
-		<< "<td class=\"textborder\">" << f.fileName() << "</td>"
-		//<< "<td class=\"textborderright\">" << QString::fromUtf8( doc.getMediaType().data() ) << "</td>"
-		<< "<td class=\"textborderright\">" << Common::fileSize( f.size() ) << "</td>"
+		<< "<td class=\"textborder\">" << d->documentModel()->index( i, 0 ).data().toString() << "</td>"
+		//<< "<td class=\"textborderright\">" << d->documentModel()->index( i, 1 ).data().toString() << "</td>"
+		<< "<td class=\"textborderright\">" << d->documentModel()->index( i, 2 ).data().toString() << "</td>"
 		<< "</tr>";
 	}
 

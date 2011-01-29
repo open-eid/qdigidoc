@@ -190,7 +190,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	addItem( t, tr("Signing time"), s.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature type"), c.publicKey().algorithm() == QSsl::Rsa ? "RSA" : "DSA" );
 	addItem( t, tr("Signature format"), s.mediaType() );
-	addItem( t, tr("Signed file count"), QString::number( s.parent()->documents().size() ) );
+	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
 	addItem( t, tr("Certificate serialnumber"), c.serialNumber() );
 	addItem( t, tr("Certificate valid at"), c.effectiveDate().toLocalTime().toString( "dd.MM.yyyy" ) );
 	addItem( t, tr("Certificate valid until"), c.expiryDate().toLocalTime().toString( "dd.MM.yyyy" ) );

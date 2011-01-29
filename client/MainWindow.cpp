@@ -117,12 +117,15 @@ MainWindow::MainWindow( QWidget *parent )
 	connect( cardsGroup, SIGNAL(triggered(QAction*)), SLOT(changeCard(QAction*)) );
 
 	// Views
-	signContentView->setColumnHidden( 2, true );
-	viewContentView->setColumnHidden( 3, true );
-	connect( signContentView, SIGNAL(remove(unsigned int)),
-		SLOT(removeDocument(unsigned int)) );
-	connect( viewContentView, SIGNAL(remove(unsigned int)),
-		SLOT(removeDocument(unsigned int)) );
+	signContentView->setDocumentModel( doc->documentModel() );
+	viewContentView->setDocumentModel( doc->documentModel() );
+	signContentView->setColumnHidden( 1, true );
+	signContentView->setColumnHidden( 3, true );
+	viewContentView->setColumnHidden( 1, true );
+	viewContentView->setColumnHidden( 4, true );
+	connect( doc->documentModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(enableSign()) );
+	connect( doc->documentModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(enableSign()) );
+	connect( doc->documentModel(), SIGNAL(modelReset()), SLOT(enableSign()) );
 }
 
 bool MainWindow::addFile( const QString &file )
@@ -196,10 +199,10 @@ bool MainWindow::addFile( const QString &file )
 	}
 
 	// Check if file exist and ask confirmation to overwrite
-	QList<digidoc::Document> docs = doc->documents();
-	for( int i = 0; i < docs.size(); ++i )
+	for( int i = 0; i < signContentView->model()->rowCount(); ++i )
 	{
-		if( QFileInfo( QString::fromUtf8( docs[i].getPath().data() ) ).fileName() == fileinfo.fileName() )
+		QModelIndex index = signContentView->model()->index( i, 0 );
+		if( index.data().toString() == fileinfo.fileName() )
 		{
 			QMessageBox::StandardButton btn = QMessageBox::warning( this,
 				tr("File already in container"),
@@ -207,7 +210,7 @@ bool MainWindow::addFile( const QString &file )
 				QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 			if( btn == QMessageBox::Yes )
 			{
-				doc->removeDocument( i );
+				signContentView->model()->removeRow( index.row() );
 				break;
 			}
 			else
@@ -316,11 +319,11 @@ void MainWindow::buttonClicked( int button )
 			setCurrentPage( View );
 			break;
 		}
-		if( !doc->documents().isEmpty() )
+		if( signContentView->model()->rowCount() )
 		{
 			QMessageBox msgBox( QMessageBox::Question, tr("Save container"),
 				tr("You added %n file(s) to container, but these are not signed yet.\n"
-					"Should I keep unsigned documents or remove these?", "", doc->documents().size()) );
+					"Should I keep unsigned documents or remove these?", "", signContentView->model()->rowCount()) );
 			msgBox.addButton( tr("Remove"), QMessageBox::ActionRole );
 			QPushButton *keep = msgBox.addButton( tr("Keep"), QMessageBox::ActionRole );
 			msgBox.exec();
@@ -450,7 +453,7 @@ void MainWindow::enableSign()
 	s.setValue( "MobileNumber", infoMobileCell->text() );
 	s.endGroup();
 
-	if( doc->isNull() || doc->documents().isEmpty() )
+	if( doc->isNull() || signContentView->model()->rowCount() == 0 )
 	{
 		signButton->setEnabled( false );
 		return;
@@ -611,12 +614,6 @@ void MainWindow::parseLink( const QString &link )
 	}
 }
 
-void MainWindow::removeDocument( unsigned int index )
-{
-	doc->removeDocument( index );
-	setCurrentPage( (Pages)stack->currentIndex() );
-}
-
 void MainWindow::retranslate()
 {
 	retranslateUi( this );
@@ -645,16 +642,13 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 	case Sign:
 	{
-		signContentView->setContent( doc->documents() );
-		signContentView->setColumnHidden( 3, !doc->signatures().isEmpty() );
+		signContentView->setColumnHidden( 4, !doc->signatures().isEmpty() );
 		signAddFile->setVisible( doc->signatures().isEmpty() );
 		enableSign();
 		break;
 	}
 	case View:
 	{
-		viewContentView->setContent( doc->documents() );
-
 		qDeleteAll( viewSignatures->findChildren<SignatureWidget*>() );
 
 		int i = 0;

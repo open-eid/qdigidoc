@@ -297,8 +297,9 @@ void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> & )
 bool MobileDialog::getFiles()
 {
 	files = "<DataFiles xsi:type=\"m:DataFileDigestList\">";
-	int i = 0;
-	Q_FOREACH( digidoc::Document file, m_doc->documents() )
+
+	DocumentModel *m = m_doc->documentModel();
+	for( int i = 0; i < m->rowCount(); ++i )
 	{
 		QByteArray digest;
 		QString name = "sha1";
@@ -308,6 +309,7 @@ bool MobileDialog::getFiles()
 			{
 				std::auto_ptr<digidoc::Digest> calc = digidoc::Digest::create( NID_sha1 );
 				name = QString::fromStdString( calc->getName() );
+				digidoc::Document file = m->document( m->index( i, 0 ) );
 				std::vector<unsigned char> d = file.calcDigest( calc.get() );
 				digest = QByteArray( (char*)&d[0], d.size() );
 			}
@@ -320,7 +322,6 @@ bool MobileDialog::getFiles()
 		else
 			digest = m_doc->getFileDigest( i ).left( 20 );
 
-		QFileInfo f( QString::fromStdString( file.getPath() ) );
 		files += QString(
 			"<DataFileDigest xsi:type=\"m:DataFileDigest\">"
 			"<Id xsi:type=\"xsd:String\">%1</Id>"
@@ -328,9 +329,8 @@ bool MobileDialog::getFiles()
 			"<DigestValue xsi:type=\"xsd:String\">%3</DigestValue>"
 			"</DataFileDigest>" )
 			.arg( m_doc->documentType() == digidoc::WDoc::BDocType ?
-				"/" + f.fileName() : "D" + QString::number( i ) )
+				"/" + m->index( i, 0 ).data().toString() : "D" + QString::number( i ) )
 			.arg( escapeChars( name ) ).arg( digest.toBase64().constData() );
-		i++;
 	}
 	files += "</DataFiles>";
 	return true;

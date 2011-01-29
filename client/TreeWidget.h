@@ -22,31 +22,23 @@
 
 #pragma once
 
-#include <QTreeWidget>
+#include <QTreeView>
 
-namespace digidoc{ class Document; }
+class DocumentModel;
 
-class QUrl;
-
-class TreeWidget : public QTreeWidget
+class TreeWidget: public QTreeView
 {
 	Q_OBJECT
 public:
     TreeWidget( QWidget *parent = 0 );
 
-	void setContent( const QList<digidoc::Document> &docs );
-
-Q_SIGNALS:
-	void remove( unsigned int id );
+	void setDocumentModel( DocumentModel *model );
 
 private Q_SLOTS:
 	void clicked( const QModelIndex &index );
-	void openFile( const QModelIndex &index );
 
 private:
 	void keyPressEvent( QKeyEvent *e );
-	QMimeData* mimeData( const QList<QTreeWidgetItem*> items ) const;
-	QStringList mimeTypes() const;
-	Qt::DropActions supportedDropActions() const;
-	QUrl url( const QModelIndex &item ) const;
+
+	DocumentModel *m;
 };
