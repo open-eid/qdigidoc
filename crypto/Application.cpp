@@ -178,9 +178,12 @@ Application::~Application()
 
 void Application::closeWindow()
 {
+#ifndef Q_OS_MAC
 	if( MainWindow *w = qobject_cast<MainWindow*>(activeWindow()) )
 		w->closeDoc();
-	else if( QDialog *d = qobject_cast<QDialog*>(activeWindow()) )
+	else
+#endif
+	if( QDialog *d = qobject_cast<QDialog*>(activeWindow()) )
 		d->reject();
 	else if( QWidget *w = qobject_cast<QWidget*>(activeWindow()) )
 		w->deleteLater();
