@@ -41,6 +41,7 @@
 #include <QDesktopServices>
 #include <QDir>
 #include <QFileInfo>
+#include <QMessageBox>
 #include <QMimeData>
 #include <QPixmap>
 #include <QProcess>
