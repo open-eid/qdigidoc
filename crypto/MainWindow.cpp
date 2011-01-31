@@ -197,7 +197,7 @@ void MainWindow::buttonClicked( int button )
 	{
 		QString file = Common::normalized( QFileDialog::getOpenFileName( this, tr("Open container"),
 			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ),
-			tr("Documents (*.cdoc *.CDOC)") ) );
+			tr("Documents (*.cdoc)") ) );
 		if( !file.isEmpty() && doc->open( file ) )
 			setCurrentPage( View );
 		break;

@@ -240,9 +240,9 @@ void MainWindow::buttonClicked( int button )
 		QString file = Common::normalized( QFileDialog::getOpenFileName( this, tr("Open container"),
 			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ),
 #ifdef BDOC_ENABLED
-			tr("Documents (%1)").arg( "*.bdoc *.BDOC *.ddoc *.DDOC" ) ) );
+			tr("Documents (%1)").arg( "*.bdoc *.ddoc" ) ) );
 #else
-			tr("Documents (%1)").arg( "*.ddoc *.DDOC" ) ) );
+			tr("Documents (%1)").arg( "*.ddoc" ) ) );
 #endif
 		if( !file.isEmpty() && doc->open( file ) )
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
