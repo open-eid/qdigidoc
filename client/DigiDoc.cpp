@@ -87,7 +87,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		{
 		case 0: return QFileInfo( from( d.getPath() ) ).fileName();
 		case 1: return from( d.getMediaType() );
-		case 2: return Common::fileSize( d.getSize() );
+		case 2: return Common::fileSize( QFileInfo( from( d.getPath() ) ).size() );
 		default: return QVariant();
 		}
 	case Qt::TextAlignmentRole:
