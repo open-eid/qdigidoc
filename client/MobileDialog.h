@@ -52,17 +52,13 @@ private Q_SLOTS:
 	void sslErrors( QNetworkReply *reply, const QList<QSslError> &errors );
 
 private:
-	bool getFiles();
-	QString escapeChars( const QString &in ) const;
 	QString elementText( const QDomElement &element, const QString &tag ) const;
-	QString insertBody( const QString &action, const QString &body ) const;
-	void startSession();
 
 	DigiDoc *m_doc;
 	QTimeLine *statusTimer;
 	QNetworkAccessManager *manager;
 	QNetworkRequest request;
-	QString signature, files;
+	QStringList roles, location;
 
 	QString sessionCode;
 	QHash<QString,QString> mobileResults;

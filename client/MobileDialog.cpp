@@ -43,6 +43,75 @@
 #include <QTemporaryFile>
 #include <QTimeLine>
 
+#include <QBuffer>
+#include <QXmlStreamWriter>
+
+#define SOAP_ENV			"http://schemas.xmlsoap.org/soap/envelope/"
+#define SOAP_ENC			"http://schemas.xmlsoap.org/soap/encoding/"
+#define XML_SCHEMA			"http://www.w3.org/2001/XMLSchema"
+#define XML_SCHEMA_INSTANCE	"http://www.w3.org/2001/XMLSchema-instance"
+#define DIGIDOCSERVICE		"http://www.sk.ee/DigiDocService/DigiDocService_2_3.wsdl"
+
+class SOAPDocument: public QXmlStreamWriter
+{
+public:
+	SOAPDocument( const QString &action )
+		: QXmlStreamWriter()
+	{
+		data.open( QBuffer::WriteOnly );
+		setDevice( &data );
+		setAutoFormatting( true );
+
+		writeStartDocument();
+		writeNamespace( XML_SCHEMA, "xsd" );
+		writeNamespace( XML_SCHEMA_INSTANCE, "xsi" );
+		writeNamespace( SOAP_ENV, "SOAP-ENV" );
+		writeNamespace( SOAP_ENC, "SOAP-ENC" );
+		writeStartElement( SOAP_ENV, "Envelope" );
+
+		writeStartElement( SOAP_ENV, "Body" );
+
+		writeNamespace( DIGIDOCSERVICE, "m" );
+		writeStartElement( DIGIDOCSERVICE, action );
+		writeAttribute( SOAP_ENV, "encodingStyle", SOAP_ENC );
+	}
+
+	QByteArray document() const { return data.data(); }
+
+	void finalize()
+	{
+		writeEndElement(); // action
+
+		writeEndElement(); // Body
+
+		writeEndElement(); // Envelope
+		writeEndDocument();
+	}
+
+	void writeParameter( const QString &name, const QVariant &value )
+	{
+		QString type;
+		switch( value.type() )
+		{
+		case QMetaType::Bool: type = "boolean"; break;
+		case QMetaType::Int: type = "int"; break;
+		case QMetaType::QByteArray:
+		case QMetaType::QString:
+		default: type = "String"; break;
+		}
+
+		writeStartElement( name );
+		writeAttribute( XML_SCHEMA_INSTANCE, "type", QString( "xsd:" ).append( type ) );
+		writeCharacters( value.toString() );
+		writeEndElement();
+	}
+
+private:
+	QBuffer data;
+};
+
+
+
 MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 :	QDialog( parent )
 ,	m_doc( doc )
@@ -116,22 +185,6 @@ QString MobileDialog::elementText( const QDomElement &element, const QString &ta
 
 void MobileDialog::endProgress()
 { labelError->setText( mobileResults.value( "EXPIRED_TRANSACTION" ) ); }
-
-QString MobileDialog::escapeChars( const QString &in ) const
-{
-	QString out;
-	out.reserve( in.size() );
-	for( QString::ConstIterator i = in.constBegin(); i != in.constEnd(); ++i )
-	{
-		if( *i == '\'' ) out += "&apos;";
-		else if( *i == '\"' ) out += "&quot;";
-		else if( *i == '<' ) out += "&lt;";
-		else if( *i == '>' ) out += "&gt;";
-		else if( *i == '&' ) out += "&amp;";
-		else out += *i;
-	}
-	return out;
-}
 
 void MobileDialog::finished( QNetworkReply *reply )
 {
@@ -227,36 +280,23 @@ void MobileDialog::sendStatusRequest( int frame )
 	signProgressBar->setValue( frame );
 	if( frame % 5 != 0 )
 		return;
-	QString message = QString(
-		"<Sesscode xsi:type=\"xsd:int\">%1</Sesscode>"
-		"<WaitSignature xsi:type=\"xsd:boolean\">false</WaitSignature>" )
-		.arg( sessionCode );
-	manager->post( request, insertBody( "GetMobileCreateSignatureStatus", message ).toUtf8() );
+	SOAPDocument doc( "GetMobileCreateSignatureStatus" );
+	doc.writeParameter( "Sesscode", sessionCode.toInt() );
+	doc.writeParameter( "WaitSignature", false );
+	doc.finalize();
+	manager->post( request, doc.document() );
 }
 
 void MobileDialog::setSignatureInfo( const QString &city, const QString &state, const QString &zip,
 	const QString &country, const QString &role, const QString &role2 )
 {
-	QStringList roles = QStringList() << role << role2;
+	roles = QStringList() << role << role2;
 	roles.removeAll( "" );
-	signature = QString(
-		"<City xsi:type=\"xsd:String\">%1</City>"
-		"<StateOrProvince xsi:type=\"xsd:String\">%2</StateOrProvince>"
-		"<PostalCode xsi:type=\"xsd:String\">%3</PostalCode>"
-		"<CountryName xsi:type=\"xsd:String\">%4</CountryName>"
-		"<Role xsi:type=\"xsd:String\">%5</Role>")
-		.arg( escapeChars( city ) )
-		.arg( escapeChars( state ) )
-		.arg( escapeChars( zip ) )
-		.arg( escapeChars( country ) )
-		.arg( escapeChars( roles.join(" / ") ) );
+	location = QStringList() << city << state << zip << country;
 }
 
 void MobileDialog::sign( const QString &ssid, const QString &cell )
 {
-	if ( !getFiles() )
-		return;
-
 	labelError->setText( mobileResults.value( "START" ) );
 
 	QHash<QString,QString> lang;
@@ -264,46 +304,28 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 	lang["en"] = "ENG";
 	lang["ru"] = "RUS";
 
-	QString message = QString(
-		"<IDCode xsi:type=\"xsd:String\">%1</IDCode>"
-		"<PhoneNo xsi:type=\"xsd:String\">%2</PhoneNo>"
-		"<Language xsi:type=\"xsd:String\">%3</Language>"
-		"<ServiceName xsi:type=\"xsd:String\">DigiDoc3</ServiceName>"
-		"<MessageToDisplay xsi:type=\"xsd:String\">%4</MessageToDisplay>"
-		"%5"
-		"<SigningProfile xsi:type=\"xsd:String\"></SigningProfile>"
-		"%6"
-		"<Format xsi:type=\"xsd:String\">%7</Format>"
-		"<Version xsi:type=\"xsd:String\">%8</Version>"
-		"<SignatureID xsi:type=\"xsd:String\">S%9</SignatureID>"
-		"<MessagingMode xsi:type=\"xsd:String\">asynchClientServer</MessagingMode>"
-		"<AsyncConfiguration xsi:type=\"xsd:int\">0</AsyncConfiguration>" )
-		.arg( escapeChars( ssid ) )
-		.arg( escapeChars( cell ) )
-		.arg( lang.value( Settings::language(), "EST" ) )
-		.arg( tr("Sign") )
-		.arg( signature )
-		.arg( files )
-		.arg( m_doc->documentType() == digidoc::WDoc::BDocType ? "BDOC" : "DIGIDOC-XML" )
-		.arg( m_doc->documentType() == digidoc::WDoc::BDocType ? "1.0" : "1.3" )
-		.arg( m_doc->signatures().size() );
-	manager->post( request, insertBody( "MobileCreateSignature", message ).toUtf8() );
-	statusTimer->start();
-}
+	SOAPDocument r( "MobileCreateSignature" );
+	r.writeParameter( "IDCode", ssid );
+	r.writeParameter( "PhoneNo", cell );
+	r.writeParameter( "Language", lang.value( Settings::language(), "EST" ) );
+	r.writeParameter( "ServiceName", "DigiDoc3" );
+	r.writeParameter( "MessageToDisplay", tr("Sign") );
+	r.writeParameter( "City", location.value(0) );
+	r.writeParameter( "StateOrProvince", location.value(1) );
+	r.writeParameter( "PostalCode", location.value(2) );
+	r.writeParameter( "CountryName", location.value(3) );
+	r.writeParameter( "Role", roles.join(" / ") );
+	r.writeParameter( "SigningProfile", "" );
 
-void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> & )
-{ reply->ignoreSslErrors(); }
-
-bool MobileDialog::getFiles()
-{
-	files = "<DataFiles xsi:type=\"m:DataFileDigestList\">";
+	r.writeStartElement( "DataFiles" );
+	r.writeAttribute( XML_SCHEMA_INSTANCE, "type", "m:DataFileDigestList" );
 
 	DocumentModel *m = m_doc->documentModel();
 	for( int i = 0; i < m->rowCount(); ++i )
 	{
 		QByteArray digest;
 		QString name = "sha1";
-		if ( m_doc->documentType() == digidoc::WDoc::BDocType )
+		if( m_doc->documentType() == digidoc::WDoc::BDocType )
 		{
 			try
 			{
@@ -316,38 +338,32 @@ bool MobileDialog::getFiles()
 			catch( const digidoc::IOException &e )
 			{
 				labelError->setText( QString::fromStdString( e.getMsg() ) );
-				return false;
+				return;
 			}
 		}
 		else
 			digest = m_doc->getFileDigest( i ).left( 20 );
 
-		files += QString(
-			"<DataFileDigest xsi:type=\"m:DataFileDigest\">"
-			"<Id xsi:type=\"xsd:String\">%1</Id>"
-			"<DigestType xsi:type=\"xsd:String\">%2</DigestType>"
-			"<DigestValue xsi:type=\"xsd:String\">%3</DigestValue>"
-			"</DataFileDigest>" )
-			.arg( m_doc->documentType() == digidoc::WDoc::BDocType ?
-				"/" + m->index( i, 0 ).data().toString() : "D" + QString::number( i ) )
-			.arg( escapeChars( name ) ).arg( digest.toBase64().constData() );
+		r.writeStartElement( "DataFileDigest" );
+		r.writeAttribute( XML_SCHEMA_INSTANCE, "type", QString( "m:" ).append( "DataFileDigest" ) );
+		r.writeParameter( "Id", m_doc->documentType() == digidoc::WDoc::BDocType ?
+			QString( "/%1" ).arg( m->index( i, 0 ).data().toString() ) : QString( "D%1" ).arg( i ) );
+		r.writeParameter( "DigestType", name );
+		r.writeParameter( "DigestValue", digest.toBase64() );
+		r.writeEndElement();
 	}
-	files += "</DataFiles>";
-	return true;
+	r.writeEndElement();
+
+	r.writeParameter( "Format", m_doc->documentType() == digidoc::WDoc::BDocType ? "BDOC" : "DIGIDOC-XML" );
+	r.writeParameter( "Version", m_doc->documentType() == digidoc::WDoc::BDocType ? "1.0" : "1.3" );
+	r.writeParameter( "SignatureID", QString( "S%1" ).arg( m_doc->signatures().size() ) );
+	r.writeParameter( "MessagingMode", "asynchClientServer" );
+	r.writeParameter( "AsyncConfiguration", 0 );
+	r.finalize();
+
+	manager->post( request, r.document() );
+	statusTimer->start();
 }
 
-QString MobileDialog::insertBody( const QString &action, const QString &body ) const
-{
-	return QString(
-		"<SOAP-ENV:Envelope"
-		"	xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\""
-		"	xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\""
-		"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
-		"	xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
-		"<SOAP-ENV:Body>"
-		"<m:%1"
-		"	xmlns:m=\"http://www.sk.ee/DigiDocService/DigiDocService_2_3.wsdl\""
-		"	SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">%2</m:%1>"
-		"</SOAP-ENV:Body>"
-		"</SOAP-ENV:Envelope>" ).arg( action ).arg( body );
-}
+void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> & )
+{ reply->ignoreSslErrors(); }
