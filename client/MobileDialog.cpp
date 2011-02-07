@@ -300,5 +300,7 @@ void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> &err 
 			s.append( QString( " - \"%1\"").arg( e.certificate().subjectInfo( "CN" ) ) );
 		msg << s;
 	}
+	reply->ignoreSslErrors();
+	return;
 	labelError->setText( QString("%1<br/>%2").arg( tr("SSL handshake failed") ).arg( msg.join( "<br />" ) ) );
 }
