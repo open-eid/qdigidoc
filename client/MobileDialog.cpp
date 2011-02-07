@@ -26,6 +26,7 @@
 #include "DigiDoc.h"
 
 #include <common/Settings.h>
+#include <common/SOAPDocument.h>
 #include <common/SslCertificate.h>
 
 #include <digidocpp/Document.h>
@@ -42,75 +43,6 @@
 #include <QSslConfiguration>
 #include <QTemporaryFile>
 #include <QTimeLine>
-
-#include <QBuffer>
-#include <QXmlStreamWriter>
-
-#define SOAP_ENV			"http://schemas.xmlsoap.org/soap/envelope/"
-#define SOAP_ENC			"http://schemas.xmlsoap.org/soap/encoding/"
-#define XML_SCHEMA			"http://www.w3.org/2001/XMLSchema"
-#define XML_SCHEMA_INSTANCE	"http://www.w3.org/2001/XMLSchema-instance"
-#define DIGIDOCSERVICE		"http://www.sk.ee/DigiDocService/DigiDocService_2_3.wsdl"
-
-class SOAPDocument: public QXmlStreamWriter
-{
-public:
-	SOAPDocument( const QString &action )
-		: QXmlStreamWriter()
-	{
-		data.open( QBuffer::WriteOnly );
-		setDevice( &data );
-		setAutoFormatting( true );
-
-		writeStartDocument();
-		writeNamespace( XML_SCHEMA, "xsd" );
-		writeNamespace( XML_SCHEMA_INSTANCE, "xsi" );
-		writeNamespace( SOAP_ENV, "SOAP-ENV" );
-		writeNamespace( SOAP_ENC, "SOAP-ENC" );
-		writeStartElement( SOAP_ENV, "Envelope" );
-
-		writeStartElement( SOAP_ENV, "Body" );
-
-		writeNamespace( DIGIDOCSERVICE, "m" );
-		writeStartElement( DIGIDOCSERVICE, action );
-		writeAttribute( SOAP_ENV, "encodingStyle", SOAP_ENC );
-	}
-
-	QByteArray document() const { return data.data(); }
-
-	void finalize()
-	{
-		writeEndElement(); // action
-
-		writeEndElement(); // Body
-
-		writeEndElement(); // Envelope
-		writeEndDocument();
-	}
-
-	void writeParameter( const QString &name, const QVariant &value )
-	{
-		QString type;
-		switch( value.type() )
-		{
-		case QMetaType::Bool: type = "boolean"; break;
-		case QMetaType::Int: type = "int"; break;
-		case QMetaType::QByteArray:
-		case QMetaType::QString:
-		default: type = "String"; break;
-		}
-
-		writeStartElement( name );
-		writeAttribute( XML_SCHEMA_INSTANCE, "type", QString( "xsd:" ).append( type ) );
-		writeCharacters( value.toString() );
-		writeEndElement();
-	}
-
-private:
-	QBuffer data;
-};
-
-
 
 MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 :	QDialog( parent )
@@ -162,11 +94,7 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	else
 		request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
 
-	QString certFile = Application::confValue( Application::PKCS12Cert );
-	if( certFile.isEmpty() || !QFile::exists( certFile ) )
-		return;
-
-	QFile f( certFile );
+	QFile f( Application::confValue( Application::PKCS12Cert ) );
 	if( !f.open( QIODevice::ReadOnly ) )
 		return;
 
@@ -234,7 +162,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 	if( sessionCode.isEmpty() )
 	{
 		sessionCode = elementText( e, "Sesscode" );
-		if ( sessionCode.isEmpty() )
+		if( sessionCode.isEmpty() )
 		{
 			labelError->setText( mobileResults.value( elementText( e, "message" ) ) );
 			statusTimer->stop();
