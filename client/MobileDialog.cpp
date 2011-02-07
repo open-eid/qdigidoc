@@ -133,17 +133,10 @@ void MobileDialog::finished( QNetworkReply *reply )
 		return;
 	}
 
-	QByteArray result = reply->readAll();
-	reply->deleteLater();
-	if( result.isEmpty() )
-	{
-		labelError->setText( tr("Empty HTTP result") );
-		statusTimer->stop();
-		return;
-	}
-
 	QDomDocument doc;
-	if( !doc.setContent( QString::fromUtf8( result ) ) )
+	bool parse = doc.setContent( reply );
+	reply->deleteLater();
+	if( !parse )
 	{
 		labelError->setText( tr("Failed to parse XML document") );
 		statusTimer->stop();
@@ -151,7 +144,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 	}
 
 	QDomElement e = doc.documentElement();
-	if( result.contains( "Fault" ) )
+	if( !e.elementsByTagName( "Fault" ).isEmpty() )
 	{
 		QString error = elementText( e, "message" );
 		labelError->setText( mobileResults.value( error, error ) );
@@ -208,7 +201,7 @@ void MobileDialog::sendStatusRequest( int frame )
 	signProgressBar->setValue( frame );
 	if( frame % 5 != 0 )
 		return;
-	SOAPDocument doc( "GetMobileCreateSignatureStatus" );
+	SOAPDocument doc( "GetMobileCreateSignatureStatus", DIGIDOCSERVICE );
 	doc.writeParameter( "Sesscode", sessionCode.toInt() );
 	doc.writeParameter( "WaitSignature", false );
 	doc.finalize();
@@ -232,7 +225,7 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 	lang["en"] = "ENG";
 	lang["ru"] = "RUS";
 
-	SOAPDocument r( "MobileCreateSignature" );
+	SOAPDocument r( "MobileCreateSignature", DIGIDOCSERVICE );
 	r.writeParameter( "IDCode", ssid );
 	r.writeParameter( "PhoneNo", cell );
 	r.writeParameter( "Language", lang.value( Settings::language(), "EST" ) );
