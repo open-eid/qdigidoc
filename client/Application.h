@@ -40,6 +40,7 @@ class Application: public QtSingleApplication
 public:
 	enum ConfParameter
 	{
+		CertStorePath,
 		PKCS11Module,
 		ProxyHost,
 		ProxyPort,

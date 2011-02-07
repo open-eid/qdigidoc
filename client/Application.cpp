@@ -46,6 +46,7 @@
 #include <QFileOpenEvent>
 #include <QPalette>
 #include <QSslCertificate>
+#include <QSslConfiguration>
 #include <QTranslator>
 
 #ifdef Q_OS_LINUX
@@ -154,6 +155,10 @@ Application::Application( int &argc, char **argv )
 	{
 		digidoc::initialize();
 		digidoc::X509CertStore::init( new digidoc::DirectoryX509CertStore() );
+		QSslConfiguration c = QSslConfiguration::defaultConfiguration();
+		c.setCaCertificates( c.caCertificates() + QSslCertificate::fromPath(
+			QString( "%1/*" ).arg( confValue( CertStorePath ) ), QSsl::Pem, QRegExp::Wildcard ) );
+		QSslConfiguration::setDefaultConfiguration( c );
 	}
 	catch( const digidoc::Exception &e )
 	{
@@ -210,6 +215,7 @@ QString Application::confValue( ConfParameter parameter, const QVariant &value )
 	std::string r;
 	switch( parameter )
 	{
+	case CertStorePath: r = i->getCertStorePath(); break;
 	case PKCS11Module: r = i->getPKCS11DriverPath(); break;
 	case ProxyHost: r = i->getProxyHost(); break;
 	case ProxyPort: r = i->getProxyPort(); break;

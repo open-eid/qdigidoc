@@ -102,7 +102,7 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	if( pkcs12Cert.isNull() )
 		return;
 
-	QSslConfiguration ssl;
+	QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
 	ssl.setPrivateKey( pkcs12Cert.key() );
 	ssl.setLocalCertificate( pkcs12Cert.certificate() );
 	request.setSslConfiguration( ssl );
@@ -123,6 +123,10 @@ void MobileDialog::finished( QNetworkReply *reply )
 		break;
 	case QNetworkReply::HostNotFoundError:
 		labelError->setText( mobileResults.value( "HOSTNOTFOUND" ) );
+		statusTimer->stop();
+		reply->deleteLater();
+		return;
+	case QNetworkReply::SslHandshakeFailedError:
 		statusTimer->stop();
 		reply->deleteLater();
 		return;
@@ -286,5 +290,15 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 	statusTimer->start();
 }
 
-void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> & )
-{ reply->ignoreSslErrors(); }
+void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> &err )
+{
+	QStringList msg;
+	Q_FOREACH( const QSslError &e, err )
+	{
+		QString s = e.errorString();
+		if( !e.certificate().isNull() )
+			s.append( QString( " - \"%1\"").arg( e.certificate().subjectInfo( "CN" ) ) );
+		msg << s;
+	}
+	labelError->setText( QString("%1<br/>%2").arg( tr("SSL handshake failed") ).arg( msg.join( "<br />" ) ) );
+}
