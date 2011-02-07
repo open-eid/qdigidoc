@@ -87,7 +87,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		{
 		case 0: return QFileInfo( from( d.getPath() ) ).fileName();
 		case 1: return from( d.getMediaType() );
-		case 2: return Common::fileSize( QFileInfo( from( d.getPath() ) ).size() );
+		case 2: return Common::fileSize( d.getSize() );
 		default: return QVariant();
 		}
 	case Qt::TextAlignmentRole:
@@ -500,6 +500,7 @@ bool DigiDoc::open( const QString &file )
 	}
 	catch( const Exception &e )
 	{ setLastError( tr("An error occurred while opening the document."), e ); }
+	m_documentModel->reset();
 	return false;
 }
 
