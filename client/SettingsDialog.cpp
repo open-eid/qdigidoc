@@ -24,7 +24,6 @@
 #include "ui_SettingsDialog.h"
 
 #include "Application.h"
-#include "version.h"
 
 #include <common/CertificateWidget.h>
 #include <common/Common.h>
