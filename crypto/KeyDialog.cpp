@@ -395,33 +395,10 @@ void KeyAddDialog::addKeys( const QList<CKey> &keys )
 			return;
 		status = qMin( status, doc->addKey( key ) );
 	}
-	Q_EMIT updateView();
-	keyAddStatus->setText( status ? tr("Keys added successfully") : tr("Failed to add keys") );
-	QTimer::singleShot( 3*1000, keyAddStatus, SLOT(hide()) );
-}
-
-void KeyAddDialog::enableCardCert() { cardButton->setDisabled( qApp->poller()->token().cert().isNull() ); }
-
-void KeyAddDialog::disableSearch( bool disable )
-{
-	progress->setVisible( disable );
-	search->setDisabled( disable );
-	skView->setDisabled( disable );
-	searchType->setDisabled( disable );
-	searchContent->setDisabled( disable );
-}
-
-void KeyAddDialog::on_add_clicked()
-{
-	if( !skView->selectionModel()->hasSelection() )
-		return;
 
 	QAbstractItemModel *m = usedView->model();
-	QList<CKey> keys;
-	Q_FOREACH( const QModelIndex &index, skView->selectionModel()->selectedRows() )
+	Q_FOREACH( const CKey &k, keys )
 	{
-		const CKey k = keyModel->key( index );
-		keys << k;
 		SslCertificate cert( k.cert );
 		HistoryModel::KeyType type = HistoryModel::IDCard;
 		switch( cert.type() )
@@ -443,8 +420,32 @@ void KeyAddDialog::on_add_clicked()
 		m->setData( m->index( row, 2 ), cert.issuerInfo( "CN" ) );
 		m->setData( m->index( row, 3 ), cert.expiryDate().toLocalTime().toString( "dd.MM.yyyy" ) );
 	}
+	m->submit();
+
+	Q_EMIT updateView();
+	keyAddStatus->setText( status ? tr("Keys added successfully") : tr("Failed to add keys") );
+	QTimer::singleShot( 3*1000, keyAddStatus, SLOT(hide()) );
+}
+
+void KeyAddDialog::enableCardCert() { cardButton->setDisabled( qApp->poller()->token().cert().isNull() ); }
+
+void KeyAddDialog::disableSearch( bool disable )
+{
+	progress->setVisible( disable );
+	search->setDisabled( disable );
+	skView->setDisabled( disable );
+	searchType->setDisabled( disable );
+	searchContent->setDisabled( disable );
+}
+
+void KeyAddDialog::on_add_clicked()
+{
+	if( !skView->selectionModel()->hasSelection() )
+		return;
+	QList<CKey> keys;
+	Q_FOREACH( const QModelIndex &index, skView->selectionModel()->selectedRows() )
+		keys << keyModel->key( index );
 	addKeys( keys );
-	usedView->model()->submit();
 }
 
 void KeyAddDialog::on_remove_clicked()
