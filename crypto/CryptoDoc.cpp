@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -520,7 +520,7 @@ void CryptoDoc::saveDocument( int id, const QString &filepath )
 	if( isEncryptedWarning() )
 		return;
 
-	if( !m_doc || id >= m_doc->nDataFiles || !m_doc->pDataFiles[id] )
+	if( id < 0 || !m_doc || id >= m_doc->nDataFiles || !m_doc->pDataFiles[id] )
 		return setLastError( tr("Internal error") );
 
 	QString src = QString::fromUtf8( m_doc->pDataFiles[id]->szFileName );
