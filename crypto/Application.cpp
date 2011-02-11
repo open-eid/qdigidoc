@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2010-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2010-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -153,7 +153,7 @@ Application::Application( int &argc, char **argv )
 		initConfigStore( NULL );
 
 	d->poller = new Poller();
-	connect( d->poller, SIGNAL(error(QString,quint8)), SLOT(showWarning(QString,quint8)) );
+	connect( d->poller, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
 	d->poller->start();
 
 	parseArgs( args.join( "\", \"" ) );
@@ -256,13 +256,5 @@ void Application::showSettings()
 	s->show();
 }
 
-void Application::showWarning( const QString &msg, quint8 code )
-{
-	switch( code )
-	{
-	case Poller::PinCanceled: break;
-	default:
-		QMessageBox( QMessageBox::Warning, tr("DigiDoc3 crypto"), msg, QMessageBox::Close, activeWindow() ).exec();
-		break;
-	}
-}
+void Application::showWarning( const QString &msg )
+{ QMessageBox( QMessageBox::Warning, tr("DigiDoc3 crypto"), msg, QMessageBox::Close, activeWindow() ).exec(); }

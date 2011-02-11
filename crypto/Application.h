@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2010-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2010-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -50,7 +50,7 @@ public:
 public Q_SLOTS:
 	void showAbout();
 	void showSettings();
-	void showWarning( const QString &msg, quint8 code = 0 );
+	void showWarning( const QString &msg );
 
 private Q_SLOTS:
 	void closeWindow();

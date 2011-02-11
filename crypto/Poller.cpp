@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,18 +27,18 @@
 
 #include <libdigidoc/DigiDocConfig.h>
 
+#include <QEventLoop>
 #include <QMutex>
 #include <QStringList>
 
 class PollerPrivate
 {
 public:
-	PollerPrivate(): code(Poller::NullCode), terminate(false) {}
+	PollerPrivate(): terminate(false), refresh(false) {}
 
-	Poller::ErrorCode code;
 	QPKCS11			pkcs11;
 	TokenData		t;
-	volatile bool	terminate;
+	volatile bool	terminate, refresh;
 	QMutex			m;
 };
 
@@ -58,31 +58,38 @@ Poller::~Poller()
 	delete d;
 }
 
-bool Poller::decrypt( const QByteArray &in, QByteArray &out )
+Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 {
 	QMutexLocker locker( &d->m );
 	if( !d->t.cards().contains( d->t.card() ) || d->t.cert().isNull() )
 	{
 		Q_EMIT error( tr("Authentication certificate is not selected.") );
-		return false;
+		return DecryptFailed;
 	}
 
 	switch( d->pkcs11.login( d->t ) )
 	{
-	case QPKCS11::PinOK: d->code = PinOk; break;
-	case QPKCS11::PinCanceled:
-		Q_EMIT error( tr("PIN acquisition canceled."), d->code = PinCanceled );
-		return false;
+	case QPKCS11::PinOK: break;
+	case QPKCS11::PinCanceled: return PinCanceled;
 	case QPKCS11::PinIncorrect:
-		Q_EMIT error( tr("PIN Incorrect"), d->code = PinIncorrect );
-		return false;
+	{
+		QEventLoop e;
+		QObject::connect( this, SIGNAL(dataChanged()), &e, SLOT(quit()) );
+		d->refresh = true;
+		locker.unlock();
+		e.exec();
+		if( !(d->t.flags() & TokenData::PinLocked) )
+		{
+			Q_EMIT error( tr("PIN Incorrect") );
+			return PinIncorrect;
+		}
+	}
 	case QPKCS11::PinLocked:
-		Q_EMIT error( tr("PIN Locked"), d->code = PinLocked );
-		return false;
+		Q_EMIT error( tr("PIN Locked") );
+		return PinLocked;
 	default:
-		d->code = PinUnknown;
 		Q_EMIT error( tr("Failed to login token") );
-		return false;
+		return DecryptFailed;
 	}
 
 	char *data = new char[in.size()];
@@ -94,10 +101,8 @@ bool Poller::decrypt( const QByteArray &in, QByteArray &out )
 	else
 		out = QByteArray( data, size );
 	delete [] data;
-	return status;
+	return status ? DecryptOK : DecryptFailed;
 }
-
-Poller::ErrorCode Poller::errorCode() const { return d->code; }
 
 void Poller::run()
 {
@@ -132,10 +137,11 @@ void Poller::run()
 			if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
 				selectCard( cards.first() );
 
-			if( d->t.cert().isNull() && cards.contains( d->t.card() ) ) // read cert
+			if( d->t.cert().isNull() && cards.contains( d->t.card() ) || d->refresh ) // read cert
 			{
 				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::DataEncipherment );
 				d->t.setCards( cards );
+				d->refresh = false;
 				update = true;
 			}
 

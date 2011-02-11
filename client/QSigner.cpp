@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,17 +27,18 @@
 
 #include <digidocpp/Conf.h>
 
+#include <QEventLoop>
 #include <QMutex>
 #include <QStringList>
 
 class QSignerPrivate
 {
 public:
-	QSignerPrivate(): terminate(false) {}
+	QSignerPrivate(): terminate(false), refresh(false) {}
 
 	QPKCS11			pkcs11;
 	TokenData		t;
-	volatile bool	terminate;
+	volatile bool	terminate, refresh;
 	QMutex			m;
 };
 
@@ -104,10 +105,11 @@ void QSigner::run()
 			if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
 				selectCard( cards.first() );
 
-			if( d->t.cert().isNull() && cards.contains( d->t.card() ) ) // read cert
+			if( d->t.cert().isNull() && cards.contains( d->t.card() ) || d->refresh ) // read cert
 			{
 				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
 				d->t.setCards( cards );
+				d->refresh = false;
 				update = true;
 			}
 
@@ -152,7 +154,14 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 	case QPKCS11::PinCanceled:
 		throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
 	case QPKCS11::PinIncorrect:
+	{
+		QEventLoop e;
+		QObject::connect( this, SIGNAL(dataChanged()), &e, SLOT(quit()) );
+		d->refresh = true;
+		locker.unlock();
+		e.exec();
 		throwException( tr("Failed to login token"), Exception::PINIncorrect, __LINE__ );
+	}
 	case QPKCS11::PinLocked:
 		throwException( tr("Failed to login token"), Exception::PINLocked, __LINE__ );
 	default:

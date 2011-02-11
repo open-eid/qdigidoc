@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -34,24 +34,22 @@ class Poller: public QThread
 public:
 	enum ErrorCode
 	{
-		NullCode = 0,
-		PinOk,
 		PinCanceled,
 		PinIncorrect,
 		PinLocked,
-		PinUnknown,
+		DecryptFailed,
+		DecryptOK,
 	};
 
 	Poller( QObject *parent = 0 );
 	~Poller();
 
-	bool decrypt( const QByteArray &in, QByteArray &out );
-	ErrorCode errorCode() const;
+	ErrorCode decrypt( const QByteArray &in, QByteArray &out );
 	TokenData token() const;
 
 Q_SIGNALS:
 	void dataChanged();
-	void error( const QString &msg, quint8 error = 0 );
+	void error( const QString &msg );
 
 private Q_SLOTS:
 	void selectCard( const QString &card );

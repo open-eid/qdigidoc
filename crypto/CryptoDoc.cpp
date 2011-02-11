@@ -179,10 +179,15 @@ bool CryptoDoc::decrypt()
 	}
 
 	QByteArray in( (const char*)key->mbufTransportKey.pMem, key->mbufTransportKey.nLen ), out;
-	while( !qApp->poller()->decrypt( in, out ) )
+	bool decrypted = false;
+	while( !decrypted )
 	{
-		if( qApp->poller()->errorCode() != Poller::PinIncorrect )
-			return false;
+		switch( qApp->poller()->decrypt( in, out ) )
+		{
+		case Poller::DecryptOK: decrypted = true; break;
+		case Poller::PinIncorrect: break;
+		default: return false;
+		}
 	}
 
 	ddocMemAssignData( &m_enc->mbufTransportKey, out.constData(), out.size() );
