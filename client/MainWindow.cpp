@@ -656,7 +656,7 @@ void MainWindow::setCurrentPage( Pages page )
 		QList<DigiDocSignature> signatures = doc->signatures();
 		Q_FOREACH( const DigiDocSignature &c, signatures )
 		{
-			SignatureWidget *signature = new SignatureWidget( c, i, signatures.size() < 3, viewSignatures );
+			SignatureWidget *signature = new SignatureWidget( c, i, true /*signatures.size() < 3*/, viewSignatures );
 			viewSignaturesLayout->insertWidget( 0, signature );
 			connect( signature, SIGNAL(removeSignature(unsigned int)),
 				SLOT(viewSignaturesRemove(unsigned int)) );
