@@ -620,7 +620,7 @@ void MainWindow::retranslate()
 
 void MainWindow::save()
 {
-	if( !QFileInfo( doc->fileName() ).isWritable() &&
+	if( !Common::canWrite( doc->fileName() ) &&
 		QMessageBox::Yes == QMessageBox::warning( this, tr("DigiDoc3 client"),
 			tr("Cannot alter container %1. Save different location?").arg( doc->fileName() ),
 			QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes ) )
