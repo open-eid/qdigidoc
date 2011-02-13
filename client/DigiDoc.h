@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -43,8 +43,6 @@ class DocumentModel: public QAbstractTableModel
 {
 	Q_OBJECT
 public:
-	DocumentModel( DigiDoc *doc );
-
 	int columnCount( const QModelIndex &parent = QModelIndex() ) const;
 	QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
 	Qt::ItemFlags flags( const QModelIndex &index ) const;
@@ -59,6 +57,9 @@ public Q_SLOTS:
 	void open( const QModelIndex &index );
 
 private:
+	DocumentModel( DigiDoc *doc );
+	Q_DISABLE_COPY(DocumentModel);
+
 	DigiDoc *d;
 
 	friend class DigiDoc;
@@ -123,7 +124,7 @@ public:
 	bool isNull() const;
 	bool open( const QString &file );
 	void removeSignature( unsigned int num );
-	void save();
+	void save( const QString &filename = QString() );
 	bool sign(
 		const QString &city,
 		const QString &state,

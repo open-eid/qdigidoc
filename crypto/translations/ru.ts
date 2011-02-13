@@ -506,6 +506,10 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
         <source>Cannot add container to same container %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cannot alter container %1. Save different location?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Poller</name>

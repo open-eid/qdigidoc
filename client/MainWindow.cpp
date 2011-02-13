@@ -160,29 +160,11 @@ bool MainWindow::addFile( const QString &file )
 				tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( docname ) );
 		}
 
-		while( select )
+		if( select )
 		{
-#ifdef BDOC_ENABLED
-			QStringList exts = QStringList() << s.value( "type", "ddoc" ).toString();
-			exts << (exts[0] == "ddoc" ? "bdoc" : "ddoc");
-			docname = Common::normalized( QFileDialog::getSaveFileName( this, tr("Save file"), docname,
-				tr("Documents (%1)").arg( QString( "*.%1 *.%2" ).arg( exts[0], exts[1] ) ) ) );
-#else
-			QStringList exts = QStringList() << "ddoc";
-			docname = Common::normalized( QFileDialog::getSaveFileName( this, tr("Save file"), docname,
-				tr("Documents (%1)").arg( "*.ddoc" ) ) );
-#endif
+			docname = selectFile( docname );
 			if( docname.isEmpty() )
 				return false;
-			if( !exts.contains( QFileInfo( docname ).suffix(), Qt::CaseInsensitive ) )
-				docname.append( "." + exts[0] );
-			if( !Common::canWrite( docname ) )
-			{
-				showWarning(
-					tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( docname ) );
-			}
-			else
-				select = false;
 		}
 
 		if( QFile::exists( docname ) )
@@ -397,7 +379,7 @@ void MainWindow::buttonClicked( int button )
 					signZipInput->text(), signCountryInput->text(),
 					signRoleInput->text(), signResolutionInput->text() ) )
 				break;
-				doc->save();
+			save();
 		}
 		else
 		{
@@ -410,7 +392,7 @@ void MainWindow::buttonClicked( int button )
 			m->exec();
 			if ( !m->fName.isEmpty() && doc->signMobile( m->fName ) )
 			{
-				doc->save();
+				save();
 				doc->open( doc->fileName() );
 			} else {
 				m->deleteLater();
@@ -634,6 +616,50 @@ void MainWindow::retranslate()
 	viewAddSignature->setText( tr("Add signature") );
 	showCardStatus();
 	setCurrentPage( (Pages)stack->currentIndex() );
+}
+
+void MainWindow::save()
+{
+	if( !QFileInfo( doc->fileName() ).isWritable() &&
+		QMessageBox::Yes == QMessageBox::warning( this, tr("DigiDoc3 client"),
+			tr("Cannot alter container %1. Save different location?").arg( doc->fileName() ),
+			QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes ) )
+	{
+		QString file = selectFile( doc->fileName() );
+		if( !file.isEmpty() )
+		{
+			doc->save( file );
+			return;
+		}
+	}
+	doc->save();
+}
+
+QString MainWindow::selectFile( const QString &filename )
+{
+	QString file = filename;
+	Q_FOREVER
+	{
+#ifdef BDOC_ENABLED
+		QStringList exts = QStringList() << Settings().value( "type", "ddoc" ).toString();
+		exts << (exts[0] == "ddoc" ? "bdoc" : "ddoc");
+		file = Common::normalized( QFileDialog::getSaveFileName( this, tr("Save file"), file,
+			tr("Documents (%1)").arg( QString( "*.%1 *.%2" ).arg( exts[0], exts[1] ) ) ) );
+#else
+		QStringList exts = QStringList() << "ddoc";
+		file = Common::normalized( QFileDialog::getSaveFileName( this, tr("Save file"), file,
+			tr("Documents (%1)").arg( "*.ddoc" ) ) );
+#endif
+		if( file.isEmpty() )
+			return QString();
+		if( !exts.contains( QFileInfo( file ).suffix(), Qt::CaseInsensitive ) )
+			file.append( "." + exts[0] );
+		if( !Common::canWrite( file ) )
+			showWarning(
+				tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( file ) );
+		else
+			return file;
+	}
 }
 
 void MainWindow::setCurrentPage( Pages page )

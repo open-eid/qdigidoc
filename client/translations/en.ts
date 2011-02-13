@@ -474,6 +474,10 @@ Also an active internet connection is needed.</translation>
         <source>Cannot add container to same container %1</source>
         <translation>Cannot add container to same container %1</translation>
     </message>
+    <message>
+        <source>Cannot alter container %1. Save different location?</source>
+        <translation>Cannot alter container %1. Save different location?</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -571,7 +575,7 @@ Control code: %1</translation>
     </message>
     <message>
         <source>SSL handshake failed</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL handshake failed</translation>
     </message>
 </context>
 <context>

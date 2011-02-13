@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -71,6 +71,8 @@ private:
 	void dragEnterEvent( QDragEnterEvent *e );
 	void dropEvent( QDropEvent *e );
 	void retranslate();
+	void save();
+	QString selectFile( const QString &filename );
 	void setCurrentPage( Pages page );
 
 	QActionGroup *cardsGroup;

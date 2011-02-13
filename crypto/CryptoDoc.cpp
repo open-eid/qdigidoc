@@ -483,13 +483,14 @@ void CryptoDoc::removeKey( int id )
 		setLastError( tr("Failed to remove key"), err );
 }
 
-void CryptoDoc::save()
+void CryptoDoc::save( const QString &filename )
 {
 	if( isNull() )
 		return setLastError( tr("Container is not open") );
 	if( !isEncrypted() )
 		return setLastError( tr("Container is not crypted") );
-
+	if( !filename.isEmpty() )
+		m_fileName = filename;
 	int err = dencGenEncryptedData_writeToFile( m_enc, m_fileName.toUtf8() );
 	if( err != ERR_OK )
 		setLastError( tr("Failed to save encrpyted file"), err );

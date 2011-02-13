@@ -474,6 +474,10 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
         <source>Cannot add container to same container %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cannot alter container %1. Save different location?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

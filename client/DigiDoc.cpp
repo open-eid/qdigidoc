@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -547,12 +547,14 @@ void DigiDoc::removeSignature( unsigned int num )
 	catch( const Exception &e ) { setLastError( tr("Failed remove signature from container"), e ); }
 }
 
-void DigiDoc::save()
+void DigiDoc::save( const QString &filename )
 {
 	/*if( !checkDoc() );
 		return; */
 	try
 	{
+		if( !filename.isEmpty() )
+			m_fileName = filename;
 		std::auto_ptr<ISerialize> s(new ZipSerialize( to(m_fileName) ));
 		b->saveTo( s );
 	}

@@ -125,18 +125,11 @@ bool MainWindow::addFile( const QString &file )
 			qApp->showWarning( tr("You dont have permissions to write file %1").arg( docname ) );
 		}
 
-		while( select )
+		if( select )
 		{
-			docname = Common::normalized( QFileDialog::getSaveFileName(
-				this, tr("Save file"), docname, tr("Documents (*.cdoc)") ) );
+			docname = selectFile( docname );
 			if( docname.isEmpty() )
 				return false;
-			if( QFileInfo( docname ).suffix().toLower() != "cdoc" )
-				docname.append( ".cdoc" );
-			if( !Common::canWrite( docname ) )
-				qApp->showWarning( tr("You dont have permissions to write file %1").arg( docname ) );
-			else
-				select = false;
 		}
 
 		if( QFile::exists( docname ) )
@@ -288,7 +281,7 @@ void MainWindow::buttonClicked( int button )
 		else
 		{
 			if( doc->encrypt() )
-				doc->save();
+				save();
 		}
 		setCurrentPage( View );
 		break;
@@ -431,6 +424,41 @@ void MainWindow::retranslate()
 	introNext->setText( tr( "Next" ) );
 	showCardStatus();
 	updateView();
+}
+
+void MainWindow::save()
+{
+	if( !QFileInfo( doc->fileName() ).isWritable() &&
+		QMessageBox::Yes == QMessageBox::warning( this, tr("DigiDoc3 crypto"),
+			tr("Cannot alter container %1. Save different location?").arg( doc->fileName() ),
+			QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes ) )
+	{
+		QString file = selectFile( doc->fileName() );
+		if( !file.isEmpty() )
+		{
+			doc->save( file );
+			return;
+		}
+	}
+	doc->save();
+}
+
+QString MainWindow::selectFile( const QString &filename )
+{
+	QString file = filename;
+	Q_FOREVER
+	{
+		file = Common::normalized( QFileDialog::getSaveFileName(
+			this, tr("Save file"), file, tr("Documents (*.cdoc)") ) );
+		if( file.isEmpty() )
+			return QString();
+		if( QFileInfo( file ).suffix().toLower() != "cdoc" )
+			file.append( ".cdoc" );
+		if( !Common::canWrite( file ) )
+			qApp->showWarning( tr("You dont have permissions to write file %1").arg( file ) );
+		else
+			return file;
+	}
 }
 
 void MainWindow::setCurrentPage( Pages page )
