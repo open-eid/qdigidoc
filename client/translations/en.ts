@@ -466,6 +466,14 @@ Digital signing is equal to physical signing. To sign a document you need an ID-
 Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
 Also an active internet connection is needed.</translation>
     </message>
+    <message>
+        <source>File does not exists %1</source>
+        <translation>File does not exists %1</translation>
+    </message>
+    <message>
+        <source>Cannot add container to same container %1</source>
+        <translation>Cannot add container to same container %1</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -530,10 +538,6 @@ Also an active internet connection is needed.</translation>
         <translation>ID and phone number do not match</translation>
     </message>
     <message>
-        <source>Empty HTTP result</source>
-        <translation>Empty HTTP result</translation>
-    </message>
-    <message>
         <source>Failed to parse XML document</source>
         <translation>Failed to parse XML document</translation>
     </message>
@@ -564,6 +568,10 @@ Control code: %1</translation>
     <message>
         <source>Mobile-ID user certificates are revoked or suspended.</source>
         <translation>Mobile-ID user certificates are revoked or suspended.</translation>
+    </message>
+    <message>
+        <source>SSL handshake failed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

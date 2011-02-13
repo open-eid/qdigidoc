@@ -479,10 +479,6 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
         <translation>У Вас недостаточно прав, для записи файла %1</translation>
     </message>
     <message>
-        <source>Documents (*.cdoc *.CDOC)</source>
-        <translation>Документы(*.cdoc *:CDOC)</translation>
-    </message>
-    <message>
         <source>DigiDoc3 Crypto</source>
         <translation>DigiDoc3 Crypto</translation>
     </message>
@@ -506,6 +502,10 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
         <source>%1&lt;br /&gt;already in container, ovewrite?</source>
         <translation>%1&lt;br /&gt;уже в контейнере, переписать?</translation>
     </message>
+    <message>
+        <source>Cannot add container to same container %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Poller</name>
@@ -516,10 +516,6 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
     <message>
         <source>Failed to login token</source>
         <translation>Неверный PIN</translation>
-    </message>
-    <message>
-        <source>PIN acquisition canceled.</source>
-        <translation>Ввод PIN кода был отменен.</translation>
     </message>
     <message>
         <source>PIN Incorrect</source>

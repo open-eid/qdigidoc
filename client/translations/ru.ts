@@ -469,6 +469,14 @@ Also an active internet connection is needed.</source>
 При подписывании документов нужен PIN2 код.&lt;br /&gt;&lt;br /&gt;
 Для цифровой подписи необходимо подключение к интернету.</translation>
     </message>
+    <message>
+        <source>File does not exists %1</source>
+        <translation>Выбраный файл не существует %1</translation>
+    </message>
+    <message>
+        <source>Cannot add container to same container %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -533,10 +541,6 @@ Also an active internet connection is needed.</source>
         <translation>Личный код и номер телефона не совпадают</translation>
     </message>
     <message>
-        <source>Empty HTTP result</source>
-        <translation>Пустой HTTP ответ</translation>
-    </message>
-    <message>
         <source>Failed to parse XML document</source>
         <translation>Ошибка при разборе XML документа</translation>
     </message>
@@ -567,6 +571,10 @@ Control code: %1</source>
     <message>
         <source>Mobile-ID user certificates are revoked or suspended.</source>
         <translation>Сертификаты Mobiil-ID признаны не действительными или их действие приостановлено.</translation>
+    </message>
+    <message>
+        <source>SSL handshake failed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

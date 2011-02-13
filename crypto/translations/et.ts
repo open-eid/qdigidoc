@@ -480,10 +480,6 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
         <translation>Sul ei ole piisavalt õigusi et kirjutada faili %1</translation>
     </message>
     <message>
-        <source>Documents (*.cdoc *.CDOC)</source>
-        <translation>Turvaümbrikud (*.cdoc *.CDOC)</translation>
-    </message>
-    <message>
         <source>DigiDoc3 Crypto</source>
         <translation>DigiDoc3 Krüpto</translation>
     </message>
@@ -507,6 +503,10 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
         <source>%1&lt;br /&gt;already in container, ovewrite?</source>
         <translation>%1&lt;br /&gt;on juba ümbrikus. Kas kirjutan üle?</translation>
     </message>
+    <message>
+        <source>Cannot add container to same container %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Poller</name>
@@ -517,10 +517,6 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
     <message>
         <source>Failed to login token</source>
         <translation>Vale PIN</translation>
-    </message>
-    <message>
-        <source>PIN acquisition canceled.</source>
-        <translation>PIN koodi päring katkestati.</translation>
     </message>
     <message>
         <source>PIN Incorrect</source>

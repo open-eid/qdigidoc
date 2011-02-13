@@ -466,6 +466,14 @@ Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmise
 Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
 Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
     </message>
+    <message>
+        <source>File does not exists %1</source>
+        <translation>Valitud faili ei eksisteeri %1</translation>
+    </message>
+    <message>
+        <source>Cannot add container to same container %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -530,10 +538,6 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
         <translation>Isikukood ja telefoni number ei klapi</translation>
     </message>
     <message>
-        <source>Empty HTTP result</source>
-        <translation>Tühi HTTP tulemus</translation>
-    </message>
-    <message>
         <source>Failed to parse XML document</source>
         <translation>XML dokumendi parsimine ebaõnnestus</translation>
     </message>
@@ -564,6 +568,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>Mobile-ID user certificates are revoked or suspended.</source>
         <translation>Kasutaja Mobiil-ID sertifikaadid on tühistatud või peatatud.</translation>
+    </message>
+    <message>
+        <source>SSL handshake failed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

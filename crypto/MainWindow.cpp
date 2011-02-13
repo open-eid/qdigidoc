@@ -44,19 +44,13 @@ MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )
 ,	cardsGroup( new QActionGroup( this ) )
 {
+	setWindowFlags( Qt::Window|Qt::CustomizeWindowHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
 
 	cards->hide();
 	cards->hack();
 	languages->hack();
-
-	setWindowFlags( Qt::Window | Qt::CustomizeWindowHint | Qt::WindowMinimizeButtonHint );
-#if QT_VERSION >= 0x040500
-	setWindowFlags( windowFlags() | Qt::WindowCloseButtonHint );
-#else
-	setWindowFlags( windowFlags() | Qt::WindowSystemMenuHint );
-#endif
 
 	// Buttons
 	QButtonGroup *buttonGroup = new QButtonGroup( this );
@@ -153,6 +147,12 @@ bool MainWindow::addFile( const QString &file )
 	if( !fileinfo.exists() )
 	{
 		qApp->showWarning( tr("File does not exists %1").arg( fileinfo.absoluteFilePath() ) );
+		return false;
+	}
+
+	if( fileinfo.absoluteFilePath() == doc->fileName() )
+	{
+		qApp->showWarning( tr("Cannot add container to same container %1").arg( fileinfo.absoluteFilePath() ) );
 		return false;
 	}
 
