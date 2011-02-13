@@ -359,14 +359,14 @@ void MainWindow::buttonClicked( int button )
 	case SignSign:
 	{
 		CheckConnection connection;
-		if( !qApp->confValue( Application::ProxyHost ).isEmpty() )
+		if( !qApp->confValue( Application::ProxyHost ).toString().isEmpty() )
 		{
 			connection.setProxy( QNetworkProxy(
 				QNetworkProxy::HttpProxy,
-				qApp->confValue( Application::ProxyHost ),
+				qApp->confValue( Application::ProxyHost ).toString(),
 				qApp->confValue( Application::ProxyPort ).toUInt(),
-				qApp->confValue( Application::ProxyUser ),
-				qApp->confValue( Application::ProxyPass ) ) );
+				qApp->confValue( Application::ProxyUser ).toString(),
+				qApp->confValue( Application::ProxyPass ).toString() ) );
 		}
 
 		if( !connection.check( "http://ocsp.sk.ee" ) )

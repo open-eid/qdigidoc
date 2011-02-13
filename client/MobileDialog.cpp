@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -79,14 +79,14 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	connect( manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
 		SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
 
-	if( !Application::confValue( Application::ProxyHost ).isEmpty() )
+	if( !Application::confValue( Application::ProxyHost ).toString().isEmpty() )
 	{
 		manager->setProxy( QNetworkProxy(
 			QNetworkProxy::HttpProxy,
-			Application::confValue( Application::ProxyHost ),
+			Application::confValue( Application::ProxyHost ).toString(),
 			Application::confValue( Application::ProxyPort ).toUInt(),
-			Application::confValue( Application::ProxyUser ),
-			Application::confValue( Application::ProxyPass ) ) );
+			Application::confValue( Application::ProxyUser ).toString(),
+			Application::confValue( Application::ProxyPass ).toString() ) );
 	}
 
 	if ( m_doc->documentType() == digidoc::WDoc::BDocType )
@@ -94,11 +94,11 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	else
 		request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
 
-	QFile f( Application::confValue( Application::PKCS12Cert ) );
+	QFile f( Application::confValue( Application::PKCS12Cert ).toString() );
 	if( !f.open( QIODevice::ReadOnly ) )
 		return;
 
-	PKCS12Certificate pkcs12Cert( &f, Application::confValue( Application::PKCS12Pass ).toLatin1() );
+	PKCS12Certificate pkcs12Cert( &f, Application::confValue( Application::PKCS12Pass ).toString().toUtf8() );
 	if( pkcs12Cert.isNull() )
 		return;
 

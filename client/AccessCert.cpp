@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,7 +25,6 @@
 #include "Application.h"
 #include "QSigner.h"
 
-#include <common/Settings.h>
 #include <common/SslCertificate.h>
 #include <common/sslConnect.h>
 #include <common/TokenData.h>
@@ -45,8 +44,8 @@ AccessCert::AccessCert( QWidget *parent )
 :	QObject( parent )
 ,	m_parent( parent )
 {
-	m_cert = Application::confValue( Application::PKCS12Cert );
-	m_pass = Application::confValue( Application::PKCS12Pass );
+	m_cert = Application::confValue( Application::PKCS12Cert ).toString();
+	m_pass = Application::confValue( Application::PKCS12Pass ).toString();
 }
 
 AccessCert::~AccessCert()
@@ -82,7 +81,7 @@ bool AccessCert::download( bool noCard )
 
 	qApp->signer()->lock();
 	QScopedPointer<SSLConnect> ssl( new SSLConnect() );
-	ssl->setPKCS11( Application::confValue( Application::PKCS11Module ), false );
+	ssl->setPKCS11( Application::confValue( Application::PKCS11Module ).toString(), false );
 	ssl->setCard( qApp->signer()->token().card() );
 
 	bool retry = false;
@@ -190,10 +189,10 @@ bool AccessCert::showWarning2( const QString &msg )
 
 bool AccessCert::validate()
 {
-	if( Settings().value( "Client/ignoreP12", false ).toBool() )
+	if( Application::confValue( Application::PKCS12Disable, false ).toBool() )
 		return true;
-	m_cert = Application::confValue( Application::PKCS12Cert );
-	m_pass = Application::confValue( Application::PKCS12Pass );
+	m_cert = Application::confValue( Application::PKCS12Cert ).toString();
+	m_pass = Application::confValue( Application::PKCS12Pass ).toString();
 
 	QFile f( m_cert );
 	if( !f.exists() )

@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2010-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2010-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -157,7 +157,7 @@ Application::Application( int &argc, char **argv )
 		digidoc::X509CertStore::init( new digidoc::DirectoryX509CertStore() );
 		QSslConfiguration c = QSslConfiguration::defaultConfiguration();
 		c.setCaCertificates( c.caCertificates() + QSslCertificate::fromPath(
-			QString( "%1/*" ).arg( confValue( CertStorePath ) ), QSsl::Pem, QRegExp::Wildcard ) );
+			QString( "%1/*" ).arg( confValue( CertStorePath ).toString() ), QSsl::Pem, QRegExp::Wildcard ) );
 		QSslConfiguration::setDefaultConfiguration( c );
 	}
 	catch( const digidoc::Exception &e )
@@ -206,11 +206,11 @@ void Application::closeWindow()
 		w->deleteLater();
 }
 
-QString Application::confValue( ConfParameter parameter, const QVariant &value )
+QVariant Application::confValue( ConfParameter parameter, const QVariant &value )
 {
 	digidoc::Conf *i = NULL;
 	try { i = digidoc::Conf::getInstance(); }
-	catch( const digidoc::Exception & ) { return value.toString(); }
+	catch( const digidoc::Exception & ) { return value; }
 
 	std::string r;
 	switch( parameter )
@@ -223,6 +223,7 @@ QString Application::confValue( ConfParameter parameter, const QVariant &value )
 	case ProxyPass: r = i->getProxyPass(); break;
 	case PKCS12Cert: r = i->getPKCS12Cert(); break;
 	case PKCS12Pass: r = i->getPKCS12Pass(); break;
+	case PKCS12Disable: return i->getPKCS12Disable(); break;
 	default: break;
 	}
 	return r.empty() ? value.toString() : QString::fromStdString( r );
@@ -304,6 +305,7 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 	case ProxyPass: i->setProxyPass( v ); break;
 	case PKCS12Cert: i->setPKCS12Cert( v ); break;
 	case PKCS12Pass: i->setPKCS12Pass( v ); break;
+	case PKCS12Disable: i->setPKCS12Disable( value.toBool() ); break;
 	default: break;
 	}
 }

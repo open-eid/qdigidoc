@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2010-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2010-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -48,6 +48,7 @@ public:
 		ProxyPass,
 		PKCS12Cert,
 		PKCS12Pass,
+		PKCS12Disable,
 	};
 
 	explicit Application( int &argc, char **argv );
@@ -56,7 +57,7 @@ public:
 	void loadTranslation( const QString &lang );
 	QSigner* signer() const;
 
-	static QString confValue( ConfParameter parameter, const QVariant &value = QVariant() );
+	static QVariant confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
 #ifdef Q_OS_LINUX
 	static QByteArray fileEncoder( const QString &filename ) { return filename.toUtf8(); }

@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -72,13 +72,13 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 
 	d->signOverwrite->setChecked( s.value( "Overwrite", false ).toBool() );
 
-	d->proxyHost->setText( Application::confValue( Application::ProxyHost ) );
-	d->proxyPort->setText( Application::confValue( Application::ProxyPort ) );
-	d->proxyUser->setText( Application::confValue( Application::ProxyUser ) );
-	d->proxyPass->setText( Application::confValue( Application::ProxyPass ) );
-	d->p12Cert->setText( Application::confValue( Application::PKCS12Cert ) );
-	d->p12Pass->setText( Application::confValue( Application::PKCS12Pass ) );
-	d->p12Ignore->setChecked( s.value( "ignoreP12", false ).toBool() );
+	d->proxyHost->setText( Application::confValue( Application::ProxyHost ).toString() );
+	d->proxyPort->setText( Application::confValue( Application::ProxyPort ).toString() );
+	d->proxyUser->setText( Application::confValue( Application::ProxyUser ).toString() );
+	d->proxyPass->setText( Application::confValue( Application::ProxyPass ).toString() );
+	d->p12Cert->setText( Application::confValue( Application::PKCS12Cert ).toString() );
+	d->p12Pass->setText( Application::confValue( Application::PKCS12Pass ).toString() );
+	d->p12Ignore->setChecked( Application::confValue( Application::PKCS12Disable, false ).toBool() );
 
 	s.endGroup();
 }
@@ -101,7 +101,7 @@ bool SettingsDialog::eventFilter( QObject *o, QEvent *e )
 
 void SettingsDialog::on_p12Button_clicked()
 {
-	QString cert = Application::confValue( Application::PKCS12Cert );
+	QString cert = Application::confValue( Application::PKCS12Cert ).toString();
 	if( cert.isEmpty() )
 		cert = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
 	else
@@ -168,9 +168,7 @@ void SettingsDialog::save()
 	Application::setConfValue( Application::ProxyPass, d->proxyPass->text() );
 	Application::setConfValue( Application::PKCS12Cert, d->p12Cert->text() );
 	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
-	s.setValue( "ignoreP12", d->p12Ignore->isChecked() );
-
-	s.endGroup();
+	Application::setConfValue( Application::PKCS12Disable, d->p12Ignore->isChecked() );
 
 	saveSignatureInfo(
 		d->signRoleInput->text(),
