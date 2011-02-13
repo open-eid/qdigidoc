@@ -323,7 +323,7 @@ void MainWindow::buttonClicked( int button )
 
 			if( msgBox.clickedButton() == keep )
 			{
-				doc->save();
+				save();
 				setCurrentPage( View );
 				break;
 			}
@@ -788,6 +788,6 @@ int MainWindow::showWarning( const QString &msg )
 void MainWindow::viewSignaturesRemove( unsigned int num )
 {
 	doc->removeSignature( num );
-	doc->save();
+	save();
 	setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 }
