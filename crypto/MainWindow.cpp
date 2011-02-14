@@ -229,7 +229,12 @@ void MainWindow::buttonClicked( int button )
 		}
 
 		QStringList list = Common::normalized( QFileDialog::getOpenFileNames( this, tr("Select documents"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) ) );
+			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ), QString(), 0,
+#ifdef Q_OS_WIN
+			QFileDialog::DontResolveSymlinks ) );
+#else
+			0 ) );
+#endif
 		if( !list.isEmpty() )
 		{
 			Q_FOREACH( const QString &file, list )
@@ -340,7 +345,12 @@ void MainWindow::parseLink( const QString &link )
 	if( link == "addFile" )
 	{
 		QStringList list = Common::normalized( QFileDialog::getOpenFileNames( this, tr("Select documents"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) ) );
+			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ), QString(), 0,
+#ifdef Q_OS_WIN
+			QFileDialog::DontResolveSymlinks ) );
+#else
+			0 ) );
+#endif
 		if( list.isEmpty() )
 			return;
 		Q_FOREACH( const QString &file, list )
