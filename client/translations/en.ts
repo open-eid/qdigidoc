@@ -364,10 +364,6 @@ There is an option to re-sign this document in a new container.</translation>
         <translation>File already in container</translation>
     </message>
     <message>
-        <source>%1&lt;br /&gt;already in container, ovewrite?</source>
-        <translation>%1&lt;br /&gt;already in container, ovewrite?</translation>
-    </message>
-    <message>
         <source>Loading data</source>
         <translation>Loading data</translation>
     </message>
@@ -467,16 +463,26 @@ Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
 Also an active internet connection is needed.</translation>
     </message>
     <message>
-        <source>File does not exists %1</source>
-        <translation>File does not exists %1</translation>
-    </message>
-    <message>
-        <source>Cannot add container to same container %1</source>
-        <translation>Cannot add container to same container %1</translation>
-    </message>
-    <message>
         <source>Cannot alter container %1. Save different location?</source>
         <translation>Cannot alter container %1. Save different location?</translation>
+    </message>
+    <message>
+        <source>File does not exists
+%1</source>
+        <translation>File does not exists
+%1</translation>
+    </message>
+    <message>
+        <source>Cannot add container to same container
+%1</source>
+        <translation>Cannot add container to same container
+%1</translation>
+    </message>
+    <message>
+        <source>%1
+already in container, ovewrite?</source>
+        <translation>%1
+already in container, ovewrite?</translation>
     </message>
 </context>
 <context>

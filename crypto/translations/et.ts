@@ -484,10 +484,6 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
         <translation>DigiDoc3 Krüpto</translation>
     </message>
     <message>
-        <source>File does not exists %1</source>
-        <translation>Valitud faili ei eksisteeri %1</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>Info</translation>
     </message>
@@ -500,16 +496,25 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
         <translation>Fail on juba ümbrikus</translation>
     </message>
     <message>
-        <source>%1&lt;br /&gt;already in container, ovewrite?</source>
-        <translation>%1&lt;br /&gt;on juba ümbrikus. Kas kirjutan üle?</translation>
-    </message>
-    <message>
-        <source>Cannot add container to same container %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cannot alter container %1. Save different location?</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File does not exists
+%1</source>
+        <translation>Valitud faili ei eksisteeri
+%1</translation>
+    </message>
+    <message>
+        <source>Cannot add container to same container
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1
+already in container, ovewrite?</source>
+        <translation>%1
+on juba ümbrikus. Kas kirjutan üle?</translation>
     </message>
 </context>
 <context>

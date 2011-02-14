@@ -364,10 +364,6 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
         <translation>Fail on juba ümbrikus</translation>
     </message>
     <message>
-        <source>%1&lt;br /&gt;already in container, ovewrite?</source>
-        <translation>%1&lt;br /&gt;on juba ümbrikus. Kas kirjutan üle?</translation>
-    </message>
-    <message>
         <source>Loading data</source>
         <translation>Loen andmeid</translation>
     </message>
@@ -467,16 +463,25 @@ Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
 Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
     </message>
     <message>
-        <source>File does not exists %1</source>
-        <translation>Valitud faili ei eksisteeri %1</translation>
-    </message>
-    <message>
-        <source>Cannot add container to same container %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cannot alter container %1. Save different location?</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File does not exists
+%1</source>
+        <translation>Valitud faili ei eksisteeri
+%1</translation>
+    </message>
+    <message>
+        <source>Cannot add container to same container
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1
+already in container, ovewrite?</source>
+        <translation>%1
+on juba ümbrikus. Kas kirjutan üle?</translation>
     </message>
 </context>
 <context>

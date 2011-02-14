@@ -483,10 +483,6 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
         <translation>DigiDoc3 Crypto</translation>
     </message>
     <message>
-        <source>File does not exists %1</source>
-        <translation>Выбраный файл не существует %1</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>Информация</translation>
     </message>
@@ -499,16 +495,25 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
         <translation>Файл уже в контейнере</translation>
     </message>
     <message>
-        <source>%1&lt;br /&gt;already in container, ovewrite?</source>
-        <translation>%1&lt;br /&gt;уже в контейнере, переписать?</translation>
-    </message>
-    <message>
-        <source>Cannot add container to same container %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cannot alter container %1. Save different location?</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File does not exists
+%1</source>
+        <translation>Выбраный файл не существует
+%1</translation>
+    </message>
+    <message>
+        <source>Cannot add container to same container
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1
+already in container, ovewrite?</source>
+        <translation>%1
+уже в контейнере, переписать?</translation>
     </message>
 </context>
 <context>

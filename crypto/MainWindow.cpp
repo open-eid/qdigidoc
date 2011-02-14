@@ -137,15 +137,19 @@ bool MainWindow::addFile( const QString &file )
 		doc->create( docname );
 	}
 
+	QString display = fileinfo.absoluteFilePath();
+	if( display.size() > 80 )
+		display = fontMetrics().elidedText( display, Qt::ElideLeft, 250 );
+
 	if( !fileinfo.exists() )
 	{
-		qApp->showWarning( tr("File does not exists %1").arg( fileinfo.absoluteFilePath() ) );
+		qApp->showWarning( tr("File does not exists\n%1").arg( display ) );
 		return false;
 	}
 
 	if( fileinfo.absoluteFilePath() == doc->fileName() )
 	{
-		qApp->showWarning( tr("Cannot add container to same container %1").arg( fileinfo.absoluteFilePath() ) );
+		qApp->showWarning( tr("Cannot add container to same container\n%1").arg( display ) );
 		return false;
 	}
 
@@ -157,7 +161,7 @@ bool MainWindow::addFile( const QString &file )
 		{
 			QMessageBox::StandardButton btn = QMessageBox::warning( this,
 				tr("File already in container"),
-				tr("%1<br />already in container, ovewrite?").arg( fileinfo.fileName() ),
+				tr("%1\nalready in container, ovewrite?").arg( display ),
 				QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 			if( btn == QMessageBox::Yes )
 			{

@@ -236,10 +236,6 @@ There is an option to re-sign this document in a new container.</source>
         <translation>Файл уже в контейнере</translation>
     </message>
     <message>
-        <source>%1&lt;br /&gt;already in container, ovewrite?</source>
-        <translation>%1&lt;br /&gt;уже в контейнере, переписать?</translation>
-    </message>
-    <message>
         <source>Select documents</source>
         <translation>Добавить файлы</translation>
     </message>
@@ -470,16 +466,25 @@ Also an active internet connection is needed.</source>
 Для цифровой подписи необходимо подключение к интернету.</translation>
     </message>
     <message>
-        <source>File does not exists %1</source>
-        <translation>Выбраный файл не существует %1</translation>
-    </message>
-    <message>
-        <source>Cannot add container to same container %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cannot alter container %1. Save different location?</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File does not exists
+%1</source>
+        <translation>Выбраный файл не существует
+%1</translation>
+    </message>
+    <message>
+        <source>Cannot add container to same container
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1
+already in container, ovewrite?</source>
+        <translation>%1
+уже в контейнере, переписать?</translation>
     </message>
 </context>
 <context>
