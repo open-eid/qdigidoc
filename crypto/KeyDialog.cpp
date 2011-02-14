@@ -314,7 +314,7 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 	connect( cardButton, SIGNAL(clicked()), SLOT(addCardCert()) );
 	connect( buttonBox->addButton( tr("Add cert from file"), QDialogButtonBox::ActionRole ),
 		SIGNAL(clicked()), SLOT(addFile()) );
-	connect( qApp->poller(), SIGNAL(dataChanged(TokenData)), SLOT(enableCardCert()) );
+	connect( qApp->poller(), SIGNAL(dataChanged()), SLOT(enableCardCert()) );
 	enableCardCert();
 
 	skView->setModel( keyModel = new KeyModel( this ) );
