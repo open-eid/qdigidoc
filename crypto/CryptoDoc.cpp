@@ -208,7 +208,7 @@ bool CryptoDoc::decrypt()
 	}
 
 	QString docName = QFileInfo( m_fileName ).fileName();
-	m_ddocTemp = QString( "%1/%2" ).arg( QDir::tempPath() ).arg( docName );
+	m_ddocTemp = Common::tempFilename();
 	removeFolder( m_ddocTemp );
 	QDir().mkdir( m_ddocTemp );
 
