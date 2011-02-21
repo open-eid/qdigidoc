@@ -114,7 +114,7 @@ void KeyDialog::showCertificate()
 HistoryModel::HistoryModel( QObject *parent )
 :	QAbstractTableModel( parent )
 {
-	QFile f( QString( path() ).append( "/certhistory.xml" ) );
+	QFile f( path() );
 	if( !f.open( QIODevice::ReadOnly ) )
 		return;
 
@@ -190,7 +190,7 @@ QString HistoryModel::path() const
 {
 	QSettings s( QSettings::IniFormat, QSettings::UserScope, qApp->organizationName(), qApp->applicationName() );
 	QFileInfo f( s.fileName() );
-	return f.absolutePath() + "/" + f.baseName();
+	return f.absolutePath() + "/" + f.baseName() + "/certhistory.xml";
 }
 
 bool HistoryModel::removeRows( int row, int count, const QModelIndex &parent )
@@ -221,8 +221,9 @@ bool HistoryModel::setData( const QModelIndex &index, const QVariant &value, int
 
 bool HistoryModel::submit()
 {
-	QDir().mkpath( path() );
-	QFile f( QString( path() ).append( "/certhistory.xml" ) );
+	QString p = path();
+	QDir().mkpath( QFileInfo( p ).absolutePath() );
+	QFile f( p );
 	if( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
 		return false;
 
