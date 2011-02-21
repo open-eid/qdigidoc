@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -292,8 +292,12 @@ void KeyModel::load( const QList<CKey> &result )
 {
 	skKeys.clear();
 	Q_FOREACH( const CKey &k, result )
-		if( SslCertificate( k.cert ).keyUsage().contains( SslCertificate::DataEncipherment ) )
+	{
+		SslCertificate c( k.cert );
+		if( c.keyUsage().contains( SslCertificate::DataEncipherment ) &&
+			c.type() != SslCertificate::MobileIDType )
 			skKeys << k;
+	}
 	reset();
 }
 
