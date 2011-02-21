@@ -41,6 +41,7 @@
 #include <QMessageBox>
 #include <QProgressBar>
 #include <QRegExpValidator>
+#include <QSettings>
 #include <QTimer>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
@@ -113,8 +114,7 @@ void KeyDialog::showCertificate()
 HistoryModel::HistoryModel( QObject *parent )
 :	QAbstractTableModel( parent )
 {
-	QFile f( QString( "%1/certhistory.xml" )
-		.arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) ) );
+	QFile f( QString( path() ).append( "/certhistory.xml" ) );
 	if( !f.open( QIODevice::ReadOnly ) )
 		return;
 
@@ -186,6 +186,13 @@ QVariant HistoryModel::data( const QModelIndex &index, int role ) const
 	}
 }
 
+QString HistoryModel::path() const
+{
+	QSettings s( QSettings::IniFormat, QSettings::UserScope, qApp->organizationName(), qApp->applicationName() );
+	QFileInfo f( s.fileName() );
+	return f.absolutePath() + "/" + f.baseName();
+}
+
 bool HistoryModel::removeRows( int row, int count, const QModelIndex &parent )
 {
 	beginRemoveRows( parent, row, row + count );
@@ -214,9 +221,8 @@ bool HistoryModel::setData( const QModelIndex &index, const QVariant &value, int
 
 bool HistoryModel::submit()
 {
-	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
-	QDir().mkpath( path );
-	QFile f( path.append( "/certhistory.xml" ) );
+	QDir().mkpath( path() );
+	QFile f( QString( path() ).append( "/certhistory.xml" ) );
 	if( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
 		return false;
 
