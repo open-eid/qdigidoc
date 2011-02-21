@@ -83,6 +83,7 @@ bool AccessCert::download( bool noCard )
 	QScopedPointer<SSLConnect> ssl( new SSLConnect() );
 	ssl->setPKCS11( Application::confValue( Application::PKCS11Module ).toString(), false );
 	ssl->setCard( qApp->signer()->token().card() );
+	QByteArray result;
 
 	bool retry = false;
 	do
@@ -94,7 +95,7 @@ bool AccessCert::download( bool noCard )
 			qApp->signer()->unlock();
 			return false;
 		}
-		ssl->waitForFinished( SSLConnect::AccessCert );
+		result = ssl->getUrl( SSLConnect::AccessCert );
 		switch( ssl->error() )
 		{
 		case SSLConnect::PinCanceledError:
@@ -115,8 +116,6 @@ bool AccessCert::download( bool noCard )
 		}
 	}
 	while( retry );
-
-	QByteArray result = ssl->result();
 	qApp->signer()->unlock();
 
 	if( result.isEmpty() )
