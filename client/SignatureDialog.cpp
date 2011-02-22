@@ -57,7 +57,10 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	else
 		st << "<img src=\":/images/ico_person_blue_16.png\">";
 
-	st << "<b>" << Qt::escape( cert.toString( cert.isTempel() ? "CN" : "GN SN" ) ) << "</b>";
+	if( cert.subjectInfo( "GN" ).isEmpty() && cert.subjectInfo( "SN" ).isEmpty() )
+		st << "<b>" << Qt::escape( cert.toString( "CN" ) ) << "</b>";
+	else
+		st << "<b>" << Qt::escape( cert.toString( "GN SN" ) ) << "</b>";
 
 	QDateTime date = s.dateTime();
 	if( extended )
