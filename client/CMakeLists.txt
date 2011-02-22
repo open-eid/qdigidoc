@@ -104,11 +104,6 @@ if( APPLE )
 	set( EXTRA_LIBRARIES ${COCOA_LIBRARY} )
 endif( APPLE )
 
-if(MSVC)
-	# disable warning C4290: C++ exception specification ignored
-	add_definitions( -wd4290 )
-	add_definitions( -wd4996 )
-endif(MSVC)
 IF(WIN32)
 	SET( SOURCES ${SOURCES} qdigidocclient.rc )
 ENDIF(WIN32)
