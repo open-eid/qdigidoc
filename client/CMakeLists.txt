@@ -142,7 +142,7 @@ target_link_libraries( ${PROGNAME}
 	${OPENSSLCRYPTO_LIBRARIES}
 	${EXTRA_LIBRARIES}
 	${LIBP11_LIBRARY}
-	${LIBDL_LIBRARIES}
+	${CMAKE_DL_LIBSS}
 	qdigidoccommon
 	qtsingleapplication
 )
