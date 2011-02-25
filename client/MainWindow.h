@@ -46,6 +46,7 @@ private Q_SLOTS:
 	void on_languages_activated( int index );
 	void open( const QStringList &params );
 	void parseLink( const QString &link );
+	void printSheet( QPrinter * );
 	void showCardStatus();
 	void viewSignaturesRemove( unsigned int num );
 

@@ -22,162 +22,155 @@
 
 #include "PrintSheet.h"
 
-#include "DigiDoc.h"
-
+#include <DigiDoc.h>
 #include <common/SslCertificate.h>
 
 #include <QDateTime>
-#include <QFileInfo>
-#include <QTextStream>
+#include <QPrinter>
+#include <QTextDocument>
 
-/* Workaround Ticket #540
- * tables dont accept css "word-wrap: wrap-word" instead insert spaces
- */
-static QString splitWord( const QString &in )
+PrintSheet::PrintSheet( DigiDoc *d )
+:	QPainter()
+,	doc( d )
+{}
+
+void PrintSheet::print( QPrinter *p )
 {
-	QString out;
-	int lastPos = 0;
-	for( int i = 0; i < in.size(); ++i )
+	begin( p );
+
+	QFont text = font();
+	text.setFamily( "Arial, Helvetica, sans-serif" );
+	text.setPixelSize( 12 );
+
+	QFont head = text;
+	head.setPixelSize( 28 );
+
+	QFont sHead = head;
+	sHead.setPixelSize( 18 );
+
+	QPen oPen = pen();
+
+	QPen hPen = oPen;
+	hPen.setWidth( 2 );
+
+	QPen sPen = oPen;
+	sPen.setWidth( 1 );
+	sPen.setStyle( Qt::DotLine );
+
+	int left = 80;
+	int top = 70;
+
+	setFont( head );
+	drawText( left, top, tr("VALIDITY CONFIRMATION SHEET") );
+	setPen( hPen );
+	drawLine( left, top+3, p->pageRect().width() - left, top+3 );
+	top += 45;
+
+	setFont( sHead );
+	drawText( left, top, tr("SIGNED FILES") );
+	setPen( sPen );
+	drawLine( left, top+3, p->pageRect().width() - left, top+3 );
+	top += 30;
+	
+	setFont( text );
+	setPen( oPen );
+	drawText( left, top, tr("FILE NAME") );
+	drawText( left+400, top, tr("FILE SIZE") );
+	drawRect( left, top+5, p->pageRect().width()-2*left, 20*doc->documentModel()->rowCount() );
+	for( int i = 0; i < doc->documentModel()->rowCount(); ++i )
 	{
-		if( !in[i].isLetterOrNumber() )
-		{
-			out += in.mid( lastPos, i - lastPos );
-			lastPos = i;
-		}
-		else if( i - lastPos > 50 )
-		{
-			out += in.mid( lastPos, i - lastPos ) + ' ';
-			lastPos = i;
-		}
+		drawLine( left+395, top+5, left+395, top+25 );
+		top += 20;
+		drawText( left+5, top, doc->documentModel()->index( i, 0 ).data().toString() );
+		drawText( left+400, top, doc->documentModel()->index( i, 2 ).data().toString() );
+		drawLine( left, top+5, p->pageRect().width()-left, top+5 );
 	}
-	out += in.mid( lastPos );
-	return out;
-}
+	top += 35;
 
-PrintSheet::PrintSheet( DigiDoc *d, QWidget *parent )
-:	QWebView( parent )
-{
-	QString html;
-	QTextStream s( &html );
-	s
-	<< "<html>"
-	<< "<head>"
-
-	<< "<style type=\"text/css\">"
-	<< "#head {"
-	<< "font-family: Arial, Helvetica, sans-serif;"
-	<< "font-size: 28px;"
-	<< "border-bottom: 2px solid #000000;"
-	<< "margin-top: 10px;"
-	<< "}"
-	<< ".sectionHead {"
-	<< "font-family: Arial, Helvetica, sans-serif;"
-	<< "font-size: 18px;"
-	<< "border-bottom: 1px dashed #000000;"
-	<< "margin-top: 20px;"
-	<< "}"
-	<< "TABLE { width: 100%; margin-top: 5px; }"
-	<< ".label { font-size: 11px; padding: 2px; margin-top: 5px; }"
-	<< ".text, .textborder, .textborderright "
-	<< "{ font-size: 12px; padding: 3px; word-wrap: break-word; vertical-align: text-top; }"
-	<< ".textborder, .textborderright { border: 1px solid #000000; font-weight: bold; }"
-	<< ".textborderright { border-left: 0px; }"
-	<< "</style>"
-
-	<< "</head>"
-	<< "<body>"
-
-	<< "<div id=\"head\">" << tr("VALIDITY CONFIRMATION SHEET") << "</div>"
-	<< "<div class=\"sectionHead\">" << tr("SIGNED FILES") << "</div>"
-
-	<< "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">"
-	<< "<tr>"
-	<< "<td class=\"label\" width=\"300\">" << tr("FILE NAME") << "</td>"
-	//<< "<td class=\"label\" width=\"200\">" << tr("FILE TYPE") << "</td>"
-	<< "<td class=\"label\" width=\"100\">" << tr("FILE SIZE") << "</td>"
-	<< "</tr>";
-	for( int i = 0; i < d->documentModel()->rowCount(); ++i )
-	{
-		s
-		<< "<tr>"
-		<< "<td class=\"textborder\">" << d->documentModel()->index( i, 0 ).data().toString() << "</td>"
-		//<< "<td class=\"textborderright\">" << d->documentModel()->index( i, 1 ).data().toString() << "</td>"
-		<< "<td class=\"textborderright\">" << d->documentModel()->index( i, 2 ).data().toString() << "</td>"
-		<< "</tr>";
-	}
-
-	s
-	<< "</table>"
-
-	<< "<div class=\"sectionHead\">" << tr("SIGNERS") << "</div>";
+	setFont( sHead );
+	drawText( left, top, tr("SIGNERS") );
+	setPen( sPen );
+	drawLine( left, top+3, p->pageRect().width() - left, top+3 );
+	top += 30;
+	
+	setFont( text );
+	setPen( oPen );
 
 	int i = 1;
-	Q_FOREACH( DigiDocSignature sig, d->signatures() )
+	Q_FOREACH( DigiDocSignature sig, doc->signatures() )
 	{
 		const SslCertificate cert = sig.cert();
 		bool tempel = cert.isTempel();
-		s
-		<< "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">"
-		<< "<tr>"
-		<< "<td class=\"label\" width=\"40\">" << tr("NO.") << "</td>"
-		<< "<td class=\"label\">" << (tempel ? tr("COMPANY") : tr("NAME")) << "</td>"
-		<< "<td class=\"label\" width=\"200\">" << (tempel ? tr("REGISTER CODE") : tr("PERSONAL CODE")) << "</td>"
-		<< "<td class=\"label\" width=\"160\">" << tr("TIME") << "</td>"
-		<< "</tr>"
-		<< "<tr>"
-		<< "<td class=\"textborder\">" << i << "</td>"
-		<< "<td class=\"textborderright\">" << cert.toString( tempel ? "CN" : "GN SN" ) << "</td>"
-		<< "<td class=\"textborderright\">" << cert.subjectInfo( "serialNumber" ) << "</td>"
-		<< "<td class=\"textborderright\">" << sig.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) << "</td>"
-		<< "</tr>"
-		<< "</table>"
 
-		<< "<div class=\"label\">" << tr("VALIDITY OF SIGNATURE") << "</div>"
-		<< "<div class=\"textborder\">" << tr("SIGNATURE") << " ";
+		drawText( left, top, tr("NO.") );
+		drawLine( left+35, top+5, left+35, top+25 );
+		drawText( left+40, top, tempel ? tr( "COMPANY" ) : tr( "NAME" ) );
+		drawLine( p->pageRect().width()-left-285, top+5, p->pageRect().width()-left-285, top+25 );
+		drawText( p->pageRect().width()-left-280, top, tempel ? tr("REGISTER CODE") : tr("PERSONAL CODE") );
+		drawLine( p->pageRect().width()-left-145, top+5, p->pageRect().width()-left-145, top+25 );
+		drawText( p->pageRect().width()-left-140, top, tr("TIME") );
+		drawRect( left, top+5, p->pageRect().width()-2*left, 20 );
+		top += 20;
+
+		drawText( left+5, top, QString::number( i ) );
+		drawText( left+40, top, cert.toString( tempel ? "CN" : "GN SN" ) );
+		drawText( p->pageRect().width()-left-280, top, cert.subjectInfo( "serialNumber" ) );
+		drawText( p->pageRect().width()-left-140, top, sig.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
+		top += 25;
+
+		drawText( left+3, top, tr("VALIDITY OF SIGNATURE") );
+		drawRect( left, top+5, p->pageRect().width()-2*left, 20 );
+		QString valid = tr("SIGNATURE")+" ";
 		switch( sig.validate() )
 		{
-		case DigiDocSignature::Valid: s << tr("VALID"); break;
-		case DigiDocSignature::Invalid: s << tr("NOT VALID"); break;
-		case DigiDocSignature::Unknown: s << tr("UNKNOWN"); break;
+			case DigiDocSignature::Valid: valid.append( tr("VALID") ); break;
+			case DigiDocSignature::Invalid: valid.append( tr("NOT VALID") ); break;
+			case DigiDocSignature::Unknown: valid.append( tr("UNKNOWN") ); break;
 		}
-		s << "</div>"
+		drawText( left+5, top+20, valid );
+		top += 45;
 
-		<< "<div class=\"label\">" << tr("ROLE / RESOLUTION") << "</div>"
-		<< "<div class=\"textborder\">" << sig.role() << "&nbsp;</div>"
+		drawText( left+3, top, tr("ROLE / RESOLUTION") );
+		drawRect( left, top+5, p->pageRect().width()-2*left, 20 );
+		drawText( left+5, top+20, sig.role() );
+		top += 45;
 
-		<< "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">"
-		<< "<tr>"
-		<< "<td class=\"label\">" << tr("PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)") << "</td>"
-		<< "<td class=\"label\" width=\"200\">" << tr("SERIAL NUMBER OF CERTIFICATE") << "</td>"
-		<< "</tr>"
-		<< "<td class=\"textborder\">" << splitWord( sig.location() ) << "&nbsp;</td>"
-		<< "<td class=\"textborderright\">" << cert.serialNumber() << "&nbsp;</td>"
-		<< "</table>"
+		drawText( left+3, top, tr("PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)") );
+		drawText( p->pageRect().width()-left-200, top, tr("SERIAL NUMBER OF CERTIFICATE") );
+		drawRect( left, top+5, p->pageRect().width()-2*left, 20 );
+		drawLine( p->pageRect().width()-left-205, top+5, p->pageRect().width()-left-205, top+25 );
+		drawText( left+5, top+20, sig.location() );
+		drawText( p->pageRect().width()-left-200, top+20, cert.serialNumber() );
+		top += 45;
 
-		<< "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">"
-		<< "<tr>"
-		<< "<td class=\"label\" width=\"185\">" << tr("ISSUER OF CERTIFICATE") << "</td>"
-		<< "<td class=\"label\">" << tr("HASH VALUE OF ISSUER'S PUBLIC KEY") << "</td>"
-		<< "</tr>"
-		<< "<td class=\"textborder\">" << cert.issuerInfo( QSslCertificate::CommonName ) << "</td>"
-		<< "<td class=\"textborderright\">" << cert.toHex( cert.authorityKeyIdentifier() ) << "</td>"
-		<< "</table>"
+		drawText( left+3, top, tr("ISSUER OF CERTIFICATE") );
+		drawText( left+187, top, tr("HASH VALUE OF ISSUER'S PUBLIC KEY") );
+		drawRect( left, top+5, p->pageRect().width()-2*left, 20 );
+		drawLine( left+180, top+5, left+180, top+25 );
+		drawText( left+5, top+20, cert.issuerInfo( QSslCertificate::CommonName ) );
+		drawText( left+187, top+20, cert.toHex( cert.authorityKeyIdentifier() ) );
+		top += 45;
 
-		<< "<div class=\"label\">" << tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)") << "</div>"
-		<< "<div class=\"textborder\">" << cert.toHex( sig.digestValue() ) << "&nbsp;</div>";
+		drawText( left+3, top, tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)") );
+		drawRect( left, top+5, p->pageRect().width()-2*left, 20 );
+		drawText( left+5, top+20, cert.toHex( sig.digestValue() ) );
+		top += 60;
 
 		++i;
 	}
+	save();
+	QTextDocument textDoc;
+	textDoc.setTextWidth( p->pageRect().width() - 2*left );
+	textDoc.setHtml( tr("The print out of files listed in the section <b>\"Signed Files\"</b> "
+						"are inseparable part of this Validity Confirmation Sheet.") );
+	translate( QPoint( left, top - 30) );
+	textDoc.drawContents( this , QRectF( 0, 0, p->pageRect().width() - 2*left, 40) );
+	top += 30;
+	restore();
 
-	s
-	<< "<div class=\"text\" style=\"margin-top: 10px\">"
-	<< tr("The print out of files listed in the section <b>\"Signed Files\"</b> "
-		  "are inseparable part of this Validity Confirmation Sheet.")
-	<< "</div>"
-	<< "<div class=\"label\" style=\"margin-top: 20px\">" << tr("NOTES") << "</div>"
-	<< "<div class=\"textborder\" style=\"height: 100px\"></div>"
-	<< "</body>"
-	<< "</html>";
+	drawText( left+3, top, tr("NOTES") );
+	top += 10;
+	drawRect( left, top, p->pageRect().width() - 2*left, 80 );
 
-	setHtml( html );
+	end();
 }

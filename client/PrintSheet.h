@@ -22,14 +22,19 @@
 
 #pragma once
 
-#include <QWebView>
+#include <QCoreApplication>
+#include <QPainter>
 
 class DigiDoc;
 
-class PrintSheet: public QWebView
+class PrintSheet: public QPainter
 {
-	Q_OBJECT
+	Q_DECLARE_TR_FUNCTIONS( PrintSheet )
 
 public:
-	PrintSheet( DigiDoc *doc, QWidget *parent = 0 );
+	PrintSheet( DigiDoc * );
+	void print( QPrinter* );
+
+private:
+	DigiDoc *doc;
 };

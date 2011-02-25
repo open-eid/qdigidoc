@@ -11,7 +11,6 @@ set( MOC_HEADERS
 	DigiDoc.h
 	MainWindow.h
 	MobileDialog.h
-	PrintSheet.h
 	QSigner.h
 	RegisterP12.h
 	SettingsDialog.h
@@ -28,6 +27,7 @@ QT4_WRAP_UI( UI_HEADERS
 set( HEADERS
 	${MOC_HEADERS}
 	${UI_HEADERS}
+	PrintSheet.h
 	QMobileSigner.h
 	version.h
 	)

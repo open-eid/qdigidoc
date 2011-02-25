@@ -577,9 +577,8 @@ void MainWindow::parseLink( const QString &link )
 	{
 		QPrintPreviewDialog *dialog = new QPrintPreviewDialog( this );
 		dialog->setWindowFlags( dialog->windowFlags() | Qt::WindowMinMaxButtonsHint );
-		PrintSheet *p = new PrintSheet( doc, dialog );
-		p->setVisible( false );
-		connect( dialog, SIGNAL(paintRequested(QPrinter*)), p, SLOT(print(QPrinter*)) );
+		connect( dialog, SIGNAL(paintRequested(QPrinter*)), SLOT(printSheet(QPrinter*)) );
+		dialog->setMinimumHeight( 700 );
 		dialog->exec();
 	}
 	else if( link == "saveAs" )
@@ -619,6 +618,12 @@ void MainWindow::parseLink( const QString &link )
 		if( !Common::startDetached( "qesteidutil" ) )
 			qApp->showWarning( tr("Failed to start process '%1'").arg( "qesteidutil" ) );
 	}
+}
+
+void MainWindow::printSheet( QPrinter *printer )
+{
+	PrintSheet p( doc );
+	p.print( printer );
 }
 
 void MainWindow::retranslate()
