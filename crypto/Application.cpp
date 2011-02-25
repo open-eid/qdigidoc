@@ -44,11 +44,11 @@
 #include <QSslCertificate>
 #include <QTranslator>
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX)
 #include <QFile>
-#endif
-
-#ifdef Q_OS_MAC
+#elif defined(Q_OS_WIN)
+#include <Windows.h>
+#elif defined(Q_OS_MAC)
 #include <QMenu>
 #include <QMenuBar>
 
@@ -75,6 +75,9 @@ Application::Application( int &argc, char **argv )
 :	QtSingleApplication( argc, argv )
 ,	d( new ApplicationPrivate )
 {
+#if defined(Q_OS_WIN)
+	AllowSetForegroundWindow( ASFW_ANY );
+#endif
 	QStringList args = arguments();
 	args.removeFirst();
 	if( isRunning() )
@@ -82,13 +85,7 @@ Application::Application( int &argc, char **argv )
 		sendMessage( args.join( "\", \"" ) );
 		return;
 	}
-
 	connect( this, SIGNAL(messageReceived(QString)), SLOT(parseArgs(QString)) );
-
-#ifdef Q_OS_LINUX
-	QFile::setEncodingFunction( fileEncoder );
-	QFile::setDecodingFunction( fileDecoder );
-#endif
 
 	setApplicationName( APP );
 	setApplicationVersion( VER_STR( FILE_VER_DOT ) );
@@ -114,7 +111,10 @@ Application::Application( int &argc, char **argv )
 	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
-#ifdef Q_OS_MAC
+#if defined(Q_OS_LINUX)
+	QFile::setEncodingFunction( fileEncoder );
+	QFile::setDecodingFunction( fileDecoder );
+#elif defined(Q_OS_MAC)
 	setQuitOnLastWindowClosed( false );
 
 	d->aboutAction = new QAction( this );
@@ -235,6 +235,7 @@ void Application::parseArgs( const QString &msg )
 	QStringList params = msg.split( "\", \"", QString::SkipEmptyParts );
 	MainWindow *w = new MainWindow();
 	w->addAction( d->closeAction );
+	w->activateWindow();
 	w->show();
 	if( !params.isEmpty() )
 		QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );

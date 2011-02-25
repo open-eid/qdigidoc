@@ -49,11 +49,11 @@
 #include <QSslConfiguration>
 #include <QTranslator>
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX)
 #include <QFile>
-#endif
-
-#ifdef Q_OS_MAC
+#elif defined(Q_OS_WIN)
+#include <Windows.h>
+#elif defined(Q_OS_MAC)
 #include <QMenu>
 #include <QMenuBar>
 
@@ -80,6 +80,9 @@ Application::Application( int &argc, char **argv )
 :	QtSingleApplication( argc, argv )
 ,	d( new ApplicationPrivate )
 {
+#if defined(Q_OS_WIN)
+	AllowSetForegroundWindow( ASFW_ANY );
+#endif
 	QStringList args = arguments();
 	args.removeFirst();
 	if( isRunning() )
@@ -87,14 +90,7 @@ Application::Application( int &argc, char **argv )
 		sendMessage( args.join( "\", \"" ) );
 		return;
 	}
-
 	connect( this, SIGNAL(messageReceived(QString)), SLOT(parseArgs(QString)) );
-
-	qputenv( "LANG", "en_US.UTF-8" );
-#ifdef Q_OS_LINUX
-	QFile::setEncodingFunction( fileEncoder );
-	QFile::setDecodingFunction( fileDecoder );
-#endif
 
 	setApplicationName( APP );
 	setApplicationVersion( VER_STR( FILE_VER_DOT ) );
@@ -120,7 +116,11 @@ Application::Application( int &argc, char **argv )
 	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
-#ifdef Q_OS_MAC
+	qputenv( "LANG", "en_US.UTF-8" );
+#if defined(Q_OS_LINUX)
+	QFile::setEncodingFunction( fileEncoder );
+	QFile::setDecodingFunction( fileDecoder );
+#elif defined(Q_OS_MAC)
 	setQuitOnLastWindowClosed( false );
 
 	d->aboutAction = new QAction( this );
@@ -274,20 +274,18 @@ void Application::parseArgs( const QString &msg )
 {
 	QStringList params = msg.split( "\", \"", QString::SkipEmptyParts );
 	QStringList exts = QStringList() << "p12" << "p12d";
+	QWidget *w = 0;
 	if( exts.contains( QFileInfo( params.value( 0 ) ).suffix(), Qt::CaseInsensitive ) )
-	{
-		RegisterP12 *s = new RegisterP12( params[0] );
-		s->addAction( d->closeAction );
-		s->show();
-	}
+		w = new RegisterP12( params[0] );
 	else
 	{
-		MainWindow *w = new MainWindow();
-		w->addAction( d->closeAction );
-		w->show();
+		w = new MainWindow();
 		if( !params.isEmpty() )
 			QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
 	}
+	w->addAction( d->closeAction );
+	w->activateWindow();
+	w->show();
 }
 
 void Application::setConfValue( ConfParameter parameter, const QVariant &value )
