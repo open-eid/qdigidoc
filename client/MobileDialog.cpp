@@ -254,7 +254,7 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 		{
 			try
 			{
-				std::auto_ptr<digidoc::Digest> calc = digidoc::Digest::create( NID_sha1 );
+				std::auto_ptr<digidoc::Digest> calc(new digidoc::Digest( NID_sha1 ));
 				name = QString::fromStdString( calc->getName() );
 				digidoc::Document file = m->document( m->index( i, 0 ) );
 				std::vector<unsigned char> d = file.calcDigest( calc.get() );
