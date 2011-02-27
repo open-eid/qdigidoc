@@ -23,7 +23,6 @@
 #include "DigiDoc.h"
 
 #include "Application.h"
-#include "QMobileSigner.h"
 #include "QSigner.h"
 
 #include <common/Common.h>
@@ -442,6 +441,21 @@ void DigiDoc::addFile( const QString &file )
 	catch( const Exception &e ) { setLastError( tr("Failed add file to container"), e ); }
 }
 
+bool DigiDoc::addSignature( const QByteArray &signature )
+{
+	if( !checkDoc( b->documentCount() == 0, tr("Cannot add signature to empty container") ) )
+		return false;
+
+	bool result = false;
+	try
+	{
+		b->addSignature( std::vector<unsigned char>( signature.constData(), signature.constData() + signature.size() ) );
+		result = true;
+	}
+	catch( const Exception &e ) { setLastError( tr("Failed to sign container"), e ); }
+	return result;
+}
+
 bool DigiDoc::checkDoc( bool status, const QString &msg )
 {
 	if( isNull() )
@@ -623,21 +637,6 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		else
 			setLastError( tr("Failed to sign container"), e );
 	}
-	return result;
-}
-
-bool DigiDoc::signMobile( const QString &fName )
-{
-	if( !checkDoc( b->documentCount() == 0, tr("Cannot add signature to empty container") ) )
-		return false;
-
-	bool result = false;
-	try
-	{
-		b->sign( new digidoc::QMobileSigner( fName ), Signature::MOBILE );
-		result = true;
-	}
-	catch( const Exception &e ) { setLastError( tr("Failed to sign container"), e ); }
 	return result;
 }
 

@@ -28,7 +28,6 @@ set( HEADERS
 	${MOC_HEADERS}
 	${UI_HEADERS}
 	PrintSheet.h
-	QMobileSigner.h
 	version.h
 	)
 QT4_WRAP_CPP( MOC_SOURCES ${MOC_HEADERS} )
@@ -43,7 +42,6 @@ set( SOURCES
 	MobileDialog.cpp
 	PrintSheet.cpp
 	QSigner.cpp
-	QMobileSigner.cpp
 	RegisterP12.cpp
 	SettingsDialog.cpp
 	SignatureDialog.cpp

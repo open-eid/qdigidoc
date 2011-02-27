@@ -43,7 +43,7 @@ public:
 	void setSignatureInfo( const QString &city, const QString &state, const QString &zip,
 							const QString &country, const QString &role, const QString &role2 );
 	void sign( const QString &ssid, const QString &cell );
-	QString fName;
+	QByteArray signature() const;
 
 private Q_SLOTS:
 	void endProgress();
@@ -59,7 +59,7 @@ private:
 	QNetworkAccessManager *manager;
 	QNetworkRequest request;
 	QStringList roles, location;
-
+	QByteArray m_signature;
 	QString sessionCode;
 	QHash<QString,QString> mobileResults;
 };

@@ -41,7 +41,6 @@
 #include <QNetworkReply>
 #include <QSslKey>
 #include <QSslConfiguration>
-#include <QTemporaryFile>
 #include <QTimeLine>
 
 MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
@@ -184,19 +183,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 	if( status != "SIGNATURE" )
 		return;
 
-	QTemporaryFile file( QString( "%1/XXXXXX.xml" ).arg( QDir::tempPath() ) );
-	file.setAutoRemove( false );
-	if( !file.open() )
-		return;
-
-	fName = file.fileName();
-	file.write( "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n" );
-	if ( m_doc->documentType() == digidoc::WDoc::DDocType )
-		file.write( "<SignedDoc format=\"DIGIDOC-XML\" version=\"1.3\" xmlns=\"http://www.sk.ee/DigiDoc/v1.3.0#\">\n" );
-	file.write( elementText( e, "Signature" ).toUtf8() );
-	if ( m_doc->documentType() == digidoc::WDoc::DDocType )
-		file.write( "</SignedDoc>" );
-	file.close();
+	m_signature = elementText( e, "Signature" ).toUtf8();
 	close();
 }
 
@@ -289,6 +276,8 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 	manager->post( request, r.document() );
 	statusTimer->start();
 }
+
+QByteArray MobileDialog::signature() const { return m_signature; }
 
 void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> &err )
 {

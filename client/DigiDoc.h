@@ -117,6 +117,7 @@ public:
 	~DigiDoc();
 
 	void addFile( const QString &file );
+	bool addSignature( const QByteArray &signature );
 	void create( const QString &file );
 	void clear();
 	DocumentModel *documentModel() const;
@@ -132,7 +133,6 @@ public:
 		const QString &country,
 		const QString &role,
 		const QString &role2 );
-	bool signMobile( const QString &fName );
 	QList<DigiDocSignature> signatures();
 	digidoc::WDoc::DocumentType documentType();
 	QByteArray getFileDigest( unsigned int i );

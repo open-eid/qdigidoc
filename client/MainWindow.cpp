@@ -400,7 +400,7 @@ void MainWindow::buttonClicked( int button )
 				signResolutionInput->text() );
 			m->sign( infoMobileCode->text(), infoMobileCell->text() );
 			m->exec();
-			if ( !m->fName.isEmpty() && doc->signMobile( m->fName ) )
+			if ( !m->signature().isEmpty() && doc->addSignature( m->signature() ) )
 			{
 				save();
 				doc->open( doc->fileName() );
