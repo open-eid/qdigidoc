@@ -44,6 +44,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QNetworkProxy>
+#include <QPrinter>
 #include <QPrintPreviewDialog>
 #include <QTextStream>
 #include <QUrl>
@@ -575,7 +576,10 @@ void MainWindow::parseLink( const QString &link )
 	}
 	else if( link == "print" )
 	{
-		QPrintPreviewDialog *dialog = new QPrintPreviewDialog( this );
+		QPrinter printer;
+		printer.setPaperSize( QPrinter::A4 );
+		printer.setOrientation( QPrinter::Portrait );
+		QPrintPreviewDialog *dialog = new QPrintPreviewDialog( &printer, this );
 		dialog->setWindowFlags( dialog->windowFlags() | Qt::WindowMinMaxButtonsHint );
 		connect( dialog, SIGNAL(paintRequested(QPrinter*)), SLOT(printSheet(QPrinter*)) );
 		dialog->setMinimumHeight( 700 );
@@ -622,8 +626,7 @@ void MainWindow::parseLink( const QString &link )
 
 void MainWindow::printSheet( QPrinter *printer )
 {
-	PrintSheet p( doc );
-	p.print( printer );
+	PrintSheet p( doc, printer );
 }
 
 void MainWindow::retranslate()

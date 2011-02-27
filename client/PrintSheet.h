@@ -32,9 +32,5 @@ class PrintSheet: public QPainter
 	Q_DECLARE_TR_FUNCTIONS( PrintSheet )
 
 public:
-	PrintSheet( DigiDoc * );
-	void print( QPrinter* );
-
-private:
-	DigiDoc *doc;
+	PrintSheet( DigiDoc *, QPrinter * );
 };
