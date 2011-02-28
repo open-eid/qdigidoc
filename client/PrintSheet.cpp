@@ -31,15 +31,16 @@
 
 #include <QDebug>
 
-PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *p )
-:	QPainter( p )
+PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
+:	QPainter( printer )
+,	p( printer )
 {
 	//begin( p );
 
 	int left	= p->pageRect().x();
 	int margin	= left;
 	int right	= p->pageRect().topRight().x() - 2*margin;
-	int top		= p->pageRect().topLeft().y() + 30;
+	top			= p->pageRect().topLeft().y() + 30;
 
 #ifdef Q_OS_MAC
 	scale( 0.8, 0.8 );
@@ -92,6 +93,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *p )
 	}
 	top += 35;
 
+	newPage( 50 );
 	setFont( sHead );
 	drawText( left, top, tr("SIGNERS") );
 	setPen( sPen );
@@ -104,6 +106,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *p )
 	int i = 1;
 	Q_FOREACH( DigiDocSignature sig, doc->signatures() )
 	{
+		newPage( 50 );
 		const SslCertificate cert = sig.cert();
 		bool tempel = cert.isTempel();
 
@@ -123,6 +126,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *p )
 		drawText( right-140, top, sig.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
 		top += 25;
 
+		newPage( 50 );
 		drawText( left+3, top, tr("VALIDITY OF SIGNATURE") );
 		drawRect( left, top+5, right - margin, 20 );
 		QString valid = tr("SIGNATURE")+" ";
@@ -135,11 +139,13 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *p )
 		drawText( left+5, top+20, valid );
 		top += 45;
 
+		newPage( 50 );
 		drawText( left+3, top, tr("ROLE / RESOLUTION") );
 		drawRect( left, top+5, right - margin, 20 );
 		drawText( left+5, top+20, sig.role() );
 		top += 45;
 
+		newPage( 50 );
 		drawText( left+3, top, tr("PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)") );
 		drawText( right-200, top, tr("SERIAL NUMBER OF CERTIFICATE") );
 		drawRect( left, top+5, right - margin, 20 );
@@ -148,6 +154,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *p )
 		drawText( right-200, top+20, cert.serialNumber() );
 		top += 45;
 
+		newPage( 50 );
 		drawText( left+3, top, tr("ISSUER OF CERTIFICATE") );
 		drawText( left+187, top, tr("HASH VALUE OF ISSUER'S PUBLIC KEY") );
 		drawRect( left, top+5, right - margin, 20 );
@@ -156,6 +163,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *p )
 		drawText( left+187, top+20, cert.toHex( cert.authorityKeyIdentifier() ) );
 		top += 45;
 
+		newPage( 60 );
 		drawText( left+3, top, tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)") );
 		drawRect( left, top+5, right - margin, 20 );
 		drawText( left+5, top+20, cert.toHex( sig.digestValue() ) );
@@ -164,6 +172,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *p )
 		++i;
 	}
 	save();
+	newPage( 50 );
 	QTextDocument textDoc;
 	textDoc.setTextWidth( right - margin );
 	textDoc.setHtml( tr("The print out of files listed in the section <b>\"Signed Files\"</b> "
@@ -173,9 +182,19 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *p )
 	top += 30;
 	restore();
 
+	newPage( 90 );
 	drawText( left+3, top, tr("NOTES") );
 	top += 10;
 	drawRect( left, top, right - margin, 80 );
 
 	end();
+}
+
+void PrintSheet::newPage( int height )
+{
+	if ( top + height > p->pageRect().height() )
+	{
+		p->newPage();
+		top = p->pageRect().topLeft().y() + 30;
+	}
 }

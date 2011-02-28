@@ -33,4 +33,10 @@ class PrintSheet: public QPainter
 
 public:
 	PrintSheet( DigiDoc *, QPrinter * );
+
+private:
+	void newPage( int height );
+
+	int top;
+	QPrinter *p;
 };
