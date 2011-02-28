@@ -105,7 +105,7 @@ void QSigner::run()
 			if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
 				selectCard( cards.first() );
 
-			if( d->t.cert().isNull() && cards.contains( d->t.card() ) || d->refresh ) // read cert
+			if( cards.contains( d->t.card() ) && (d->t.cert().isNull() || d->refresh) ) // read cert
 			{
 				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
 				d->t.setCards( cards );
