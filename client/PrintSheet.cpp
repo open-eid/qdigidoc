@@ -36,8 +36,8 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *p )
 {
 	//begin( p );
 
-	int margin	= 30;
 	int left	= p->pageRect().x();
+	int margin	= left;
 	int right	= p->pageRect().topRight().x() - 2*margin;
 	int top		= p->pageRect().topLeft().y() + 30;
 
