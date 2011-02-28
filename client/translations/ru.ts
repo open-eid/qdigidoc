@@ -96,7 +96,7 @@ PIN заблокирован</translation>
     </message>
     <message>
         <source>New Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Новое окно</translation>
     </message>
     <message>
         <source>About</source>
@@ -104,7 +104,7 @@ PIN заблокирован</translation>
     </message>
     <message>
         <source>Failed to initalize.</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск не удался.</translation>
     </message>
 </context>
 <context>
@@ -467,7 +467,7 @@ Also an active internet connection is needed.</source>
     </message>
     <message>
         <source>Cannot alter container %1. Save different location?</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранение контейнера %1 не удалось. Сохранить в другой каталог?</translation>
     </message>
     <message>
         <source>File does not exists
@@ -478,7 +478,7 @@ Also an active internet connection is needed.</source>
     <message>
         <source>Cannot add container to same container
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно добавить файл в один и тот же контейнер %1</translation>
     </message>
     <message>
         <source>%1
@@ -583,7 +583,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>SSL handshake failed</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL handshake (&quot;рукопожатие&quot;) не удалось</translation>
     </message>
 </context>
 <context>
@@ -754,7 +754,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>PKCS12 Certificate error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка справки доступа: %1</translation>
     </message>
 </context>
 <context>
@@ -873,11 +873,11 @@ Control code: %1</source>
     </message>
     <message>
         <source>PKCS12 Certificate error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка справки доступа: %1</translation>
     </message>
     <message>
         <source>Ignore PKCS#12 certificate (IP based access)</source>
-        <translation type="unfinished"></translation>
+        <translation>Игнорировать справку доступа (доступ по IP)</translation>
     </message>
     <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from http://www.sk.ee/kehtivuskinnitus or phone 1777</source>

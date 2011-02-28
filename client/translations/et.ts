@@ -464,7 +464,7 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
     </message>
     <message>
         <source>Cannot alter container %1. Save different location?</source>
-        <translation type="unfinished"></translation>
+        <translation>onteineri %1 salvestamine ebaõnnestus. Salvestada teise asukohta?</translation>
     </message>
     <message>
         <source>File does not exists
@@ -475,7 +475,7 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
     <message>
         <source>Cannot add container to same container
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Konteineri lisamine samasse konteinerisse ebaõnnestus %1</translation>
     </message>
     <message>
         <source>%1
@@ -580,7 +580,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>SSL handshake failed</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL &quot;käepigistus&quot; ebaõnnestus</translation>
     </message>
 </context>
 <context>
