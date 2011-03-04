@@ -464,7 +464,7 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
     </message>
     <message>
         <source>Cannot alter container %1. Save different location?</source>
-        <translation>onteineri %1 salvestamine ebaõnnestus. Salvestada teise asukohta?</translation>
+        <translation>Konteineri %1 salvestamine ebaõnnestus. Salvestada teise asukohta?</translation>
     </message>
     <message>
         <source>File does not exists
