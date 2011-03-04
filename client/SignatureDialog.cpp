@@ -38,9 +38,6 @@
 #include <QTextStream>
 #include <QUrl>
 
-static bool _showCN( const SslCertificate &c )
-{ return c.subjectInfo( "GN" ).isEmpty() && c.subjectInfo( "SN" ).isEmpty(); }
-
 SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned int signnum, bool extended, QWidget *parent )
 :	QLabel( parent )
 ,	num( signnum )
@@ -59,7 +56,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		st << "<img src=\":/images/ico_stamp_blue_16.png\">";
 	else
 		st << "<img src=\":/images/ico_person_blue_16.png\">";
-	st << "<b>" << Qt::escape( cert.toString( _showCN( cert ) ? "CN" : "GN SN" ) ) << "</b>";
+	st << "<b>" << Qt::escape( cert.toString( cert.showCN() ? "CN" : "GN SN" ) ) << "</b>";
 
 	QDateTime date = s.dateTime();
 	if( extended )
@@ -124,7 +121,7 @@ void SignatureWidget::link( const QString &url )
 	{
 		SslCertificate c = s.cert();
 		QString msg = tr("Remove signature %1")
-			.arg( c.toString( _showCN( c ) ? "CN serialNumber" : "GN SN serialNumber" ) );
+			.arg( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) );
 		QMessageBox::StandardButton b = QMessageBox::warning( qApp->activeWindow(), msg, msg,
 			QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel );
 		if( b == QMessageBox::Ok )
@@ -147,7 +144,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	setWindowFlags( Qt::Sheet );
 
 	const SslCertificate c = s.cert();
-	QString titleText = c.toString( _showCN( c ) ? "CN serialNumber" : "GN SN serialNumber" );
+	QString titleText = c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" );
 	d->title->setText( titleText );
 	setWindowTitle( titleText );
 

@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypt
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -121,7 +121,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		top += 20;
 
 		drawText( left+5, top, QString::number( i ) );
-		drawText( left+40, top, cert.toString( tempel ? "CN" : "GN SN" ) );
+		drawText( left+40, top, cert.toString( cert.showCN() ? "CN" : "GN SN" ) );
 		drawText( right-280, top, cert.subjectInfo( "serialNumber" ) );
 		drawText( right-140, top, sig.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
 		top += 25;
