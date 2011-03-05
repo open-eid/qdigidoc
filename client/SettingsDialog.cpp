@@ -106,8 +106,8 @@ void SettingsDialog::on_p12Button_clicked()
 		cert = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
 	else
 		cert = QFileInfo( cert ).path();
-	cert = Common::normalized( QFileDialog::getOpenFileName( this, tr("Select PKCS#12 certificate"), cert,
-		tr("PKCS#12 Certificates (*.p12 *.p12d)") ) );
+	cert = Common::normalized( QFileDialog::getOpenFileName( this, tr("Select server access certificate"), cert,
+		tr("Server access certificates (*.p12 *.p12d)") ) );
 	if( !cert.isEmpty() )
 		setP12Cert( cert );
 }
@@ -230,7 +230,7 @@ void SettingsDialog::validateP12Cert()
 		d->p12Error->setText( tr("Invalid password") );
 		break;
 	default:
-		d->p12Error->setText( tr("PKCS12 Certificate error: %1").arg( cert.errorString() ) );
+		d->p12Error->setText( tr("Server access certificate error: %1").arg( cert.errorString() ) );
 		break;
 	}
 }

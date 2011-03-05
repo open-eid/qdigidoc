@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>OCSP PKCS#12 certificate installer</string>
+   <string>Server access certificate installer</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="p12CertLabel">
      <property name="text">
-      <string>OCSP PKCS#12 certificate</string>
+      <string>Server access certificate</string>
      </property>
     </widget>
    </item>
@@ -103,7 +103,7 @@
    <item>
     <widget class="QLabel" name="info">
      <property name="text">
-      <string>OCSP PKCS#12 server access certificate is available at&lt;br /&gt;
+      <string>Server access certificate is available at&lt;br /&gt;
 &lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</string>
      </property>
      <property name="openExternalLinks">

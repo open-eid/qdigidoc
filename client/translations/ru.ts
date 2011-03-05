@@ -711,38 +711,12 @@ Control code: %1</source>
 <context>
     <name>RegisterP12</name>
     <message>
-        <source>No OCSP PKCS#12 certificate selected</source>
-        <translation>Ни один OCSP PKCS#12 сертфикат не выбран</translation>
-    </message>
-    <message>
         <source>Failed to copy file</source>
         <translation>Копирование файла неуспешно</translation>
     </message>
     <message>
-        <source>Select PKCS#12 certificate</source>
-        <translation>Выберите PKCS#12 сертификат</translation>
-    </message>
-    <message>
-        <source>PKCS#12 Certificates (*.p12 *.p12d)</source>
-        <translation>PKCS#12 Сертификаты (*.p12 *.p12d)</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 certificate installer</source>
-        <translation>Установка сертификата доступа</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 certificate</source>
-        <translation>Сертификат доступа</translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation>Пароль</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 server access certificate is available at&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</source>
-        <translation>Подтверждение действительности сервера справки доступа можно получить с веб-страницы SK&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Show certificate</source>
@@ -753,7 +727,33 @@ Control code: %1</source>
         <translation>Ошибочная пароль</translation>
     </message>
     <message>
-        <source>PKCS12 Certificate error: %1</source>
+        <source>Server access certificate installer</source>
+        <translation>Установка сертификата доступа</translation>
+    </message>
+    <message>
+        <source>Server access certificate</source>
+        <translation>Справка допуска</translation>
+    </message>
+    <message>
+        <source>Server access certificate is available at&lt;br /&gt;
+&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</source>
+        <translation>Подтверждение действительности сервера справки доступа можно получить с веб-страницы SK&lt;br /&gt;
+&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>No server access certificate selected</source>
+        <translation>Ни один OCSP PKCS#12 сертфикат не выбран</translation>
+    </message>
+    <message>
+        <source>Select server access certificate</source>
+        <translation>Выберите PKCS#12 сертификат</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d)</source>
+        <translation>PKCS#12 Сертификаты (*.p12 *.p12d)</translation>
+    </message>
+    <message>
+        <source>Server access certificate error: %1</source>
         <translation>Ошибка справки доступа: %1</translation>
     </message>
 </context>
@@ -836,18 +836,6 @@ Control code: %1</source>
         <translation>Порт</translation>
     </message>
     <message>
-        <source>Select PKCS#12 certificate</source>
-        <translation>Выберите  PKCS#12 сертификат</translation>
-    </message>
-    <message>
-        <source>PKCS#12 Certificates (*.p12 *.p12d)</source>
-        <translation>PKCS#12 Сертификаты (*.p12 *.p12d)</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 certificate</source>
-        <translation>Сертификат доступа</translation>
-    </message>
-    <message>
         <source>Certificate</source>
         <translation>Сертификат</translation>
     </message>
@@ -872,16 +860,28 @@ Control code: %1</source>
         <translation>Ошибочная пароль</translation>
     </message>
     <message>
-        <source>PKCS12 Certificate error: %1</source>
+        <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from http://www.sk.ee/kehtivuskinnitus or phone 1777</source>
+        <translation>Согласно условиям пользования услугой подтверждения действительности Вы можете пользоваться услугой в объеме не более 10 цифровых подписей в месяц. Чтобы получить возможность пользоваться услугой в большем объеме или использовать ее в коммерческих целях, обратитесь в службу ИТ-поддержки Вашего учреждения. За дополнительной информацией обращайтесь по адресу http://www.sk.ee/kehtivuskinnitus, по электронной почте sales@sk.ee или по телефону 1777</translation>
+    </message>
+    <message>
+        <source>Select server access certificate</source>
+        <translation>Выберите PKCS#12 сертификат</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d)</source>
+        <translation>PKCS#12 Сертификаты (*.p12 *.p12d)</translation>
+    </message>
+    <message>
+        <source>Server access certificate error: %1</source>
         <translation>Ошибка справки доступа: %1</translation>
     </message>
     <message>
-        <source>Ignore PKCS#12 certificate (IP based access)</source>
-        <translation>Игнорировать справку доступа (доступ по IP)</translation>
+        <source>Server access certificate</source>
+        <translation>Справка допуска</translation>
     </message>
     <message>
-        <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from http://www.sk.ee/kehtivuskinnitus or phone 1777</source>
-        <translation>Согласно условиям пользования услугой подтверждения действительности Вы можете пользоваться услугой в объеме не более 10 цифровых подписей в месяц. Чтобы получить возможность пользоваться услугой в большем объеме или использовать ее в коммерческих целях, обратитесь в службу ИТ-поддержки Вашего учреждения. За дополнительной информацией обращайтесь по адресу http://www.sk.ee/kehtivuskinnitus, по электронной почте sales@sk.ee или по телефону 1777</translation>
+        <source>Ignore server access certificate (IP based access)</source>
+        <translation>Игнорировать справку доступа (доступ по IP)</translation>
     </message>
 </context>
 <context>

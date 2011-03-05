@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -70,7 +70,7 @@ void RegisterP12::on_buttonBox_accepted()
 	if( !file.isFile() )
 	{
 		QMessageBox::warning( this, windowTitle(),
-			tr("No OCSP PKCS#12 certificate selected") );
+			tr("No server access certificate selected") );
 		return;
 	}
 
@@ -107,8 +107,8 @@ void RegisterP12::on_showP12Cert_clicked()
 
 void RegisterP12::on_p12Button_clicked()
 {
-	QString cert = Common::normalized( QFileDialog::getOpenFileName( this, tr("Select PKCS#12 certificate"),
-		QFileInfo( d->p12Cert->text() ).path(), tr("PKCS#12 Certificates (*.p12 *.p12d)") ) );
+	QString cert = Common::normalized( QFileDialog::getOpenFileName( this, tr("Select server access certificate"),
+		QFileInfo( d->p12Cert->text() ).path(), tr("Server access certificates (*.p12 *.p12d)") ) );
 	if( !cert.isEmpty() )
 		d->p12Cert->setText( cert );
 }
@@ -137,7 +137,7 @@ void RegisterP12::validateP12Cert()
 		d->p12Error->setText( tr("Invalid password") );
 		break;
 	default:
-		d->p12Error->setText( tr("PKCS12 Certificate error: %1").arg( cert.errorString() ) );
+		d->p12Error->setText( tr("Server access certificate error: %1").arg( cert.errorString() ) );
 		break;
 	}
 }

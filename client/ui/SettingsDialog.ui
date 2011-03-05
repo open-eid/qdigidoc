@@ -144,7 +144,7 @@
      </widget>
      <widget class="QWidget" name="tabPKCS12">
       <attribute name="title">
-       <string>OCSP PKCS#12 certificate</string>
+       <string>Server access certificate</string>
       </attribute>
       <layout class="QFormLayout" name="tabPKCS12Layout">
        <property name="fieldGrowthPolicy">
@@ -232,7 +232,7 @@
        <item row="4" column="1">
         <widget class="QCheckBox" name="p12Ignore">
          <property name="text">
-          <string>Ignore PKCS#12 certificate (IP based access)</string>
+          <string>Ignore server access certificate (IP based access)</string>
          </property>
         </widget>
        </item>

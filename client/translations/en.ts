@@ -709,38 +709,12 @@ Control code: %1</translation>
 <context>
     <name>RegisterP12</name>
     <message>
-        <source>No OCSP PKCS#12 certificate selected</source>
-        <translation>No OCSP PKCS#12 certificate selected</translation>
-    </message>
-    <message>
         <source>Failed to copy file</source>
         <translation>Failed to copy file</translation>
     </message>
     <message>
-        <source>Select PKCS#12 certificate</source>
-        <translation>Select PKCS#12 certificate</translation>
-    </message>
-    <message>
-        <source>PKCS#12 Certificates (*.p12 *.p12d)</source>
-        <translation>PKCS#12 Certificates (*.p12 *.p12d)</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 certificate installer</source>
-        <translation>OCSP PKCS#12 certificate installer</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 certificate</source>
-        <translation>OCSP PKCS#12 certificate</translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation>Password</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 server access certificate is available at&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</source>
-        <translation>Confirmation of validity of the server reference access can be obtained from the SK web page&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Show certificate</source>
@@ -751,8 +725,34 @@ Control code: %1</translation>
         <translation>Invalid password</translation>
     </message>
     <message>
-        <source>PKCS12 Certificate error: %1</source>
-        <translation>PKCS12 Certificate error: %1</translation>
+        <source>Server access certificate installer</source>
+        <translation>Server access certificate installer</translation>
+    </message>
+    <message>
+        <source>Server access certificate</source>
+        <translation>Server access certificate</translation>
+    </message>
+    <message>
+        <source>Server access certificate is available at&lt;br /&gt;
+&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</source>
+        <translation>Confirmation of validity of the server reference access can be obtained from the SK web page&lt;br /&gt;
+&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>No server access certificate selected</source>
+        <translation>No server access certificate selected</translation>
+    </message>
+    <message>
+        <source>Select server access certificate</source>
+        <translation>Select server access certificate</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d)</source>
+        <translation>Server access certificates (*.p12 *.p12d)</translation>
+    </message>
+    <message>
+        <source>Server access certificate error: %1</source>
+        <translation>Server access certificate error: %1</translation>
     </message>
 </context>
 <context>
@@ -834,18 +834,6 @@ Control code: %1</translation>
         <translation>Port</translation>
     </message>
     <message>
-        <source>Select PKCS#12 certificate</source>
-        <translation>Select PKCS#12 certificate</translation>
-    </message>
-    <message>
-        <source>PKCS#12 Certificates (*.p12 *.p12d)</source>
-        <translation>PKCS#12 Certificates (*.p12 *.p12d)</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 certificate</source>
-        <translation>OCSP PKCS#12 certificate</translation>
-    </message>
-    <message>
         <source>Certificate</source>
         <translation>Certificate</translation>
     </message>
@@ -870,16 +858,28 @@ Control code: %1</translation>
         <translation>Invalid password</translation>
     </message>
     <message>
-        <source>PKCS12 Certificate error: %1</source>
-        <translation>PKCS12 Certificate error: %1</translation>
-    </message>
-    <message>
-        <source>Ignore PKCS#12 certificate (IP based access)</source>
-        <translation>Ignore PKCS#12 certificate (IP based access)</translation>
-    </message>
-    <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from http://www.sk.ee/kehtivuskinnitus or phone 1777</source>
         <translation>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from http://www.sk.ee/kehtivuskinnitus or phone 1777</translation>
+    </message>
+    <message>
+        <source>Select server access certificate</source>
+        <translation>Select server access certificate</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d)</source>
+        <translation>Server access certificates (*.p12 *.p12d)</translation>
+    </message>
+    <message>
+        <source>Server access certificate error: %1</source>
+        <translation>Server access certificate error: %1</translation>
+    </message>
+    <message>
+        <source>Server access certificate</source>
+        <translation>Server access certificate</translation>
+    </message>
+    <message>
+        <source>Ignore server access certificate (IP based access)</source>
+        <translation>Ignore server access certificate (IP based access)</translation>
     </message>
 </context>
 <context>

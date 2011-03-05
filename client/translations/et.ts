@@ -708,38 +708,12 @@ Kontrollkood: %1</translation>
 <context>
     <name>RegisterP12</name>
     <message>
-        <source>No OCSP PKCS#12 certificate selected</source>
-        <translation>Ükski OCSP PKCS#12 sertifikaat ei ole valitud</translation>
-    </message>
-    <message>
         <source>Failed to copy file</source>
         <translation>Faili kopeerimine ebaõnnestus</translation>
     </message>
     <message>
-        <source>Select PKCS#12 certificate</source>
-        <translation>Valige PKCS#12 sertifikaat</translation>
-    </message>
-    <message>
-        <source>PKCS#12 Certificates (*.p12 *.p12d)</source>
-        <translation>PKCS#12 Sertifikaadid (*.p12 *.p12d)</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 certificate installer</source>
-        <translation>Juurdepääsutõendi paigaldamine</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 certificate</source>
-        <translation>Juurdepääsutõend</translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation>Parool</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 server access certificate is available at&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</source>
-        <translation>Kehtivuskinnituse serveri juurdepääsutõendi saab SK leheküljelt&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=est&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Show certificate</source>
@@ -750,8 +724,34 @@ Kontrollkood: %1</translation>
         <translation>Vigane parool</translation>
     </message>
     <message>
-        <source>PKCS12 Certificate error: %1</source>
-        <translation>Ligipääsutõendi viga: %1</translation>
+        <source>Server access certificate installer</source>
+        <translation>Juurdepääsutõendi paigaldamine</translation>
+    </message>
+    <message>
+        <source>Server access certificate</source>
+        <translation>Juurdepääsutõend</translation>
+    </message>
+    <message>
+        <source>Server access certificate is available at&lt;br /&gt;
+&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</source>
+        <translation>Kehtivuskinnituse serveri juurdepääsutõendi saab SK leheküljelt&lt;br /&gt;
+&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=est&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>No server access certificate selected</source>
+        <translation>Ühtegi juurdepääsutõendit ei ole valitud</translation>
+    </message>
+    <message>
+        <source>Select server access certificate</source>
+        <translation>Valige juurdepääsutõend</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d)</source>
+        <translation>Juurdepääsutõendid (*.p12 *.p12d)</translation>
+    </message>
+    <message>
+        <source>Server access certificate error: %1</source>
+        <translation>Juurdepääsutõendi viga: %1</translation>
     </message>
 </context>
 <context>
@@ -833,18 +833,6 @@ Kontrollkood: %1</translation>
         <translation>Port</translation>
     </message>
     <message>
-        <source>Select PKCS#12 certificate</source>
-        <translation>Valige PKCS#12 sertifikaat</translation>
-    </message>
-    <message>
-        <source>PKCS#12 Certificates (*.p12 *.p12d)</source>
-        <translation>PKCS#12 Sertifikaadid (*.p12 *.p12d)</translation>
-    </message>
-    <message>
-        <source>OCSP PKCS#12 certificate</source>
-        <translation>Juurdepääsutõend</translation>
-    </message>
-    <message>
         <source>Certificate</source>
         <translation>Sertifikaat</translation>
     </message>
@@ -869,16 +857,28 @@ Kontrollkood: %1</translation>
         <translation>Vigane parool</translation>
     </message>
     <message>
-        <source>PKCS12 Certificate error: %1</source>
-        <translation>Ligipääsutõendi viga: %1</translation>
-    </message>
-    <message>
-        <source>Ignore PKCS#12 certificate (IP based access)</source>
-        <translation>Ignoreeri juurdepääsutõendit (IP põhine ligipääs)</translation>
-    </message>
-    <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from http://www.sk.ee/kehtivuskinnitus or phone 1777</source>
         <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon http://www.sk.ee/kehtivuskinnitus või ID-abiliini telefonil 1777</translation>
+    </message>
+    <message>
+        <source>Select server access certificate</source>
+        <translation>Valige juurdepääsutõend</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d)</source>
+        <translation>Juurdepääsutõendid (*.p12 *.p12d)</translation>
+    </message>
+    <message>
+        <source>Server access certificate error: %1</source>
+        <translation>Juurdepääsutõendi viga: %1</translation>
+    </message>
+    <message>
+        <source>Server access certificate</source>
+        <translation>Juurdepääsutõend</translation>
+    </message>
+    <message>
+        <source>Ignore server access certificate (IP based access)</source>
+        <translation>Ignoreeri juurdepääsutõendit (IP põhine ligipääs)</translation>
     </message>
 </context>
 <context>
