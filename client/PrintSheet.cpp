@@ -35,7 +35,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 :	QPainter( printer )
 ,	p( printer )
 {
-	//begin( p );
+	printer->setOrientation( QPrinter::Portrait );
 
 	int left	= p->pageRect().x();
 	int margin	= left;
