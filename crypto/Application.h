@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "qtsingleapplication/src/QtSingleApplication"
+#include <common/Common.h>
 
 #if defined(qApp)
 #undef qApp
@@ -31,7 +31,7 @@
 
 class Poller;
 class ApplicationPrivate;
-class Application: public QtSingleApplication
+class Application: public Common
 {
 	Q_OBJECT
 
@@ -41,11 +41,6 @@ public:
 
 	void loadTranslation( const QString &lang );
 	Poller* poller() const;
-
-#ifdef Q_OS_LINUX
-	static QByteArray fileEncoder( const QString &filename ) { return filename.toUtf8(); }
-	static QString fileDecoder( const QByteArray &filename ) { return QString::fromUtf8( filename ); }
-#endif
 
 public Q_SLOTS:
 	void showAbout();

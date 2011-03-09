@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "qtsingleapplication/src/QtSingleApplication"
+#include <common/Common.h>
 
 #include <QVariant>
 
@@ -33,7 +33,7 @@
 
 class QSigner;
 class ApplicationPrivate;
-class Application: public QtSingleApplication
+class Application: public Common
 {
 	Q_OBJECT
 
@@ -59,10 +59,6 @@ public:
 
 	static QVariant confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
-#ifdef Q_OS_LINUX
-	static QByteArray fileEncoder( const QString &filename ) { return filename.toUtf8(); }
-	static QString fileDecoder( const QByteArray &filename ) { return QString::fromUtf8( filename ); }
-#endif
 
 public Q_SLOTS:
 	void showAbout();

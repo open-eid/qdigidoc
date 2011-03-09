@@ -30,7 +30,6 @@
 #include <common/AboutWidget.h>
 #include <common/Common.h>
 #include <common/Settings.h>
-#include <common/TokenData.h>
 
 #include <libdigidoc/DigiDocConfig.h>
 
@@ -40,15 +39,9 @@
 #include <QFileInfo>
 #include <QFileOpenEvent>
 #include <QMessageBox>
-#include <QPalette>
-#include <QSslCertificate>
 #include <QTranslator>
 
-#if defined(Q_OS_LINUX)
-#include <QFile>
-#elif defined(Q_OS_WIN)
-#include <Windows.h>
-#elif defined(Q_OS_MAC)
+#if defined(Q_OS_MAC)
 #include <QMenu>
 #include <QMenuBar>
 
@@ -72,12 +65,9 @@ public:
 };
 
 Application::Application( int &argc, char **argv )
-:	QtSingleApplication( argc, argv )
+:	Common( argc, argv )
 ,	d( new ApplicationPrivate )
 {
-#if defined(Q_OS_WIN)
-	AllowSetForegroundWindow( ASFW_ANY );
-#endif
 	QStringList args = arguments();
 	args.removeFirst();
 	if( isRunning() )
@@ -91,30 +81,15 @@ Application::Application( int &argc, char **argv )
 	setApplicationVersion( VER_STR( FILE_VER_DOT ) );
 	setOrganizationDomain( DOMAINURL );
 	setOrganizationName( ORG );
-	setStyleSheet(
-		"QDialogButtonBox { dialogbuttonbox-buttons-have-icons: 0; }\n"
-		"* { font: 12px \"Arial, Liberation Sans\"; }"
-	);
-	QPalette p = palette();
-	p.setBrush( QPalette::Link, QBrush( "#E99401" ) );
-	p.setBrush( QPalette::LinkVisited, QBrush( "#E99401" ) );
-	setPalette( p );
 	setWindowIcon( QIcon( ":/images/crypto_128x128.png" ) );
-
-	qRegisterMetaType<QSslCertificate>("QSslCertificate");
-	qRegisterMetaType<TokenData>("TokenData");
-
-	new Common( this );
+	initDigiDoc();
 
 	// Actions
 	d->closeAction = new QAction( this );
 	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
-#if defined(Q_OS_LINUX)
-	QFile::setEncodingFunction( fileEncoder );
-	QFile::setDecodingFunction( fileDecoder );
-#elif defined(Q_OS_MAC)
+#if defined(Q_OS_MAC)
 	setQuitOnLastWindowClosed( false );
 
 	d->aboutAction = new QAction( this );
@@ -193,18 +168,14 @@ bool Application::event( QEvent *e )
 {
 	switch( e->type() )
 	{
-#ifdef Q_OS_MAC
 	case REOpenEvent::Type:
 		if( !activeWindow() )
 			parseArgs();
 		return true;
-#endif
 	case QEvent::FileOpen:
-	{
 		parseArgs( static_cast<QFileOpenEvent*>(e)->file() );
 		return true;
-	}
-	default: return QApplication::event( e );
+	default: return Common::event( e );
 	}
 }
 
