@@ -585,6 +585,13 @@ void MainWindow::parseLink( const QString &link )
 		dialog->setMinimumHeight( 700 );
 		dialog->exec();
 	}
+	else if( link == "save" )
+	{
+		QString file = selectFile( doc->fileName() );
+		if( !file.isEmpty() )
+			doc->save( file );
+		setCurrentPage( View );
+	}
 	else if( link == "saveAs" )
 	{
 		QString dir = Common::normalized( QFileDialog::getExistingDirectory( this,
@@ -726,10 +733,11 @@ void MainWindow::setCurrentPage( Pages page )
 			++i;
 		}
 
-		viewFileName->setText( QString( "%1 <b>%2</b>" )
-			.arg( tr("Container:") )
-			.arg( QDir::toNativeSeparators( doc->fileName() ) ) );
 		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName() ) );
+		QString file = viewFileName->toolTip();
+		if( fontMetrics().width( file ) > viewFileName->size().width() )
+			file = fontMetrics().elidedText( file, Qt::ElideMiddle, viewFileName->size().width() );
+		viewFileName->setText( file );
 
 		if( !qApp->signer()->token().cert().isNull() )
 		{
