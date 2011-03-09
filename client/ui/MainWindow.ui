@@ -47,10 +47,7 @@
    <item>
     <widget class="QFrame" name="background">
      <property name="styleSheet">
-      <string notr="true">* {
-color: #355670;
-font: 12px &quot;Arial, Liberation Sans&quot;;
-}
+      <string notr="true">* { color: #355670; }
 
 /* widgets */
 QPushButton
@@ -373,10 +370,7 @@ padding: 5px;
              <widget class="QLabel" name="infoCard">
               <property name="font">
                <font>
-                <family>Arial, Liberation Sans</family>
-                <pointsize>-1</pointsize>
                 <weight>75</weight>
-                <italic>false</italic>
                 <bold>true</bold>
                </font>
               </property>
@@ -472,10 +466,7 @@ padding: 5px;
              <widget class="QLabel" name="homeButtonLabel">
               <property name="font">
                <font>
-                <family>Arial, Liberation Sans</family>
-                <pointsize>-1</pointsize>
                 <weight>75</weight>
-                <italic>false</italic>
                 <bold>true</bold>
                </font>
               </property>
@@ -499,47 +490,26 @@ padding: 5px;
             </item>
             <item row="1" column="1">
              <widget class="QPushButton" name="homeSign">
-              <property name="font">
-               <font>
-                <family>Arial, Liberation Sans</family>
-                <pointsize>-1</pointsize>
-                <weight>50</weight>
-                <italic>false</italic>
-                <bold>false</bold>
-               </font>
-              </property>
               <property name="text">
                <string>Sign documents</string>
+              </property>
+              <property name="shortcut">
+               <string notr="true">Ctrl+N</string>
               </property>
              </widget>
             </item>
             <item row="2" column="1">
              <widget class="QPushButton" name="homeView">
-              <property name="font">
-               <font>
-                <family>Arial, Liberation Sans</family>
-                <pointsize>-1</pointsize>
-                <weight>50</weight>
-                <italic>false</italic>
-                <bold>false</bold>
-               </font>
-              </property>
               <property name="text">
                <string>View signed document content</string>
+              </property>
+              <property name="shortcut">
+               <string notr="true">Ctrl+O</string>
               </property>
              </widget>
             </item>
             <item row="3" column="1">
              <widget class="QPushButton" name="homeCrypt">
-              <property name="font">
-               <font>
-                <family>Arial, Liberation Sans</family>
-                <pointsize>-1</pointsize>
-                <weight>50</weight>
-                <italic>false</italic>
-                <bold>false</bold>
-               </font>
-              </property>
               <property name="text">
                <string>Encrypt files for secure transfer</string>
               </property>
@@ -664,10 +634,7 @@ Also an active internet connection is needed.</string>
            <widget class="QLabel" name="signContentLabel">
             <property name="font">
              <font>
-              <family>Arial, Liberation Sans</family>
-              <pointsize>-1</pointsize>
               <weight>75</weight>
-              <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
@@ -680,10 +647,7 @@ Also an active internet connection is needed.</string>
            <widget class="QLabel" name="signSignerLabel">
             <property name="font">
              <font>
-              <family>Arial, Liberation Sans</family>
-              <pointsize>-1</pointsize>
               <weight>75</weight>
-              <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
@@ -871,11 +835,41 @@ Also an active internet connection is needed.</string>
            <number>0</number>
           </property>
           <item row="0" column="0" colspan="2">
-           <widget class="QLabel" name="viewFileName">
-            <property name="text">
-             <string>Container:</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="viewFileNameLayout">
+            <item>
+             <widget class="QLabel" name="viewFileNameLabel">
+              <property name="text">
+               <string>Container:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="viewFileName">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextSelectableByMouse</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="viewFileNameSave">
+              <property name="text">
+               <string>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="viewFileStatus">
@@ -888,10 +882,7 @@ Also an active internet connection is needed.</string>
            <widget class="QLabel" name="viewContentLabel">
             <property name="font">
              <font>
-              <family>Arial, Liberation Sans</family>
-              <pointsize>-1</pointsize>
               <weight>75</weight>
-              <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
@@ -987,10 +978,7 @@ Also an active internet connection is needed.</string>
              <widget class="QLabel" name="viewSignaturesLabel">
               <property name="font">
                <font>
-                <family>Arial, Liberation Sans</family>
-                <pointsize>-1</pointsize>
                 <weight>75</weight>
-                <italic>false</italic>
                 <bold>true</bold>
                </font>
               </property>
@@ -1177,6 +1165,22 @@ color: red;</string>
     <hint type="destinationlabel">
      <x>324</x>
      <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>viewFileNameSave</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>206</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>275</y>
     </hint>
    </hints>
   </connection>

@@ -47,10 +47,7 @@
    <item>
     <widget class="QFrame" name="background">
      <property name="styleSheet">
-      <string notr="true">* {
-color: #355670;
-font: 12px &quot;Arial, Liberation Sans&quot;;
-}
+      <string notr="true">* { color: #355670; }
 
 /* widgets */
 QPushButton
@@ -110,11 +107,7 @@ font: bold;
 min-width: 0px;
 }
 
-#settings:hover, #settings:focus
-#help:hover, #help:focus
-{ text-decoration: underline; }
-
-#infoCard
+#infoFrame
 {
 background-color: rgba( 255, 255, 255, 153 );
 border-radius: 3px;
@@ -123,7 +116,7 @@ padding-left: 10px;
 padding-right: 10px;
 }
 
-#infoCard
+#infoFrame
 { font: bold; }
 
 /* content */
@@ -321,7 +314,7 @@ color: #71889A;
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="infoCard">
+         <widget class="QLabel" name="infoFrame">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -336,10 +329,7 @@ color: #71889A;
           </property>
           <property name="font">
            <font>
-            <family>Arial, Liberation Sans</family>
-            <pointsize>-1</pointsize>
             <weight>75</weight>
-            <italic>false</italic>
             <bold>true</bold>
            </font>
           </property>
@@ -388,10 +378,7 @@ color: #71889A;
              <widget class="QLabel" name="homeButtonLabel">
               <property name="font">
                <font>
-                <family>Arial, Liberation Sans</family>
-                <pointsize>-1</pointsize>
                 <weight>75</weight>
-                <italic>false</italic>
                 <bold>true</bold>
                </font>
               </property>
@@ -415,33 +402,21 @@ color: #71889A;
             </item>
             <item row="1" column="1">
              <widget class="QPushButton" name="homeCreate">
-              <property name="font">
-               <font>
-                <family>Arial, Liberation Sans</family>
-                <pointsize>-1</pointsize>
-                <weight>50</weight>
-                <italic>false</italic>
-                <bold>false</bold>
-               </font>
-              </property>
               <property name="text">
                <string>Encrypt documents</string>
+              </property>
+              <property name="shortcut">
+               <string notr="true">Ctrl+N</string>
               </property>
              </widget>
             </item>
             <item row="2" column="1">
              <widget class="QPushButton" name="homeView">
-              <property name="font">
-               <font>
-                <family>Arial, Liberation Sans</family>
-                <pointsize>-1</pointsize>
-                <weight>50</weight>
-                <italic>false</italic>
-                <bold>false</bold>
-               </font>
-              </property>
               <property name="text">
                <string>View encrypted document content</string>
+              </property>
+              <property name="shortcut">
+               <string notr="true">Ctrl+O</string>
               </property>
              </widget>
             </item>
@@ -451,7 +426,7 @@ color: #71889A;
                <enum>Qt::Horizontal</enum>
               </property>
               <property name="sizeType">
-               <enum>QSizePolicy::Fixed</enum>
+               <enum>QSizePolicy::Minimum</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
@@ -547,10 +522,7 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
            <widget class="QLabel" name="viewContentLabel">
             <property name="font">
              <font>
-              <family>Arial, Liberation Sans</family>
-              <pointsize>-1</pointsize>
               <weight>75</weight>
-              <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
@@ -563,10 +535,7 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
            <widget class="QLabel" name="viewKeysLabel">
             <property name="font">
              <font>
-              <family>Arial, Liberation Sans</family>
-              <pointsize>-1</pointsize>
               <weight>75</weight>
-              <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
@@ -576,11 +545,41 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
            </widget>
           </item>
           <item row="0" column="0" colspan="2">
-           <widget class="QLabel" name="viewFileName">
-            <property name="text">
-             <string>Container:</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="viewFileNameLayout">
+            <item>
+             <widget class="QLabel" name="viewFileNameLabel">
+              <property name="text">
+               <string>Container:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="viewFileName">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextSelectableByMouse</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="viewFileNameSave">
+              <property name="text">
+               <string>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item row="4" column="0" colspan="2">
            <widget class="QDialogButtonBox" name="viewButtons">
@@ -816,7 +815,7 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
    </hints>
   </connection>
   <connection>
-   <sender>infoCard</sender>
+   <sender>infoFrame</sender>
    <signal>linkActivated(QString)</signal>
    <receiver>MainWindow</receiver>
    <slot>parseLink(QString)</slot>
@@ -828,6 +827,22 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
     <hint type="destinationlabel">
      <x>324</x>
      <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>viewFileNameSave</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>206</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>275</y>
     </hint>
    </hints>
   </connection>

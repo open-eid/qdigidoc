@@ -361,10 +361,6 @@ teade: %2</translation>
         <translation>Vali kataloog kuhu failid salvestatakse</translation>
     </message>
     <message>
-        <source>Container: &lt;b&gt;%1&lt;/b&gt;</source>
-        <translation>Turvaümbrik: &lt;b&gt;%1&lt;/b&gt;</translation>
-    </message>
-    <message>
         <source>Select documents</source>
         <translation>Lisa failid</translation>
     </message>
@@ -515,6 +511,10 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
 already in container, ovewrite?</source>
         <translation>%1
 on juba ümbrikus. Kas kirjutan üle?</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;save&quot;&gt;Salvesta&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

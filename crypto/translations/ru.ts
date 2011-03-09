@@ -369,10 +369,6 @@ message: %2</source>
         <translation>Выберите папку куда будут сохранены файлы</translation>
     </message>
     <message>
-        <source>Container: &lt;b&gt;%1&lt;/b&gt;</source>
-        <translation>Контейнер: &lt;b&gt;%1&lt;/b&gt;</translation>
-    </message>
-    <message>
         <source>Decrypt</source>
         <translation>Расшифровать</translation>
     </message>
@@ -514,6 +510,10 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
 already in container, ovewrite?</source>
         <translation>%1
 уже в контейнере, переписать?</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;save&quot;&gt;Сохранить&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

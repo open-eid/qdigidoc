@@ -385,6 +385,13 @@ void MainWindow::parseLink( const QString &link )
 		url.addQueryItem( "attachment", QFileInfo( doc->fileName() ).absoluteFilePath() );
 		QDesktopServices::openUrl( url );
 	}
+	else if( link == "save" )
+	{
+		QString file = selectFile( doc->fileName() );
+		if( !file.isEmpty() )
+			doc->save( file );
+		setCurrentPage( View );
+	}
 	else if( link == "saveAll" )
 	{
 		QString dir = Common::normalized( QFileDialog::getExistingDirectory( this,
@@ -492,8 +499,11 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 	case View:
 	{
-		viewFileName->setText( tr("Container: <b>%1</b>")
-			.arg( QDir::toNativeSeparators( doc->fileName() ) ) );
+		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName() ) );
+		QString file = viewFileName->toolTip();
+		if( fontMetrics().width( file ) > viewFileName->size().width() )
+			file = fontMetrics().elidedText( file, Qt::ElideMiddle, viewFileName->size().width() );
+		viewFileName->setText( file );
 
 		viewLinks->setVisible( doc->isEncrypted() );
 		viewContentLinks->setHidden( doc->isEncrypted() );
@@ -530,14 +540,14 @@ void MainWindow::showCardStatus()
 	Application::restoreOverrideCursor();
 	TokenData t = qApp->poller()->token();
 	if( !t.card().isEmpty() && !t.cert().isNull() )
-		infoCard->setText( Common::tokenInfo( Common::AuthCert, t ) );
+		infoFrame->setText( Common::tokenInfo( Common::AuthCert, t ) );
 	else if( !t.card().isEmpty() )
 	{
-		infoCard->setText( tr("Loading data") );
+		infoFrame->setText( tr("Loading data") );
 		Application::setOverrideCursor( Qt::BusyCursor );
 	}
 	else if( t.card().isEmpty() )
-		infoCard->setText( tr("No card in reader") );
+		infoFrame->setText( tr("No card in reader") );
 
 	viewCrypt->setEnabled(
 		(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||

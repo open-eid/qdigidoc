@@ -484,6 +484,10 @@ already in container, ovewrite?</source>
         <translation>%1
 already in container, ovewrite?</translation>
     </message>
+    <message>
+        <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
