@@ -599,12 +599,12 @@ void MainWindow::parseLink( const QString &link )
 			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) ) );
 		if( dir.isEmpty() )
 			return;
-		QAbstractItemModel *m = viewContentView->model();
+		DocumentModel *m = doc->documentModel();
 		for( int i = 0; i < m->rowCount(); ++i )
 		{
-			QString source = m->index( i, 0 ).data( Qt::UserRole ).toString();
-			QString dest = QString( "%1/%2" )
-				.arg( dir ).arg( m->index( i, 0 ).data().toString() );
+			QModelIndex index = m->index( i, 0 );
+			QString source = index.data( Qt::UserRole ).toString();
+			QString dest = m->mkpath( index, dir );
 			if( source == dest )
 				continue;
 			if( QFile::exists( dest ) )
@@ -621,7 +621,7 @@ void MainWindow::parseLink( const QString &link )
 				else
 					QFile::remove( dest );
 			}
-			QFile::copy( source, dest );
+			m->copy( index, dir );
 		}
 	}
 	else if( link == "openUtility" )

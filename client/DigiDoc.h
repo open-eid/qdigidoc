@@ -51,7 +51,9 @@ public:
 	bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 	int rowCount( const QModelIndex &parent = QModelIndex() ) const;
 
+	QString copy( const QModelIndex &index, const QString &path ) const;
 	digidoc::Document document( const QModelIndex &index ) const;
+	QString mkpath( const QModelIndex &index, const QString &path ) const;
 
 public Q_SLOTS:
 	void open( const QModelIndex &index );

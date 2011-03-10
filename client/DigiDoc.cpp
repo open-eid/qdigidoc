@@ -68,10 +68,20 @@ DocumentModel::DocumentModel( DigiDoc *doc )
 int DocumentModel::columnCount( const QModelIndex &parent ) const
 { return parent.isValid() ? 0 : 5; }
 
+QString DocumentModel::copy( const QModelIndex &index, const QString &path ) const
+{
+	Document d = document( index );
+	if( d.getFilePath().empty() )
+		return QString();
+	QString dst = mkpath( index, path );
+	QFile::remove( dst );
+	return QFile::copy( from( d.getFilePath() ), dst ) ? dst : QString();
+}
+
 QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 {
 	Document d = document( index );
-	if( d.getPath().empty() )
+	if( d.getFilePath().empty() )
 		return QVariant();
 	switch( role )
 	{
@@ -84,9 +94,9 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::DisplayRole:
 		switch( index.column() )
 		{
-		case 0: return QFileInfo( from( d.getPath() ) ).fileName();
+		case 0: return from( d.getFileName() );
 		case 1: return from( d.getMediaType() );
-		case 2: return Common::fileSize( QFileInfo( from( d.getPath() ) ).size() );
+		case 2: return Common::fileSize( QFileInfo( from( d.getFilePath() ) ).size() );
 		default: return QVariant();
 		}
 	case Qt::TextAlignmentRole:
@@ -102,7 +112,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		{
 		case 3: return tr("Save");
 		case 4: return tr("Remove");
-		default: return QFileInfo( from( d.getPath() ) ).fileName();
+		default: return from( d.getFileName() );
 		}
 	case Qt::DecorationRole:
 		switch( index.column() )
@@ -118,7 +128,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		case 4: return QSize( 20, 20 );
 		default: return QVariant();
 		}
-	case Qt::UserRole: return QFileInfo( from( d.getPath() ) ).absoluteFilePath();
+	case Qt::UserRole: return QFileInfo( from( d.getFilePath() ) ).absoluteFilePath();
 	default: return QVariant();
 	}
 }
@@ -141,9 +151,11 @@ QMimeData* DocumentModel::mimeData( const QModelIndexList &indexes ) const
 	QList<QUrl> list;
 	Q_FOREACH( const QModelIndex &index, indexes )
 	{
-		Document d = document( index );
-		if( index.column() == 0 && !d.getPath().empty() )
-			list << QUrl::fromLocalFile( QFileInfo( from( d.getPath() ) ).absoluteFilePath() );
+		if( index.column() != 0 )
+			continue;
+		QString path = copy( index, QDir::tempPath() );
+		if( !path.isEmpty() )
+			list << QUrl::fromLocalFile( QFileInfo( path ).absoluteFilePath() );
 	}
 	QMimeData *data = new QMimeData();
 	data->setUrls( list );
@@ -153,12 +165,22 @@ QMimeData* DocumentModel::mimeData( const QModelIndexList &indexes ) const
 QStringList DocumentModel::mimeTypes() const
 { return QStringList() << "text/uri-list"; }
 
+QString DocumentModel::mkpath( const QModelIndex &index, const QString &path ) const
+{
+	QString filename = from( document( index ).getFileName() );
+#if defined(Q_OS_WIN)
+	filename.replace( QRegExp( "[\\/*:?\"<>|]" ), "_" );
+#else
+	filename.replace( QRegExp( "[\\]"), "_" );
+#endif
+	return path.isEmpty() ? filename : path + "/" + filename;
+}
+
 void DocumentModel::open( const QModelIndex &index )
 {
-	Document d = document( index );
-	if( d.getPath().empty() )
+	QFileInfo f( copy( index, QDir::tempPath() ) );
+	if( !f.exists() )
 		return;
-	QFileInfo f( from( d.getPath() ) );
 #ifdef Q_OS_WIN32
 	QStringList exts = QString::fromLocal8Bit( qgetenv( "PATHEXT" ) ).split(';');
 	exts << ".PIF" << ".SCR";
