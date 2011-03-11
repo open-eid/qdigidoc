@@ -490,6 +490,14 @@ already in container, ovewrite?</source>
         <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;save&quot;&gt;Сохранить&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Server access certificate has been installed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Continue signing</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

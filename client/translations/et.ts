@@ -487,6 +487,14 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;save&quot;&gt;Salvesta&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Server access certificate has been installed</source>
+        <translation>Juurdepääsutõend on edukalt paigaldatud</translation>
+    </message>
+    <message>
+        <source>Continue signing</source>
+        <translation>Jätkame allkirjastamisega</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
