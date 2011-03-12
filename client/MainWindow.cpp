@@ -82,7 +82,7 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->addButton( homeView, HomeView );
 	buttonGroup->addButton( homeCrypt, HomeCrypt );
 
-	introNext = introButtons->addButton( tr( "Next" ), QDialogButtonBox::ActionRole );
+	introNext = introButtons->addButton( tr( "Next" ), QDialogButtonBox::AcceptRole );
 	buttonGroup->addButton( introNext, IntroNext );
 	buttonGroup->addButton( introButtons->button( QDialogButtonBox::Cancel ), IntroBack );
 
@@ -90,7 +90,7 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->addButton( signButton, SignSign );
 	buttonGroup->addButton( signButtons->button( QDialogButtonBox::Cancel ), SignCancel );
 
-	viewAddSignature = viewButtons->addButton( tr("Add signature"), QDialogButtonBox::ActionRole );
+	viewAddSignature = viewButtons->addButton( tr("Add signature"), QDialogButtonBox::AcceptRole );
 	buttonGroup->addButton( viewAddSignature, ViewAddSignature );
 	buttonGroup->addButton( viewButtons->button( QDialogButtonBox::Close ), ViewClose );
 	connect( buttonGroup, SIGNAL(buttonClicked(int)),
@@ -792,7 +792,7 @@ void MainWindow::showCardStatus()
 		{
 			infoCard->setText( Common::tokenInfo( Common::SignCert, t ) );
 			SslCertificate c( t.cert() );
-			signSigner->setText( c.toString( c.isTempel() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
+			signSigner->setText( c.toString( c.showCN() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
 		}
 		else if( !t.card().isEmpty() )
 		{

@@ -62,11 +62,11 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->addButton( homeCreate, HomeCreate );
 	buttonGroup->addButton( homeView, HomeView );
 
-	introNext = introButtons->addButton( tr( "Next" ), QDialogButtonBox::ActionRole );
+	introNext = introButtons->addButton( tr( "Next" ), QDialogButtonBox::AcceptRole );
 	buttonGroup->addButton( introNext, IntroNext );
 	buttonGroup->addButton( introButtons->button( QDialogButtonBox::Cancel ), IntroBack );
 
-	viewCrypt = viewButtons->addButton( tr("Encrypt"), QDialogButtonBox::ActionRole );
+	viewCrypt = viewButtons->addButton( tr("Encrypt"), QDialogButtonBox::AcceptRole );
 	buttonGroup->addButton( viewCrypt, ViewCrypt );
 	buttonGroup->addButton( viewButtons->button( QDialogButtonBox::Close ), ViewClose );
 	connect( buttonGroup, SIGNAL(buttonClicked(int)),
