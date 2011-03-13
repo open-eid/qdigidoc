@@ -190,6 +190,37 @@ bool Application::event( QEvent *e )
 	}
 }
 
+bool Application::eventFilter( QObject *o, QEvent *e )
+{
+	switch( e->type() )
+	{
+#ifdef Q_OS_MAC
+	case QEvent::Close:
+	case QEvent::Create:
+	case QEvent::Show:
+	case QEvent::WindowActivate:
+	case QEvent::WindowTitleChange:
+	{
+		d->dock->clear();
+		Q_FOREACH( QWidget *t, topLevelWidgets() )
+		{
+			if( !qobject_cast<MainWindow*>(t) )
+				continue;
+			QAction *a = d->dock->addAction( t->windowTitle() );
+			a->setCheckable( true );
+			a->setChecked( t == activeWindow() );
+			a->setData( QVariant::fromValue( t ) );
+			d->windowGroup->addAction( a );
+		}
+		d->dock->addSeparator();
+		d->dock->addAction( d->newAction );
+		return true;
+	}
+#endif
+	default: return QApplication::eventFilter( o, e );
+	}
+}
+
 void Application::loadTranslation( const QString &lang )
 {
 	if( d->lang == lang )
