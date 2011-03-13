@@ -142,8 +142,7 @@ Application::~Application()
 {
 	if( !isRunning() )
 	{
-		QtLocalPeer *obj = findChild<QtLocalPeer*>();
-		if( obj )
+		if( QtLocalPeer *obj = findChild<QtLocalPeer*>() )
 			delete obj;
 #ifdef Q_OS_MAC
 		delete d->bar;
@@ -159,7 +158,11 @@ Application::~Application()
 void Application::activateWindow( QAction *a )
 {
 	if( QWidget *w = a->data().value<QWidget*>() )
+	{
 		w->activateWindow();
+		w->showNormal();
+		w->raise();
+	}
 }
 
 void Application::closeWindow()
