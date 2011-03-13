@@ -209,13 +209,16 @@ bool Application::eventFilter( QObject *o, QEvent *e )
 		{
 			if( !qobject_cast<MainWindow*>(t) )
 				continue;
+			if( e->type() == QEvent::Close && t == o )
+				continue;
 			QAction *a = d->dock->addAction( t->windowTitle() );
 			a->setCheckable( true );
 			a->setChecked( t == activeWindow() );
 			a->setData( QVariant::fromValue( t ) );
 			d->windowGroup->addAction( a );
 		}
-		d->dock->addSeparator();
+		if( !d->windowGroup->actions().isEmpty() )
+			d->dock->addSeparator();
 		d->dock->addAction( d->newAction );
 		return true;
 	}
@@ -254,6 +257,7 @@ void Application::parseArgs( const QString &msg )
 	w->addAction( d->closeAction );
 	w->activateWindow();
 	w->show();
+	w->raise();
 	if( !params.isEmpty() )
 		QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
 }
