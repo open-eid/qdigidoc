@@ -4,10 +4,6 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Close</source>
-        <translation>Sulge</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Seaded</translation>
     </message>
@@ -20,12 +16,16 @@
         <translation>DigiDoc3 Krüpto</translation>
     </message>
     <message>
-        <source>New Window</source>
-        <translation>Uus Aken</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>Info</translation>
+    </message>
+    <message>
+        <source>Close window</source>
+        <translation>Sulge aken</translation>
+    </message>
+    <message>
+        <source>New window</source>
+        <translation>Uus aken</translation>
     </message>
 </context>
 <context>
@@ -493,7 +493,7 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
     </message>
     <message>
         <source>Cannot alter container %1. Save different location?</source>
-        <translation type="unfinished"></translation>
+        <translation>Konteineri %1 salvestamine ebaõnnestus. Salvestada teise asukohta?</translation>
     </message>
     <message>
         <source>File does not exists
@@ -504,7 +504,8 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
     <message>
         <source>Cannot add container to same container
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Konteineri lisamine samasse konteinerisse ebaõnnestus
+%1</translation>
     </message>
     <message>
         <source>%1

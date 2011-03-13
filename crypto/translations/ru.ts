@@ -4,10 +4,6 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Close</source>
-        <translation>Закрыть</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
@@ -20,12 +16,16 @@
         <translation>DigiDoc3 Crypto</translation>
     </message>
     <message>
-        <source>New Window</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>Информация</translation>
+    </message>
+    <message>
+        <source>Close window</source>
+        <translation>Закрыть окно</translation>
+    </message>
+    <message>
+        <source>New window</source>
+        <translation>Новое окно</translation>
     </message>
 </context>
 <context>
@@ -492,7 +492,7 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
     </message>
     <message>
         <source>Cannot alter container %1. Save different location?</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранение контейнера %1 не удалось. Сохранить в другой каталог?</translation>
     </message>
     <message>
         <source>File does not exists
@@ -503,7 +503,8 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
     <message>
         <source>Cannot add container to same container
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно добавить файл в один и тот же контейнер
+%1</translation>
     </message>
     <message>
         <source>%1

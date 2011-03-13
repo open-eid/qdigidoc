@@ -51,12 +51,13 @@ void qt_mac_set_dock_menu( QMenu *menu );
 class ApplicationPrivate
 {
 public:
-	ApplicationPrivate(): poller( 0 ) {}
+	ApplicationPrivate(): poller(0) {}
 
-	QAction		*closeAction;
+	QAction		*closeAction, *newAction;
 #ifdef Q_OS_MAC
-	QAction		*aboutAction, *newWindowAction, *settingsAction;
-	QMenu		*menu;
+	QAction		*aboutAction, *settingsAction;
+	QActionGroup *windowGroup;
+	QMenu		*menu, *dock;
 	QMenuBar	*bar;
 #endif
 	Poller		*poller;
@@ -89,6 +90,10 @@ Application::Application( int &argc, char **argv )
 	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
+	d->newAction = new QAction( this );
+	d->newAction->setShortcut( Qt::CTRL + Qt::Key_N );
+	connect( d->newAction, SIGNAL(triggered()), SLOT(parseArgs()) );
+
 #if defined(Q_OS_MAC)
 	setQuitOnLastWindowClosed( false );
 
@@ -100,19 +105,18 @@ Application::Application( int &argc, char **argv )
 	d->settingsAction->setMenuRole( QAction::PreferencesRole );
 	connect( d->settingsAction, SIGNAL(triggered()), SLOT(showSettings()) );
 
-	d->newWindowAction = new QAction( this );
-	connect( d->newWindowAction, SIGNAL(triggered()), SLOT(parseArgs()) );
-
 	d->bar = new QMenuBar;
-	QMenu *macmenu = new QMenu( d->bar );
-	macmenu->addAction( d->settingsAction );
-	macmenu->addAction( d->aboutAction );
-	d->bar->addMenu( macmenu );
-	d->menu = new QMenu();
-	d->menu->addAction( d->newWindowAction );
+	d->menu = new QMenu( d->bar );
+	d->menu->addAction( d->settingsAction );
+	d->menu->addAction( d->aboutAction );
+	d->menu->addAction( d->newAction );
 	d->menu->addAction( d->closeAction );
 	d->bar->addMenu( d->menu );
-	qt_mac_set_dock_menu( d->menu );
+
+	d->dock = new QMenu;
+	d->windowGroup = new QActionGroup( d->dock );
+	connect( d->windowGroup, SIGNAL(triggered(QAction*)), SLOT(activateWindow(QAction*)) );
+	qt_mac_set_dock_menu( d->dock );
 #endif
 
 	installTranslator( d->appTranslator = new QTranslator( this ) );
@@ -143,12 +147,19 @@ Application::~Application()
 			delete obj;
 #ifdef Q_OS_MAC
 		delete d->bar;
+		delete d->dock;
 #endif
 		delete d->poller;
 		cleanupConfigStore( NULL );
 		finalizeDigiDocLib();
 	}
 	delete d;
+}
+
+void Application::activateWindow( QAction *a )
+{
+	if( QWidget *w = a->data().value<QWidget*>() )
+		w->activateWindow();
 }
 
 void Application::closeWindow()
@@ -192,10 +203,10 @@ void Application::loadTranslation( const QString &lang )
 	d->appTranslator->load( ":/translations/" + lang );
 	d->commonTranslator->load( ":/translations/common_" + lang );
 	d->qtTranslator->load( ":/translations/qt_" + lang );
-	d->closeAction->setText( tr("Close") );
+	d->closeAction->setText( tr("Close window") );
+	d->newAction->setText( tr("New window") );
 #ifdef Q_OS_MAC
 	d->aboutAction->setText( tr("About") );
-	d->newWindowAction->setText( tr("New Window") );
 	d->settingsAction->setText( tr("Settings") );
 	d->menu->setTitle( tr("&File") );
 #endif
@@ -205,6 +216,7 @@ void Application::parseArgs( const QString &msg )
 {
 	QStringList params = msg.split( "\", \"", QString::SkipEmptyParts );
 	MainWindow *w = new MainWindow();
+	w->installEventFilter( this );
 	w->addAction( d->closeAction );
 	w->activateWindow();
 	w->show();

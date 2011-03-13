@@ -79,10 +79,6 @@ PIN1 is blocked</translation>
 <context>
     <name>Application</name>
     <message>
-        <source>Close</source>
-        <translation>Close</translation>
-    </message>
-    <message>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
@@ -95,16 +91,20 @@ PIN1 is blocked</translation>
         <translation>DigiDoc3 client</translation>
     </message>
     <message>
-        <source>New Window</source>
-        <translation>New Window</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>About</translation>
     </message>
     <message>
         <source>Failed to initalize.</source>
         <translation>Failed to initalize.</translation>
+    </message>
+    <message>
+        <source>Close window</source>
+        <translation>Close window</translation>
+    </message>
+    <message>
+        <source>New window</source>
+        <translation>New window</translation>
     </message>
 </context>
 <context>

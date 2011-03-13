@@ -365,7 +365,7 @@ padding: 5px;
            <item>
             <widget class="QStackedWidget" name="infoStack">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QLabel" name="infoCard">
               <property name="font">
@@ -493,18 +493,12 @@ padding: 5px;
               <property name="text">
                <string>Sign documents</string>
               </property>
-              <property name="shortcut">
-               <string notr="true">Ctrl+N</string>
-              </property>
              </widget>
             </item>
             <item row="2" column="1">
              <widget class="QPushButton" name="homeView">
               <property name="text">
                <string>View signed document content</string>
-              </property>
-              <property name="shortcut">
-               <string notr="true">Ctrl+O</string>
               </property>
              </widget>
             </item>

@@ -31,6 +31,7 @@
 #endif
 #define qApp (static_cast<Application*>(QCoreApplication::instance()))
 
+class QAction;
 class QSigner;
 class ApplicationPrivate;
 class Application: public Common
@@ -66,11 +67,13 @@ public Q_SLOTS:
 	void showWarning( const QString &msg, int err = -1, const QString &details = QString() );
 
 private Q_SLOTS:
+	void activateWindow( QAction *a );
 	void closeWindow();
 	void parseArgs( const QString &msg = QString() );
 
 private:
 	bool event( QEvent *e );
+	bool eventFilter( QObject *o, QEvent *e );
 
 	ApplicationPrivate *d;
 };

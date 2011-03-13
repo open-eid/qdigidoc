@@ -79,10 +79,6 @@ PIN1 on blokeeritud</translation>
 <context>
     <name>Application</name>
     <message>
-        <source>Close</source>
-        <translation>Sulge</translation>
-    </message>
-    <message>
         <source>&amp;File</source>
         <translation>&amp;Fail</translation>
     </message>
@@ -95,16 +91,20 @@ PIN1 on blokeeritud</translation>
         <translation>DigiDoc3 klient</translation>
     </message>
     <message>
-        <source>New Window</source>
-        <translation>Uus Aken</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>Info</translation>
     </message>
     <message>
         <source>Failed to initalize.</source>
         <translation>Käivitamine ebaõnnestus.</translation>
+    </message>
+    <message>
+        <source>Close window</source>
+        <translation>Sulge aken</translation>
+    </message>
+    <message>
+        <source>New window</source>
+        <translation>Uus aken</translation>
     </message>
 </context>
 <context>
@@ -475,7 +475,8 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
     <message>
         <source>Cannot add container to same container
 %1</source>
-        <translation>Konteineri lisamine samasse konteinerisse ebaõnnestus %1</translation>
+        <translation>Konteineri lisamine samasse konteinerisse ebaõnnestus
+%1</translation>
     </message>
     <message>
         <source>%1

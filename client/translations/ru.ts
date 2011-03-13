@@ -79,10 +79,6 @@ PIN заблокирован</translation>
 <context>
     <name>Application</name>
     <message>
-        <source>Close</source>
-        <translation>Закрыть</translation>
-    </message>
-    <message>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
@@ -95,16 +91,20 @@ PIN заблокирован</translation>
         <translation>DigiDoc3 клиент</translation>
     </message>
     <message>
-        <source>New Window</source>
-        <translation>Новое окно</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>Информация</translation>
     </message>
     <message>
         <source>Failed to initalize.</source>
         <translation>Запуск не удался.</translation>
+    </message>
+    <message>
+        <source>Close window</source>
+        <translation>Закрыть окно</translation>
+    </message>
+    <message>
+        <source>New window</source>
+        <translation>Новое окно</translation>
     </message>
 </context>
 <context>
@@ -478,7 +478,8 @@ Also an active internet connection is needed.</source>
     <message>
         <source>Cannot add container to same container
 %1</source>
-        <translation>Невозможно добавить файл в один и тот же контейнер %1</translation>
+        <translation>Невозможно добавить файл в один и тот же контейнер
+%1</translation>
     </message>
     <message>
         <source>%1
