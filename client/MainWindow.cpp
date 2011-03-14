@@ -350,6 +350,8 @@ void MainWindow::buttonClicked( int button )
 		break;
 	case SignSign:
 	{
+		signButton->setEnabled( false );
+		signButton->setToolTip( tr("Signing in process") );
 		CheckConnection connection;
 		if( !qApp->confValue( Application::ProxyHost ).toString().isEmpty() )
 		{
@@ -431,6 +433,7 @@ void MainWindow::buttonClicked( int button )
 		break;
 	default: break;
 	}
+	enableSign();
 }
 
 void MainWindow::changeCard( QAction *a )

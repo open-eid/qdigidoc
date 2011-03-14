@@ -499,6 +499,10 @@ already in container, ovewrite?</source>
         <source>Continue signing</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Signing in process</source>
+        <translation>Подписывание</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

@@ -496,6 +496,10 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <source>Continue signing</source>
         <translation>Jätkame allkirjastamisega</translation>
     </message>
+    <message>
+        <source>Signing in process</source>
+        <translation>Toimub allkirjastamine</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
