@@ -31,13 +31,10 @@
 #include "SignatureDialog.h"
 
 #include <common/CheckConnection.h>
-#include <common/Common.h>
 #include <common/IKValidator.h>
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
-
-#include <digidocpp/Document.h>
 
 #include <QDesktopServices>
 #include <QDragEnterEvent>
@@ -462,46 +459,43 @@ void MainWindow::dropEvent( QDropEvent *e )
 void MainWindow::enableSign()
 {
 	Settings s;
-	s.beginGroup( "Client" );
-	s.setValue( "MobileCode", infoMobileCode->text() );
-	s.setValue( "MobileNumber", infoMobileCell->text() );
-	s.endGroup();
+	s.setValue( "Client/MobileCode", infoMobileCode->text() );
+	s.setValue( "Client/MobileNumber", infoMobileCell->text() );
+	signButton->setToolTip( QString() );
+	TokenData t = qApp->signer()->token();
 
-	if( doc->isNull() || signContentView->model()->rowCount() == 0 )
-	{
-		signButton->setEnabled( false );
-		return;
-	}
-
-	bool mobile = infoSignMobile->isChecked();
-	if( mobile )
+	if( doc->isNull() )
+		signButton->setToolTip( tr("Container is not open") );
+	else if( signContentView->model()->rowCount() == 0 )
+		signButton->setToolTip( tr("Empty container") );
+	else if( infoSignMobile->isChecked() )
 	{
 		signSigner->setText( QString( "%1 (%2)" )
 			.arg( infoMobileCell->text() ).arg( infoMobileCode->text() ) );
-	}
-
-	signButton->setToolTip( QString() );
-	if( !mobile )
-	{
-		if( qApp->signer()->token().flags() & TokenData::PinLocked )
-			signButton->setToolTip( tr("PIN is locked") );
-		else if( !qApp->signer()->token().cert().isValid() )
-			signButton->setToolTip( tr("Sign certificate is not valid") );
-		else if( qApp->signer()->token().cert().isNull() )
-			signButton->setToolTip( tr("No card in reader") );
+		if( !IKValidator::isValid( infoMobileCode->text() ) )
+			signButton->setToolTip( tr("Personal code is not valid") );
 	}
 	else
 	{
-		if( !IKValidator::isValid( infoMobileCode->text() ) )
-			signButton->setToolTip( tr("Personal code is not valid") );
+		if( t.flags() & TokenData::PinLocked )
+			signButton->setToolTip( tr("PIN is locked") );
+		else if( !t.cert().isValid() )
+			signButton->setToolTip( tr("Sign certificate is not valid") );
+		else if( t.cert().isNull() )
+			signButton->setToolTip( tr("No card in reader") );
+		if( !t.cert().isNull() )
+		{
+			SslCertificate c( t.cert() );
+			signSigner->setText( c.toString( c.showCN() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
+		}
 	}
 	signButton->setEnabled( signButton->toolTip().isEmpty() );
 	if( !signButton->isEnabled() )
 		return;
 
 	bool cardOwnerSignature = false;
-	const QByteArray serialNumber = mobile ?
-		infoMobileCode->text().toLatin1() : qApp->signer()->token().cert().subjectInfo( "serialNumber" ).toLatin1();
+	const QByteArray serialNumber = infoSignMobile->isChecked() ?
+		infoMobileCode->text().toLatin1() : t.cert().subjectInfo( "serialNumber" ).toLatin1();
 	Q_FOREACH( const DigiDocSignature &c, doc->signatures() )
 	{
 		if( c.cert().subjectInfo( "serialNumber" ) == serialNumber )
@@ -779,32 +773,18 @@ void MainWindow::setCurrentPage( Pages page )
 void MainWindow::showCardStatus()
 {
 	TokenData t = qApp->signer()->token();
-	signSigner->clear();
+	infoStack->setCurrentIndex( infoSignMobile->isChecked() ? 1 : 0 );
 
-	if( infoSignMobile->isChecked() )
+	Application::restoreOverrideCursor();
+	if( !t.card().isEmpty() && !t.cert().isNull() )
+		infoCard->setText( Common::tokenInfo( Common::SignCert, t ) );
+	else if( !t.card().isEmpty() )
 	{
-		infoStack->setCurrentIndex( 1 );
-		signSigner->setText( QString( "%1 (%2)" )
-			.arg( infoMobileCell->text() ).arg( infoMobileCode->text() ) );
+		infoCard->setText( tr("Loading data") );
+		Application::setOverrideCursor( Qt::BusyCursor );
 	}
-	else
-	{
-		Application::restoreOverrideCursor();
-		infoStack->setCurrentIndex( 0 );
-		if( !t.card().isEmpty() && !t.cert().isNull() )
-		{
-			infoCard->setText( Common::tokenInfo( Common::SignCert, t ) );
-			SslCertificate c( t.cert() );
-			signSigner->setText( c.toString( c.showCN() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
-		}
-		else if( !t.card().isEmpty() )
-		{
-			infoCard->setText( tr("Loading data") );
-			Application::setOverrideCursor( Qt::BusyCursor );
-		}
-		else if( t.card().isEmpty() )
-			infoCard->setText( tr("No card in reader") );
-	}
+	else if( t.card().isEmpty() )
+		infoCard->setText( tr("No card in reader") );
 
 	cards->clear();
 	cards->addItems( t.cards() );
