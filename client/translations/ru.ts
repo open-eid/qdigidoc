@@ -493,11 +493,11 @@ already in container, ovewrite?</source>
     </message>
     <message>
         <source>Server access certificate has been installed</source>
-        <translation type="unfinished"></translation>
+        <translation>Сертификат доступа к серверу установлен</translation>
     </message>
     <message>
         <source>Continue signing</source>
-        <translation type="unfinished"></translation>
+        <translation>Подптсать</translation>
     </message>
     <message>
         <source>Signing in process</source>
