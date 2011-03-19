@@ -224,10 +224,6 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
         <translation>Abi</translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation>Edasi</translation>
-    </message>
-    <message>
         <source>Signature</source>
         <translation>Allkiri</translation>
     </message>
@@ -499,6 +495,18 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
     <message>
         <source>Signing in process</source>
         <translation>Toimub allkirjastamine</translation>
+    </message>
+    <message>
+        <source>I agree</source>
+        <translation>Nõustun</translation>
+    </message>
+    <message>
+        <source>Container is not open</source>
+        <translation>Ümbrik ei ole avatud</translation>
+    </message>
+    <message>
+        <source>Empty container</source>
+        <translation>Tühi ümbrik</translation>
     </message>
 </context>
 <context>

@@ -349,10 +349,6 @@ teade: %2</translation>
         <translation>Abi</translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation>Edasi</translation>
-    </message>
-    <message>
         <source>Open container</source>
         <translation>Ava turvaümbrik</translation>
     </message>
@@ -516,6 +512,10 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
     <message>
         <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;save&quot;&gt;Salvesta&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>I agree</source>
+        <translation>Nõustun</translation>
     </message>
 </context>
 <context>

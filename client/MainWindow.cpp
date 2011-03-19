@@ -69,7 +69,7 @@ MainWindow::MainWindow( QWidget *parent )
 	connect( infoSignMobile, SIGNAL(toggled(bool)), SLOT(showCardStatus()) );
 
 	// Buttons
-	QButtonGroup *buttonGroup = new QButtonGroup( this );
+	buttonGroup = new QButtonGroup( this );
 
 	buttonGroup->addButton( settings, HeadSettings );
 	buttonGroup->addButton( help, HeadHelp );
@@ -79,16 +79,16 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->addButton( homeView, HomeView );
 	buttonGroup->addButton( homeCrypt, HomeCrypt );
 
-	introNext = introButtons->addButton( tr( "Next" ), QDialogButtonBox::AcceptRole );
-	buttonGroup->addButton( introNext, IntroNext );
+	buttonGroup->addButton(
+		introButtons->addButton( tr( "I agree" ), QDialogButtonBox::AcceptRole ), IntroAgree );
 	buttonGroup->addButton( introButtons->button( QDialogButtonBox::Cancel ), IntroBack );
 
-	signButton = signButtons->addButton( tr("Sign"), QDialogButtonBox::AcceptRole );
-	buttonGroup->addButton( signButton, SignSign );
+	buttonGroup->addButton(
+		signButtons->addButton( tr("Sign"), QDialogButtonBox::AcceptRole ), SignSign );
 	buttonGroup->addButton( signButtons->button( QDialogButtonBox::Cancel ), SignCancel );
 
-	viewAddSignature = viewButtons->addButton( tr("Add signature"), QDialogButtonBox::AcceptRole );
-	buttonGroup->addButton( viewAddSignature, ViewAddSignature );
+	buttonGroup->addButton(
+		viewButtons->addButton( tr("Add signature"), QDialogButtonBox::AcceptRole ), ViewAddSignature );
 	buttonGroup->addButton( viewButtons->button( QDialogButtonBox::Close ), ViewClose );
 	connect( buttonGroup, SIGNAL(buttonClicked(int)),
 		SLOT(buttonClicked(int)) );
@@ -255,7 +255,7 @@ void MainWindow::buttonClicked( int button )
 			setCurrentPage( Intro );
 			break;
 		}
-	case IntroNext:
+	case IntroAgree:
 	{
 		if( !params.isEmpty() )
 		{
@@ -347,8 +347,8 @@ void MainWindow::buttonClicked( int button )
 		break;
 	case SignSign:
 	{
-		signButton->setEnabled( false );
-		signButton->setToolTip( tr("Signing in process") );
+		buttonGroup->button( SignSign )->setEnabled( false );
+		buttonGroup->button( SignSign )->setToolTip( tr("Signing in process") );
 		CheckConnection connection;
 		if( !qApp->confValue( Application::ProxyHost ).toString().isEmpty() )
 		{
@@ -461,36 +461,37 @@ void MainWindow::enableSign()
 	Settings s;
 	s.setValue( "Client/MobileCode", infoMobileCode->text() );
 	s.setValue( "Client/MobileNumber", infoMobileCell->text() );
-	signButton->setToolTip( QString() );
+	QAbstractButton *button = buttonGroup->button( SignSign );
+	button->setToolTip( QString() );
 	TokenData t = qApp->signer()->token();
 
 	if( doc->isNull() )
-		signButton->setToolTip( tr("Container is not open") );
+		button->setToolTip( tr("Container is not open") );
 	else if( signContentView->model()->rowCount() == 0 )
-		signButton->setToolTip( tr("Empty container") );
+		button->setToolTip( tr("Empty container") );
 	else if( infoSignMobile->isChecked() )
 	{
 		signSigner->setText( QString( "%1 (%2)" )
 			.arg( infoMobileCell->text() ).arg( infoMobileCode->text() ) );
 		if( !IKValidator::isValid( infoMobileCode->text() ) )
-			signButton->setToolTip( tr("Personal code is not valid") );
+			button->setToolTip( tr("Personal code is not valid") );
 	}
 	else
 	{
 		if( t.flags() & TokenData::PinLocked )
-			signButton->setToolTip( tr("PIN is locked") );
+			button->setToolTip( tr("PIN is locked") );
 		else if( !t.cert().isValid() )
-			signButton->setToolTip( tr("Sign certificate is not valid") );
+			button->setToolTip( tr("Sign certificate is not valid") );
 		else if( t.cert().isNull() )
-			signButton->setToolTip( tr("No card in reader") );
+			button->setToolTip( tr("No card in reader") );
 		if( !t.cert().isNull() )
 		{
 			SslCertificate c( t.cert() );
 			signSigner->setText( c.toString( c.showCN() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
 		}
 	}
-	signButton->setEnabled( signButton->toolTip().isEmpty() );
-	if( !signButton->isEnabled() )
+	button->setEnabled( button->toolTip().isEmpty() );
+	if( !button->isEnabled() )
 		return;
 
 	bool cardOwnerSignature = false;
@@ -504,8 +505,8 @@ void MainWindow::enableSign()
 			break;
 		}
 	}
-	signButton->setEnabled( !cardOwnerSignature );
-	signButton->setToolTip( cardOwnerSignature ? tr("This container is signed by you") : QString() );
+	button->setEnabled( !cardOwnerSignature );
+	button->setToolTip( cardOwnerSignature ? tr("This container is signed by you") : QString() );
 }
 
 bool MainWindow::event( QEvent *e )
@@ -645,9 +646,9 @@ void MainWindow::retranslate()
 {
 	retranslateUi( this );
 	languages->setCurrentIndex( lang.indexOf( Settings::language() ) );
-	introNext->setText( tr("Next") );
-	signButton->setText( tr("Sign") );
-	viewAddSignature->setText( tr("Add signature") );
+	buttonGroup->button( IntroAgree )->setText( tr("I agree") );
+	buttonGroup->button( SignSign )->setText( tr("Sign") );
+	buttonGroup->button( ViewAddSignature )->setText( tr("Add signature") );
 	showCardStatus();
 	setCurrentPage( (Pages)stack->currentIndex() );
 }
@@ -715,7 +716,6 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 		signContentView->setColumnHidden( 4, !doc->signatures().isEmpty() );
 		signAddFile->setVisible( doc->signatures().isEmpty() );
-		enableSign();
 		break;
 	}
 	case View:
@@ -772,10 +772,9 @@ void MainWindow::setCurrentPage( Pages page )
 
 void MainWindow::showCardStatus()
 {
-	TokenData t = qApp->signer()->token();
 	infoStack->setCurrentIndex( infoSignMobile->isChecked() ? 1 : 0 );
-
 	Application::restoreOverrideCursor();
+	TokenData t = qApp->signer()->token();
 	if( !t.card().isEmpty() && !t.cert().isNull() )
 		infoCard->setText( Common::tokenInfo( Common::SignCert, t ) );
 	else if( !t.card().isEmpty() )
@@ -800,7 +799,6 @@ void MainWindow::showCardStatus()
 	addActions( cardsGroup->actions() );
 
 	enableSign();
-	setCurrentPage( (Pages)stack->currentIndex() );
 }
 
 int MainWindow::showWarning( const QString &msg )

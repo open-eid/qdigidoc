@@ -62,9 +62,9 @@ private:
 		HomeCreate,
 		HomeView,
 		IntroBack,
-		IntroNext,
+		IntroAgree,
 		ViewClose,
-		ViewCrypt,
+		ViewCrypto,
 	};
 	bool addFile( const QString &file );
 	bool event( QEvent *e );
@@ -78,5 +78,5 @@ private:
 	QActionGroup *cardsGroup;
 	CryptoDoc	*doc;
 	QStringList lang, params;
-	QPushButton *introNext, *viewCrypt;
+	QButtonGroup *buttonGroup;
 };

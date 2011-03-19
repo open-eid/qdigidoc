@@ -27,7 +27,6 @@
 #include "Poller.h"
 
 #include <common/AboutWidget.h>
-#include <common/Common.h>
 #include <common/Settings.h>
 #include <common/TokenData.h>
 
@@ -53,7 +52,7 @@ MainWindow::MainWindow( QWidget *parent )
 	languages->hack();
 
 	// Buttons
-	QButtonGroup *buttonGroup = new QButtonGroup( this );
+	buttonGroup = new QButtonGroup( this );
 
 	buttonGroup->addButton( settings, HeadSettings );
 	buttonGroup->addButton( help, HeadHelp );
@@ -62,12 +61,12 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->addButton( homeCreate, HomeCreate );
 	buttonGroup->addButton( homeView, HomeView );
 
-	introNext = introButtons->addButton( tr( "Next" ), QDialogButtonBox::AcceptRole );
-	buttonGroup->addButton( introNext, IntroNext );
+	buttonGroup->addButton(
+		introButtons->addButton( tr( "I agree" ), QDialogButtonBox::AcceptRole ), IntroAgree );
 	buttonGroup->addButton( introButtons->button( QDialogButtonBox::Cancel ), IntroBack );
 
-	viewCrypt = viewButtons->addButton( tr("Encrypt"), QDialogButtonBox::AcceptRole );
-	buttonGroup->addButton( viewCrypt, ViewCrypt );
+	buttonGroup->addButton(
+		viewButtons->addButton( tr("Encrypt"), QDialogButtonBox::AcceptRole ), ViewCrypto );
 	buttonGroup->addButton( viewButtons->button( QDialogButtonBox::Close ), ViewClose );
 	connect( buttonGroup, SIGNAL(buttonClicked(int)),
 		SLOT(buttonClicked(int)) );
@@ -203,11 +202,11 @@ void MainWindow::buttonClicked( int button )
 		if( Settings().value( "Crypto/Intro", true ).toBool() )
 		{
 			introCheck->setChecked( false );
-			introNext->setEnabled( false );
+			buttonGroup->button( IntroAgree )->setEnabled( false );
 			setCurrentPage( Intro );
 			break;
 		}
-	case IntroNext:
+	case IntroAgree:
 	{
 		if( !params.isEmpty() )
 		{
@@ -257,7 +256,7 @@ void MainWindow::buttonClicked( int button )
 		doc->clear();
 		setCurrentPage( Home );
 		break;
-	case ViewCrypt:
+	case ViewCrypto:
 		if( doc->isEncrypted() )
 		{
 			QLabel *progress = new QLabel( tr("Decrypting"), view );
@@ -332,7 +331,7 @@ bool MainWindow::event( QEvent *e )
 void MainWindow::on_introCheck_stateChanged( int state )
 {
 	Settings().setValue( "Crypto/Intro", state == Qt::Unchecked );
-	introNext->setEnabled( state == Qt::Checked );
+	buttonGroup->button( IntroAgree )->setEnabled( state == Qt::Checked );
 }
 
 void MainWindow::on_languages_activated( int index )
@@ -442,7 +441,7 @@ void MainWindow::retranslate()
 {
 	retranslateUi( this );
 	languages->setCurrentIndex( lang.indexOf( Settings::language() ) );
-	introNext->setText( tr( "Next" ) );
+	buttonGroup->button( IntroAgree )->setText( tr( "I agree" ) );
 	showCardStatus();
 	updateView();
 }
@@ -525,8 +524,8 @@ void MainWindow::setCurrentPage( Pages page )
 			viewKeysLayout->insertWidget( j++, key );
 		}
 
-		viewCrypt->setText( doc->isEncrypted() ? tr("Decrypt") : tr("Encrypt") );
-		viewCrypt->setEnabled(
+		buttonGroup->button( ViewCrypto )->setText( doc->isEncrypted() ? tr("Decrypt") : tr("Encrypt") );
+		buttonGroup->button( ViewCrypto )->setEnabled(
 			(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
 			(doc->isEncrypted() && keys.contains( CKey( qApp->poller()->token().cert() ) )) );
 		break;
@@ -549,7 +548,7 @@ void MainWindow::showCardStatus()
 	else if( t.card().isEmpty() )
 		infoFrame->setText( tr("No card in reader") );
 
-	viewCrypt->setEnabled(
+	buttonGroup->button( ViewCrypto )->setEnabled(
 		(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
 		(doc->isEncrypted() &&
 		 !(t.flags() & TokenData::PinLocked) &&

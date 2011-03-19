@@ -224,10 +224,6 @@ There is an option to re-sign this document in a new container.</translation>
         <translation>Help</translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation>Next</translation>
-    </message>
-    <message>
         <source>Signature</source>
         <translation>Signature</translation>
     </message>
@@ -499,6 +495,18 @@ already in container, ovewrite?</translation>
     <message>
         <source>Signing in process</source>
         <translation>Signing in process</translation>
+    </message>
+    <message>
+        <source>I agree</source>
+        <translation>I agree</translation>
+    </message>
+    <message>
+        <source>Container is not open</source>
+        <translation>Container is not open</translation>
+    </message>
+    <message>
+        <source>Empty container</source>
+        <translation>Empty container</translation>
     </message>
 </context>
 <context>

@@ -216,10 +216,6 @@ There is an option to re-sign this document in a new container.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Next</source>
-        <translation>Дальше</translation>
-    </message>
-    <message>
         <source>Sign</source>
         <translation>Подписать</translation>
     </message>
@@ -502,6 +498,18 @@ already in container, ovewrite?</source>
     <message>
         <source>Signing in process</source>
         <translation>Подписывание</translation>
+    </message>
+    <message>
+        <source>I agree</source>
+        <translation>Подтверждаю</translation>
+    </message>
+    <message>
+        <source>Container is not open</source>
+        <translation>Контейнер не открыт</translation>
+    </message>
+    <message>
+        <source>Empty container</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

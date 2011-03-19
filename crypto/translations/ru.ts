@@ -419,10 +419,6 @@ message: %2</source>
         <translation>&lt;a href=&quot;addRecipient&quot;&gt;Добавить получателя&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation>Далее</translation>
-    </message>
-    <message>
         <source>Container content:</source>
         <translation>Содержание контейнера:</translation>
     </message>
@@ -515,6 +511,10 @@ already in container, ovewrite?</source>
     <message>
         <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;save&quot;&gt;Сохранить&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>I agree</source>
+        <translation>Подтверждаю</translation>
     </message>
 </context>
 <context>

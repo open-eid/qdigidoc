@@ -64,7 +64,7 @@ private:
 		HomeCrypt,
 		HomeSign,
 		IntroBack,
-		IntroNext,
+		IntroAgree,
 		SignCancel,
 		SignSign,
 		HomeView,
@@ -85,6 +85,6 @@ private:
 	QActionGroup *cardsGroup;
 	DigiDoc	*doc;
 	QStringList lang, params;
-	QPushButton *introNext, *signButton, *viewAddSignature;
+	QButtonGroup *buttonGroup;
 	bool quitOnClose;
 };
