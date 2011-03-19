@@ -90,8 +90,7 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->addButton(
 		viewButtons->addButton( tr("Add signature"), QDialogButtonBox::AcceptRole ), ViewAddSignature );
 	buttonGroup->addButton( viewButtons->button( QDialogButtonBox::Close ), ViewClose );
-	connect( buttonGroup, SIGNAL(buttonClicked(int)),
-		SLOT(buttonClicked(int)) );
+	connect( buttonGroup, SIGNAL(buttonClicked(int)), SLOT(buttonClicked(int)) );
 
 	connect( infoCard, SIGNAL(linkActivated(QString)), SLOT(parseLink(QString)) );
 	connect( cards, SIGNAL(activated(QString)), qApp->signer(), SLOT(selectCard(QString)), Qt::QueuedConnection );
@@ -705,7 +704,7 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 		setWindowTitle( QString( "%1 - %2" )
 			.arg( QFileInfo( doc->fileName() ).fileName() )
-			.arg( tr("DigiDoc3 client") ) );
+			.arg( tr("DigiDoc3 client") ).normalized( QString::NormalizationForm_C ) );
 	}
 	else
 		setWindowTitle( tr("DigiDoc3 client") );

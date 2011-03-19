@@ -94,7 +94,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::DisplayRole:
 		switch( index.column() )
 		{
-		case 0: return from( d.getFileName() );
+		case 0: return from( d.getFileName() ).normalized( QString::NormalizationForm_C );
 		case 1: return from( d.getMediaType() );
 		case 2: return Common::fileSize( QFileInfo( from( d.getFilePath() ) ).size() );
 		default: return QVariant();
@@ -197,7 +197,7 @@ void DocumentModel::open( const QModelIndex &index )
 
 bool DocumentModel::removeRows( int row, int count, const QModelIndex &parent )
 {
-	if( parent.isValid() )
+	if( !d->b || parent.isValid() )
 		return false;
 
 	try
