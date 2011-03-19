@@ -43,6 +43,8 @@
 #include <QSslConfiguration>
 #include <QTimeLine>
 
+using namespace digidoc;
+
 MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 :	QDialog( parent )
 ,	m_doc( doc )
@@ -88,7 +90,7 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 			Application::confValue( Application::ProxyPass ).toString() ) );
 	}
 
-	if ( m_doc->documentType() == digidoc::WDoc::BDocType )
+	if ( m_doc->documentType() == WDoc::BDocType )
 		request.setUrl( QUrl( Settings().value("Client/bdocurl", "https://digidocservice.sk.ee").toString() ) );
 	else
 		request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
@@ -237,17 +239,17 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 	{
 		QByteArray digest;
 		QString name = "sha1";
-		if( m_doc->documentType() == digidoc::WDoc::BDocType )
+		if( m_doc->documentType() == WDoc::BDocType )
 		{
 			try
 			{
-				std::auto_ptr<digidoc::Digest> calc(new digidoc::Digest( NID_sha1 ));
+                std::auto_ptr<Digest> calc(new Digest( URI_SHA1 ));
 				name = QString::fromStdString( calc->getName() );
-				digidoc::Document file = m->document( m->index( i, 0 ) );
+				Document file = m->document( m->index( i, 0 ) );
 				std::vector<unsigned char> d = file.calcDigest( calc.get() );
 				digest = QByteArray( (char*)&d[0], d.size() );
 			}
-			catch( const digidoc::IOException &e )
+			catch( const IOException &e )
 			{
 				labelError->setText( QString::fromStdString( e.getMsg() ) );
 				return;
@@ -258,7 +260,7 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 
 		r.writeStartElement( "DataFileDigest" );
 		r.writeAttribute( XML_SCHEMA_INSTANCE, "type", QString( "m:" ).append( "DataFileDigest" ) );
-		r.writeParameter( "Id", m_doc->documentType() == digidoc::WDoc::BDocType ?
+		r.writeParameter( "Id", m_doc->documentType() == WDoc::BDocType ?
 			QString( "/%1" ).arg( m->index( i, 0 ).data().toString() ) : QString( "D%1" ).arg( i ) );
 		r.writeParameter( "DigestType", name );
 		r.writeParameter( "DigestValue", digest.toBase64() );
@@ -266,8 +268,8 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 	}
 	r.writeEndElement();
 
-	r.writeParameter( "Format", m_doc->documentType() == digidoc::WDoc::BDocType ? "BDOC" : "DIGIDOC-XML" );
-	r.writeParameter( "Version", m_doc->documentType() == digidoc::WDoc::BDocType ? "1.0" : "1.3" );
+	r.writeParameter( "Format", m_doc->documentType() == WDoc::BDocType ? "BDOC" : "DIGIDOC-XML" );
+	r.writeParameter( "Version", m_doc->documentType() == WDoc::BDocType ? "1.0" : "1.3" );
 	r.writeParameter( "SignatureID", QString( "S%1" ).arg( m_doc->signatures().size() ) );
 	r.writeParameter( "MessagingMode", "asynchClientServer" );
 	r.writeParameter( "AsyncConfiguration", 0 );
