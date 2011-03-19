@@ -195,9 +195,9 @@ bool Application::event( QEvent *e )
 
 bool Application::eventFilter( QObject *o, QEvent *e )
 {
+#ifdef Q_OS_MAC
 	switch( e->type() )
 	{
-#ifdef Q_OS_MAC
 	case QEvent::Close:
 	case QEvent::Create:
 	case QEvent::Show:
@@ -222,9 +222,10 @@ bool Application::eventFilter( QObject *o, QEvent *e )
 		d->dock->addAction( d->newAction );
 		return true;
 	}
-#endif
-	default: return QApplication::eventFilter( o, e );
+	default: break;
 	}
+#endif
+	return Common::eventFilter( o, e );
 }
 
 void Application::loadTranslation( const QString &lang )
