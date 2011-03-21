@@ -656,7 +656,8 @@ void MainWindow::save()
 {
 	if( !Common::canWrite( doc->fileName() ) &&
 		QMessageBox::Yes == QMessageBox::warning( this, tr("DigiDoc3 client"),
-			tr("Cannot alter container %1. Save different location?").arg( doc->fileName() ),
+			tr("Cannot alter container %1. Save different location?")
+				.arg( doc->fileName().normalized( QString::NormalizationForm_C ) ),
 			QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes ) )
 	{
 		QString file = selectFile( doc->fileName() );
@@ -703,8 +704,8 @@ void MainWindow::setCurrentPage( Pages page )
 	if( !doc->fileName().isEmpty() )
 	{
 		setWindowTitle( QString( "%1 - %2" )
-			.arg( QFileInfo( doc->fileName() ).fileName() )
-			.arg( tr("DigiDoc3 client") ).normalized( QString::NormalizationForm_C ) );
+			.arg( QFileInfo( doc->fileName().normalized( QString::NormalizationForm_C ) ).fileName() )
+			.arg( tr("DigiDoc3 client") ) );
 	}
 	else
 		setWindowTitle( tr("DigiDoc3 client") );
@@ -737,7 +738,7 @@ void MainWindow::setCurrentPage( Pages page )
 			++i;
 		}
 
-		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName() ) );
+		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName().normalized( QString::NormalizationForm_C ) ) );
 		QString file = viewFileName->toolTip();
 		if( fontMetrics().width( file ) > viewFileName->size().width() )
 			file = fontMetrics().elidedText( file, Qt::ElideMiddle, viewFileName->size().width() );
