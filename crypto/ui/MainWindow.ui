@@ -47,7 +47,7 @@
    <item>
     <widget class="QFrame" name="background">
      <property name="styleSheet">
-      <string notr="true">* { color: #355670; }
+      <string notr="true">* { color: #355670; font: 12px &quot;Arial, Liberation Sans&quot;; }
 
 /* widgets */
 QPushButton
@@ -329,7 +329,10 @@ color: #71889A;
           </property>
           <property name="font">
            <font>
+            <family>Arial, Liberation Sans</family>
+            <pointsize>-1</pointsize>
             <weight>75</weight>
+            <italic>false</italic>
             <bold>true</bold>
            </font>
           </property>
@@ -378,7 +381,10 @@ color: #71889A;
              <widget class="QLabel" name="homeButtonLabel">
               <property name="font">
                <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
                 <weight>75</weight>
+                <italic>false</italic>
                 <bold>true</bold>
                </font>
               </property>
@@ -516,7 +522,10 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
            <widget class="QLabel" name="viewContentLabel">
             <property name="font">
              <font>
+              <family>Arial, Liberation Sans</family>
+              <pointsize>-1</pointsize>
               <weight>75</weight>
+              <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
@@ -529,7 +538,10 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
            <widget class="QLabel" name="viewKeysLabel">
             <property name="font">
              <font>
+              <family>Arial, Liberation Sans</family>
+              <pointsize>-1</pointsize>
               <weight>75</weight>
+              <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
@@ -554,12 +566,6 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
                 <horstretch>1</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
               </property>
               <property name="textInteractionFlags">
                <set>Qt::TextSelectableByMouse</set>

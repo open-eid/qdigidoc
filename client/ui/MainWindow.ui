@@ -47,7 +47,7 @@
    <item>
     <widget class="QFrame" name="background">
      <property name="styleSheet">
-      <string notr="true">* { color: #355670; }
+      <string notr="true">* { color: #355670; font: 12px &quot;Arial, Liberation Sans&quot;; }
 
 /* widgets */
 QPushButton
@@ -370,7 +370,10 @@ padding: 5px;
              <widget class="QLabel" name="infoCard">
               <property name="font">
                <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
                 <weight>75</weight>
+                <italic>false</italic>
                 <bold>true</bold>
                </font>
               </property>
@@ -466,7 +469,10 @@ padding: 5px;
              <widget class="QLabel" name="homeButtonLabel">
               <property name="font">
                <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
                 <weight>75</weight>
+                <italic>false</italic>
                 <bold>true</bold>
                </font>
               </property>
@@ -628,7 +634,10 @@ Also an active internet connection is needed.</string>
            <widget class="QLabel" name="signContentLabel">
             <property name="font">
              <font>
+              <family>Arial, Liberation Sans</family>
+              <pointsize>-1</pointsize>
               <weight>75</weight>
+              <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
@@ -641,7 +650,10 @@ Also an active internet connection is needed.</string>
            <widget class="QLabel" name="signSignerLabel">
             <property name="font">
              <font>
+              <family>Arial, Liberation Sans</family>
+              <pointsize>-1</pointsize>
               <weight>75</weight>
+              <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
@@ -845,12 +857,6 @@ Also an active internet connection is needed.</string>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
               <property name="textInteractionFlags">
                <set>Qt::TextSelectableByMouse</set>
               </property>
@@ -876,7 +882,10 @@ Also an active internet connection is needed.</string>
            <widget class="QLabel" name="viewContentLabel">
             <property name="font">
              <font>
+              <family>Arial, Liberation Sans</family>
+              <pointsize>-1</pointsize>
               <weight>75</weight>
+              <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
@@ -972,7 +981,10 @@ Also an active internet connection is needed.</string>
              <widget class="QLabel" name="viewSignaturesLabel">
               <property name="font">
                <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
                 <weight>75</weight>
+                <italic>false</italic>
                 <bold>true</bold>
                </font>
               </property>
