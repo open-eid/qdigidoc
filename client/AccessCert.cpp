@@ -80,7 +80,7 @@ bool AccessCert::download( bool noCard )
 	}
 
 	qApp->signer()->lock();
-	QScopedPointer<SSLConnect> ssl( new SSLConnect() );
+	QScopedPointer<SSLConnect> ssl( new SSLConnect( QString() ) );
 	ssl->setPKCS11( Application::confValue( Application::PKCS11Module ).toString(), false );
 	ssl->setCard( qApp->signer()->token().card() );
 	QByteArray result;
