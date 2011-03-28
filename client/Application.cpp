@@ -254,6 +254,17 @@ bool Application::eventFilter( QObject *o, QEvent *e )
 	case QEvent::WindowActivate:
 		Q_FOREACH( QAction *a, d->windowGroup->actions() )
 			a->setChecked( o == a->data().value<QWidget*>() );
+		if( !d->windowGroup->checkedAction() )
+		{
+			QAction *a = new QAction( o->property( "windowTitle" ).toString(), d->dock );
+			a->setCheckable( true );
+			a->setData( QVariant::fromValue( qobject_cast<QWidget*>(o) ) );
+			a->setActionGroup( d->windowGroup );
+
+			if( !d->dockSeparator )
+				d->dockSeparator = d->dock->insertSeparator( d->newAction );
+			d->dock->insertAction( d->dockSeparator, a );
+		}
 		return true;
 	case QEvent::WindowTitleChange:
 		Q_FOREACH( QAction *a, d->windowGroup->actions() )
@@ -302,16 +313,6 @@ void Application::parseArgs( const QString &msg )
 			QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
 	}
 	w->installEventFilter( this );
-
-	QAction *a = new QAction( w->windowTitle(), d->dock );
-	a->setCheckable( true );
-	a->setData( QVariant::fromValue( w ) );
-	a->setActionGroup( d->windowGroup );
-
-	if( !d->dockSeparator )
-		d->dockSeparator = d->dock->insertSeparator( d->newAction );
-	d->dock->insertAction( d->dockSeparator, a );
-
 	w->addAction( d->closeAction );
 	w->activateWindow();
 	w->show();
