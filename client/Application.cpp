@@ -57,7 +57,11 @@ void qt_mac_set_dock_menu( QMenu *menu );
 class ApplicationPrivate
 {
 public:
-	ApplicationPrivate(): dockSeparator(0), signer(0) {}
+	ApplicationPrivate():
+#ifdef Q_OS_MAC
+		dockSeparator(0),
+#endif
+		signer(0) {}
 
 	QAction		*closeAction, *newAction;
 #ifdef Q_OS_MAC
