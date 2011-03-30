@@ -107,8 +107,8 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	ssl.setPrivateKey( pkcs12Cert.key() );
 	ssl.setLocalCertificate( pkcs12Cert.certificate() );
 #ifdef Q_OS_LINUX
-	ssl.setCaCertificates( c.caCertificates() + QSslCertificate::fromPath(
-		QString( qApp->confValue( CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );
+	ssl.setCaCertificates( ssl.caCertificates() + QSslCertificate::fromPath(
+		QString( qApp->confValue( Application::CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );
 #endif
 	request.setSslConfiguration( ssl );
 }
