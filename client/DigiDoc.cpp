@@ -181,7 +181,7 @@ void DocumentModel::open( const QModelIndex &index )
 	QFileInfo f( copy( index, QDir::tempPath() ) );
 	if( !f.exists() )
 		return;
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN)
 	QStringList exts = QString::fromLocal8Bit( qgetenv( "PATHEXT" ) ).split(';');
 	exts << ".PIF" << ".SCR";
 	if( exts.contains( "." + f.suffix(), Qt::CaseInsensitive ) &&
@@ -318,10 +318,10 @@ QStringList DigiDocSignature::locations() const
 {
 	const SignatureProductionPlace p = s->getProductionPlace();
 	return QStringList()
-		<< from( p.city ).trimmed()
-		<< from( p.stateOrProvince ).trimmed()
-		<< from( p.postalCode ).trimmed()
-		<< from( p.countryName ).trimmed();
+		<< from( p.city ).normalized( QString::NormalizationForm_C ).trimmed()
+		<< from( p.stateOrProvince ).normalized( QString::NormalizationForm_C ).trimmed()
+		<< from( p.postalCode ).normalized( QString::NormalizationForm_C ).trimmed()
+		<< from( p.countryName ).normalized( QString::NormalizationForm_C ).trimmed();
 }
 
 QString DigiDocSignature::mediaType() const
@@ -385,7 +385,7 @@ QStringList DigiDocSignature::roles() const
 	const SignerRole::TRoles roles = s->getSignerRole().claimedRoles;
 	SignerRole::TRoles::const_iterator i = roles.begin();
 	for( ; i != roles.end(); ++i )
-		list << QString::fromUtf8( i->c_str() ).trimmed();
+		list << QString::fromUtf8( i->c_str() ).normalized( QString::NormalizationForm_C ).trimmed();
 	return list;
 }
 
