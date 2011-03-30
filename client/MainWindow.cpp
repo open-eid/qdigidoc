@@ -808,5 +808,6 @@ void MainWindow::viewSignaturesRemove( unsigned int num )
 {
 	doc->removeSignature( num );
 	save();
+	enableSign();
 	setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 }
