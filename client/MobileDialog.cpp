@@ -106,6 +106,10 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
 	ssl.setPrivateKey( pkcs12Cert.key() );
 	ssl.setLocalCertificate( pkcs12Cert.certificate() );
+#ifdef Q_OS_LINUX
+	ssl.setCaCertificates( c.caCertificates() + QSslCertificate::fromPath(
+		QString( qApp->confValue( CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );
+#endif
 	request.setSslConfiguration( ssl );
 }
 
@@ -139,7 +143,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 	}
 
 	QDomDocument doc;
-	bool parse = doc.setContent( reply );
+	bool parse = doc.setContent( reply, true );
 	reply->deleteLater();
 	if( !parse )
 	{
@@ -243,11 +247,11 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 		{
 			try
 			{
-                std::auto_ptr<Digest> calc(new Digest( URI_SHA1 ));
-				name = QString::fromStdString( calc->getName() );
+				std::auto_ptr<Digest> calc(new Digest( URI_SHA1 ));
 				Document file = m->document( m->index( i, 0 ) );
 				std::vector<unsigned char> d = file.calcDigest( calc.get() );
 				digest = QByteArray( (char*)&d[0], d.size() );
+				name = QString::fromStdString( calc->getName() );
 			}
 			catch( const IOException &e )
 			{

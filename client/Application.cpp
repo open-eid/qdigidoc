@@ -140,10 +140,6 @@ Application::Application( int &argc, char **argv )
 	{
 		digidoc::initialize();
 		digidoc::X509CertStore::init( new digidoc::DirectoryX509CertStore() );
-		QSslConfiguration c = QSslConfiguration::defaultConfiguration();
-		c.setCaCertificates( c.caCertificates() + QSslCertificate::fromPath(
-			QString( "%1/*" ).arg( confValue( CertStorePath ).toString() ), QSsl::Pem, QRegExp::Wildcard ) );
-		QSslConfiguration::setDefaultConfiguration( c );
 	}
 	catch( const digidoc::Exception &e )
 	{
