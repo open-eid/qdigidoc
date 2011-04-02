@@ -60,7 +60,7 @@ public Q_SLOTS:
 
 private:
 	DocumentModel( DigiDoc *doc );
-	Q_DISABLE_COPY(DocumentModel);
+	Q_DISABLE_COPY(DocumentModel)
 
 	DigiDoc *d;
 
@@ -90,7 +90,7 @@ public:
 	QDateTime	dateTime() const;
 	QString		digestMethod() const;
 	QByteArray	digestValue() const;
-	SignatureStatus validate();
+	bool		isTest() const;
 	QString		lastError() const;
 	QString		location() const;
 	QStringList locations() const;
@@ -100,14 +100,15 @@ public:
 	QString		role() const;
 	QStringList	roles() const;
 	SignatureType type() const;
+	SignatureStatus validate() const;
 
 private:
-	void setLastError( const digidoc::Exception &e );
-	int parseException( const digidoc::Exception &e );
-	void parseExceptionStrings( const digidoc::Exception &e, QStringList &causes );
+	void setLastError( const digidoc::Exception &e ) const;
+	int parseException( const digidoc::Exception &e ) const;
+	void parseExceptionStrings( const digidoc::Exception &e, QStringList &causes ) const;
 
 	const digidoc::Signature *s;
-	QString m_lastError;
+	mutable QString m_lastError;
 	DigiDoc *m_parent;
 };
 

@@ -305,6 +305,12 @@ QByteArray DigiDocSignature::digestValue() const
 	return QByteArray();
 }
 
+bool DigiDocSignature::isTest() const
+{
+	return SslCertificate( cert() ).isTest() ||
+		SslCertificate( ocspCert() ).type() == SslCertificate::OCSPTestType;
+}
+
 QString DigiDocSignature::lastError() const { return m_lastError; }
 
 QString DigiDocSignature::location() const
@@ -352,7 +358,7 @@ QSslCertificate DigiDocSignature::ocspCert() const
 
 DigiDoc* DigiDocSignature::parent() const { return m_parent; }
 
-int DigiDocSignature::parseException( const digidoc::Exception &e )
+int DigiDocSignature::parseException( const digidoc::Exception &e ) const
 {
 	Q_FOREACH( const Exception &c, e.getCauses() )
 	{
@@ -363,7 +369,7 @@ int DigiDocSignature::parseException( const digidoc::Exception &e )
 	return e.code();
 }
 
-void DigiDocSignature::parseExceptionStrings( const digidoc::Exception &e, QStringList &causes )
+void DigiDocSignature::parseExceptionStrings( const digidoc::Exception &e, QStringList &causes ) const
 {
 	causes << from( e.getMsg() );
 	if( e.ddoc() > 0 )
@@ -389,7 +395,7 @@ QStringList DigiDocSignature::roles() const
 	return list;
 }
 
-void DigiDocSignature::setLastError( const Exception &e )
+void DigiDocSignature::setLastError( const Exception &e ) const
 {
 	QStringList causes;
 	parseExceptionStrings( e, causes );
@@ -411,7 +417,7 @@ DigiDocSignature::SignatureType DigiDocSignature::type() const
 	return UnknownType;
 }
 
-DigiDocSignature::SignatureStatus DigiDocSignature::validate()
+DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 {
 	try
 	{
