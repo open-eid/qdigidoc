@@ -104,7 +104,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	setPen( oPen );
 
 	int i = 1;
-	Q_FOREACH( DigiDocSignature sig, doc->signatures() )
+	Q_FOREACH( const DigiDocSignature &sig, doc->signatures() )
 	{
 		newPage( 50 );
 		const SslCertificate cert = sig.cert();
@@ -136,6 +136,8 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 			case DigiDocSignature::Invalid: valid.append( tr("NOT VALID") ); break;
 			case DigiDocSignature::Unknown: valid.append( tr("UNKNOWN") ); break;
 		}
+		if( sig.isTest() )
+			valid += " " + tr("(NB! TEST SIGNATURE)");
 		drawText( left+5, top+20, valid );
 		top += 45;
 

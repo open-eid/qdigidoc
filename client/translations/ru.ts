@@ -509,7 +509,7 @@ already in container, ovewrite?</source>
     </message>
     <message>
         <source>Empty container</source>
-        <translation type="unfinished"></translation>
+        <translation>пустой контейнер</translation>
     </message>
 </context>
 <context>
@@ -708,6 +708,10 @@ Control code: %1</source>
     <message>
         <source>UNKNOWN</source>
         <translation>Неизвестно</translation>
+    </message>
+    <message>
+        <source>(NB! TEST SIGNATURE)</source>
+        <translation>(NB! Пробная подпись)</translation>
     </message>
 </context>
 <context>

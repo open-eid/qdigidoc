@@ -706,6 +706,10 @@ Kontrollkood: %1</translation>
         <source>UNKNOWN</source>
         <translation>Teadmata</translation>
     </message>
+    <message>
+        <source>(NB! TEST SIGNATURE)</source>
+        <translation>(NB! TESTALLKIRI)</translation>
+    </message>
 </context>
 <context>
     <name>QSigner</name>

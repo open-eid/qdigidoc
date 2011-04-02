@@ -706,6 +706,10 @@ Control code: %1</translation>
         <source>UNKNOWN</source>
         <translation>UNKNOWN</translation>
     </message>
+    <message>
+        <source>(NB! TEST SIGNATURE)</source>
+        <translation>(NB! TEST SIGNATURE)</translation>
+    </message>
 </context>
 <context>
     <name>QSigner</name>
