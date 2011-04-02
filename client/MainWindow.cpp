@@ -727,14 +727,14 @@ void MainWindow::setCurrentPage( Pages page )
 		QList<DigiDocSignature> signatures = doc->signatures();
 		Q_FOREACH( const DigiDocSignature &c, signatures )
 		{
-			SignatureWidget *signature = new SignatureWidget( c, i, true /*signatures.size() < 3*/, viewSignatures );
+			SignatureWidget *signature = new SignatureWidget( c, i, viewSignatures );
 			viewSignaturesLayout->insertWidget( 0, signature );
 			connect( signature, SIGNAL(removeSignature(unsigned int)),
 				SLOT(viewSignaturesRemove(unsigned int)) );
 			cardOwnerSignature = qMax( cardOwnerSignature,
 				c.cert().subjectInfo( "serialNumber" ) == qApp->signer()->token().cert().subjectInfo( "serialNumber" ) );
-			invalid = qMax( invalid, !signature->isValid() );
-			test = qMax( test, signature->isTest() );
+			invalid = qMax( invalid, c.validate() != DigiDocSignature::Valid );
+			test = qMax( test, c.isTest() );
 			++i;
 		}
 

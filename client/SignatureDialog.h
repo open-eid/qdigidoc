@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -35,10 +35,7 @@ class SignatureWidget: public QLabel
 	Q_OBJECT
 
 public:
-	SignatureWidget( const DigiDocSignature &s, unsigned int signnum, bool extended, QWidget *parent = 0 );
-
-	bool isTest() const;
-	bool isValid() const;
+	explicit SignatureWidget( const DigiDocSignature &s, unsigned int signnum, QWidget *parent = 0 );
 
 Q_SIGNALS:
 	void removeSignature( unsigned int num );
@@ -49,7 +46,6 @@ private Q_SLOTS:
 private:
 	unsigned int num;
 	DigiDocSignature s;
-	bool test, valid;
 };
 
 class SignatureDialog: public QWidget

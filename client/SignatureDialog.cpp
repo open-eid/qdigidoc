@@ -38,17 +38,14 @@
 #include <QTextStream>
 #include <QUrl>
 
-SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned int signnum, bool extended, QWidget *parent )
+SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned int signnum, QWidget *parent )
 :	QLabel( parent )
 ,	num( signnum )
 ,	s( signature )
-,	test( false )
-,	valid( false )
 {
 	setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Preferred );
 	setWordWrap( true );
 	const SslCertificate cert = s.cert();
-	test = cert.isTest() || SslCertificate( s.ocspCert() ).type() == SslCertificate::OCSPTestType;
 	QString content;
 	QTextStream st( &content );
 
@@ -58,44 +55,41 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		st << "<img src=\":/images/ico_person_blue_16.png\">";
 	st << "<b>" << Qt::escape( cert.toString( cert.showCN() ? "CN" : "GN SN" ) ) << "</b>";
 
+	QString tooltip;
+	QTextStream t( &tooltip );
 	QDateTime date = s.dateTime();
-	if( extended )
+	if( !s.location().isEmpty() )
 	{
-		if( !s.location().isEmpty() )
-			st << "<br />" << Qt::escape( s.location() );
-		if( !s.role().isEmpty() )
-			st << "<br />" << Qt::escape( s.role() );
-		if( !date.isNull() )
-			st << "<br />" << tr("Signed on") << " "
-				<< SslCertificate::formatDate( date, "dd. MMMM yyyy" ) << " "
-				<< tr("time") << " "
-				<< date.toString( "hh:mm" );
+		st << "<br />" << Qt::escape( s.location() );
+		t << Qt::escape( s.location() ) << "<br />";
 	}
-	else
+	if( !s.role().isEmpty() )
 	{
-		QString tooltip;
-		QTextStream t( &tooltip );
-		if( !s.location().isEmpty() )
-			t << Qt::escape( s.location() ) << "<br />";
-		if( !s.role().isEmpty() )
-			t << Qt::escape( s.role() ) << "<br />";
-		if( !date.isNull() )
-			t << tr("Signed on") << " "
-				<< SslCertificate::formatDate( date, "dd. MMMM yyyy" ) << " "
-				<< tr("time") << " "
-				<< date.toString( "hh:mm" );
-		setToolTip( tooltip );
+		st << "<br />" << Qt::escape( s.role() );
+		t << Qt::escape( s.role() ) << "<br />";
 	}
+	if( !date.isNull() )
+	{
+		st << "<br />" << tr("Signed on") << " "
+			<< SslCertificate::formatDate( date, "dd. MMMM yyyy" ) << " "
+			<< tr("time") << " "
+			<< date.toString( "hh:mm" );
+		t << tr("Signed on") << " "
+			<< SslCertificate::formatDate( date, "dd. MMMM yyyy" ) << " "
+			<< tr("time") << " "
+			<< date.toString( "hh:mm" );
+	}
+	setToolTip( tooltip );
 
 	st << "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>";
 	st << "<td>" << tr("Signature is") << " ";
 	switch( s.validate() )
 	{
-	case DigiDocSignature::Valid: st << "<font color=\"green\">" << tr("valid"); valid = true; break;
+	case DigiDocSignature::Valid: st << "<font color=\"green\">" << tr("valid"); break;
 	case DigiDocSignature::Invalid: st << "<font color=\"red\">" << tr("not valid"); break;
 	case DigiDocSignature::Unknown: st << "<font color=\"red\">" << tr("unknown"); break;
 	}
-	if( test )
+	if( signature.isTest() )
 		st << " (" << tr("Test signature") << ")";
 	st << "</font>";
 	st << "</td><td align=\"right\">";
@@ -109,9 +103,6 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 
 	connect( this, SIGNAL(linkActivated(QString)), SLOT(link(QString)) );
 }
-
-bool SignatureWidget::isTest() const { return test; }
-bool SignatureWidget::isValid() const { return valid; }
 
 void SignatureWidget::link( const QString &url )
 {
