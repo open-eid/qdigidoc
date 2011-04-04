@@ -107,7 +107,7 @@ bool MainWindow::addFile( const QString &file )
 		s.beginGroup( "Crypto" );
 		QString docname = QString( "%1/%2.cdoc" )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
-			.arg( fileinfo.baseName() );
+			.arg( fileinfo.completeBaseName() );
 
 		bool select = s.value( "AskSaveAs", false ).toBool();
 		if( !select && QFile::exists( docname ) )

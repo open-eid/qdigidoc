@@ -134,7 +134,7 @@ bool MainWindow::addFile( const QString &file )
 		s.beginGroup( "Client" );
 		QString docname = QString( "%1/%2.%3" )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
-			.arg( fileinfo.baseName() )
+			.arg( fileinfo.completeBaseName() )
 #ifdef BDOC_ENABLED
 			.arg( s.value( "type" ,"ddoc" ).toString() );
 #else
