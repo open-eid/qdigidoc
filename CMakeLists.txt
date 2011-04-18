@@ -1,9 +1,13 @@
 cmake_minimum_required( VERSION 2.8 )
 project( qdigidoc )
+set( MAJOR_VER 3 )
+set( MINOR_VER 5 )
+set( RELEASE_VER 0 )
 
 set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules" )
 
 include( InstallSettings )
+include( VersionInfo )
 
 find_package( Ldap REQUIRED )
 find_package( LibDigiDoc REQUIRED )
@@ -14,24 +18,7 @@ find_package( PKCS11 )
 find_package( Qt4 4.4.0 COMPONENTS QtCore QtGui QtNetwork QtXml REQUIRED )
 find_package( XercesC REQUIRED )
 find_package( XSD REQUIRED )
-find_package( Subversion )
 
-set( MAJOR_VER 3 )
-set( MINOR_VER 4 )
-set( RELEASE_VER 0 )
-
-if( Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn )
-	Subversion_WC_INFO( ${PROJECT_SOURCE_DIR} PROJECT )
-	message( STATUS "Current SVN revision is ${PROJECT_WC_REVISION}" )
-	set( BUILD_VER ${PROJECT_WC_REVISION} )
-else( Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn )
-	set( BUILD_VER 0 )
-endif( Subversion_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.svn )
-
-set( SHORT_VERSION ${BUILD_VER} )
-set( VERSION ${MAJOR_VER}.${MINOR_VER}.${RELEASE_VER}.${BUILD_VER} )
-
-add_definitions( -DMAJOR_VER=${MAJOR_VER} -DMINOR_VER=${MINOR_VER} -DRELEASE_VER=${RELEASE_VER} -DBUILD_VER=${BUILD_VER} )
 add_definitions( -DPKCS11_MODULE="${PKCS11_MODULE}" )
 
 set( COMMON ${CMAKE_SOURCE_DIR}/common )
