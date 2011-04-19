@@ -34,11 +34,11 @@
 class QSignerPrivate
 {
 public:
-	QSignerPrivate(): terminate(false), refresh(false) {}
+	QSignerPrivate(): terminate(false) {}
 
 	QPKCS11			pkcs11;
 	TokenData		t;
-	volatile bool	terminate, refresh;
+	volatile bool	terminate;
 	QMutex			m;
 };
 
@@ -65,7 +65,19 @@ X509* QSigner::getCert() throw(digidoc::SignException)
 	return (X509*)d->t.cert().handle();
 }
 
+QPKCS11* QSigner::handle() const { return &d->pkcs11; }
+
 void QSigner::lock() { d->m.lock(); }
+
+void QSigner::reload()
+{
+	QEventLoop e;
+	QObject::connect( this, SIGNAL(dataChanged()), &e, SLOT(quit()) );
+	d->m.lock();
+	d->t.setCert( QSslCertificate() );
+	d->m.unlock();
+	e.exec();
+}
 
 void QSigner::run()
 {
@@ -105,11 +117,10 @@ void QSigner::run()
 			if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
 				selectCard( cards.first() );
 
-			if( cards.contains( d->t.card() ) && (d->t.cert().isNull() || d->refresh) ) // read cert
+			if( cards.contains( d->t.card() ) && d->t.cert().isNull() ) // read cert
 			{
 				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
 				d->t.setCards( cards );
-				d->refresh = false;
 				update = true;
 			}
 
@@ -154,14 +165,9 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 	case QPKCS11::PinCanceled:
 		throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
 	case QPKCS11::PinIncorrect:
-	{
-		QEventLoop e;
-		QObject::connect( this, SIGNAL(dataChanged()), &e, SLOT(quit()) );
-		d->refresh = true;
 		locker.unlock();
-		e.exec();
+		reload();
 		throwException( tr("Failed to login token"), Exception::PINIncorrect, __LINE__ );
-	}
 	case QPKCS11::PinLocked:
 		throwException( tr("Failed to login token"), Exception::PINLocked, __LINE__ );
 	default:
@@ -170,6 +176,8 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 
 	bool status = d->pkcs11.sign( padding, signature.signature, (unsigned long*)&(signature.length) );
 	d->pkcs11.logout();
+	locker.unlock();
+	reload();
 	if( !status )
 		throwException( tr("Failed to sign document"), Exception::NoException, __LINE__ );
 }
@@ -184,4 +192,4 @@ void QSigner::throwException( const QString &msg, Exception::ExceptionCode code,
 
 TokenData QSigner::token() const { return d->t; }
 
-void QSigner::unlock() { d->m.unlock(); }
+void QSigner::unlock() { d->m.unlock(); reload(); }

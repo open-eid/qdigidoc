@@ -55,6 +55,7 @@ private Q_SLOTS:
 	void selectCard( const QString &card );
 
 private:
+	void reload();
 	void run();
 
 	PollerPrivate *d;

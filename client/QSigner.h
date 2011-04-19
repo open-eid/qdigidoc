@@ -25,6 +25,7 @@
 #include <QThread>
 #include <digidocpp/crypto/signer/Signer.h>
 
+class QPKCS11;
 class QSignerPrivate;
 class TokenData;
 
@@ -36,6 +37,7 @@ public:
 	QSigner( QObject *parent = 0 );
 	~QSigner();
 
+	QPKCS11* handle() const;
 	void lock();
 	X509 *getCert() throw(digidoc::SignException);
 	void sign( const Digest& digest, Signature& signature ) throw(digidoc::SignException);
@@ -50,6 +52,7 @@ private Q_SLOTS:
 	void selectCard( const QString &card );
 
 private:
+	void reload();
 	void run();
 	void throwException( const QString &msg, digidoc::Exception::ExceptionCode code, int line ) throw(digidoc::SignException);
 

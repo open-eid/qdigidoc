@@ -34,11 +34,11 @@
 class PollerPrivate
 {
 public:
-	PollerPrivate(): terminate(false), refresh(false) {}
+	PollerPrivate(): terminate(false) {}
 
 	QPKCS11			pkcs11;
 	TokenData		t;
-	volatile bool	terminate, refresh;
+	volatile bool	terminate;
 	QMutex			m;
 };
 
@@ -72,18 +72,13 @@ Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 	case QPKCS11::PinOK: break;
 	case QPKCS11::PinCanceled: return PinCanceled;
 	case QPKCS11::PinIncorrect:
-	{
-		QEventLoop e;
-		QObject::connect( this, SIGNAL(dataChanged()), &e, SLOT(quit()) );
-		d->refresh = true;
 		locker.unlock();
-		e.exec();
+		reload();
 		if( !(d->t.flags() & TokenData::PinLocked) )
 		{
 			Q_EMIT error( tr("PIN Incorrect") );
 			return PinIncorrect;
 		}
-	}
 	case QPKCS11::PinLocked:
 		Q_EMIT error( tr("PIN Locked") );
 		return PinLocked;
@@ -101,7 +96,19 @@ Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 	else
 		out = QByteArray( data, size );
 	delete [] data;
+	locker.unlock();
+	reload();
 	return status ? DecryptOK : DecryptFailed;
+}
+
+void Poller::reload()
+{
+	QEventLoop e;
+	QObject::connect( this, SIGNAL(dataChanged()), &e, SLOT(quit()) );
+	d->m.lock();
+	d->t.setCert( QSslCertificate() );
+	d->m.unlock();
+	e.exec();
 }
 
 void Poller::run()
@@ -137,11 +144,10 @@ void Poller::run()
 			if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
 				selectCard( cards.first() );
 
-			if( cards.contains( d->t.card() ) && (d->t.cert().isNull() || d->refresh) ) // read cert
+			if( cards.contains( d->t.card() ) && d->t.cert().isNull() ) // read cert
 			{
 				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::DataEncipherment );
 				d->t.setCards( cards );
-				d->refresh = false;
 				update = true;
 			}
 
