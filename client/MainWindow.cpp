@@ -132,14 +132,15 @@ bool MainWindow::addFile( const QString &file )
 	{
 		Settings s;
 		s.beginGroup( "Client" );
+#ifdef BDOC_ENABLED
+		QString ext = s.value( "type" ,"ddoc" ).toString();
+#else
+		QString ext = "ddoc";
+#endif
 		QString docname = QString( "%1/%2.%3" )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
-			.arg( fileinfo.completeBaseName() )
-#ifdef BDOC_ENABLED
-			.arg( s.value( "type" ,"ddoc" ).toString() );
-#else
-			.arg( "ddoc" );
-#endif
+			.arg( ext == fileinfo.suffix().toLower() ? fileinfo.fileName() : fileinfo.completeBaseName() )
+			.arg( ext );
 
 		bool select = s.value( "AskSaveAs", false ).toBool();
 		if( !select && QFile::exists( docname ) )
