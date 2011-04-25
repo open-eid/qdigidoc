@@ -547,28 +547,14 @@ padding: 5px;
            </spacer>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="pixmap">
-               <pixmap>:/images/EL_Regionaalareng_horisontaal.png</pixmap>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QLabel" name="label">
+            <property name="pixmap">
+             <pixmap>:/images/EL_Regionaalareng_horisontaal.png</pixmap>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -585,23 +571,13 @@ Digital signing is equal to physical signing. To sign a document you need an ID-
 Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
 Also an active internet connection is needed.</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+            </property>
             <property name="wordWrap">
              <bool>true</bool>
             </property>
            </widget>
-          </item>
-          <item>
-           <spacer name="introSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-           </spacer>
           </item>
           <item>
            <widget class="QCheckBox" name="introCheck">
@@ -934,8 +910,8 @@ Also an active internet connection is needed.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>282</width>
-               <height>209</height>
+               <width>33</width>
+               <height>16</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="viewSignaturesLayout">
