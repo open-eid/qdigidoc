@@ -493,7 +493,7 @@ already in container, ovewrite?</source>
     </message>
     <message>
         <source>Continue signing</source>
-        <translation>Подптсать</translation>
+        <translation>Подписать</translation>
     </message>
     <message>
         <source>Signing in process</source>
