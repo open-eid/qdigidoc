@@ -111,6 +111,8 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 		QString( qApp->confValue( Application::CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );
 #endif
 	request.setSslConfiguration( ssl );
+	request.setRawHeader( "User-Agent", QString( "%1/%2 (%3)")
+		.arg( qApp->applicationName() ).arg( qApp->applicationVersion() ).arg( Common::applicationOs() ).toUtf8() );
 }
 
 QString MobileDialog::elementText( const QDomElement &element, const QString &tag ) const
