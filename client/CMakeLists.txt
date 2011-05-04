@@ -1,6 +1,6 @@
 set( PROGNAME qdigidocclient )
 
-set( BDOC_ENABLED false CACHE BOOL "Enable BDOC support" )
+set( BDOC_ENABLED true CACHE BOOL "Enable BDOC support" )
 if( BDOC_ENABLED )
 	add_definitions( -DBDOC_ENABLED )
 endif( BDOC_ENABLED )
