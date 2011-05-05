@@ -174,12 +174,15 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		throwException( tr("Failed to login token"), Exception::NoException, __LINE__ );
 	}
 
-	bool status = d->pkcs11.sign( padding, signature.signature, (unsigned long*)&(signature.length) );
+	QByteArray sig = d->pkcs11.sign( padding );
 	d->pkcs11.logout();
 	locker.unlock();
 	reload();
-	if( !status )
+	if( sig.isEmpty() )
 		throwException( tr("Failed to sign document"), Exception::NoException, __LINE__ );
+	signature.length = sig.size();
+	signature.signature = (unsigned char*)qMalloc( sig.size() );
+	qMemCopy( signature.signature, sig.constData(), sig.size() );
 }
 
 void QSigner::throwException( const QString &msg, Exception::ExceptionCode code, int line ) throw(SignException)
