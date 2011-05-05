@@ -142,19 +142,6 @@ void QSigner::selectCard( const QString &card )
 
 void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::SignException)
 {
-	QByteArray padding;
-	switch( digest.type )
-	{
-	case NID_sha1:
-	{
-		char sha1[] = { 48, 33, 48, 9, 6, 5, 43, 14, 3, 2, 26, 5, 0, 4, 20 };
-		padding.append( sha1, 15 );
-		break;
-	}
-	default: throwException( tr("Failed to sign document"), Exception::NoException, __LINE__ );
-	}
-	padding.append( (const char*)digest.digest, digest.length );
-
 	QMutexLocker locker( &d->m );
 	if( !d->t.cards().contains( d->t.card() ) || d->t.cert().isNull() )
 		throwException( tr("Signing certificate is not selected."), Exception::NoException, __LINE__ );
@@ -174,7 +161,7 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		throwException( tr("Failed to login token"), Exception::NoException, __LINE__ );
 	}
 
-	QByteArray sig = d->pkcs11.sign( padding );
+	QByteArray sig = d->pkcs11.sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
 	d->pkcs11.logout();
 	locker.unlock();
 	reload();
