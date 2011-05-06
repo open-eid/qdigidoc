@@ -29,6 +29,7 @@
 
 #include <QEventLoop>
 #include <QMutex>
+#include <QSslKey>
 #include <QStringList>
 
 class QSignerPrivate
@@ -138,6 +139,18 @@ void QSigner::selectCard( const QString &card )
 	d->t.setCard( card );
 	d->t.setCert( QSslCertificate() );
 	Q_EMIT dataChanged();
+}
+
+int QSigner::type()
+{
+	switch( SslCertificate(d->t.cert()).type() )
+	{
+	case SslCertificate::DigiIDType:
+	case SslCertificate::DigiIDTestType:
+		return NID_sha224;
+	default: break;
+	}
+	return d->t.cert().publicKey().length() > 1024 ? NID_sha224 : NID_sha1;
 }
 
 void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::SignException)
