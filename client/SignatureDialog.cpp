@@ -178,7 +178,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
 	addItem( t, tr("Signing time"), s.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
-	addItem( t, tr("Signature type"), c.publicKey().algorithm() == QSsl::Rsa ? "RSA" : "DSA" );
+	addItem( t, tr("Signature method"), s.signatureMethod() );
 	addItem( t, tr("Signature format"), s.mediaType() );
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
 	addItem( t, tr("Certificate serialnumber"), c.serialNumber() );
@@ -195,7 +195,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		addItem( d->ocspView, tr("Certificate issuer"), ocsp.issuerInfo( QSslCertificate::CommonName ) );
 		addItem( d->ocspView, tr("Certificate serialnumber"), ocsp.serialNumber() );
 		addItem( d->ocspView, tr("Time"), s.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( d->ocspView, tr("Hash value of validity confirmation"), ocsp.toHex( s.digestValue() ) );
+		addItem( d->ocspView, tr("Hash value of validity confirmation"), ocsp.toHex( s.ocspDigestValue() ) );
 		d->ocspView->resizeColumnToContents( 0 );
 	}
 	else
