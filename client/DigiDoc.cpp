@@ -112,7 +112,10 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		{
 		case 3: return tr("Save");
 		case 4: return tr("Remove");
-		default: return from( d.getFileName() );
+		default: return tr("Filename: %1\nFilesize: %2\nMedia type: %3")
+			.arg( from( d.getFileName() ) )
+			.arg( Common::fileSize( QFileInfo( from( d.getFilePath() ) ).size() ) )
+			.arg( from( d.getMediaType() ) );
 		}
 	case Qt::DecorationRole:
 		switch( index.column() )
@@ -135,7 +138,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 
 Document DocumentModel::document( const QModelIndex &index ) const
 {
-	if( !d->b || !index.isValid() || (unsigned int)index.row() >= d->b->documentCount() )
+	if( !hasIndex( index.row(), index.column() ) )
 		return Document( "", "" );
 
 	try { return d->b->getDocument( index.row() ); }
@@ -260,51 +263,6 @@ QDateTime DigiDocSignature::dateTime() const
 	return date.toLocalTime();
 }
 
-QString DigiDocSignature::digestMethod() const
-{
-	try
-	{
-		std::vector<unsigned char> data;
-		std::string method;
-		switch( type() )
-		{
-		case TMType:
-			static_cast<const SignatureTM*>(s)->getRevocationOCSPRef( data, method );
-			break;
-		case DDocType:
-			static_cast<const SignatureDDOC*>(s)->getRevocationOCSPRef( data, method );
-			break;
-		default: return QString();
-		}
-		return from( method );
-	}
-	catch( const Exception & ) {}
-	return QString();
-}
-
-QByteArray DigiDocSignature::digestValue() const
-{
-	try
-	{
-		std::vector<unsigned char> data;
-		std::string method;
-		switch( type() )
-		{
-		case TMType:
-			static_cast<const SignatureTM*>(s)->getRevocationOCSPRef( data, method );
-			break;
-		case DDocType:
-			static_cast<const SignatureDDOC*>(s)->getRevocationOCSPRef( data, method );
-			break;
-		default: return QByteArray();
-		}
-		if( data.size() > 0 )
-			return QByteArray( (const char*)&data[0], data.size() );
-	}
-	catch( const Exception & ) {}
-	return QByteArray();
-}
-
 bool DigiDocSignature::isTest() const
 {
 	return SslCertificate( cert() ).isTest() ||
@@ -332,6 +290,51 @@ QStringList DigiDocSignature::locations() const
 
 QString DigiDocSignature::mediaType() const
 { return from( s->getMediaType() ); }
+
+QString DigiDocSignature::ocspDigestMethod() const
+{
+	try
+	{
+		std::vector<unsigned char> data;
+		std::string method;
+		switch( type() )
+		{
+		case TMType:
+			static_cast<const SignatureTM*>(s)->getRevocationOCSPRef( data, method );
+			break;
+		case DDocType:
+			static_cast<const SignatureDDOC*>(s)->getRevocationOCSPRef( data, method );
+			break;
+		default: return QString();
+		}
+		return from( method );
+	}
+	catch( const Exception & ) {}
+	return QString();
+}
+
+QByteArray DigiDocSignature::ocspDigestValue() const
+{
+	try
+	{
+		std::vector<unsigned char> data;
+		std::string method;
+		switch( type() )
+		{
+		case TMType:
+			static_cast<const SignatureTM*>(s)->getRevocationOCSPRef( data, method );
+			break;
+		case DDocType:
+			static_cast<const SignatureDDOC*>(s)->getRevocationOCSPRef( data, method );
+			break;
+		default: return QByteArray();
+		}
+		if( data.size() > 0 )
+			return QByteArray( (const char*)&data[0], data.size() );
+	}
+	catch( const Exception & ) {}
+	return QByteArray();
+}
 
 QSslCertificate DigiDocSignature::ocspCert() const
 {
@@ -402,6 +405,9 @@ void DigiDocSignature::setLastError( const Exception &e ) const
 	m_lastError = causes.join( "<br />" );
 }
 
+QString DigiDocSignature::signatureMethod() const
+{ return from( s->getSignatureMethod() ); }
+
 DigiDocSignature::SignatureType DigiDocSignature::type() const
 {
 	const std::string ver = s->getMediaType();
@@ -465,7 +471,7 @@ void DigiDoc::addFile( const QString &file )
 {
 	if( !checkDoc( b->signatureCount() > 0, tr("Cannot add files to signed container") ) )
 		return;
-	try { b->addDocument( Document( to(file), "file" ) ); m_documentModel->reset(); }
+	try { b->addDocument( Document( to(file), "application/octet-stream" ) ); m_documentModel->reset(); }
 	catch( const Exception &e ) { setLastError( tr("Failed add file to container"), e ); }
 }
 

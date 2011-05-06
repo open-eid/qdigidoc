@@ -88,17 +88,18 @@ public:
 
 	QSslCertificate	cert() const;
 	QDateTime	dateTime() const;
-	QString		digestMethod() const;
-	QByteArray	digestValue() const;
 	bool		isTest() const;
 	QString		lastError() const;
 	QString		location() const;
-	QStringList locations() const;
+	QStringList	locations() const;
 	QString		mediaType() const;
+	QString		ocspDigestMethod() const;
+	QByteArray	ocspDigestValue() const;
 	QSslCertificate ocspCert() const;
 	DigiDoc		*parent() const;
 	QString		role() const;
 	QStringList	roles() const;
+	QString		signatureMethod() const;
 	SignatureType type() const;
 	SignatureStatus validate() const;
 

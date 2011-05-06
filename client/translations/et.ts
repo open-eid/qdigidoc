@@ -212,6 +212,12 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
         <source>Failed remove document from container</source>
         <translation>Faili eemaldamine ümbrikust ebaõnnestus</translation>
     </message>
+    <message>
+        <source>Filename: %1
+Filesize: %2
+Media type: %3</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -917,10 +923,6 @@ Kontrollkood: %1</translation>
         <translation>Allkirjastamise aeg</translation>
     </message>
     <message>
-        <source>Signature type</source>
-        <translation>Allkirja tüüp</translation>
-    </message>
-    <message>
         <source>Signature format</source>
         <translation>Allkirja formaat</translation>
     </message>
@@ -1019,6 +1021,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>Signature status unknown</source>
         <translation>Allkirja staatus on teadmata</translation>
+    </message>
+    <message>
+        <source>Signature method</source>
+        <translation>Allkirja meetod</translation>
     </message>
 </context>
 <context>

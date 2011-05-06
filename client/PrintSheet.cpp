@@ -168,7 +168,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		newPage( 60 );
 		drawText( left+3, top, tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)") );
 		drawRect( left, top+5, right - margin, 20 );
-		drawText( left+5, top+20, cert.toHex( sig.digestValue() ) );
+		drawText( left+5, top+20, cert.toHex( sig.ocspDigestValue() ) );
 		top += 60;
 
 		++i;

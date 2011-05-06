@@ -212,6 +212,12 @@ There is an option to re-sign this document in a new container.</source>
         <source>Failed remove document from container</source>
         <translation>Не удается удалить файл из конверта</translation>
     </message>
+    <message>
+        <source>Filename: %1
+Filesize: %2
+Media type: %3</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -928,10 +934,6 @@ Control code: %1</source>
         <translation>Время подписи</translation>
     </message>
     <message>
-        <source>Signature type</source>
-        <translation>Тип подписи</translation>
-    </message>
-    <message>
         <source>Signature format</source>
         <translation>Формат подписи</translation>
     </message>
@@ -1022,6 +1024,10 @@ Control code: %1</source>
     <message>
         <source>Signature status unknown</source>
         <translation>Неизвестный статус пользователя</translation>
+    </message>
+    <message>
+        <source>Signature method</source>
+        <translation>Подпись метод</translation>
     </message>
 </context>
 <context>
