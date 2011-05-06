@@ -147,10 +147,10 @@ int QSigner::type()
 	{
 	case SslCertificate::DigiIDType:
 	case SslCertificate::DigiIDTestType:
-		return NID_sha512;
+		return NID_sha256;
 	default: break;
 	}
-	return d->t.cert().publicKey().length() > 1024 ? NID_sha512 : NID_sha224;
+	return d->t.cert().publicKey().length() > 1024 ? NID_sha256 : NID_sha224;
 }
 
 void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::SignException)
