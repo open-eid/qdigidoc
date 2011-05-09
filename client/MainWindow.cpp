@@ -154,7 +154,7 @@ bool MainWindow::addFile( const QString &file )
 		if( !Common::canWrite( docname ) )
 		{
 			select = true;
-			showWarning(
+			qApp->showWarning(
 				tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( docname ) );
 		}
 
@@ -172,7 +172,7 @@ bool MainWindow::addFile( const QString &file )
 
 	if( !doc->signatures().isEmpty() )
 	{
-		showWarning( tr( "You can not add files to signed document. "
+		qApp->showWarning( tr( "You can not add files to signed document. "
 			"Remove all signatures before adding files.") );
 		return false;
 	}
@@ -183,13 +183,13 @@ bool MainWindow::addFile( const QString &file )
 
 	if( !fileinfo.exists() )
 	{
-		showWarning( tr("File does not exists\n%1").arg( display ) );
+		qApp->showWarning( tr("File does not exists\n%1").arg( display ) );
 		return false;
 	}
 
 	if( fileinfo.absoluteFilePath() == doc->fileName() )
 	{
-		showWarning( tr("Cannot add container to same container\n%1").arg( display ) );
+		qApp->showWarning( tr("Cannot add container to same container\n%1").arg( display ) );
 		return false;
 	}
 
@@ -691,7 +691,7 @@ QString MainWindow::selectFile( const QString &filename )
 		if( !exts.contains( QFileInfo( file ).suffix(), Qt::CaseInsensitive ) )
 			file.append( "." + exts[0] );
 		if( !Common::canWrite( file ) )
-			showWarning(
+			qApp->showWarning(
 				tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( file ) );
 		else
 			return file;
@@ -801,9 +801,6 @@ void MainWindow::showCardStatus()
 
 	enableSign();
 }
-
-int MainWindow::showWarning( const QString &msg )
-{ return QMessageBox::warning( this, tr("DigiDoc3 client"), msg ); }
 
 void MainWindow::viewSignaturesRemove( unsigned int num )
 {

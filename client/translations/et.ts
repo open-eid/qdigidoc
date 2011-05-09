@@ -106,6 +106,10 @@ PIN1 on blokeeritud</translation>
         <source>New window</source>
         <translation>Uus aken</translation>
     </message>
+    <message>
+        <source>Caught exception!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>

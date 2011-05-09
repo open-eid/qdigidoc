@@ -144,9 +144,6 @@ public:
 	static bool parseException( const digidoc::Exception &e, QStringList &causes,
 		digidoc::Exception::ExceptionCode &code, int &ddocError );
 
-Q_SIGNALS:
-	void error( const QString &msg, int err = -1, const QString &details = QString() );
-
 private:
 	bool checkDoc( bool status = false, const QString &msg = QString() );
 	void setLastError( const QString &msg, const digidoc::Exception &e );

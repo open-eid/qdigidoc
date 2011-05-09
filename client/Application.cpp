@@ -299,6 +299,24 @@ void Application::loadTranslation( const QString &lang )
 #endif
 }
 
+bool Application::notify( QObject *o, QEvent *e )
+{
+	bool result = false;
+	try
+	{
+		result = QApplication::notify( o, e );
+	}
+	catch( const digidoc::Exception &e )
+	{
+		QStringList causes;
+		digidoc::Exception::ExceptionCode code = digidoc::Exception::NoException;
+		int ddocError = -1;
+		DigiDoc::parseException( e, causes, code, ddocError );
+		showWarning( tr("Caught exception!"), ddocError, causes.join("\n") );
+	}
+	return result;
+}
+
 void Application::parseArgs( const QString &msg )
 {
 	QStringList params = msg.split( "\", \"", QString::SkipEmptyParts );
@@ -321,21 +339,29 @@ void Application::parseArgs( const QString &msg )
 
 void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 {
-	digidoc::Conf *i = NULL;
-	try { i = digidoc::Conf::getInstance(); }
-	catch( const digidoc::Exception & ) { return; }
-
-	const std::string v = value.toString().toStdString();
-	switch( parameter )
+	try
 	{
-	case ProxyHost: i->setProxyHost( v ); break;
-	case ProxyPort: i->setProxyPort( v ); break;
-	case ProxyUser: i->setProxyUser( v ); break;
-	case ProxyPass: i->setProxyPass( v ); break;
-	case PKCS12Cert: i->setPKCS12Cert( v ); break;
-	case PKCS12Pass: i->setPKCS12Pass( v ); break;
-	case PKCS12Disable: i->setPKCS12Disable( value.toBool() ); break;
-	default: break;
+		digidoc::Conf *i = digidoc::Conf::getInstance();
+		const std::string v = value.toString().toStdString();
+		switch( parameter )
+		{
+		case ProxyHost: i->setProxyHost( v ); break;
+		case ProxyPort: i->setProxyPort( v ); break;
+		case ProxyUser: i->setProxyUser( v ); break;
+		case ProxyPass: i->setProxyPass( v ); break;
+		case PKCS12Cert: i->setPKCS12Cert( v ); break;
+		case PKCS12Pass: i->setPKCS12Pass( v ); break;
+		case PKCS12Disable: i->setPKCS12Disable( value.toBool() ); break;
+		default: break;
+		}
+	}
+	catch( const digidoc::Exception &e )
+	{
+		QStringList causes;
+		digidoc::Exception::ExceptionCode code = digidoc::Exception::NoException;
+		int ddocError = -1;
+		DigiDoc::parseException( e, causes, code, ddocError );
+		showWarning( tr("Caught exception!"), ddocError, causes.join("\n") );
 	}
 }
 

@@ -106,6 +106,10 @@ PIN1 is blocked</translation>
         <source>New window</source>
         <translation>New window</translation>
     </message>
+    <message>
+        <source>Caught exception!</source>
+        <translation>Caught exception!</translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>

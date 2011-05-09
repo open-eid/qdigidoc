@@ -461,9 +461,7 @@ DigiDoc::DigiDoc( QObject *parent )
 :	QObject( parent )
 ,	b(0)
 ,	m_documentModel( new DocumentModel( this ) )
-{
-	connect( this, SIGNAL(error(QString,int,QString)), qApp, SLOT(showWarning(QString,int,QString)) );
-}
+{}
 
 DigiDoc::~DigiDoc() { clear(); }
 
@@ -493,9 +491,9 @@ bool DigiDoc::addSignature( const QByteArray &signature )
 bool DigiDoc::checkDoc( bool status, const QString &msg )
 {
 	if( isNull() )
-		Q_EMIT error( tr("Container is not open") );
+		qApp->showWarning( tr("Container is not open") );
 	else if( status )
-		Q_EMIT error( msg );
+		qApp->showWarning( msg );
 	return !isNull() && !status;
 }
 
@@ -537,7 +535,7 @@ bool DigiDoc::open( const QString &file )
 				ver.compare( 0, 15, "DIGIDOC-XML/1.1" ) == 0 ||
 				ver.compare( 0, 15, "DIGIDOC-XML/1.2" ) == 0 )
 			{
-				Q_EMIT error( tr(
+				qApp->showWarning( tr(
 					"The current file is a DigiDoc container not supported officially any longer.\n"
 					"We do not recommend you to add signature to this document.\n"
 					"There is an option to re-sign this document in a new container.") );
@@ -618,23 +616,23 @@ void DigiDoc::setLastError( const QString &msg, const Exception &e )
 	switch( code )
 	{
 	case Exception::CertificateRevoked:
-		Q_EMIT error( tr("Certificate status revoked"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("Certificate status revoked"), ddocError, causes.join("\n") ); break;
 	case Exception::CertificateUnknown:
-		Q_EMIT error( tr("Certificate status unknown"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("Certificate status unknown"), ddocError, causes.join("\n") ); break;
 	case Exception::OCSPTimeSlot:
-		Q_EMIT error( tr("Check your computer time"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("Check your computer time"), ddocError, causes.join("\n") ); break;
 	case Exception::OCSPRequestUnauthorized:
-		Q_EMIT error( tr("Server access certificate is required"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("Server access certificate is required"), ddocError, causes.join("\n") ); break;
 	case Exception::PINCanceled:
 		break;
 	case Exception::PINFailed:
-		Q_EMIT error( tr("PIN Login failed"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("PIN Login failed"), ddocError, causes.join("\n") ); break;
 	case Exception::PINIncorrect:
-		Q_EMIT error( tr("PIN Incorrect"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("PIN Incorrect"), ddocError, causes.join("\n") ); break;
 	case Exception::PINLocked:
-		Q_EMIT error( tr("PIN Locked. Please use ID-card utility for PIN opening!"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("PIN Locked. Please use ID-card utility for PIN opening!"), ddocError, causes.join("\n") ); break;
 	default:
-		Q_EMIT error( msg, ddocError, causes.join("\n") ); break;
+		qApp->showWarning( msg, ddocError, causes.join("\n") ); break;
 	}
 }
 
@@ -664,7 +662,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		parseException( e, causes, code, ddocError );
 		if( code == Exception::PINIncorrect )
 		{
-			Q_EMIT error( tr("PIN Incorrect") );
+			qApp->showWarning( tr("PIN Incorrect") );
 			if( !(qApp->signer()->token().flags() & TokenData::PinLocked) )
 				return sign( city, state, zip, country, role, role2 );
 		}

@@ -106,6 +106,10 @@ PIN заблокирован</translation>
         <source>New window</source>
         <translation>Новое окно</translation>
     </message>
+    <message>
+        <source>Caught exception!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>

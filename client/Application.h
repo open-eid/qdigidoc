@@ -56,15 +56,16 @@ public:
 	~Application();
 
 	void loadTranslation( const QString &lang );
+	bool notify( QObject *o, QEvent *e );
 	QSigner* signer() const;
 
 	static QVariant confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
+	static void showWarning( const QString &msg, int err = -1, const QString &details = QString() );
 
 public Q_SLOTS:
 	void showAbout();
 	void showSettings( int page = 0 );
-	void showWarning( const QString &msg, int err = -1, const QString &details = QString() );
 
 private Q_SLOTS:
 	void activateWindow( QAction *a );
