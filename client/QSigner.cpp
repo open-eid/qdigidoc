@@ -22,6 +22,8 @@
 
 #include "QSigner.h"
 
+#include "Application.h"
+
 #include <common/QPKCS11.h>
 #include <common/TokenData.h>
 
@@ -50,6 +52,7 @@ QSigner::QSigner( QObject *parent )
 ,	d( new QSignerPrivate )
 {
 	d->t.setCard( "loading" );
+	connect( this, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
 }
 
 QSigner::~QSigner()
@@ -152,6 +155,9 @@ int QSigner::type()
 	}
 	return d->t.cert().publicKey().length() > 1024 ? NID_sha256 : NID_sha224;
 }
+
+void QSigner::showWarning( const QString &msg )
+{ qApp->showWarning( msg ); }
 
 void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::SignException)
 {

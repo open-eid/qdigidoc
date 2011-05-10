@@ -51,6 +51,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
 	void selectCard( const QString &card );
+	void showWarning( const QString &msg );
 
 private:
 	void reload();
