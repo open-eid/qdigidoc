@@ -25,6 +25,7 @@
 #include "Application.h"
 #include "QSigner.h"
 
+#include <common/QPKCS11.h>
 #include <common/SslCertificate.h>
 #include <common/sslConnect.h>
 #include <common/TokenData.h>
@@ -79,44 +80,46 @@ bool AccessCert::download( bool noCard )
 		return false;
 	}
 
-	qApp->signer()->lock();
-	QScopedPointer<SSLConnect> ssl( new SSLConnect( QString() ) );
-	ssl->setPKCS11( Application::confValue( Application::PKCS11Module ).toString(), false );
-	ssl->setCard( qApp->signer()->token().card() );
-	QByteArray result;
-
+	QSigner *s = qApp->signer();
+	QPKCS11 *p = s->handle();
+	s->lock();
+	TokenData token;
 	bool retry = false;
 	do
 	{
 		retry = false;
-		if( ssl->flags() & TokenData::PinLocked )
+		token = p->selectSlot( s->token().card(), SslCertificate::DataEncipherment );
+		switch( p->login( token ) )
 		{
-			showWarning( tr("Error downloading server access certificate!\nPIN1 is blocked" ) );
-			qApp->signer()->unlock();
+		case QPKCS11::PinOK: break;
+		case QPKCS11::PinCanceled:
+			s->unlock();
 			return false;
-		}
-		result = ssl->getUrl( SSLConnect::AccessCert );
-		switch( ssl->error() )
-		{
-		case SSLConnect::PinCanceledError:
-			qApp->signer()->unlock();
-			return false;
-		case SSLConnect::PinInvalidError:
-			showWarning( ssl->errorString() );
+		case QPKCS11::PinIncorrect:
+			showWarning( tr("PIN Incorrect") );
 			retry = true;
 			break;
+		case QPKCS11::PinLocked:
+			showWarning( tr("Error downloading server access certificate!\nPIN1 is blocked" ) );
+			s->unlock();
+			return false;
 		default:
-			if( !ssl->errorString().isEmpty() )
-			{
-				showWarning( tr("Error downloading server access certificate!\n%1").arg( ssl->errorString() ) );
-				qApp->signer()->unlock();
-				return false;
-			}
-			break;
+			showWarning( tr("Failed to validate PIN") );
+			s->unlock();
+			return false;
 		}
 	}
 	while( retry );
-	qApp->signer()->unlock();
+
+	QScopedPointer<SSLConnect> ssl( new SSLConnect );
+	ssl->setToken( token.cert(), p->key() );
+	QByteArray result = ssl->getUrl( SSLConnect::AccessCert );
+	if( !ssl->errorString().isEmpty() )
+	{
+		showWarning( tr("Error downloading server access certificate!\n%1").arg( ssl->errorString() ) );
+		return false;
+	}
+	s->unlock();
 
 	if( result.isEmpty() )
 	{
@@ -125,7 +128,7 @@ bool AccessCert::download( bool noCard )
 	}
 
 	QDomDocument domDoc;
-	if( !domDoc.setContent( QString::fromUtf8( result ) ) )
+	if( !domDoc.setContent( result ) )
 	{
 		showWarning( tr("Error parsing server access certificate result!") );
 		return false;
