@@ -694,7 +694,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>HASH VALUE OF ISSUER&apos;S PUBLIC KEY</source>
-        <translation>SERTIFIKAADI VÄLJAANDJA AVALIKU VÕTME LÜHEND</translation>
+        <translation>SERTIFIKAADI VÄLJAANDJA  AVALIKU VÕTME LÜHEND</translation>
     </message>
     <message>
         <source>HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)</source>
