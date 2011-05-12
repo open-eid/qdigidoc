@@ -82,14 +82,17 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	setPen( oPen );
 	drawText( left, top, tr("FILE NAME") );
 	drawText( left+400, top, tr("FILE SIZE") );
-	drawRect( left, top+5, right - margin, 20*doc->documentModel()->rowCount() );
 	for( int i = 0; i < doc->documentModel()->rowCount(); ++i )
 	{
+		drawLine( left, top+5, right, top+5 );
+		drawLine( left, top+5, left, top+25 );
 		drawLine( left+395, top+5, left+395, top+25 );
+		drawLine( right, top+5, right, top+25 );
 		top += 20;
 		drawText( left+5, top, doc->documentModel()->index( i, 0 ).data().toString() );
 		drawText( left+400, top, doc->documentModel()->index( i, 2 ).data().toString() );
 		drawLine( left, top+5, right, top+5 );
+		newPage( 50 );
 	}
 	top += 35;
 
