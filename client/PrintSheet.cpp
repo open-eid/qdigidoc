@@ -158,11 +158,11 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 
 		newPage( 50 );
 		drawText( left+3, top, tr("ISSUER OF CERTIFICATE") );
-		drawText( left+187, top, tr("HASH VALUE OF ISSUER'S PUBLIC KEY") );
+		drawText( left+207, top, tr("HASH VALUE OF ISSUER'S PUBLIC KEY") );
 		drawRect( left, top+5, right - margin, 20 );
-		drawLine( left+180, top+5, left+180, top+25 );
+		drawLine( left+200, top+5, left+200, top+25 );
 		drawText( left+5, top+20, cert.issuerInfo( QSslCertificate::CommonName ) );
-		drawText( left+187, top+20, cert.toHex( cert.authorityKeyIdentifier() ) );
+		drawText( left+207, top+20, cert.toHex( cert.authorityKeyIdentifier() ) );
 		top += 45;
 
 		newPage( 60 );
