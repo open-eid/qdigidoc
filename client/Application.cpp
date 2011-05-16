@@ -202,21 +202,21 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	try { i = digidoc::Conf::getInstance(); }
 	catch( const digidoc::Exception & ) { return value; }
 
-	std::string r;
+	QByteArray r;
 	switch( parameter )
 	{
-	case CertStorePath: r = i->getCertStorePath(); break;
-	case PKCS11Module: r = i->getPKCS11DriverPath(); break;
-	case ProxyHost: r = i->getProxyHost(); break;
-	case ProxyPort: r = i->getProxyPort(); break;
-	case ProxyUser: r = i->getProxyUser(); break;
-	case ProxyPass: r = i->getProxyPass(); break;
-	case PKCS12Cert: r = i->getPKCS12Cert(); break;
-	case PKCS12Pass: r = i->getPKCS12Pass(); break;
+	case CertStorePath: r = i->getCertStorePath().c_str(); break;
+	case PKCS11Module: r = i->getPKCS11DriverPath().c_str(); break;
+	case ProxyHost: r = i->getProxyHost().c_str(); break;
+	case ProxyPort: r = i->getProxyPort().c_str(); break;
+	case ProxyUser: r = i->getProxyUser().c_str(); break;
+	case ProxyPass: r = i->getProxyPass().c_str(); break;
+	case PKCS12Cert: r = i->getPKCS12Cert().c_str(); break;
+	case PKCS12Pass: r = i->getPKCS12Pass().c_str(); break;
 	case PKCS12Disable: return i->getPKCS12Disable(); break;
 	default: break;
 	}
-	return r.empty() ? value.toString() : QString::fromStdString( r );
+	return r.isEmpty() ? value.toString() : QString::fromUtf8( r );
 }
 
 bool Application::event( QEvent *e )
@@ -341,15 +341,15 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 	try
 	{
 		digidoc::Conf *i = digidoc::Conf::getInstance();
-		const std::string v = value.toString().toStdString();
+                QByteArray v = value.toString().toUtf8();
 		switch( parameter )
 		{
-		case ProxyHost: i->setProxyHost( v ); break;
-		case ProxyPort: i->setProxyPort( v ); break;
-		case ProxyUser: i->setProxyUser( v ); break;
-		case ProxyPass: i->setProxyPass( v ); break;
-		case PKCS12Cert: i->setPKCS12Cert( v ); break;
-		case PKCS12Pass: i->setPKCS12Pass( v ); break;
+		case ProxyHost: i->setProxyHost( v.constData() ); break;
+		case ProxyPort: i->setProxyPort( v.constData() ); break;
+		case ProxyUser: i->setProxyUser( v.constData() ); break;
+		case ProxyPass: i->setProxyPass( v.constData() ); break;
+		case PKCS12Cert: i->setPKCS12Cert( v.constData() ); break;
+		case PKCS12Pass: i->setPKCS12Pass( v.constData() ); break;
 		case PKCS12Disable: i->setPKCS12Disable( value.toBool() ); break;
 		default: break;
 		}
