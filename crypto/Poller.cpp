@@ -87,18 +87,13 @@ Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 		return DecryptFailed;
 	}
 
-	char *data = new char[in.size()];
-	unsigned long size = 0;
-	bool status = d->pkcs11.decrypt( in, (unsigned char*)data, &size );
+	out = d->pkcs11.decrypt( in );
 	d->pkcs11.logout();
-	if( !status )
+	if( out.isEmpty() )
 		Q_EMIT error( tr("Failed to decrypt document") );
-	else
-		out = QByteArray( data, size );
-	delete [] data;
 	locker.unlock();
 	reload();
-	return status ? DecryptOK : DecryptFailed;
+	return !out.isEmpty() ? DecryptOK : DecryptFailed;
 }
 
 void Poller::reload()
