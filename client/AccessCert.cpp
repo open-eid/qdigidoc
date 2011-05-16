@@ -175,7 +175,7 @@ bool AccessCert::download( bool noCard )
 	}
 	f.write( QByteArray::fromBase64( cert.toLatin1() ) );
 
-	Application::setConfValue( Application::PKCS12Cert, m_cert = f.fileName() );
+	Application::setConfValue( Application::PKCS12Cert, m_cert = QDir::toNativeSeparators( f.fileName() ) );
 	Application::setConfValue( Application::PKCS12Pass, m_pass = e.elementsByTagName( "TokenPassword" ).item(0).toElement().text() );
 	return true;
 }
