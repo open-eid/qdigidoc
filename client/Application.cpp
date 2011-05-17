@@ -139,7 +139,8 @@ Application::Application( int &argc, char **argv )
 
 	try
 	{
-		digidoc::initialize();
+		digidoc::initialize( QString( "%1/%2 (%3)" )
+			.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData() );
 		digidoc::X509CertStore::init( new digidoc::DirectoryX509CertStore() );
 	}
 	catch( const digidoc::Exception &e )
