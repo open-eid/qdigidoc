@@ -46,6 +46,7 @@
 #include <QSslCertificate>
 #include <QSslConfiguration>
 #include <QTranslator>
+#include <QUrl>
 
 #if defined(Q_OS_MAC)
 #include <QMenu>
@@ -318,7 +319,12 @@ bool Application::notify( QObject *o, QEvent *e )
 
 void Application::parseArgs( const QString &msg )
 {
-	QStringList params = msg.split( "\", \"", QString::SkipEmptyParts );
+	QStringList params;
+	Q_FOREACH( const QString &param, msg.split( "\", \"", QString::SkipEmptyParts ) )
+	{
+		QUrl url( param );
+		params << (url.errorString().isEmpty() ? url.toLocalFile() : param);
+	}
 	QStringList exts = QStringList() << "p12" << "p12d";
 	QWidget *w = 0;
 	if( exts.contains( QFileInfo( params.value( 0 ) ).suffix(), Qt::CaseInsensitive ) )

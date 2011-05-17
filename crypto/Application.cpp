@@ -40,6 +40,7 @@
 #include <QFileOpenEvent>
 #include <QMessageBox>
 #include <QTranslator>
+#include <QUrl>
 
 #if defined(Q_OS_MAC)
 #include <QMenu>
@@ -264,7 +265,12 @@ void Application::loadTranslation( const QString &lang )
 
 void Application::parseArgs( const QString &msg )
 {
-	QStringList params = msg.split( "\", \"", QString::SkipEmptyParts );
+	QStringList params;
+	Q_FOREACH( const QString &param, msg.split( "\", \"", QString::SkipEmptyParts ) )
+	{
+		QUrl url( param );
+		params << (url.errorString().isEmpty() ? url.toLocalFile() : param);
+	}
 	QWidget *w = new MainWindow();
 	w->installEventFilter( this );
 	w->addAction( d->closeAction );
