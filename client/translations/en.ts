@@ -75,6 +75,14 @@ PIN1 is blocked</translation>
         <source>Agree</source>
         <translation>Agree</translation>
     </message>
+    <message>
+        <source>PIN Incorrect</source>
+        <translation>PIN Incorrect</translation>
+    </message>
+    <message>
+        <source>Failed to validate PIN</source>
+        <translation>Failed to validate PIN</translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -981,10 +989,6 @@ Control code: %1</translation>
         <translation>Role / resolution</translation>
     </message>
     <message>
-        <source>Show certificate</source>
-        <translation>Show certificate</translation>
-    </message>
-    <message>
         <source>Signature</source>
         <translation>Signature</translation>
     </message>
@@ -995,10 +999,6 @@ Control code: %1</translation>
     <message>
         <source>Value</source>
         <translation>Value</translation>
-    </message>
-    <message>
-        <source>OCSP</source>
-        <translation>OCSP</translation>
     </message>
     <message>
         <source>Signature is valid</source>
@@ -1021,16 +1021,28 @@ Control code: %1</translation>
         <translation>Signature is not valid</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>Help</translation>
-    </message>
-    <message>
         <source>Signature status unknown</source>
         <translation>Signature status unknown</translation>
     </message>
     <message>
         <source>Signature method</source>
         <translation>Signature method</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Error</translation>
+    </message>
+    <message>
+        <source>Show signature certificate</source>
+        <translation>Show signature certificate</translation>
+    </message>
+    <message>
+        <source>Show OCSP certificate</source>
+        <translation>Show OCSP certificate</translation>
+    </message>
+    <message>
+        <source>Validity of approval</source>
+        <translation>Validity of approval</translation>
     </message>
 </context>
 <context>

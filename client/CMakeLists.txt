@@ -133,7 +133,6 @@ target_link_libraries( ${PROGNAME}
 	${LIBDIGIDOCPP_LIBRARY}
 	${OPENSSL_LIBRARIES}
 	${EXTRA_LIBRARIES}
-	${CMAKE_DL_LIBS}
 	qdigidoccommon
 	qtsingleapplication
 )

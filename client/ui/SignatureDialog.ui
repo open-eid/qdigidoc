@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>335</height>
+    <width>431</width>
+    <height>305</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="SignatureDialogLayout">
@@ -18,28 +18,38 @@
     <widget class="QLabel" name="title"/>
    </item>
    <item>
-    <widget class="QLabel" name="error">
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <widget class="QLabel" name="error">
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+      </property>
+      <attribute name="title">
+       <string>Error</string>
+      </attribute>
+     </widget>
      <widget class="QWidget" name="signer">
       <attribute name="title">
        <string>Signer</string>
       </attribute>
-      <layout class="QGridLayout" name="signerLayout">
-       <item row="0" column="0" rowspan="3">
+      <layout class="QHBoxLayout" name="signerLayout">
+       <item>
         <widget class="QGroupBox" name="signerLocationGroup">
          <property name="title">
           <string>Signer location</string>
          </property>
          <layout class="QFormLayout" name="signerLocationGroupLayout">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::ExpandingFieldsGrow</enum>
+          </property>
           <item row="0" column="0">
            <widget class="QLabel" name="signerCityLabel">
             <property name="text">
@@ -112,7 +122,7 @@
          </layout>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item>
         <widget class="QGroupBox" name="signerRoleGroup">
          <property name="title">
           <string>Role / resolution</string>
@@ -132,118 +142,59 @@
             </property>
            </widget>
           </item>
+          <item>
+           <spacer name="signerSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </widget>
        </item>
-       <item row="1" column="1">
-        <spacer name="signerSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="signerShowCert">
-         <property name="text">
-          <string>Show certificate</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="signature">
+     <widget class="QTreeWidget" name="signatureView">
+      <property name="rootIsDecorated">
+       <bool>false</bool>
+      </property>
       <attribute name="title">
        <string>Signature</string>
       </attribute>
-      <layout class="QGridLayout" name="signatureLayout">
-       <item row="0" column="0" colspan="2">
-        <widget class="QTreeWidget" name="signatureView">
-         <property name="rootIsDecorated">
-          <bool>false</bool>
-         </property>
-         <column>
-          <property name="text">
-           <string>Attribute</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Value</string>
-          </property>
-         </column>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <spacer name="signatureSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="signatureShowCert">
-         <property name="text">
-          <string>Show certificate</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <column>
+       <property name="text">
+        <string>Attribute</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Value</string>
+       </property>
+      </column>
      </widget>
-     <widget class="QWidget" name="ocsp">
+     <widget class="QTreeWidget" name="ocspView">
+      <property name="rootIsDecorated">
+       <bool>false</bool>
+      </property>
       <attribute name="title">
-       <string>OCSP</string>
+       <string>Validity of approval</string>
       </attribute>
-      <layout class="QGridLayout" name="verifyLayout">
-       <item row="0" column="0" colspan="2">
-        <widget class="QTreeWidget" name="ocspView">
-         <property name="rootIsDecorated">
-          <bool>false</bool>
-         </property>
-         <column>
-          <property name="text">
-           <string>Attribute</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Value</string>
-          </property>
-         </column>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <spacer name="ocspSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="ocspShowCert">
-         <property name="text">
-          <string>Show certificate</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <column>
+       <property name="text">
+        <string>Attribute</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Value</string>
+       </property>
+      </column>
      </widget>
     </widget>
    </item>
@@ -262,7 +213,7 @@
    <sender>buttonBox</sender>
    <signal>clicked(QAbstractButton*)</signal>
    <receiver>SignatureDialog</receiver>
-   <slot>close()</slot>
+   <slot>buttonClicked(QAbstractButton*)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>199</x>
@@ -274,74 +225,8 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>signatureShowCert</sender>
-   <signal>clicked()</signal>
-   <receiver>SignatureDialog</receiver>
-   <slot>showCertificate()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>335</x>
-     <y>272</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>167</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>signerShowCert</sender>
-   <signal>clicked()</signal>
-   <receiver>SignatureDialog</receiver>
-   <slot>showCertificate()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>300</x>
-     <y>272</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>167</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ocspShowCert</sender>
-   <signal>clicked()</signal>
-   <receiver>SignatureDialog</receiver>
-   <slot>showOCSPCertificate()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>335</x>
-     <y>272</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>167</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>error</sender>
-   <signal>linkActivated(QString)</signal>
-   <receiver>SignatureDialog</receiver>
-   <slot>showHelp()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>199</x>
-     <y>31</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>167</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
  <slots>
-  <slot>showCertificate()</slot>
-  <slot>showOCSPCertificate()</slot>
-  <slot>showHelp()</slot>
+  <slot>buttonClicked(QAbstractButton*)</slot>
  </slots>
 </ui>

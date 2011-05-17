@@ -75,6 +75,14 @@ PIN1 on blokeeritud</translation>
         <source>Agree</source>
         <translation>Nõustun</translation>
     </message>
+    <message>
+        <source>PIN Incorrect</source>
+        <translation>PIN vigane</translation>
+    </message>
+    <message>
+        <source>Failed to validate PIN</source>
+        <translation>PIN koodi valideerimine ebaõnnestus</translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -979,10 +987,6 @@ Kontrollkood: %1</translation>
         <translation>Roll / resolutsioon</translation>
     </message>
     <message>
-        <source>Show certificate</source>
-        <translation>Näita sertifikaati</translation>
-    </message>
-    <message>
         <source>Signature</source>
         <translation>Allkiri</translation>
     </message>
@@ -993,10 +997,6 @@ Kontrollkood: %1</translation>
     <message>
         <source>Value</source>
         <translation>Väärtus</translation>
-    </message>
-    <message>
-        <source>OCSP</source>
-        <translation>Kehtivuskinnitus</translation>
     </message>
     <message>
         <source>Signature is valid</source>
@@ -1019,16 +1019,28 @@ Kontrollkood: %1</translation>
         <translation>Allkiri ei ole kehtiv</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>Abi</translation>
-    </message>
-    <message>
         <source>Signature status unknown</source>
         <translation>Allkirja staatus on teadmata</translation>
     </message>
     <message>
         <source>Signature method</source>
         <translation>Allkirja meetod</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Viga</translation>
+    </message>
+    <message>
+        <source>Show signature certificate</source>
+        <translation>Näita allkirjastamise sertifikaati</translation>
+    </message>
+    <message>
+        <source>Show OCSP certificate</source>
+        <translation>Näita kehtivuskinnituse sertifikaati</translation>
+    </message>
+    <message>
+        <source>Validity of approval</source>
+        <translation>Kehtivuskinnitus</translation>
     </message>
 </context>
 <context>

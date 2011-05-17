@@ -90,6 +90,7 @@ public:
 	QDateTime	dateTime() const;
 	bool		isTest() const;
 	QString		lastError() const;
+	int			lastErrorCode() const;
 	QString		location() const;
 	QStringList	locations() const;
 	QString		mediaType() const;
@@ -106,10 +107,10 @@ public:
 private:
 	void setLastError( const digidoc::Exception &e ) const;
 	int parseException( const digidoc::Exception &e ) const;
-	void parseExceptionStrings( const digidoc::Exception &e, QStringList &causes ) const;
 
 	const digidoc::Signature *s;
 	mutable QString m_lastError;
+	mutable int m_lastErrorCode;
 	DigiDoc *m_parent;
 };
 

@@ -27,6 +27,7 @@
 
 #include "DigiDoc.h"
 
+class QAbstractButton;
 class QTreeWidget;
 class SignatureDialogPrivate;
 
@@ -57,9 +58,7 @@ public:
 	~SignatureDialog();
 
 private Q_SLOTS:
-	void showCertificate();
-	void showHelp();
-	void showOCSPCertificate();
+	void buttonClicked( QAbstractButton *button );
 
 private:
 	void addItem( QTreeWidget *view, const QString &variable, const QString &value );

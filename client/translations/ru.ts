@@ -75,6 +75,14 @@ PIN заблокирован</translation>
         <source>Agree</source>
         <translation>Подтверждаю</translation>
     </message>
+    <message>
+        <source>PIN Incorrect</source>
+        <translation>Неверный PIN</translation>
+    </message>
+    <message>
+        <source>Failed to validate PIN</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -990,10 +998,6 @@ Control code: %1</source>
         <translation>Роль / резолюция</translation>
     </message>
     <message>
-        <source>Show certificate</source>
-        <translation>См. сертификат</translation>
-    </message>
-    <message>
         <source>Signature</source>
         <translation>Подпись</translation>
     </message>
@@ -1004,10 +1008,6 @@ Control code: %1</source>
     <message>
         <source>Value</source>
         <translation>Значение</translation>
-    </message>
-    <message>
-        <source>OCSP</source>
-        <translation>Подтвердить</translation>
     </message>
     <message>
         <source>Time</source>
@@ -1022,16 +1022,28 @@ Control code: %1</source>
         <translation>Подпись недействительна</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation>Помощь</translation>
-    </message>
-    <message>
         <source>Signature status unknown</source>
         <translation>Неизвестный статус пользователя</translation>
     </message>
     <message>
         <source>Signature method</source>
         <translation>Подпись метод</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <source>Show signature certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show OCSP certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Validity of approval</source>
+        <translation>Подтвердить</translation>
     </message>
 </context>
 <context>

@@ -33,6 +33,7 @@
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QSslKey>
 #include <QTextDocument>
 #include <QTextStream>
@@ -123,7 +124,13 @@ void SignatureWidget::link( const QString &url )
 
 
 
-class SignatureDialogPrivate: public Ui::SignatureDialog {};
+class SignatureDialogPrivate: public Ui::SignatureDialog
+{
+public:
+	SignatureDialogPrivate(): signCert(0), ocspCert(0) {}
+
+	QAbstractButton *signCert, *ocspCert;
+};
 
 SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *parent )
 :	QWidget( parent )
@@ -135,32 +142,32 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	setWindowFlags( Qt::Sheet );
 
 	const SslCertificate c = s.cert();
-	QString titleText = c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" );
-	d->title->setText( titleText );
-	setWindowTitle( titleText );
+	if( !s.cert().isNull() )
+		d->signCert = d->buttonBox->addButton( tr("Show signature certificate"), QDialogButtonBox::ActionRole );
+	if( !s.ocspCert().isNull() )
+		d->ocspCert = d->buttonBox->addButton( tr("Show OCSP certificate"), QDialogButtonBox::ActionRole );
 
-	QString msg;
-	QTextStream st( &msg );
+	QString titleText = c.toString( c.showCN() ? "CN serialNumber\n" : "GN SN serialNumber\n" );
 	switch( s.validate() )
 	{
 	case DigiDocSignature::Valid:
-		st << tr("Signature is valid"); break;
+		titleText += tr("Signature is valid");
+		break;
 	case DigiDocSignature::Invalid:
-		st << "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>"
-			<< "<td>" << tr("Signature is not valid") << "</td>"
-			<< "<td align=\"right\"><a href=\"help\">" << tr("Help") << "</a></td>"
-			<< "</tr></table>"
-			<< "(" << (s.lastError().isEmpty() ? tr("Unknown error") : s.lastError()) << ")";
+		titleText += tr("Signature is not valid");
+		d->error->setText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
+		d->buttonBox->addButton( QDialogButtonBox::Help );
 		break;
 	case DigiDocSignature::Unknown:
-		st << "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>"
-			<< "<td>" << tr("Signature status unknown") << "</td>"
-			<< "<td align=\"right\"><a href=\"help\">" << tr("Help") << "</a></td>"
-			<< "</tr></table>"
-			<< "(" << (s.lastError().isEmpty() ? tr("Unknown error") : s.lastError()) << ")";
+		titleText += tr("Signature status unknown");
+		d->error->setText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
+		d->buttonBox->addButton( QDialogButtonBox::Help );
 		break;
 	}
-	d->error->setText( msg );
+	if( d->error->text().isEmpty() )
+		d->tabWidget->removeTab( 0 );
+	d->title->setText( titleText );
+	setWindowTitle( titleText );
 
 	const QStringList l = s.locations();
 	d->signerCity->setText( l.value( 0 ) );
@@ -212,11 +219,14 @@ void SignatureDialog::addItem( QTreeWidget *view, const QString &variable, const
 	view->addTopLevelItem( i );
 }
 
-void SignatureDialog::showCertificate()
-{ CertificateDialog( s.cert(), this ).exec(); }
-
-void SignatureDialog::showHelp()
-{ Common::showHelp( s.lastError() ); }
-
-void SignatureDialog::showOCSPCertificate()
-{ CertificateDialog( s.ocspCert(), this ).exec(); }
+void SignatureDialog::buttonClicked( QAbstractButton *button )
+{
+	if( button == d->buttonBox->button( QDialogButtonBox::Help ) )
+		Common::showHelp( s.lastError(), s.lastErrorCode() );
+	else if( button == d->buttonBox->button( QDialogButtonBox::Close ) )
+		close();
+	else if( button == d->signCert )
+		CertificateDialog( s.cert(), this ).exec();
+	else if( button == d->ocspCert )
+		CertificateDialog( s.ocspCert(), this ).exec();
+}

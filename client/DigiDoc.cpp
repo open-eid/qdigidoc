@@ -222,6 +222,7 @@ int DocumentModel::rowCount( const QModelIndex &parent ) const
 
 DigiDocSignature::DigiDocSignature( const digidoc::Signature *signature, DigiDoc *parent )
 :	s(signature)
+,	m_lastErrorCode(-1)
 ,	m_parent(parent)
 {}
 
@@ -270,6 +271,7 @@ bool DigiDocSignature::isTest() const
 }
 
 QString DigiDocSignature::lastError() const { return m_lastError; }
+int DigiDocSignature::lastErrorCode() const { return m_lastErrorCode; }
 
 QString DigiDocSignature::location() const
 {
@@ -372,15 +374,6 @@ int DigiDocSignature::parseException( const digidoc::Exception &e ) const
 	return e.code();
 }
 
-void DigiDocSignature::parseExceptionStrings( const digidoc::Exception &e, QStringList &causes ) const
-{
-	causes << from( e.getMsg() );
-	if( e.ddoc() > 0 )
-		causes << QString("libdigidoc code: %1<br />message: %2").arg( e.ddoc() ).arg( from( e.ddocMsg() ) );
-	Q_FOREACH( const Exception &c, e.getCauses() )
-		parseExceptionStrings( c, causes );
-}
-
 QString DigiDocSignature::role() const
 {
 	QStringList r = roles();
@@ -401,8 +394,11 @@ QStringList DigiDocSignature::roles() const
 void DigiDocSignature::setLastError( const Exception &e ) const
 {
 	QStringList causes;
-	parseExceptionStrings( e, causes );
+	Exception::ExceptionCode code = Exception::NoException;
+	int ddocError = -1;
+	DigiDoc::parseException( e, causes, code, ddocError );
 	m_lastError = causes.join( "<br />" );
+	m_lastErrorCode = ddocError;
 }
 
 QString DigiDocSignature::signatureMethod() const
