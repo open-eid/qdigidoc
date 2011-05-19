@@ -31,6 +31,7 @@
 #include <Winber.h>
 #else
 #define LDAP_DEPRECATED 1
+#include <sys/time.h>
 #include <ldap.h>
 #define ULONG int
 #define LDAP_TIMEVAL timeval
