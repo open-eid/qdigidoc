@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,17 +22,10 @@
 
 #pragma once
 
-#include "CryptoDoc.h"
+#include <QObject>
 
-#ifdef Q_OS_WIN32
-#include <Winldap.h>
-#include <Winber.h>
-#else
-#define LDAP_DEPRECATED 1
-#include <ldap.h>
-#define ULONG int
-#endif
-
+class QSslCertificate;
+class LdapSearchPrivate;
 class LdapSearch: public QObject
 {
 	Q_OBJECT
@@ -44,13 +37,13 @@ public:
 	void search( const QString &search );
 
 Q_SIGNALS:
-	void searchResult( const QList<CKey> &result );
+	void searchResult( const QList<QSslCertificate> &result );
 	void error( const QString &msg );
 
 private:
+	bool init();
 	void timerEvent( QTimerEvent *e );
 	void setLastError( const QString &msg, int err );
 
-	LDAP *ldap;
-	ULONG msg_id;
+	LdapSearchPrivate *d;
 };

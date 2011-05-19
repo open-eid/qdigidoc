@@ -109,7 +109,7 @@ public:
 
 	void clear();
 	CKey key( const QModelIndex &index ) const;
-	void load( const QList<CKey> &result );
+	void load( const QList<QSslCertificate> &result );
 
 private:
 	QList<CKey> skKeys;
@@ -136,7 +136,7 @@ private Q_SLOTS:
 	void on_searchType_currentIndexChanged( int index );
 	void on_usedView_doubleClicked( const QModelIndex &index );
 	void showError( const QString &msg );
-	void showResult( const QList<CKey> &result );
+	void showResult( const QList<QSslCertificate> &result );
 
 private:
 	void disableSearch( bool disable );

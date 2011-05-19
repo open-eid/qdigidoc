@@ -295,15 +295,15 @@ QVariant KeyModel::data( const QModelIndex &index, int role ) const
 CKey KeyModel::key(const QModelIndex &index) const
 { return skKeys.value( index.row() ); }
 
-void KeyModel::load( const QList<CKey> &result )
+void KeyModel::load( const QList<QSslCertificate> &result )
 {
 	skKeys.clear();
-	Q_FOREACH( const CKey &k, result )
+	Q_FOREACH( const QSslCertificate &k, result )
 	{
-		SslCertificate c( k.cert );
+		SslCertificate c( k );
 		if( c.keyUsage().contains( SslCertificate::DataEncipherment ) &&
 			c.type() != SslCertificate::MobileIDType )
-			skKeys << k;
+			skKeys << CKey( k );
 	}
 	reset();
 }
@@ -330,20 +330,18 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 
 	skView->setModel( keyModel = new KeyModel( this ) );
 	skView->header()->setStretchLastSection( false );
+	skView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	skView->header()->setResizeMode( 0, QHeaderView::Stretch );
-	skView->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
-	skView->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
 	connect( skView, SIGNAL(doubleClicked(QModelIndex)), SLOT(on_add_clicked()) );
 
 	usedView->setModel( new HistoryModel( this ) );
 	usedView->header()->setStretchLastSection( false );
+	usedView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	usedView->header()->setResizeMode( 0, QHeaderView::Stretch );
-	usedView->header()->setResizeMode( 1, QHeaderView::ResizeToContents );
-	usedView->header()->setResizeMode( 2, QHeaderView::ResizeToContents );
-	usedView->header()->setResizeMode( 3, QHeaderView::ResizeToContents );
 
 	ldap = new LdapSearch( this );
-	connect( ldap, SIGNAL(searchResult(QList<CKey>)), SLOT(showResult(QList<CKey>)) );
+	connect( ldap, SIGNAL(searchResult(QList<QSslCertificate>)),
+		SLOT(showResult(QList<QSslCertificate>)) );
 	connect( ldap, SIGNAL(error(QString)), SLOT(showError(QString)) );
 
 	validator = new IKValidator( this );
@@ -518,7 +516,7 @@ void KeyAddDialog::showError( const QString &msg )
 	QMessageBox::warning( this, windowTitle(), msg );
 }
 
-void KeyAddDialog::showResult( const QList<CKey> &result )
+void KeyAddDialog::showResult( const QList<QSslCertificate> &result )
 {
 	keyModel->load( result );
 

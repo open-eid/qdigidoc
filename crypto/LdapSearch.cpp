@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,37 +22,69 @@
 
 #include "LdapSearch.h"
 
-#include "CryptoDoc.h"
-
+#include <QSslCertificate>
 #include <QTimerEvent>
 
-#ifndef Q_OS_WIN32
+#ifdef Q_OS_WIN
+#include <Windows.h>
+#include <Winldap.h>
+#include <Winber.h>
+#else
+#define LDAP_DEPRECATED 1
+#include <ldap.h>
+#define ULONG int
 #define LDAP_TIMEVAL timeval
 #endif
 
+
+class LdapSearchPrivate
+{
+public:
+	LdapSearchPrivate(): ldap(0), msg_id(0) {}
+
+	LDAP *ldap;
+	ULONG msg_id;
+};
+
 LdapSearch::LdapSearch( QObject *parent )
 :	QObject( parent )
-{
-	ldap = ldap_init( "ldap.sk.ee", 389 );
-	if( !ldap )
-	{
-		setLastError( tr("Failed to init ldap"), -1 );
-		return;
-	}
+,	d( new LdapSearchPrivate )
+{}
 
-	int err = ldap_simple_bind_s( ldap, NULL, NULL );
-	if( err )
-		setLastError( tr("Failed to init ldap"), err );
+LdapSearch::~LdapSearch()
+{
+	if( d->ldap )
+		ldap_unbind_s( d->ldap );
+	delete d;
 }
 
-LdapSearch::~LdapSearch() { if( ldap ) ldap_unbind_s( ldap ); }
+bool LdapSearch::init()
+{
+	if( d->ldap )
+		return true;
+
+	d->ldap = ldap_init( "ldap.sk.ee", 389 );
+	if( !d->ldap )
+	{
+		setLastError( tr("Failed to init ldap"), -1 );
+		return false;
+	}
+
+	int err = ldap_simple_bind_s( d->ldap, 0, 0 );
+	if( err )
+		setLastError( tr("Failed to init ldap"), err );
+	return !err;
+}
 
 void LdapSearch::search( const QString &search )
 {
+	if( !init() )
+		return;
+
 	char *attrs[] = { const_cast<char*>("userCertificate;binary"), '\0' };
 
-	int err = ldap_search_ext( ldap, "c=EE", LDAP_SCOPE_SUBTREE,
-		const_cast<char*>(search.toUtf8().constData()), attrs, 0, NULL, NULL, NULL, 0, &msg_id );
+	int err = ldap_search_ext( d->ldap, "c=EE", LDAP_SCOPE_SUBTREE,
+		const_cast<char*>(search.toUtf8().constData()), attrs, 0, 0, 0, 0, 0, &d->msg_id );
 	if( err )
 		setLastError( tr("Failed to init ldap search"), err );
 	else
@@ -82,7 +114,7 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 {
 	LDAPMessage *result = 0;
 	LDAP_TIMEVAL t = { 5, 0 };
-	int err = ldap_result( ldap, msg_id, LDAP_MSG_ALL, &t, &result );
+	int err = ldap_result( d->ldap, d->msg_id, LDAP_MSG_ALL, &t, &result );
 	//int count = ldap_count_messages( ldap, result );
 	if( err != LDAP_RES_SEARCH_ENTRY && err != LDAP_RES_SEARCH_RESULT )
 	{
@@ -91,8 +123,8 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 		return;
 	}
 
-	LDAPMessage *entry = ldap_first_entry( ldap, result );
-	if( entry == NULL )
+	LDAPMessage *entry = ldap_first_entry( d->ldap, result );
+	if( !entry )
 	{
 		setLastError( tr("Empty result"), -1 );
 		ldap_msgfree( result );
@@ -100,29 +132,29 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 		return;
 	}
 
-	QList<CKey> list;
+	QList<QSslCertificate> list;
 	do
 	{
 		berval **cert = 0;
 		BerElement *pos;
-		char *attr = ldap_first_attribute( ldap, entry, &pos );
+		char *attr = ldap_first_attribute( d->ldap, entry, &pos );
 		do
 		{
 			if( !attr )
 				break;
 			if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
-				cert = ldap_get_values_len( ldap, entry, attr );
+				cert = ldap_get_values_len( d->ldap, entry, attr );
 			ldap_memfree( attr );
 		}
-		while( (attr = ldap_next_attribute( ldap, entry, pos ) ) );
+		while( (attr = ldap_next_attribute( d->ldap, entry, pos ) ) );
 		ber_free( pos, 0 );
 
-		if( ldap_count_values_len(cert) )
-			list << CKey( QSslCertificate( QByteArray( cert[0]->bv_val, cert[0]->bv_len ), QSsl::Der ) );
+		if( ldap_count_values_len( cert ) )
+			list << QSslCertificate( QByteArray( cert[0]->bv_val, cert[0]->bv_len ), QSsl::Der );
 
 		ldap_value_free_len( cert );
 	}
-	while( (entry = ldap_next_entry( ldap, entry )) );
+	while( (entry = ldap_next_entry( d->ldap, entry )) );
 
 	Q_EMIT searchResult( list );
 	ldap_msgfree( result );
