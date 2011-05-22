@@ -52,7 +52,7 @@ QT4_ADD_TRANSLATION( QM_FILES
 	translations/ru.ts
 	)
 
-INCLUDE_DIRECTORIES(
+include_directories(
 	${CMAKE_SOURCE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}
@@ -62,35 +62,13 @@ INCLUDE_DIRECTORIES(
 	)
 
 if( APPLE )
-	set( APP_CONTENTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/mac" )
-
-	set( APPLE_GUI_BUNDLE_NAME ${PROGNAME} )
-	set( APPLE_GUI_IDENTIFIER ${PROGNAME} )
-	set( APPLE_GUI_INFO_STRING "${VERSION}, Copyright 2010-2011 Estonian ID Card" )
-	set( APPLE_GUI_COPYRIGHT "(C) 2010-2011 Estonian ID Card" )
-	set( APPLE_GUI_SHORT_VERSION_STRING ${VERSION} )
-	set( APPLE_GUI_BUNDLE_VERSION ${VERSION} )
-	set( APPLE_GUI_LONG_VERSION_STRING Version ${VERSION} )
-	set( APPLE_GUI_ICON Icon.icns )
-	configure_file( mac/Info.plist.cmake mac/Info.plist )
-
-	file( GLOB_RECURSE RESOURCE_FILES
-		${APP_CONTENTS_DIR}/Resources/*.icns
-		${APP_CONTENTS_DIR}/Resources/**/*.strings )
-
-	foreach( _file ${RESOURCE_FILES} )
-		get_filename_component( _file_dir ${_file} PATH )
-		file( RELATIVE_PATH _file_dir ${APP_CONTENTS_DIR}/Resources ${_file_dir} )
-		set_source_files_properties( ${_file} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources/${_file_dir}" )
-	endforeach( _file )
-
+	include( VersionInfoMac )
 	find_library( COCOA_LIBRARY Cocoa )
 	set( EXTRA_LIBRARIES ${COCOA_LIBRARY} )
 endif( APPLE )
-
-IF(WIN32)
-	SET( SOURCES ${SOURCES} qdigidoccrypto.rc )
-ENDIF(WIN32)
+if( WIN32 )
+	set( SOURCES ${SOURCES} ${PROGNAME}.rc )
+endif( WIN32 )
 
 add_executable(
 	${PROGNAME}
@@ -104,7 +82,7 @@ add_executable(
 
 if( APPLE )
 	set_target_properties( ${PROGNAME}
-    	PROPERTIES
+		PROPERTIES
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/mac/Info.plist )
 endif( APPLE )
 if( WIN32 )
@@ -154,6 +132,6 @@ if(UNIX AND NOT APPLE)
 endif(UNIX AND NOT APPLE)
 
 if(WIN32)
-	install(FILES ../crypto/images/qdigidoc_crypto_document_48x48.ico 
+	install(FILES images/qdigidoc_crypto_document_48x48.ico 
 		DESTINATION ${SHARE_INSTALL_PREFIX}/icons)
 endif(WIN32)
