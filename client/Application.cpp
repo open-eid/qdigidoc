@@ -167,7 +167,6 @@ Application::~Application()
 		delete d->dock;
 #endif
 		delete d->signer;
-		digidoc::X509CertStore::destroy();
 		digidoc::terminate();
 	}
 	delete d;
