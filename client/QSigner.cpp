@@ -24,6 +24,9 @@
 
 #include "Application.h"
 
+#ifdef Q_OS_WIN
+#include <common/QCSP.h>
+#endif
 #include <common/QPKCS11.h>
 #include <common/TokenData.h>
 
@@ -43,6 +46,10 @@ public:
 	TokenData		t;
 	volatile bool	terminate;
 	QMutex			m;
+	QStringList		providers;
+#ifdef Q_OS_WIN
+	QCSP		csp;
+#endif
 };
 
 using namespace digidoc;
@@ -107,7 +114,10 @@ void QSigner::run()
 	{
 		if( d->m.tryLock() )
 		{
-			QStringList cards = d->pkcs11.cards();
+#ifdef Q_OS_WIN
+			//d->providers = QCSP::providers();
+#endif
+			QStringList cards = d->pkcs11.cards() +  d->providers;
 			bool update = d->t.cards() != cards; // check if cards have inserted/removed, update list
 			d->t.setCards( cards );
 
@@ -123,7 +133,12 @@ void QSigner::run()
 
 			if( cards.contains( d->t.card() ) && d->t.cert().isNull() ) // read cert
 			{
-				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
+#ifdef Q_OS_WIN
+				if( d->providers.contains( d->t.card() ) )
+					d->t = d->csp.selectProvider( d->t.card(), SslCertificate::NonRepudiation );
+				else
+#endif
+					d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
 				d->t.setCards( cards );
 				update = true;
 			}
@@ -165,23 +180,42 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 	if( !d->t.cards().contains( d->t.card() ) || d->t.cert().isNull() )
 		throwException( tr("Signing certificate is not selected."), Exception::NoException, __LINE__ );
 
-	switch( d->pkcs11.login( d->t ) )
+	QByteArray sig;
+	if( !d->providers.contains( d->t.card() ) )
 	{
-	case QPKCS11::PinOK: break;
-	case QPKCS11::PinCanceled:
-		throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
-	case QPKCS11::PinIncorrect:
-		locker.unlock();
-		reload();
-		throwException( tr("Failed to login token"), Exception::PINIncorrect, __LINE__ );
-	case QPKCS11::PinLocked:
-		throwException( tr("Failed to login token"), Exception::PINLocked, __LINE__ );
-	default:
-		throwException( tr("Failed to login token"), Exception::NoException, __LINE__ );
-	}
+		switch( d->pkcs11.login( d->t ) )
+		{
+		case QPKCS11::PinOK: break;
+		case QPKCS11::PinCanceled:
+			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
+		case QPKCS11::PinIncorrect:
+			locker.unlock();
+			reload();
+			throwException( tr("Failed to login token"), Exception::PINIncorrect, __LINE__ );
+		case QPKCS11::PinLocked:
+			throwException( tr("Failed to login token"), Exception::PINLocked, __LINE__ );
+		default:
+			throwException( tr("Failed to login token"), Exception::NoException, __LINE__ );
+		}
 
-	QByteArray sig = d->pkcs11.sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
-	d->pkcs11.logout();
+		sig = d->pkcs11.sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
+		d->pkcs11.logout();
+	}
+#ifdef Q_OS_WIN
+	else
+	{
+		/*switch( d->csp.login( d->t ) )
+		{
+		case QCSP::PinOK: break;
+		case QCSP::PinCanceled:
+			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
+		default:
+			throwException( tr("Failed to login token"), Exception::NoException, __LINE__ );
+		}*/
+		sig = d->csp.sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
+	}
+#endif
+
 	locker.unlock();
 	reload();
 	if( sig.isEmpty() )
