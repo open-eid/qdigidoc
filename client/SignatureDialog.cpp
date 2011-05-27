@@ -206,7 +206,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		d->ocspView->resizeColumnToContents( 0 );
 	}
 	else
-		d->tabWidget->removeTab( 2 );
+		d->tabWidget->removeTab( 3 );
 }
 
 SignatureDialog::~SignatureDialog() { delete d; }
