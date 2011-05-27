@@ -115,7 +115,7 @@ void QSigner::run()
 		if( d->m.tryLock() )
 		{
 #ifdef Q_OS_WIN
-			//d->providers = QCSP::providers();
+			d->providers = QCSP::providers();
 #endif
 			QStringList cards = d->pkcs11.cards() +  d->providers;
 			bool update = d->t.cards() != cards; // check if cards have inserted/removed, update list
