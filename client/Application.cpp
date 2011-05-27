@@ -36,7 +36,6 @@
 
 #include <digidocpp/ADoc.h>
 #include <digidocpp/Conf.h>
-#include <digidocpp/crypto/cert/DirectoryX509CertStore.h>
 
 #include "qtsingleapplication/src/qtlocalpeer.h"
 
@@ -141,7 +140,6 @@ Application::Application( int &argc, char **argv )
 	{
 		digidoc::initialize( QString( "%1/%2 (%3)" )
 			.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData() );
-		digidoc::X509CertStore::init( new digidoc::DirectoryX509CertStore() );
 	}
 	catch( const digidoc::Exception &e )
 	{
