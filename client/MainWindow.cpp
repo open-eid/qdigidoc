@@ -384,9 +384,8 @@ void MainWindow::buttonClicked( int button )
 				break;
 			QMessageBox b( QMessageBox::Information, tr("DigiDoc3 client"),
 				tr("Server access certificate has been installed") );
-			b.addButton( tr("Continue signing"), QMessageBox::AcceptRole );
+			b.setDefaultButton( b.addButton( tr("Continue signing"), QMessageBox::AcceptRole ) );
 			b.addButton( QMessageBox::Cancel );
-			b.setDefaultButton( QMessageBox::AcceptRole );
 			if( b.exec() == QMessageBox::Cancel )
 				break;
 		}
