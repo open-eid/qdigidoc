@@ -386,6 +386,7 @@ void MainWindow::buttonClicked( int button )
 				tr("Server access certificate has been installed") );
 			b.addButton( tr("Continue signing"), QMessageBox::AcceptRole );
 			b.addButton( QMessageBox::Cancel );
+			b.setDefaultButton( QMessageBox::AcceptRole );
 			if( b.exec() == QMessageBox::Cancel )
 				break;
 		}
