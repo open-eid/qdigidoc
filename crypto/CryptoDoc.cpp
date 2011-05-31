@@ -47,11 +47,7 @@
 void CKey::setCert( const QSslCertificate &c )
 {
 	cert = c;
-	SslCertificate s(c);
-	QString o = s.subjectInfo( QSslCertificate::Organization );
-	if( o == "ESTEID" ) o = QApplication::translate( "CKey", "ID-CARD" );
-	else if( o == "ESTEID (DIGI-ID)" ) o = QApplication::translate( "CKey", "DIGI-ID" );
-	recipient = QString( "%1,%2" ).arg( s.subjectInfo( QSslCertificate::CommonName ), o );
+	recipient = SslCertificate(c).friendlyName();
 }
 
 
