@@ -29,14 +29,18 @@
     </message>
 </context>
 <context>
-    <name>CKey</name>
+    <name>CertModel</name>
     <message>
-        <source>ID-CARD</source>
-        <translation></translation>
+        <source>Owner</source>
+        <translation>Владелец</translation>
     </message>
     <message>
-        <source>DIGI-ID</source>
-        <translation type="unfinished"></translation>
+        <source>Issuer</source>
+        <translation>Выдавший</translation>
+    </message>
+    <message>
+        <source>Expiry date</source>
+        <translation>Дата окончания</translation>
     </message>
 </context>
 <context>
@@ -282,21 +286,6 @@ message: %2</source>
     <message>
         <source>Key</source>
         <translation>Ключ</translation>
-    </message>
-</context>
-<context>
-    <name>KeyModel</name>
-    <message>
-        <source>Owner</source>
-        <translation>Владелец</translation>
-    </message>
-    <message>
-        <source>Issuer</source>
-        <translation>Выдавший</translation>
-    </message>
-    <message>
-        <source>Expiry date</source>
-        <translation>Дата окончания</translation>
     </message>
 </context>
 <context>

@@ -95,12 +95,12 @@ private:
 	QList<QStringList> m_data;
 };
 
-class KeyModel: public QAbstractTableModel
+class CertModel: public QAbstractTableModel
 {
 	Q_OBJECT
 
 public:
-	KeyModel( QObject *parent = 0 );
+	CertModel( QObject *parent = 0 );
 
 	int columnCount( const QModelIndex &index = QModelIndex() ) const;
 	QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
@@ -108,11 +108,10 @@ public:
 	int rowCount( const QModelIndex &index = QModelIndex() ) const;
 
 	void clear();
-	CKey key( const QModelIndex &index ) const;
 	void load( const QList<QSslCertificate> &result );
 
 private:
-	QList<CKey> skKeys;
+	QList<QSslCertificate> certs;
 };
 
 class KeyAddDialog: public QWidget, private Ui::KeyAddDialog
@@ -144,6 +143,6 @@ private:
 	QPushButton *cardButton;
 	CryptoDoc	*doc;
 	IKValidator *validator;
-	KeyModel	*keyModel;
+	CertModel	*certModel;
 	LdapSearch	*ldap;
 };

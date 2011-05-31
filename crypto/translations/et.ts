@@ -29,14 +29,18 @@
     </message>
 </context>
 <context>
-    <name>CKey</name>
+    <name>CertModel</name>
     <message>
-        <source>ID-CARD</source>
-        <translation>ID-KAART</translation>
+        <source>Owner</source>
+        <translation>Omanik</translation>
     </message>
     <message>
-        <source>DIGI-ID</source>
-        <translation>DIGI-ID</translation>
+        <source>Issuer</source>
+        <translation>Väljaandja</translation>
+    </message>
+    <message>
+        <source>Expiry date</source>
+        <translation>Aegumiskuupäev</translation>
     </message>
 </context>
 <context>
@@ -283,21 +287,6 @@ teade: %2</translation>
     <message>
         <source>Key</source>
         <translation>Adressaat</translation>
-    </message>
-</context>
-<context>
-    <name>KeyModel</name>
-    <message>
-        <source>Owner</source>
-        <translation>Omanik</translation>
-    </message>
-    <message>
-        <source>Issuer</source>
-        <translation>Väljaandja</translation>
-    </message>
-    <message>
-        <source>Expiry date</source>
-        <translation>Aegumiskuupäev</translation>
     </message>
 </context>
 <context>

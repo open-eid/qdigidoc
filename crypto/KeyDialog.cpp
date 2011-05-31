@@ -248,17 +248,17 @@ bool HistoryModel::submit()
 
 
 
-KeyModel::KeyModel( QObject *parent )
+CertModel::CertModel( QObject *parent )
 :	QAbstractTableModel( parent )
 {}
 
-void KeyModel::clear()
-{ skKeys.clear(); reset(); }
+void CertModel::clear()
+{ certs.clear(); reset(); }
 
-int KeyModel::columnCount( const QModelIndex &index ) const
+int CertModel::columnCount( const QModelIndex &index ) const
 { return index.isValid() ? 0 : 3; }
 
-QVariant KeyModel::headerData( int section, Qt::Orientation orientation, int role ) const
+QVariant CertModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
 	if( role != Qt::DisplayRole || orientation == Qt::Vertical )
 		return QVariant();
@@ -271,45 +271,44 @@ QVariant KeyModel::headerData( int section, Qt::Orientation orientation, int rol
 	}
 }
 
-QVariant KeyModel::data( const QModelIndex &index, int role ) const
+QVariant CertModel::data( const QModelIndex &index, int role ) const
 {
-	if( !index.isValid() || index.row() >= skKeys.size() )
+	if( !hasIndex( index.row(), index.column() ) )
 		return QVariant();
 
-	CKey k = skKeys[index.row()];
 	switch( role )
 	{
 	case Qt::DisplayRole:
+	case Qt::EditRole:
 		switch( index.column() )
 		{
-		case 0: return k.recipient;
-		case 1: return k.cert.issuerInfo( QSslCertificate::CommonName );
-		case 2: return k.cert.expiryDate().toLocalTime().toString( "dd.MM.yyyy" );
+		case 0: return SslCertificate( certs[index.row()] ).friendlyName();
+		case 1: return certs[index.row()].issuerInfo( QSslCertificate::CommonName );
+		case 2: return certs[index.row()].expiryDate().toLocalTime().toString( "dd.MM.yyyy" );
 		default: break;
 		}
+	case Qt::UserRole:
+		return QVariant::fromValue( certs[index.row()] );
 	default: break;
 	}
 	return QVariant();
 }
 
-CKey KeyModel::key(const QModelIndex &index) const
-{ return skKeys.value( index.row() ); }
-
-void KeyModel::load( const QList<QSslCertificate> &result )
+void CertModel::load( const QList<QSslCertificate> &result )
 {
-	skKeys.clear();
+	certs.clear();
 	Q_FOREACH( const QSslCertificate &k, result )
 	{
 		SslCertificate c( k );
 		if( c.keyUsage().contains( SslCertificate::DataEncipherment ) &&
 			c.type() != SslCertificate::MobileIDType )
-			skKeys << CKey( k );
+			certs << c;
 	}
 	reset();
 }
 
-int KeyModel::rowCount( const QModelIndex &index ) const
-{ return index.isValid() ? 0 : skKeys.count(); }
+int CertModel::rowCount( const QModelIndex &index ) const
+{ return index.isValid() ? 0 : certs.count(); }
 
 
 
@@ -328,7 +327,7 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 	connect( qApp->poller(), SIGNAL(dataChanged()), SLOT(enableCardCert()) );
 	enableCardCert();
 
-	skView->setModel( keyModel = new KeyModel( this ) );
+	skView->setModel( certModel = new CertModel( this ) );
 	skView->header()->setStretchLastSection( false );
 	skView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	skView->header()->setResizeMode( 0, QHeaderView::Stretch );
@@ -453,7 +452,7 @@ void KeyAddDialog::on_add_clicked()
 		return;
 	QList<CKey> keys;
 	Q_FOREACH( const QModelIndex &index, skView->selectionModel()->selectedRows() )
-		keys << keyModel->key( index );
+		keys << CKey( certModel->data( index, Qt::UserRole ).value<QSslCertificate>() );
 	addKeys( keys );
 }
 
@@ -478,7 +477,7 @@ void KeyAddDialog::on_search_clicked()
 	}
 	else
 	{
-		keyModel->clear();
+		certModel->clear();
 		add->setEnabled( false );
 		disableSearch( true );
 		if( searchType->currentIndex() == 0 )
@@ -494,7 +493,7 @@ void KeyAddDialog::on_searchType_currentIndexChanged( int index )
 		searchContent->setValidator( validator );
 	else
 		searchContent->setValidator( 0 );
-	keyModel->clear();
+	certModel->clear();
 	searchContent->clear();
 	searchContent->setFocus();
 }
@@ -518,12 +517,12 @@ void KeyAddDialog::showError( const QString &msg )
 
 void KeyAddDialog::showResult( const QList<QSslCertificate> &result )
 {
-	keyModel->load( result );
+	certModel->load( result );
 
 	disableSearch( false );
 	add->setEnabled( true );
 
-	if( keyModel->rowCount() )
+	if( certModel->rowCount() )
 	{
 		skView->setCurrentIndex( skView->model()->index( 0, 0 ) );
 		if( searchType->currentIndex() == 0 )
