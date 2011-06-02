@@ -60,6 +60,7 @@ QSigner::QSigner( QObject *parent )
 {
 	d->t.setCard( "loading" );
 	connect( this, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
+	start();
 }
 
 QSigner::~QSigner()

@@ -151,8 +151,6 @@ Application::Application( int &argc, char **argv )
 	}
 
 	d->signer = new QSigner( this );
-	d->signer->start();
-
 	parseArgs( args.join( "\", \"" ) );
 }
 

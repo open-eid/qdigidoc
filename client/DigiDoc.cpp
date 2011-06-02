@@ -428,9 +428,9 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 		{
 			switch( s->validateOnline() )
 			{
-			case OCSP::GOOD: return Valid;
-			case OCSP::REVOKED: return Invalid;
-			case OCSP::UNKNOWN: return Unknown;
+			case Signature::GOOD: return Valid;
+			case Signature::REVOKED: return Invalid;
+			case Signature::UNKNOWN: return Unknown;
 			}
 		}
 		else
