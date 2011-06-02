@@ -150,7 +150,7 @@ Application::Application( int &argc, char **argv )
 		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
 	}
 
-	d->signer = new QSigner();
+	d->signer = new QSigner( this );
 	d->signer->start();
 
 	parseArgs( args.join( "\", \"" ) );
@@ -166,7 +166,6 @@ Application::~Application()
 		delete d->bar;
 		delete d->dock;
 #endif
-		delete d->signer;
 		digidoc::terminate();
 	}
 	delete d;

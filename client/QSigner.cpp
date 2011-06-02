@@ -115,7 +115,7 @@ void QSigner::run()
 		if( d->m.tryLock() )
 		{
 #ifdef Q_OS_WIN
-			d->providers = QCSP::providers();
+			d->providers = d->csp.containers();
 #endif
 			QStringList cards = d->pkcs11.cards() +  d->providers;
 			bool update = d->t.cards() != cards; // check if cards have inserted/removed, update list
@@ -135,7 +135,7 @@ void QSigner::run()
 			{
 #ifdef Q_OS_WIN
 				if( d->providers.contains( d->t.card() ) )
-					d->t = d->csp.selectProvider( d->t.card(), SslCertificate::NonRepudiation );
+					d->t = d->csp.selectCert( d->t.card(), SslCertificate::NonRepudiation );
 				else
 #endif
 					d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
