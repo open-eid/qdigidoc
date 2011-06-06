@@ -62,12 +62,6 @@ Start downloading?</source>
 Начнём загрузку?</translation>
     </message>
     <message>
-        <source>Error downloading server access certificate!
-PIN1 is blocked</source>
-        <translation>Ошибка при загрузке справки допуска!
-PIN заблокирован</translation>
-    </message>
-    <message>
         <source>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
         <translation>Я ознакомлен и полностью согласен с условиями пользования услугой подтверждения действительности и обязуюсь пользоваться услугой в объеме не более 10 цифровых подписей в месяц. Чтобы получить возможность пользоваться услугой в большем объеме или использовать ее в коммерческих целях, обратитесь в службу ИТ-поддержки Вашего учреждения. За дополнительной информацией обращайтесь по адресу &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; или по телефону 1777</translation>
     </message>
@@ -76,24 +70,8 @@ PIN заблокирован</translation>
         <translation>Подтверждаю</translation>
     </message>
     <message>
-        <source>PIN Incorrect</source>
-        <translation>Неверный PIN</translation>
-    </message>
-    <message>
-        <source>Failed to validate PIN</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> PKCS11 general error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> PKCS11 device error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> PKCS11 unknown error</source>
-        <translation type="unfinished"></translation>
+        <source>Error downloading server access certificate!</source>
+        <translation>Ошибка при загрузке справки допуска!</translation>
     </message>
 </context>
 <context>
@@ -765,18 +743,6 @@ Control code: %1</source>
     <message>
         <source>Sign certificate is not selected</source>
         <translation>Сертификат подписи не выбран</translation>
-    </message>
-    <message>
-        <source> PKCS11 general error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> PKCS11 device error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> PKCS11 unknown error</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

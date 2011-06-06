@@ -67,7 +67,8 @@ Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 		return DecryptFailed;
 	}
 
-	switch( d->pkcs11.login( d->t ) )
+	QPKCS11::PinStatus status = d->pkcs11.login( d->t );
+	switch( status )
 	{
 	case QPKCS11::PinOK: break;
 	case QPKCS11::PinCanceled: return PinCanceled;
@@ -76,14 +77,14 @@ Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 		reload();
 		if( !(d->t.flags() & TokenData::PinLocked) )
 		{
-			Q_EMIT error( tr("PIN Incorrect") );
+			Q_EMIT error( QPKCS11::errorString( status ) );
 			return PinIncorrect;
 		}
 	case QPKCS11::PinLocked:
-		Q_EMIT error( tr("PIN Locked") );
+		Q_EMIT error( QPKCS11::errorString( status ) );
 		return PinLocked;
 	default:
-		Q_EMIT error( tr("Failed to login token") );
+		Q_EMIT error( tr("Failed to login token") + " " + QPKCS11::errorString( status ) );
 		return DecryptFailed;
 	}
 

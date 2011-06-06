@@ -517,14 +517,6 @@ already in container, ovewrite?</source>
         <translation>Неверный PIN</translation>
     </message>
     <message>
-        <source>PIN Incorrect</source>
-        <translation>Неверный PIN</translation>
-    </message>
-    <message>
-        <source>PIN Locked</source>
-        <translation>PIN заблокирован</translation>
-    </message>
-    <message>
         <source>Failed to decrypt document</source>
         <translation>Неудачная зашифровка документа</translation>
     </message>

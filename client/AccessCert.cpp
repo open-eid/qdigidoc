@@ -89,30 +89,19 @@ bool AccessCert::download( bool noCard )
 	{
 		retry = false;
 		token = p->selectSlot( s->token().card(), SslCertificate::DataEncipherment );
-		switch( p->login( token ) )
+		QPKCS11::PinStatus status =  p->login( token );
+		switch( status )
 		{
 		case QPKCS11::PinOK: break;
 		case QPKCS11::PinCanceled:
 			s->unlock();
 			return false;
 		case QPKCS11::PinIncorrect:
-			showWarning( tr("PIN Incorrect") );
+			showWarning( QPKCS11::errorString( status ) );
 			retry = true;
 			break;
-		case QPKCS11::PinLocked:
-			showWarning( tr("Error downloading server access certificate!\nPIN1 is blocked" ) );
-			s->unlock();
-			return false;
-		case QPKCS11::GeneralError:
-			showWarning( tr("Failed to validate PIN") + tr(" PKCS11 general error") );
-			s->unlock();
-			return false;
-		case QPKCS11::DeviceError:
-			showWarning( tr("Failed to validate PIN") + tr(" PKCS11 device error") );
-			s->unlock();
-			return false;
 		default:
-			showWarning( tr("Failed to validate PIN") + tr(" PKCS11 unknown error") );
+			showWarning( tr("Error downloading server access certificate!") + "\n" + QPKCS11::errorString( status ) );
 			s->unlock();
 			return false;
 		}
@@ -124,7 +113,7 @@ bool AccessCert::download( bool noCard )
 	QByteArray result = ssl->getUrl( SSLConnect::AccessCert );
 	if( !ssl->errorString().isEmpty() )
 	{
-		showWarning( tr("Error downloading server access certificate!\n%1").arg( ssl->errorString() ) );
+		showWarning( tr("Error downloading server access certificate!") + "\n" + ssl->errorString() );
 		return false;
 	}
 	s->unlock();

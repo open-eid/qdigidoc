@@ -518,14 +518,6 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <translation>Vale PIN</translation>
     </message>
     <message>
-        <source>PIN Incorrect</source>
-        <translation>Vale PIN</translation>
-    </message>
-    <message>
-        <source>PIN Locked</source>
-        <translation>PIN on lukus</translation>
-    </message>
-    <message>
         <source>Failed to decrypt document</source>
         <translation>Dokumenti dekrüpteerimine ebaõnnestus</translation>
     </message>

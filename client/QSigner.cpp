@@ -184,23 +184,20 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 	QByteArray sig;
 	if( !d->providers.contains( d->t.card() ) )
 	{
-		switch( d->pkcs11.login( d->t ) )
+		QPKCS11::PinStatus status = d->pkcs11.login( d->t );
+		switch( status )
 		{
 		case QPKCS11::PinOK: break;
 		case QPKCS11::PinCanceled:
-			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
+			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::PINCanceled, __LINE__ );
 		case QPKCS11::PinIncorrect:
 			locker.unlock();
 			reload();
-			throwException( tr("Failed to login token"), Exception::PINIncorrect, __LINE__ );
+			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::PINIncorrect, __LINE__ );
 		case QPKCS11::PinLocked:
-			throwException( tr("Failed to login token"), Exception::PINLocked, __LINE__ );
-		case QPKCS11::GeneralError:
-			throwException( tr("Failed to login token") + tr(" PKCS11 general error"), Exception::NoException, __LINE__ );
-		case QPKCS11::DeviceError:
-			throwException( tr("Failed to login token") + tr(" PKCS11 device error"), Exception::NoException, __LINE__ );
+			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::PINLocked, __LINE__ );
 		default:
-			throwException( tr("Failed to login token") + tr(" PKCS11 unknown error"), Exception::NoException, __LINE__ );
+			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::NoException, __LINE__ );
 		}
 
 		sig = d->pkcs11.sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );

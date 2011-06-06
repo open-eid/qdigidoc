@@ -62,12 +62,6 @@ Start downloading?</source>
 Start downloading?</translation>
     </message>
     <message>
-        <source>Error downloading server access certificate!
-PIN1 is blocked</source>
-        <translation>Error downloading server access certificate!
-PIN1 is blocked</translation>
-    </message>
-    <message>
         <source>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
         <translation>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</translation>
     </message>
@@ -76,24 +70,8 @@ PIN1 is blocked</translation>
         <translation>Agree</translation>
     </message>
     <message>
-        <source>PIN Incorrect</source>
-        <translation>PIN Incorrect</translation>
-    </message>
-    <message>
-        <source>Failed to validate PIN</source>
-        <translation>Failed to validate PIN</translation>
-    </message>
-    <message>
-        <source> PKCS11 general error</source>
-        <translation> PKCS11 general error</translation>
-    </message>
-    <message>
-        <source> PKCS11 device error</source>
-        <translation> PKCS11 device error</translation>
-    </message>
-    <message>
-        <source> PKCS11 unknown error</source>
-        <translation> PKCS11 unknown error</translation>
+        <source>Error downloading server access certificate!</source>
+        <translation>Error downloading server access certificate!</translation>
     </message>
 </context>
 <context>
@@ -764,18 +742,6 @@ Control code: %1</translation>
     <message>
         <source>Sign certificate is not selected</source>
         <translation>Sign certificate is not selected</translation>
-    </message>
-    <message>
-        <source> PKCS11 general error</source>
-        <translation> PKCS11 general error</translation>
-    </message>
-    <message>
-        <source> PKCS11 device error</source>
-        <translation> PKCS11 device error</translation>
-    </message>
-    <message>
-        <source> PKCS11 unknown error</source>
-        <translation> PKCS11 unknown error</translation>
     </message>
 </context>
 <context>
