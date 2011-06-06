@@ -687,10 +687,6 @@ Kontrollkood: %1</translation>
         <translation>ALLKIRJASTAJA ASUKOHT (LINN, MAAKOND, INDEKS, RIIK)</translation>
     </message>
     <message>
-        <source>SERIAL NUMBER OF CERTIFICATE</source>
-        <translation>SERTIFIKAADI SEERIANUMBER</translation>
-    </message>
-    <message>
         <source>ISSUER OF CERTIFICATE</source>
         <translation>SERTIFIKAADI VÄLJAANDJA NIMI</translation>
     </message>
@@ -721,6 +717,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>(NB! TEST SIGNATURE)</source>
         <translation>(NB! TESTALLKIRI)</translation>
+    </message>
+    <message>
+        <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
+        <translation>ALLKIRJASTAJA SERTIFIKAADI SEERIANUMBER</translation>
     </message>
 </context>
 <context>

@@ -37,9 +37,9 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 {
 	printer->setOrientation( QPrinter::Portrait );
 
-	int left	= p->pageRect().x();
-	int margin	= left;
-	int right	= p->pageRect().topRight().x() - 2*margin;
+	left		= p->pageRect().x();
+	margin		= left;
+	right		= p->pageRect().topRight().x() - 2*margin;
 	top			= p->pageRect().topLeft().y() + 30;
 
 #ifdef Q_OS_MAC
@@ -48,7 +48,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 #endif
 
 	QFont text = font();
-	text.setFamily( "Arial, Helvetica, sans-serif" );
+	text.setFamily( "Arial, Liberation Sans, Helvetica, sans-serif" );
 	text.setPixelSize( 12 );
 
 	QFont head = text;
@@ -77,7 +77,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	setPen( sPen );
 	drawLine( left, top+3, right, top+3 );
 	top += 30;
-	
+
 	setFont( text );
 	setPen( oPen );
 	drawText( left, top, tr("FILE NAME") );
@@ -129,10 +129,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		drawText( right-140, top, sig.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
 		top += 25;
 
-		newPage( 50 );
-		drawText( left+3, top, tr("VALIDITY OF SIGNATURE") );
-		drawRect( left, top+5, right - margin, 20 );
-		QString valid = tr("SIGNATURE")+" ";
+		QString valid = tr("SIGNATURE") + " ";
 		switch( sig.validate() )
 		{
 			case DigiDocSignature::Valid: valid.append( tr("VALID") ); break;
@@ -141,37 +138,25 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		}
 		if( sig.isTest() )
 			valid += " " + tr("(NB! TEST SIGNATURE)");
-		drawText( left+5, top+20, valid );
+		customText( tr("VALIDITY OF SIGNATURE"), valid );
 		top += 45;
 
-		newPage( 50 );
-		drawText( left+3, top, tr("ROLE / RESOLUTION") );
-		drawRect( left, top+5, right - margin, 20 );
-		drawText( left+5, top+20, sig.role() );
+		customText( tr("ROLE / RESOLUTION"), sig.role() );
 		top += 45;
 
-		newPage( 50 );
-		drawText( left+3, top, tr("PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)") );
-		drawText( right-200, top, tr("SERIAL NUMBER OF CERTIFICATE") );
-		drawRect( left, top+5, right - margin, 20 );
-		drawLine( right-205, top+5, right-205, top+25 );
-		drawText( left+5, top+20, sig.location() );
-		drawText( right-200, top+20, cert.serialNumber() );
+		customText( tr("PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)"), sig.location() );
 		top += 45;
 
-		newPage( 50 );
-		drawText( left+3, top, tr("ISSUER OF CERTIFICATE") );
+		customText( tr("SERIAL NUMBER OF SIGNER CERTIFICATE"), cert.serialNumber() );
+		top += 45;
+
+		customText( tr("ISSUER OF CERTIFICATE"), cert.issuerInfo( QSslCertificate::CommonName ) );
 		drawText( left+207, top, tr("HASH VALUE OF ISSUER'S PUBLIC KEY") );
-		drawRect( left, top+5, right - margin, 20 );
 		drawLine( left+200, top+5, left+200, top+25 );
-		drawText( left+5, top+20, cert.issuerInfo( QSslCertificate::CommonName ) );
 		drawText( left+207, top+20, cert.toHex( cert.authorityKeyIdentifier() ) );
 		top += 45;
 
-		newPage( 60 );
-		drawText( left+3, top, tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)") );
-		drawRect( left, top+5, right - margin, 20 );
-		drawText( left+5, top+20, cert.toHex( sig.ocspDigestValue() ) );
+		customText( tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)"), cert.toHex( sig.ocspDigestValue() ) );
 		top += 60;
 
 		++i;
@@ -193,6 +178,14 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	drawRect( left, top, right - margin, 80 );
 
 	end();
+}
+
+void PrintSheet::customText( const QString &title, const QString &text )
+{
+	newPage( 50 );
+	drawText( left+3, top, title );
+	drawRect( left, top+5, right - margin, 20 );
+	drawText( left+5, top+20, text );
 }
 
 void PrintSheet::newPage( int height )

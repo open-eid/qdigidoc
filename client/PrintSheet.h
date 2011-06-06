@@ -36,7 +36,8 @@ public:
 
 private:
 	void newPage( int height );
+	void customText( const QString &title, const QString &text );
 
-	int top;
+	int left, right, margin, top;
 	QPrinter *p;
 };

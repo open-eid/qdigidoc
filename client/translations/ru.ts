@@ -690,10 +690,6 @@ Control code: %1</source>
         <translation>МЕСТОПОЛОЖЕНИЕ ПОДПИСАВШЕГО (город, уезд, индекс, страна)</translation>
     </message>
     <message>
-        <source>SERIAL NUMBER OF CERTIFICATE</source>
-        <translation>СЕРИЙНЫЙ НОМЕР СЕРТИФИКАТА</translation>
-    </message>
-    <message>
         <source>ISSUER OF CERTIFICATE</source>
         <translation>ИМЯ ВЫДАВШЕГО СЕРТИФИКАТА</translation>
     </message>
@@ -724,6 +720,10 @@ Control code: %1</source>
     <message>
         <source>(NB! TEST SIGNATURE)</source>
         <translation>(NB! Пробная подпись)</translation>
+    </message>
+    <message>
+        <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
+        <translation>СЕРИЙНЫЙ НОМЕР СЕРТИФИКАТА</translation>
     </message>
 </context>
 <context>

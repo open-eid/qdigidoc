@@ -689,10 +689,6 @@ Control code: %1</translation>
         <translation>PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)</translation>
     </message>
     <message>
-        <source>SERIAL NUMBER OF CERTIFICATE</source>
-        <translation>SERIAL NUMBER OF CERTIFICATE</translation>
-    </message>
-    <message>
         <source>ISSUER OF CERTIFICATE</source>
         <translation>ISSUER OF CERTIFICATE</translation>
     </message>
@@ -723,6 +719,10 @@ Control code: %1</translation>
     <message>
         <source>(NB! TEST SIGNATURE)</source>
         <translation>(NB! TEST SIGNATURE)</translation>
+    </message>
+    <message>
+        <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
+        <translation>SERIAL NUMBER OF SIGNER CERTIFICATE</translation>
     </message>
 </context>
 <context>
