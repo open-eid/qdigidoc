@@ -29,6 +29,85 @@
     </message>
 </context>
 <context>
+    <name>CertAddDialog</name>
+    <message>
+        <source>Add cert from card</source>
+        <translation>Добавить сертификат с карты</translation>
+    </message>
+    <message>
+        <source>Add cert from file</source>
+        <translation>Добавить сертификат из файла</translation>
+    </message>
+    <message>
+        <source>Certificates (*.pem *.cer *.crt)</source>
+        <translation>Сертификаты (*.pem *.crt *.cer)</translation>
+    </message>
+    <message>
+        <source>Failed to open certifiacte</source>
+        <translation>Открытые сертификата неуспешно</translation>
+    </message>
+    <message>
+        <source>Failed to read certificate</source>
+        <translation>Чтение сертификата неуспешно</translation>
+    </message>
+    <message>
+        <source>This certificate is not usable for crypting</source>
+        <translation>Данным сертификатом нельзя шифровать</translation>
+    </message>
+    <message>
+        <source>Are you sure that you want use certificate for encrypting, which expired on %1?&lt;br /&gt;When decrypter has updated certificates then decrypting is impossible.</source>
+        <translation>Вы уверены, что хотите использовать для зашифровки сертификат, который просрочился %1?&lt;br /&gt;В случае, когда расшифровщик обновит сертификат, расшифровка будет невозможна.</translation>
+    </message>
+    <message>
+        <source>Certs added successfully</source>
+        <translation>Адресат успешно добавлен</translation>
+    </message>
+    <message>
+        <source>Failed to add certs</source>
+        <translation>Неудачное добавление ключа</translation>
+    </message>
+    <message>
+        <source>Social security number is not valid!</source>
+        <translation>Личной код некорректен!</translation>
+    </message>
+    <message>
+        <source>Empty result</source>
+        <translation>Ничего не найдено</translation>
+    </message>
+    <message>
+        <source>Add Recipient</source>
+        <translation>Добавить сертификат</translation>
+    </message>
+    <message>
+        <source>SK Certificates</source>
+        <translation>SK сертификаты</translation>
+    </message>
+    <message>
+        <source>Personal code:</source>
+        <translation>Личный код:</translation>
+    </message>
+    <message>
+        <source>Company name:</source>
+        <translation>Учреждение:</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Поиск</translation>
+    </message>
+    <message>
+        <source>Add cert</source>
+        <translation>Добавить сертификат</translation>
+    </message>
+    <message>
+        <source>Used certificates</source>
+        <translation>Использованные сертификаты</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+</context>
+<context>
     <name>CertModel</name>
     <message>
         <source>Owner</source>
@@ -172,85 +251,6 @@ message: %2</source>
     <message>
         <source>ID-CARD</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>KeyAddDialog</name>
-    <message>
-        <source>Certificates (*.pem *.cer *.crt)</source>
-        <translation>Сертификаты (*.pem *.crt *.cer)</translation>
-    </message>
-    <message>
-        <source>Failed to open certifiacte</source>
-        <translation>Открытые сертификата неуспешно</translation>
-    </message>
-    <message>
-        <source>Failed to read certificate</source>
-        <translation>Чтение сертификата неуспешно</translation>
-    </message>
-    <message>
-        <source>This certificate is not usable for crypting</source>
-        <translation>Данным сертификатом нельзя шифровать</translation>
-    </message>
-    <message>
-        <source>Social security number is not valid!</source>
-        <translation>Личной код некорректен!</translation>
-    </message>
-    <message>
-        <source>Add Recipient</source>
-        <translation>Добавить сертификат</translation>
-    </message>
-    <message>
-        <source>SK Certificates</source>
-        <translation>SK сертификаты</translation>
-    </message>
-    <message>
-        <source>Personal code:</source>
-        <translation>Личный код:</translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <translation>Поиск</translation>
-    </message>
-    <message>
-        <source>Add cert</source>
-        <translation>Добавить сертификат</translation>
-    </message>
-    <message>
-        <source>Used certificates</source>
-        <translation>Использованные сертификаты</translation>
-    </message>
-    <message>
-        <source>Add cert from card</source>
-        <translation>Добавить сертификат с карты</translation>
-    </message>
-    <message>
-        <source>Add cert from file</source>
-        <translation>Добавить сертификат из файла</translation>
-    </message>
-    <message>
-        <source>Company name:</source>
-        <translation>Учреждение:</translation>
-    </message>
-    <message>
-        <source>Empty result</source>
-        <translation>Ничего не найдено</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
-        <source>Are you sure that you want use certificate for encrypting, which expired on %1?&lt;br /&gt;When decrypter has updated certificates then decrypting is impossible.</source>
-        <translation>Вы уверены, что хотите использовать для зашифровки сертификат, который просрочился %1?&lt;br /&gt;В случае, когда расшифровщик обновит сертификат, расшифровка будет невозможна.</translation>
-    </message>
-    <message>
-        <source>Keys added successfully</source>
-        <translation>Адресат успешно добавлен</translation>
-    </message>
-    <message>
-        <source>Failed to add keys</source>
-        <translation>Неудачное добавление ключа</translation>
     </message>
 </context>
 <context>

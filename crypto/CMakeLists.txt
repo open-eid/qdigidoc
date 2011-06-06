@@ -11,7 +11,7 @@ set( MOC_HEADERS
 	TreeWidget.h
 	)
 QT4_WRAP_UI( UI_HEADERS
-	ui/KeyAddDialog.ui
+	ui/CertAddDialog.ui
 	ui/KeyDialog.ui
 	ui/MainWindow.ui
 	ui/SettingsDialog.ui

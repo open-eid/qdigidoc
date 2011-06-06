@@ -29,6 +29,85 @@
     </message>
 </context>
 <context>
+    <name>CertAddDialog</name>
+    <message>
+        <source>Add cert from card</source>
+        <translation>Lisa sertifikaat kaardilt</translation>
+    </message>
+    <message>
+        <source>Add cert from file</source>
+        <translation>Lisa sertifikaat failist</translation>
+    </message>
+    <message>
+        <source>Certificates (*.pem *.cer *.crt)</source>
+        <translation>Sertifikaadid (*.pem *.cer *.crt)</translation>
+    </message>
+    <message>
+        <source>Failed to open certifiacte</source>
+        <translation>Sertifikaadi avamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to read certificate</source>
+        <translation>Sertifikaadi lugemine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>This certificate is not usable for crypting</source>
+        <translation>Selle sertifikaadiga ei saa krüpteerida</translation>
+    </message>
+    <message>
+        <source>Are you sure that you want use certificate for encrypting, which expired on %1?&lt;br /&gt;When decrypter has updated certificates then decrypting is impossible.</source>
+        <translation>Kas oled kindel, et soovid kasutada krüpteerimiseks sertifikaati, mis aegus %1?&lt;br /&gt;Juhul, kui dekrüpteerija on oma sertifikaate uuendanud, ei ole dekrüpteerimine võimalik.</translation>
+    </message>
+    <message>
+        <source>Certs added successfully</source>
+        <translation>Adressaat on edukalt lisatud</translation>
+    </message>
+    <message>
+        <source>Failed to add certs</source>
+        <translation>Adressaadi lisamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Social security number is not valid!</source>
+        <translation>Isikukood pole korrektne!</translation>
+    </message>
+    <message>
+        <source>Empty result</source>
+        <translation>Ei leidnud midagi</translation>
+    </message>
+    <message>
+        <source>Add Recipient</source>
+        <translation>Lisa adressaat</translation>
+    </message>
+    <message>
+        <source>SK Certificates</source>
+        <translation>SK sertifikaadihoidla</translation>
+    </message>
+    <message>
+        <source>Personal code:</source>
+        <translation>Isikukood:</translation>
+    </message>
+    <message>
+        <source>Company name:</source>
+        <translation>Asutus:</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Otsi</translation>
+    </message>
+    <message>
+        <source>Add cert</source>
+        <translation>Lisa sertifikaat</translation>
+    </message>
+    <message>
+        <source>Used certificates</source>
+        <translation>Kasutatud sertifikaadid</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Eemalda</translation>
+    </message>
+</context>
+<context>
     <name>CertModel</name>
     <message>
         <source>Owner</source>
@@ -173,85 +252,6 @@ teade: %2</translation>
     <message>
         <source>ID-CARD</source>
         <translation>ID-KAART</translation>
-    </message>
-</context>
-<context>
-    <name>KeyAddDialog</name>
-    <message>
-        <source>Add Recipient</source>
-        <translation>Lisa adressaat</translation>
-    </message>
-    <message>
-        <source>SK Certificates</source>
-        <translation>SK sertifikaadihoidla</translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <translation>Otsi</translation>
-    </message>
-    <message>
-        <source>Social security number is not valid!</source>
-        <translation>Isikukood pole korrektne!</translation>
-    </message>
-    <message>
-        <source>Add cert</source>
-        <translation>Lisa sertifikaat</translation>
-    </message>
-    <message>
-        <source>Used certificates</source>
-        <translation>Kasutatud sertifikaadid</translation>
-    </message>
-    <message>
-        <source>Add cert from card</source>
-        <translation>Lisa sertifikaat kaardilt</translation>
-    </message>
-    <message>
-        <source>Certificates (*.pem *.cer *.crt)</source>
-        <translation>Sertifikaadid (*.pem *.cer *.crt)</translation>
-    </message>
-    <message>
-        <source>Failed to open certifiacte</source>
-        <translation>Sertifikaadi avamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to read certificate</source>
-        <translation>Sertifikaadi lugemine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Add cert from file</source>
-        <translation>Lisa sertifikaat failist</translation>
-    </message>
-    <message>
-        <source>Personal code:</source>
-        <translation>Isikukood:</translation>
-    </message>
-    <message>
-        <source>This certificate is not usable for crypting</source>
-        <translation>Selle sertifikaadiga ei saa krüpteerida</translation>
-    </message>
-    <message>
-        <source>Company name:</source>
-        <translation>Asutus:</translation>
-    </message>
-    <message>
-        <source>Empty result</source>
-        <translation>Ei leidnud midagi</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Eemalda</translation>
-    </message>
-    <message>
-        <source>Are you sure that you want use certificate for encrypting, which expired on %1?&lt;br /&gt;When decrypter has updated certificates then decrypting is impossible.</source>
-        <translation>Kas oled kindel, et soovid kasutada krüpteerimiseks sertifikaati, mis aegus %1?&lt;br /&gt;Juhul, kui dekrüpteerija on oma sertifikaate uuendanud, ei ole dekrüpteerimine võimalik.</translation>
-    </message>
-    <message>
-        <source>Keys added successfully</source>
-        <translation>Adressaat on edukalt lisatud</translation>
-    </message>
-    <message>
-        <source>Failed to add keys</source>
-        <translation>Adressaadi lisamine ebaõnnestus</translation>
     </message>
 </context>
 <context>

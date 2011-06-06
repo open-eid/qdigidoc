@@ -365,7 +365,7 @@ void MainWindow::parseLink( const QString &link )
 		if( doc->isEncrypted() )
 			return;
 
-		KeyAddDialog *key = new KeyAddDialog( doc, this );
+		CertAddDialog *key = new CertAddDialog( doc, this );
 		connect( key, SIGNAL(updateView()), SLOT(updateView()) );
 		key->move( pos() );
 		key->show();

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "ui_KeyAddDialog.h"
+#include "ui_CertAddDialog.h"
 #include "ui_KeyDialog.h"
 
 #include "CryptoDoc.h"
@@ -114,20 +114,20 @@ private:
 	QList<QSslCertificate> certs;
 };
 
-class KeyAddDialog: public QWidget, private Ui::KeyAddDialog
+class CertAddDialog: public QWidget, private Ui::CertAddDialog
 {
 	Q_OBJECT
 
 public:
-	KeyAddDialog( CryptoDoc *doc, QWidget *parent = 0 );
+	CertAddDialog( CryptoDoc *doc, QWidget *parent = 0 );
 
 Q_SIGNALS:
 	void updateView();
 
 private Q_SLOTS:
 	void addCardCert();
+	void addCerts( const QList<QSslCertificate> &certs );
 	void addFile();
-	void addKeys( const QList<CKey> &keys );
 	void enableCardCert();
 	void on_add_clicked();
 	void on_remove_clicked();

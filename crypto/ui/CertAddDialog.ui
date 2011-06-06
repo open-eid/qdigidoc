@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>KeyAddDialog</class>
- <widget class="QWidget" name="KeyAddDialog">
+ <class>CertAddDialog</class>
+ <widget class="QWidget" name="CertAddDialog">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -91,7 +91,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="keyAddStatus"/>
+          <widget class="QLabel" name="certAddStatus"/>
          </item>
          <item>
           <widget class="QPushButton" name="add">
@@ -177,7 +177,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>KeyAddDialog</receiver>
+   <receiver>CertAddDialog</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">

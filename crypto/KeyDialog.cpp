@@ -312,7 +312,7 @@ int CertModel::rowCount( const QModelIndex &index ) const
 
 
 
-KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
+CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 :	QWidget( parent )
 ,	doc( _doc )
 {
@@ -349,10 +349,10 @@ KeyAddDialog::KeyAddDialog( CryptoDoc *_doc, QWidget *parent )
 	progress->setVisible( false );
 }
 
-void KeyAddDialog::addCardCert()
-{ addKeys( QList<CKey>() << CKey( qApp->poller()->token().cert() ) ); }
+void CertAddDialog::addCardCert()
+{ addCerts( QList<QSslCertificate>() << qApp->poller()->token().cert() ); }
 
-void KeyAddDialog::addFile()
+void CertAddDialog::addFile()
 {
 	QString file = Common::normalized( QFileDialog::getOpenFileName( this, windowTitle(),
 		QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ),
@@ -367,54 +367,53 @@ void KeyAddDialog::addFile()
 		return;
 	}
 
-	CKey k( QSslCertificate( &f, QSsl::Pem ) );
-	if( k.cert.isNull() )
+	QSslCertificate cert( &f, QSsl::Pem );
+	if( cert.isNull() )
 	{
 		f.reset();
-		k.setCert( QSslCertificate( &f, QSsl::Der ) );
+		cert = QSslCertificate( &f, QSsl::Der );
 	}
-	if( k.cert.isNull() )
+	if( cert.isNull() )
 	{
 		QMessageBox::warning( this, windowTitle(), tr("Failed to read certificate") );
 	}
-	else if( !SslCertificate( k.cert ).keyUsage().contains( SslCertificate::DataEncipherment ) )
+	else if( !SslCertificate( cert ).keyUsage().contains( SslCertificate::DataEncipherment ) )
 	{
 		QMessageBox::warning( this, windowTitle(), tr("This certificate is not usable for crypting") );
 	}
 	else
-		addKeys( QList<CKey>() << k );
+		addCerts( QList<QSslCertificate>() << cert );
 
 	f.close();
 }
 
-void KeyAddDialog::addKeys( const QList<CKey> &keys )
+void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 {
-	if( keys.isEmpty() )
+	if( certs.isEmpty() )
 		return;
 	bool status = true;
-	Q_FOREACH( const CKey &key, keys )
+	QAbstractItemModel *m = usedView->model();
+	Q_FOREACH( const QSslCertificate &c, certs )
 	{
-		if( key.cert.expiryDate() <= QDateTime::currentDateTime() &&
+		SslCertificate cert( c );
+		if( cert.expiryDate() <= QDateTime::currentDateTime() &&
 			QMessageBox::No == QMessageBox::warning( this, windowTitle(),
 				tr("Are you sure that you want use certificate for encrypting, which expired on %1?<br />"
 					"When decrypter has updated certificates then decrypting is impossible.")
-					.arg( key.cert.expiryDate().toString( "dd.MM.yyyy hh:mm:ss" ) ),
+					.arg( cert.expiryDate().toString( "dd.MM.yyyy hh:mm:ss" ) ),
 				QMessageBox::Yes|QMessageBox::No, QMessageBox::No ) )
-			return;
-		status = qMin( status, doc->addKey( key ) );
-	}
+			continue;
+		status = qMin( status, doc->addKey( cert ) );
 
-	QAbstractItemModel *m = usedView->model();
-	Q_FOREACH( const CKey &k, keys )
-	{
-		SslCertificate cert( k.cert );
 		HistoryModel::KeyType type = HistoryModel::IDCard;
 		switch( cert.type() )
 		{
 		case SslCertificate::TempelType: type = HistoryModel::TEMPEL; break;
 		case SslCertificate::DigiIDTestType:
 		case SslCertificate::DigiIDType: type = HistoryModel::DigiID; break;
-		default: break;
+		case SslCertificate::EstEidTestType:
+		case SslCertificate::EstEidType: type = HistoryModel::IDCard; break;
+		default: continue;
 		}
 
 		if( !m->match( m->index( 0, 0 ), Qt::DisplayRole, cert.subjectInfo( "CN" ), 1, Qt::MatchExactly ).isEmpty() &&
@@ -431,13 +430,13 @@ void KeyAddDialog::addKeys( const QList<CKey> &keys )
 	m->submit();
 
 	Q_EMIT updateView();
-	keyAddStatus->setText( status ? tr("Keys added successfully") : tr("Failed to add keys") );
-	QTimer::singleShot( 3*1000, keyAddStatus, SLOT(hide()) );
+	certAddStatus->setText( status ? tr("Certs added successfully") : tr("Failed to add certs") );
+	QTimer::singleShot( 3*1000, certAddStatus, SLOT(hide()) );
 }
 
-void KeyAddDialog::enableCardCert() { cardButton->setDisabled( qApp->poller()->token().cert().isNull() ); }
+void CertAddDialog::enableCardCert() { cardButton->setDisabled( qApp->poller()->token().cert().isNull() ); }
 
-void KeyAddDialog::disableSearch( bool disable )
+void CertAddDialog::disableSearch( bool disable )
 {
 	progress->setVisible( disable );
 	search->setDisabled( disable );
@@ -446,28 +445,28 @@ void KeyAddDialog::disableSearch( bool disable )
 	searchContent->setDisabled( disable );
 }
 
-void KeyAddDialog::on_add_clicked()
+void CertAddDialog::on_add_clicked()
 {
 	if( !skView->selectionModel()->hasSelection() )
 		return;
-	QList<CKey> keys;
+	QList<QSslCertificate> certs;
 	Q_FOREACH( const QModelIndex &index, skView->selectionModel()->selectedRows() )
-		keys << CKey( certModel->data( index, Qt::UserRole ).value<QSslCertificate>() );
-	addKeys( keys );
+		certs << index.data( Qt::UserRole ).value<QSslCertificate>();
+	addCerts( certs );
 }
 
-void KeyAddDialog::on_remove_clicked()
+void CertAddDialog::on_remove_clicked()
 {
-	QList<int> rows;
-	Q_FOREACH( const QModelIndex &i, usedView->selectionModel()->selectedRows() )
-		rows << i.row();
-	qSort( rows );
-	for( int i = rows.size() - 1; i >= 0; --i )
-		usedView->model()->removeRow( rows[i] );
+	QModelIndexList rows = usedView->selectionModel()->selectedRows();
+	for( QModelIndexList::const_iterator i = rows.constEnd(); i > rows.begin(); )
+	{
+		--i;
+		usedView->model()->removeRow( i->row() );
+	}
 	usedView->model()->submit();
 }
 
-void KeyAddDialog::on_search_clicked()
+void CertAddDialog::on_search_clicked()
 {
 	if( searchType->currentIndex() == 0 &&
 		!IKValidator::isValid( searchContent->text() ) )
@@ -487,18 +486,15 @@ void KeyAddDialog::on_search_clicked()
 	}
 }
 
-void KeyAddDialog::on_searchType_currentIndexChanged( int index )
+void CertAddDialog::on_searchType_currentIndexChanged( int index )
 {
-	if( index == 0 )
-		searchContent->setValidator( validator );
-	else
-		searchContent->setValidator( 0 );
+	searchContent->setValidator( index == 0 ? validator : 0 );
 	certModel->clear();
 	searchContent->clear();
 	searchContent->setFocus();
 }
 
-void KeyAddDialog::on_usedView_doubleClicked( const QModelIndex &index )
+void CertAddDialog::on_usedView_doubleClicked( const QModelIndex &index )
 {
 	QAbstractItemModel *m = usedView->model();
 	QString text = m->index( index.row(), 0 ).data().toString();
@@ -509,13 +505,13 @@ void KeyAddDialog::on_usedView_doubleClicked( const QModelIndex &index )
 	on_search_clicked();
 }
 
-void KeyAddDialog::showError( const QString &msg )
+void CertAddDialog::showError( const QString &msg )
 {
 	disableSearch( false );
 	QMessageBox::warning( this, windowTitle(), msg );
 }
 
-void KeyAddDialog::showResult( const QList<QSslCertificate> &result )
+void CertAddDialog::showResult( const QList<QSslCertificate> &result )
 {
 	certModel->load( result );
 
