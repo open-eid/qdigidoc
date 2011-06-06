@@ -187,6 +187,10 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
         <source>Failed to get signatures</source>
         <translation>Ümbrikust ei suutnud laadida allkirju</translation>
     </message>
+    <message>
+        <source>BES signature format is not valid in Estonia</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DocumentModel</name>

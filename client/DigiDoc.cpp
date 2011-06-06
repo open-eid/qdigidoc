@@ -426,15 +426,10 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 		s->validateOffline();
 		if( type() == BESType )
 		{
-			switch( s->validateOnline() )
-			{
-			case Signature::GOOD: return Valid;
-			case Signature::REVOKED: return Invalid;
-			case Signature::UNKNOWN: return Unknown;
-			}
+			m_lastError = DigiDoc::tr("BES signature format is not valid in Estonia");
+			return Invalid;
 		}
-		else
-			return Valid;
+		return Valid;
 	}
 	catch( const Exception &e )
 	{

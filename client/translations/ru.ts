@@ -187,6 +187,10 @@ There is an option to re-sign this document in a new container.</source>
         <source>Failed to get signatures</source>
         <translation>Не удается загрузить подписи</translation>
     </message>
+    <message>
+        <source>BES signature format is not valid in Estonia</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DocumentModel</name>
