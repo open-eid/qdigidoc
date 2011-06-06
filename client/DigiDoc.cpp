@@ -34,7 +34,6 @@
 #include <digidocpp/SignatureTM.h>
 #include <digidocpp/WDoc.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
-#include <digidocpp/io/ZipSerialize.h>
 
 #include <QDateTime>
 #include <QDesktopServices>
@@ -592,8 +591,7 @@ void DigiDoc::save( const QString &filename )
 	{
 		if( !filename.isEmpty() )
 			m_fileName = filename;
-		std::auto_ptr<ISerialize> s(new ZipSerialize( to(m_fileName) ));
-		b->saveTo( s );
+		b->saveTo( to(m_fileName) );
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to save container"), e ); }
 }
