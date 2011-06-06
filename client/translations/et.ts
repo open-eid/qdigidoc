@@ -83,6 +83,18 @@ PIN1 on blokeeritud</translation>
         <source>Failed to validate PIN</source>
         <translation>PIN koodi valideerimine ebaõnnestus</translation>
     </message>
+    <message>
+        <source> PKCS11 general error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> PKCS11 device error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> PKCS11 unknown error</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -741,7 +753,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Failed to login token</source>
-        <translation>Vale PIN</translation>
+        <translation>PIN koodi valideerimine ebaõnnestus</translation>
     </message>
     <message>
         <source>Failed to sign document</source>
@@ -750,6 +762,18 @@ Kontrollkood: %1</translation>
     <message>
         <source>Sign certificate is not selected</source>
         <translation>Allkirjastamise sertifikaat ei ole valitud</translation>
+    </message>
+    <message>
+        <source> PKCS11 general error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> PKCS11 device error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> PKCS11 unknown error</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

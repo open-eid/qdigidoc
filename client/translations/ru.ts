@@ -83,6 +83,18 @@ PIN заблокирован</translation>
         <source>Failed to validate PIN</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source> PKCS11 general error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> PKCS11 device error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> PKCS11 unknown error</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -744,7 +756,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Failed to login token</source>
-        <translation>Неверный PIN</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Failed to sign document</source>
@@ -753,6 +765,18 @@ Control code: %1</source>
     <message>
         <source>Sign certificate is not selected</source>
         <translation>Сертификат подписи не выбран</translation>
+    </message>
+    <message>
+        <source> PKCS11 general error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> PKCS11 device error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> PKCS11 unknown error</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

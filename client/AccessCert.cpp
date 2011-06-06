@@ -103,8 +103,16 @@ bool AccessCert::download( bool noCard )
 			showWarning( tr("Error downloading server access certificate!\nPIN1 is blocked" ) );
 			s->unlock();
 			return false;
+		case QPKCS11::GeneralError:
+			showWarning( tr("Failed to validate PIN") + tr(" PKCS11 general error") );
+			s->unlock();
+			return false;
+		case QPKCS11::DeviceError:
+			showWarning( tr("Failed to validate PIN") + tr(" PKCS11 device error") );
+			s->unlock();
+			return false;
 		default:
-			showWarning( tr("Failed to validate PIN") );
+			showWarning( tr("Failed to validate PIN") + tr(" PKCS11 unknown error") );
 			s->unlock();
 			return false;
 		}

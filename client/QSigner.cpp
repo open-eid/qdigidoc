@@ -195,8 +195,12 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 			throwException( tr("Failed to login token"), Exception::PINIncorrect, __LINE__ );
 		case QPKCS11::PinLocked:
 			throwException( tr("Failed to login token"), Exception::PINLocked, __LINE__ );
+		case QPKCS11::GeneralError:
+			throwException( tr("Failed to login token") + tr(" PKCS11 general error"), Exception::NoException, __LINE__ );
+		case QPKCS11::DeviceError:
+			throwException( tr("Failed to login token") + tr(" PKCS11 device error"), Exception::NoException, __LINE__ );
 		default:
-			throwException( tr("Failed to login token"), Exception::NoException, __LINE__ );
+			throwException( tr("Failed to login token") + tr(" PKCS11 unknown error"), Exception::NoException, __LINE__ );
 		}
 
 		sig = d->pkcs11.sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );

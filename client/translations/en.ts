@@ -83,6 +83,18 @@ PIN1 is blocked</translation>
         <source>Failed to validate PIN</source>
         <translation>Failed to validate PIN</translation>
     </message>
+    <message>
+        <source> PKCS11 general error</source>
+        <translation> PKCS11 general error</translation>
+    </message>
+    <message>
+        <source> PKCS11 device error</source>
+        <translation> PKCS11 device error</translation>
+    </message>
+    <message>
+        <source> PKCS11 unknown error</source>
+        <translation> PKCS11 unknown error</translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -743,7 +755,7 @@ Control code: %1</translation>
     </message>
     <message>
         <source>Failed to login token</source>
-        <translation>Wrong PIN</translation>
+        <translation>Failed to login token</translation>
     </message>
     <message>
         <source>Failed to sign document</source>
@@ -752,6 +764,18 @@ Control code: %1</translation>
     <message>
         <source>Sign certificate is not selected</source>
         <translation>Sign certificate is not selected</translation>
+    </message>
+    <message>
+        <source> PKCS11 general error</source>
+        <translation> PKCS11 general error</translation>
+    </message>
+    <message>
+        <source> PKCS11 device error</source>
+        <translation> PKCS11 device error</translation>
+    </message>
+    <message>
+        <source> PKCS11 unknown error</source>
+        <translation> PKCS11 unknown error</translation>
     </message>
 </context>
 <context>
