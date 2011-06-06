@@ -514,7 +514,7 @@ already in container, ovewrite?</source>
     </message>
     <message>
         <source>Failed to login token</source>
-        <translation>Неверный PIN</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Failed to decrypt document</source>

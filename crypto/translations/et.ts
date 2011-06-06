@@ -515,7 +515,7 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
     </message>
     <message>
         <source>Failed to login token</source>
-        <translation>Vale PIN</translation>
+        <translation>PIN koodi valideerimine ebaõnnestus</translation>
     </message>
     <message>
         <source>Failed to decrypt document</source>
