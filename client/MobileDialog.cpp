@@ -253,11 +253,11 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 				Document file = m->document( m->index( i, 0 ) );
 				std::vector<unsigned char> d = file.calcDigest( calc.get() );
 				digest = QByteArray( (char*)&d[0], d.size() );
-				name = QString::fromStdString( calc->getName() );
+				name = QString::fromUtf8( calc->getName().c_str() );
 			}
 			catch( const IOException &e )
 			{
-				labelError->setText( QString::fromStdString( e.getMsg() ) );
+				labelError->setText( QString::fromUtf8( e.getMsg().c_str() ) );
 				return;
 			}
 		}

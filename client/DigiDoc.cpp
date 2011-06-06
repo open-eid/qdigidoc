@@ -647,7 +647,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		if ( !role2.isEmpty() )
 			sRole.claimedRoles.push_back( to(role2) );
 		qApp->signer()->setSignerRole( sRole );
-		b->sign( qApp->signer(), Signature::TM );
+		b->sign( qApp->signer() );
 		result = true;
 	}
 	catch( const Exception &e )
