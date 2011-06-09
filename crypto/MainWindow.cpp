@@ -539,7 +539,7 @@ void MainWindow::showCardStatus()
 	Application::restoreOverrideCursor();
 	TokenData t = qApp->poller()->token();
 	if( !t.card().isEmpty() && !t.cert().isNull() )
-		infoFrame->setText( Common::tokenInfo( Common::AuthCert, t ) );
+		infoFrame->setText( t.toHtml() );
 	else if( !t.card().isEmpty() )
 	{
 		infoFrame->setText( tr("Loading data") );

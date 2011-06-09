@@ -777,7 +777,7 @@ void MainWindow::showCardStatus()
 	Application::restoreOverrideCursor();
 	TokenData t = qApp->signer()->token();
 	if( !t.card().isEmpty() && !t.cert().isNull() )
-		infoCard->setText( Common::tokenInfo( Common::SignCert, t ) );
+		infoCard->setText( t.toHtml() );
 	else if( !t.card().isEmpty() )
 	{
 		infoCard->setText( tr("Loading data") );
