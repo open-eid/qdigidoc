@@ -29,8 +29,6 @@
 #include <QPrinter>
 #include <QTextDocument>
 
-#include <QDebug>
-
 PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 :	QPainter( printer )
 ,	p( printer )
@@ -52,17 +50,14 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	text.setPixelSize( 12 );
 
 	QFont head = text;
+	QFont sHead = text;
 	head.setPixelSize( 28 );
-
-	QFont sHead = head;
 	sHead.setPixelSize( 18 );
 
 	QPen oPen = pen();
-
-	QPen hPen = oPen;
+	QPen sPen = pen();
+	QPen hPen = pen();
 	hPen.setWidth( 2 );
-
-	QPen sPen = oPen;
 	sPen.setWidth( 1 );
 	sPen.setStyle( Qt::DotLine );
 
