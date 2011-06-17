@@ -186,7 +186,7 @@ void Application::closeWindow()
 
 bool Application::event( QEvent *e )
 {
-	switch( e->type() )
+	switch( int(e->type()) )
 	{
 	case REOpenEvent::Type:
 		if( !activeWindow() )

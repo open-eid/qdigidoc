@@ -218,7 +218,7 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 
 bool Application::event( QEvent *e )
 {
-	switch( e->type() )
+	switch( int(e->type()) )
 	{
 	case REOpenEvent::Type:
 		if( !activeWindow() )
