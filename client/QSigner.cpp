@@ -166,7 +166,7 @@ void QSigner::selectCard( const QString &card )
 	Q_EMIT dataChanged();
 }
 
-int QSigner::type()
+int QSigner::type() const
 {
 	switch( SslCertificate(d->t.cert()).type() )
 	{
