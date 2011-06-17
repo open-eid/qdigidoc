@@ -40,24 +40,29 @@
 class QSignerPrivate
 {
 public:
-	QSignerPrivate(): terminate(false) {}
+	QSignerPrivate(): csp(0), pkcs11(0), terminate(false) {}
 
-	QPKCS11			pkcs11;
+#ifdef Q_OS_WIN
+	QCSP			*csp;
+#endif
+	QPKCS11			*pkcs11;
 	TokenData		t;
 	volatile bool	terminate;
 	QMutex			m;
-	QStringList		providers;
-#ifdef Q_OS_WIN
-	QCSP		csp;
-#endif
 };
 
 using namespace digidoc;
 
-QSigner::QSigner( QObject *parent )
+QSigner::QSigner( bool useCapi, QObject *parent )
 :	QThread( parent )
 ,	d( new QSignerPrivate )
 {
+#ifdef Q_OS_WIN
+	if( useCapi )
+		d->csp = new QCSP( this );
+	else
+#endif
+		d->pkcs11 = new QPKCS11( this );
 	d->t.setCard( "loading" );
 	connect( this, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
 	start();
@@ -77,7 +82,7 @@ X509* QSigner::getCert() throw(digidoc::SignException)
 	return (X509*)d->t.cert().handle();
 }
 
-QPKCS11* QSigner::handle() const { return &d->pkcs11; }
+QPKCS11* QSigner::handle() const { return d->pkcs11; }
 
 void QSigner::lock() { d->m.lock(); }
 
@@ -97,15 +102,7 @@ void QSigner::run()
 	d->t.clear();
 	d->t.setCard( "loading" );
 
-	bool loaded = false;
-	try
-	{
-		loaded = d->pkcs11.loadDriver( QString::fromUtf8(
-			Conf::getInstance()->getPKCS11DriverPath().c_str() ) );
-	}
-	catch( const Exception & ) {}
-
-	if( !loaded )
+	if( d->pkcs11 && !d->pkcs11->loadDriver( qApp->confValue( Application::PKCS11Module ).toString() ) )
 	{
 		Q_EMIT error( tr("Failed to load PKCS#11 module") );
 		return;
@@ -115,10 +112,13 @@ void QSigner::run()
 	{
 		if( d->m.tryLock() )
 		{
+			QStringList cards;
 #ifdef Q_OS_WIN
-			d->providers = d->csp.containers();
+			if( d->csp )
+				cards = d->csp->containers();
 #endif
-			QStringList cards = d->pkcs11.cards() +  d->providers;
+			if( d->pkcs11 )
+				cards = d->pkcs11->cards();
 			bool update = d->t.cards() != cards; // check if cards have inserted/removed, update list
 			d->t.setCards( cards );
 
@@ -135,11 +135,11 @@ void QSigner::run()
 			if( cards.contains( d->t.card() ) && d->t.cert().isNull() ) // read cert
 			{
 #ifdef Q_OS_WIN
-				if( d->providers.contains( d->t.card() ) )
-					d->t = d->csp.selectCert( d->t.card(), SslCertificate::NonRepudiation );
+				if( d->csp )
+					d->t = d->csp->selectCert( d->t.card(), SslCertificate::NonRepudiation );
 				else
 #endif
-					d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::NonRepudiation );
+					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::NonRepudiation );
 				d->t.setCards( cards );
 				update = true;
 			}
@@ -182,9 +182,9 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		throwException( tr("Signing certificate is not selected."), Exception::NoException, __LINE__ );
 
 	QByteArray sig;
-	if( !d->providers.contains( d->t.card() ) )
+	if( d->pkcs11 )
 	{
-		QPKCS11::PinStatus status = d->pkcs11.login( d->t );
+		QPKCS11::PinStatus status = d->pkcs11->login( d->t );
 		switch( status )
 		{
 		case QPKCS11::PinOK: break;
@@ -200,8 +200,8 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::NoException, __LINE__ );
 		}
 
-		sig = d->pkcs11.sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
-		d->pkcs11.logout();
+		sig = d->pkcs11->sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
+		d->pkcs11->logout();
 	}
 #ifdef Q_OS_WIN
 	else
@@ -214,7 +214,7 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		default:
 			throwException( tr("Failed to login token"), Exception::NoException, __LINE__ );
 		}*/
-		sig = d->csp.sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
+		sig = d->csp->sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
 	}
 #endif
 

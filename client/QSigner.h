@@ -34,7 +34,7 @@ class QSigner: public QThread, public digidoc::Signer
 	Q_OBJECT
 
 public:
-	explicit QSigner( QObject *parent = 0 );
+	explicit QSigner( bool useCapi, QObject *parent = 0 );
 	~QSigner();
 
 	X509 *getCert() throw(digidoc::SignException);
