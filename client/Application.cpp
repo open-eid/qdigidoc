@@ -150,7 +150,7 @@ Application::Application( int &argc, char **argv )
 		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
 	}
 
-	d->signer = new QSigner( args.count("-capi"), this );
+	d->signer = new QSigner( args.contains("-capi"), this );
 	args.removeAll("-capi");
 	parseArgs( args.join( "\", \"" ) );
 }

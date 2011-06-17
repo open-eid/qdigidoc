@@ -40,7 +40,11 @@
 class QSignerPrivate
 {
 public:
-	QSignerPrivate(): csp(0), pkcs11(0), terminate(false) {}
+	QSignerPrivate():
+#ifdef Q_OS_WIN
+		csp(0),
+#endif
+		pkcs11(0), terminate(false) {}
 
 #ifdef Q_OS_WIN
 	QCSP			*csp;
@@ -61,6 +65,8 @@ QSigner::QSigner( bool useCapi, QObject *parent )
 	if( useCapi )
 		d->csp = new QCSP( this );
 	else
+#else
+	Q_UNUSED(useCapi)
 #endif
 		d->pkcs11 = new QPKCS11( this );
 	d->t.setCard( "loading" );
