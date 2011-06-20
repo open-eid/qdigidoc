@@ -240,7 +240,7 @@ bool Application::eventFilter( QObject *o, QEvent *e )
 		Q_FOREACH( QAction *a, d->windowGroup->actions() )
 			if( o == a->data().value<QWidget*>() )
 				delete a;
-		if( d->windowGroup->actions().isEmpty() )
+		if( d->windowGroup->actions().isEmpty() && d->dockSeparator )
 		{
 			d->dockSeparator->deleteLater();
 			d->dockSeparator = 0;
