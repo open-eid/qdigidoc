@@ -41,7 +41,7 @@ public:
 		DecryptOK,
 	};
 
-	Poller( QObject *parent = 0 );
+	Poller( bool useCapi, QObject *parent = 0 );
 	~Poller();
 
 	ErrorCode decrypt( const QByteArray &in, QByteArray &out );

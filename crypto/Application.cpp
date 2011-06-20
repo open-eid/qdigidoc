@@ -137,10 +137,7 @@ Application::Application( int &argc, char **argv )
 	else
 		initConfigStore( NULL );
 
-	d->poller = new Poller();
-	connect( d->poller, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
-	d->poller->start();
-
+	d->poller = new Poller( args.contains("-capi"), this );
 	parseArgs( args.join( "\", \"" ) );
 }
 
@@ -154,7 +151,6 @@ Application::~Application()
 		delete d->bar;
 		delete d->dock;
 #endif
-		delete d->poller;
 		cleanupConfigStore( NULL );
 		finalizeDigiDocLib();
 	}
@@ -271,6 +267,8 @@ void Application::parseArgs( const QString &msg )
 		QUrl url( param );
 		params << (url.errorString().isEmpty() ? url.toLocalFile() : param);
 	}
+	params.removeAll("-capi");
+
 	QWidget *w = new MainWindow();
 	w->installEventFilter( this );
 	w->addAction( d->closeAction );

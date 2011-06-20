@@ -24,6 +24,9 @@
 
 #include <common/QPKCS11.h>
 #include <common/TokenData.h>
+#ifdef Q_OS_WIN
+#include <common/QCSP.h>
+#endif
 
 #include <libdigidoc/DigiDocConfig.h>
 
@@ -34,9 +37,16 @@
 class PollerPrivate
 {
 public:
-	PollerPrivate(): terminate(false) {}
+	PollerPrivate():
+#ifdef Q_OS_WIN
+		csp(0),
+#endif
+		pkcs11(0), terminate(false) {}
 
-	QPKCS11			pkcs11;
+#ifdef Q_OS_WIN
+	QCSP			*csp;
+#endif
+	QPKCS11			*pkcs11;
 	TokenData		t;
 	volatile bool	terminate;
 	QMutex			m;
@@ -44,11 +54,21 @@ public:
 
 
 
-Poller::Poller( QObject *parent )
+Poller::Poller( bool useCapi, QObject *parent )
 :	QThread( parent )
 ,	d( new PollerPrivate )
 {
+#ifdef Q_OS_WIN
+	if( useCapi )
+		d->csp = new QCSP( this );
+	else
+#else
+	Q_UNUSED(useCapi)
+#endif
+		d->pkcs11 = new QPKCS11( this );
 	d->t.setCard( "loading" );
+	connect( this, SIGNAL(error(QString)), qApp, SLOT(showWarning(QString)) );
+	start();
 }
 
 Poller::~Poller()
@@ -67,29 +87,38 @@ Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 		return DecryptFailed;
 	}
 
-	QPKCS11::PinStatus status = d->pkcs11.login( d->t );
-	switch( status )
+	if( d->pkcs11 )
 	{
-	case QPKCS11::PinOK: break;
-	case QPKCS11::PinCanceled: return PinCanceled;
-	case QPKCS11::PinIncorrect:
-		locker.unlock();
-		reload();
-		if( !(d->t.flags() & TokenData::PinLocked) )
+		QPKCS11::PinStatus status = d->pkcs11->login( d->t );
+		switch( status )
 		{
+		case QPKCS11::PinOK: break;
+		case QPKCS11::PinCanceled: return PinCanceled;
+		case QPKCS11::PinIncorrect:
+			locker.unlock();
+			reload();
+			if( !(d->t.flags() & TokenData::PinLocked) )
+			{
+				Q_EMIT error( QPKCS11::errorString( status ) );
+				return PinIncorrect;
+			}
+		case QPKCS11::PinLocked:
 			Q_EMIT error( QPKCS11::errorString( status ) );
-			return PinIncorrect;
+			return PinLocked;
+		default:
+			Q_EMIT error( tr("Failed to login token") + " " + QPKCS11::errorString( status ) );
+			return DecryptFailed;
 		}
-	case QPKCS11::PinLocked:
-		Q_EMIT error( QPKCS11::errorString( status ) );
-		return PinLocked;
-	default:
-		Q_EMIT error( tr("Failed to login token") + " " + QPKCS11::errorString( status ) );
-		return DecryptFailed;
+		out = d->pkcs11->decrypt( in );
+		d->pkcs11->logout();
 	}
+#ifdef Q_OS_WIN
+	else if( d->csp )
+	{
+		out = d->csp->decrypt( in );
+	}
+#endif
 
-	out = d->pkcs11.decrypt( in );
-	d->pkcs11.logout();
 	if( out.isEmpty() )
 		Q_EMIT error( tr("Failed to decrypt document") );
 	locker.unlock();
@@ -113,20 +142,29 @@ void Poller::run()
 	d->t.clear();
 	d->t.setCard( "loading" );
 
-	char driver[200];
-	qsnprintf( driver, sizeof(driver), "DIGIDOC_DRIVER_%d_FILE",
-		ConfigItem_lookup_int( "DIGIDOC_DEFAULT_DRIVER", 1 ) );
-	if( !d->pkcs11.loadDriver( QString::fromUtf8( ConfigItem_lookup(driver) ) ) )
+	if( d->pkcs11 )
 	{
-		Q_EMIT error( tr("Failed to load PKCS#11 module") );
-		return;
+		char driver[200];
+		qsnprintf( driver, sizeof(driver), "DIGIDOC_DRIVER_%d_FILE",
+			ConfigItem_lookup_int( "DIGIDOC_DEFAULT_DRIVER", 1 ) );
+		if( !d->pkcs11->loadDriver( QString::fromUtf8( ConfigItem_lookup(driver) ) ) )
+		{
+			Q_EMIT error( tr("Failed to load PKCS#11 module") );
+			return;
+		}
 	}
 
 	while( !d->terminate )
 	{
 		if( d->m.tryLock() )
 		{
-			QStringList cards = d->pkcs11.cards();
+			QStringList cards;
+#ifdef Q_OS_WIN
+			if( d->csp )
+				cards = d->csp->containers( SslCertificate::DataEncipherment );
+#endif
+			if( d->pkcs11 )
+				cards = d->pkcs11->cards();
 			bool update = d->t.cards() != cards; // check if cards have inserted/removed, update list
 			d->t.setCards( cards );
 
@@ -142,7 +180,12 @@ void Poller::run()
 
 			if( cards.contains( d->t.card() ) && d->t.cert().isNull() ) // read cert
 			{
-				d->t = d->pkcs11.selectSlot( d->t.card(), SslCertificate::DataEncipherment );
+#ifdef Q_OS_WIN
+				if( d->csp )
+					d->t = d->csp->selectCert( d->t.card(), SslCertificate::DataEncipherment );
+				else
+#endif
+					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::DataEncipherment );
 				d->t.setCards( cards );
 				update = true;
 			}

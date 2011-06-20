@@ -121,7 +121,7 @@ void QSigner::run()
 			QStringList cards;
 #ifdef Q_OS_WIN
 			if( d->csp )
-				cards = d->csp->containers();
+				cards = d->csp->containers( SslCertificate::NonRepudiation );
 #endif
 			if( d->pkcs11 )
 				cards = d->pkcs11->cards();
@@ -210,7 +210,7 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		d->pkcs11->logout();
 	}
 #ifdef Q_OS_WIN
-	else
+	else if( d->csp )
 	{
 		/*switch( d->csp.login( d->t ) )
 		{

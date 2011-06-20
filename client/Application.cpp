@@ -151,7 +151,6 @@ Application::Application( int &argc, char **argv )
 	}
 
 	d->signer = new QSigner( args.contains("-capi"), this );
-	args.removeAll("-capi");
 	parseArgs( args.join( "\", \"" ) );
 }
 
@@ -321,6 +320,8 @@ void Application::parseArgs( const QString &msg )
 		QUrl url( param );
 		params << (url.errorString().isEmpty() ? url.toLocalFile() : param);
 	}
+	params.removeAll("-capi");
+
 	QStringList exts = QStringList() << "p12" << "p12d";
 	QWidget *w = 0;
 	if( exts.contains( QFileInfo( params.value( 0 ) ).suffix(), Qt::CaseInsensitive ) )
