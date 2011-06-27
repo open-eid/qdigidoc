@@ -489,6 +489,8 @@ void MainWindow::enableSign()
 			SslCertificate c( t.cert() );
 			signSigner->setText( c.toString( c.showCN() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
 		}
+		else
+			signSigner->clear();
 	}
 	button->setEnabled( button->toolTip().isEmpty() );
 	if( !button->isEnabled() )
