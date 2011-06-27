@@ -62,16 +62,20 @@ Start downloading?</source>
 Alustame laadimist?</translation>
     </message>
     <message>
-        <source>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
-        <translation>Käesolevaga nõustun kehtivuskinnitusteenuse kasutamise tavatingimustega ja tarbin teenust mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.sk.ee/kehtivuskinnitus&quot;&gt;http://www.sk.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
-    </message>
-    <message>
         <source>Agree</source>
         <translation>Nõustun</translation>
     </message>
     <message>
         <source>Error downloading server access certificate!</source>
         <translation>Viga juurdepääsutõendi laadimisel!</translation>
+    </message>
+    <message>
+        <source>http://www.id.ee/kehtivuskinnitus</source>
+        <translation>http://www.id.ee/kehtivuskinnitus</translation>
+    </message>
+    <message>
+        <source>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;%1&quot;&gt;%1&lt;/a&gt; or phone 1777</source>
+        <translation>Käesolevaga nõustun kehtivuskinnitusteenuse kasutamise tavatingimustega ja tarbin teenust mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;%1&quot;&gt;%1&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
     </message>
 </context>
 <context>
@@ -898,10 +902,6 @@ Kontrollkood: %1</translation>
         <translation>Vigane parool</translation>
     </message>
     <message>
-        <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from http://www.sk.ee/kehtivuskinnitus or phone 1777</source>
-        <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon http://www.sk.ee/kehtivuskinnitus või ID-abiliini telefonil 1777</translation>
-    </message>
-    <message>
         <source>Select server access certificate</source>
         <translation>Valige juurdepääsutõend</translation>
     </message>
@@ -920,6 +920,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>Ignore server access certificate (IP based access)</source>
         <translation>Ignoreeri juurdepääsutõendit (IP põhine ligipääs)</translation>
+    </message>
+    <message>
+        <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
+        <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
     </message>
 </context>
 <context>

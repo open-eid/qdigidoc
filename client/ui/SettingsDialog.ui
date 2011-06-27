@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>468</width>
-    <height>392</height>
+    <width>570</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
@@ -153,7 +153,7 @@
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="p12Label">
          <property name="text">
-          <string>Regarding to terms and conditions of validity confirmation service you're allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from http://www.sk.ee/kehtivuskinnitus or phone 1777</string>
+          <string>Regarding to terms and conditions of validity confirmation service you're allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>

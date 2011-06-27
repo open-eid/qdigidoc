@@ -59,7 +59,7 @@ bool AccessCert::download( bool noCard )
 {
 	if( noCard )
 	{
-		QDesktopServices::openUrl( QUrl( "http://www.sk.ee/toend/" ) );
+		QDesktopServices::openUrl( QUrl( tr("http://www.id.ee/kehtivuskinnitus") ) );
 		return false;
 	}
 
@@ -68,15 +68,15 @@ bool AccessCert::download( bool noCard )
 		   "will use the service in extent of 10 signatures per month. If you going to "
 		   "exceed the limit of 10 signatures per month or/and will use the service for "
 		   "commercial purposes, please refer to IT support of your company. Additional "
-		   "information is available from <a href=\"http://www.sk.ee/kehtivuskinnitus\">"
-		   "http://www.sk.ee/kehtivuskinnitus</a> or phone 1777"),
+		   "information is available from <a href=\"%1\">%1</a> or phone 1777")
+			.arg( tr("http://www.id.ee/kehtivuskinnitus") ),
 		QMessageBox::Help, m_parent );
 	d.addButton( tr("Agree"), QMessageBox::AcceptRole );
 	if( QLabel *label = d.findChild<QLabel*>() )
 		label->setOpenExternalLinks( true );
 	if( d.exec() == QMessageBox::Help )
 	{
-		QDesktopServices::openUrl( QUrl( "http://www.sk.ee/kehtivuskinnitus" ) );
+		QDesktopServices::openUrl( QUrl( tr("http://www.id.ee/kehtivuskinnitus") ) );
 		return false;
 	}
 
@@ -142,7 +142,7 @@ bool AccessCert::download( bool noCard )
 	switch( status.item(0).toElement().text().toInt() )
 	{
 	case 1: //need to order cert manually from SK web
-		QDesktopServices::openUrl( QUrl( "http://www.sk.ee/toend/" ) );
+		QDesktopServices::openUrl( QUrl( tr("http://www.id.ee/kehtivuskinnitus") ) );
 		return false;
 	case 2: //got error, show message from MessageToDisplay element
 		showWarning( tr("Error downloading server access certificate!\n%1")
