@@ -73,8 +73,6 @@ private:
 	};
 	bool addFile( const QString &file );
 	bool event( QEvent *e );
-	void dragEnterEvent( QDragEnterEvent *e );
-	void dropEvent( QDropEvent *e );
 	void loadRoles();
 	void retranslate();
 	void save();

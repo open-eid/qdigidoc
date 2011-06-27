@@ -440,22 +440,6 @@ void MainWindow::changeLang( QAction *a ) { qApp->loadTranslation( a->data().toS
 void MainWindow::closeDoc()
 { buttonClicked( stack->currentIndex() == Sign ? SignCancel : ViewClose ); }
 
-void MainWindow::dragEnterEvent( QDragEnterEvent *e )
-{
-	if( e->mimeData()->hasUrls() && stack->currentIndex() != View )
-		e->acceptProposedAction();
-}
-
-void MainWindow::dropEvent( QDropEvent *e )
-{
-	Q_FOREACH( const QUrl &u, e->mimeData()->urls() )
-	{
-		if( u.scheme() == "file" )
-			params << u.toLocalFile();
-	}
-	buttonClicked( HomeSign );
-}
-
 void MainWindow::enableSign()
 {
 	Settings s;
@@ -515,8 +499,32 @@ bool MainWindow::event( QEvent *e )
 {
 	switch( e->type() )
 	{
-	case QEvent::LanguageChange: retranslate();
-	default: return QWidget::event( e );
+	case QEvent::DragEnter:
+	{
+		QDragEnterEvent *d = static_cast<QDragEnterEvent*>( e );
+		if( d->mimeData()->hasUrls() && stack->currentIndex() != View )
+			d->acceptProposedAction();
+		return QWidget::event( e );
+	}
+	case QEvent::Drop:
+	{
+		QDropEvent *d = static_cast<QDropEvent*>( e );
+		Q_FOREACH( const QUrl &u, d->mimeData()->urls() )
+		{
+			if( u.scheme() == "file" )
+				params << u.toLocalFile();
+		}
+		buttonClicked( HomeSign );
+		return QWidget::event( e );
+	}
+	case QEvent::Close:
+		closeDoc();
+		return QWidget::event( e );
+	case QEvent::LanguageChange:
+		retranslate();
+		return QWidget::event( e );
+	default:
+		return QWidget::event( e );
 	}
 }
 

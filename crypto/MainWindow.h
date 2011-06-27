@@ -68,8 +68,6 @@ private:
 	};
 	bool addFile( const QString &file );
 	bool event( QEvent *e );
-	void dragEnterEvent( QDragEnterEvent *e );
-	void dropEvent( QDropEvent *e );
 	void retranslate();
 	void save();
 	QString selectFile( const QString &filename );

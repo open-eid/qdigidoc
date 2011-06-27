@@ -245,7 +245,7 @@ bool Application::eventFilter( QObject *o, QEvent *e )
 			d->dockSeparator->deleteLater();
 			d->dockSeparator = 0;
 		}
-		return true;
+		return Common::eventFilter( o, e );
 	case QEvent::WindowActivate:
 		Q_FOREACH( QAction *a, d->windowGroup->actions() )
 			a->setChecked( o == a->data().value<QWidget*>() );
