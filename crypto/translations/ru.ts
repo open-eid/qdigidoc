@@ -456,7 +456,7 @@ For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search f
         <translation>Расшифровка</translation>
     </message>
     <message>
-        <source>You dont have permissions to write file %1</source>
+        <source>You don&apos;t have privileges to write file %1</source>
         <translation>У Вас недостаточно прав, для записи файла %1</translation>
     </message>
     <message>

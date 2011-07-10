@@ -155,7 +155,7 @@ bool MainWindow::addFile( const QString &file )
 		{
 			select = true;
 			qApp->showWarning(
-				tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( docname ) );
+				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( docname ) );
 		}
 
 		if( select )
@@ -702,7 +702,7 @@ QString MainWindow::selectFile( const QString &filename )
 			file.append( "." + exts[0] );
 		if( !Common::canWrite( file ) )
 			qApp->showWarning(
-				tr( "You dont have sufficient privilegs to write this file into folder %1" ).arg( file ) );
+				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( file ) );
 		else
 			return file;
 	}

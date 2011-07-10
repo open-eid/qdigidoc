@@ -121,7 +121,7 @@ bool MainWindow::addFile( const QString &file )
 		if( !Common::canWrite( docname ) )
 		{
 			select = true;
-			qApp->showWarning( tr("You dont have permissions to write file %1").arg( docname ) );
+			qApp->showWarning( tr("You don't have privileges to write file %1").arg( docname ) );
 		}
 
 		if( select )
@@ -483,7 +483,7 @@ QString MainWindow::selectFile( const QString &filename )
 		if( QFileInfo( file ).suffix().toLower() != "cdoc" )
 			file.append( ".cdoc" );
 		if( !Common::canWrite( file ) )
-			qApp->showWarning( tr("You dont have permissions to write file %1").arg( file ) );
+			qApp->showWarning( tr("You don't have privileges to write file %1").arg( file ) );
 		else
 			return file;
 	}

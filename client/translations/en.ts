@@ -459,8 +459,8 @@ Should I keep unsigned documents or remove these?</numerusform>
         <translation>Documents (%1)</translation>
     </message>
     <message>
-        <source>You dont have sufficient privilegs to write this file into folder %1</source>
-        <translation>You dont have sufficient privilegs to write this file into folder %1</translation>
+        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
+        <translation>You don&apos;t have sufficient privileges to write this file into folder %1</translation>
     </message>
     <message>
         <source>File is in BDOC format. Software needs to be updated in order to see file contents.</source>
@@ -1097,8 +1097,8 @@ Control code: %1</translation>
         <translation>DigiDoc3 client</translation>
     </message>
     <message>
-        <source>You dont have sufficient privilegs to write this file into folder %1</source>
-        <translation>You dont have sufficient privilegs to write this file into folder %1</translation>
+        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
+        <translation>You don&apos;t have sufficient privileges to write this file into folder %1</translation>
     </message>
 </context>
 </TS>

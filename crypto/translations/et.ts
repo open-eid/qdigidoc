@@ -457,7 +457,7 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
         <translation>Dekrüpteerimine</translation>
     </message>
     <message>
-        <source>You dont have permissions to write file %1</source>
+        <source>You don&apos;t have privileges to write file %1</source>
         <translation>Sul ei ole piisavalt õigusi et kirjutada faili %1</translation>
     </message>
     <message>

@@ -460,7 +460,7 @@ Should I keep unsigned documents or remove these?</source>
         <translation>Документы (%1)</translation>
     </message>
     <message>
-        <source>You dont have sufficient privilegs to write this file into folder %1</source>
+        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
         <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
     <message>
@@ -1098,7 +1098,7 @@ Control code: %1</source>
         <translation>DigiDoc3 клиент</translation>
     </message>
     <message>
-        <source>You dont have sufficient privilegs to write this file into folder %1</source>
+        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
         <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
 </context>

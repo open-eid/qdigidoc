@@ -457,7 +457,7 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <translation>Dokumendid (%1)</translation>
     </message>
     <message>
-        <source>You dont have sufficient privilegs to write this file into folder %1</source>
+        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
         <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
     </message>
     <message>
@@ -1095,7 +1095,7 @@ Kontrollkood: %1</translation>
         <translation>DigiDoc3 klient</translation>
     </message>
     <message>
-        <source>You dont have sufficient privilegs to write this file into folder %1</source>
+        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
         <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
     </message>
 </context>
