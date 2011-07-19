@@ -460,6 +460,8 @@ bool DigiDocSignature::weakDigestMethod() const
 			if( dig == URI_SHA1 || dig == URI_RSA_SHA1 || dig == URI_SHA224 )
 				return true;
 		}
+		if( signatureMethod() == URI_RSA_SHA1 )
+			return true;
 	}
 	default: break;
 	}
