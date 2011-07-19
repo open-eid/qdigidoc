@@ -539,8 +539,14 @@ bool DigiDoc::open( const QString &file )
 	try
 	{
 		b = new WDoc( to(file) );
-		if( b->documentType() == WDoc::DDocType && b->signatureCount() )
+		m_documentModel->reset();
+		switch( b->documentType() )
 		{
+		case WDoc::DDocType:
+		{
+			if( b->signatureCount() == 0 )
+				break;
+
 			std::string ver = b->getSignature( 0 )->getMediaType();
 			if( ver.compare( 0, 6, "SK-XML" ) == 0 ||
 				ver.compare( 0, 15, "DIGIDOC-XML/1.1" ) == 0 ||
@@ -551,8 +557,30 @@ bool DigiDoc::open( const QString &file )
 					"We do not recommend you to add signature to this document.\n"
 					"There is an option to re-sign this document in a new container.") );
 			}
+			break;
 		}
-		m_documentModel->reset();
+		case WDoc::BDocType:
+		{
+			if( b->signatureCount() == 0 )
+				break;
+
+			bool weak = false;
+			Q_FOREACH( const DigiDocSignature &s, signatures() )
+			{
+				if( !s.weakDigestMethod() )
+					continue;
+				weak = true;
+				break;
+			}
+			if( weak )
+				qApp->showWarning( tr(
+					"The current BDoc container uses weaker encryption method than officialy accepted in Estonia.\n"
+					"We do not recommend you to add signature to this document.\n"
+					"There is an option to re-sign this document in a new container.") );
+			break;
+		}
+		default: break;
+		}
 		return true;
 	}
 	catch( const Exception &e )

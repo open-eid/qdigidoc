@@ -195,6 +195,12 @@ There is an option to re-sign this document in a new container.</source>
         <source>BES signature format is not valid in Estonia</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The current BDoc container uses weaker encryption method than officialy accepted in Estonia.
+We do not recommend you to add signature to this document.
+There is an option to re-sign this document in a new container.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DocumentModel</name>
@@ -526,6 +532,10 @@ already in container, ovewrite?</source>
     <message>
         <source>Empty container</source>
         <translation>пустой контейнер</translation>
+    </message>
+    <message>
+        <source>NB! Weak signature</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
