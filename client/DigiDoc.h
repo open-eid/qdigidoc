@@ -103,6 +103,7 @@ public:
 	QString		signatureMethod() const;
 	SignatureType type() const;
 	SignatureStatus validate() const;
+	bool		weakDigestMethod() const;
 
 private:
 	void setLastError( const digidoc::Exception &e ) const;

@@ -734,7 +734,7 @@ void MainWindow::setCurrentPage( Pages page )
 		qDeleteAll( viewSignatures->findChildren<SignatureWidget*>() );
 
 		int i = 0;
-		bool cardOwnerSignature = false, invalid = false, test = false;
+		bool cardOwnerSignature = false, invalid = false, test = false, weak = false;
 		QList<DigiDocSignature> signatures = doc->signatures();
 		Q_FOREACH( const DigiDocSignature &c, signatures )
 		{
@@ -746,6 +746,7 @@ void MainWindow::setCurrentPage( Pages page )
 				c.cert().subjectInfo( "serialNumber" ) == qApp->signer()->token().cert().subjectInfo( "serialNumber" ) );
 			invalid = qMax( invalid, c.validate() != DigiDocSignature::Valid );
 			test = qMax( test, c.isTest() );
+			weak = qMax( weak, c.weakDigestMethod() );
 			++i;
 		}
 
@@ -773,6 +774,8 @@ void MainWindow::setCurrentPage( Pages page )
 			viewSignaturesError->setText( tr("NB! Invalid signature") );
 		else if( test )
 			viewSignaturesError->setText( tr("NB! Test signature") );
+		else if( weak )
+			viewSignaturesError->setText( tr("NB! Weak signature") );
 		else
 			viewSignaturesError->clear();
 		break;

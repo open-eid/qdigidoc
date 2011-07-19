@@ -33,6 +33,7 @@
 #include <digidocpp/Document.h>
 #include <digidocpp/SignatureTM.h>
 #include <digidocpp/WDoc.h>
+#include <digidocpp/crypto/Digest.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
 
 #include <QDateTime>
@@ -184,7 +185,7 @@ void DocumentModel::open( const QModelIndex &index )
 	if( !f.exists() )
 		return;
 #if defined(Q_OS_WIN)
-	QStringList exts = QString::fromLocal8Bit( qgetenv( "PATHEXT" ) ).split(';');
+	QStringList exts = QProcessEnvironment::systemEnvironment().value( "PATHEXT" ).split(';');
 	exts << ".PIF" << ".SCR";
 	if( exts.contains( "." + f.suffix(), Qt::CaseInsensitive ) &&
 		QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
@@ -443,6 +444,26 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 		}
 	}
 	return Invalid;
+}
+
+bool DigiDocSignature::weakDigestMethod() const
+{
+	switch(type())
+	{
+	case BESType:
+	case TMType:
+	case TSType:
+	{
+		std::vector<std::string> ref = static_cast<const digidoc::SignatureBES*>(s)->referenceDigestMethods();
+		Q_FOREACH( const std::string &dig, ref )
+		{
+			if( dig == URI_SHA1 || dig == URI_RSA_SHA1 || dig == URI_SHA224 )
+				return true;
+		}
+	}
+	default: break;
+	}
+	return false;
 }
 
 
