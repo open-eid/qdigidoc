@@ -31,6 +31,7 @@
 #include <common/TokenData.h>
 
 #include <digidocpp/Conf.h>
+#include <digidocpp/crypto/Digest.h>
 
 #include <QEventLoop>
 #include <QMutex>
@@ -168,14 +169,17 @@ void QSigner::selectCard( const QString &card )
 
 int QSigner::type()
 {
+	int digest = digidoc::Digest::toMethod( qApp->confValue( Application::DigestUri ).toString().toStdString() );
+	if( digest == NID_sha1 )
+		return digest;
 	switch( SslCertificate(d->t.cert()).type() )
 	{
 	case SslCertificate::DigiIDType:
 	case SslCertificate::DigiIDTestType:
-		return NID_sha256;
+		return digest;
 	default: break;
 	}
-	return d->t.cert().publicKey().length() > 1024 ? NID_sha256 : NID_sha224;
+	return d->t.cert().publicKey().length() > 1024 ? digest : NID_sha224;
 }
 
 void QSigner::showWarning( const QString &msg )

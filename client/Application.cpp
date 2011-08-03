@@ -200,6 +200,7 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	switch( parameter )
 	{
 	case CertStorePath: r = i->getCertStorePath().c_str(); break;
+	case DigestUri: r = i->getDigestUri().c_str(); break;
 	case PKCS11Module: r = i->getPKCS11DriverPath().c_str(); break;
 	case ProxyHost: r = i->getProxyHost().c_str(); break;
 	case ProxyPort: r = i->getProxyPort().c_str(); break;

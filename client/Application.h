@@ -42,6 +42,7 @@ public:
 	enum ConfParameter
 	{
 		CertStorePath,
+		DigestUri,
 		PKCS11Module,
 		ProxyHost,
 		ProxyPort,
