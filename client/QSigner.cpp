@@ -201,10 +201,10 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		case QPKCS11::PinCanceled:
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::PINCanceled, __LINE__ );
 		case QPKCS11::PinIncorrect:
-			locker.unlock();
-			reload();
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::PINIncorrect, __LINE__ );
 		case QPKCS11::PinLocked:
+			locker.unlock();
+			reload();
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::PINLocked, __LINE__ );
 		default:
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::NoException, __LINE__ );
