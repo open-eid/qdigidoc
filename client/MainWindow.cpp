@@ -590,6 +590,10 @@ void MainWindow::parseLink( const QString &link )
 		url.addQueryItem( "attachment", QFileInfo( doc->fileName() ).absoluteFilePath() );
 		QDesktopServices::openUrl( url );
 	}
+	else if( link == "encrypt" )
+	{
+		Common::startDetached( "qdigidoccrypto", QStringList() << doc->fileName() );
+	}
 	else if( link == "print" )
 	{
 		QPrinter printer;

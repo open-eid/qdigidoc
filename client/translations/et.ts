@@ -536,6 +536,10 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <source>NB! Weak signature</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;encrypt&quot;&gt;Krüpteeri dokument&lt;/a&gt;</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
