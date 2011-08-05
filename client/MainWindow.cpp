@@ -142,7 +142,7 @@ bool MainWindow::addFile( const QString &file )
 			.arg( ext == fileinfo.suffix().toLower() ? fileinfo.fileName() : fileinfo.completeBaseName() )
 			.arg( ext );
 
-		bool select = s.value( "AskSaveAs", false ).toBool();
+		bool select = s.value( "AskSaveAs", true ).toBool();
 		if( !select && QFile::exists( docname ) )
 		{
 			QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 client"),

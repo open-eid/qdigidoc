@@ -50,7 +50,7 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
 	d->defaultDir->setText( s.value( "DefaultDir" ).toString() );
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
-	d->askSaveAs->setChecked( s.value( "AskSaveAs", false ).toBool() );
+	d->askSaveAs->setChecked( s.value( "AskSaveAs", true ).toBool() );
 
 #ifdef BDOC_ENABLED
 	const QString type = s.value( "type", "ddoc" ).toString();
