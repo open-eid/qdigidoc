@@ -507,10 +507,8 @@ void MainWindow::setCurrentPage( Pages page )
 	case View:
 	{
 		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName() ) );
-		QString file = viewFileName->toolTip();
-		if( fontMetrics().width( file ) > viewFileName->size().width() )
-			file = fontMetrics().elidedText( file, Qt::ElideMiddle, viewFileName->size().width() );
-		viewFileName->setText( file );
+		viewFileName->setText( viewFileName->fontMetrics().elidedText(
+			viewFileName->toolTip(), Qt::ElideMiddle, viewFileName->width() ) );
 
 		viewLinks->setVisible( doc->isEncrypted() );
 		viewContentLinks->setHidden( doc->isEncrypted() );
