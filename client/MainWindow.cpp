@@ -755,10 +755,8 @@ void MainWindow::setCurrentPage( Pages page )
 		}
 
 		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName().normalized( QString::NormalizationForm_C ) ) );
-		QString file = viewFileName->toolTip();
-		if( fontMetrics().width( file ) > viewFileName->size().width() )
-			file = fontMetrics().elidedText( file, Qt::ElideMiddle, viewFileName->size().width() );
-		viewFileName->setText( file );
+		viewFileName->setText( viewFileName->fontMetrics().elidedText(
+			viewFileName->toolTip(), Qt::ElideMiddle, viewFileName->width() ) );
 
 		if( !qApp->signer()->token().cert().isNull() )
 		{
