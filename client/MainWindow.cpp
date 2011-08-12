@@ -691,7 +691,7 @@ QString MainWindow::selectFile( const QString &filename )
 	Q_FOREVER
 	{
 #ifdef BDOC_ENABLED
-		QStringList exts = QStringList() << Settings().value( "type", "ddoc" ).toString();
+		QStringList exts = QStringList() << Settings().value( "Client/type", "ddoc" ).toString();
 		exts << (exts[0] == "ddoc" ? "bdoc" : "ddoc");
 		file = Common::normalized( QFileDialog::getSaveFileName( this, tr("Save file"), file,
 			tr("Documents (%1)").arg( QString( "*.%1 *.%2" ).arg( exts[0], exts[1] ) ) ) );
