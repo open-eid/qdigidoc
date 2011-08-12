@@ -187,7 +187,7 @@ void Application::closeWindow()
 	if( QDialog *d = qobject_cast<QDialog*>(activeWindow()) )
 		d->reject();
 	else if( QWidget *w = qobject_cast<QWidget*>(activeWindow()) )
-		w->deleteLater();
+		w->close();
 }
 
 QVariant Application::confValue( ConfParameter parameter, const QVariant &value )
