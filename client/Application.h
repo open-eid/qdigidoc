@@ -43,6 +43,7 @@ public:
 	{
 		CertStorePath,
 		DigestUri,
+		SignatureUri,
 		PKCS11Module,
 		ProxyHost,
 		ProxyPort,

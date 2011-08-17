@@ -169,7 +169,7 @@ void QSigner::selectCard( const QString &card )
 
 int QSigner::type()
 {
-	int digest = digidoc::Digest::toMethod( qApp->confValue( Application::DigestUri ).toString().toStdString() );
+	int digest = digidoc::Digest::toMethod( qApp->confValue( Application::SignatureUri ).toString().toStdString() );
 	if( digest == NID_sha1 )
 		return digest;
 	switch( SslCertificate(d->t.cert()).type() )
