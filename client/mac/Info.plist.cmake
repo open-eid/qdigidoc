@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>${APPLE_GUI_IDENTIFIER}</string>
+	<string>${APPLE_GUI_IDENTIFIER}.sh</string>
 	<key>CFBundleGetInfoString</key>
 	<string>${APPLE_GUI_INFO_STRING}</string>
 	<key>CFBundleIconFile</key>
