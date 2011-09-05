@@ -37,10 +37,10 @@ public:
 	explicit QSigner( bool useCapi, QObject *parent = 0 );
 	~QSigner();
 
-	X509 *getCert() throw(digidoc::SignException);
+	X509 *getCert() const throw(digidoc::SignException);
 	QPKCS11* handle() const;
 	void lock();
-	int type();
+	int type() const;
 	void sign( const Digest& digest, Signature& signature ) throw(digidoc::SignException);
 	TokenData token() const;
 	void unlock();

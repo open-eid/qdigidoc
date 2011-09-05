@@ -82,7 +82,7 @@ QSigner::~QSigner()
 	delete d;
 }
 
-X509* QSigner::getCert() throw(digidoc::SignException)
+X509* QSigner::getCert() const throw(digidoc::SignException)
 {
 	if( d->t.cert().isNull() )
 		throw SignException( __FILE__, __LINE__, tr("Sign certificate is not selected").toUtf8().constData() );
@@ -167,7 +167,7 @@ void QSigner::selectCard( const QString &card )
 	Q_EMIT dataChanged();
 }
 
-int QSigner::type()
+int QSigner::type() const
 {
 	int digest = digidoc::Digest::toMethod( qApp->confValue( Application::SignatureUri ).toString().toStdString() );
 	if( digest == NID_sha1 )
