@@ -55,6 +55,7 @@ public:
 	QString type;
 };
 
+class CryptoDocPrivate;
 class Poller;
 
 class CryptoDoc: public QObject
@@ -90,12 +91,6 @@ private Q_SLOTS:
 
 private:
 	bool isEncryptedWarning();
-	void cleanProperties();
-	void deleteDDoc();
-	void removeFolder( const QString &path );
 
-	QString			m_ddoc, m_ddocTemp;
-	QString			m_fileName;
-	DEncEncryptedData *m_enc;
-	SignedDoc		*m_doc;
+	CryptoDocPrivate *d;
 };
