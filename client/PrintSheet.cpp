@@ -35,6 +35,12 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 {
 	printer->setOrientation( QPrinter::Portrait );
 
+	QDateTime utc = QDateTime::currentDateTimeUtc();
+	utc.setTimeSpec( Qt::LocalTime );
+	int diffsec = utc.secsTo( QDateTime::currentDateTime() );
+	QString timediff = diffsec >= 0 ? "+" : "-";
+	timediff += QTime().addSecs( diffsec >= 0 ? diffsec : -diffsec ).toString( "hh:mm" );
+
 	left		= p->pageRect().x();
 	margin		= left;
 	right		= p->pageRect().topRight().x() - 2*margin;
@@ -111,17 +117,17 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		drawText( left, top, tr("NO.") );
 		drawLine( left+35, top+5, left+35, top+25 );
 		drawText( left+40, top, tempel ? tr( "COMPANY" ) : tr( "NAME" ) );
-		drawLine( right-285, top+5, right-285, top+25 );
-		drawText( right-280, top, tempel ? tr("REGISTER CODE") : tr("PERSONAL CODE") );
-		drawLine( right-145, top+5, right-145, top+25 );
-		drawText( right-140, top, tr("TIME") );
+		drawLine( right-305, top+5, right-305, top+25 );
+		drawText( right-300, top, tempel ? tr("REGISTER CODE") : tr("PERSONAL CODE") );
+		drawLine( right-165, top+5, right-165, top+25 );
+		drawText( right-160, top, tr("TIME") );
 		drawRect( left, top+5, right - margin, 20 );
 		top += 20;
 
 		drawText( left+5, top, QString::number( i ) );
 		drawText( left+40, top, cert.toString( cert.showCN() ? "CN" : "GN SN" ) );
-		drawText( right-280, top, cert.subjectInfo( "serialNumber" ) );
-		drawText( right-140, top, sig.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
+		drawText( right-300, top, cert.subjectInfo( "serialNumber" ) );
+		drawText( right-160, top, sig.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) + " " + timediff );
 		top += 25;
 
 		QString valid = tr("SIGNATURE") + " ";
