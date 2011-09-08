@@ -35,6 +35,8 @@
 #include <QDragEnterEvent>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QProgressBar>
+#include <QProgressDialog>
 #include <QSslCertificate>
 #include <QTextStream>
 #include <QUrl>
@@ -257,19 +259,19 @@ void MainWindow::buttonClicked( int button )
 		setCurrentPage( Home );
 		break;
 	case ViewCrypto:
+	{
+		QProgressDialog p( this );
+		p.setWindowFlags( (p.windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowCloseButtonHint );
+		if( QProgressBar *bar = p.findChild<QProgressBar*>() )
+			bar->setTextVisible( false );
+		p.setCancelButton( 0 );
+		p.setRange( 0, 0 );
+		p.open();
+
 		if( doc->isEncrypted() )
 		{
-			QLabel *progress = new QLabel( tr("Decrypting"), view );
-			progress->setAlignment( Qt::AlignCenter );
-			progress->setFixedSize( 300, 20 );
-			progress->setStyleSheet( "font: bold; border: 1px solid black; background-color: white;" );
-			progress->move( view->geometry().center() - progress->geometry().center() );
-			progress->show();
-			QApplication::processEvents();
-
+			p.setLabelText( tr("Decrypting") );
 			doc->decrypt();
-
-			progress->deleteLater();
 
 			if( doc->isSigned() )
 			{
@@ -288,11 +290,13 @@ void MainWindow::buttonClicked( int button )
 		}
 		else
 		{
+			p.setLabelText( tr("Encrypting") );
 			if( doc->encrypt() )
 				save();
 		}
 		setCurrentPage( View );
 		break;
+	}
 	default: break;
 	}
 }
