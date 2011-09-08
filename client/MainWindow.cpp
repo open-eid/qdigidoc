@@ -362,7 +362,7 @@ void MainWindow::buttonClicked( int button )
 
 		if( !connection.check( "http://ocsp.sk.ee" ) )
 		{
-			qApp->showWarning( connection.errorString() );
+			qApp->showWarning( connection.errorString(), -1, connection.errorDetails(), "Check connection" );
 			switch( connection.error() )
 			{
 			case QNetworkReply::ProxyConnectionRefusedError:

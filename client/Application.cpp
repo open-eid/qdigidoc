@@ -382,7 +382,7 @@ void Application::showSettings( int page )
 	s->show();
 }
 
-void Application::showWarning( const QString &msg, int err, const QString &details )
+void Application::showWarning( const QString &msg, int err, const QString &details, const QString &search )
 {
 	DMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close, activeWindow() );
 	d.setWindowModality( Qt::WindowModal );
@@ -392,7 +392,7 @@ void Application::showWarning( const QString &msg, int err, const QString &detai
 		d.setDetailedText( details );
 	}
 	if( d.exec() == QMessageBox::Help )
-		Common::showHelp( msg, err );
+		Common::showHelp( search.isEmpty() ? msg : search, err );
 }
 
 QSigner* Application::signer() const { return d->signer; }
