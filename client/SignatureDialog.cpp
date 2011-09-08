@@ -147,27 +147,27 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	if( !s.ocspCert().isNull() )
 		d->ocspCert = d->buttonBox->addButton( tr("Show OCSP certificate"), QDialogButtonBox::ActionRole );
 
-	QString titleText = c.toString( c.showCN() ? "CN serialNumber\n" : "GN SN serialNumber\n" );
+	QString status;
 	switch( s.validate() )
 	{
 	case DigiDocSignature::Valid:
-		titleText += tr("Signature is valid");
+		status = tr("Signature is valid");
 		break;
 	case DigiDocSignature::Invalid:
-		titleText += tr("Signature is not valid");
+		status = tr("Signature is not valid");
 		d->error->setText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
 		d->buttonBox->addButton( QDialogButtonBox::Help );
 		break;
 	case DigiDocSignature::Unknown:
-		titleText += tr("Signature status unknown");
+		status = tr("Signature status unknown");
 		d->error->setText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
 		d->buttonBox->addButton( QDialogButtonBox::Help );
 		break;
 	}
 	if( d->error->text().isEmpty() )
 		d->tabWidget->removeTab( 0 );
-	d->title->setText( titleText );
-	setWindowTitle( titleText );
+	d->title->setText( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + "\n" + status );
+	setWindowTitle( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + " - " + status );
 
 	const QStringList l = s.locations();
 	d->signerCity->setText( l.value( 0 ) );
