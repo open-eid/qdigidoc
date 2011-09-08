@@ -541,6 +541,10 @@ already in container, ovewrite?</source>
         <source>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>BDoc signing is not supported, please upgrade software</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

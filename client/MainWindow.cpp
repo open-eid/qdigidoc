@@ -400,22 +400,23 @@ void MainWindow::buttonClicked( int button )
 		}
 		else
 		{
-			MobileDialog *m = new MobileDialog( doc, this );
+			if( Settings().value( "Client/type", "ddoc" ).toString() == "bdoc" )
+			{
+				qApp->showWarning( tr("BDoc signing is not supported, please upgrade software") );
+				break;
+			}
+
+			QScopedPointer<MobileDialog> m( new MobileDialog( doc, this ) );
 			m->setSignatureInfo( signCityInput->text(),
 				signStateInput->text(), signZipInput->text(),
 				signCountryInput->text(), signRoleInput->text(),
 				signResolutionInput->text() );
 			m->sign( infoMobileCode->text(), infoMobileCell->text() );
 			m->exec();
-			if ( !m->signature().isEmpty() && doc->addSignature( m->signature() ) )
-			{
-				save();
-				doc->open( doc->fileName() );
-			} else {
-				m->deleteLater();
+			if( m->signature().isEmpty() || !doc->addSignature( m->signature() ) )
 				break;
-			}
-			m->deleteLater();
+			save();
+			doc->open( doc->fileName() );
 		}
 		SettingsDialog::saveSignatureInfo( signRoleInput->text(),
 			signResolutionInput->text(), signCityInput->text(),

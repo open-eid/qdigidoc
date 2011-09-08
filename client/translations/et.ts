@@ -540,6 +540,10 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <source>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;encrypt&quot;&gt;Krüpteeri dokument&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>BDoc signing is not supported, please upgrade software</source>
+        <translation>BDOC allkirjastamine pole toetatud, palun uuenda tarkvara</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
