@@ -35,7 +35,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 {
 	printer->setOrientation( QPrinter::Portrait );
 
-	QDateTime utc = QDateTime::currentDateTimeUtc();
+	QDateTime utc = QDateTime::currentDateTime().toUTC();
 	utc.setTimeSpec( Qt::LocalTime );
 	int diffsec = utc.secsTo( QDateTime::currentDateTime() );
 	QString timediff = diffsec >= 0 ? "+" : "-";
