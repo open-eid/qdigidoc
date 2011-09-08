@@ -29,7 +29,6 @@
 #include <QSslError>
 
 class DigiDoc;
-class QDomElement;
 class QNetworkAccessManager;
 class QNetworkReply;
 class QTimeLine;
@@ -52,8 +51,6 @@ private Q_SLOTS:
 	void sslErrors( QNetworkReply *reply, const QList<QSslError> &errors );
 
 private:
-	QString elementText( const QDomElement &element, const QString &tag ) const;
-
 	DigiDoc *m_doc;
 	QTimeLine *statusTimer;
 	QNetworkAccessManager *manager;

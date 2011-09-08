@@ -34,7 +34,6 @@
 #include <digidocpp/crypto/Digest.h>
 
 #include <QDir>
-#include <QDomElement>
 #include <QNetworkAccessManager>
 #include <QNetworkProxy>
 #include <QNetworkRequest>
@@ -42,6 +41,7 @@
 #include <QSslKey>
 #include <QSslConfiguration>
 #include <QTimeLine>
+#include <QXmlStreamReader>
 
 using namespace digidoc;
 
@@ -111,12 +111,10 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 		QString( qApp->confValue( Application::CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );
 #endif
 	request.setSslConfiguration( ssl );
+	request.setHeader( QNetworkRequest::ContentTypeHeader, "text/xml" );
 	request.setRawHeader( "User-Agent", QString( "%1/%2 (%3)")
 		.arg( qApp->applicationName() ).arg( qApp->applicationVersion() ).arg( Common::applicationOs() ).toUtf8() );
 }
-
-QString MobileDialog::elementText( const QDomElement &element, const QString &tag ) const
-{ return element.elementsByTagName( tag ).item(0).toElement().text(); }
 
 void MobileDialog::endProgress()
 { labelError->setText( mobileResults.value( "EXPIRED_TRANSACTION" ) ); }
@@ -144,55 +142,56 @@ void MobileDialog::finished( QNetworkReply *reply )
 		return;
 	}
 
-	QDomDocument doc;
-	bool parse = doc.setContent( reply, true );
-	reply->deleteLater();
-	if( !parse )
+	QXmlStreamReader xml( reply );
+	QString fault, message, sess, challenge, status;
+	while( xml.readNext() != QXmlStreamReader::Invalid )
 	{
-		labelError->setText( tr("Failed to parse XML document") );
-		statusTimer->stop();
-		return;
+		if( !xml.isStartElement() )
+			continue;
+		if( xml.name() == "Fault" )
+			fault = xml.readElementText();
+		else if( xml.name() == "message" )
+			message = xml.readElementText();
+		else if( xml.name() == "ChallengeID" )
+			challenge = xml.readElementText();
+		else if( xml.name() == "Sesscode" )
+			sess = xml.readElementText();
+		else if( xml.name() == "Status" )
+			status = xml.readElementText();
+		else if( xml.name() == "Signature" )
+			m_signature = xml.readElementText().toUtf8();
 	}
+	reply->deleteLater();
 
-	QDomElement e = doc.documentElement();
-	if( !e.elementsByTagName( "Fault" ).isEmpty() )
+	if( !fault.isEmpty() )
 	{
-		QString error = elementText( e, "message" );
-		labelError->setText( mobileResults.value( error, error ) );
+		labelError->setText( mobileResults.value( message, message ) );
 		statusTimer->stop();
 		return;
 	}
 
 	if( sessionCode.isEmpty() )
 	{
-		sessionCode = elementText( e, "Sesscode" );
+		sessionCode = sess;
 		if( sessionCode.isEmpty() )
 		{
-			labelError->setText( mobileResults.value( elementText( e, "message" ) ) );
+			labelError->setText( mobileResults.value( message ) );
 			statusTimer->stop();
 		}
 		else
 			code->setText( tr("Make sure control code matches with one in phone screen\n"
-				"and enter Mobile-ID PIN.\nControl code: %1").arg( elementText( e, "ChallengeID" ) ) );
+				"and enter Mobile-ID PIN.\nControl code: %1").arg( challenge ) );
 		return;
 	}
 
 	if( statusTimer->state() == QTimeLine::NotRunning )
 		return;
-
-	QString status = elementText( e, "Status" );
 	labelError->setText( mobileResults.value( status ) );
-
 	if( status == "REQUEST_OK" || status == "OUTSTANDING_TRANSACTION" )
 		return;
-
 	statusTimer->stop();
-
-	if( status != "SIGNATURE" )
-		return;
-
-	m_signature = elementText( e, "Signature" ).toUtf8();
-	close();
+	if( status == "SIGNATURE" )
+		close();
 }
 
 void MobileDialog::sendStatusRequest( int frame )

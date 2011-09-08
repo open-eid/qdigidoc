@@ -14,7 +14,7 @@ find_package( LibDigiDoc REQUIRED )
 find_package( LibDigiDocpp REQUIRED )
 find_package( OpenSSL REQUIRED )
 find_package( PKCS11 )
-find_package( Qt4 4.6.0 COMPONENTS QtCore QtGui QtNetwork QtXml REQUIRED )
+find_package( Qt4 4.6.0 COMPONENTS QtCore QtGui QtNetwork REQUIRED )
 find_package( XercesC REQUIRED )
 find_package( XSD REQUIRED )
 

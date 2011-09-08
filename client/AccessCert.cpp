@@ -33,8 +33,7 @@
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QDir>
-#include <QDomElement>
-#include <QDomNodeList>
+#include <QXmlStreamReader>
 #include <QFile>
 #include <QLabel>
 #include <QMessageBox>
@@ -124,34 +123,39 @@ bool AccessCert::download( bool noCard )
 		return false;
 	}
 
-	QDomDocument domDoc;
-	if( !domDoc.setContent( result ) )
+	QString status, cert, pass, message;
+	QXmlStreamReader xml( result );
+	while( xml.readNext() != QXmlStreamReader::Invalid )
 	{
-		showWarning( tr("Error parsing server access certificate result!") );
-		return false;
+		if( !xml.isStartElement() )
+			continue;
+		if( xml.name() == "StatusCode" )
+			status = xml.readElementText();
+		else if( xml.name() == "MessageToDisplay" )
+			message = xml.readElementText();
+		else if( xml.name() == "TokenData" )
+			cert = xml.readElementText();
+		else if( xml.name() == "TokenPassword" )
+			pass = xml.readElementText();
 	}
 
-	QDomElement e = domDoc.documentElement();
-	QDomNodeList status = e.elementsByTagName( "StatusCode" );
 	if( status.isEmpty() )
 	{
 		showWarning( tr("Error parsing server access certificate result!") );
 		return false;
 	}
 
-	switch( status.item(0).toElement().text().toInt() )
+	switch( status.toInt() )
 	{
 	case 1: //need to order cert manually from SK web
 		QDesktopServices::openUrl( QUrl( tr("http://www.id.ee/kehtivuskinnitus") ) );
 		return false;
 	case 2: //got error, show message from MessageToDisplay element
-		showWarning( tr("Error downloading server access certificate!\n%1")
-			.arg( e.elementsByTagName( "MessageToDisplay" ).item(0).toElement().text() ) );
+		showWarning( tr("Error downloading server access certificate!\n%1").arg( message ) );
 		return false;
 	default: break; //ok
 	}
 
-	QString cert = e.elementsByTagName( "TokenData" ).item(0).toElement().text();
 	if ( cert.isEmpty() )
 	{
 		showWarning( tr("Error reading server access certificate - empty content!") );
@@ -162,7 +166,8 @@ bool AccessCert::download( bool noCard )
 	if ( !QDir( path ).exists() )
 		QDir().mkpath( path );
 
-	QFile f( QString( "%1/%2.p12" ).arg( path, SslCertificate( qApp->signer()->token().cert() ).subjectInfo( "serialNumber" ) ) );
+	QFile f( QString( "%1/%2.p12" ).arg( path,
+		SslCertificate( qApp->signer()->token().cert() ).subjectInfo( "serialNumber" ) ) );
 	if ( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
 	{
 		showWarning( tr("Failed to save server access certificate file to %1!\n%2")
@@ -173,7 +178,7 @@ bool AccessCert::download( bool noCard )
 	f.write( QByteArray::fromBase64( cert.toLatin1() ) );
 
 	Application::setConfValue( Application::PKCS12Cert, m_cert = QDir::toNativeSeparators( f.fileName() ) );
-	Application::setConfValue( Application::PKCS12Pass, m_pass = e.elementsByTagName( "TokenPassword" ).item(0).toElement().text() );
+	Application::setConfValue( Application::PKCS12Pass, m_pass = pass );
 	return true;
 }
 
