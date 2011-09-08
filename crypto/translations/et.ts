@@ -145,10 +145,6 @@
         <translation>Adressaadi lisamine ebaõnnestus</translation>
     </message>
     <message>
-        <source>Failed decrypt data</source>
-        <translation>Andmete dekrüpteerimine ebaõnnestus</translation>
-    </message>
-    <message>
         <source>Failed to read decrypted data</source>
         <translation>Dekrüpteeritud andmete lugemine ebaõnnstus</translation>
     </message>
@@ -221,6 +217,10 @@ teade: %2</translation>
     <message>
         <source>DigiDoc3 crypto</source>
         <translation>DigiDoc3 Krüpto</translation>
+    </message>
+    <message>
+        <source>Failed to decrypt data</source>
+        <translation>Andmete dekrüpteerimine ebaõnnestus</translation>
     </message>
 </context>
 <context>
@@ -505,6 +505,10 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
     <message>
         <source>I agree</source>
         <translation>Nõustun</translation>
+    </message>
+    <message>
+        <source>Encrypting</source>
+        <translation>Krüpteerin</translation>
     </message>
 </context>
 <context>

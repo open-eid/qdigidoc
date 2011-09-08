@@ -153,10 +153,6 @@
         <translation>Внутренняя ошибка</translation>
     </message>
     <message>
-        <source>Failed decrypt data</source>
-        <translation>Неудачная расшифровка данных</translation>
-    </message>
-    <message>
         <source>Failed to create temporary files&lt;br /&gt;%1</source>
         <translation>Неудачное создание временных файлов&lt;br /&gt;%1</translation>
     </message>
@@ -220,6 +216,10 @@ message: %2</source>
     <message>
         <source>DigiDoc3 crypto</source>
         <translation>DigiDoc3 Crypto</translation>
+    </message>
+    <message>
+        <source>Failed to decrypt data</source>
+        <translation>Неудачная расшифровка данных</translation>
     </message>
 </context>
 <context>
@@ -504,6 +504,10 @@ already in container, ovewrite?</source>
     <message>
         <source>I agree</source>
         <translation>Подтверждаю</translation>
+    </message>
+    <message>
+        <source>Encrypting</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

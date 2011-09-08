@@ -43,6 +43,7 @@
 #include <QFileInfo>
 #include <QInputDialog>
 #include <QTemporaryFile>
+#include <QThread>
 
 class CryptoDocPrivate
 {
@@ -58,6 +59,156 @@ public:
 	DEncEncryptedData *enc;
 	SignedDoc		*doc;
 };
+
+class CryptoDocThread: public QThread
+{
+public:
+	CryptoDocThread( bool encrypt, CryptoDocPrivate *_d )
+		: m_encrypt(encrypt), d(_d), err(0) {}
+
+	void encrypt();
+	void decrypt();
+	void run() { m_encrypt ? encrypt() : decrypt(); }
+	void waitForFinished()
+	{
+		QEventLoop e;
+		connect( this, SIGNAL(finished()), &e, SLOT(quit()) );
+		start();
+		e.exec();
+	}
+
+	bool m_encrypt;
+	CryptoDocPrivate *d;
+	int err;
+	QString lastError;
+};
+
+void CryptoDocThread::encrypt()
+{
+	int err = ERR_OK;
+
+#if 0
+	err = dencOrigContent_registerDigiDoc( d->enc, d->doc );
+	if( err != ERR_OK )
+		return;
+#else // To avoid full file path
+	err = dencEncryptedData_SetMimeType( d->enc, DENC_ENCDATA_TYPE_DDOC );
+	for( int i = 0; i < d->doc->nDataFiles; ++i )
+	{
+		DataFile *data = d->doc->pDataFiles[i];
+		QFileInfo file( QString::fromUtf8( data->szFileName ) );
+
+		if( !file.exists() )
+		{
+			d->cleanProperties();
+			lastError = CryptoDoc::tr("Failed to encrypt data.<br />File does not exsist %1").arg( file.filePath() );
+			return;
+		}
+
+		int err = dencOrigContent_add( d->enc,
+			QString("orig_file%1").arg(i).toUtf8(),
+			file.fileName().toUtf8(),
+			Common::fileSize( data->nSize ).toUtf8(),
+			data->szMimeType,
+			data->szId );
+
+		if( err != ERR_OK )
+		{
+			d->cleanProperties();
+			return;
+		}
+	}
+#endif
+
+	QFile f( QString( d->fileName ).append( ".ddoc" ) );
+	err = createSignedDoc( d->doc, NULL, f.fileName().toUtf8() );
+	if( err != ERR_OK )
+	{
+		d->cleanProperties();
+		return;
+	}
+
+	if( !f.open( QIODevice::ReadOnly ) )
+	{
+		d->cleanProperties();
+		lastError = CryptoDoc::tr("Failed to encrypt data");
+		return;
+	}
+
+	err = dencEncryptedData_AppendData( d->enc, f.readAll(), f.size() );
+	if( err != ERR_OK )
+	{
+		d->cleanProperties();
+		return;
+	}
+	f.close();
+	f.remove();
+
+	err = dencEncryptedData_encryptData( d->enc, DENC_COMPRESS_NEVER );
+	if( err != ERR_OK )
+	{
+		d->cleanProperties();
+		return;
+	}
+
+	d->deleteDDoc();
+}
+
+void CryptoDocThread::decrypt()
+{
+	err = dencEncryptedData_decryptData( d->enc );
+
+	DEncEncryptionProperty *prop = dencEncryptedData_FindEncryptionPropertyByName( d->enc, ENCPROP_ORIG_SIZE );
+	if( prop && prop->szContent )
+	{
+		long size = QByteArray( prop->szContent ).toLong();
+		if( size > 0 && size < d->enc->mbufEncryptedData.nLen )
+			d->enc->mbufEncryptedData.nLen = size;
+	}
+
+	QString docName = QFileInfo( d->fileName ).fileName();
+	d->ddocTemp = Common::tempFilename();
+	d->removeFolder( d->ddocTemp );
+	QDir().mkdir( d->ddocTemp );
+
+	d->ddoc = QString( "%1/%2.ddoc" ).arg( d->ddocTemp ).arg( docName );
+
+	QFile f( d->ddoc );
+	if( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
+	{
+		lastError = CryptoDoc::tr("Failed to create temporary files<br />%1").arg( f.errorString() );
+		return;
+	}
+	f.write( (const char*)d->enc->mbufEncryptedData.pMem, d->enc->mbufEncryptedData.nLen );
+	f.close();
+	ddocMemBuf_free( &d->enc->mbufEncryptedData );
+
+	err = ddocSaxReadSignedDocFromFile( &d->doc, f.fileName().toUtf8(), 0, 0 );
+	if( err != ERR_OK )
+	{
+		lastError = CryptoDoc::tr("Failed to read decrypted data");
+		return;
+	}
+
+	for( int i = 0; i < d->doc->nDataFiles; ++i )
+	{
+		QString file = QString( "%1/%2" ).arg( d->ddocTemp )
+			.arg( QString::fromUtf8( d->doc->pDataFiles[i]->szFileName ) );
+		if( QFile::exists( file ) )
+			QFile::remove( file );
+		err = ddocSaxExtractDataFile( d->doc, d->ddoc.toUtf8(),
+			file.toUtf8(), d->doc->pDataFiles[i]->szId, CHARSET_UTF_8 );
+		if( err == ERR_OK )
+		{
+			ddocMemAssignString( &d->doc->pDataFiles[i]->szFileName, file.toUtf8() );
+			QFile::setPermissions( file, QFile::ReadOwner );
+		}
+		else
+			lastError = CryptoDoc::tr("Failed to save file '%1'").arg( file );
+	}
+
+	d->cleanProperties();
+}
 
 
 
@@ -175,8 +326,8 @@ void CryptoDoc::clear()
 void CryptoDoc::create( const QString &file )
 {
 	clear();
-	const char *format = "DIGIDOC-XML"; //ConfigIted->lookup("DIGIDOC_FORMAT");
-	const char *version = "1.3"; //ConfigIted->lookup("DIGIDOC_VERSION");
+	const char *format = "DIGIDOC-XML"; //ConfigItem_lookup("DIGIDOC_FORMAT");
+	const char *version = "1.3"; //ConfigItem_lookup("DIGIDOC_VERSION");
 
 	int err = SignedDoc_new( &d->doc, format, version );
 	if( err != ERR_OK )
@@ -232,62 +383,13 @@ bool CryptoDoc::decrypt()
 
 	ddocMemAssignData( &d->enc->mbufTransportKey, out.constData(), out.size() );
 	d->enc->nKeyStatus = DENC_KEY_STATUS_INITIALIZED;
-	int err = dencEncryptedData_decryptData( d->enc );
-	if( err != ERR_OK )
-	{
-		setLastError( tr("Failed decrypt data"), err );
-		return false;
-	}
 
-	DEncEncryptionProperty *prop = dencEncryptedData_FindEncryptionPropertyByName( d->enc, ENCPROP_ORIG_SIZE );
-	if( prop && prop->szContent )
-	{
-		long size = QByteArray( prop->szContent ).toLong();
-		if( size > 0 && size < d->enc->mbufEncryptedData.nLen )
-			d->enc->mbufEncryptedData.nLen = size;
-	}
-
-	QString docName = QFileInfo( d->fileName ).fileName();
-	d->ddocTemp = Common::tempFilename();
-	d->removeFolder( d->ddocTemp );
-	QDir().mkdir( d->ddocTemp );
-
-	d->ddoc = QString( "%1/%2.ddoc" ).arg( d->ddocTemp ).arg( docName );
-	QFile f( d->ddoc );
-	if( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
-	{
-		setLastError( tr("Failed to create temporary files<br />%1").arg( f.errorString() ) );
-		return false;
-	}
-	f.write( (const char*)d->enc->mbufEncryptedData.pMem, d->enc->mbufEncryptedData.nLen );
-	f.close();
-	ddocMemBuf_free( &d->enc->mbufEncryptedData );
-
-	err = ddocSaxReadSignedDocFromFile( &d->doc, f.fileName().toUtf8(), 0, 0 );
-	if( err != ERR_OK )
-	{
-		setLastError( tr("Failed to read decrypted data"), err );
-		return false;
-	}
-
-	for( int i = 0; i < d->doc->nDataFiles; ++i )
-	{
-		QString file = QString( "%1/%2" ).arg( d->ddocTemp )
-			.arg( QString::fromUtf8( d->doc->pDataFiles[i]->szFileName ) );
-		if( QFile::exists( file ) )
-			QFile::remove( file );
-		err = ddocSaxExtractDataFile( d->doc, d->ddoc.toUtf8(),
-			file.toUtf8(), d->doc->pDataFiles[i]->szId, CHARSET_UTF_8 );
-		if( err == ERR_OK )
-		{
-			ddocMemAssignString( &d->doc->pDataFiles[i]->szFileName, file.toUtf8() );
-			QFile::setPermissions( file, QFile::ReadOwner );
-		}
-		else
-			setLastError( tr("Failed to save file '%1'").arg( file ), err );
-	}
-
-	d->cleanProperties();
+	CryptoDocThread dec( false, d );
+	dec.waitForFinished();
+	if( dec.err != ERR_OK )
+		setLastError( dec.lastError.isEmpty() ? tr("Failed to decrypt data") : dec.lastError, dec.err );
+	else if( !dec.lastError.isEmpty() )
+		setLastError( dec.lastError );
 	return !isEncrypted();
 }
 
@@ -342,80 +444,12 @@ bool CryptoDoc::encrypt()
 		return false;
 	}
 
-	int err = ERR_OK;
-
-#if 0
-	err = dencOrigContent_registerDigiDoc( d->enc, d->doc );
-	if( err != ERR_OK )
-	{
-		setLastError( tr("Failed to encrypt data"), err );
-		return false;
-	}
-#else // To avoid full file path
-	err = dencEncryptedData_SetMimeType( d->enc, DENC_ENCDATA_TYPE_DDOC );
-	for( int i = 0; i < d->doc->nDataFiles; ++i )
-	{
-		DataFile *data = d->doc->pDataFiles[i];
-		QFileInfo file( QString::fromUtf8( data->szFileName ) );
-
-		if( !file.exists() )
-		{
-			d->cleanProperties();
-			setLastError( tr("Failed to encrypt data.<br />File does not exsist %1").arg( file.filePath() ) );
-			return false;
-		}
-
-		int err = dencOrigContent_add( d->enc,
-			QString("orig_file%1").arg(i).toUtf8(),
-			file.fileName().toUtf8(),
-			Common::fileSize( data->nSize ).toUtf8(),
-			data->szMimeType,
-			data->szId );
-
-		if( err != ERR_OK )
-		{
-			d->cleanProperties();
-			setLastError( tr("Failed to encrypt data"), err );
-			return false;
-		}
-	}
-#endif
-
-	QFile f( QString( d->fileName ).append( ".ddoc" ) );
-	err = createSignedDoc( d->doc, NULL, f.fileName().toUtf8() );
-	if( err != ERR_OK )
-	{
-		d->cleanProperties();
-		setLastError( tr("Failed to encrypt data"), err );
-		return false;
-	}
-
-	if( !f.open( QIODevice::ReadOnly ) )
-	{
-		d->cleanProperties();
-		setLastError( tr("Failed to encrypt data") );
-		return false;
-	}
-
-	err = dencEncryptedData_AppendData( d->enc, f.readAll(), f.size() );
-	if( err != ERR_OK )
-	{
-		d->cleanProperties();
-		setLastError( tr("Failed to encrypt data"), err );
-		return false;
-	}
-	f.close();
-	f.remove();
-
-	err = dencEncryptedData_encryptData( d->enc, DENC_COMPRESS_NEVER );
-	if( err != ERR_OK )
-	{
-		d->cleanProperties();
-		setLastError( tr("Failed to encrypt data"), err );
-		return false;
-	}
-
-	d->deleteDDoc();
+	CryptoDocThread dec( true, d );
+	dec.waitForFinished();
+	if( dec.err != ERR_OK )
+		setLastError( dec.lastError.isEmpty() ? tr("Failed to encrypt data") : dec.lastError, dec.err );
+	else if( !dec.lastError.isEmpty() )
+		setLastError( dec.lastError );
 	return isEncrypted();
 }
 
