@@ -152,7 +152,7 @@ private:
 
 	digidoc::WDoc	*b;
 	QString			m_fileName;
-	DocumentModel *m_documentModel;
+	DocumentModel	*m_documentModel;
 
 	friend class DocumentModel;
 };

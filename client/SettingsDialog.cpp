@@ -27,12 +27,12 @@
 
 #include <common/CertificateWidget.h>
 #include <common/Common.h>
+#include <common/FileDialog.h>
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
 
 #include <QDesktopServices>
 #include <QDropEvent>
-#include <QFileDialog>
 #include <QUrl>
 
 SettingsDialog::SettingsDialog( QWidget *parent )
@@ -106,8 +106,8 @@ void SettingsDialog::on_p12Button_clicked()
 		cert = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
 	else
 		cert = QFileInfo( cert ).path();
-	cert = Common::normalized( QFileDialog::getOpenFileName( this, tr("Select server access certificate"), cert,
-		tr("Server access certificates (*.p12 *.p12d)") ) );
+	cert = FileDialog::getOpenFileName( this, tr("Select server access certificate"), cert,
+		tr("Server access certificates (*.p12 *.p12d)") );
 	if( !cert.isEmpty() )
 		setP12Cert( cert );
 }
@@ -121,9 +121,7 @@ void SettingsDialog::on_p12Pass_textChanged( const QString & )
 void SettingsDialog::on_selectDefaultDir_clicked()
 {
 	QString dir = Settings().value( "Client/DefaultDir" ).toString();
-	if( dir.isEmpty() )
-		dir = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
-	dir = Common::normalized( QFileDialog::getExistingDirectory( this, tr("Select folder"), dir ) );
+	dir = FileDialog::getExistingDirectory( this, tr("Select folder"), dir );
 	if( !dir.isEmpty() )
 	{
 		Settings().setValue( "Client/DefaultDir", dir );

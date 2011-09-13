@@ -31,6 +31,7 @@
 #include "SignatureDialog.h"
 
 #include <common/CheckConnection.h>
+#include <common/FileDialog.h>
 #include <common/IKValidator.h>
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
@@ -38,7 +39,6 @@
 
 #include <QDesktopServices>
 #include <QDragEnterEvent>
-#include <QFileDialog>
 #include <QMessageBox>
 #include <QNetworkProxy>
 #include <QPrinter>
@@ -232,12 +232,11 @@ void MainWindow::buttonClicked( int button )
 		break;
 	case HomeView:
 	{
-		QString file = Common::normalized( QFileDialog::getOpenFileName( this, tr("Open container"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ),
+		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
 #ifdef BDOC_ENABLED
-			tr("Documents (%1)").arg( "*.bdoc *.ddoc" ) ) );
+			tr("Documents (%1)").arg( "*.bdoc *.ddoc" ) );
 #else
-			tr("Documents (%1)").arg( "*.ddoc" ) ) );
+			tr("Documents (%1)").arg( "*.ddoc" ) );
 #endif
 		if( !file.isEmpty() && doc->open( file ) )
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
@@ -291,13 +290,7 @@ void MainWindow::buttonClicked( int button )
 		}
 		else
 		{
-			QStringList list = Common::normalized( QFileDialog::getOpenFileNames( this, tr("Select documents"),
-				QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ), QString(), 0,
- #ifdef Q_OS_WIN
-				QFileDialog::DontResolveSymlinks ) );
- #else
-				0 ) );
- #endif
+			QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
 			if( !list.isEmpty() )
 			{
 				Q_FOREACH( const QString &file, list )
@@ -558,13 +551,7 @@ void MainWindow::parseLink( const QString &link )
 {
 	if( link == "addFile" )
 	{
-		QStringList list = Common::normalized( QFileDialog::getOpenFileNames( this, tr("Select documents"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ), QString(), 0,
-#ifdef Q_OS_WIN
-			QFileDialog::DontResolveSymlinks ) );
-#else
-			0 ) );
-#endif
+		QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
 		if( !list.isEmpty() )
 		{
 			Q_FOREACH( const QString &file, list )
@@ -615,9 +602,8 @@ void MainWindow::parseLink( const QString &link )
 	}
 	else if( link == "saveAs" )
 	{
-		QString dir = Common::normalized( QFileDialog::getExistingDirectory( this,
-			tr("Select folder where files will be stored"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) ) );
+		QString dir = FileDialog::getExistingDirectory( this,
+			tr("Select folder where files will be stored") );
 		if( dir.isEmpty() )
 			return;
 		DocumentModel *m = doc->documentModel();
@@ -635,7 +621,7 @@ void MainWindow::parseLink( const QString &link )
 					QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 				if( b == QMessageBox::No )
 				{
-					dest = Common::normalized( QFileDialog::getSaveFileName( this, tr("Save file"), dest ) );
+					dest = FileDialog::getSaveFileName( this, tr("Save file"), dest );
 					if( dest.isEmpty() )
 						continue;
 				}
@@ -694,12 +680,12 @@ QString MainWindow::selectFile( const QString &filename )
 #ifdef BDOC_ENABLED
 		QStringList exts = QStringList() << Settings().value( "Client/type", "ddoc" ).toString();
 		exts << (exts[0] == "ddoc" ? "bdoc" : "ddoc");
-		file = Common::normalized( QFileDialog::getSaveFileName( this, tr("Save file"), file,
-			tr("Documents (%1)").arg( QString( "*.%1 *.%2" ).arg( exts[0], exts[1] ) ) ) );
+		file = FileDialog::getSaveFileName( this, tr("Save file"), file,
+			tr("Documents (%1)").arg( QString( "*.%1 *.%2" ).arg( exts[0], exts[1] ) ) );
 #else
 		QStringList exts = QStringList() << "ddoc";
-		file = Common::normalized( QFileDialog::getSaveFileName( this, tr("Save file"), file,
-			tr("Documents (%1)").arg( "*.ddoc" ) ) );
+		file = FileDialog::getSaveFileName( this, tr("Save file"), file,
+			tr("Documents (%1)").arg( "*.ddoc" ) );
 #endif
 		if( file.isEmpty() )
 			return QString();

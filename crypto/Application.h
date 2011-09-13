@@ -40,8 +40,10 @@ public:
 	explicit Application( int &argc, char **argv );
 	~Application();
 
+	QString lastPath() const;
 	void loadTranslation( const QString &lang );
 	Poller* poller() const;
+	void setLastPath( const QString &path );
 
 public Q_SLOTS:
 	void showAbout();

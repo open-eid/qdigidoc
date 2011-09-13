@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,10 +26,10 @@
 #include "version.h"
 
 #include <common/Common.h>
+#include <common/FileDialog.h>
 #include <common/Settings.h>
 
 #include <QDesktopServices>
-#include <QFileDialog>
 
 class SettingsDialogPrivate: public Ui::SettingsDialog {};
 
@@ -56,9 +56,7 @@ SettingsDialog::~SettingsDialog() { delete d; }
 void SettingsDialog::on_selectDefaultDir_clicked()
 {
 	QString dir = Settings().value( "Crypto/DefaultDir" ).toString();
-	if( dir.isEmpty() )
-		dir = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
-	dir = Common::normalized( QFileDialog::getExistingDirectory( this, tr("Select folder"), dir ) );
+	dir = FileDialog::getExistingDirectory( this, tr("Select folder"), dir );
 	if( !dir.isEmpty() )
 	{
 		Settings().setValue( "Crypto/DefaultDir", dir );

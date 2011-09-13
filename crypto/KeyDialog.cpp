@@ -28,6 +28,7 @@
 
 #include <common/CertificateWidget.h>
 #include <common/Common.h>
+#include <common/FileDialog.h>
 #include <common/IKValidator.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
@@ -36,7 +37,6 @@
 #include <QDesktopServices>
 #include <QDir>
 #include <QFile>
-#include <QFileDialog>
 #include <QHeaderView>
 #include <QMessageBox>
 #include <QProgressBar>
@@ -354,9 +354,8 @@ void CertAddDialog::addCardCert()
 
 void CertAddDialog::addFile()
 {
-	QString file = Common::normalized( QFileDialog::getOpenFileName( this, windowTitle(),
-		QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ),
-		tr("Certificates (*.pem *.cer *.crt)") ) );
+	QString file = FileDialog::getOpenFileName( this, windowTitle(), QString(),
+		tr("Certificates (*.pem *.cer *.crt)") );
 	if( file.isEmpty() )
 		return;
 

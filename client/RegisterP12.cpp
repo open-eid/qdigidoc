@@ -27,13 +27,13 @@
 
 #include <common/CertificateWidget.h>
 #include <common/Common.h>
+#include <common/FileDialog.h>
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
 
 #include <QDesktopServices>
 #include <QDropEvent>
 #include <QFile>
-#include <QFileDialog>
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QUrl>
@@ -107,8 +107,8 @@ void RegisterP12::on_showP12Cert_clicked()
 
 void RegisterP12::on_p12Button_clicked()
 {
-	QString cert = Common::normalized( QFileDialog::getOpenFileName( this, tr("Select server access certificate"),
-		QFileInfo( d->p12Cert->text() ).path(), tr("Server access certificates (*.p12 *.p12d)") ) );
+	QString cert = FileDialog::getOpenFileName( this, tr("Select server access certificate"),
+		QFileInfo( d->p12Cert->text() ).path(), tr("Server access certificates (*.p12 *.p12d)") );
 	if( !cert.isEmpty() )
 		d->p12Cert->setText( cert );
 }

@@ -26,9 +26,9 @@
 #include "DigiDoc.h"
 
 #include <common/Common.h>
+#include <common/FileDialog.h>
 
 #include <QDesktopServices>
-#include <QFileDialog>
 #include <QHeaderView>
 #include <QKeyEvent>
 #include <QMessageBox>
@@ -46,10 +46,10 @@ void TreeWidget::clicked( const QModelIndex &index )
 		QString dest;
 		while( true )
 		{
-			dest = Common::normalized( QFileDialog::getSaveFileName( qApp->activeWindow(),
+			dest = FileDialog::getSaveFileName( qApp->activeWindow(),
 				tr("Save file"), QString( "%1/%2" )
 					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-					.arg( m->index( index.row(), 0 ).data().toString() ) ) );
+					.arg( m->index( index.row(), 0 ).data().toString() ) );
 			if( !dest.isEmpty() && !Common::canWrite( dest ) )
 			{
 				QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),

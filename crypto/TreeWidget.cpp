@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,14 +22,16 @@
 
 #include "TreeWidget.h"
 
-#include "common/Common.h"
+#include <common/Common.h>
+#include <common/FileDialog.h>
+
 #include "CryptoDoc.h"
 
 #include <QDesktopServices>
-#include <QFileDialog>
 #include <QHeaderView>
 #include <QKeyEvent>
 #include <QMimeData>
+#include <QProcessEnvironment>
 #include <QUrl>
 
 TreeWidget::TreeWidget( QWidget *parent )
@@ -52,10 +54,10 @@ void TreeWidget::clicked( const QModelIndex &index )
 	{
 	case 2:
 	{
-		QString filepath = Common::normalized( QFileDialog::getSaveFileName( this,
+		QString filepath = FileDialog::getSaveFileName( this,
 			tr("Save file"), QString( "%1/%2" )
 				.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-				.arg( model()->index( index.row(), 0 ).data().toString() ) ) );
+				.arg( model()->index( index.row(), 0 ).data().toString() ) );
 		if( !filepath.isEmpty() )
 			Q_EMIT save( index.row(), filepath );
 		break;
@@ -138,14 +140,11 @@ void TreeWidget::openFile( const QModelIndex &index )
 {
 	QUrl u = url( index );
 #ifdef Q_OS_WIN32
-	QList<QByteArray> exts = qgetenv( "PATHEXT" ).split(';');
+	QStringList exts = QProcessEnvironment::systemEnvironment().value( "PATHEXT" ).split(';');
 	exts << ".PIF" << ".SCR";
 	QFileInfo f( u.toLocalFile() );
-	Q_FOREACH( const QByteArray &ext, exts )
-	{
-		if( QString( ext ).contains( f.suffix(), Qt::CaseInsensitive ) )
-			return;
-	}
+	if( exts.contains( "." + f.suffix(), Qt::CaseInsensitive ) )
+		return;
 #endif
 	QDesktopServices::openUrl( u );
 }

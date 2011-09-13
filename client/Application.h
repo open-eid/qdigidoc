@@ -57,9 +57,11 @@ public:
 	explicit Application( int &argc, char **argv );
 	~Application();
 
+	QString lastPath() const;
 	void loadTranslation( const QString &lang );
 	bool notify( QObject *o, QEvent *e );
 	QSigner* signer() const;
+	void setLastPath( const QString &path );
 
 	static QVariant confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );

@@ -27,13 +27,13 @@
 #include "Poller.h"
 
 #include <common/AboutWidget.h>
+#include <common/FileDialog.h>
 #include <common/Settings.h>
 #include <common/TokenData.h>
 
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QDragEnterEvent>
-#include <QFileDialog>
 #include <QMessageBox>
 #include <QProgressBar>
 #include <QProgressDialog>
@@ -193,9 +193,8 @@ void MainWindow::buttonClicked( int button )
 		break;
 	case HomeView:
 	{
-		QString file = Common::normalized( QFileDialog::getOpenFileName( this, tr("Open container"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ),
-			tr("Documents (*.cdoc)") ) );
+		QString file = FileDialog::getOpenFileName( this, tr("Open container"),
+			QString(), tr("Documents (*.cdoc)") );
 		if( !file.isEmpty() && doc->open( file ) )
 			setCurrentPage( View );
 		break;
@@ -233,13 +232,7 @@ void MainWindow::buttonClicked( int button )
 			}
 		}
 
-		QStringList list = Common::normalized( QFileDialog::getOpenFileNames( this, tr("Select documents"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ), QString(), 0,
-#ifdef Q_OS_WIN
-			QFileDialog::DontResolveSymlinks ) );
-#else
-			0 ) );
-#endif
+		QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
 		if( !list.isEmpty() )
 		{
 			Q_FOREACH( const QString &file, list )
@@ -359,13 +352,7 @@ void MainWindow::parseLink( const QString &link )
 {
 	if( link == "addFile" )
 	{
-		QStringList list = Common::normalized( QFileDialog::getOpenFileNames( this, tr("Select documents"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ), QString(), 0,
-#ifdef Q_OS_WIN
-			QFileDialog::DontResolveSymlinks ) );
-#else
-			0 ) );
-#endif
+		QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
 		if( list.isEmpty() )
 			return;
 		Q_FOREACH( const QString &file, list )
@@ -405,9 +392,8 @@ void MainWindow::parseLink( const QString &link )
 	}
 	else if( link == "saveAll" )
 	{
-		QString dir = Common::normalized( QFileDialog::getExistingDirectory( this,
-			tr("Select folder where files will be stored"),
-			QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) ) );
+		QString dir = FileDialog::getExistingDirectory( this,
+			tr("Select folder where files will be stored") );
 		if( dir.isEmpty() )
 			return;
 		QAbstractItemModel *m = viewContentView->model();
@@ -422,7 +408,7 @@ void MainWindow::parseLink( const QString &link )
 					QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 				if( b == QMessageBox::No )
 				{
-					file = Common::normalized( QFileDialog::getSaveFileName( this, tr("Save file"), file ) );
+					file = FileDialog::getSaveFileName( this, tr("Save file"), file );
 					if( file.isEmpty() )
 						continue;
 				}
@@ -480,8 +466,8 @@ QString MainWindow::selectFile( const QString &filename )
 	QString file = filename;
 	Q_FOREVER
 	{
-		file = Common::normalized( QFileDialog::getSaveFileName(
-			this, tr("Save file"), file, tr("Documents (*.cdoc)") ) );
+		file = FileDialog::getSaveFileName(
+			this, tr("Save file"), file, tr("Documents (*.cdoc)") );
 		if( file.isEmpty() )
 			return QString();
 		if( QFileInfo( file ).suffix().toLower() != "cdoc" )

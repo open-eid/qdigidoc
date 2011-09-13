@@ -272,6 +272,9 @@ bool Application::eventFilter( QObject *o, QEvent *e )
 	return Common::eventFilter( o, e );
 }
 
+QString Application::lastPath() const
+{ return Settings().value( "Client/lastPath" ).toString(); }
+
 void Application::loadTranslation( const QString &lang )
 {
 	if( d->lang == lang )
@@ -321,6 +324,7 @@ void Application::parseArgs( const QString &msg )
 		params << (url.errorString().isEmpty() ? url.toLocalFile() : param);
 	}
 	params.removeAll("-capi");
+	params.removeAll("-noNativeFileDialog");
 
 	QStringList exts = QStringList() << "p12" << "p12d";
 	QWidget *w = 0;
@@ -366,6 +370,9 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 		showWarning( tr("Caught exception!"), ddocError, causes.join("\n") );
 	}
 }
+
+void Application::setLastPath( const QString &path )
+{ Settings().setValue( "Client/lastPath", path ); }
 
 void Application::showAbout()
 {
