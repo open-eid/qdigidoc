@@ -608,10 +608,6 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <translation>Isikukood ja telefoni number ei klapi</translation>
     </message>
     <message>
-        <source>Failed to parse XML document</source>
-        <translation>XML dokumendi parsimine ebaõnnestus</translation>
-    </message>
-    <message>
         <source>Sign</source>
         <translation>Allkirjastan</translation>
     </message>
@@ -764,10 +760,6 @@ Kontrollkood: %1</translation>
     <message>
         <source>Failed to sign document</source>
         <translation>Dokumendi allkirjastamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Sign certificate is not selected</source>
-        <translation>Allkirjastamise sertifikaat ei ole valitud</translation>
     </message>
 </context>
 <context>
@@ -1049,16 +1041,16 @@ Kontrollkood: %1</translation>
         <translation>Viga</translation>
     </message>
     <message>
-        <source>Show signature certificate</source>
-        <translation>Näita allkirjastamise sertifikaati</translation>
-    </message>
-    <message>
         <source>Show OCSP certificate</source>
         <translation>Näita kehtivuskinnituse sertifikaati</translation>
     </message>
     <message>
         <source>Validity of approval</source>
         <translation>Kehtivuskinnitus</translation>
+    </message>
+    <message>
+        <source>Show signer&apos;s certificate</source>
+        <translation>Näita allkirjastaja sertifikaati</translation>
     </message>
 </context>
 <context>

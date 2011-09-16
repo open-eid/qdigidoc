@@ -143,7 +143,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 
 	const SslCertificate c = s.cert();
 	if( !s.cert().isNull() )
-		d->signCert = d->buttonBox->addButton( tr("Show signature certificate"), QDialogButtonBox::ActionRole );
+		d->signCert = d->buttonBox->addButton( tr("Show signer's certificate"), QDialogButtonBox::ActionRole );
 	if( !s.ocspCert().isNull() )
 		d->ocspCert = d->buttonBox->addButton( tr("Show OCSP certificate"), QDialogButtonBox::ActionRole );
 

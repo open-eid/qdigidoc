@@ -609,10 +609,6 @@ already in container, ovewrite?</source>
         <translation>Личный код и номер телефона не совпадают</translation>
     </message>
     <message>
-        <source>Failed to parse XML document</source>
-        <translation>Ошибка при разборе XML документа</translation>
-    </message>
-    <message>
         <source>Sign</source>
         <translation>Подписать</translation>
     </message>
@@ -765,10 +761,6 @@ Control code: %1</source>
     <message>
         <source>Failed to sign document</source>
         <translation>Не удалось подписать документ</translation>
-    </message>
-    <message>
-        <source>Sign certificate is not selected</source>
-        <translation>Сертификат подписи не выбран</translation>
     </message>
 </context>
 <context>
@@ -1050,16 +1042,16 @@ Control code: %1</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <source>Show signature certificate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Show OCSP certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Сертификат OCSP</translation>
     </message>
     <message>
         <source>Validity of approval</source>
         <translation>Подтвердить</translation>
+    </message>
+    <message>
+        <source>Show signer&apos;s certificate</source>
+        <translation>Сертификат пользователя</translation>
     </message>
 </context>
 <context>

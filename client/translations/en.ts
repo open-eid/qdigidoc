@@ -610,10 +610,6 @@ already in container, ovewrite?</translation>
         <translation>ID and phone number do not match</translation>
     </message>
     <message>
-        <source>Failed to parse XML document</source>
-        <translation>Failed to parse XML document</translation>
-    </message>
-    <message>
         <source>Sign</source>
         <translation>Sign</translation>
     </message>
@@ -766,10 +762,6 @@ Control code: %1</translation>
     <message>
         <source>Failed to sign document</source>
         <translation>Failed to sign document</translation>
-    </message>
-    <message>
-        <source>Sign certificate is not selected</source>
-        <translation>Sign certificate is not selected</translation>
     </message>
 </context>
 <context>
@@ -1051,16 +1043,16 @@ Control code: %1</translation>
         <translation>Error</translation>
     </message>
     <message>
-        <source>Show signature certificate</source>
-        <translation>Show signature certificate</translation>
-    </message>
-    <message>
         <source>Show OCSP certificate</source>
         <translation>Show OCSP certificate</translation>
     </message>
     <message>
         <source>Validity of approval</source>
         <translation>Validity of approval</translation>
+    </message>
+    <message>
+        <source>Show signer&apos;s certificate</source>
+        <translation>Show signer&apos;s certificate</translation>
     </message>
 </context>
 <context>
