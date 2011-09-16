@@ -196,12 +196,8 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.
-We do not recommend you to add signature to this document.
-There is an option to re-sign this document in a new container.</source>
-        <translation>Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.
-Soovitame Teil sellele dokumendile mitte allkirja lisada.
-Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjastada.</translation>
+        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
+        <translation>Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.</translation>
     </message>
 </context>
 <context>

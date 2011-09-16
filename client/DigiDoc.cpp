@@ -575,10 +575,8 @@ bool DigiDoc::open( const QString &file )
 				break;
 			}
 			if( weak )
-				qApp->showWarning( tr(
-					"The current BDOC container uses weaker encryption method than officialy accepted in Estonia.\n"
-					"We do not recommend you to add signature to this document.\n"
-					"There is an option to re-sign this document in a new container.") );
+				qApp->showWarning(
+					tr("The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
 			break;
 		}
 		default: break;
