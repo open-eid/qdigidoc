@@ -395,7 +395,7 @@ void MainWindow::buttonClicked( int button )
 		{
 			if( Settings().value( "Client/type", "ddoc" ).toString() == "bdoc" )
 			{
-				qApp->showWarning( tr("BDoc signing is not supported, please upgrade software") );
+				qApp->showWarning( tr("BDOC signing is not supported, please upgrade software") );
 				break;
 			}
 

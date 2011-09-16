@@ -196,7 +196,7 @@ There is an option to re-sign this document in a new container.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The current BDoc container uses weaker encryption method than officialy accepted in Estonia.
+        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.
 We do not recommend you to add signature to this document.
 There is an option to re-sign this document in a new container.</source>
         <translation type="unfinished"></translation>
@@ -542,7 +542,7 @@ already in container, ovewrite?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>BDoc signing is not supported, please upgrade software</source>
+        <source>BDOC signing is not supported, please upgrade software</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

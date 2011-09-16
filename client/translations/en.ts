@@ -196,10 +196,10 @@ There is an option to re-sign this document in a new container.</translation>
         <translation>BES signature format is not valid in Estonia</translation>
     </message>
     <message>
-        <source>The current BDoc container uses weaker encryption method than officialy accepted in Estonia.
+        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.
 We do not recommend you to add signature to this document.
 There is an option to re-sign this document in a new container.</source>
-        <translation>The current BDoc container uses weaker encryption method than officialy accepted in Estonia.
+        <translation>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.
 We do not recommend you to add signature to this document.
 There is an option to re-sign this document in a new container.</translation>
     </message>
@@ -543,8 +543,8 @@ already in container, ovewrite?</translation>
         <translation>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>BDoc signing is not supported, please upgrade software</source>
-        <translation>BDoc signing is not supported, please upgrade software</translation>
+        <source>BDOC signing is not supported, please upgrade software</source>
+        <translation>BDOC signing is not supported, please upgrade software</translation>
     </message>
 </context>
 <context>

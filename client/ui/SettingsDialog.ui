@@ -91,7 +91,7 @@
          <item>
           <widget class="QRadioButton" name="typeBDoc">
            <property name="text">
-            <string notr="true">BDoc</string>
+            <string notr="true">BDOC</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -101,7 +101,7 @@
          <item>
           <widget class="QRadioButton" name="typeDDoc">
            <property name="text">
-            <string notr="true">DDoc</string>
+            <string notr="true">DDOC</string>
            </property>
           </widget>
          </item>
