@@ -537,7 +537,7 @@ already in container, ovewrite?</source>
     </message>
     <message>
         <source>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</source>
-        <translation>&lt; href=&quot;encrypt&quot;&gt;Зашифровать документ&lt;/a&gt;</translation>
+        <translation>&lt;a href=&quot;encrypt&quot;&gt;Зашифровать документ&lt;/a&gt;</translation>
     </message>
     <message>
         <source>BDOC signing is not supported, please upgrade software</source>
