@@ -97,7 +97,7 @@ add_executable(
 if( APPLE )
 	set_target_properties( ${PROGNAME}
 		PROPERTIES
-		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/mac/Info.plist )
+		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
 endif( APPLE )
 if( WIN32 )
 	set_target_properties( ${PROGNAME}
