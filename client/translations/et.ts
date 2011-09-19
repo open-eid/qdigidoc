@@ -193,7 +193,7 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
     </message>
     <message>
         <source>BES signature format is not valid in Estonia</source>
-        <translation type="unfinished"></translation>
+        <translation>Allkiri ei ole Eesti seadusandluse mõistes võrdväärne käsitsi antud allkirjaga. Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusmaterjalita ja sõltumatu osapoole ajakinnituseta.</translation>
     </message>
     <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>

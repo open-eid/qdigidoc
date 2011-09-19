@@ -193,11 +193,11 @@ There is an option to re-sign this document in a new container.</source>
     </message>
     <message>
         <source>BES signature format is not valid in Estonia</source>
-        <translation type="unfinished"></translation>
+        <translation>В понимании эстонского законодательства подпись не равноценна собственноручно данной подписи. Данная подпись создана в т.н. формате BES, то есть без подтверждения ее действительности организацией, выдавшей сертификат, и без временного штампа.</translation>
     </message>
     <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
-        <translation type="unfinished"></translation>
+        <translation>Данный контейнер имеет меньшую надежность по сравнению с официально признанным в Эстонии контейнером в формате BDOC.</translation>
     </message>
 </context>
 <context>
