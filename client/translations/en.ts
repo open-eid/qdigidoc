@@ -192,12 +192,14 @@ There is an option to re-sign this document in a new container.</translation>
         <translation>Failed to get signatures</translation>
     </message>
     <message>
-        <source>BES signature format is not valid in Estonia</source>
-        <translation>BES signature format is not valid in Estonia</translation>
-    </message>
-    <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
         <translation>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</translation>
+    </message>
+    <message>
+        <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
+This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
+        <translation>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
+This signature is created in the BES format, using no certificate validity confimation nor timestamp.</translation>
     </message>
 </context>
 <context>

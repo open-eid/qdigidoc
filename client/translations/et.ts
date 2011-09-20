@@ -165,7 +165,7 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
     </message>
     <message>
         <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
-        <translation>PIN on lukus. PIN koodi saab avada ID-kaardi haldusvahendis.</translation>
+        <translation>PIN on lukus. PIN koodi saab avada ID-kaardi haldusvahendis!</translation>
     </message>
     <message>
         <source>An error occurred while opening the document.</source>
@@ -192,12 +192,14 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
         <translation>Ümbrikust ei suutnud laadida allkirju</translation>
     </message>
     <message>
-        <source>BES signature format is not valid in Estonia</source>
-        <translation>Allkiri ei ole Eesti seadusandluse mõistes võrdväärne käsitsi antud allkirjaga. Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusmaterjalita ja sõltumatu osapoole ajakinnituseta.</translation>
-    </message>
-    <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
         <translation>Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.</translation>
+    </message>
+    <message>
+        <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
+This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
+        <translation>Allkiri ei ole Eesti seadusandluse mõistes võrdväärne käsitsi antud allkirjaga.
+Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusmaterjalita ja sõltumatu osapoole ajakinnituseta.</translation>
     </message>
 </context>
 <context>

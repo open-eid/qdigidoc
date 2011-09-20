@@ -426,7 +426,8 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 		s->validateOffline();
 		if( type() == BESType )
 		{
-			m_lastError = DigiDoc::tr("BES signature format is not valid in Estonia");
+			m_lastError = DigiDoc::tr("In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.\n"
+				"This signature is created in the BES format, using no certificate validity confimation nor timestamp.");
 			return Invalid;
 		}
 		return Valid;
