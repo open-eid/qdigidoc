@@ -532,7 +532,7 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
     </message>
     <message>
         <source>NB! Weak signature</source>
-        <translation type="unfinished"></translation>
+        <translation>NB! Nõrga turvalisusega allkiri</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</source>

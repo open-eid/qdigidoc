@@ -535,7 +535,7 @@ already in container, ovewrite?</source>
     </message>
     <message>
         <source>NB! Weak signature</source>
-        <translation type="unfinished"></translation>
+        <translation>NB! Слабая подпись</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</source>
