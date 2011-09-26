@@ -139,17 +139,10 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		}
 		if( sig.isTest() )
 			valid += " " + tr("(NB! TEST SIGNATURE)");
-		customText( tr("VALIDITY OF SIGNATURE"), valid );
-		top += 45;
-
-		customText( tr("ROLE / RESOLUTION"), sig.role() );
-		top += 45;
-
-		customText( tr("PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)"), sig.location() );
-		top += 45;
-
-		customText( tr("SERIAL NUMBER OF SIGNER CERTIFICATE"), cert.serialNumber() );
-		top += 45;
+		top += customText( tr("VALIDITY OF SIGNATURE"), valid );
+		top += customText( tr("ROLE / RESOLUTION"), sig.role() );
+		top += customText( tr("PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)"), sig.location() );
+		top += customText( tr("SERIAL NUMBER OF SIGNER CERTIFICATE"), cert.serialNumber() );
 
 		customText( tr("ISSUER OF CERTIFICATE"), cert.issuerInfo( QSslCertificate::CommonName ) );
 		drawText( left+207, top, tr("HASH VALUE OF ISSUER'S PUBLIC KEY") );
@@ -181,12 +174,17 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	end();
 }
 
-void PrintSheet::customText( const QString &title, const QString &text )
+int PrintSheet::customText( const QString &title, const QString &text )
 {
-	newPage( 50 );
-	drawText( left+3, top, title );
-	drawRect( left, top+5, right - margin, 20 );
-	drawText( left+5, top+20, text );
+	QRect rect( left + 5, top + 5,  right - margin -5, 25 );
+	rect.setHeight( qMax( 25, fontMetrics().boundingRect( rect, Qt::TextWordWrap|Qt::TextWrapAnywhere, text ).height() ) );
+
+	newPage( 30 + rect.height() );
+	drawText( left + 3, top, title );
+	drawText( rect, Qt::TextWordWrap|Qt::TextWrapAnywhere|Qt::AlignVCenter, text );
+	drawRect( rect.adjusted( -5, 0, 0, rect.height() > 25 ? 0 : -5 ) );
+
+	return 20 + rect.height();
 }
 
 void PrintSheet::newPage( int height )
