@@ -148,7 +148,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 	{
 		if( !xml.isStartElement() )
 			continue;
-		if( xml.name() == "Fault" )
+		if( xml.name() == "faultstring" )
 			fault = xml.readElementText();
 		else if( xml.name() == "message" )
 			message = xml.readElementText();
