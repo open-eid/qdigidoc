@@ -124,7 +124,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		drawRect( left, top+5, right - margin, 20 );
 		top += 20;
 
-		drawText( left+5, top, QString::number( i ) );
+		drawText( left+5, top, QString::number( i++ ) );
 		drawText( left+40, top, cert.toString( cert.showCN() ? "CN" : "GN SN" ) );
 		drawText( right-300, top, cert.subjectInfo( "serialNumber" ) );
 		drawText( right-160, top, sig.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) + " " + timediff );
@@ -133,9 +133,9 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		QString valid = tr("SIGNATURE") + " ";
 		switch( sig.validate() )
 		{
-			case DigiDocSignature::Valid: valid.append( tr("VALID") ); break;
-			case DigiDocSignature::Invalid: valid.append( tr("NOT VALID") ); break;
-			case DigiDocSignature::Unknown: valid.append( tr("UNKNOWN") ); break;
+		case DigiDocSignature::Valid: valid.append( tr("VALID") ); break;
+		case DigiDocSignature::Invalid: valid.append( tr("NOT VALID") ); break;
+		case DigiDocSignature::Unknown: valid.append( tr("UNKNOWN") ); break;
 		}
 		if( sig.isTest() )
 			valid += " " + tr("(NB! TEST SIGNATURE)");
@@ -150,10 +150,8 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		drawText( left+207, top+20, cert.toHex( cert.authorityKeyIdentifier() ) );
 		top += 45;
 
-		customText( tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)"), cert.toHex( sig.ocspDigestValue() ) );
-		top += 60;
-
-		++i;
+		top += customText( tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)"), cert.toHex( sig.ocspDigestValue() ) );
+		top += 15;
 	}
 	save();
 	newPage( 50 );
@@ -180,6 +178,8 @@ int PrintSheet::customText( const QString &title, const QString &text )
 	rect.setHeight( qMax( 25, fontMetrics().boundingRect( rect, Qt::TextWordWrap|Qt::TextWrapAnywhere, text ).height() ) );
 
 	newPage( 30 + rect.height() );
+	rect.moveTop( top + 5 ); // case for new page
+
 	drawText( left + 3, top, title );
 	drawText( rect, Qt::TextWordWrap|Qt::TextWrapAnywhere|Qt::AlignVCenter, text );
 	drawRect( rect.adjusted( -5, 0, 0, rect.height() > 25 ? 0 : -5 ) );
