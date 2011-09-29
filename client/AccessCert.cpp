@@ -58,7 +58,7 @@ bool AccessCert::download( bool noCard )
 {
 	if( noCard )
 	{
-		QDesktopServices::openUrl( QUrl( tr("http://www.id.ee/kehtivuskinnitus") ) );
+		QDesktopServices::openUrl( QUrl( tr("http://www.sk.ee/toend/") ) );
 		return false;
 	}
 
@@ -148,7 +148,7 @@ bool AccessCert::download( bool noCard )
 	switch( status.toInt() )
 	{
 	case 1: //need to order cert manually from SK web
-		QDesktopServices::openUrl( QUrl( tr("http://www.id.ee/kehtivuskinnitus") ) );
+		QDesktopServices::openUrl( QUrl( tr("http://www.sk.ee/toend/") ) );
 		return false;
 	case 2: //got error, show message from MessageToDisplay element
 		showWarning( tr("Error downloading server access certificate!\n%1").arg( message ) );
