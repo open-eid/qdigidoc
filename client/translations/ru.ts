@@ -916,7 +916,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Invalid password</source>
-        <translation>Ошибочная пароль</translation>
+        <translation>Ошибочный пароль</translation>
     </message>
     <message>
         <source>Select server access certificate</source>
