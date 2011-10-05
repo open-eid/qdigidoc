@@ -132,11 +132,7 @@ bool MainWindow::addFile( const QString &file )
 	{
 		Settings s;
 		s.beginGroup( "Client" );
-#ifdef BDOC_ENABLED
 		QString ext = s.value( "type" ,"ddoc" ).toString();
-#else
-		QString ext = "ddoc";
-#endif
 		QString docname = QString( "%1/%2.%3" )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
 			.arg( ext == fileinfo.suffix().toLower() ? fileinfo.fileName() : fileinfo.completeBaseName() )
@@ -233,11 +229,7 @@ void MainWindow::buttonClicked( int button )
 	case HomeView:
 	{
 		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
-#ifdef BDOC_ENABLED
 			tr("Documents (%1)").arg( "*.bdoc *.ddoc" ) );
-#else
-			tr("Documents (%1)").arg( "*.ddoc" ) );
-#endif
 		if( !file.isEmpty() && doc->open( file ) )
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 		break;
@@ -266,15 +258,6 @@ void MainWindow::buttonClicked( int button )
 				QStringList exts = QStringList() << "bdoc" << "ddoc";
 				if( doc->isNull() && exts.contains( f.suffix(), Qt::CaseInsensitive ) )
 				{
-#ifndef BDOC_ENABLED
-					if( f.suffix().toLower() == "bdoc" )
-					{
-						qApp->showWarning( tr("File is in BDOC format. Software needs to be updated in order to see file contents.") );
-						params.clear();
-						setCurrentPage( Home );
-						return;
-					}
-#endif
 					if( doc->open( f.absoluteFilePath() ) )
 						setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 					params.clear();
@@ -677,16 +660,10 @@ QString MainWindow::selectFile( const QString &filename )
 	QString file = filename;
 	Q_FOREVER
 	{
-#ifdef BDOC_ENABLED
 		QStringList exts = QStringList() << Settings().value( "Client/type", "ddoc" ).toString();
 		exts << (exts[0] == "ddoc" ? "bdoc" : "ddoc");
 		file = FileDialog::getSaveFileName( this, tr("Save file"), file,
 			tr("Documents (%1)").arg( QString( "*.%1 *.%2" ).arg( exts[0], exts[1] ) ) );
-#else
-		QStringList exts = QStringList() << "ddoc";
-		file = FileDialog::getSaveFileName( this, tr("Save file"), file,
-			tr("Documents (%1)").arg( "*.ddoc" ) );
-#endif
 		if( file.isEmpty() )
 			return QString();
 		if( !exts.contains( QFileInfo( file ).suffix(), Qt::CaseInsensitive ) )

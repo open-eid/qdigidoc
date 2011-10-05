@@ -473,10 +473,6 @@ Should I keep unsigned documents or remove these?</numerusform>
         <translation>You don&apos;t have sufficient privileges to write this file into folder %1</translation>
     </message>
     <message>
-        <source>File is in BDOC format. Software needs to be updated in order to see file contents.</source>
-        <translation>File is in BDOC format. Software needs to be updated in order to see file contents.</translation>
-    </message>
-    <message>
         <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
@@ -765,6 +761,10 @@ Control code: %1</translation>
         <source>Failed to sign document</source>
         <translation>Failed to sign document</translation>
     </message>
+    <message>
+        <source>Sign certificate is not selected</source>
+        <translation>Sign certificate is not selected</translation>
+    </message>
 </context>
 <context>
     <name>RegisterP12</name>
@@ -940,6 +940,10 @@ Control code: %1</translation>
     <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
         <translation>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.id.ee/eng/access&quot;&gt;http://www.id.ee/eng/access&lt;/a&gt; or phone 1777</translation>
+    </message>
+    <message>
+        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
+        <translation>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

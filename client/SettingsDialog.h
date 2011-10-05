@@ -52,6 +52,7 @@ private Q_SLOTS:
 	void on_p12Pass_textChanged( const QString &text );
 	void on_selectDefaultDir_clicked();
 	void on_showP12Cert_clicked();
+	void on_typeBDoc_clicked( bool checked );
 	void save();
 
 private:

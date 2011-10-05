@@ -474,10 +474,6 @@ Should I keep unsigned documents or remove these?</source>
         <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
     <message>
-        <source>File is in BDOC format. Software needs to be updated in order to see file contents.</source>
-        <translation>Формат файла BDOC. Чтобы увидеть содержимое файла программное обеспечение должно быть обновлено.</translation>
-    </message>
-    <message>
         <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
@@ -766,6 +762,10 @@ Control code: %1</source>
         <source>Failed to sign document</source>
         <translation>Не удалось подписать документ</translation>
     </message>
+    <message>
+        <source>Sign certificate is not selected</source>
+        <translation>Сертификат подписи не выбран</translation>
+    </message>
 </context>
 <context>
     <name>RegisterP12</name>
@@ -941,6 +941,10 @@ Control code: %1</source>
     <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
         <translation>Согласно условиям пользования услугой подтверждения действительности Вы можете пользоваться услугой в объеме не более 10 цифровых подписей в месяц. Чтобы получить возможность пользоваться услугой в большем объеме или использовать ее в коммерческих целях, обратитесь в службу ИТ-поддержки Вашего учреждения. За дополнительной информацией обращайтесь по адресу &lt;a href=&quot;http://www.id.ee/rus/access&quot;&gt;http://www.id.ee/rus/access&lt;/a&gt;, по электронной почте sales@sk.ee или по телефону 1777</translation>
+    </message>
+    <message>
+        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
+        <translation>BDOC – это новый формат цифровой подписи, который еще не поддерживается многими инфосистемами. Не исключено, что получатель не сможет открыть документ в формате BDOC. Дополнительная информация: &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;http://www.id.ee/rus/bdoc&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

@@ -85,7 +85,7 @@ QSigner::~QSigner()
 X509* QSigner::getCert() const throw(digidoc::SignException)
 {
 	if( d->t.cert().isNull() )
-		throw SignException( __FILE__, __LINE__, tr("Sign certificate is not selected").toUtf8().constData() );
+		throw SignException( __FILE__, __LINE__, QSigner::tr("Sign certificate is not selected").toUtf8().constData() );
 	return (X509*)d->t.cert().handle();
 }
 

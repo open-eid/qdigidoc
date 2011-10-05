@@ -33,6 +33,7 @@
 
 #include <QDesktopServices>
 #include <QDropEvent>
+#include <QMessageBox>
 #include <QUrl>
 
 SettingsDialog::SettingsDialog( QWidget *parent )
@@ -52,16 +53,9 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
 	d->askSaveAs->setChecked( s.value( "AskSaveAs", true ).toBool() );
 
-#ifdef BDOC_ENABLED
 	const QString type = s.value( "type", "ddoc" ).toString();
 	d->typeBDoc->setChecked( type == "bdoc" );
 	d->typeDDoc->setChecked( type == "ddoc" );
-#else
-	delete d->typeBDoc;
-	delete d->typeDDoc;
-	delete d->typeLabel;
-	delete d->typeInfo;
-#endif
 
 	d->signRoleInput->setText( s.value( "Role" ).toString() );
 	d->signResolutionInput->setText( s.value( "Resolution" ).toString() );
@@ -144,6 +138,16 @@ void SettingsDialog::on_showP12Cert_clicked()
 	d.exec();
 }
 
+void SettingsDialog::on_typeBDoc_clicked( bool checked )
+{
+	if( checked )
+		QMessageBox::information( this, windowTitle(), tr(
+			"BDOC is new format for digital signatures, which may yet not be supported "
+			"by all information systems and applications. Please note that the recipient "
+			"might be not capable opening a document signed in this format. Additional "
+			"information <a href=\"http://www.id.ee/eng/bdoc\">http://www.id.ee/eng/bdoc</a>") );
+}
+
 void SettingsDialog::save()
 {
 	Settings s;
@@ -151,9 +155,7 @@ void SettingsDialog::save()
 	s.setValue( "Intro", d->showIntro->isChecked() );
 	s.setValue( "Overwrite", d->signOverwrite->isChecked() );
 	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
-#ifdef BDOC_ENABLED
 	s.setValue( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc" );
-#endif
 	if( d->defaultSameDir->isChecked() )
 	{
 		d->defaultDir->clear();

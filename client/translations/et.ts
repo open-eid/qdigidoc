@@ -471,10 +471,6 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
     </message>
     <message>
-        <source>File is in BDOC format. Software needs to be updated in order to see file contents.</source>
-        <translation>Avatud fail on BDOC formaadis. Faili sisu vaatamiseks on vajalik tarkvara uuendamine.</translation>
-    </message>
-    <message>
         <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
@@ -763,6 +759,10 @@ Kontrollkood: %1</translation>
         <source>Failed to sign document</source>
         <translation>Dokumendi allkirjastamine ebaõnnestus</translation>
     </message>
+    <message>
+        <source>Sign certificate is not selected</source>
+        <translation>Allkirjastamise sertifikaat ei ole valitud</translation>
+    </message>
 </context>
 <context>
     <name>RegisterP12</name>
@@ -938,6 +938,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
         <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
+    </message>
+    <message>
+        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
+        <translation>BDOC on uus digitaalallkirja vorming, mida paljud infosüsteemid ei oska veel kasutada ega lugeda. Palun arvestage, et saajal võib puududa võimalus selles formaadis allkirjastatud dokumenti avada. Täiendav info &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;http://www.id.ee/bdoc&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
