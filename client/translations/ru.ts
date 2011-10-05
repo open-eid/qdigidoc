@@ -1055,7 +1055,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Validity of approval</source>
-        <translation>Подтвердить</translation>
+        <translation>Потдверждение</translation>
     </message>
     <message>
         <source>Show signer&apos;s certificate</source>
