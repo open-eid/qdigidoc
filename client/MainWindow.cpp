@@ -376,7 +376,7 @@ void MainWindow::buttonClicked( int button )
 		}
 		else
 		{
-			if( Settings().value( "Client/type", "ddoc" ).toString() == "bdoc" )
+			if( QFileInfo( doc->fileName() ).suffix().toLower() == "bdoc" )
 			{
 				qApp->showWarning( tr("BDOC signing is not supported, please upgrade software") );
 				break;
