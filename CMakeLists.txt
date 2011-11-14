@@ -1,8 +1,5 @@
 cmake_minimum_required( VERSION 2.8 )
 project( qdigidoc )
-set( MAJOR_VER 3 )
-set( MINOR_VER 5 )
-set( RELEASE_VER 0 )
 
 set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules" )
 
