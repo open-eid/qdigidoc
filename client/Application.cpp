@@ -149,7 +149,7 @@ Application::Application( int &argc, char **argv )
 	}
 
 	d->signer = new QSigner( args.contains("-capi"), this );
-	parseArgs( args.join( "\", \"" ) );
+	parseArgs( args );
 }
 
 Application::~Application()
@@ -223,8 +223,11 @@ bool Application::event( QEvent *e )
 		if( !activeWindow() )
 			parseArgs();
 		return true;
+	case OpenFilesEvent::Type:
+		parseArgs( static_cast<OpenFilesEvent*>(e)->files() );
+		return true;
 	case QEvent::FileOpen:
-		parseArgs( static_cast<QFileOpenEvent*>(e)->file() );
+		parseArgs( QStringList() << static_cast<QFileOpenEvent*>(e)->file() );
 		return true;
 	default: return Common::event( e );
 	}
@@ -323,6 +326,12 @@ void Application::parseArgs( const QString &msg )
 		QUrl url( param );
 		params << (url.errorString().isEmpty() ? url.toLocalFile() : param);
 	}
+	parseArgs( params );
+}
+
+void Application::parseArgs( const QStringList &args )
+{
+	QStringList params = args;
 	params.removeAll("-capi");
 	params.removeAll("-noNativeFileDialog");
 

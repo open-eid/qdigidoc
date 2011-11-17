@@ -75,6 +75,7 @@ private Q_SLOTS:
 	void activateWindow( QAction *a );
 	void closeWindow();
 	void parseArgs( const QString &msg = QString() );
+	void parseArgs( const QStringList &args );
 
 private:
 	bool event( QEvent *e );

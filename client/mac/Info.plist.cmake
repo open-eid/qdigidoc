@@ -11,7 +11,7 @@
 	<key>CFBundleIconFile</key>
 	<string>${MACOSX_BUNDLE_ICON_FILE}</string>
 	<key>CFBundleIdentifier</key>
-	<string>${MACOSX_BUNDLE_GUI_IDENTIFIER}</string>
+	<string>ee.ria.${MACOSX_BUNDLE_GUI_IDENTIFIER}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleLongVersionString</key>
@@ -109,6 +109,29 @@
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
 			<string>None</string>
+		</dict>
+	</array>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Sign with QDigiDocClient</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>openFile</string>
+			<key>NSPortName</key>
+			<string>qdigidocclient</string>
+			<key>NSRequiredContext</key>
+			<dict>
+				<key>NSTextContent</key>
+				<string>FilePath</string>
+			</dict>
+			<key>NSSendTypes</key>
+			<array>
+				<string>public.url</string>
+			</array>
 		</dict>
 	</array>
 </dict>
