@@ -420,7 +420,7 @@ QList<CDocument> CryptoDoc::documents()
 			DataFile *data = d->doc->pDataFiles[i];
 			CDocument doc;
 			doc.path = QString::fromUtf8( data->szFileName );
-			doc.filename = QFileInfo( QString::fromUtf8( data->szFileName ) ).fileName();
+			doc.filename = QFileInfo( doc.path ).fileName();
 			doc.mime = QString::fromUtf8( data->szMimeType );
 			doc.size = Common::fileSize( data->nSize );
 			list << doc;
@@ -501,7 +501,10 @@ bool CryptoDoc::open( const QString &file )
 	d->fileName = file;
 	int err = dencSaxReadEncryptedData( &d->enc, file.toUtf8() );
 	if( err != ERR_OK )
+	{
 		setLastError( tr("Failed to open crypted document"), err );
+		d->fileName.clear();
+	}
 	return err == ERR_OK;
 }
 

@@ -587,6 +587,7 @@ bool DigiDoc::open( const QString &file )
 	catch( const Exception &e )
 	{ setLastError( tr("An error occurred while opening the document."), e ); }
 	m_documentModel->reset();
+	m_fileName.clear();
 	return false;
 }
 
