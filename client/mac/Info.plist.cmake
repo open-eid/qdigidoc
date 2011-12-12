@@ -117,7 +117,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Sign with QDigiDocClient</string>
+				<string>Sign with DigiDoc3 Client</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>openFile</string>
