@@ -172,9 +172,9 @@ QString DocumentModel::mkpath( const QModelIndex &index, const QString &path ) c
 {
 	QString filename = from( document( index ).getFileName() );
 #if defined(Q_OS_WIN)
-	filename.replace( QRegExp( "[\\/*:?\"<>|]" ), "_" );
+	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
 #else
-	filename.replace( QRegExp( "[\\]"), "_" );
+	filename.replace( QRegExp( "[\\\\]"), "_" );
 #endif
 	return path.isEmpty() ? filename : path + "/" + filename;
 }
