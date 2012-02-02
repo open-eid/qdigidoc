@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -54,6 +54,8 @@ MainWindow::MainWindow( QWidget *parent )
 	setWindowFlags( Qt::Window|Qt::CustomizeWindowHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
+	infoTypeGroup->setId( infoSignCard, 0 );
+	infoTypeGroup->setId( infoSignMobile, 1 );
 
 	cards->hide();
 	cards->hack();
@@ -66,18 +68,16 @@ MainWindow::MainWindow( QWidget *parent )
 	infoMobileCell->setText( s.value( "Client/MobileNumber", "+372" ).toString() );
 	connect( infoMobileCode, SIGNAL(textEdited(QString)), SLOT(enableSign()) );
 	connect( infoMobileCell, SIGNAL(textEdited(QString)), SLOT(enableSign()) );
-	connect( infoSignMobile, SIGNAL(toggled(bool)), SLOT(showCardStatus()) );
+	connect( infoTypeGroup, SIGNAL(buttonClicked(int)), SLOT(showCardStatus()) );
 
 	// Buttons
-	buttonGroup = new QButtonGroup( this );
+	buttonGroup->setId( settings, HeadSettings );
+	buttonGroup->setId( help, HeadHelp );
+	buttonGroup->setId( about, HeadAbout );
 
-	buttonGroup->addButton( settings, HeadSettings );
-	buttonGroup->addButton( help, HeadHelp );
-	buttonGroup->addButton( about, HeadAbout );
-
-	buttonGroup->addButton( homeSign, HomeSign );
-	buttonGroup->addButton( homeView, HomeView );
-	buttonGroup->addButton( homeCrypt, HomeCrypt );
+	buttonGroup->setId( homeSign, HomeSign );
+	buttonGroup->setId( homeView, HomeView );
+	buttonGroup->setId( homeCrypt, HomeCrypt );
 
 	buttonGroup->addButton(
 		introButtons->addButton( tr( "I agree" ), QDialogButtonBox::AcceptRole ), IntroAgree );
@@ -90,9 +90,7 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->addButton(
 		viewButtons->addButton( tr("Add signature"), QDialogButtonBox::AcceptRole ), ViewAddSignature );
 	buttonGroup->addButton( viewButtons->button( QDialogButtonBox::Close ), ViewClose );
-	connect( buttonGroup, SIGNAL(buttonClicked(int)), SLOT(buttonClicked(int)) );
 
-	connect( infoCard, SIGNAL(linkActivated(QString)), SLOT(parseLink(QString)) );
 	connect( cards, SIGNAL(activated(QString)), qApp->signer(), SLOT(selectCard(QString)), Qt::QueuedConnection );
 	connect( qApp->signer(), SIGNAL(dataChanged()), SLOT(showCardStatus()) );
 
@@ -123,6 +121,9 @@ MainWindow::MainWindow( QWidget *parent )
 	connect( doc->documentModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(enableSign()) );
 	connect( doc->documentModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(enableSign()) );
 	connect( doc->documentModel(), SIGNAL(modelReset()), SLOT(enableSign()) );
+
+	if( QAbstractButton *b = infoTypeGroup->button( s.value( "Client/SignMethod", 0 ).toInt() ) )
+		b->click();
 }
 
 bool MainWindow::addFile( const QString &file )
@@ -398,6 +399,7 @@ void MainWindow::buttonClicked( int button )
 			signResolutionInput->text(), signCityInput->text(),
 			signStateInput->text(), signCountryInput->text(),
 			signZipInput->text() );
+		Settings().setValue( "Client/SignMethod", infoStack->currentIndex() );
 		setCurrentPage( View );
 		break;
 	}
@@ -752,7 +754,6 @@ void MainWindow::setCurrentPage( Pages page )
 
 void MainWindow::showCardStatus()
 {
-	infoStack->setCurrentIndex( infoSignMobile->isChecked() ? 1 : 0 );
 	Application::restoreOverrideCursor();
 	TokenData t = qApp->signer()->token();
 	if( !t.card().isEmpty() && !t.cert().isNull() )
