@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -405,11 +405,11 @@ QList<CDocument> CryptoDoc::documents()
 		for( int i = 0; i < count; ++i )
 		{
 			char filename[255], size[255], mime[255], id[255];
-			dencOrigContent_findByIndex( d->enc, i, filename, 255, size, 255, mime, 255, id, 255 );
+			dencOrigContent_findByIndex( d->enc, i, filename, 254, size, 254, mime, 254, id, 254 );
 			CDocument doc;
-			doc.filename = QString::fromUtf8( filename );
-			doc.mime = QString::fromUtf8( mime );
-			doc.size = QString::fromUtf8( size );
+			doc.filename = QString::fromUtf8( filename, 255 );
+			doc.mime = QString::fromUtf8( mime, 255 );
+			doc.size = QString::fromUtf8( size, 255 );
 			list << doc;
 		}
 	}
