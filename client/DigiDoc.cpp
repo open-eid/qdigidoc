@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -516,6 +516,7 @@ void DigiDoc::clear()
 	delete b;
 	b = 0;
 	m_fileName.clear();
+	m_documentModel->reset();
 }
 
 void DigiDoc::create( const QString &file )
@@ -538,10 +539,10 @@ bool DigiDoc::isNull() const { return b == 0; }
 bool DigiDoc::open( const QString &file )
 {
 	clear();
-	m_fileName = file;
 	try
 	{
 		b = new WDoc( to(file) );
+		m_fileName = file;
 		m_documentModel->reset();
 		switch( b->documentType() )
 		{
@@ -586,8 +587,6 @@ bool DigiDoc::open( const QString &file )
 	}
 	catch( const Exception &e )
 	{ setLastError( tr("An error occurred while opening the document."), e ); }
-	m_documentModel->reset();
-	m_fileName.clear();
 	return false;
 }
 
