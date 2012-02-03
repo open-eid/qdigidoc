@@ -405,7 +405,7 @@ QList<CDocument> CryptoDoc::documents()
 		for( int i = 0; i < count; ++i )
 		{
 			char filename[255], size[255], mime[255], id[255];
-			dencOrigContent_findByIndex( d->enc, i, filename, 254, size, 254, mime, 254, id, 254 );
+			dencOrigContent_findByIndex( d->enc, i, filename, 255, size, 255, mime, 255, id, 255 );
 			CDocument doc;
 			doc.filename = QString::fromUtf8( filename, 255 );
 			doc.mime = QString::fromUtf8( mime, 255 );
