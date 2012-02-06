@@ -24,7 +24,7 @@
 
 #include <QAbstractTableModel>
 
-#include <digidocpp/WDoc.h>
+#include <digidocpp/ADoc.h>
 
 namespace digidoc
 {
@@ -140,7 +140,7 @@ public:
 		const QString &role,
 		const QString &role2 );
 	QList<DigiDocSignature> signatures();
-	digidoc::WDoc::DocumentType documentType();
+	digidoc::ADoc::DocumentType documentType();
 	QByteArray getFileDigest( unsigned int i );
 
 	static bool parseException( const digidoc::Exception &e, QStringList &causes,
@@ -150,7 +150,7 @@ private:
 	bool checkDoc( bool status = false, const QString &msg = QString() );
 	void setLastError( const QString &msg, const digidoc::Exception &e );
 
-	digidoc::WDoc	*b;
+	digidoc::ADoc	*b;
 	QString			m_fileName;
 	DocumentModel	*m_documentModel;
 
