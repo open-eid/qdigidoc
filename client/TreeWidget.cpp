@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -60,7 +60,11 @@ void TreeWidget::clicked( const QModelIndex &index )
 		}
 		QString src = m->index( index.row(), 0 ).data( Qt::UserRole ).toString();
 		if( !dest.isEmpty() && !src.isEmpty() && dest != src )
+		{
+			if( QFile::exists( dest ) )
+				QFile::remove( dest );
 			QFile::copy( src, dest );
+		}
 		break;
 	}
 	case 4: m->removeRow( index.row() ); break;
