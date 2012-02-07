@@ -44,6 +44,7 @@
 #include <QFileInfo>
 #include <QInputDialog>
 #include <QMimeData>
+#include <QProcessEnvironment>
 #include <QTemporaryFile>
 #include <QThread>
 #include <QUrl>
