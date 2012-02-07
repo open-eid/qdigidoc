@@ -114,10 +114,8 @@ MainWindow::MainWindow( QWidget *parent )
 	// Views
 	signContentView->setDocumentModel( doc->documentModel() );
 	viewContentView->setDocumentModel( doc->documentModel() );
-	signContentView->setColumnHidden( 1, true );
-	signContentView->setColumnHidden( 3, true );
-	viewContentView->setColumnHidden( 1, true );
-	viewContentView->setColumnHidden( 4, true );
+	signContentView->setColumnHidden( DocumentModel::Save, true );
+	viewContentView->setColumnHidden( DocumentModel::Remove, true );
 	connect( doc->documentModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(enableSign()) );
 	connect( doc->documentModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(enableSign()) );
 	connect( doc->documentModel(), SIGNAL(modelReset()), SLOT(enableSign()) );
@@ -695,7 +693,7 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 	case Sign:
 	{
-		signContentView->setColumnHidden( 4, !doc->signatures().isEmpty() );
+		signContentView->setColumnHidden( DocumentModel::Remove, !doc->signatures().isEmpty() );
 		signAddFile->setVisible( doc->signatures().isEmpty() );
 		break;
 	}

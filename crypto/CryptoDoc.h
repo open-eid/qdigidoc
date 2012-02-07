@@ -22,22 +22,55 @@
 
 #pragma once
 
+#include <QAbstractTableModel>
 #include <QObject>
 
 #include <QSslCertificate>
+#include <QStringList>
 
 #include <libdigidoc/DigiDocDefs.h>
 #include <libdigidoc/DigiDocLib.h>
 #include <libdigidoc/DigiDocEnc.h>
 #include <libdigidoc/DigiDocObj.h>
 
-class CDocument
+class CryptoDoc;
+class CDocumentModel: public QAbstractTableModel
 {
+	Q_OBJECT
 public:
-	QString path;
-	QString filename;
-	QString mime;
-	QString size;
+	enum Columns
+	{
+		Name = 0,
+		Mime = 1,
+		Size = 2,
+		Save = 3,
+		Remove = 4
+	};
+
+	CDocumentModel( CryptoDoc *doc );
+
+	int columnCount( const QModelIndex &parent = QModelIndex() ) const;
+	QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
+	Qt::ItemFlags flags( const QModelIndex &index ) const;
+	QMimeData *mimeData( const QModelIndexList &indexes ) const;
+	QStringList mimeTypes() const;
+	bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
+	int rowCount( const QModelIndex &parent = QModelIndex() ) const;
+
+	QString copy( const QModelIndex &index, const QString &path ) const;
+	QString mkpath( const QModelIndex &index, const QString &path ) const;
+
+public slots:
+	void open( const QModelIndex &index );
+	void revert();
+
+private:
+	Q_DISABLE_COPY(CDocumentModel)
+
+	CryptoDoc *d;
+	QList<QStringList> m_data;
+
+	friend class CDigiDoc;
 };
 
 class CKey
@@ -70,7 +103,7 @@ public:
 	void create( const QString &file );
 	void clear();
 	bool decrypt();
-	QList<CDocument> documents();
+	CDocumentModel* documents() const;
 	bool encrypt();
 	QString fileName() const;
 	bool isEncrypted() const;
@@ -78,13 +111,9 @@ public:
 	bool isSigned() const;
 	QList<CKey> keys();
 	bool open( const QString &file );
-	void removeDocument( int id );
 	void removeKey( int id );
 	void save( const QString &filename = QString() );
 	bool saveDDoc( const QString &filename );
-
-public Q_SLOTS:
-	void saveDocument( int id, const QString &filepath );
 
 private Q_SLOTS:
 	void setLastError( const QString &err, int code = -1 );
@@ -93,4 +122,6 @@ private:
 	bool isEncryptedWarning();
 
 	CryptoDocPrivate *d;
+
+	friend class CDocumentModel;
 };

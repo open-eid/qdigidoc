@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -93,11 +93,10 @@ MainWindow::MainWindow( QWidget *parent )
 	connect( langGroup, SIGNAL(triggered(QAction*)), SLOT(changeLang(QAction*)) );
 	connect( cardsGroup, SIGNAL(triggered(QAction*)), SLOT(changeCard(QAction*)) );
 
-	// Views
-	connect( viewContentView, SIGNAL(remove(int)),
-		SLOT(removeDocument(int)) );
-	connect( viewContentView, SIGNAL(save(int,QString)),
-		doc, SLOT(saveDocument(int,QString)) );
+	viewContentView->setDocumentModel( doc->documents() );
+	connect( doc->documents(), SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(updateView()) );
+	connect( doc->documents(), SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(updateView()) );
+	connect( doc->documents(), SIGNAL(modelReset()), SLOT(updateView()) );
 }
 
 bool MainWindow::addFile( const QString &file )
@@ -155,10 +154,10 @@ bool MainWindow::addFile( const QString &file )
 	}
 
 	// Check if file exist and ask confirmation to overwrite
-	QList<CDocument> docs = doc->documents();
-	for( int i = 0; i < docs.size(); ++i )
+	for( int i = 0; i < doc->documents()->rowCount(); ++i )
 	{
-		if( QFileInfo( docs[i].filename ).fileName() == fileinfo.fileName() )
+		QModelIndex index = doc->documents()->index( i, CDocumentModel::Name );
+		if( index.data().toString() == fileinfo.fileName() )
 		{
 			QMessageBox::StandardButton btn = QMessageBox::warning( this,
 				tr("File already in container"),
@@ -166,7 +165,7 @@ bool MainWindow::addFile( const QString &file )
 				QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 			if( btn == QMessageBox::Yes )
 			{
-				doc->removeDocument( i );
+				doc->documents()->removeRow( index.row() );
 				break;
 			}
 			else
@@ -396,24 +395,29 @@ void MainWindow::parseLink( const QString &link )
 			tr("Select folder where files will be stored") );
 		if( dir.isEmpty() )
 			return;
-		QAbstractItemModel *m = viewContentView->model();
+		CDocumentModel *m = doc->documents();
 		for( int i = 0; i < m->rowCount(); ++i )
 		{
-			QString file = QString( "%1/%2" )
-				.arg( dir ).arg( m->index( i, 0 ).data().toString() );
-			if( QFile::exists( file ) )
+			QModelIndex index = m->index( i, CDocumentModel::Name );
+			QString source = index.data( Qt::UserRole ).toString();
+			QString dest = m->mkpath( index, dir );
+			if( source == dest )
+				continue;
+			if( QFile::exists( dest ) )
 			{
 				QMessageBox::StandardButton b = QMessageBox::warning( this, windowTitle(),
-					tr( "%1 already exists.<br />Do you want replace it?" ).arg( file ),
+					tr( "%1 already exists.<br />Do you want replace it?" ).arg( dest ),
 					QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
 				if( b == QMessageBox::No )
 				{
-					file = FileDialog::getSaveFileName( this, tr("Save file"), file );
-					if( file.isEmpty() )
+					dest = FileDialog::getSaveFileName( this, tr("Save file"), dest );
+					if( dest.isEmpty() )
 						continue;
 				}
+				else
+					QFile::remove( dest );
 			}
-			doc->saveDocument( i, file );
+			m->copy( index, dir );
 		}
 	}
 	else if( link == "openUtility" )
@@ -421,12 +425,6 @@ void MainWindow::parseLink( const QString &link )
 		if( !Common::startDetached( "qesteidutil" ) )
 			qApp->showWarning( tr("Failed to start process '%1'").arg( "qesteidutil" ) );
 	}
-}
-
-void MainWindow::removeDocument( int index )
-{
-	doc->removeDocument( index );
-	setCurrentPage( View );
 }
 
 void MainWindow::removeKey( int id )
@@ -504,9 +502,8 @@ void MainWindow::setCurrentPage( Pages page )
 		viewContentLinks->setHidden( doc->isEncrypted() );
 		viewKeysLinks->setHidden( doc->isEncrypted() );
 
-		viewContentView->setColumnHidden( 2, doc->isEncrypted() );
-		viewContentView->setColumnHidden( 3, doc->isEncrypted() );
-		viewContentView->setContent( doc->documents() );
+		viewContentView->setColumnHidden( CDocumentModel::Save, doc->isEncrypted() );
+		viewContentView->setColumnHidden( CDocumentModel::Remove, doc->isEncrypted() );
 
 		Q_FOREACH( KeyWidget *w, viewKeys->findChildren<KeyWidget*>() )
 			w->deleteLater();
@@ -545,7 +542,7 @@ void MainWindow::showCardStatus()
 		infoFrame->setText( tr("No card in reader") );
 
 	buttonGroup->button( ViewCrypto )->setEnabled(
-		(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
+		(!doc->isEncrypted() && doc->documents()->rowCount()) ||
 		(doc->isEncrypted() &&
 		 !(t.flags() & TokenData::PinLocked) &&
 		 doc->keys().contains( CKey( t.cert() ) )) );

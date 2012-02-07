@@ -94,24 +94,24 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::DisplayRole:
 		switch( index.column() )
 		{
-		case 0: return from( d.getFileName() ).normalized( QString::NormalizationForm_C );
-		case 1: return from( d.getMediaType() );
-		case 2: return Common::fileSize( QFileInfo( from( d.getFilePath() ) ).size() );
+		case Name: return from( d.getFileName() ).normalized( QString::NormalizationForm_C );
+		case Mime: return from( d.getMediaType() );
+		case Size: return Common::fileSize( QFileInfo( from( d.getFilePath() ) ).size() );
 		default: return QVariant();
 		}
 	case Qt::TextAlignmentRole:
 		switch( index.column() )
 		{
-		case 0:
-		case 1: return int(Qt::AlignLeft|Qt::AlignVCenter);
-		case 2: return int(Qt::AlignRight|Qt::AlignVCenter);
+		case Name:
+		case Mime: return int(Qt::AlignLeft|Qt::AlignVCenter);
+		case Size: return int(Qt::AlignRight|Qt::AlignVCenter);
 		default: return Qt::AlignCenter;
 		}
 	case Qt::ToolTipRole:
 		switch( index.column() )
 		{
-		case 3: return tr("Save");
-		case 4: return tr("Remove");
+		case Save: return tr("Save");
+		case Remove: return tr("Remove");
 		default: return tr("Filename: %1\nFilesize: %2\nMedia type: %3")
 			.arg( from( d.getFileName() ) )
 			.arg( Common::fileSize( QFileInfo( from( d.getFilePath() ) ).size() ) )
@@ -120,15 +120,15 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::DecorationRole:
 		switch( index.column() )
 		{
-		case 3: return QPixmap(":/images/ico_save.png");
-		case 4: return QPixmap(":/images/ico_delete.png");
+		case Save: return QPixmap(":/images/ico_save.png");
+		case Remove: return QPixmap(":/images/ico_delete.png");
 		default: return QVariant();
 		}
 	case Qt::SizeHintRole:
 		switch( index.column() )
 		{
-		case 3:
-		case 4: return QSize( 20, 20 );
+		case Save:
+		case Remove: return QSize( 20, 20 );
 		default: return QVariant();
 		}
 	case Qt::UserRole: return QFileInfo( from( d.getFilePath() ) ).absoluteFilePath();

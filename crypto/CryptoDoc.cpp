@@ -39,11 +39,14 @@
 #include <libdigidoc/DigiDocSAXParser.h>
 
 #include <QDateTime>
+#include <QDesktopServices>
 #include <QDir>
 #include <QFileInfo>
 #include <QInputDialog>
+#include <QMimeData>
 #include <QTemporaryFile>
 #include <QThread>
+#include <QUrl>
 
 class CryptoDocPrivate
 {
@@ -54,6 +57,7 @@ public:
 	void deleteDDoc();
 	void removeFolder( const QString &path );
 
+	CDocumentModel	*documents;
 	QString			ddoc, ddocTemp;
 	QString			fileName;
 	DEncEncryptedData *enc;
@@ -193,7 +197,7 @@ void CryptoDocThread::decrypt()
 	for( int i = 0; i < d->doc->nDataFiles; ++i )
 	{
 		QString file = QString( "%1/%2" ).arg( d->ddocTemp )
-			.arg( QString::fromUtf8( d->doc->pDataFiles[i]->szFileName ) );
+			.arg( QFileInfo( QString::fromUtf8( d->doc->pDataFiles[i]->szFileName ) ).fileName() );
 		if( QFile::exists( file ) )
 			QFile::remove( file );
 		err = ddocSaxExtractDataFile( d->doc, d->ddoc.toUtf8(),
@@ -209,6 +213,202 @@ void CryptoDocThread::decrypt()
 
 	d->cleanProperties();
 }
+
+
+
+CDocumentModel::CDocumentModel( CryptoDoc *doc )
+:	QAbstractTableModel( doc )
+,	d( doc )
+{
+	setSupportedDragActions( Qt::CopyAction );
+}
+
+int CDocumentModel::columnCount( const QModelIndex &parent ) const
+{ return parent.isValid() ? 0 : 5; }
+
+QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) const
+{
+	QStringList d = m_data.value( index.row() );
+	if( d.value( 1 ).isEmpty() )
+		return QString();
+	QString dst = mkpath( index, path );
+	QFile::remove( dst );
+	return QFile::copy( d.value( 1 ), dst ) ? dst : QString();
+}
+
+QVariant CDocumentModel::data( const QModelIndex &index, int role ) const
+{
+	QStringList d = m_data.value( index.row() );
+	if( d.empty() )
+		return QVariant();
+	switch( role )
+	{
+	case Qt::ForegroundRole:
+		switch( index.column() )
+		{
+		case 2: return Qt::gray;
+		default: return QVariant();
+		}
+	case Qt::DisplayRole:
+		switch( index.column() )
+		{
+		case Name: return d.value( 0 );
+		case Mime: return d.value( 2 );
+		case Size: return d.value( 3 );
+		default: return QVariant();
+		}
+	case Qt::TextAlignmentRole:
+		switch( index.column() )
+		{
+		case Name:
+		case Mime: return int(Qt::AlignLeft|Qt::AlignVCenter);
+		case Size: return int(Qt::AlignRight|Qt::AlignVCenter);
+		default: return Qt::AlignCenter;
+		}
+	case Qt::ToolTipRole:
+		switch( index.column() )
+		{
+		case Save: return tr("Save");
+		case Remove: return tr("Remove");
+		default: return tr("Filename: %1\nFilesize: %2\nMedia type: %3")
+			.arg( d.value( 0 ) )
+			.arg( d.value( 3 ) )
+			.arg( d.value( 2 ) );
+		}
+	case Qt::DecorationRole:
+		switch( index.column() )
+		{
+		case Save: return QPixmap(":/images/ico_save.png");
+		case Remove: return QPixmap(":/images/ico_delete.png");
+		default: return QVariant();
+		}
+	case Qt::SizeHintRole:
+		switch( index.column() )
+		{
+		case Save:
+		case Remove: return QSize( 20, 20 );
+		default: return QVariant();
+		}
+	case Qt::UserRole: return d.value( 1 );
+	default: return QVariant();
+	}
+}
+
+Qt::ItemFlags CDocumentModel::flags( const QModelIndex & ) const
+{
+	return !d->isEncrypted() ? Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsDragEnabled : Qt::NoItemFlags;
+}
+
+QMimeData* CDocumentModel::mimeData( const QModelIndexList &indexes ) const
+{
+	QList<QUrl> list;
+	Q_FOREACH( const QModelIndex &index, indexes )
+	{
+		if( index.column() != 0 )
+			continue;
+		QString path = copy( index, QDir::tempPath() );
+		if( !path.isEmpty() )
+			list << QUrl::fromLocalFile( QFileInfo( path ).absoluteFilePath() );
+	}
+	QMimeData *data = new QMimeData();
+	data->setUrls( list );
+	return data;
+}
+
+QStringList CDocumentModel::mimeTypes() const
+{ return QStringList() << "text/uri-list"; }
+
+QString CDocumentModel::mkpath( const QModelIndex &index, const QString &path ) const
+{
+	QString filename = m_data.value( index.row() ).value( 0 );
+#if defined(Q_OS_WIN)
+	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
+#else
+	filename.replace( QRegExp( "[\\\\]"), "_" );
+#endif
+	return path.isEmpty() ? filename : path + "/" + filename;
+}
+
+void CDocumentModel::open( const QModelIndex &index )
+{
+	QFileInfo f( copy( index, QDir::tempPath() ) );
+	if( !f.exists() )
+		return;
+#if defined(Q_OS_WIN)
+	QStringList exts = QProcessEnvironment::systemEnvironment().value( "PATHEXT" ).split(';');
+	exts << ".PIF" << ".SCR";
+	if( exts.contains( "." + f.suffix(), Qt::CaseInsensitive ) &&
+		QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 crypto"),
+			tr("This is an executable file! "
+				"Executable files may contain viruses or other malicious code that could harm your computer. "
+				"Are you sure you want to launch this file?"),
+			QMessageBox::Yes|QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
+		return;
+#endif
+	QDesktopServices::openUrl( QUrl::fromLocalFile( f.absoluteFilePath() ) );
+}
+
+bool CDocumentModel::removeRows( int row, int count, const QModelIndex &parent )
+{
+	if( parent.isValid() || d->isEncryptedWarning() )
+		return false;
+
+	if( !d->d->doc || row >= d->d->doc->nDataFiles || !d->d->doc->pDataFiles[row] )
+	{
+		d->setLastError( tr("Internal error") );
+		return false;
+	}
+
+	beginRemoveRows( parent, row, row + count );
+	for( int i = row + count - 1; i >= row; --i )
+	{
+		int err = DataFile_delete( d->d->doc, d->d->doc->pDataFiles[i]->szId );
+		if( err != ERR_OK )
+			d->setLastError( tr("Failed to remove file"), err );
+		m_data.removeAt( i );
+	}
+	endRemoveRows();
+	return true;
+}
+
+void CDocumentModel::revert()
+{
+	beginResetModel();
+	m_data.clear();
+	if( d->isNull() )
+		return endResetModel();
+
+	if( d->isEncrypted() )
+	{
+		int count = dencOrigContent_count( d->d->enc );
+		for( int i = 0; i < count; ++i )
+		{
+			char filename[255], size[255], mime[255], id[255];
+			dencOrigContent_findByIndex( d->d->enc, i, filename, 255, size, 255, mime, 255, id, 255 );
+			m_data << (QStringList()
+				<< QString::fromUtf8( filename, 255 ).normalized( QString::NormalizationForm_C )
+				<< QString()
+				<< QString::fromUtf8( mime, 255 ).normalized( QString::NormalizationForm_C )
+				<< QString::fromUtf8( size, 255 ).normalized( QString::NormalizationForm_C ));
+		}
+	}
+	else if( d->d->doc )
+	{
+		for( int i = 0; i < d->d->doc->nDataFiles; ++i )
+		{
+			DataFile *data = d->d->doc->pDataFiles[i];
+			m_data << (QStringList()
+				<< QFileInfo( QString::fromUtf8( data->szFileName ).normalized( QString::NormalizationForm_C ) ).fileName()
+				<< QString( data->szFileName ).normalized( QString::NormalizationForm_C )
+				<< QString::fromUtf8( data->szMimeType ).normalized( QString::NormalizationForm_C )
+				<< Common::fileSize( data->nSize ).normalized( QString::NormalizationForm_C ));
+		}
+	}
+	endResetModel();
+}
+
+int CDocumentModel::rowCount( const QModelIndex &parent ) const
+{ return parent.isValid() ? 0 : m_data.size(); }
 
 
 
@@ -261,7 +461,9 @@ void CryptoDocPrivate::removeFolder( const QString &path )
 CryptoDoc::CryptoDoc( QObject *parent )
 :	QObject( parent )
 ,	d( new CryptoDocPrivate )
-{}
+{
+	d->documents = new CDocumentModel( this );
+}
 
 CryptoDoc::~CryptoDoc() { clear(); delete d; }
 
@@ -286,6 +488,7 @@ void CryptoDoc::addFile( const QString &file, const QString &mime )
 		DataFile_delete( d->doc, data->szId );
 		setLastError( tr("Failed to calculate digest"), err );
 	}
+	d->documents->revert();
 }
 
 bool CryptoDoc::addKey( const CKey &key )
@@ -390,44 +593,11 @@ bool CryptoDoc::decrypt()
 		setLastError( dec.lastError.isEmpty() ? tr("Failed to decrypt data") : dec.lastError, dec.err );
 	else if( !dec.lastError.isEmpty() )
 		setLastError( dec.lastError );
+	d->documents->revert();
 	return !isEncrypted();
 }
 
-QList<CDocument> CryptoDoc::documents()
-{
-	QList<CDocument> list;
-	if( isNull() )
-		return list;
-
-	if( isEncrypted() )
-	{
-		int count = dencOrigContent_count( d->enc );
-		for( int i = 0; i < count; ++i )
-		{
-			char filename[255], size[255], mime[255], id[255];
-			dencOrigContent_findByIndex( d->enc, i, filename, 255, size, 255, mime, 255, id, 255 );
-			CDocument doc;
-			doc.filename = QString::fromUtf8( filename, 255 );
-			doc.mime = QString::fromUtf8( mime, 255 );
-			doc.size = QString::fromUtf8( size, 255 );
-			list << doc;
-		}
-	}
-	else if( d->doc )
-	{
-		for( int i = 0; i < d->doc->nDataFiles; ++i )
-		{
-			DataFile *data = d->doc->pDataFiles[i];
-			CDocument doc;
-			doc.path = QString::fromUtf8( data->szFileName );
-			doc.filename = QFileInfo( doc.path ).fileName();
-			doc.mime = QString::fromUtf8( data->szMimeType );
-			doc.size = Common::fileSize( data->nSize );
-			list << doc;
-		}
-	}
-	return list;
-}
+CDocumentModel* CryptoDoc::documents() const { return d->documents; }
 
 bool CryptoDoc::encrypt()
 {
@@ -450,6 +620,7 @@ bool CryptoDoc::encrypt()
 		setLastError( dec.lastError.isEmpty() ? tr("Failed to encrypt data") : dec.lastError, dec.err );
 	else if( !dec.lastError.isEmpty() )
 		setLastError( dec.lastError );
+	d->documents->revert();
 	return isEncrypted();
 }
 
@@ -505,20 +676,8 @@ bool CryptoDoc::open( const QString &file )
 		setLastError( tr("Failed to open crypted document"), err );
 		d->fileName.clear();
 	}
+	d->documents->revert();
 	return err == ERR_OK;
-}
-
-void CryptoDoc::removeDocument( int id )
-{
-	if( isEncryptedWarning() )
-		return;
-
-	if( !d->doc || id >= d->doc->nDataFiles || !d->doc->pDataFiles[id] )
-		return setLastError( tr("Internal error") );
-
-	int err = DataFile_delete( d->doc, d->doc->pDataFiles[id]->szId );
-	if( err != ERR_OK )
-		setLastError( tr("Failed to remove file"), err );
 }
 
 void CryptoDoc::removeKey( int id )
@@ -570,24 +729,6 @@ bool CryptoDoc::saveDDoc( const QString &filename )
 			setLastError( tr("Failed to save file"), err );
 		return err == ERR_OK;
 	}
-}
-
-void CryptoDoc::saveDocument( int id, const QString &filepath )
-{
-	if( isEncryptedWarning() )
-		return;
-
-	if( id < 0 || !d->doc || id >= d->doc->nDataFiles || !d->doc->pDataFiles[id] )
-		return setLastError( tr("Internal error") );
-
-	QString src = QString::fromUtf8( d->doc->pDataFiles[id]->szFileName );
-	if( src == filepath )
-		return;
-	if( QFile::exists( filepath ) )
-		QFile::remove( filepath );
-	bool err = QFile::copy( src, filepath );
-	if( !err )
-		return setLastError( tr("Failed to save file"), err );
 }
 
 void CryptoDoc::setLastError( const QString &err, int code )

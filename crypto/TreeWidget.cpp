@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,47 +22,51 @@
 
 #include "TreeWidget.h"
 
+#include "CryptoDoc.h"
+
 #include <common/Common.h>
 #include <common/FileDialog.h>
-
-#include "CryptoDoc.h"
 
 #include <QDesktopServices>
 #include <QHeaderView>
 #include <QKeyEvent>
-#include <QMimeData>
-#include <QProcessEnvironment>
-#include <QUrl>
+#include <QMessageBox>
 
 TreeWidget::TreeWidget( QWidget *parent )
-:	QTreeWidget( parent )
-{
-	setColumnCount( 4 );
-	header()->setStretchLastSection( false );
-	header()->setResizeMode( 0, QHeaderView::Stretch );
-	header()->setResizeMode( 1, QHeaderView::ResizeToContents );
-	header()->setResizeMode( 2, QHeaderView::ResizeToContents );
-	header()->setResizeMode( 3, QHeaderView::ResizeToContents );
-
-	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
-	connect( this, SIGNAL(doubleClicked(QModelIndex)), SLOT(openFile(QModelIndex)) );
-}
+:	QTreeView( parent )
+{}
 
 void TreeWidget::clicked( const QModelIndex &index )
 {
 	switch( index.column() )
 	{
-	case 2:
+	case CDocumentModel::Save:
 	{
-		QString filepath = FileDialog::getSaveFileName( this,
-			tr("Save file"), QString( "%1/%2" )
-				.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-				.arg( model()->index( index.row(), 0 ).data().toString() ) );
-		if( !filepath.isEmpty() )
-			Q_EMIT save( index.row(), filepath );
+		QString dest;
+		while( true )
+		{
+			dest = FileDialog::getSaveFileName( qApp->activeWindow(),
+				tr("Save file"), QString( "%1/%2" )
+					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
+					.arg( m->index( index.row(), 0 ).data().toString() ) );
+			if( !dest.isEmpty() && !Common::canWrite( dest ) )
+			{
+				QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 crypto"),
+					tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( dest ) );
+			}
+			else
+				break;
+		}
+		QString src = m->index( index.row(), 0 ).data( Qt::UserRole ).toString();
+		if( !dest.isEmpty() && !src.isEmpty() && dest != src )
+		{
+			if( QFile::exists( dest ) )
+				QFile::remove( dest );
+			QFile::copy( src, dest );
+		}
 		break;
 	}
-	case 3: Q_EMIT remove( index.row() ); break;
+	case CDocumentModel::Remove: model()->removeRow( index.row() ); break;
 	default: break;
 	}
 }
@@ -75,88 +79,29 @@ void TreeWidget::keyPressEvent( QKeyEvent *e )
 		switch( e->key() )
 		{
 		case Qt::Key_Delete:
-			if( !isColumnHidden( 3 ) )
-			{
-				Q_EMIT remove( i[0].row() );
-				e->accept();
-			}
+			model()->removeRow( i[0].row() );
+			e->accept();
 			break;
 		case Qt::Key_Return:
-			if( !isColumnHidden( 2 ) )
-			{
-				openFile( i[0] );
-				e->accept();
-			}
+			m->open( i[0] );
+			e->accept();
 			break;
 		default: break;
 		}
 	}
-	QTreeWidget::keyPressEvent( e );
+	QTreeView::keyPressEvent( e );
 }
 
-QMimeData* TreeWidget::mimeData( const QList<QTreeWidgetItem*> items ) const
+void TreeWidget::setDocumentModel( CDocumentModel *model )
 {
-	QList<QUrl> list;
-	Q_FOREACH( QTreeWidgetItem *item, items )
-		list << url( indexFromItem( item ) );
-	QMimeData *data = new QMimeData();
-	data->setUrls( list );
-	return data;
-}
-
-QStringList TreeWidget::mimeTypes() const
-{ return QStringList() << "text/uri-list"; }
-
-void TreeWidget::setContent( const QList<CDocument> &docs )
-{
-	clear();
-	Q_FOREACH( const CDocument &file, docs )
-	{
-		QTreeWidgetItem *i = new QTreeWidgetItem( this );
-		if( file.path.isEmpty() )
-			i->setFlags( Qt::NoItemFlags );
-		else
-			i->setFlags( Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled );
-		i->setText( 0, file.filename );
-		i->setData( 0, Qt::ToolTipRole, file.filename );
-		i->setData( 0, Qt::UserRole, file.path );
-
-		i->setText( 1, file.size );
-		i->setData( 1, Qt::TextAlignmentRole, (int)Qt::AlignRight|Qt::AlignVCenter );
-
-		i->setData( 2, Qt::DecorationRole, QPixmap(":/images/ico_save.png") );
-		i->setData( 2, Qt::ToolTipRole, tr("Save") );
-		i->setData( 2, Qt::SizeHintRole, QSize( 20, 20 ) );
-
-		i->setData( 3, Qt::DecorationRole, QPixmap(":/images/ico_delete.png") );
-		i->setData( 3, Qt::ToolTipRole, tr("Remove") );
-		i->setData( 3, Qt::SizeHintRole, QSize( 20, 20 ) );
-
-		addTopLevelItem( i );
-	}
-}
-
-void TreeWidget::openFile( const QModelIndex &index )
-{
-	QUrl u = url( index );
-#ifdef Q_OS_WIN32
-	QStringList exts = QProcessEnvironment::systemEnvironment().value( "PATHEXT" ).split(';');
-	exts << ".PIF" << ".SCR";
-	QFileInfo f( u.toLocalFile() );
-	if( exts.contains( "." + f.suffix(), Qt::CaseInsensitive ) )
-		return;
-#endif
-	QDesktopServices::openUrl( u );
-}
-
-Qt::DropActions TreeWidget::supportedDropActions() const
-{ return Qt::CopyAction; }
-
-QUrl TreeWidget::url( const QModelIndex &index ) const
-{
-	QModelIndex i = index.model()->index( index.row(), 0 );
-	QString path = i.data( Qt::UserRole ).toString();
-	if( path.isEmpty() )
-		return path;
-	return QUrl::fromLocalFile( path );
+	setModel( m = model );
+	header()->setStretchLastSection( false );
+	header()->setResizeMode( CDocumentModel::Name, QHeaderView::Stretch );
+	header()->setResizeMode( CDocumentModel::Mime, QHeaderView::ResizeToContents );
+	header()->setResizeMode( CDocumentModel::Size, QHeaderView::ResizeToContents );
+	header()->setResizeMode( CDocumentModel::Save, QHeaderView::ResizeToContents );
+	header()->setResizeMode( CDocumentModel::Remove, QHeaderView::ResizeToContents );
+	setColumnHidden( CDocumentModel::Mime, true );
+	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
+	connect( this, SIGNAL(doubleClicked(QModelIndex)), m, SLOT(open(QModelIndex)) );
 }

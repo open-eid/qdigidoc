@@ -29,6 +29,39 @@
     </message>
 </context>
 <context>
+    <name>CDocumentModel</name>
+    <message>
+        <source>Save</source>
+        <translation>Salvesta</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Eemalda</translation>
+    </message>
+    <message>
+        <source>Filename: %1
+Filesize: %2
+Media type: %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
+        <translation>See on käivitatav fail! Käivitatavad failid võivad sisaldada viirusi või muud pahatahtlikku koodi, mis võib kahjustada sinu arvutit. Kas oled kindel, et tahad seda faili käivitada?</translation>
+    </message>
+    <message>
+        <source>Internal error</source>
+        <translation>Teegi viga</translation>
+    </message>
+    <message>
+        <source>Failed to remove file</source>
+        <translation>Faili eemaldamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Krüpto</translation>
+    </message>
+</context>
+<context>
     <name>CertAddDialog</name>
     <message>
         <source>Add cert from card</source>
@@ -155,10 +188,6 @@
     <message>
         <source>Failed to open crypted document</source>
         <translation>Turvaümbriku avamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to remove file</source>
-        <translation>Faili eemaldamine ebaõnnestus</translation>
     </message>
     <message>
         <source>Failed to remove key</source>
@@ -564,16 +593,16 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
 <context>
     <name>TreeWidget</name>
     <message>
-        <source>Save</source>
-        <translation>Salvesta</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Eemalda</translation>
-    </message>
-    <message>
         <source>Save file</source>
         <translation>Salvesta fail</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Krüpto</translation>
+    </message>
+    <message>
+        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
+        <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
     </message>
 </context>
 </TS>

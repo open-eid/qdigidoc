@@ -41,7 +41,7 @@ void TreeWidget::clicked( const QModelIndex &index )
 {
 	switch( index.column() )
 	{
-	case 3:
+	case DocumentModel::Save:
 	{
 		QString dest;
 		while( true )
@@ -67,7 +67,7 @@ void TreeWidget::clicked( const QModelIndex &index )
 		}
 		break;
 	}
-	case 4: m->removeRow( index.row() ); break;
+	case DocumentModel::Remove: model()->removeRow( index.row() ); break;
 	default: break;
 	}
 }
@@ -80,7 +80,7 @@ void TreeWidget::keyPressEvent( QKeyEvent *e )
 		switch( e->key() )
 		{
 		case Qt::Key_Delete:
-			m->removeRow( i[0].row() );
+			model()->removeRow( i[0].row() );
 			e->accept();
 			break;
 		case Qt::Key_Return:
@@ -97,11 +97,12 @@ void TreeWidget::setDocumentModel( DocumentModel *model )
 {
 	setModel( m = model );
 	header()->setStretchLastSection( false );
-	header()->setResizeMode( 0, QHeaderView::Stretch );
-	header()->setResizeMode( 1, QHeaderView::ResizeToContents );
-	header()->setResizeMode( 2, QHeaderView::ResizeToContents );
-	header()->setResizeMode( 3, QHeaderView::ResizeToContents );
-	header()->setResizeMode( 4, QHeaderView::ResizeToContents );
+	header()->setResizeMode( DocumentModel::Name, QHeaderView::Stretch );
+	header()->setResizeMode( DocumentModel::Mime, QHeaderView::ResizeToContents );
+	header()->setResizeMode( DocumentModel::Size, QHeaderView::ResizeToContents );
+	header()->setResizeMode( DocumentModel::Save, QHeaderView::ResizeToContents );
+	header()->setResizeMode( DocumentModel::Remove, QHeaderView::ResizeToContents );
+	setColumnHidden( DocumentModel::Mime, true );
 	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
 	connect( this, SIGNAL(doubleClicked(QModelIndex)), m, SLOT(open(QModelIndex)) );
 }

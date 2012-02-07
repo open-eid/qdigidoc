@@ -29,6 +29,39 @@
     </message>
 </context>
 <context>
+    <name>CDocumentModel</name>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Filename: %1
+Filesize: %2
+Media type: %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
+        <translation>Это выполняемый файл! Выполняемый файл может содержать вирусы или другой вредоносный код которые могут повредить ваш компьютер. Вы уверены что хотите запустить?</translation>
+    </message>
+    <message>
+        <source>Internal error</source>
+        <translation>Внутренняя ошибка</translation>
+    </message>
+    <message>
+        <source>Failed to remove file</source>
+        <translation>Неудачное удаление файла</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Crypto</translation>
+    </message>
+</context>
+<context>
     <name>CertAddDialog</name>
     <message>
         <source>Add cert from card</source>
@@ -167,10 +200,6 @@
     <message>
         <source>Failed to open crypted document</source>
         <translation>Открытие зашифрованного файла прошла неуспешно</translation>
-    </message>
-    <message>
-        <source>Failed to remove file</source>
-        <translation>Неудачное удаление файла</translation>
     </message>
     <message>
         <source>Failed to remove key</source>
@@ -563,16 +592,16 @@ already in container, ovewrite?</source>
 <context>
     <name>TreeWidget</name>
     <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
         <source>Save file</source>
         <translation>Сохранить файл</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Crypto</translation>
+    </message>
+    <message>
+        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
+        <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
 </context>
 </TS>

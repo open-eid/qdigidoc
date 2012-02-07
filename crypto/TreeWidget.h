@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009,2010 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009,2010 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,31 +22,23 @@
 
 #pragma once
 
-#include <QTreeWidget>
+#include <QTreeView>
 
-class CDocument;
-class QUrl;
+class CDocumentModel;
 
-class TreeWidget: public QTreeWidget
+class TreeWidget: public QTreeView
 {
 	Q_OBJECT
 public:
     TreeWidget( QWidget *parent = 0 );
 
-	void setContent( const QList<CDocument> &docs );
-
-Q_SIGNALS:
-	void remove( int id );
-	void save( int id, const QString &filepath );
+	void setDocumentModel( CDocumentModel *model );
 
 private Q_SLOTS:
 	void clicked( const QModelIndex &index );
-	void openFile( const QModelIndex &index );
 
 private:
 	void keyPressEvent( QKeyEvent *e );
-	QMimeData* mimeData( const QList<QTreeWidgetItem*> items ) const;
-	QStringList mimeTypes() const;
-	Qt::DropActions supportedDropActions() const;
-	QUrl url( const QModelIndex &index ) const;
+
+	CDocumentModel *m;
 };

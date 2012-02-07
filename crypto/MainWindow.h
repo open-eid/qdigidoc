@@ -44,7 +44,6 @@ private Q_SLOTS:
 	void on_languages_activated( int index );
 	void open( const QStringList &params );
 	void parseLink( const QString &url );
-	void removeDocument( int index );
 	void showCardStatus();
 	void removeKey( int id );
 	void updateView();

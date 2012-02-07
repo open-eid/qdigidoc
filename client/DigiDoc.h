@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -43,6 +43,15 @@ class DocumentModel: public QAbstractTableModel
 {
 	Q_OBJECT
 public:
+	enum Columns
+	{
+		Name = 0,
+		Mime = 1,
+		Size = 2,
+		Save = 3,
+		Remove = 4
+	};
+
 	int columnCount( const QModelIndex &parent = QModelIndex() ) const;
 	QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
 	Qt::ItemFlags flags( const QModelIndex &index ) const;
