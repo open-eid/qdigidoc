@@ -241,27 +241,8 @@ QSslCertificate DigiDocSignature::cert() const
 
 QDateTime DigiDocSignature::dateTime() const
 {
-	QString dateTime;
-	switch( type() )
-	{
-	case TMType:
-		dateTime = from( static_cast<const SignatureTM*>(s)->getProducedAt() );
-		break;
-	case DDocType:
-		dateTime = from( static_cast<const SignatureDDOC*>(s)->getProducedAt() );
-		break;
-	default: break;
-	}
-
-	if( dateTime.isEmpty() )
-		dateTime = from( s->getSigningTime() );
-
-	if( dateTime.isEmpty() )
-		return QDateTime();
-
-	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
-	date.setTimeSpec( Qt::UTC );
-	return date.toLocalTime();
+	QDateTime date = ocspTime();
+	return date.isNull() ? signTime() : date;
 }
 
 bool DigiDocSignature::isTest() const
@@ -361,6 +342,26 @@ QSslCertificate DigiDocSignature::ocspCert() const
 	return c;
 }
 
+QDateTime DigiDocSignature::ocspTime() const
+{
+	QString dateTime;
+	switch( type() )
+	{
+	case TMType:
+		dateTime = from( static_cast<const SignatureTM*>(s)->getProducedAt() );
+		break;
+	case DDocType:
+		dateTime = from( static_cast<const SignatureDDOC*>(s)->getProducedAt() );
+		break;
+	default: break;
+	}
+	if( dateTime.isEmpty() )
+		return QDateTime();
+	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
+	date.setTimeSpec( Qt::UTC );
+	return date;
+}
+
 DigiDoc* DigiDocSignature::parent() const { return m_parent; }
 
 int DigiDocSignature::parseException( const digidoc::Exception &e ) const
@@ -403,6 +404,16 @@ void DigiDocSignature::setLastError( const Exception &e ) const
 
 QString DigiDocSignature::signatureMethod() const
 { return from( s->getSignatureMethod() ); }
+
+QDateTime DigiDocSignature::signTime() const
+{
+	QString dateTime = from( s->getSigningTime() );
+	if( dateTime.isEmpty() )
+		return QDateTime();
+	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
+	date.setTimeSpec( Qt::UTC );
+	return date;
+}
 
 DigiDocSignature::SignatureType DigiDocSignature::type() const
 {

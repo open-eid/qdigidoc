@@ -106,10 +106,12 @@ public:
 	QString		ocspDigestMethod() const;
 	QByteArray	ocspDigestValue() const;
 	QSslCertificate ocspCert() const;
+	QDateTime	ocspTime() const;
 	DigiDoc		*parent() const;
 	QString		role() const;
 	QStringList	roles() const;
 	QString		signatureMethod() const;
+	QDateTime	signTime() const;
 	SignatureType type() const;
 	SignatureStatus validate() const;
 	bool		weakDigestMethod() const;

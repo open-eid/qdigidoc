@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypt
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,9 @@
 
 #include "PrintSheet.h"
 
-#include <DigiDoc.h>
+#include "DigiDoc.h"
+
+#include <common/DateTime.h>
 #include <common/SslCertificate.h>
 
 #include <QDateTime>
@@ -34,12 +36,6 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 ,	p( printer )
 {
 	printer->setOrientation( QPrinter::Portrait );
-
-	QDateTime utc = QDateTime::currentDateTime().toUTC();
-	utc.setTimeSpec( Qt::LocalTime );
-	int diffsec = utc.secsTo( QDateTime::currentDateTime() );
-	QString timediff = diffsec >= 0 ? "+" : "-";
-	timediff += QTime().addSecs( diffsec >= 0 ? diffsec : -diffsec ).toString( "hh:mm" );
 
 	left		= p->pageRect().x();
 	margin		= left;
@@ -127,7 +123,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		drawText( left+5, top, QString::number( i++ ) );
 		drawText( left+40, top, cert.toString( cert.showCN() ? "CN" : "GN SN" ) );
 		drawText( right-300, top, cert.subjectInfo( "serialNumber" ) );
-		drawText( right-160, top, sig.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) + " " + timediff );
+		drawText( right-160, top, DateTime( sig.dateTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		top += 25;
 
 		QString valid = tr("SIGNATURE") + " ";

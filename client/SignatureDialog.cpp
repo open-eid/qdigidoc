@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,6 +26,7 @@
 
 #include <common/CertificateWidget.h>
 #include <common/Common.h>
+#include <common/DateTime.h>
 #include <common/SslCertificate.h>
 
 #include <digidocpp/Document.h>
@@ -74,11 +75,11 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		st << "<br />" << tr("Signed on") << " "
 			<< SslCertificate::formatDate( date, "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
-			<< date.toString( "hh:mm" );
+			<< DateTime( date ).toString( "hh:mm" );
 		t << tr("Signed on") << " "
 			<< SslCertificate::formatDate( date, "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
-			<< date.toString( "hh:mm" );
+			<< DateTime( date ).toString( "hh:mm" );
 	}
 	setToolTip( tooltip );
 
@@ -184,13 +185,13 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
-	addItem( t, tr("Signing time"), s.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
+	addItem( t, tr("Signing time"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature method"), s.signatureMethod() );
 	addItem( t, tr("Signature format"), s.mediaType() );
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
 	addItem( t, tr("Certificate serialnumber"), c.serialNumber() );
-	addItem( t, tr("Certificate valid at"), c.effectiveDate().toLocalTime().toString( "dd.MM.yyyy" ) );
-	addItem( t, tr("Certificate valid until"), c.expiryDate().toLocalTime().toString( "dd.MM.yyyy" ) );
+	addItem( t, tr("Certificate valid at"), DateTime( c.effectiveDate() ).toStringZ( "dd.MM.yyyy" ) );
+	addItem( t, tr("Certificate valid until"), DateTime( c.expiryDate() ).toStringZ( "dd.MM.yyyy" ) );
 	addItem( t, tr("Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	t->resizeColumnToContents( 0 );
 
@@ -201,7 +202,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		SslCertificate ocsp = s.ocspCert();
 		addItem( d->ocspView, tr("Certificate issuer"), ocsp.issuerInfo( QSslCertificate::CommonName ) );
 		addItem( d->ocspView, tr("Certificate serialnumber"), ocsp.serialNumber() );
-		addItem( d->ocspView, tr("Time"), s.dateTime().toString( "dd.MM.yyyy hh:mm:ss" ) );
+		addItem( d->ocspView, tr("Time"), DateTime( s.dateTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( d->ocspView, tr("Hash value of validity confirmation"), ocsp.toHex( s.ocspDigestValue() ) );
 		d->ocspView->resizeColumnToContents( 0 );
 	}
