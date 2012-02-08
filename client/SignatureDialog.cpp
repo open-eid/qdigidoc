@@ -73,11 +73,11 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	if( !date.isNull() )
 	{
 		st << "<br />" << tr("Signed on") << " "
-			<< SslCertificate::formatDate( date, "dd. MMMM yyyy" ) << " "
+			<< DateTime( date ).formatDate( "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
 			<< DateTime( date ).toString( "hh:mm" );
 		t << tr("Signed on") << " "
-			<< SslCertificate::formatDate( date, "dd. MMMM yyyy" ) << " "
+			<< DateTime( date ).formatDate( "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
 			<< DateTime( date ).toString( "hh:mm" );
 	}
