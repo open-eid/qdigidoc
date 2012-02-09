@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -124,38 +124,32 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 		return;
 	}
 
-	LDAPMessage *entry = ldap_first_entry( d->ldap, result );
-	if( !entry )
-	{
-		setLastError( tr("Empty result"), -1 );
-		ldap_msgfree( result );
-		killTimer( e->timerId() );
-		return;
-	}
-
 	QList<QSslCertificate> list;
-	do
+	if( LDAPMessage *entry = ldap_first_entry( d->ldap, result ) )
 	{
-		berval **cert = 0;
-		BerElement *pos;
-		char *attr = ldap_first_attribute( d->ldap, entry, &pos );
 		do
 		{
-			if( !attr )
-				break;
-			if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
-				cert = ldap_get_values_len( d->ldap, entry, attr );
-			ldap_memfree( attr );
+			berval **cert = 0;
+			BerElement *pos;
+			char *attr = ldap_first_attribute( d->ldap, entry, &pos );
+			do
+			{
+				if( !attr )
+					break;
+				if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
+					cert = ldap_get_values_len( d->ldap, entry, attr );
+				ldap_memfree( attr );
+			}
+			while( (attr = ldap_next_attribute( d->ldap, entry, pos ) ) );
+			ber_free( pos, 0 );
+
+			if( ldap_count_values_len( cert ) )
+				list << QSslCertificate( QByteArray( cert[0]->bv_val, cert[0]->bv_len ), QSsl::Der );
+
+			ldap_value_free_len( cert );
 		}
-		while( (attr = ldap_next_attribute( d->ldap, entry, pos ) ) );
-		ber_free( pos, 0 );
-
-		if( ldap_count_values_len( cert ) )
-			list << QSslCertificate( QByteArray( cert[0]->bv_val, cert[0]->bv_len ), QSsl::Der );
-
-		ldap_value_free_len( cert );
+		while( (entry = ldap_next_entry( d->ldap, entry )) );
 	}
-	while( (entry = ldap_next_entry( d->ldap, entry )) );
 
 	Q_EMIT searchResult( list );
 	ldap_msgfree( result );

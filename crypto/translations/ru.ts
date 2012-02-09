@@ -104,10 +104,6 @@ Media type: %3</source>
         <translation>Личной код некорректен!</translation>
     </message>
     <message>
-        <source>Empty result</source>
-        <translation>Ничего не найдено</translation>
-    </message>
-    <message>
         <source>Add Recipient</source>
         <translation>Добавить сертификат</translation>
     </message>
@@ -138,6 +134,12 @@ Media type: %3</source>
     <message>
         <source>Remove</source>
         <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Person or company does not own a valid certificate.
+It is necessary to have a valid certificate for encryption.</source>
+        <translation>У лица или учреждения отсутствует действительный сертификат.
+Для шифрования необходим действительный сертификат.</translation>
     </message>
 </context>
 <context>
@@ -341,10 +343,6 @@ message: %2</source>
     <message>
         <source>Failed to get result</source>
         <translation>Получение ответа неуспешно</translation>
-    </message>
-    <message>
-        <source>Empty result</source>
-        <translation>Ничего не найдено</translation>
     </message>
     <message>
         <source>LDAP server is unavailable.</source>

@@ -525,5 +525,6 @@ void CertAddDialog::showResult( const QList<QSslCertificate> &result )
 		add->setFocus();
 	}
 	else
-		showError( tr("Empty result") );
+		showError( tr("Person or company does not own a valid certificate.\n"
+			"It is necessary to have a valid certificate for encryption.") );
 }

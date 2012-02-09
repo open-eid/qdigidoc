@@ -104,10 +104,6 @@ Media type: %3</source>
         <translation>Isikukood pole korrektne!</translation>
     </message>
     <message>
-        <source>Empty result</source>
-        <translation>Ei leidnud midagi</translation>
-    </message>
-    <message>
         <source>Add Recipient</source>
         <translation>Lisa adressaat</translation>
     </message>
@@ -138,6 +134,12 @@ Media type: %3</source>
     <message>
         <source>Remove</source>
         <translation>Eemalda</translation>
+    </message>
+    <message>
+        <source>Person or company does not own a valid certificate.
+It is necessary to have a valid certificate for encryption.</source>
+        <translation>Isikul või asutusel puudub kehtiv sertifikaat.
+Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
     </message>
 </context>
 <context>
@@ -342,10 +344,6 @@ teade: %2</translation>
     <message>
         <source>Failed to get result</source>
         <translation>Ei saanud LDAP päringule vastust</translation>
-    </message>
-    <message>
-        <source>Empty result</source>
-        <translation>Ei leidnud midagi</translation>
     </message>
     <message>
         <source>LDAP server is unavailable.</source>
