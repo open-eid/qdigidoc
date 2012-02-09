@@ -87,7 +87,7 @@ bool AccessCert::download( bool noCard )
 	do
 	{
 		retry = false;
-		token = p->selectSlot( s->token().card(), SslCertificate::DataEncipherment );
+		token = p->selectSlot( s->token().card(), SslCertificate::KeyAgreement );
 		QPKCS11::PinStatus status =  p->login( token );
 		switch( status )
 		{

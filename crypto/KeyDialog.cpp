@@ -300,7 +300,7 @@ void CertModel::load( const QList<QSslCertificate> &result )
 	Q_FOREACH( const QSslCertificate &k, result )
 	{
 		SslCertificate c( k );
-		if( c.keyUsage().contains( SslCertificate::DataEncipherment ) &&
+		if( c.keyUsage().contains( SslCertificate::KeyEncipherment ) &&
 			c.type() != SslCertificate::MobileIDType )
 			certs << c;
 	}
@@ -376,7 +376,7 @@ void CertAddDialog::addFile()
 	{
 		QMessageBox::warning( this, windowTitle(), tr("Failed to read certificate") );
 	}
-	else if( !SslCertificate( cert ).keyUsage().contains( SslCertificate::DataEncipherment ) )
+	else if( !SslCertificate( cert ).keyUsage().contains( SslCertificate::KeyEncipherment ) )
 	{
 		QMessageBox::warning( this, windowTitle(), tr("This certificate is not usable for crypting") );
 	}

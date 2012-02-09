@@ -161,7 +161,7 @@ void Poller::run()
 			QStringList cards;
 #ifdef Q_OS_WIN
 			if( d->csp )
-				cards = d->csp->containers( SslCertificate::DataEncipherment );
+				cards = d->csp->containers( SslCertificate::KeyEncipherment );
 #endif
 			if( d->pkcs11 )
 				cards = d->pkcs11->cards();
@@ -182,10 +182,10 @@ void Poller::run()
 			{
 #ifdef Q_OS_WIN
 				if( d->csp )
-					d->t = d->csp->selectCert( d->t.card(), SslCertificate::DataEncipherment );
+					d->t = d->csp->selectCert( d->t.card(), SslCertificate::KeyEncipherment );
 				else
 #endif
-					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::DataEncipherment );
+					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::KeyEncipherment );
 				d->t.setCards( cards );
 				update = true;
 			}
