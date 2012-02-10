@@ -274,6 +274,29 @@ QStringList DigiDocSignature::locations() const
 QString DigiDocSignature::mediaType() const
 { return from( s->getMediaType() ); }
 
+QSslCertificate DigiDocSignature::ocspCert() const
+{
+	X509 *x = 0;
+	try
+	{
+		switch( type() )
+		{
+		case TMType:
+			x = static_cast<const SignatureTM*>(s)->getOCSPCertificate().getX509();
+			break;
+		case DDocType:
+			x = static_cast<const SignatureDDOC*>(s)->getOCSPCertificate().getX509();
+			break;
+		default: break;
+		}
+	}
+	catch( const Exception & ) {}
+
+	QSslCertificate c = SslCertificate::fromX509( Qt::HANDLE(x) );
+	X509_free( x );
+	return c;
+}
+
 QString DigiDocSignature::ocspDigestMethod() const
 {
 	try
@@ -319,27 +342,20 @@ QByteArray DigiDocSignature::ocspDigestValue() const
 	return QByteArray();
 }
 
-QSslCertificate DigiDocSignature::ocspCert() const
+QByteArray DigiDocSignature::ocspNonce() const
 {
-	X509 *x = 0;
-	try
+	std::vector<unsigned char> data;
+	switch( type() )
 	{
-		switch( type() )
-		{
-		case TMType:
-			x = static_cast<const SignatureTM*>(s)->getOCSPCertificate().getX509();
-			break;
-		case DDocType:
-			x = static_cast<const SignatureDDOC*>(s)->getOCSPCertificate().getX509();
-			break;
-		default: break;
-		}
+	case TMType:
+		data = static_cast<const SignatureTM*>(s)->getNonce();
+		return QByteArray( (char*)&data[0], data.size() );
+	case DDocType:
+		data = static_cast<const SignatureDDOC*>(s)->getNonce();
+		return QByteArray( (char*)&data[0], data.size() );
+	default:
+		return QByteArray();
 	}
-	catch( const Exception & ) {}
-
-	QSslCertificate c = SslCertificate::fromX509( Qt::HANDLE(x) );
-	X509_free( x );
-	return c;
 }
 
 QDateTime DigiDocSignature::ocspTime() const
@@ -535,9 +551,9 @@ void DigiDoc::create( const QString &file )
 	clear();
 	QString type = QFileInfo( file ).suffix().toLower();
 	if( type == "bdoc" )
-		b = new WDoc( WDoc::BDocType );
+		b = new BDoc();
 	else if( type == "ddoc" )
-		b = new WDoc( WDoc::DDocType );
+		b = new DDoc();
 	m_fileName = file;
 	m_documentModel->reset();
 }
@@ -557,7 +573,7 @@ bool DigiDoc::open( const QString &file )
 		m_documentModel->reset();
 		switch( b->documentType() )
 		{
-		case WDoc::DDocType:
+		case ADoc::DDocType:
 		{
 			if( b->signatureCount() == 0 )
 				break;
@@ -574,7 +590,7 @@ bool DigiDoc::open( const QString &file )
 			}
 			break;
 		}
-		case WDoc::BDocType:
+		case ADoc::BDocType:
 		{
 			if( b->signatureCount() == 0 )
 				break;
@@ -737,8 +753,8 @@ QList<DigiDocSignature> DigiDoc::signatures()
 	return list;
 }
 
-WDoc::DocumentType DigiDoc::documentType()
-{ return checkDoc() ? b->documentType() : WDoc::BDocType; }
+ADoc::DocumentType DigiDoc::documentType()
+{ return checkDoc() ? b->documentType() : ADoc::BDocType; }
 
 QByteArray DigiDoc::getFileDigest( unsigned int i )
 {

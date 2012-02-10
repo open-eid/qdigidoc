@@ -103,9 +103,10 @@ public:
 	QString		location() const;
 	QStringList	locations() const;
 	QString		mediaType() const;
+	QSslCertificate ocspCert() const;
 	QString		ocspDigestMethod() const;
 	QByteArray	ocspDigestValue() const;
-	QSslCertificate ocspCert() const;
+	QByteArray	ocspNonce() const;
 	QDateTime	ocspTime() const;
 	DigiDoc		*parent() const;
 	QString		role() const;
