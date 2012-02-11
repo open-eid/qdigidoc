@@ -387,10 +387,10 @@ void CDocumentModel::revert()
 			char filename[255], size[255], mime[255], id[255];
 			dencOrigContent_findByIndex( d->d->enc, i, filename, 255, size, 255, mime, 255, id, 255 );
 			m_data << (QStringList()
-				<< QString::fromUtf8( filename, 255 ).normalized( QString::NormalizationForm_C )
+				<< QString::fromUtf8( filename ).normalized( QString::NormalizationForm_C )
 				<< QString()
-				<< QString::fromUtf8( mime, 255 ).normalized( QString::NormalizationForm_C )
-				<< QString::fromUtf8( size, 255 ).normalized( QString::NormalizationForm_C ));
+				<< QString::fromUtf8( mime ).normalized( QString::NormalizationForm_C )
+				<< QString::fromUtf8( size ).normalized( QString::NormalizationForm_C ));
 		}
 	}
 	else if( d->d->doc )
