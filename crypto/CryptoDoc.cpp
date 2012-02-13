@@ -190,29 +190,9 @@ void CryptoDocThread::decrypt()
 
 	err = ddocSaxReadSignedDocFromFile( &d->doc, f.fileName().toUtf8(), 0, 0 );
 	if( err != ERR_OK )
-	{
 		lastError = CryptoDoc::tr("Failed to read decrypted data");
-		return;
-	}
-
-	for( int i = 0; i < d->doc->nDataFiles; ++i )
-	{
-		QString file = QString( "%1/%2" ).arg( d->ddocTemp )
-			.arg( QFileInfo( QString::fromUtf8( d->doc->pDataFiles[i]->szFileName ) ).fileName() );
-		if( QFile::exists( file ) )
-			QFile::remove( file );
-		err = ddocSaxExtractDataFile( d->doc, d->ddoc.toUtf8(),
-			file.toUtf8(), d->doc->pDataFiles[i]->szId, CHARSET_UTF_8 );
-		if( err == ERR_OK )
-		{
-			ddocMemAssignString( &d->doc->pDataFiles[i]->szFileName, file.toUtf8() );
-			QFile::setPermissions( file, QFile::ReadOwner );
-		}
-		else
-			lastError = CryptoDoc::tr("Failed to save file '%1'").arg( file );
-	}
-
-	d->cleanProperties();
+	else
+		d->cleanProperties();
 }
 
 
@@ -229,12 +209,21 @@ int CDocumentModel::columnCount( const QModelIndex &parent ) const
 
 QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) const
 {
-	QStringList d = m_data.value( index.row() );
-	if( d.value( 1 ).isEmpty() )
+	QStringList row = m_data.value( index.row() );
+	if( row.value( 1 ).isEmpty() )
 		return QString();
-	QString dst = mkpath( index, path );
-	QFile::remove( dst );
-	return QFile::copy( d.value( 1 ), dst ) ? dst : QString();
+	QString dst = QFileInfo( path ).isDir() ? mkpath( index, path ) : path;
+	if( QFile::exists( dst ) )
+		QFile::remove( dst );
+
+	int err = ddocSaxExtractDataFile( d->d->doc, d->d->ddoc.toUtf8(),
+		dst.toUtf8(), row.value( 1 ).toUtf8(), CHARSET_UTF_8 );
+	if( err != ERR_OK )
+	{
+		d->setLastError( tr("Failed to save file '%1'").arg( dst ), err );
+		return QString();
+	}
+	return dst;
 }
 
 QVariant CDocumentModel::data( const QModelIndex &index, int role ) const
@@ -400,7 +389,7 @@ void CDocumentModel::revert()
 			DataFile *data = d->d->doc->pDataFiles[i];
 			m_data << (QStringList()
 				<< QFileInfo( QString::fromUtf8( data->szFileName ).normalized( QString::NormalizationForm_C ) ).fileName()
-				<< QString( data->szFileName ).normalized( QString::NormalizationForm_C )
+				<< QString::fromUtf8( data->szId )
 				<< QString::fromUtf8( data->szMimeType ).normalized( QString::NormalizationForm_C )
 				<< Common::fileSize( data->nSize ).normalized( QString::NormalizationForm_C ));
 		}
