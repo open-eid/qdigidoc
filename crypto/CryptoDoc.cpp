@@ -52,14 +52,13 @@
 class CryptoDocPrivate
 {
 public:
-	CryptoDocPrivate(): enc(0), doc(0) {}
+	CryptoDocPrivate():	ddoc(0), enc(0), doc(0) {}
 
 	void cleanProperties();
 	void deleteDDoc();
-	void removeFolder( const QString &path );
 
 	CDocumentModel	*documents;
-	QString			ddoc, ddocTemp;
+	QTemporaryFile	*ddoc;
 	QString			fileName;
 	DEncEncryptedData *enc;
 	SignedDoc		*doc;
@@ -91,63 +90,28 @@ public:
 void CryptoDocThread::encrypt()
 {
 	int err = ERR_OK;
+	if( !d->ddoc )
+	{
+		d->ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" ),
+		d->ddoc->open();
+		err = createSignedDoc( d->doc, 0, d->ddoc->fileName().toUtf8() );
+	}
+	else
+		err = createSignedDoc( d->doc, d->ddoc->fileName().toUtf8(), d->ddoc->fileName().toUtf8() );
+	if( err != ERR_OK )
+		return;
 
-#if 0
 	err = dencOrigContent_registerDigiDoc( d->enc, d->doc );
 	if( err != ERR_OK )
 		return;
-#else // To avoid full file path
-	err = dencEncryptedData_SetMimeType( d->enc, DENC_ENCDATA_TYPE_DDOC );
-	for( int i = 0; i < d->doc->nDataFiles; ++i )
-	{
-		DataFile *data = d->doc->pDataFiles[i];
-		QFileInfo file( QString::fromUtf8( data->szFileName ) );
 
-		if( !file.exists() )
-		{
-			d->cleanProperties();
-			lastError = CryptoDoc::tr("Failed to encrypt data.<br />File does not exsist %1").arg( file.filePath() );
-			return;
-		}
-
-		int err = dencOrigContent_add( d->enc,
-			QString("orig_file%1").arg(i).toUtf8(),
-			file.fileName().toUtf8(),
-			Common::fileSize( data->nSize ).toUtf8(),
-			data->szMimeType,
-			data->szId );
-
-		if( err != ERR_OK )
-		{
-			d->cleanProperties();
-			return;
-		}
-	}
-#endif
-
-	QFile f( QString( d->fileName ).append( ".ddoc" ) );
-	err = createSignedDoc( d->doc, NULL, f.fileName().toUtf8() );
+	d->ddoc->flush();
+	err = dencEncryptedData_AppendData( d->enc, d->ddoc->readAll(), d->ddoc->size() );
 	if( err != ERR_OK )
 	{
 		d->cleanProperties();
 		return;
 	}
-
-	if( !f.open( QIODevice::ReadOnly ) )
-	{
-		d->cleanProperties();
-		lastError = CryptoDoc::tr("Failed to encrypt data");
-		return;
-	}
-
-	err = dencEncryptedData_AppendData( d->enc, f.readAll(), f.size() );
-	if( err != ERR_OK )
-	{
-		d->cleanProperties();
-		return;
-	}
-	f.close();
-	f.remove();
 
 	err = dencEncryptedData_encryptData( d->enc, DENC_COMPRESS_NEVER );
 	if( err != ERR_OK )
@@ -171,24 +135,17 @@ void CryptoDocThread::decrypt()
 			d->enc->mbufEncryptedData.nLen = size;
 	}
 
-	QString docName = QFileInfo( d->fileName ).fileName();
-	d->ddocTemp = Common::tempFilename();
-	d->removeFolder( d->ddocTemp );
-	QDir().mkdir( d->ddocTemp );
-
-	d->ddoc = QString( "%1/%2.ddoc" ).arg( d->ddocTemp ).arg( docName );
-
-	QFile f( d->ddoc );
-	if( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
+	d->ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" );
+	if( !d->ddoc->open() )
 	{
-		lastError = CryptoDoc::tr("Failed to create temporary files<br />%1").arg( f.errorString() );
+		lastError = CryptoDoc::tr("Failed to create temporary files<br />%1").arg( d->ddoc->errorString() );
 		return;
 	}
-	f.write( (const char*)d->enc->mbufEncryptedData.pMem, d->enc->mbufEncryptedData.nLen );
-	f.close();
+	d->ddoc->write( (const char*)d->enc->mbufEncryptedData.pMem, d->enc->mbufEncryptedData.nLen );
+	d->ddoc->flush();
 	ddocMemBuf_free( &d->enc->mbufEncryptedData );
 
-	err = ddocSaxReadSignedDocFromFile( &d->doc, f.fileName().toUtf8(), 0, 0 );
+	err = ddocSaxReadSignedDocFromFile( &d->doc, d->ddoc->fileName().toUtf8(), 0, 0 );
 	if( err != ERR_OK )
 		lastError = CryptoDoc::tr("Failed to read decrypted data");
 	else
@@ -216,7 +173,7 @@ QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) co
 	if( QFile::exists( dst ) )
 		QFile::remove( dst );
 
-	int err = ddocSaxExtractDataFile( d->d->doc, d->d->ddoc.toUtf8(),
+	int err = ddocSaxExtractDataFile( d->d->doc, d->d->ddoc->fileName().toUtf8(),
 		dst.toUtf8(), row.value( 1 ).toUtf8(), CHARSET_UTF_8 );
 	if( err != ERR_OK )
 	{
@@ -424,26 +381,8 @@ void CryptoDocPrivate::deleteDDoc()
 {
 	SignedDoc_free( doc );
 	doc = 0;
-	if( ddocTemp.isEmpty() )
-		return;
-
-	removeFolder( ddocTemp );
-	ddoc.clear();
-	ddocTemp.clear();
-}
-
-void CryptoDocPrivate::removeFolder( const QString &path )
-{
-	QDir d( path );
-	if( !d.exists() )
-		return;
-	Q_FOREACH( const QFileInfo &file, d.entryInfoList( QDir::Files|QDir::NoDotAndDotDot ) )
-	{
-		QFile f( file.filePath() );
-		f.setPermissions( QFile::ReadOwner|QFile::WriteOwner );
-		f.remove();
-	}
-	d.rmdir( path );
+	delete ddoc;
+	ddoc = 0;
 }
 
 
@@ -705,9 +644,9 @@ bool CryptoDoc::saveDDoc( const QString &filename )
 	}
 
 	// use existing ddoc, createSignedDoc breaks signed doc
-	if( !d->ddoc.isEmpty() )
+	if( d->ddoc )
 	{
-		bool result = QFile::copy( d->ddoc, filename );
+		bool result = d->ddoc->copy( filename );
 		if( !result )
 			setLastError( tr("Failed to save file") );
 		return result;
