@@ -349,13 +349,14 @@ QByteArray DigiDocSignature::ocspNonce() const
 	{
 	case TMType:
 		data = static_cast<const SignatureTM*>(s)->getNonce();
-		return QByteArray( (char*)&data[0], data.size() );
+		break;
 	case DDocType:
 		data = static_cast<const SignatureDDOC*>(s)->getNonce();
-		return QByteArray( (char*)&data[0], data.size() );
-	default:
-		return QByteArray();
+		break;
+	default: break;
 	}
+
+	return data.empty() ? QByteArray() : QByteArray( (char*)&data[0], data.size() );
 }
 
 QDateTime DigiDocSignature::ocspTime() const
