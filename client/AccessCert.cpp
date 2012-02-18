@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -87,7 +87,7 @@ bool AccessCert::download( bool noCard )
 	do
 	{
 		retry = false;
-		token = p->selectSlot( s->token().card(), SslCertificate::KeyAgreement );
+		token = p->selectSlot( s->token().card(), SslCertificate::KeyUsageNone, SslCertificate::ClientAuth );
 		QPKCS11::PinStatus status =  p->login( token );
 		switch( status )
 		{

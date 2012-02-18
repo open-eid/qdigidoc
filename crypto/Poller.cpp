@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -185,7 +185,7 @@ void Poller::run()
 					d->t = d->csp->selectCert( d->t.card(), SslCertificate::KeyEncipherment );
 				else
 #endif
-					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::KeyEncipherment );
+					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::KeyEncipherment, SslCertificate::EnhancedKeyUsageNone );
 				d->t.setCards( cards );
 				update = true;
 			}
