@@ -661,23 +661,23 @@ Control code: %1</source>
     </message>
     <message>
         <source>NAME</source>
-        <translation>Имя</translation>
+        <translation>ИМЯ</translation>
     </message>
     <message>
         <source>PERSONAL CODE</source>
-        <translation>Личный код</translation>
+        <translation>ЛИЧНЫЙ КОД</translation>
     </message>
     <message>
         <source>TIME</source>
-        <translation>Время</translation>
+        <translation>ВРЕМЯ</translation>
     </message>
     <message>
         <source>SIGNATURE</source>
-        <translation>Подпись</translation>
+        <translation>ПОДПИСЬ</translation>
     </message>
     <message>
         <source>NOTES</source>
-        <translation>Замечания</translation>
+        <translation>ЗАМЕЧАНИЯ</translation>
     </message>
     <message>
         <source>VALIDITY CONFIRMATION SHEET</source>
@@ -693,7 +693,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>VALID</source>
-        <translation>действительна</translation>
+        <translation>ДЕЙСТВИТЕЛЬНА</translation>
     </message>
     <message>
         <source>NOT VALID</source>
@@ -701,7 +701,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>ROLE / RESOLUTION</source>
-        <translation>Роль / заявление</translation>
+        <translation>РОЛЬ / ЗАЯВЛЕНИЕ</translation>
     </message>
     <message>
         <source>PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)</source>
@@ -737,7 +737,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>(NB! TEST SIGNATURE)</source>
-        <translation>(NB! Пробная подпись)</translation>
+        <translation>(NB! ПРОБНАЯ ПОДПИСЬ)</translation>
     </message>
     <message>
         <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>

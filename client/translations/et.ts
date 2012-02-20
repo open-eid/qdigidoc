@@ -702,11 +702,11 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)</source>
-        <translation>ALLKIRJASTAJA ASUKOHT (LINN, MAAKOND, INDEKS, RIIK)</translation>
+        <translation>ALLKIRJASTAJA  ASUKOHT (LINN, MAAKOND, INDEKS, RIIK)</translation>
     </message>
     <message>
         <source>ISSUER OF CERTIFICATE</source>
-        <translation>SERTIFIKAADI VÄLJAANDJA NIMI</translation>
+        <translation>SERTIFIKAADI VÄLJAANDJA  NIMI</translation>
     </message>
     <message>
         <source>HASH VALUE OF ISSUER&apos;S PUBLIC KEY</source>
