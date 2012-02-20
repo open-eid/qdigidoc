@@ -37,10 +37,10 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 {
 	printer->setOrientation( QPrinter::Portrait );
 
-	left		= p->pageRect().x();
+	left		= p->pageRect().left();
 	margin		= left;
-	right		= p->pageRect().topRight().x() - 2*margin;
-	top			= p->pageRect().topLeft().y() + 30;
+	right		= p->pageRect().right() - 2*margin;
+	top			= p->pageRect().top() + 30;
 
 #ifdef Q_OS_MAC
 	scale( 0.8, 0.8 );
@@ -81,14 +81,11 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	drawText( left+400, top, tr("FILE SIZE") );
 	for( int i = 0; i < doc->documentModel()->rowCount(); ++i )
 	{
-		drawLine( left, top+5, right, top+5 );
-		drawLine( left, top+5, left, top+25 );
+		drawRect( left, top+5, right - margin, 20 );
 		drawLine( left+395, top+5, left+395, top+25 );
-		drawLine( right, top+5, right, top+25 );
 		top += 20;
 		drawText( left+5, top, doc->documentModel()->index( i, 0 ).data().toString() );
 		drawText( left+400, top, doc->documentModel()->index( i, 2 ).data().toString() );
-		drawLine( left, top+5, right, top+5 );
 		newPage( 50 );
 	}
 	top += 35;
@@ -171,12 +168,13 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 int PrintSheet::customText( const QString &title, const QString &text )
 {
 	QRect rect( left + 5, top + 5,  right - margin -5, 25 );
-	rect.setHeight( qMax( 25, fontMetrics().boundingRect( rect, Qt::TextWordWrap|Qt::TextWrapAnywhere, text ).height() ) );
+	rect.setHeight( qMax( 25,
+		fontMetrics().boundingRect( rect, Qt::TextWordWrap|Qt::TextWrapAnywhere, text ).height() ) );
 
 	newPage( 30 + rect.height() );
-	rect.moveTop( top + 5 ); // case for new page
 
 	drawText( left + 3, top, title );
+	rect.moveTop( top + 5 );
 	drawText( rect, Qt::TextWordWrap|Qt::TextWrapAnywhere|Qt::AlignVCenter, text );
 	drawRect( rect.adjusted( -5, 0, 0, rect.height() > 25 ? 0 : -5 ) );
 
@@ -188,6 +186,6 @@ void PrintSheet::newPage( int height )
 	if ( top + height > p->pageRect().height() )
 	{
 		p->newPage();
-		top = p->pageRect().topLeft().y() + 30;
+		top = p->pageRect().top() + 30;
 	}
 }
