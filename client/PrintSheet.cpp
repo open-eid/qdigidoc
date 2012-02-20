@@ -78,14 +78,14 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	setFont( text );
 	setPen( oPen );
 	drawText( left, top, tr("FILE NAME") );
-	drawText( left+400, top, tr("FILE SIZE") );
+	drawText( right-150, top, tr("FILE SIZE") );
 	for( int i = 0; i < doc->documentModel()->rowCount(); ++i )
 	{
-		drawRect( left, top+5, right - margin, 20 );
-		drawLine( left+395, top+5, left+395, top+25 );
-		top += 20;
-		drawText( left+5, top, doc->documentModel()->index( i, 0 ).data().toString() );
-		drawText( left+400, top, doc->documentModel()->index( i, 2 ).data().toString() );
+		int fileHeight = drawTextRect( QRect( left, top+5, right - left - 150, 20 ),
+			doc->documentModel()->index( i, 0 ).data().toString() );
+		drawTextRect( QRect( right-150, top+5, 150, fileHeight ),
+			doc->documentModel()->index( i, 2 ).data().toString() );
+		top += fileHeight;
 		newPage( 50 );
 	}
 	top += 35;
@@ -103,25 +103,25 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	int i = 1;
 	Q_FOREACH( const DigiDocSignature &sig, doc->signatures() )
 	{
-		newPage( 50 );
 		const SslCertificate cert = sig.cert();
 		bool tempel = cert.isTempel();
 
+		newPage( 50 );
 		drawText( left, top, tr("NO.") );
-		drawLine( left+35, top+5, left+35, top+25 );
 		drawText( left+40, top, tempel ? tr( "COMPANY" ) : tr( "NAME" ) );
-		drawLine( right-305, top+5, right-305, top+25 );
 		drawText( right-300, top, tempel ? tr("REGISTER CODE") : tr("PERSONAL CODE") );
-		drawLine( right-165, top+5, right-165, top+25 );
-		drawText( right-160, top, tr("TIME") );
-		drawRect( left, top+5, right - margin, 20 );
-		top += 20;
+		drawText( right-170, top, tr("TIME") );
+		top += 5;
 
-		drawText( left+5, top, QString::number( i++ ) );
-		drawText( left+40, top, cert.toString( cert.showCN() ? "CN" : "GN SN" ) );
-		drawText( right-300, top, cert.subjectInfo( "serialNumber" ) );
-		drawText( right-160, top, DateTime( sig.dateTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		top += 25;
+		int nameHeight = drawTextRect( QRect( left+40, top, right - left - 340, 20 ),
+			cert.toString( cert.showCN() ? "CN" : "GN SN" ) );
+		drawTextRect( QRect( left, top, 40, nameHeight ),
+			QString::number( i++ ) );
+		drawTextRect( QRect( right-300, top, 130, nameHeight ),
+			cert.subjectInfo( "serialNumber" ) );
+		drawTextRect( QRect( right-170, top, 170, nameHeight ),
+			DateTime( sig.dateTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+		top += 20 + nameHeight;
 
 		QString valid = tr("SIGNATURE") + " ";
 		switch( sig.validate() )
@@ -137,11 +137,15 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		top += customText( tr("PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)"), sig.location() );
 		top += customText( tr("SERIAL NUMBER OF SIGNER CERTIFICATE"), cert.serialNumber() );
 
-		customText( tr("ISSUER OF CERTIFICATE"), cert.issuerInfo( QSslCertificate::CommonName ) );
+		newPage( 50 );
+		drawText( left, top, tr("ISSUER OF CERTIFICATE") );
 		drawText( left+207, top, tr("HASH VALUE OF ISSUER'S PUBLIC KEY") );
-		drawLine( left+200, top+5, left+200, top+25 );
-		drawText( left+207, top+20, cert.toHex( cert.authorityKeyIdentifier() ) );
-		top += 45;
+		top += 5;
+		int issuerHeight = drawTextRect( QRect( left, top, 200, 20 ),
+			cert.issuerInfo( QSslCertificate::CommonName ) );
+		drawTextRect( QRect( left+200, top, right - left - 200, issuerHeight ),
+			cert.toHex( cert.authorityKeyIdentifier() ) );
+		top += 20 + issuerHeight;
 
 		top += customText( tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)"), cert.toHex( sig.ocspDigestValue() ) );
 		top += 15;
@@ -179,6 +183,16 @@ int PrintSheet::customText( const QString &title, const QString &text )
 	drawRect( rect.adjusted( -5, 0, 0, rect.height() > 25 ? 0 : -5 ) );
 
 	return 20 + rect.height();
+}
+
+int PrintSheet::drawTextRect( const QRect &rect, const QString &text )
+{
+	QRect result = rect.adjusted( 5, 0, -5, 0 );
+	result.setHeight( qMax( rect.height(),
+		fontMetrics().boundingRect( result, Qt::TextWordWrap|Qt::TextWrapAnywhere, text ).height() ) );
+	drawText( result, Qt::TextWordWrap|Qt::TextWrapAnywhere|Qt::AlignVCenter, text );
+	drawRect( result.adjusted( -5, 0, 5, 0 ) );
+	return result.height();
 }
 
 void PrintSheet::newPage( int height )

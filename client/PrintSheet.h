@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypt
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,6 +37,7 @@ public:
 private:
 	void newPage( int height );
 	int customText( const QString &title, const QString &text );
+	int drawTextRect( const QRect &rect, const QString &text );
 
 	int left, right, margin, top;
 	QPrinter *p;
