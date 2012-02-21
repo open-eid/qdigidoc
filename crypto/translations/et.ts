@@ -4,20 +4,8 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Settings</source>
-        <translation>Seaded</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Fail</translation>
-    </message>
-    <message>
         <source>DigiDoc3 crypto</source>
         <translation>DigiDoc3 Krüpto</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation>Info</translation>
     </message>
     <message>
         <source>Close window</source>
@@ -59,6 +47,10 @@ Media type: %3</source>
     <message>
         <source>DigiDoc3 crypto</source>
         <translation>DigiDoc3 Krüpto</translation>
+    </message>
+    <message>
+        <source>Failed to save file &apos;%1&apos;</source>
+        <translation>Faili salvestamine ebaõnnestus &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -230,10 +222,6 @@ Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
     <message>
         <source>No keys specified</source>
         <translation>Ühtegi adressaati ei ole lisatud</translation>
-    </message>
-    <message>
-        <source>Failed to save file &apos;%1&apos;</source>
-        <translation>Faili salvestamine ebaõnnestus &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Failed to encrypt data.&lt;br /&gt;File does not exsist %1</source>

@@ -43,6 +43,8 @@
 #include <QUrl>
 
 #if defined(Q_OS_MAC)
+#include <common/MacMenuBar.h>
+
 #include <QMenu>
 #include <QMenuBar>
 
@@ -60,10 +62,10 @@ public:
 
 	QAction		*closeAction, *newAction;
 #ifdef Q_OS_MAC
-	QAction		*aboutAction, *settingsAction, *dockSeparator;
+	QAction		*dockSeparator;
 	QActionGroup *windowGroup;
-	QMenu		*menu, *dock;
-	QMenuBar	*bar;
+	QMenu		*dock;
+	MacMenuBar	*bar;
 #endif
 	Poller		*poller;
 	QTranslator	*appTranslator, *commonTranslator, *qtTranslator;
@@ -101,21 +103,11 @@ Application::Application( int &argc, char **argv )
 #if defined(Q_OS_MAC)
 	setQuitOnLastWindowClosed( false );
 
-	d->aboutAction = new QAction( this );
-	d->aboutAction->setMenuRole( QAction::AboutRole );
-	connect( d->aboutAction, SIGNAL(triggered()), SLOT(showAbout()) );
-
-	d->settingsAction = new QAction( this );
-	d->settingsAction->setMenuRole( QAction::PreferencesRole );
-	connect( d->settingsAction, SIGNAL(triggered()), SLOT(showSettings()) );
-
-	d->bar = new QMenuBar;
-	d->menu = new QMenu( d->bar );
-	d->menu->addAction( d->settingsAction );
-	d->menu->addAction( d->aboutAction );
-	d->menu->addAction( d->newAction );
-	d->menu->addAction( d->closeAction );
-	d->bar->addMenu( d->menu );
+	d->bar = new MacMenuBar;
+	d->bar->addAction( MacMenuBar::AboutAction, this, SLOT(showAbout()) );
+	d->bar->addAction( MacMenuBar::PreferencesAction, this, SLOT(showSettings()) );
+	d->bar->fileMenu()->addAction( d->newAction );
+	d->bar->fileMenu()->addAction( d->closeAction );
 
 	d->dock = new QMenu;
 	d->dock->addAction( d->newAction );
@@ -254,11 +246,6 @@ void Application::loadTranslation( const QString &lang )
 	d->qtTranslator->load( ":/translations/qt_" + lang );
 	d->closeAction->setText( tr("Close window") );
 	d->newAction->setText( tr("New window") );
-#ifdef Q_OS_MAC
-	d->aboutAction->setText( tr("About") );
-	d->settingsAction->setText( tr("Settings") );
-	d->menu->setTitle( tr("&File") );
-#endif
 }
 
 void Application::parseArgs( const QString &msg )

@@ -4,20 +4,8 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Settings</source>
-        <translation>Настройки</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Файл</translation>
-    </message>
-    <message>
         <source>DigiDoc3 crypto</source>
         <translation>DigiDoc3 Crypto</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation>Информация</translation>
     </message>
     <message>
         <source>Close window</source>
@@ -59,6 +47,10 @@ Media type: %3</source>
     <message>
         <source>DigiDoc3 crypto</source>
         <translation>DigiDoc3 Crypto</translation>
+    </message>
+    <message>
+        <source>Failed to save file &apos;%1&apos;</source>
+        <translation>Неудачное сохранение файла &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -230,10 +222,6 @@ It is necessary to have a valid certificate for encryption.</source>
     <message>
         <source>No keys specified</source>
         <translation>Не выбран ни один ключ</translation>
-    </message>
-    <message>
-        <source>Failed to save file &apos;%1&apos;</source>
-        <translation>Неудачное сохранение файла &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Failed to encrypt data.&lt;br /&gt;File does not exsist %1</source>

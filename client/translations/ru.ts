@@ -85,20 +85,8 @@ Start downloading?</source>
 <context>
     <name>Application</name>
     <message>
-        <source>&amp;File</source>
-        <translation>&amp;Файл</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Настройки</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 клиент</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation>Информация</translation>
     </message>
     <message>
         <source>Failed to initalize.</source>
@@ -1060,6 +1048,10 @@ Control code: %1</source>
     <message>
         <source>Show signer&apos;s certificate</source>
         <translation>Сертификат пользователя</translation>
+    </message>
+    <message>
+        <source>Nonce value</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

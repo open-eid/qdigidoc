@@ -85,20 +85,8 @@ Alustame laadimist?</translation>
 <context>
     <name>Application</name>
     <message>
-        <source>&amp;File</source>
-        <translation>&amp;Fail</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Seaded</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 klient</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation>Info</translation>
     </message>
     <message>
         <source>Failed to initalize.</source>
@@ -1057,6 +1045,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>Show signer&apos;s certificate</source>
         <translation>Näita allkirjastaja sertifikaati</translation>
+    </message>
+    <message>
+        <source>Nonce value</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
