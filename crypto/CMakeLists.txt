@@ -37,8 +37,8 @@ set( SOURCES
 	)
 
 set(QM_DIR ${CMAKE_CURRENT_BINARY_DIR})
-configure_file(${COMMON}/translations/common_tr.qrc.cmake ${QM_DIR}/common_tr.qrc)
-configure_file(translations/tr.qrc.cmake ${QM_DIR}/tr.qrc)
+configure_file(${COMMON}/translations/common_tr.qrc common_tr.qrc COPYONLY)
+configure_file(translations/tr.qrc tr.qrc COPYONLY)
 
 QT4_ADD_RESOURCES( RC_SOURCES
 	${COMMON_RCS}
