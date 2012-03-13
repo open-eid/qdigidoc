@@ -1031,7 +1031,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Signature method</source>
-        <translation>Подпись метод</translation>
+        <translation>Метод подписи</translation>
     </message>
     <message>
         <source>Error</source>
