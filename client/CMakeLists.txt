@@ -100,13 +100,13 @@ if( WIN32 )
 endif( WIN32 )
 
 target_link_libraries( ${PROGNAME}
+	qtsingleapplication
+	qdigidoccommon
 	${QT_QTMAIN_LIBRARY}
 	${QT_LIBRARIES}
 	${LIBDIGIDOCPP_LIBRARY}
 	${OPENSSL_LIBRARIES}
 	${EXTRA_LIBRARIES}
-	qdigidoccommon
-	qtsingleapplication
 )
 install( TARGETS ${PROGNAME} DESTINATION ${BIN_INSTALL_DIR} )
 
