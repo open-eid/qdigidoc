@@ -22,8 +22,17 @@
 
 #include "Application.h"
 
+#include <QProcess>
+#include <QSysInfo>
+
 int main( int argc, char *argv[] )
 {
+	if( QSysInfo::MacintoshVersion == QSysInfo::MV_10_5 && QSysInfo::WordSize == 64 )
+	{
+		QCoreApplication app( argc, argv );
+		return QProcess::startDetached( "arch", QStringList() << "-i386" << app.applicationFilePath() << app.arguments() );
+	}
+
 	Application a( argc, argv );
 	return a.isRunning() ? 0 : a.exec();
 }
