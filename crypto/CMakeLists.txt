@@ -110,28 +110,15 @@ if(UNIX AND NOT APPLE)
 	install(FILES qdigidoc-crypto.xml DESTINATION ${SHARE_INSTALL_PREFIX}/mime/packages)
 
 	# Install icons
-    foreach(RES 16 22 32 48 128)
-        set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/mimetypes/)
-        set(SRC images/qdigidoc_crypto_document_${RES}x${RES}.png)
-        set(TGT application-x-cdoc.png)
-        install(
-            FILES ${SRC}
-            DESTINATION ${ICONDIR}
-            RENAME ${TGT}
-        )
+	foreach(RES 16 22 32 48 128)
+		set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/mimetypes/)
+		set(SRC images/qdigidoc_crypto_document_${RES}x${RES}.png)
+		set(TGT application-x-cdoc.png)
+		install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
 
-        set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/apps/)
-        set(SRC images/crypto_${RES}x${RES}.png)
-        set(TGT qdigidoc-crypto.png)
-        install(
-            FILES ${SRC}
-            DESTINATION ${ICONDIR}
-            RENAME ${TGT}
-        )
-    endforeach(RES)
+		set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/apps/)
+		set(SRC images/crypto_${RES}x${RES}.png)
+		set(TGT qdigidoc-crypto.png)
+		install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
+	endforeach(RES)
 endif(UNIX AND NOT APPLE)
-
-if(WIN32)
-	install(FILES images/qdigidoc_crypto_document_48x48.ico 
-		DESTINATION ${SHARE_INSTALL_PREFIX}/icons)
-endif(WIN32)

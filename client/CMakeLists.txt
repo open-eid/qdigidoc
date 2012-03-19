@@ -64,7 +64,6 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}
 	${OPENSSL_INCLUDE_DIR}
-	${XERCESC_INCLUDE_DIR}
 	${XSD_INCLUDE_DIR}
 	${LIBDIGIDOCPP_INCLUDE_DIR}
 	)
@@ -115,29 +114,16 @@ if(UNIX AND NOT APPLE)
 	install(FILES qdigidoc-client.xml DESTINATION ${SHARE_INSTALL_PREFIX}/mime/packages)
 
 	# Install icons
-    foreach(RES 16 22 32 48 128)
-        set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/mimetypes/)
-        foreach(TGT application-x-bdoc.png application-x-ddoc.png application-x-p12d.png)
-            set(SRC images/qdigidoc_client_document_${RES}x${RES}.png)
-            install(
-                FILES ${SRC}
-                DESTINATION ${ICONDIR}
-                RENAME ${TGT}
-            )
-        endforeach(TGT)
+	foreach(RES 16 22 32 48 128)
+		set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/mimetypes/)
+		foreach(TGT application-x-bdoc.png application-x-ddoc.png application-x-p12d.png)
+			set(SRC images/qdigidoc_client_document_${RES}x${RES}.png)
+			install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
+		endforeach(TGT)
 
-        set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/apps/)
-        set(SRC images/digidoc_icon_${RES}x${RES}.png)
-        set(TGT qdigidoc-client.png)
-        install(
-            FILES ${SRC}
-            DESTINATION ${ICONDIR}
-            RENAME ${TGT}
-        )
-    endforeach(RES)
+		set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/apps/)
+		set(SRC images/digidoc_icon_${RES}x${RES}.png)
+		set(TGT qdigidoc-client.png)
+		install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
+	endforeach(RES)
 endif(UNIX AND NOT APPLE)
-
-if(WIN32)
-	install(FILES images/qdigidoc_client_document_48x48.ico 
-		DESTINATION ${SHARE_INSTALL_PREFIX}/icons)
-endif(WIN32)
