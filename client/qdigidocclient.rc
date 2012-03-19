@@ -29,7 +29,7 @@ BEGIN
 			VALUE "FileDescription", APP "\0"
 			VALUE "FileVersion", VER_STR(FILE_VER_DOT) "\0"
 			VALUE "InternalName", "QDigiDocClient\0"
-			VALUE "LegalCopyright", "Copyright (C) 2009-2011 Estonian ID Card"
+			VALUE "LegalCopyright", "Copyright (C) 2009-2012 Estonian ID Card"
 			VALUE "OriginalFilename", "QDigiDocClient.exe\0"
 			VALUE "ProductName", APP "\0"
 			VALUE "ProductVersion", VER_STR(FILE_VER_DOT) "\0"

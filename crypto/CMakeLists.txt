@@ -95,9 +95,7 @@ target_link_libraries( ${PROGNAME}
 	qtsingleapplication
 	qdigidoccommon
 	${QT_QTMAIN_LIBRARY}
-	${QT_QTCORE_LIBRARY}
-	${QT_QTGUI_LIBRARY}
-	${QT_QTNETWORK_LIBRARY}
+	${QT_LIBRARIES}
 	${LIBDIGIDOC_LIBRARY}
 	${OPENSSL_LIBRARIES}
 	${LDAP_LIBRARIES}
