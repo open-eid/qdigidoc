@@ -859,10 +859,6 @@ Control code: %1</source>
         <translation>Индекс</translation>
     </message>
     <message>
-        <source>Save last insert role and resolution</source>
-        <translation>Сохранить последнюю введённую роль и резолюцию</translation>
-    </message>
-    <message>
         <source>General</source>
         <translation>Общее</translation>
     </message>
@@ -933,6 +929,10 @@ Control code: %1</source>
     <message>
         <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
         <translation>BDOC – это новый формат цифровой подписи, который еще не поддерживается многими инфосистемами. Не исключено, что получатель не сможет открыть документ в формате BDOC. Дополнительная информация: &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;http://www.id.ee/rus/bdoc&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Save last insert role, resolution and location</source>
+        <translation>Сохранить последнюю введённую роль, резолюцию и местоположение</translation>
     </message>
 </context>
 <context>

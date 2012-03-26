@@ -856,10 +856,6 @@ Kontrollkood: %1</translation>
         <translation>Vaikimisi faili tüüp:</translation>
     </message>
     <message>
-        <source>Save last insert role and resolution</source>
-        <translation>Jäta viimati sisestatud roll ja resolutsioon meelde</translation>
-    </message>
-    <message>
         <source>General</source>
         <translation>Üldine</translation>
     </message>
@@ -930,6 +926,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
         <translation>BDOC on uus digitaalallkirja vorming, mida paljud infosüsteemid ei oska veel kasutada ega lugeda. Palun arvestage, et saajal võib puududa võimalus selles formaadis allkirjastatud dokumenti avada. Täiendav info &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;http://www.id.ee/bdoc&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Save last insert role, resolution and location</source>
+        <translation>Jäta viimati sisestatud roll, resolutsioon ja asukoht meelde</translation>
     </message>
 </context>
 <context>

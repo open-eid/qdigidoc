@@ -441,10 +441,10 @@ void MainWindow::enableSign()
 	{
 		if( t.flags() & TokenData::PinLocked )
 			button->setToolTip( tr("PIN is locked") );
-		else if( !t.cert().isValid() )
-			button->setToolTip( tr("Sign certificate is not valid") );
 		else if( t.cert().isNull() )
 			button->setToolTip( tr("No card in reader") );
+		else if( !t.cert().isValid() )
+			button->setToolTip( tr("Sign certificate is not valid") );
 		if( !t.cert().isNull() )
 		{
 			SslCertificate c( t.cert() );

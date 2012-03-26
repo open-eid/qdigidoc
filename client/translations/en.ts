@@ -858,10 +858,6 @@ Control code: %1</translation>
         <translation>Default file type:</translation>
     </message>
     <message>
-        <source>Save last insert role and resolution</source>
-        <translation>Save last insert role and resolution</translation>
-    </message>
-    <message>
         <source>General</source>
         <translation>General</translation>
     </message>
@@ -932,6 +928,10 @@ Control code: %1</translation>
     <message>
         <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
         <translation>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Save last insert role, resolution and location</source>
+        <translation>Save last insert role resolution, and location</translation>
     </message>
 </context>
 <context>
