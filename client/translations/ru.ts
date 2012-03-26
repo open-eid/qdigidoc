@@ -931,7 +931,7 @@ Control code: %1</source>
         <translation>BDOC – это новый формат цифровой подписи, который еще не поддерживается многими инфосистемами. Не исключено, что получатель не сможет открыть документ в формате BDOC. Дополнительная информация: &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;http://www.id.ee/rus/bdoc&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Save last insert role, resolution and location</source>
+        <source>Always save the last used role, resolution and location</source>
         <translation>Сохранить последнюю введённую роль, резолюцию и местоположение</translation>
     </message>
 </context>

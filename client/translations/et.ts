@@ -928,7 +928,7 @@ Kontrollkood: %1</translation>
         <translation>BDOC on uus digitaalallkirja vorming, mida paljud infosüsteemid ei oska veel kasutada ega lugeda. Palun arvestage, et saajal võib puududa võimalus selles formaadis allkirjastatud dokumenti avada. Täiendav info &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;http://www.id.ee/bdoc&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Save last insert role, resolution and location</source>
+        <source>Always save the last used role, resolution and location</source>
         <translation>Jäta viimati sisestatud roll, resolutsioon ja asukoht meelde</translation>
     </message>
 </context>

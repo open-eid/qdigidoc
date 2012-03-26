@@ -930,8 +930,8 @@ Control code: %1</translation>
         <translation>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Save last insert role, resolution and location</source>
-        <translation>Save last insert role resolution, and location</translation>
+        <source>Always save the last used role, resolution and location</source>
+        <translation>Always save the last used role, resolution and location</translation>
     </message>
 </context>
 <context>
