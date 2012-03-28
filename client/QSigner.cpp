@@ -225,6 +225,8 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 			throwException( tr("Failed to login token"), Exception::NoException, __LINE__ );
 		}*/
 		sig = d->csp->sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
+		if( sig.isEmpty() && d->csp->lastError() == QCSP::PinCanceled )
+			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
 	}
 #endif
 
