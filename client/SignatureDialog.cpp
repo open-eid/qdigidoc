@@ -48,60 +48,81 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Preferred );
 	setWordWrap( true );
 	const SslCertificate cert = s.cert();
-	QString content;
-	QTextStream st( &content );
+	QString accessibility, content, tooltip;
+	QTextStream sa( &accessibility );
+	QTextStream sc( &content );
+	QTextStream st( &tooltip );
 
 	if( cert.isTempel() )
-		st << "<img src=\":/images/ico_stamp_blue_16.png\">";
+		sc << "<img src=\":/images/ico_stamp_blue_16.png\">";
 	else
-		st << "<img src=\":/images/ico_person_blue_16.png\">";
-	st << "<b>" << Qt::escape( cert.toString( cert.showCN() ? "CN" : "GN SN" ) ) << "</b>";
+		sc << "<img src=\":/images/ico_person_blue_16.png\">";
+	sc << "<b>" << Qt::escape( cert.toString( cert.showCN() ? "CN" : "GN SN" ) ) << "</b>";
 
-	QString tooltip;
-	QTextStream t( &tooltip );
 	QDateTime date = s.dateTime();
 	if( !s.location().isEmpty() )
 	{
-		st << "<br />" << Qt::escape( s.location() );
-		t << Qt::escape( s.location() ) << "<br />";
+		sa << " " << tr("Location") << " " << s.location();
+		sc << "<br />" << Qt::escape( s.location() );
+		st << Qt::escape( s.location() ) << "<br />";
 	}
 	if( !s.role().isEmpty() )
 	{
-		st << "<br />" << Qt::escape( s.role() );
-		t << Qt::escape( s.role() ) << "<br />";
+		sa << " " << tr("Role") << " " << s.role();
+		sc << "<br />" << Qt::escape( s.role() );
+		st << Qt::escape( s.role() ) << "<br />";
 	}
 	if( !date.isNull() )
 	{
-		st << "<br />" << tr("Signed on") << " "
+		sa << " " << tr("Signed on") << " "
 			<< DateTime( date ).formatDate( "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
 			<< DateTime( date ).toString( "hh:mm" );
-		t << tr("Signed on") << " "
+		sc << "<br />" << tr("Signed on") << " "
+			<< DateTime( date ).formatDate( "dd. MMMM yyyy" ) << " "
+			<< tr("time") << " "
+			<< DateTime( date ).toString( "hh:mm" );
+☻		st << tr("Signed on") << " "
 			<< DateTime( date ).formatDate( "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
 			<< DateTime( date ).toString( "hh:mm" );
 	}
 	setToolTip( tooltip );
 
-	st << "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>";
-	st << "<td>" << tr("Signature is") << " ";
+	sa << " " << tr("Signature is") << " ";
+	sc << "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>";
+	sc << "<td>" << tr("Signature is") << " ";
 	switch( s.validate() )
 	{
-	case DigiDocSignature::Valid: st << "<font color=\"green\">" << tr("valid"); break;
-	case DigiDocSignature::Invalid: st << "<font color=\"red\">" << tr("not valid"); break;
-	case DigiDocSignature::Unknown: st << "<font color=\"red\">" << tr("unknown"); break;
+	case DigiDocSignature::Valid:
+		sa << tr("valid");
+		sc << "<font color=\"green\">" << tr("valid");
+		break;
+	case DigiDocSignature::Invalid:
+		sa << tr("not valid");
+		sc << "<font color=\"red\">" << tr("not valid");
+		break;
+	case DigiDocSignature::Unknown:
+		sa << tr("unknown");
+		sc << "<font color=\"red\">" << tr("unknown");
+		break;
 	}
 	if( signature.isTest() )
-		st << " (" << tr("Test signature") << ")";
-	st << "</font>";
-	st << "</td><td align=\"right\">";
-	st << "<a href=\"details\">" << tr("Show details") << "</a>";
-	st << "</td></tr><tr><td></td>";
-	st << "<td align=\"right\">";
-	st << "<a href=\"remove\">" << tr("Remove") << "</a>";
-	st << "</td></tr></table>";
+	{
+		sa << " " << tr("Test signature");
+		sc << " (" << tr("Test signature") << ")";
+	}
+	sc << "</font>";
+	sc << "</td><td align=\"right\">";
+	sc << "<a href=\"details\" title=\"" << tr("Show details") << "\">" << tr("Show details") << "</a>";
+	sc << "</td></tr><tr><td></td>";
+	sc << "<td align=\"right\">";
+	sc << "<a href=\"remove\" title=\"" << tr("Remove") << "\">" << tr("Remove") << "</a>";
+	sc << "</td></tr></table>";
 
 	setText( content );
+	setAccessibleName( tr("Signature") + " " + cert.toString( cert.showCN() ? "CN" : "GN SN" ) );
+	setAccessibleDescription( accessibility );
 
 	connect( this, SIGNAL(linkActivated(QString)), SLOT(link(QString)) );
 }

@@ -459,16 +459,6 @@ Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
         <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
     </message>
     <message>
-        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.</source>
-        <translation>Dokumendi allkirjastamine.&lt;br /&gt;&lt;br /&gt;
-Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.&lt;br /&gt;&lt;br /&gt;
-Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
-Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
-    </message>
-    <message>
         <source>Cannot alter container %1. Save different location?</source>
         <translation>Konteineri %1 salvestamine ebaõnnestus. Salvestada teise asukohta?</translation>
     </message>
@@ -529,6 +519,62 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
     <message>
         <source>BDOC signing is not supported, please upgrade software</source>
         <translation>BDOC allkirjastamine pole toetatud, palun uuenda tarkvara</translation>
+    </message>
+    <message>
+        <source>Cards</source>
+        <translation>Kaardid</translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation>Keeled</translation>
+    </message>
+    <message>
+        <source>Card info</source>
+        <translation>Kaardi info</translation>
+    </message>
+    <message>
+        <source>Digital signing.
+
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.
+
+Signing is done via PIN2 code.
+
+Also an active internet connection is needed.</source>
+        <translation>Dokumendi allkirjastamine.
+
+Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.
+
+Dokumendi allkirjastamisel on vajalik PIN2 kood.
+
+Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation>Lisa fail</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Salvesta</translation>
+    </message>
+    <message>
+        <source>Send container to email</source>
+        <translation>Saada ümbrik e-postiga</translation>
+    </message>
+    <message>
+        <source>Print summary</source>
+        <translation>Trüki kinnitusleht</translation>
+    </message>
+    <message>
+        <source>Browse container location</source>
+        <translation>Näita ümbriku asukohta kettal</translation>
+    </message>
+    <message>
+        <source>Save files to disk</source>
+        <translation>Salvesta failid kettale</translation>
+    </message>
+    <message>
+        <source>Encrypt document</source>
+        <translation>Krüpteeri dokument</translation>
     </message>
 </context>
 <context>
@@ -1092,6 +1138,18 @@ Kontrollkood: %1</translation>
     <message>
         <source>Remove signature %1</source>
         <translation>Eemalda allkiri %1</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation>Asukoht</translation>
+    </message>
+    <message>
+        <source>Role</source>
+        <translation>Roll</translation>
+    </message>
+    <message>
+        <source>Signature</source>
+        <translation>Allkiri</translation>
     </message>
 </context>
 <context>

@@ -275,6 +275,9 @@ padding: 5px;
             <height>20</height>
            </size>
           </property>
+          <property name="accessibleName">
+           <string>Cards</string>
+          </property>
          </widget>
         </item>
         <item>
@@ -284,6 +287,9 @@ padding: 5px;
             <width>75</width>
             <height>20</height>
            </size>
+          </property>
+          <property name="accessibleName">
+           <string>Languages</string>
           </property>
           <item>
            <property name="text">
@@ -391,6 +397,9 @@ padding: 5px;
                 <italic>false</italic>
                 <bold>true</bold>
                </font>
+              </property>
+              <property name="accessibleName">
+               <string>Card info</string>
               </property>
               <property name="textInteractionFlags">
                <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
@@ -596,10 +605,16 @@ padding: 5px;
           <item>
            <widget class="QLabel" name="introContent">
             <property name="text">
-             <string>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
+             <string>Digital signing.
+
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.
+
+Signing is done via PIN2 code.
+
 Also an active internet connection is needed.</string>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -839,6 +854,9 @@ Also an active internet connection is needed.</string>
              </item>
              <item>
               <widget class="QLabel" name="signAddFile">
+               <property name="accessibleName">
+                <string>Add file</string>
+               </property>
                <property name="text">
                 <string>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt;</string>
                </property>
@@ -894,8 +912,14 @@ Also an active internet connection is needed.</string>
             </item>
             <item>
              <widget class="QLabel" name="viewFileNameSave">
+              <property name="accessibleName">
+               <string>Save</string>
+              </property>
               <property name="text">
                <string>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</string>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
               </property>
              </widget>
             </item>
@@ -970,6 +994,9 @@ Also an active internet connection is needed.</string>
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="viewEmail">
+            <property name="accessibleName">
+             <string>Send container to email</string>
+            </property>
             <property name="text">
              <string>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</string>
             </property>
@@ -980,6 +1007,9 @@ Also an active internet connection is needed.</string>
           </item>
           <item row="4" column="1">
            <widget class="QLabel" name="viewPrint">
+            <property name="accessibleName">
+             <string>Print summary</string>
+            </property>
             <property name="text">
              <string>&lt;a href=&quot;print&quot;&gt;Print summary&lt;/a&gt;</string>
             </property>
@@ -990,6 +1020,9 @@ Also an active internet connection is needed.</string>
           </item>
           <item row="5" column="0">
            <widget class="QLabel" name="viewBrowse">
+            <property name="accessibleName">
+             <string>Browse container location</string>
+            </property>
             <property name="text">
              <string>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</string>
             </property>
@@ -1069,6 +1102,9 @@ color: red;</string>
              </item>
              <item>
               <widget class="QLabel" name="viewSaveAs">
+               <property name="accessibleName">
+                <string>Save files to disk</string>
+               </property>
                <property name="text">
                 <string>&lt;a href=&quot;saveAs&quot;&gt;Save files to disk&lt;/a&gt;</string>
                </property>
@@ -1085,8 +1121,14 @@ color: red;</string>
           </item>
           <item row="5" column="1">
            <widget class="QLabel" name="viewEncrypt">
+            <property name="accessibleName">
+             <string>Encrypt document</string>
+            </property>
             <property name="text">
              <string>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
             </property>
            </widget>
           </item>
@@ -1112,7 +1154,7 @@ color: red;</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../images/images.qrc"/>
+  <include location="../?images/images.qrc"/>
  </resources>
  <connections>
   <connection>

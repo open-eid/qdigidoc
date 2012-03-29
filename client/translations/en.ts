@@ -461,16 +461,6 @@ Should I keep unsigned documents or remove these?</numerusform>
         <translation>You don&apos;t have sufficient privileges to write this file into folder %1</translation>
     </message>
     <message>
-        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.</source>
-        <translation>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.</translation>
-    </message>
-    <message>
         <source>Cannot alter container %1. Save different location?</source>
         <translation>Cannot alter container %1. Save different location?</translation>
     </message>
@@ -531,6 +521,62 @@ already in container, ovewrite?</translation>
     <message>
         <source>BDOC signing is not supported, please upgrade software</source>
         <translation>BDOC signing is not supported, please upgrade software</translation>
+    </message>
+    <message>
+        <source>Cards</source>
+        <translation>Cards</translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation>Languages</translation>
+    </message>
+    <message>
+        <source>Card info</source>
+        <translation>Card info</translation>
+    </message>
+    <message>
+        <source>Digital signing.
+
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.
+
+Signing is done via PIN2 code.
+
+Also an active internet connection is needed.</source>
+        <translation>Digital signing.
+
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.
+
+Signing is done via PIN2 code.
+
+Also an active internet connection is needed.</translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation>Add file</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Save</translation>
+    </message>
+    <message>
+        <source>Send container to email</source>
+        <translation>Send container to email</translation>
+    </message>
+    <message>
+        <source>Print summary</source>
+        <translation>Print summary</translation>
+    </message>
+    <message>
+        <source>Browse container location</source>
+        <translation>Browse container location</translation>
+    </message>
+    <message>
+        <source>Save files to disk</source>
+        <translation>Save files to disk</translation>
+    </message>
+    <message>
+        <source>Encrypt document</source>
+        <translation>Encrypt document</translation>
     </message>
 </context>
 <context>
@@ -1050,7 +1096,7 @@ Control code: %1</translation>
     </message>
     <message>
         <source>Nonce value</source>
-        <translation type="unfinished"></translation>
+        <translation>Nonce value</translation>
     </message>
 </context>
 <context>
@@ -1094,6 +1140,18 @@ Control code: %1</translation>
     <message>
         <source>Remove signature %1</source>
         <translation>Remove signature %1</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation>Location</translation>
+    </message>
+    <message>
+        <source>Role</source>
+        <translation>Role</translation>
+    </message>
+    <message>
+        <source>Signature</source>
+        <translation>Signature</translation>
     </message>
 </context>
 <context>

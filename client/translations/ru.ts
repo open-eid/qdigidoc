@@ -462,16 +462,6 @@ Should I keep unsigned documents or remove these?</source>
         <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
     <message>
-        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.</source>
-        <translation>Подписывание документов.&lt;br /&gt;&lt;br /&gt;
-Цифровая подпись аналогична физической подписи. Для цифровой подписи нужна ID-карта, которая имеет действующие сертификаты .&lt;br /&gt;&lt;br /&gt;
-При подписывании документов нужен PIN2 код.&lt;br /&gt;&lt;br /&gt;
-Для цифровой подписи необходимо подключение к интернету.</translation>
-    </message>
-    <message>
         <source>Cannot alter container %1. Save different location?</source>
         <translation>Сохранение контейнера %1 не удалось. Сохранить в другой каталог?</translation>
     </message>
@@ -532,6 +522,62 @@ already in container, ovewrite?</source>
     <message>
         <source>BDOC signing is not supported, please upgrade software</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Card info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digital signing.
+
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.
+
+Signing is done via PIN2 code.
+
+Also an active internet connection is needed.</source>
+        <translation>Подписывание документов.
+
+Цифровая подпись аналогична физической подписи. Для цифровой подписи нужна ID-карта, которая имеет действующие сертификаты.
+
+При подписывании документов нужен PIN2 код.
+
+Для цифровой подписи необходимо подключение к интернету.</translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation>Добавить файл</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Send container to email</source>
+        <translation>Отослать контейнер по эл. почте</translation>
+    </message>
+    <message>
+        <source>Print summary</source>
+        <translation>Распечатать подтверждающий лист</translation>
+    </message>
+    <message>
+        <source>Browse container location</source>
+        <translation>Открыть папку с контейнером</translation>
+    </message>
+    <message>
+        <source>Save files to disk</source>
+        <translation>Сохранить файлы на жёсткий диск</translation>
+    </message>
+    <message>
+        <source>Encrypt document</source>
+        <translation>Зашифровать документ</translation>
     </message>
 </context>
 <context>
@@ -1095,6 +1141,18 @@ Control code: %1</source>
     <message>
         <source>Remove signature %1</source>
         <translation>Удалить подпись %1</translation>
+    </message>
+    <message>
+        <source>Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Role</source>
+        <translation>Роль</translation>
+    </message>
+    <message>
+        <source>Signature</source>
+        <translation>Подпись</translation>
     </message>
 </context>
 <context>

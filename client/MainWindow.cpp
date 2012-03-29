@@ -755,14 +755,21 @@ void MainWindow::showCardStatus()
 	Application::restoreOverrideCursor();
 	TokenData t = qApp->signer()->token();
 	if( !t.card().isEmpty() && !t.cert().isNull() )
+	{
 		infoCard->setText( t.toHtml() );
+		infoCard->setAccessibleDescription( t.toAccessible() );
+	}
 	else if( !t.card().isEmpty() )
 	{
 		infoCard->setText( tr("Loading data") );
+		infoCard->setAccessibleDescription( tr("Loading data") );
 		Application::setOverrideCursor( Qt::BusyCursor );
 	}
 	else if( t.card().isEmpty() )
+	{
 		infoCard->setText( tr("No card in reader") );
+☻		infoCard->setAccessibleDescription( tr("No card in reader") );
+	}
 
 	cards->clear();
 	cards->addItems( t.cards() );
