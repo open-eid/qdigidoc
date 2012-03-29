@@ -768,7 +768,7 @@ void MainWindow::showCardStatus()
 	else if( t.card().isEmpty() )
 	{
 		infoCard->setText( tr("No card in reader") );
-☻		infoCard->setAccessibleDescription( tr("No card in reader") );
+		infoCard->setAccessibleDescription( tr("No card in reader") );
 	}
 
 	cards->clear();

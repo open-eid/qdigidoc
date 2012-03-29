@@ -82,7 +82,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 			<< DateTime( date ).formatDate( "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
 			<< DateTime( date ).toString( "hh:mm" );
-☻		st << tr("Signed on") << " "
+		st << tr("Signed on") << " "
 			<< DateTime( date ).formatDate( "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
 			<< DateTime( date ).toString( "hh:mm" );
