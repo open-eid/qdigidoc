@@ -498,7 +498,8 @@ void MainWindow::setCurrentPage( Pages page )
 		viewFileName->setText( viewFileName->fontMetrics().elidedText(
 			viewFileName->toolTip(), Qt::ElideMiddle, viewFileName->width() ) );
 
-		viewLinks->setVisible( doc->isEncrypted() );
+		viewBrowse->setVisible( doc->isEncrypted() );
+		viewEmail->setVisible( doc->isEncrypted() );
 		viewContentLinks->setHidden( doc->isEncrypted() );
 		viewKeysLinks->setHidden( doc->isEncrypted() );
 
@@ -532,14 +533,21 @@ void MainWindow::showCardStatus()
 	Application::restoreOverrideCursor();
 	TokenData t = qApp->poller()->token();
 	if( !t.card().isEmpty() && !t.cert().isNull() )
+	{
 		infoFrame->setText( t.toHtml() );
+		infoFrame->setAccessibleDescription( t.toAccessible() );
+	}
 	else if( !t.card().isEmpty() )
 	{
 		infoFrame->setText( tr("Loading data") );
+		infoFrame->setAccessibleDescription( tr("Loading data") );
 		Application::setOverrideCursor( Qt::BusyCursor );
 	}
 	else if( t.card().isEmpty() )
+	{
 		infoFrame->setText( tr("No card in reader") );
+		infoFrame->setAccessibleDescription( tr("No card in reader") );
+	}
 
 	buttonGroup->button( ViewCrypto )->setEnabled(
 		(!doc->isEncrypted() && doc->documents()->rowCount()) ||

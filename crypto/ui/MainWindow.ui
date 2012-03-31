@@ -263,6 +263,9 @@ color: #71889A;
             <height>20</height>
            </size>
           </property>
+          <property name="accessibleName">
+           <string>Cards</string>
+          </property>
          </widget>
         </item>
         <item>
@@ -272,6 +275,9 @@ color: #71889A;
             <width>75</width>
             <height>20</height>
            </size>
+          </property>
+          <property name="accessibleName">
+           <string>Languages</string>
           </property>
           <item>
            <property name="text">
@@ -335,6 +341,9 @@ color: #71889A;
             <italic>false</italic>
             <bold>true</bold>
            </font>
+          </property>
+          <property name="accessibleName">
+           <string>Card info</string>
           </property>
           <property name="textInteractionFlags">
            <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
@@ -460,18 +469,26 @@ color: #71889A;
           </property>
           <item>
            <widget class="QLabel" name="introContent">
+            <property name="accessibleName">
+             <string>File encryption
+
+The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.
+
+Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.
+
+For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.
+
+Warning
+
+Encryption is one-way only. Private key needed for decryption is stored only on reciever's ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.</string>
+            </property>
             <property name="text">
-             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; font: 12px 'Arial,Liberation Sans';&quot;&gt;
-&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
+             <string>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
 The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
 Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
-For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.&lt;/p&gt;
-&lt;p style=&quot; font: 12px 'Arial,Liberation Sans';&quot;&gt;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Warning&lt;/b&gt;&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;Encryption is one-way only. Private key needed for decryption is stored only on reciever's ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed. &lt;/b&gt;
-&lt;/p&gt;
-&lt;/body&gt;&lt;/html&gt;</string>
+For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;Warning&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
+Encryption is one-way only. Private key needed for decryption is stored only on reciever's ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.&lt;/b&gt;</string>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -574,14 +591,20 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
             </item>
             <item>
              <widget class="QLabel" name="viewFileNameSave">
+              <property name="accessibleName">
+               <string>Save</string>
+              </property>
               <property name="text">
                <string>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</string>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
               </property>
              </widget>
             </item>
            </layout>
           </item>
-          <item row="4" column="0" colspan="2">
+          <item row="5" column="0" colspan="2">
            <widget class="QDialogButtonBox" name="viewButtons">
             <property name="standardButtons">
              <set>QDialogButtonBox::Close</set>
@@ -589,10 +612,12 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
            </widget>
           </item>
           <item row="3" column="0">
-           <widget class="QLabel" name="viewLinks">
+           <widget class="QLabel" name="viewEmail">
+            <property name="accessibleName">
+             <string>Send container to email</string>
+            </property>
             <property name="text">
-             <string>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</string>
+             <string>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</string>
             </property>
             <property name="textInteractionFlags">
              <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
@@ -613,17 +638,26 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
              </property>
              <item>
               <widget class="TreeWidget" name="viewContentView">
+               <property name="accessibleName">
+                <string>Container content</string>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
                </property>
                <property name="horizontalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOff</enum>
                </property>
+               <property name="tabKeyNavigation">
+                <bool>true</bool>
+               </property>
                <property name="dragEnabled">
                 <bool>true</bool>
                </property>
                <property name="alternatingRowColors">
                 <bool>true</bool>
+               </property>
+               <property name="textElideMode">
+                <enum>Qt::ElideMiddle</enum>
                </property>
                <property name="rootIsDecorated">
                 <bool>false</bool>
@@ -704,6 +738,9 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
              </item>
              <item>
               <widget class="QLabel" name="viewKeysLinks">
+               <property name="accessibleName">
+                <string>Add recipient</string>
+               </property>
                <property name="text">
                 <string>&lt;a href=&quot;addRecipient&quot;&gt;Add recipient&lt;/a&gt;</string>
                </property>
@@ -716,6 +753,19 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
               </widget>
              </item>
             </layout>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="viewBrowse">
+            <property name="accessibleName">
+             <string>Browse container location</string>
+            </property>
+            <property name="text">
+             <string>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+            </property>
            </widget>
           </item>
          </layout>
@@ -744,7 +794,7 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
  </resources>
  <connections>
   <connection>
-   <sender>viewLinks</sender>
+   <sender>viewEmail</sender>
    <signal>linkActivated(QString)</signal>
    <receiver>MainWindow</receiver>
    <slot>parseLink(QString)</slot>
@@ -820,6 +870,22 @@ For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for re
     <hint type="destinationlabel">
      <x>324</x>
      <y>275</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>viewBrowse</sender>
+   <signal>linkActivated(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>parseLink(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>485</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>269</y>
     </hint>
    </hints>
   </connection>

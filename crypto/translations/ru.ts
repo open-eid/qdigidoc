@@ -224,10 +224,6 @@ It is necessary to have a valid certificate for encryption.</source>
         <translation>Не выбран ни один ключ</translation>
     </message>
     <message>
-        <source>Failed to encrypt data.&lt;br /&gt;File does not exsist %1</source>
-        <translation>Зашифрировка данных неудалась&lt;br /&gt;Выбраный файл не существует %1</translation>
-    </message>
-    <message>
         <source>libdigidoc code: %1
 message: %2</source>
         <translation type="unfinished"></translation>
@@ -409,12 +405,6 @@ message: %2</source>
         <translation>Контейнер:</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;email&quot;&gt;Послать контейнер на эл. почту&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&quot;browse&quot;&gt;Показать расположение контейнера&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt; &lt;a href=&quot;saveAll&quot;&gt;Save files to disk&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;addFile&quot;&gt;Добавить файл&lt;/a&gt; &lt;a href=&quot;saveAll&quot;&gt;Сохранить файлы&lt;/a&gt;</translation>
     </message>
@@ -433,30 +423,6 @@ message: %2</source>
     <message>
         <source>Failed to start process &apos;%1&apos;</source>
         <translation>Создание процесса &apos;%1&apos; неудачно</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; font: 12px &apos;Arial,Liberation Sans&apos;;&quot;&gt;
-&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
-The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
-Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
-For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.&lt;/p&gt;
-&lt;p style=&quot; font: 12px &apos;Arial,Liberation Sans&apos;;&quot;&gt;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Warning&lt;/b&gt;&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;Encryption is one-way only. Private key needed for decryption is stored only on reciever&apos;s ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed. &lt;/b&gt;
-&lt;/p&gt;
-&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; font: 12px &apos;Arial,Liberation Sans&apos;;&quot;&gt;
-&lt;b&gt;Шифрование файлов&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
-Цель шифрования файла - сделать данные нечитаемыми для посторонних лиц.&lt;br /&gt;&lt;br /&gt;
-Шифрование сертификатом ID-карты не предназначено для долгосрочного хранения зашифрованных данных или других задач, это лишь метод для передачи файлов по небезопасному каналу связи.&lt;br /&gt;&lt;br /&gt;
-Для шифрования файлов используется предоставляемая AS Sertifitseerimiskeskus LDAP-услуга для поиска сертификатов. Файлы шифруются открытым ключом, содержащимся в сертификате. Шифрование является односторонним, для расшифровки необходим персональный ключ сертификата получателя файла, встроенный в его ID-карту.&lt;/p&gt;
-&lt;p style=&quot; font: 12px &apos;Arial,Liberation Sans&apos;;&quot;&gt;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;ПРЕДУПРЕЖДЕНИЕ:&lt;/b&gt;&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;Так как сертификат, позволяющий расшифровать данные, встроен только в конкретную ID-карту, то после утери, обновления, истечения срока действия или механического повреждения этой ID-карты расшифровка данных становится технически невозможной.&lt;/b&gt;
-&lt;/p&gt;
-&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Encrypt documents</source>
@@ -523,6 +489,84 @@ already in container, ovewrite?</source>
     <message>
         <source>Encrypting</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Card info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File encryption
+
+The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.
+
+Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.
+
+For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.
+
+Warning
+
+Encryption is one-way only. Private key needed for decryption is stored only on reciever&apos;s ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.</source>
+        <translation>Шифрование файлов
+
+Цель шифрования файла - сделать данные нечитаемыми для посторонних лиц.
+
+Шифрование сертификатом ID-карты не предназначено для долгосрочного хранения зашифрованных данных или других задач, это лишь метод для передачи файлов по небезопасному каналу связи.
+
+Для шифрования файлов используется предоставляемая AS Sertifitseerimiskeskus LDAP-услуга для поиска сертификатов. Файлы шифруются открытым ключом, содержащимся в сертификате. Шифрование является односторонним, для расшифровки необходим персональный ключ сертификата получателя файла, встроенный в его ID-карту.
+
+ПРЕДУПРЕЖДЕНИЕ:
+
+Так как сертификат, позволяющий расшифровать данные, встроен только в конкретную ID-карту, то после утери, обновления, истечения срока действия или механического повреждения этой ID-карты расшифровка данных становится технически невозможной.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
+The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
+Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
+For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;Warning&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
+Encryption is one-way only. Private key needed for decryption is stored only on reciever&apos;s ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Шифрование файлов&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
+Цель шифрования файла - сделать данные нечитаемыми для посторонних лиц.&lt;br /&gt;&lt;br /&gt;
+Шифрование сертификатом ID-карты не предназначено для долгосрочного хранения зашифрованных данных или других задач, это лишь метод для передачи файлов по небезопасному каналу связи.&lt;br /&gt;&lt;br /&gt;
+Для шифрования файлов используется предоставляемая AS Sertifitseerimiskeskus LDAP-услуга для поиска сертификатов. Файлы шифруются открытым ключом, содержащимся в сертификате. Шифрование является односторонним, для расшифровки необходим персональный ключ сертификата получателя файла, встроенный в его ID-карту.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;ПРЕДУПРЕЖДЕНИЕ:&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
+Так как сертификат, позволяющий расшифровать данные, встроен только в конкретную ID-карту, то после утери, обновления, истечения срока действия или механического повреждения этой ID-карты расшифровка данных становится технически невозможной.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Send container to email</source>
+        <translation>Послать контейнер на эл. почту</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;email&quot;&gt;Послать контейнер на эл. почту&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Container content</source>
+        <translation>Содержание контейнера</translation>
+    </message>
+    <message>
+        <source>Add recipient</source>
+        <translation>Добавить сертификат</translation>
+    </message>
+    <message>
+        <source>Browse container location</source>
+        <translation>Показать расположение контейнера</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;browse&quot;&gt;Показать расположение контейнера&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

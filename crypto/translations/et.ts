@@ -224,10 +224,6 @@ Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
         <translation>Ühtegi adressaati ei ole lisatud</translation>
     </message>
     <message>
-        <source>Failed to encrypt data.&lt;br /&gt;File does not exsist %1</source>
-        <translation>Andmete krüpteerimine ebaõnnestus&lt;br /&gt;Valitud faili ei eksisteeri %1</translation>
-    </message>
-    <message>
         <source>libdigidoc code: %1
 message: %2</source>
         <translation>libdigidoc&apos;i kood: %1
@@ -414,12 +410,6 @@ Kas avan Digidoc kliendiga?</translation>
         <translation>Turvaümbrik:</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;email&quot;&gt;Saada turvaümbrik e-postiga&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&quot;browse&quot;&gt;Näita turvaümbriku asukohta kettal&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt; &lt;a href=&quot;saveAll&quot;&gt;Save files to disk&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;addFile&quot;&gt;Lisa fail&lt;/a&gt; &lt;a href=&quot;saveAll&quot;&gt;Salvesta failid kettale&lt;/a&gt;</translation>
     </message>
@@ -434,30 +424,6 @@ Kas avan Digidoc kliendiga?</translation>
     <message>
         <source>Failed to start process &apos;%1&apos;</source>
         <translation>Protsessi &apos;%1&apos; loomine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; font: 12px &apos;Arial,Liberation Sans&apos;;&quot;&gt;
-&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
-The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
-Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
-For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.&lt;/p&gt;
-&lt;p style=&quot; font: 12px &apos;Arial,Liberation Sans&apos;;&quot;&gt;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Warning&lt;/b&gt;&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;Encryption is one-way only. Private key needed for decryption is stored only on reciever&apos;s ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed. &lt;/b&gt;
-&lt;/p&gt;
-&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; font: 12px &apos;Arial,Liberation Sans&apos;;&quot;&gt;
-&lt;b&gt;Failide krüpteerimine&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
-Faili krüpteerimise eesmärgiks on muuta selles asuvad andmed võõrastele loetamatuteks.&lt;br /&gt;&lt;br /&gt;
-ID-kaardi sertifikaatidega krüptimine ei ole mõeldud andmete pikaajaliseks turvaliseks säilitamiseks ja muude ülesannete lahendamiseks. See on ainult viis failide edastamiseks üle ebaturvalise sideknanali.&lt;br /&gt;&lt;br /&gt;
-Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(te) sertifikaatide otsimiseks. Failid krüptitakse sertifikaadis sisalduva avaliku võtmega. Krüptimine on ühesuunaline, dekrüpteerimiseks on vaja vastava sertifikaadi privaatvõtit, mis on salvestatud ainult vastava isiku ID-kaardil.&lt;/p&gt;
-&lt;p style=&quot; font: 12px &apos;Arial,Liberation Sans&apos;;&quot;&gt;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;HOIATUS:&lt;/b&gt;&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;Kuna dekrüpteerimist võimaldav sertifikaat on salvestatud ainult ID-kaardile, pole pärast ID-kaardi kaotamist, aegumist, uuendamist, tühistamist või mehaanilist kiibi vigastamist dekrüpteerimine tehniliselt võimalik&lt;/b&gt;
-&lt;/p&gt;
-&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Encrypt documents</source>
@@ -524,6 +490,84 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
     <message>
         <source>Encrypting</source>
         <translation>Krüpteerin</translation>
+    </message>
+    <message>
+        <source>Cards</source>
+        <translation>Kaardid</translation>
+    </message>
+    <message>
+        <source>Languages</source>
+        <translation>Keeled</translation>
+    </message>
+    <message>
+        <source>Card info</source>
+        <translation>Kaardi info</translation>
+    </message>
+    <message>
+        <source>File encryption
+
+The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.
+
+Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.
+
+For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.
+
+Warning
+
+Encryption is one-way only. Private key needed for decryption is stored only on reciever&apos;s ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.</source>
+        <translation>Failide krüpteerimine
+
+Faili krüpteerimise eesmärgiks on muuta selles asuvad andmed võõrastele loetamatuteks.
+
+ID-kaardi sertifikaatidega krüptimine ei ole mõeldud andmete pikaajaliseks turvaliseks säilitamiseks ja muude ülesannete lahendamiseks. See on ainult viis failide edastamiseks üle ebaturvalise sideknanali.
+
+Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(te) sertifikaatide otsimiseks. Failid krüptitakse sertifikaadis sisalduva avaliku võtmega. Krüptimine on ühesuunaline, dekrüpteerimiseks on vaja vastava sertifikaadi privaatvõtit, mis on salvestatud ainult vastava isiku ID-kaardil.
+
+HOIATUS:
+
+Kuna dekrüpteerimist võimaldav sertifikaat on salvestatud ainult ID-kaardile, pole pärast ID-kaardi kaotamist, aegumist, uuendamist, tühistamist või mehaanilist kiibi vigastamist dekrüpteerimine tehniliselt võimalik.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
+The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
+Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
+For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;Warning&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
+Encryption is one-way only. Private key needed for decryption is stored only on reciever&apos;s ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Failide krüpteerimine&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
+Faili krüpteerimise eesmärgiks on muuta selles asuvad andmed võõrastele loetamatuteks.&lt;br /&gt;&lt;br /&gt;
+ID-kaardi sertifikaatidega krüptimine ei ole mõeldud andmete pikaajaliseks turvaliseks säilitamiseks ja muude ülesannete lahendamiseks. See on ainult viis failide edastamiseks üle ebaturvalise sideknanali.&lt;br /&gt;&lt;br /&gt;
+Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(te) sertifikaatide otsimiseks. Failid krüptitakse sertifikaadis sisalduva avaliku võtmega. Krüptimine on ühesuunaline, dekrüpteerimiseks on vaja vastava sertifikaadi privaatvõtit, mis on salvestatud ainult vastava isiku ID-kaardil.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;HOIATUS:&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
+Kuna dekrüpteerimist võimaldav sertifikaat on salvestatud ainult ID-kaardile, pole pärast ID-kaardi kaotamist, aegumist, uuendamist, tühistamist või mehaanilist kiibi vigastamist dekrüpteerimine tehniliselt võimalik.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Salvesta</translation>
+    </message>
+    <message>
+        <source>Send container to email</source>
+        <translation>Saada turvaümbrik e-postiga</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;email&quot;&gt;Saada turvaümbrik e-postiga&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Container content</source>
+        <translation>Konteineri sisu</translation>
+    </message>
+    <message>
+        <source>Add recipient</source>
+        <translation>Lisa adressaat</translation>
+    </message>
+    <message>
+        <source>Browse container location</source>
+        <translation>Näita turvaümbriku asukohta kettal</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;browse&quot;&gt;Näita turvaümbriku asukohta kettal&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

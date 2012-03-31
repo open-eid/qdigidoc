@@ -838,11 +838,17 @@ Also an active internet connection is needed.</string>
                <property name="horizontalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOff</enum>
                </property>
+               <property name="tabKeyNavigation">
+                <bool>true</bool>
+               </property>
                <property name="dragEnabled">
                 <bool>true</bool>
                </property>
                <property name="alternatingRowColors">
                 <bool>true</bool>
+               </property>
+               <property name="textElideMode">
+                <enum>Qt::ElideMiddle</enum>
                </property>
                <property name="rootIsDecorated">
                 <bool>false</bool>
@@ -1086,11 +1092,17 @@ color: red;</string>
                <property name="horizontalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOff</enum>
                </property>
+               <property name="tabKeyNavigation">
+                <bool>true</bool>
+               </property>
                <property name="dragEnabled">
                 <bool>true</bool>
                </property>
                <property name="alternatingRowColors">
                 <bool>true</bool>
+               </property>
+               <property name="textElideMode">
+                <enum>Qt::ElideMiddle</enum>
                </property>
                <property name="rootIsDecorated">
                 <bool>false</bool>

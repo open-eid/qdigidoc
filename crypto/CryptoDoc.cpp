@@ -193,7 +193,7 @@ QVariant CDocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::ForegroundRole:
 		switch( index.column() )
 		{
-		case 2: return Qt::gray;
+		case Size: return Qt::gray;
 		default: return QVariant();
 		}
 	case Qt::DisplayRole:
