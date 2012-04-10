@@ -578,6 +578,10 @@ Also an active internet connection is needed.</translation>
         <source>Encrypt document</source>
         <translation>Encrypt document</translation>
     </message>
+    <message>
+        <source>All fields are optional</source>
+        <translation>All fields are optional</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

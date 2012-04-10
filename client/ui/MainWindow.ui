@@ -116,7 +116,7 @@ padding-left: 10px;
 padding-right: 10px;
 }
 
-#infoFrame QLabel
+#infoFrame QLabel, #signInfo 
 { font: bold; }
 
 /* content */
@@ -812,6 +812,22 @@ Also an active internet connection is needed.</string>
                </property>
               </spacer>
              </item>
+             <item row="9" column="0" colspan="2">
+              <widget class="QLabel" name="signInfo">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>All fields are optional</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
@@ -1166,7 +1182,7 @@ color: red;</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../?images/images.qrc"/>
+  <include location="../images/images.qrc"/>
  </resources>
  <connections>
   <connection>

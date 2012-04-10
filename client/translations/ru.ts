@@ -579,6 +579,10 @@ Also an active internet connection is needed.</source>
         <source>Encrypt document</source>
         <translation>Зашифровать документ</translation>
     </message>
+    <message>
+        <source>All fields are optional</source>
+        <translation>Заполнение полей необязательно</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

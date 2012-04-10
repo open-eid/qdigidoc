@@ -576,6 +576,10 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
         <source>Encrypt document</source>
         <translation>Krüpteeri dokument</translation>
     </message>
+    <message>
+        <source>All fields are optional</source>
+        <translation>Väljade täitmine ei ole kohustuslik</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
