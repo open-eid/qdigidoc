@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,6 +32,7 @@
 #include <common/SslCertificate.h>
 
 #include <QDesktopServices>
+#include <QTextDocument>
 #include <QDropEvent>
 #include <QMessageBox>
 #include <QUrl>
@@ -44,6 +45,7 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	setAttribute( Qt::WA_DeleteOnClose );
 	setWindowFlags( Qt::Sheet );
 	d->p12Cert->installEventFilter( this );
+	d->p12Label->setAccessibleName( QTextDocument( d->p12Label->text() ).toPlainText() );
 
 	Settings s;
 	s.beginGroup( "Client" );
@@ -140,12 +142,20 @@ void SettingsDialog::on_showP12Cert_clicked()
 
 void SettingsDialog::on_typeBDoc_clicked( bool checked )
 {
-	if( checked )
-		QMessageBox::information( this, windowTitle(), tr(
-			"BDOC is new format for digital signatures, which may yet not be supported "
-			"by all information systems and applications. Please note that the recipient "
-			"might be not capable opening a document signed in this format. Additional "
-			"information <a href=\"http://www.id.ee/eng/bdoc\">http://www.id.ee/eng/bdoc</a>") );
+	if( !checked )
+		return;
+
+	QMessageBox b( QMessageBox::Information, windowTitle(), tr(
+	   "BDOC is new format for digital signatures, which may yet not be supported "
+	   "by all information systems and applications. Please note that the recipient "
+	   "might be not capable opening a document signed in this format. Additional "
+	   "information <a href=\"http://www.id.ee/eng/bdoc\">http://www.id.ee/eng/bdoc</a>") );
+	if( QLabel *l = b.findChild<QLabel*>() )
+	{
+		l->setTextInteractionFlags( Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse );
+		l->setAccessibleName( QTextDocument( l->text() ).toPlainText() );
+	}
+	b.exec();
 }
 
 void SettingsDialog::save()

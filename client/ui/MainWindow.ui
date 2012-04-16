@@ -195,7 +195,7 @@ padding: 5px;
            <string>Settings</string>
           </property>
           <attribute name="buttonGroup">
-           <string>buttonGroup</string>
+           <string notr="true">buttonGroup</string>
           </attribute>
          </widget>
         </item>
@@ -221,7 +221,7 @@ padding: 5px;
            <string>Help</string>
           </property>
           <attribute name="buttonGroup">
-           <string>buttonGroup</string>
+           <string notr="true">buttonGroup</string>
           </attribute>
          </widget>
         </item>
@@ -247,7 +247,7 @@ padding: 5px;
            <string>About</string>
           </property>
           <attribute name="buttonGroup">
-           <string>buttonGroup</string>
+           <string notr="true">buttonGroup</string>
           </attribute>
          </widget>
         </item>
@@ -354,7 +354,7 @@ padding: 5px;
                 <bool>true</bool>
                </property>
                <attribute name="buttonGroup">
-                <string>infoTypeGroup</string>
+                <string notr="true">infoTypeGroup</string>
                </attribute>
               </widget>
              </item>
@@ -364,7 +364,7 @@ padding: 5px;
                 <string>Use Mobile ID</string>
                </property>
                <attribute name="buttonGroup">
-                <string>infoTypeGroup</string>
+                <string notr="true">infoTypeGroup</string>
                </attribute>
               </widget>
              </item>
@@ -530,7 +530,7 @@ padding: 5px;
                <string>Sign documents</string>
               </property>
               <attribute name="buttonGroup">
-               <string>buttonGroup</string>
+               <string notr="true">buttonGroup</string>
               </attribute>
              </widget>
             </item>
@@ -540,7 +540,7 @@ padding: 5px;
                <string>View signed document content</string>
               </property>
               <attribute name="buttonGroup">
-               <string>buttonGroup</string>
+               <string notr="true">buttonGroup</string>
               </attribute>
              </widget>
             </item>
@@ -550,7 +550,7 @@ padding: 5px;
                <string>Encrypt files for secure transfer</string>
               </property>
               <attribute name="buttonGroup">
-               <string>buttonGroup</string>
+               <string notr="true">buttonGroup</string>
               </attribute>
              </widget>
             </item>
@@ -588,7 +588,7 @@ padding: 5px;
           <item>
            <widget class="QLabel" name="label">
             <property name="pixmap">
-             <pixmap>:/images/EL_Regionaalareng_horisontaal.png</pixmap>
+             <pixmap resource="../../common/images/common_images.qrc">:/images/EL_Regionaalareng_horisontaal.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -816,7 +816,10 @@ Also an active internet connection is needed.</string>
               <widget class="QLabel" name="signInfo">
                <property name="font">
                 <font>
+                 <family>Arial, Liberation Sans</family>
+                 <pointsize>-1</pointsize>
                  <weight>75</weight>
+                 <italic>false</italic>
                  <bold>true</bold>
                 </font>
                </property>
