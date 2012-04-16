@@ -32,7 +32,6 @@
 #include <common/SslCertificate.h>
 
 #include <QDesktopServices>
-#include <QTextDocument>
 #include <QDropEvent>
 #include <QMessageBox>
 #include <QUrl>
@@ -45,7 +44,7 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	setAttribute( Qt::WA_DeleteOnClose );
 	setWindowFlags( Qt::Sheet );
 	d->p12Cert->installEventFilter( this );
-	d->p12Label->setAccessibleName( QTextDocument( d->p12Label->text() ).toPlainText() );
+	Common::setAccessibleName( d->p12Label );
 
 	Settings s;
 	s.beginGroup( "Client" );
@@ -153,7 +152,7 @@ void SettingsDialog::on_typeBDoc_clicked( bool checked )
 	if( QLabel *l = b.findChild<QLabel*>() )
 	{
 		l->setTextInteractionFlags( Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse );
-		l->setAccessibleName( QTextDocument( l->text() ).toPlainText() );
+		Common::setAccessibleName( l );
 	}
 	b.exec();
 }

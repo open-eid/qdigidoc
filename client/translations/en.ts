@@ -928,10 +928,6 @@ Control code: %1</translation>
         <translation>Port</translation>
     </message>
     <message>
-        <source>Certificate</source>
-        <translation>Certificate</translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation>Password</translation>
     </message>
@@ -982,6 +978,26 @@ Control code: %1</translation>
     <message>
         <source>Always save the last used role, resolution and location</source>
         <translation>Always save the last used role, resolution and location</translation>
+    </message>
+    <message>
+        <source>Container path</source>
+        <translation>Container path</translation>
+    </message>
+    <message>
+        <source>Browse container path</source>
+        <translation>Browse container path</translation>
+    </message>
+    <message>
+        <source>Certificate path</source>
+        <translation>Certificate path</translation>
+    </message>
+    <message>
+        <source>Browse certificate path</source>
+        <translation>Browse certificate path</translation>
+    </message>
+    <message>
+        <source>Certificate password</source>
+        <translation>Certificate password</translation>
     </message>
 </context>
 <context>

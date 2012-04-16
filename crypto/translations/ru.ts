@@ -503,30 +503,6 @@ already in container, ovewrite?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File encryption
-
-The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.
-
-Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.
-
-For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.
-
-Warning
-
-Encryption is one-way only. Private key needed for decryption is stored only on reciever&apos;s ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.</source>
-        <translation>Шифрование файлов
-
-Цель шифрования файла - сделать данные нечитаемыми для посторонних лиц.
-
-Шифрование сертификатом ID-карты не предназначено для долгосрочного хранения зашифрованных данных или других задач, это лишь метод для передачи файлов по небезопасному каналу связи.
-
-Для шифрования файлов используется предоставляемая AS Sertifitseerimiskeskus LDAP-услуга для поиска сертификатов. Файлы шифруются открытым ключом, содержащимся в сертификате. Шифрование является односторонним, для расшифровки необходим персональный ключ сертификата получателя файла, встроенный в его ID-карту.
-
-ПРЕДУПРЕЖДЕНИЕ:
-
-Так как сертификат, позволяющий расшифровать данные, встроен только в конкретную ID-карту, то после утери, обновления, истечения срока действия или механического повреждения этой ID-карты расшифровка данных становится технически невозможной.</translation>
-    </message>
-    <message>
         <source>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
 The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
 Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.&lt;br /&gt;&lt;br /&gt;

@@ -929,10 +929,6 @@ Control code: %1</source>
         <translation>Порт</translation>
     </message>
     <message>
-        <source>Certificate</source>
-        <translation>Сертификат</translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation>Пароль</translation>
     </message>
@@ -983,6 +979,26 @@ Control code: %1</source>
     <message>
         <source>Always save the last used role, resolution and location</source>
         <translation>Сохранить последнюю введённую роль, резолюцию и местоположение</translation>
+    </message>
+    <message>
+        <source>Container path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse container path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Certificate path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Browse certificate path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Certificate password</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

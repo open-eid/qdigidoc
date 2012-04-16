@@ -504,30 +504,6 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <translation>Kaardi info</translation>
     </message>
     <message>
-        <source>File encryption
-
-The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.
-
-Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.
-
-For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.
-
-Warning
-
-Encryption is one-way only. Private key needed for decryption is stored only on reciever&apos;s ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.</source>
-        <translation>Failide krüpteerimine
-
-Faili krüpteerimise eesmärgiks on muuta selles asuvad andmed võõrastele loetamatuteks.
-
-ID-kaardi sertifikaatidega krüptimine ei ole mõeldud andmete pikaajaliseks turvaliseks säilitamiseks ja muude ülesannete lahendamiseks. See on ainult viis failide edastamiseks üle ebaturvalise sideknanali.
-
-Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(te) sertifikaatide otsimiseks. Failid krüptitakse sertifikaadis sisalduva avaliku võtmega. Krüptimine on ühesuunaline, dekrüpteerimiseks on vaja vastava sertifikaadi privaatvõtit, mis on salvestatud ainult vastava isiku ID-kaardil.
-
-HOIATUS:
-
-Kuna dekrüpteerimist võimaldav sertifikaat on salvestatud ainult ID-kaardile, pole pärast ID-kaardi kaotamist, aegumist, uuendamist, tühistamist või mehaanilist kiibi vigastamist dekrüpteerimine tehniliselt võimalik.</translation>
-    </message>
-    <message>
         <source>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
 The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
 Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.&lt;br /&gt;&lt;br /&gt;

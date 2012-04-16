@@ -48,6 +48,7 @@ MainWindow::MainWindow( QWidget *parent )
 	setWindowFlags( Qt::Window|Qt::CustomizeWindowHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
+	Common::setAccessibleName( introContent );
 
 	cards->hide();
 	cards->hack();

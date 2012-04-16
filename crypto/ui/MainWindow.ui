@@ -469,19 +469,6 @@ color: #71889A;
           </property>
           <item>
            <widget class="QLabel" name="introContent">
-            <property name="accessibleName">
-             <string>File encryption
-
-The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.
-
-Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.
-
-For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.
-
-Warning
-
-Encryption is one-way only. Private key needed for decryption is stored only on reciever's ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.</string>
-            </property>
             <property name="text">
              <string>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
 The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
@@ -779,14 +766,14 @@ Encryption is one-way only. Private key needed for decryption is stored only on 
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TreeWidget</class>
-   <extends>QTreeView</extends>
-   <header>TreeWidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>ComboBox</class>
    <extends>QComboBox</extends>
    <header location="global">common/ComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TreeWidget</class>
+   <extends>QTreeView</extends>
+   <header>TreeWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>
