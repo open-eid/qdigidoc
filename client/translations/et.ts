@@ -950,10 +950,6 @@ Kontrollkood: %1</translation>
         <translation>Jäta viimati sisestatud roll, resolutsioon ja asukoht meelde</translation>
     </message>
     <message>
-        <source>Container path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Browse container path</source>
         <translation type="unfinished"></translation>
     </message>
@@ -967,6 +963,22 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Certificate password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Container default location same folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Container default location path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default file type BDOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default file type DDOC</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

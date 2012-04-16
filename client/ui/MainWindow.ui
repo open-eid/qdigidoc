@@ -573,25 +573,18 @@ padding: 5px;
            </layout>
           </item>
           <item>
-           <spacer name="homeBottomSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
            <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="pixmap">
              <pixmap resource="../../common/images/common_images.qrc">:/images/EL_Regionaalareng_horisontaal.png</pixmap>
             </property>
             <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
             </property>
            </widget>
           </item>

@@ -952,10 +952,6 @@ Control code: %1</translation>
         <translation>Always save the last used role, resolution and location</translation>
     </message>
     <message>
-        <source>Container path</source>
-        <translation>Container path</translation>
-    </message>
-    <message>
         <source>Browse container path</source>
         <translation>Browse container path</translation>
     </message>
@@ -970,6 +966,22 @@ Control code: %1</translation>
     <message>
         <source>Certificate password</source>
         <translation>Certificate password</translation>
+    </message>
+    <message>
+        <source>Container default location same folder</source>
+        <translation>Container default location same folder</translation>
+    </message>
+    <message>
+        <source>Container default location path</source>
+        <translation>Container default location path</translation>
+    </message>
+    <message>
+        <source>Default file type BDOC</source>
+        <translation>Default file type BDOC</translation>
+    </message>
+    <message>
+        <source>Default file type DDOC</source>
+        <translation>Default file type DDOC</translation>
     </message>
 </context>
 <context>

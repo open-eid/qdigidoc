@@ -36,6 +36,9 @@
        </item>
        <item>
         <widget class="QCheckBox" name="defaultSameDir">
+         <property name="accessibleName">
+          <string>Container default location same folder</string>
+         </property>
          <property name="text">
           <string>Same folder</string>
          </property>
@@ -49,7 +52,7 @@
          <item>
           <widget class="QLineEdit" name="defaultDir">
            <property name="accessibleName">
-            <string>Container path</string>
+            <string>Container default location path</string>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -96,6 +99,9 @@
          </item>
          <item>
           <widget class="QRadioButton" name="typeBDoc">
+           <property name="accessibleName">
+            <string>Default file type BDOC</string>
+           </property>
            <property name="text">
             <string notr="true">BDOC</string>
            </property>
@@ -106,6 +112,9 @@
          </item>
          <item>
           <widget class="QRadioButton" name="typeDDoc">
+           <property name="accessibleName">
+            <string>Default file type DDOC</string>
+           </property>
            <property name="text">
             <string notr="true">DDOC</string>
            </property>

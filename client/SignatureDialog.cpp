@@ -47,6 +47,9 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 {
 	setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Preferred );
 	setWordWrap( true );
+	setTextInteractionFlags( Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse );
+	connect( this, SIGNAL(linkActivated(QString)), SLOT(link(QString)) );
+
 	const SslCertificate cert = s.cert();
 	QString accessibility, content, tooltip;
 	QTextStream sa( &accessibility );
@@ -123,8 +126,6 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	setText( content );
 	setAccessibleName( tr("Signature") + " " + cert.toString( cert.showCN() ? "CN" : "GN SN" ) );
 	setAccessibleDescription( accessibility );
-
-	connect( this, SIGNAL(linkActivated(QString)), SLOT(link(QString)) );
 }
 
 void SignatureWidget::link( const QString &url )

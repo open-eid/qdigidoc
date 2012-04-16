@@ -953,10 +953,6 @@ Control code: %1</source>
         <translation>Сохранить последнюю введённую роль, резолюцию и местоположение</translation>
     </message>
     <message>
-        <source>Container path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Browse container path</source>
         <translation type="unfinished"></translation>
     </message>
@@ -970,6 +966,22 @@ Control code: %1</source>
     </message>
     <message>
         <source>Certificate password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Container default location same folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Container default location path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default file type BDOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default file type DDOC</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

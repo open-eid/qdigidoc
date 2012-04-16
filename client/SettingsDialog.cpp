@@ -148,7 +148,8 @@ void SettingsDialog::on_typeBDoc_clicked( bool checked )
 	   "BDOC is new format for digital signatures, which may yet not be supported "
 	   "by all information systems and applications. Please note that the recipient "
 	   "might be not capable opening a document signed in this format. Additional "
-	   "information <a href=\"http://www.id.ee/eng/bdoc\">http://www.id.ee/eng/bdoc</a>") );
+	   "information <a href=\"http://www.id.ee/eng/bdoc\">http://www.id.ee/eng/bdoc</a>"),
+		QMessageBox::NoButton, this );
 	if( QLabel *l = b.findChild<QLabel*>() )
 	{
 		l->setTextInteractionFlags( Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse );
