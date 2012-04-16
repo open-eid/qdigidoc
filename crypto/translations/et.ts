@@ -510,7 +510,7 @@ Encryption with ID-card is not ment for long and secure data storage, it is only
 For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.&lt;br /&gt;&lt;br /&gt;
 &lt;b&gt;&lt;font color=&quot;red&quot;&gt;Warning&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
 Encryption is one-way only. Private key needed for decryption is stored only on reciever&apos;s ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Failide krüpteerimine&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
+        <translation type="obsolete">&lt;b&gt;Failide krüpteerimine&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
 Faili krüpteerimise eesmärgiks on muuta selles asuvad andmed võõrastele loetamatuteks.&lt;br /&gt;&lt;br /&gt;
 ID-kaardi sertifikaatidega krüptimine ei ole mõeldud andmete pikaajaliseks turvaliseks säilitamiseks ja muude ülesannete lahendamiseks. See on ainult viis failide edastamiseks üle ebaturvalise sideknanali.&lt;br /&gt;&lt;br /&gt;
 Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(te) sertifikaatide otsimiseks. Failid krüptitakse sertifikaadis sisalduva avaliku võtmega. Krüptimine on ühesuunaline, dekrüpteerimiseks on vaja vastava sertifikaadi privaatvõtit, mis on salvestatud ainult vastava isiku ID-kaardil.&lt;br /&gt;&lt;br /&gt;
@@ -528,6 +528,20 @@ Kuna dekrüpteerimist võimaldav sertifikaat on salvestatud ainult ID-kaardile, 
     <message>
         <source>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;browse&quot;&gt;Näita turvaümbriku asukohta kettal&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
+The purpose of file encryption is to make data stored in the file unreadable for unauthorised users.&lt;br /&gt;&lt;br /&gt;
+Encryption with ID-card is not meant for secure data storage, but for the secure transfer of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
+You will need a digital certificate of recipient in order to encrypt data. Sertifitseerimiskeskus&apos;s LDAP service can be queried for retrieving someone&apos;s certificate.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;Warning&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
+You will need a digital certificate of recipient in order to encrypt data. Sertifitseerimiskeskus&apos;s LDAP service can be queried for retrieving someone&apos;s certificate.&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Failide krüpteerimine&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
+Faili krüpteerimise eesmärgiks on muuta selles asuvad andmed võõrastele loetamatuteks.&lt;br /&gt;&lt;br /&gt;
+ID-kaardi sertifikaatidega krüptimine ei ole mõeldud andmete pikaajaliseks turvaliseks säilitamiseks ja muude ülesannete lahendamiseks. See on ainult viis failide edastamiseks üle ebaturvalise sideknanali.&lt;br /&gt;&lt;br /&gt;
+Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(te) sertifikaatide otsimiseks. Failid krüptitakse sertifikaadis sisalduva avaliku võtmega. Krüptimine on ühesuunaline, dekrüpteerimiseks on vaja vastava sertifikaadi privaatvõtit, mis on salvestatud ainult vastava isiku ID-kaardil.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;HOIATUS:&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
+Kuna dekrüpteerimist võimaldav sertifikaat on salvestatud ainult ID-kaardile, pole pärast ID-kaardi kaotamist, aegumist, uuendamist, tühistamist või mehaanilist kiibi vigastamist dekrüpteerimine tehniliselt võimalik.&lt;/b&gt;</translation>
     </message>
 </context>
 <context>

@@ -471,11 +471,11 @@ color: #71889A;
            <widget class="QLabel" name="introContent">
             <property name="text">
              <string>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
-The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
-Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
-For encryption AS Sertifitseerimiskeskus' LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.&lt;br /&gt;&lt;br /&gt;
+The purpose of file encryption is to make data stored in the file unreadable for unauthorised users.&lt;br /&gt;&lt;br /&gt;
+Encryption with ID-card is not meant for secure data storage, but for the secure transfer of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
+You will need a digital certificate of recipient in order to encrypt data. Sertifitseerimiskeskus's LDAP service can be queried for retrieving someone's certificate.&lt;br /&gt;&lt;br /&gt;
 &lt;b&gt;&lt;font color=&quot;red&quot;&gt;Warning&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
-Encryption is one-way only. Private key needed for decryption is stored only on reciever's ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.&lt;/b&gt;</string>
+You will need a digital certificate of recipient in order to encrypt data. Sertifitseerimiskeskus's LDAP service can be queried for retrieving someone's certificate.&lt;/b&gt;</string>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
