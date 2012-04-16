@@ -681,10 +681,6 @@ Control code: %1</translation>
         <translation>TIME</translation>
     </message>
     <message>
-        <source>SIGNATURE</source>
-        <translation>SIGNATURE</translation>
-    </message>
-    <message>
         <source>NOTES</source>
         <translation>NOTES</translation>
     </message>
@@ -699,14 +695,6 @@ Control code: %1</translation>
     <message>
         <source>VALIDITY OF SIGNATURE</source>
         <translation>VALIDITY OF SIGNATURE</translation>
-    </message>
-    <message>
-        <source>VALID</source>
-        <translation>VALID</translation>
-    </message>
-    <message>
-        <source>NOT VALID</source>
-        <translation>NOT VALID</translation>
     </message>
     <message>
         <source>ROLE / RESOLUTION</source>
@@ -751,6 +739,14 @@ Control code: %1</translation>
     <message>
         <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
         <translation>SERIAL NUMBER OF SIGNER CERTIFICATE</translation>
+    </message>
+    <message>
+        <source>SIGNATURE IS VALID</source>
+        <translation>SIGNATURE IS VALID</translation>
+    </message>
+    <message>
+        <source>SIGNATURE IS NOT VALID</source>
+        <translation>SIGNATURE IS NOT VALID</translation>
     </message>
 </context>
 <context>

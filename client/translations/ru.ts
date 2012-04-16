@@ -682,10 +682,6 @@ Control code: %1</source>
         <translation>ВРЕМЯ</translation>
     </message>
     <message>
-        <source>SIGNATURE</source>
-        <translation>ПОДПИСЬ</translation>
-    </message>
-    <message>
         <source>NOTES</source>
         <translation>ЗАМЕЧАНИЯ</translation>
     </message>
@@ -700,14 +696,6 @@ Control code: %1</source>
     <message>
         <source>VALIDITY OF SIGNATURE</source>
         <translation>ДЕЙСТВИТЕЛЬНОСТЬ ПОДПИСИ</translation>
-    </message>
-    <message>
-        <source>VALID</source>
-        <translation>ДЕЙСТВИТЕЛЬНА</translation>
-    </message>
-    <message>
-        <source>NOT VALID</source>
-        <translation>НЕДЕЙСТВИТЕЛЬНО</translation>
     </message>
     <message>
         <source>ROLE / RESOLUTION</source>
@@ -743,7 +731,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>UNKNOWN</source>
-        <translation>Неизвестно</translation>
+        <translation>НЕИЗВЕСТНО</translation>
     </message>
     <message>
         <source>(NB! TEST SIGNATURE)</source>
@@ -752,6 +740,14 @@ Control code: %1</source>
     <message>
         <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
         <translation>СЕРИЙНЫЙ НОМЕР СЕРТИФИКАТА</translation>
+    </message>
+    <message>
+        <source>SIGNATURE IS VALID</source>
+        <translation>ПОДПИСЬ НЕДЕЙСТВИТЕЛЬНО</translation>
+    </message>
+    <message>
+        <source>SIGNATURE IS NOT VALID</source>
+        <translation>?</translation>
     </message>
 </context>
 <context>

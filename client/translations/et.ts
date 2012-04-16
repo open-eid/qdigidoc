@@ -679,10 +679,6 @@ Kontrollkood: %1</translation>
         <translation>AEG</translation>
     </message>
     <message>
-        <source>SIGNATURE</source>
-        <translation>ALLKIRI</translation>
-    </message>
-    <message>
         <source>NOTES</source>
         <translation>MÄRKUSED</translation>
     </message>
@@ -697,14 +693,6 @@ Kontrollkood: %1</translation>
     <message>
         <source>VALIDITY OF SIGNATURE</source>
         <translation>ALLKIRJA KEHTIVUS</translation>
-    </message>
-    <message>
-        <source>VALID</source>
-        <translation>KEHTIB</translation>
-    </message>
-    <message>
-        <source>NOT VALID</source>
-        <translation>KEHTETU</translation>
     </message>
     <message>
         <source>ROLE / RESOLUTION</source>
@@ -740,7 +728,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>UNKNOWN</source>
-        <translation>Teadmata</translation>
+        <translation>TEADMATA</translation>
     </message>
     <message>
         <source>(NB! TEST SIGNATURE)</source>
@@ -749,6 +737,14 @@ Kontrollkood: %1</translation>
     <message>
         <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
         <translation>ALLKIRJASTAJA SERTIFIKAADI SEERIANUMBER</translation>
+    </message>
+    <message>
+        <source>SIGNATURE IS VALID</source>
+        <translation>ALLKIRI ON KEHTIV</translation>
+    </message>
+    <message>
+        <source>SIGNATURE IS NOT VALID</source>
+        <translation>ALLKIRI EI OLE KEHTIV</translation>
     </message>
 </context>
 <context>

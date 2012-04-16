@@ -96,7 +96,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	setPen( sPen );
 	drawLine( left, top+3, right, top+3 );
 	top += 30;
-	
+
 	setFont( text );
 	setPen( oPen );
 
@@ -123,11 +123,11 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 			DateTime( sig.dateTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		top += 20 + nameHeight;
 
-		QString valid = tr("SIGNATURE") + " ";
+		QString valid;
 		switch( sig.validate() )
 		{
-		case DigiDocSignature::Valid: valid.append( tr("VALID") ); break;
-		case DigiDocSignature::Invalid: valid.append( tr("NOT VALID") ); break;
+		case DigiDocSignature::Valid: valid.append( tr("SIGNATURE IS VALID") ); break;
+		case DigiDocSignature::Invalid: valid.append( tr("SIGNATURE IS NOT VALID") ); break;
 		case DigiDocSignature::Unknown: valid.append( tr("UNKNOWN") ); break;
 		}
 		if( sig.isTest() )
