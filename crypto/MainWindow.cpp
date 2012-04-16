@@ -48,7 +48,8 @@ MainWindow::MainWindow( QWidget *parent )
 	setWindowFlags( Qt::Window|Qt::CustomizeWindowHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
-	Common::setAccessibleName( introContent );
+	foreach( QLabel *l, QList<QLabel*>() << introContent << viewFileNameSave << viewEmail << viewBrowse << viewKeysLinks )
+		Common::setAccessibleName( l );
 
 	cards->hide();
 	cards->hack();

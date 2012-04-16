@@ -552,34 +552,6 @@ Also an active internet connection is needed.</source>
 Для цифровой подписи необходимо подключение к интернету.</translation>
     </message>
     <message>
-        <source>Add file</source>
-        <translation>Добавить файл</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-    <message>
-        <source>Send container to email</source>
-        <translation>Отослать контейнер по эл. почте</translation>
-    </message>
-    <message>
-        <source>Print summary</source>
-        <translation>Распечатать подтверждающий лист</translation>
-    </message>
-    <message>
-        <source>Browse container location</source>
-        <translation>Открыть папку с контейнером</translation>
-    </message>
-    <message>
-        <source>Save files to disk</source>
-        <translation>Сохранить файлы на жёсткий диск</translation>
-    </message>
-    <message>
-        <source>Encrypt document</source>
-        <translation>Зашифровать документ</translation>
-    </message>
-    <message>
         <source>All fields are optional</source>
         <translation>Заполнение полей необязательно</translation>
     </message>

@@ -518,28 +518,12 @@ Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(t
 Kuna dekrüpteerimist võimaldav sertifikaat on salvestatud ainult ID-kaardile, pole pärast ID-kaardi kaotamist, aegumist, uuendamist, tühistamist või mehaanilist kiibi vigastamist dekrüpteerimine tehniliselt võimalik.&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>Save</source>
-        <translation>Salvesta</translation>
-    </message>
-    <message>
-        <source>Send container to email</source>
-        <translation>Saada turvaümbrik e-postiga</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;email&quot;&gt;Saada turvaümbrik e-postiga&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Container content</source>
         <translation>Konteineri sisu</translation>
-    </message>
-    <message>
-        <source>Add recipient</source>
-        <translation>Lisa adressaat</translation>
-    </message>
-    <message>
-        <source>Browse container location</source>
-        <translation>Näita turvaümbriku asukohta kettal</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>

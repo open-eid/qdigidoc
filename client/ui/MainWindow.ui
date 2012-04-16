@@ -879,9 +879,6 @@ Also an active internet connection is needed.</string>
              </item>
              <item>
               <widget class="QLabel" name="signAddFile">
-               <property name="accessibleName">
-                <string>Add file</string>
-               </property>
                <property name="text">
                 <string>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt;</string>
                </property>
@@ -937,9 +934,6 @@ Also an active internet connection is needed.</string>
             </item>
             <item>
              <widget class="QLabel" name="viewFileNameSave">
-              <property name="accessibleName">
-               <string>Save</string>
-              </property>
               <property name="text">
                <string>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</string>
               </property>
@@ -1019,9 +1013,6 @@ Also an active internet connection is needed.</string>
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="viewEmail">
-            <property name="accessibleName">
-             <string>Send container to email</string>
-            </property>
             <property name="text">
              <string>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</string>
             </property>
@@ -1032,9 +1023,6 @@ Also an active internet connection is needed.</string>
           </item>
           <item row="4" column="1">
            <widget class="QLabel" name="viewPrint">
-            <property name="accessibleName">
-             <string>Print summary</string>
-            </property>
             <property name="text">
              <string>&lt;a href=&quot;print&quot;&gt;Print summary&lt;/a&gt;</string>
             </property>
@@ -1045,9 +1033,6 @@ Also an active internet connection is needed.</string>
           </item>
           <item row="5" column="0">
            <widget class="QLabel" name="viewBrowse">
-            <property name="accessibleName">
-             <string>Browse container location</string>
-            </property>
             <property name="text">
              <string>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</string>
             </property>
@@ -1133,9 +1118,6 @@ color: red;</string>
              </item>
              <item>
               <widget class="QLabel" name="viewSaveAs">
-               <property name="accessibleName">
-                <string>Save files to disk</string>
-               </property>
                <property name="text">
                 <string>&lt;a href=&quot;saveAs&quot;&gt;Save files to disk&lt;/a&gt;</string>
                </property>
@@ -1152,9 +1134,6 @@ color: red;</string>
           </item>
           <item row="5" column="1">
            <widget class="QLabel" name="viewEncrypt">
-            <property name="accessibleName">
-             <string>Encrypt document</string>
-            </property>
             <property name="text">
              <string>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</string>
             </property>

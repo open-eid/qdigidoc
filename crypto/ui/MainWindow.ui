@@ -578,9 +578,6 @@ Encryption is one-way only. Private key needed for decryption is stored only on 
             </item>
             <item>
              <widget class="QLabel" name="viewFileNameSave">
-              <property name="accessibleName">
-               <string>Save</string>
-              </property>
               <property name="text">
                <string>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</string>
               </property>
@@ -600,9 +597,6 @@ Encryption is one-way only. Private key needed for decryption is stored only on 
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="viewEmail">
-            <property name="accessibleName">
-             <string>Send container to email</string>
-            </property>
             <property name="text">
              <string>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</string>
             </property>
@@ -725,9 +719,6 @@ Encryption is one-way only. Private key needed for decryption is stored only on 
              </item>
              <item>
               <widget class="QLabel" name="viewKeysLinks">
-               <property name="accessibleName">
-                <string>Add recipient</string>
-               </property>
                <property name="text">
                 <string>&lt;a href=&quot;addRecipient&quot;&gt;Add recipient&lt;/a&gt;</string>
                </property>
@@ -744,9 +735,6 @@ Encryption is one-way only. Private key needed for decryption is stored only on 
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="viewBrowse">
-            <property name="accessibleName">
-             <string>Browse container location</string>
-            </property>
             <property name="text">
              <string>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</string>
             </property>

@@ -517,28 +517,12 @@ Encryption is one-way only. Private key needed for decryption is stored only on 
 Так как сертификат, позволяющий расшифровать данные, встроен только в конкретную ID-карту, то после утери, обновления, истечения срока действия или механического повреждения этой ID-карты расшифровка данных становится технически невозможной.&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>Save</source>
-        <translation>Сохранить</translation>
-    </message>
-    <message>
-        <source>Send container to email</source>
-        <translation>Послать контейнер на эл. почту</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;email&quot;&gt;Послать контейнер на эл. почту&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Container content</source>
         <translation>Содержание контейнера</translation>
-    </message>
-    <message>
-        <source>Add recipient</source>
-        <translation>Добавить сертификат</translation>
-    </message>
-    <message>
-        <source>Browse container location</source>
-        <translation>Показать расположение контейнера</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>

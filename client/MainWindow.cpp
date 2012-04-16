@@ -54,6 +54,10 @@ MainWindow::MainWindow( QWidget *parent )
 	setWindowFlags( Qt::Window|Qt::CustomizeWindowHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
+	foreach( QLabel *l, QList<QLabel*>()<< viewFileNameSave << signAddFile
+			 << viewSaveAs << viewEmail << viewBrowse << viewPrint << viewEncrypt )
+		Common::setAccessibleName( l );
+
 	infoTypeGroup->setId( infoSignCard, 0 );
 	infoTypeGroup->setId( infoSignMobile, 1 );
 

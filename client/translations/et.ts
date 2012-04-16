@@ -549,34 +549,6 @@ Dokumendi allkirjastamisel on vajalik PIN2 kood.
 Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
     </message>
     <message>
-        <source>Add file</source>
-        <translation>Lisa fail</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Salvesta</translation>
-    </message>
-    <message>
-        <source>Send container to email</source>
-        <translation>Saada ümbrik e-postiga</translation>
-    </message>
-    <message>
-        <source>Print summary</source>
-        <translation>Trüki kinnitusleht</translation>
-    </message>
-    <message>
-        <source>Browse container location</source>
-        <translation>Näita ümbriku asukohta kettal</translation>
-    </message>
-    <message>
-        <source>Save files to disk</source>
-        <translation>Salvesta failid kettale</translation>
-    </message>
-    <message>
-        <source>Encrypt document</source>
-        <translation>Krüpteeri dokument</translation>
-    </message>
-    <message>
         <source>All fields are optional</source>
         <translation>Väljade täitmine ei ole kohustuslik</translation>
     </message>

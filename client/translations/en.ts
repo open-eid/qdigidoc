@@ -551,34 +551,6 @@ Signing is done via PIN2 code.
 Also an active internet connection is needed.</translation>
     </message>
     <message>
-        <source>Add file</source>
-        <translation>Add file</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Save</translation>
-    </message>
-    <message>
-        <source>Send container to email</source>
-        <translation>Send container to email</translation>
-    </message>
-    <message>
-        <source>Print summary</source>
-        <translation>Print summary</translation>
-    </message>
-    <message>
-        <source>Browse container location</source>
-        <translation>Browse container location</translation>
-    </message>
-    <message>
-        <source>Save files to disk</source>
-        <translation>Save files to disk</translation>
-    </message>
-    <message>
-        <source>Encrypt document</source>
-        <translation>Encrypt document</translation>
-    </message>
-    <message>
         <source>All fields are optional</source>
         <translation>All fields are optional</translation>
     </message>
