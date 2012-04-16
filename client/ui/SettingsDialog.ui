@@ -48,6 +48,9 @@
         <layout class="QHBoxLayout" name="defaultDirLayout">
          <item>
           <widget class="QLineEdit" name="defaultDir">
+           <property name="accessibleName">
+            <string>Container path</string>
+           </property>
            <property name="readOnly">
             <bool>true</bool>
            </property>
@@ -55,6 +58,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="selectDefaultDir">
+           <property name="accessibleName">
+            <string>Browse container path</string>
+           </property>
            <property name="text">
             <string notr="true">...</string>
            </property>
@@ -164,12 +170,18 @@
          <property name="openExternalLinks">
           <bool>true</bool>
          </property>
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+         </property>
         </widget>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="p12CertLabel">
          <property name="text">
-          <string>Certificate</string>
+          <string>Certificate path</string>
+         </property>
+         <property name="buddy">
+          <cstring>p12Cert</cstring>
          </property>
         </widget>
        </item>
@@ -180,6 +192,9 @@
          </item>
          <item>
           <widget class="QToolButton" name="p12Button">
+           <property name="accessibleName">
+            <string>Browse certificate path</string>
+           </property>
            <property name="text">
             <string notr="true">...</string>
            </property>
@@ -190,7 +205,10 @@
        <item row="2" column="0">
         <widget class="QLabel" name="p12PassLabel">
          <property name="text">
-          <string>Password</string>
+          <string>Certificate password</string>
+         </property>
+         <property name="buddy">
+          <cstring>p12Pass</cstring>
          </property>
         </widget>
        </item>
@@ -254,6 +272,9 @@
          <property name="text">
           <string>Role</string>
          </property>
+         <property name="buddy">
+          <cstring>signRoleInput</cstring>
+         </property>
         </widget>
        </item>
        <item row="0" column="1">
@@ -263,6 +284,9 @@
         <widget class="QLabel" name="signResolutionLabel">
          <property name="text">
           <string>Resolution</string>
+         </property>
+         <property name="buddy">
+          <cstring>signResolutionInput</cstring>
          </property>
         </widget>
        </item>
@@ -290,6 +314,9 @@
          <property name="text">
           <string>City</string>
          </property>
+         <property name="buddy">
+          <cstring>signCityInput</cstring>
+         </property>
         </widget>
        </item>
        <item row="3" column="1">
@@ -299,6 +326,9 @@
         <widget class="QLabel" name="signStateLabel">
          <property name="text">
           <string>State</string>
+         </property>
+         <property name="buddy">
+          <cstring>signStateInput</cstring>
          </property>
         </widget>
        </item>
@@ -310,6 +340,9 @@
          <property name="text">
           <string>Country</string>
          </property>
+         <property name="buddy">
+          <cstring>signCountryInput</cstring>
+         </property>
         </widget>
        </item>
        <item row="5" column="1">
@@ -319,6 +352,9 @@
         <widget class="QLabel" name="signZipLabel">
          <property name="text">
           <string>Zip</string>
+         </property>
+         <property name="buddy">
+          <cstring>signZipInput</cstring>
          </property>
         </widget>
        </item>
@@ -347,6 +383,9 @@
          <property name="text">
           <string>Host</string>
          </property>
+         <property name="buddy">
+          <cstring>proxyHost</cstring>
+         </property>
         </widget>
        </item>
        <item row="0" column="1">
@@ -356,6 +395,9 @@
         <widget class="QLabel" name="proxyPortLabel">
          <property name="text">
           <string>Port</string>
+         </property>
+         <property name="buddy">
+          <cstring>proxyPort</cstring>
          </property>
         </widget>
        </item>
@@ -367,6 +409,9 @@
          <property name="text">
           <string>Username</string>
          </property>
+         <property name="buddy">
+          <cstring>proxyUser</cstring>
+         </property>
         </widget>
        </item>
        <item row="2" column="1">
@@ -376,6 +421,9 @@
         <widget class="QLabel" name="proxyPassLabel">
          <property name="text">
           <string>Password</string>
+         </property>
+         <property name="buddy">
+          <cstring>proxyPass</cstring>
          </property>
         </widget>
        </item>
