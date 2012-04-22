@@ -88,7 +88,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::ForegroundRole:
 		switch( index.column() )
 		{
-		case 2: return Qt::gray;
+		case Size: return Qt::gray;
 		default: return QVariant();
 		}
 	case Qt::DisplayRole:
@@ -759,10 +759,8 @@ ADoc::DocumentType DigiDoc::documentType()
 
 QByteArray DigiDoc::getFileDigest( unsigned int i )
 {
-	QByteArray result;
 	if( !checkDoc() )
-		return result;
-	result.resize(20);
-	b->getFileDigest( i, (unsigned char*)result.data() );
-	return result;
+		return QByteArray();
+	std::vector<unsigned char> result = b->getFileDigest( i );
+	return QByteArray( (char*)&result[0], result.size() );
 }
