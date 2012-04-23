@@ -39,7 +39,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	left		= p->pageRect().left();
 	margin		= left;
 	right		= p->pageRect().right() - 2*margin;
-	top			= p->pageRect().top() + 30;
+	top			= p->pageRect().top();
 	bottom		= p->pageRect().y() + p->pageRect().height() - 2*margin;
 
 #ifdef Q_OS_MAC
@@ -65,10 +65,11 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	sPen.setStyle( Qt::DotLine );
 
 	setFont( head );
-	drawText( left, top, tr("VALIDITY CONFIRMATION SHEET") );
+	QRect rect( left, top, right, 60 );
+	drawText( rect, Qt::TextWordWrap, tr("VALIDITY CONFIRMATION SHEET"), &rect );
 	setPen( hPen );
-	drawLine( left, top+3, right, top+3 );
-	top += 45;
+	drawLine( left, rect.bottom(), right, rect.bottom() );
+	top += rect.height() + 30;
 
 	setFont( sHead );
 	drawText( left, top, tr("SIGNED FILES") );
