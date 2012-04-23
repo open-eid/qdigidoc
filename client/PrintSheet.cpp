@@ -27,7 +27,6 @@
 #include <common/DateTime.h>
 #include <common/SslCertificate.h>
 
-#include <QDateTime>
 #include <QPrinter>
 #include <QTextDocument>
 
@@ -41,10 +40,12 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	margin		= left;
 	right		= p->pageRect().right() - 2*margin;
 	top			= p->pageRect().top() + 30;
+	bottom		= p->pageRect().y() + p->pageRect().height() - 2*margin;
 
 #ifdef Q_OS_MAC
 	scale( 0.8, 0.8 );
 	right /= 0.8;
+	bottom /= 0.8;
 #endif
 
 	QFont text = font();
@@ -132,10 +133,10 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		}
 		if( sig.isTest() )
 			valid += " " + tr("(NB! TEST SIGNATURE)");
-		top += customText( tr("VALIDITY OF SIGNATURE"), valid );
-		top += customText( tr("ROLE / RESOLUTION"), sig.role() );
-		top += customText( tr("PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)"), sig.location() );
-		top += customText( tr("SERIAL NUMBER OF SIGNER CERTIFICATE"), cert.serialNumber() );
+		customText( tr("VALIDITY OF SIGNATURE"), valid );
+		customText( tr("ROLE / RESOLUTION"), sig.role() );
+		customText( tr("PLACE OF CONFIRMATION (CITY, STATE, ZIP, COUNTRY)"), sig.location() );
+		customText( tr("SERIAL NUMBER OF SIGNER CERTIFICATE"), cert.serialNumber() );
 
 		newPage( 50 );
 		drawText( left, top, tr("ISSUER OF CERTIFICATE") );
@@ -147,7 +148,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 			cert.toHex( cert.authorityKeyIdentifier() ) );
 		top += 20 + issuerHeight;
 
-		top += customText( tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)"), cert.toHex( sig.ocspDigestValue() ) );
+		customText( tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)"), cert.toHex( sig.ocspDigestValue() ) );
 		top += 15;
 	}
 	save();
@@ -169,7 +170,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	end();
 }
 
-int PrintSheet::customText( const QString &title, const QString &text )
+void PrintSheet::customText( const QString &title, const QString &text )
 {
 	QRect rect( left + 5, top + 5,  right - margin -5, 25 );
 	rect.setHeight( qMax( 25,
@@ -182,7 +183,7 @@ int PrintSheet::customText( const QString &title, const QString &text )
 	drawText( rect, Qt::TextWordWrap|Qt::TextWrapAnywhere|Qt::AlignVCenter, text );
 	drawRect( rect.adjusted( -5, 0, 0, rect.height() > 25 ? 0 : -5 ) );
 
-	return 20 + rect.height();
+	top += 20 + rect.height();
 }
 
 int PrintSheet::drawTextRect( const QRect &rect, const QString &text )
@@ -197,7 +198,7 @@ int PrintSheet::drawTextRect( const QRect &rect, const QString &text )
 
 void PrintSheet::newPage( int height )
 {
-	if ( top + height > p->pageRect().height() )
+	if ( top + height > bottom )
 	{
 		p->newPage();
 		top = p->pageRect().top() + 30;
