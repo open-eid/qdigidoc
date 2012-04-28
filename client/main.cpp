@@ -22,6 +22,13 @@
 
 #include "Application.h"
 
+#ifdef BREAKPAD
+#include "version.h"
+#include <breakpad/QBreakPad.h>
+#include <QVariant>
+#include <QIcon>
+#endif
+
 #ifdef Q_OS_MAC
 #include <QProcess>
 #include <QSysInfo>
@@ -35,6 +42,25 @@ int main( int argc, char *argv[] )
 		QCoreApplication app( argc, argv );
 		return QProcess::startDetached( "arch", QStringList() << "-i386" << app.applicationFilePath() << app.arguments() );
 	}
+#endif
+
+#ifdef BREAKPAD
+	if( QBreakPad::isCrashReport( argc, argv ) )
+	{
+		Common app( argc, argv );
+		app.setApplicationName( APP );
+		app.setApplicationVersion( VER_STR( FILE_VER_DOT ) );
+		app.setOrganizationDomain( DOMAINURL );
+		app.setOrganizationName( ORG );
+		app.setWindowIcon( QIcon( ":/images/digidoc_icon_128x128.png" ) );
+
+		QBreakPadDialog d( app.applicationName() );
+		d.setProperty( "User-Agent", QString( "%1/%2 (%3)" )
+			.arg( app.applicationName(), app.applicationVersion(), app.applicationOs() ).toUtf8() );
+		d.show();
+		return app.exec();
+	}
+	QBreakPad breakpad;
 #endif
 
 	Application a( argc, argv );
