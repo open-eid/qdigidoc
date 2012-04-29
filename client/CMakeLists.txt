@@ -116,21 +116,21 @@ if( DUMP_SYMS_EXECUTABLE )
 		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	)
 endif( DUMP_SYMS_EXECUTABLE )
-install( TARGETS ${PROGNAME} DESTINATION ${BIN_INSTALL_DIR} )
+install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
 
 if(UNIX AND NOT APPLE)
-	install(FILES qdigidoc-client.desktop DESTINATION ${SHARE_INSTALL_PREFIX}/applications)
-	install(FILES qdigidoc-client.xml DESTINATION ${SHARE_INSTALL_PREFIX}/mime/packages)
+	install(FILES qdigidoc-client.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+	install(FILES qdigidoc-client.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages)
 
 	# Install icons
 	foreach(RES 16 22 32 48 128)
-		set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/mimetypes/)
+		set(ICONDIR ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/mimetypes/)
 		foreach(TGT application-x-bdoc.png application-x-ddoc.png application-x-p12d.png)
 			set(SRC images/qdigidoc_client_document_${RES}x${RES}.png)
 			install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
 		endforeach(TGT)
 
-		set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/apps/)
+		set(ICONDIR ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/apps/)
 		set(SRC images/digidoc_icon_${RES}x${RES}.png)
 		set(TGT qdigidoc-client.png)
 		install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})

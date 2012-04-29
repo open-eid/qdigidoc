@@ -109,20 +109,20 @@ if( DUMP_SYMS_EXECUTABLE )
 		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	)
 endif( DUMP_SYMS_EXECUTABLE )
-install( TARGETS ${PROGNAME} DESTINATION ${BIN_INSTALL_DIR} )
+install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
 
 if(UNIX AND NOT APPLE)
-	install(FILES qdigidoc-crypto.desktop DESTINATION ${SHARE_INSTALL_PREFIX}/applications)
-	install(FILES qdigidoc-crypto.xml DESTINATION ${SHARE_INSTALL_PREFIX}/mime/packages)
+	install(FILES qdigidoc-crypto.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+	install(FILES qdigidoc-crypto.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages)
 
 	# Install icons
 	foreach(RES 16 22 32 48 128)
-		set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/mimetypes/)
+		set(ICONDIR ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/mimetypes/)
 		set(SRC images/qdigidoc_crypto_document_${RES}x${RES}.png)
 		set(TGT application-x-cdoc.png)
 		install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
 
-		set(ICONDIR ${SHARE_INSTALL_PREFIX}/icons/hicolor/${RES}x${RES}/apps/)
+		set(ICONDIR ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/apps/)
 		set(SRC images/crypto_${RES}x${RES}.png)
 		set(TGT qdigidoc-crypto.png)
 		install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
