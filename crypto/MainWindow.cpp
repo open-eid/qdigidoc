@@ -47,6 +47,9 @@ MainWindow::MainWindow( QWidget *parent )
 {
 	setWindowFlags( Qt::Window|Qt::CustomizeWindowHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint );
 	setAttribute( Qt::WA_DeleteOnClose, true );
+#ifdef TESTING
+	if( !qApp->arguments().contains( "-crash" ) )
+#endif
 	setupUi( this );
 	foreach( QLabel *l, QList<QLabel*>() << introContent << viewFileNameSave << viewEmail << viewBrowse << viewKeysLinks )
 		Common::setAccessibleName( l );
