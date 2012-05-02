@@ -35,7 +35,6 @@
 #include <libdigidoc/DigiDocGen.h>
 #include <libdigidoc/DigiDocEncGen.h>
 #include <libdigidoc/DigiDocEncSAXParser.h>
-#include <libdigidoc/DigiDocPKCS11.h>
 #include <libdigidoc/DigiDocSAXParser.h>
 
 #include <QDateTime>
