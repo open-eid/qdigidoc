@@ -35,6 +35,10 @@ BEGIN
 			VALUE "ProductVersion", VER_STR(FILE_VER_DOT) "\0"
 		END
 	END
+	BLOCK "VarFileInfo"
+	BEGIN
+		VALUE "Translation", 0x425, 1200
+	END
 END
 /* End of Version info */
 

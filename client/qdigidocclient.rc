@@ -23,7 +23,7 @@ VS_VERSION_INFO VERSIONINFO
 BEGIN
 	BLOCK "StringFileInfo"
 	BEGIN
-		BLOCK "040904E4"
+		BLOCK "042504B0"
 		BEGIN
 			VALUE "CompanyName", ORG "\0"
 			VALUE "FileDescription", APP "\0"
@@ -34,6 +34,10 @@ BEGIN
 			VALUE "ProductName", APP "\0"
 			VALUE "ProductVersion", VER_STR(FILE_VER_DOT) "\0"
 		END
+	END
+	BLOCK "VarFileInfo"
+	BEGIN
+		VALUE "Translation", 0x425, 1200
 	END
 END
 /* End of Version info */
