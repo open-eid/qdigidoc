@@ -503,20 +503,6 @@ already in container, ovewrite?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
-The purpose of file encryption is to make the data stored in the file unreadable for any unauthorised users.&lt;br /&gt;&lt;br /&gt;
-Encryption with ID-card is not ment for long and secure data storage, it is only ment for secure transfering of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
-For encryption AS Sertifitseerimiskeskus&apos; LDAP service is used, to search for reciever(s) certificates. Documents are encrypted with public key that is found the certificate.&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;&lt;font color=&quot;red&quot;&gt;Warning&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
-Encryption is one-way only. Private key needed for decryption is stored only on reciever&apos;s ID-card. Decryption of files is impossible if ID-card is lost or damaged, sertificates are expired or renewed.&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Шифрование файлов&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
-Цель шифрования файла - сделать данные нечитаемыми для посторонних лиц.&lt;br /&gt;&lt;br /&gt;
-Шифрование сертификатом ID-карты не предназначено для долгосрочного хранения зашифрованных данных или других задач, это лишь метод для передачи файлов по небезопасному каналу связи.&lt;br /&gt;&lt;br /&gt;
-Для шифрования файлов используется предоставляемая AS Sertifitseerimiskeskus LDAP-услуга для поиска сертификатов. Файлы шифруются открытым ключом, содержащимся в сертификате. Шифрование является односторонним, для расшифровки необходим персональный ключ сертификата получателя файла, встроенный в его ID-карту.&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;&lt;font color=&quot;red&quot;&gt;ПРЕДУПРЕЖДЕНИЕ:&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
-Так как сертификат, позволяющий расшифровать данные, встроен только в конкретную ID-карту, то после утери, обновления, истечения срока действия или механического повреждения этой ID-карты расшифровка данных становится технически невозможной.&lt;/b&gt;</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;email&quot;&gt;Послать контейнер на эл. почту&lt;/a&gt;</translation>
     </message>
@@ -534,7 +520,7 @@ The purpose of file encryption is to make data stored in the file unreadable for
 Encryption with ID-card is not meant for secure data storage, but for the secure transfer of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
 You will need a digital certificate of recipient in order to encrypt data. Sertifitseerimiskeskus&apos;s LDAP service can be queried for retrieving someone&apos;s certificate.&lt;br /&gt;&lt;br /&gt;
 &lt;b&gt;&lt;font color=&quot;red&quot;&gt;Warning&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
-You will need a digital certificate of recipient in order to encrypt data. Sertifitseerimiskeskus&apos;s LDAP service can be queried for retrieving someone&apos;s certificate.&lt;/b&gt;</source>
+The private key needed for decryption is stored only on the ID-card of the recipient. Decryption of data will be impossible if the card is lost, damaged or if certificate is renewed.&lt;/b&gt;</source>
         <translation>&lt;b&gt;Шифрование файлов&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
 Цель шифрования файла - сделать данные нечитаемыми для посторонних лиц.&lt;br /&gt;&lt;br /&gt;
 Шифрование сертификатом ID-карты не предназначено для долгосрочного хранения зашифрованных данных или других задач, это лишь метод для передачи файлов по небезопасному каналу связи.&lt;br /&gt;&lt;br /&gt;

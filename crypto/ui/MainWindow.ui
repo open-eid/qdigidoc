@@ -475,7 +475,7 @@ The purpose of file encryption is to make data stored in the file unreadable for
 Encryption with ID-card is not meant for secure data storage, but for the secure transfer of data over unsecure media.&lt;br /&gt;&lt;br /&gt;
 You will need a digital certificate of recipient in order to encrypt data. Sertifitseerimiskeskus's LDAP service can be queried for retrieving someone's certificate.&lt;br /&gt;&lt;br /&gt;
 &lt;b&gt;&lt;font color=&quot;red&quot;&gt;Warning&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
-You will need a digital certificate of recipient in order to encrypt data. Sertifitseerimiskeskus's LDAP service can be queried for retrieving someone's certificate.&lt;/b&gt;</string>
+The private key needed for decryption is stored only on the ID-card of the recipient. Decryption of data will be impossible if the card is lost, damaged or if certificate is renewed.&lt;/b&gt;</string>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
