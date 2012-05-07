@@ -36,18 +36,20 @@ set( SOURCES
 	TreeWidget.cpp
 	)
 
-set(QM_DIR ${CMAKE_CURRENT_BINARY_DIR})
 configure_file(${COMMON}/translations/common_tr.qrc common_tr.qrc COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/breakpad/translations/breakpad.qrc breakpad.qrc COPYONLY)
 configure_file(translations/tr.qrc tr.qrc COPYONLY)
 
 QT4_ADD_RESOURCES( RC_SOURCES
 	${COMMON_RCS}
 	images/images.qrc
-	${QM_DIR}/common_tr.qrc
-	${QM_DIR}/tr.qrc
+	${CMAKE_CURRENT_BINARY_DIR}/breakpad.qrc
+	${CMAKE_CURRENT_BINARY_DIR}/common_tr.qrc
+	${CMAKE_CURRENT_BINARY_DIR}/tr.qrc
 	)
 QT4_ADD_TRANSLATION( QM_FILES
 	${COMMON_TS}
+	${BREAKPAD_TS}
 	translations/et.ts
 	translations/ru.ts
 	)
