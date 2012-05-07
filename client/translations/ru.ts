@@ -747,7 +747,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>SIGNATURE IS NOT VALID</source>
-        <translation>?</translation>
+        <translation>НЕ ДЕЙСТВИТЕЛЕН</translation>
     </message>
 </context>
 <context>
