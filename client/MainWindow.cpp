@@ -57,9 +57,6 @@ MainWindow::MainWindow( QWidget *parent )
 	if( !qApp->arguments().contains( "-crash" ) )
 #endif
 	setupUi( this );
-	foreach( QLabel *l, QList<QLabel*>()<< viewFileNameSave << signAddFile
-			 << viewSaveAs << viewEmail << viewBrowse << viewPrint << viewEncrypt )
-		Common::setAccessibleName( l );
 
 	infoTypeGroup->setId( infoSignCard, 0 );
 	infoTypeGroup->setId( infoSignMobile, 1 );
@@ -85,6 +82,15 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->setId( homeSign, HomeSign );
 	buttonGroup->setId( homeView, HomeView );
 	buttonGroup->setId( homeCrypt, HomeCrypt );
+
+	buttonGroup->setId( signAddFile, SignAdd );
+
+	buttonGroup->setId( viewEmail, ViewEmail );
+	buttonGroup->setId( viewBrowse, ViewBrowse );
+	buttonGroup->setId( viewPrint, ViewPrint );
+	buttonGroup->setId( viewEncrypt, ViewEncrypt );
+	buttonGroup->setId( viewFileNameSave, ViewSaveAs );
+	buttonGroup->setId( viewSaveAs, ViewSaveFiles );
 
 	buttonGroup->addButton(
 		introButtons->addButton( tr( "I agree" ), QDialogButtonBox::AcceptRole ), IntroAgree );
@@ -295,6 +301,22 @@ void MainWindow::buttonClicked( int button )
 		loadRoles();
 		break;
 	}
+	case SignAdd:
+	{
+		QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
+		if( !list.isEmpty() )
+		{
+			Q_FOREACH( const QString &file, list )
+			{
+				if( !addFile( file ) )
+					return;
+			}
+			setCurrentPage( Sign );
+		}
+		else if( doc->isNull() )
+			setCurrentPage( Home );
+		break;
+	}
 	case SignCancel:
 		if( !doc->signatures().isEmpty() )
 		{
@@ -327,6 +349,77 @@ void MainWindow::buttonClicked( int button )
 			close();
 		setCurrentPage( Home );
 		break;
+	case ViewBrowse:
+	{
+		QUrl url = QUrl::fromLocalFile( doc->fileName() );
+		url.setScheme( "browse" );
+		QDesktopServices::openUrl( url );
+		break;
+	}
+	case ViewEmail:
+	{
+		QUrl url;
+		url.setScheme( "mailto" );
+		url.addQueryItem( "subject", QFileInfo( doc->fileName() ).fileName() );
+		url.addQueryItem( "attachment", QFileInfo( doc->fileName() ).absoluteFilePath() );
+		QDesktopServices::openUrl( url );
+		break;
+	}
+	case ViewEncrypt:
+		Common::startDetached( "qdigidoccrypto", QStringList() << doc->fileName() );
+		break;
+	case ViewPrint:
+	{
+		QPrinter printer;
+		printer.setPaperSize( QPrinter::A4 );
+		printer.setOrientation( QPrinter::Portrait );
+		QPrintPreviewDialog *dialog = new QPrintPreviewDialog( &printer, this );
+		dialog->setWindowFlags( dialog->windowFlags() | Qt::WindowMinMaxButtonsHint );
+		connect( dialog, SIGNAL(paintRequested(QPrinter*)), SLOT(printSheet(QPrinter*)) );
+		dialog->setMinimumHeight( 700 );
+		dialog->exec();
+		break;
+	}
+	case ViewSaveAs:
+	{
+		QString file = selectFile( doc->fileName() );
+		if( !file.isEmpty() )
+			doc->save( file );
+		setCurrentPage( View );
+		break;
+	}
+	case ViewSaveFiles:
+	{
+		QString dir = FileDialog::getExistingDirectory( this,
+			tr("Select folder where files will be stored") );
+		if( dir.isEmpty() )
+			return;
+		DocumentModel *m = doc->documentModel();
+		for( int i = 0; i < m->rowCount(); ++i )
+		{
+			QModelIndex index = m->index( i, 0 );
+			QString source = index.data( Qt::UserRole ).toString();
+			QString dest = m->mkpath( index, dir );
+			if( source == dest )
+				continue;
+			if( QFile::exists( dest ) )
+			{
+				QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 client"),
+					tr( "%1 already exists.<br />Do you want replace it?" ).arg( dest ),
+					QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
+				if( b == QMessageBox::No )
+				{
+					dest = FileDialog::getSaveFileName( this, tr("Save file"), dest );
+					if( dest.isEmpty() )
+						continue;
+				}
+				else
+					QFile::remove( dest );
+			}
+			m->copy( index, dir );
+		}
+		break;
+	}
 	case SignSign:
 	{
 		buttonGroup->button( SignSign )->setEnabled( false );
@@ -539,89 +632,7 @@ void MainWindow::open( const QStringList &_params )
 
 void MainWindow::parseLink( const QString &link )
 {
-	if( link == "addFile" )
-	{
-		QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
-		if( !list.isEmpty() )
-		{
-			Q_FOREACH( const QString &file, list )
-			{
-				if( !addFile( file ) )
-					return;
-			}
-			setCurrentPage( Sign );
-		}
-		else if( doc->isNull() )
-			setCurrentPage( Home );
-	}
-	else if( link == "browse" )
-	{
-		QUrl url = QUrl::fromLocalFile( doc->fileName() );
-		url.setScheme( "browse" );
-		QDesktopServices::openUrl( url );
-	}
-	else if( link == "email" )
-	{
-		QUrl url;
-		url.setScheme( "mailto" );
-		url.addQueryItem( "subject", QFileInfo( doc->fileName() ).fileName() );
-		url.addQueryItem( "attachment", QFileInfo( doc->fileName() ).absoluteFilePath() );
-		QDesktopServices::openUrl( url );
-	}
-	else if( link == "encrypt" )
-	{
-		Common::startDetached( "qdigidoccrypto", QStringList() << doc->fileName() );
-	}
-	else if( link == "print" )
-	{
-		QPrinter printer;
-		printer.setPaperSize( QPrinter::A4 );
-		printer.setOrientation( QPrinter::Portrait );
-		QPrintPreviewDialog *dialog = new QPrintPreviewDialog( &printer, this );
-		dialog->setWindowFlags( dialog->windowFlags() | Qt::WindowMinMaxButtonsHint );
-		connect( dialog, SIGNAL(paintRequested(QPrinter*)), SLOT(printSheet(QPrinter*)) );
-		dialog->setMinimumHeight( 700 );
-		dialog->exec();
-	}
-	else if( link == "save" )
-	{
-		QString file = selectFile( doc->fileName() );
-		if( !file.isEmpty() )
-			doc->save( file );
-		setCurrentPage( View );
-	}
-	else if( link == "saveAs" )
-	{
-		QString dir = FileDialog::getExistingDirectory( this,
-			tr("Select folder where files will be stored") );
-		if( dir.isEmpty() )
-			return;
-		DocumentModel *m = doc->documentModel();
-		for( int i = 0; i < m->rowCount(); ++i )
-		{
-			QModelIndex index = m->index( i, 0 );
-			QString source = index.data( Qt::UserRole ).toString();
-			QString dest = m->mkpath( index, dir );
-			if( source == dest )
-				continue;
-			if( QFile::exists( dest ) )
-			{
-				QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 client"),
-					tr( "%1 already exists.<br />Do you want replace it?" ).arg( dest ),
-					QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
-				if( b == QMessageBox::No )
-				{
-					dest = FileDialog::getSaveFileName( this, tr("Save file"), dest );
-					if( dest.isEmpty() )
-						continue;
-				}
-				else
-					QFile::remove( dest );
-			}
-			m->copy( index, dir );
-		}
-	}
-	else if( link == "openUtility" )
+	if( link == "openUtility" )
 	{
 		if( !Common::startDetached( "qesteidutil" ) )
 			qApp->showWarning( tr("Failed to start process '%1'").arg( "qesteidutil" ) );

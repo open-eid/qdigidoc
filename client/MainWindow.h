@@ -67,9 +67,16 @@ private:
 		IntroAgree,
 		SignCancel,
 		SignSign,
+		SignAdd,
 		HomeView,
 		ViewAddSignature,
 		ViewClose,
+		ViewBrowse,
+		ViewEmail,
+		ViewPrint,
+		ViewEncrypt,
+		ViewSaveAs,
+		ViewSaveFiles
 	};
 	bool addFile( const QString &file );
 	bool event( QEvent *e );
