@@ -51,8 +51,7 @@ MainWindow::MainWindow( QWidget *parent )
 	if( !qApp->arguments().contains( "-crash" ) )
 #endif
 	setupUi( this );
-	foreach( QLabel *l, QList<QLabel*>() << introContent << viewFileNameSave << viewEmail << viewBrowse << viewKeysLinks )
-		Common::setAccessibleName( l );
+	Common::setAccessibleName( introContent );
 
 	cards->hide();
 	cards->hack();
@@ -67,6 +66,13 @@ MainWindow::MainWindow( QWidget *parent )
 
 	buttonGroup->addButton( homeCreate, HomeCreate );
 	buttonGroup->addButton( homeView, HomeView );
+
+	buttonGroup->addButton( viewEmail, ViewEmail );
+	buttonGroup->addButton( viewBrowse, ViewBrowse );
+	buttonGroup->addButton( viewFileNameSave, ViewSave );
+	buttonGroup->addButton( viewSaveAll, ViewSaveAll );
+	buttonGroup->addButton( viewAddFile, ViewAddFile );
+	buttonGroup->addButton( viewKeysLinks, ViewAddKey );
 
 	buttonGroup->addButton(
 		introButtons->addButton( tr( "I agree" ), QDialogButtonBox::AcceptRole ), IntroAgree );
@@ -294,6 +300,83 @@ void MainWindow::buttonClicked( int button )
 		setCurrentPage( View );
 		break;
 	}
+	case ViewAddFile:
+	{
+		QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
+		if( list.isEmpty() )
+			return;
+		Q_FOREACH( const QString &file, list )
+			addFile( file );
+		setCurrentPage( View );
+		break;
+	}
+	case ViewAddKey:
+	{
+		if( doc->isEncrypted() )
+			return;
+
+		CertAddDialog *key = new CertAddDialog( doc, this );
+		connect( key, SIGNAL(updateView()), SLOT(updateView()) );
+		key->move( pos() );
+		key->show();
+		break;
+	}
+	case ViewBrowse:
+	{
+		QUrl url = QUrl::fromLocalFile( doc->fileName() );
+		url.setScheme( "browse" );
+		QDesktopServices::openUrl( url );
+		break;
+	}
+	case ViewEmail:
+	{
+		QUrl url;
+		url.setScheme( "mailto" );
+		url.addQueryItem( "subject", QFileInfo( doc->fileName() ).fileName() );
+		url.addQueryItem( "attachment", QFileInfo( doc->fileName() ).absoluteFilePath() );
+		QDesktopServices::openUrl( url );
+		break;
+	}
+	case ViewSave:
+	{
+		QString file = selectFile( doc->fileName() );
+		if( !file.isEmpty() )
+			doc->save( file );
+		setCurrentPage( View );
+		break;
+	}
+	case ViewSaveAll:
+	{
+		QString dir = FileDialog::getExistingDirectory( this,
+			tr("Select folder where files will be stored") );
+		if( dir.isEmpty() )
+			return;
+		CDocumentModel *m = doc->documents();
+		for( int i = 0; i < m->rowCount(); ++i )
+		{
+			QModelIndex index = m->index( i, CDocumentModel::Name );
+			QString source = index.data( Qt::UserRole ).toString();
+			QString dest = m->mkpath( index, dir );
+			if( source == dest )
+				continue;
+			if( QFile::exists( dest ) )
+			{
+				QMessageBox::StandardButton b = QMessageBox::warning( this, windowTitle(),
+					tr( "%1 already exists.<br />Do you want replace it?" ).arg( dest ),
+					QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
+				if( b == QMessageBox::No )
+				{
+					dest = FileDialog::getSaveFileName( this, tr("Save file"), dest );
+					if( dest.isEmpty() )
+						continue;
+				}
+				else
+					QFile::remove( dest );
+			}
+			m->copy( index, dir );
+		}
+		break;
+	}
 	default: break;
 	}
 }
@@ -354,78 +437,7 @@ void MainWindow::open( const QStringList &_params )
 
 void MainWindow::parseLink( const QString &link )
 {
-	if( link == "addFile" )
-	{
-		QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
-		if( list.isEmpty() )
-			return;
-		Q_FOREACH( const QString &file, list )
-			addFile( file );
-		setCurrentPage( View );
-	}
-	else if( link == "addRecipient" )
-	{
-		if( doc->isEncrypted() )
-			return;
-
-		CertAddDialog *key = new CertAddDialog( doc, this );
-		connect( key, SIGNAL(updateView()), SLOT(updateView()) );
-		key->move( pos() );
-		key->show();
-	}
-	else if( link == "browse" )
-	{
-		QUrl url = QUrl::fromLocalFile( doc->fileName() );
-		url.setScheme( "browse" );
-		QDesktopServices::openUrl( url );
-	}
-	else if( link == "email" )
-	{
-		QUrl url;
-		url.setScheme( "mailto" );
-		url.addQueryItem( "subject", QFileInfo( doc->fileName() ).fileName() );
-		url.addQueryItem( "attachment", QFileInfo( doc->fileName() ).absoluteFilePath() );
-		QDesktopServices::openUrl( url );
-	}
-	else if( link == "save" )
-	{
-		QString file = selectFile( doc->fileName() );
-		if( !file.isEmpty() )
-			doc->save( file );
-		setCurrentPage( View );
-	}
-	else if( link == "saveAll" )
-	{
-		QString dir = FileDialog::getExistingDirectory( this,
-			tr("Select folder where files will be stored") );
-		if( dir.isEmpty() )
-			return;
-		CDocumentModel *m = doc->documents();
-		for( int i = 0; i < m->rowCount(); ++i )
-		{
-			QModelIndex index = m->index( i, CDocumentModel::Name );
-			QString source = index.data( Qt::UserRole ).toString();
-			QString dest = m->mkpath( index, dir );
-			if( source == dest )
-				continue;
-			if( QFile::exists( dest ) )
-			{
-				QMessageBox::StandardButton b = QMessageBox::warning( this, windowTitle(),
-					tr( "%1 already exists.<br />Do you want replace it?" ).arg( dest ),
-					QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
-				if( b == QMessageBox::No )
-				{
-					dest = FileDialog::getSaveFileName( this, tr("Save file"), dest );
-					if( dest.isEmpty() )
-						continue;
-				}
-				else
-					QFile::remove( dest );
-			}
-			m->copy( index, dir );
-		}
-	}
-	else if( link == "openUtility" )
+	if( link == "openUtility" )
 	{
 		if( !Common::startDetached( "qesteidutil" ) )
 			qApp->showWarning( tr("Failed to start process '%1'").arg( "qesteidutil" ) );
@@ -505,7 +517,8 @@ void MainWindow::setCurrentPage( Pages page )
 
 		viewBrowse->setVisible( doc->isEncrypted() );
 		viewEmail->setVisible( doc->isEncrypted() );
-		viewContentLinks->setHidden( doc->isEncrypted() );
+		viewAddFile->setHidden( doc->isEncrypted() );
+		viewSaveAll->setHidden( doc->isEncrypted() );
 		viewKeysLinks->setHidden( doc->isEncrypted() );
 
 		viewContentView->setColumnHidden( CDocumentModel::Save, doc->isEncrypted() );

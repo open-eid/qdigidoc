@@ -74,6 +74,22 @@ color: #00355F;
 QPushButton:disabled
 { background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #A3AFC0, stop: 0.75 #80909D); }
 
+#viewEmail, #viewBrowse, #viewKeysLinks, #viewFileNameSave, #viewSaveAll, #viewAddFile
+{
+color: #509B00;
+text-align: left;
+text-decoration: underline;
+background: transparent;
+padding: 0px;
+margin: 0px;
+min-width: 0px;
+}
+
+#viewKeysLinks
+{
+text-align: right;
+}
+
 /* header */
 #headerLine, #headerLine2, #headerLine3
 { background-color: #00355F; }
@@ -415,20 +431,6 @@ color: #71889A;
               </property>
              </spacer>
             </item>
-            <item row="1" column="1">
-             <widget class="QPushButton" name="homeCreate">
-              <property name="text">
-               <string>Encrypt documents</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QPushButton" name="homeView">
-              <property name="text">
-               <string>View encrypted document content</string>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="0">
              <spacer name="horizontalSpacer">
               <property name="orientation">
@@ -444,6 +446,20 @@ color: #71889A;
                </size>
               </property>
              </spacer>
+            </item>
+            <item row="1" column="1">
+             <widget class="QPushButton" name="homeCreate">
+              <property name="text">
+               <string>Encrypt documents</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="homeView">
+              <property name="text">
+               <string>View encrypted document content</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -522,6 +538,40 @@ The private key needed for decryption is stored only on the ID-card of the recip
           <property name="margin">
            <number>0</number>
           </property>
+          <item row="0" column="0" colspan="2">
+           <layout class="QHBoxLayout" name="viewFileNameLayout">
+            <item>
+             <widget class="QLabel" name="viewFileNameLabel">
+              <property name="text">
+               <string>Container:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="viewFileName">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextSelectableByMouse</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="viewFileNameSave">
+              <property name="text">
+               <string>Save</string>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="viewContentLabel">
             <property name="font">
@@ -554,57 +604,6 @@ The private key needed for decryption is stored only on the ID-card of the recip
             </property>
            </widget>
           </item>
-          <item row="0" column="0" colspan="2">
-           <layout class="QHBoxLayout" name="viewFileNameLayout">
-            <item>
-             <widget class="QLabel" name="viewFileNameLabel">
-              <property name="text">
-               <string>Container:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="viewFileName">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>1</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="textInteractionFlags">
-               <set>Qt::TextSelectableByMouse</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="viewFileNameSave">
-              <property name="text">
-               <string>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</string>
-              </property>
-              <property name="textInteractionFlags">
-               <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="5" column="0" colspan="2">
-           <widget class="QDialogButtonBox" name="viewButtons">
-            <property name="standardButtons">
-             <set>QDialogButtonBox::Close</set>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="viewEmail">
-            <property name="text">
-             <string>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</string>
-            </property>
-            <property name="textInteractionFlags">
-             <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <widget class="QFrame" name="viewContentFrame">
             <property name="frameShape">
@@ -613,11 +612,11 @@ The private key needed for decryption is stored only on the ID-card of the recip
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout">
+            <layout class="QGridLayout" name="gridLayout">
              <property name="margin">
               <number>0</number>
              </property>
-             <item>
+             <item row="0" column="0" colspan="3">
               <widget class="TreeWidget" name="viewContentView">
                <property name="accessibleName">
                 <string>Container content</string>
@@ -648,16 +647,36 @@ The private key needed for decryption is stored only on the ID-card of the recip
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QLabel" name="viewContentLinks">
+             <item row="1" column="0">
+              <spacer name="viewContentFrameSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="1" column="1">
+              <widget class="QPushButton" name="viewAddFile">
                <property name="text">
-                <string>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt; &lt;a href=&quot;saveAll&quot;&gt;Save files to disk&lt;/a&gt;</string>
+                <string>Add file</string>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <property name="flat">
+                <bool>true</bool>
                </property>
-               <property name="textInteractionFlags">
-                <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QPushButton" name="viewSaveAll">
+               <property name="text">
+                <string>Save files to disk</string>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -692,8 +711,8 @@ The private key needed for decryption is stored only on the ID-card of the recip
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>288</width>
+                  <height>200</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="viewKeysLayout">
@@ -718,28 +737,42 @@ The private key needed for decryption is stored only on the ID-card of the recip
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="viewKeysLinks">
+              <widget class="QPushButton" name="viewKeysLinks">
                <property name="text">
-                <string>&lt;a href=&quot;addRecipient&quot;&gt;Add recipient&lt;/a&gt;</string>
+                <string>Add recipient</string>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="textInteractionFlags">
-                <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+               <property name="flat">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
             </layout>
            </widget>
           </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="viewBrowse">
+          <item row="3" column="0">
+           <widget class="QPushButton" name="viewEmail">
             <property name="text">
-             <string>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</string>
+             <string>Send container to email</string>
             </property>
-            <property name="textInteractionFlags">
-             <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QPushButton" name="viewBrowse">
+            <property name="text">
+             <string>Browse container location</string>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" colspan="2">
+           <widget class="QDialogButtonBox" name="viewButtons">
+            <property name="standardButtons">
+             <set>QDialogButtonBox::Close</set>
             </property>
            </widget>
           </item>
@@ -764,58 +797,8 @@ The private key needed for decryption is stored only on the ID-card of the recip
    <header>TreeWidget.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../images/images.qrc"/>
- </resources>
+ <resources/>
  <connections>
-  <connection>
-   <sender>viewEmail</sender>
-   <signal>linkActivated(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>parseLink(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>69</x>
-     <y>196</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>324</x>
-     <y>269</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>viewContentLinks</sender>
-   <signal>linkActivated(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>parseLink(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>69</x>
-     <y>196</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>324</x>
-     <y>269</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>viewKeysLinks</sender>
-   <signal>linkActivated(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>parseLink(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>69</x>
-     <y>196</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>324</x>
-     <y>269</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>infoFrame</sender>
    <signal>linkActivated(QString)</signal>
@@ -825,38 +808,6 @@ The private key needed for decryption is stored only on the ID-card of the recip
     <hint type="sourcelabel">
      <x>435</x>
      <y>114</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>324</x>
-     <y>269</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>viewFileNameSave</sender>
-   <signal>linkActivated(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>parseLink(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>69</x>
-     <y>206</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>324</x>
-     <y>275</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>viewBrowse</sender>
-   <signal>linkActivated(QString)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>parseLink(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>169</x>
-     <y>485</y>
     </hint>
     <hint type="destinationlabel">
      <x>324</x>

@@ -64,6 +64,12 @@ private:
 		IntroAgree,
 		ViewClose,
 		ViewCrypto,
+		ViewEmail,
+		ViewBrowse,
+		ViewSave,
+		ViewSaveAll,
+		ViewAddFile,
+		ViewAddKey
 	};
 	bool addFile( const QString &file );
 	bool event( QEvent *e );

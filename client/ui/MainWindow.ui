@@ -530,6 +530,22 @@ padding: 5px;
               </property>
              </spacer>
             </item>
+            <item row="1" column="0">
+             <spacer name="homePadding">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Minimum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>10</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
             <item row="1" column="1">
              <widget class="QPushButton" name="homeSign">
               <property name="text">
@@ -559,22 +575,6 @@ padding: 5px;
                <string notr="true">buttonGroup</string>
               </attribute>
              </widget>
-            </item>
-            <item row="1" column="0">
-             <spacer name="homePadding">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>10</width>
-                <height>0</height>
-               </size>
-              </property>
-             </spacer>
             </item>
            </layout>
           </item>
@@ -966,6 +966,34 @@ Also an active internet connection is needed.</string>
             </property>
            </widget>
           </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="viewSignaturesLabelLayout">
+            <item>
+             <widget class="QLabel" name="viewSignaturesLabel">
+              <property name="font">
+               <font>
+                <family>Arial, Liberation Sans</family>
+                <pointsize>-1</pointsize>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Signature</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="viewSignaturesError">
+              <property name="styleSheet">
+               <string notr="true">font: bold;
+color: red;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
           <item row="3" column="0">
            <widget class="QFrame" name="viewContentFrame">
             <property name="frameShape">
@@ -1109,34 +1137,6 @@ Also an active internet connection is needed.</string>
              <set>QDialogButtonBox::Close</set>
             </property>
            </widget>
-          </item>
-          <item row="2" column="1">
-           <layout class="QHBoxLayout" name="viewSignaturesLabelLayout">
-            <item>
-             <widget class="QLabel" name="viewSignaturesLabel">
-              <property name="font">
-               <font>
-                <family>Arial, Liberation Sans</family>
-                <pointsize>-1</pointsize>
-                <weight>75</weight>
-                <italic>false</italic>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>Signature</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="viewSignaturesError">
-              <property name="styleSheet">
-               <string notr="true">font: bold;
-color: red;</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
           </item>
          </layout>
         </widget>
