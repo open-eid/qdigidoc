@@ -730,6 +730,9 @@ Also an active internet connection is needed.</string>
                <property name="text">
                 <string>Add file</string>
                </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
                <attribute name="buttonGroup">
                 <string notr="true">buttonGroup</string>
                </attribute>
@@ -936,6 +939,9 @@ Also an active internet connection is needed.</string>
               <property name="text">
                <string>Save</string>
               </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
               <attribute name="buttonGroup">
                <string notr="true">buttonGroup</string>
               </attribute>
@@ -1039,6 +1045,9 @@ color: red;</string>
                <property name="text">
                 <string>Save files to disk</string>
                </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
                <attribute name="buttonGroup">
                 <string notr="true">buttonGroup</string>
                </attribute>
@@ -1096,6 +1105,9 @@ color: red;</string>
             <property name="text">
              <string>Send container to email</string>
             </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
             <attribute name="buttonGroup">
              <string notr="true">buttonGroup</string>
             </attribute>
@@ -1105,6 +1117,9 @@ color: red;</string>
            <widget class="QPushButton" name="viewPrint">
             <property name="text">
              <string>Print summary</string>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">buttonGroup</string>
@@ -1116,6 +1131,9 @@ color: red;</string>
             <property name="text">
              <string>Browse container location</string>
             </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
             <attribute name="buttonGroup">
              <string notr="true">buttonGroup</string>
             </attribute>
@@ -1125,6 +1143,9 @@ color: red;</string>
            <widget class="QPushButton" name="viewEncrypt">
             <property name="text">
              <string>Encrypt document</string>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">buttonGroup</string>
