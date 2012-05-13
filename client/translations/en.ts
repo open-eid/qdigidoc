@@ -356,22 +356,6 @@ Media type: %3</translation>
         <translation>This container is </translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;saveAs&quot;&gt;Save files to disk&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;saveAs&quot;&gt;Save files to disk&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;print&quot;&gt;Print summary&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;print&quot;&gt;Print summary&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>File already in container</source>
         <translation>File already in container</translation>
     </message>
@@ -390,10 +374,6 @@ Media type: %3</translation>
     <message>
         <source>Encrypt files for secure transfer</source>
         <translation>Encrypt files for secure transfer</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%1 already exists.&lt;br /&gt;Do you want replace it?</source>
@@ -483,10 +463,6 @@ already in container, ovewrite?</source>
 already in container, ovewrite?</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Server access certificate has been installed</source>
         <translation>Server access certificate has been installed</translation>
     </message>
@@ -513,10 +489,6 @@ already in container, ovewrite?</translation>
     <message>
         <source>NB! Weak signature</source>
         <translation>NB! Weak signature</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</translation>
     </message>
     <message>
         <source>BDOC signing is not supported, please upgrade software</source>
@@ -553,6 +525,34 @@ Also an active internet connection is needed.</translation>
     <message>
         <source>All fields are optional</source>
         <translation>All fields are optional</translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation>Add file</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Save</translation>
+    </message>
+    <message>
+        <source>Save files to disk</source>
+        <translation>Save files to disk</translation>
+    </message>
+    <message>
+        <source>Send container to email</source>
+        <translation>Send container to email</translation>
+    </message>
+    <message>
+        <source>Print summary</source>
+        <translation>Print summary</translation>
+    </message>
+    <message>
+        <source>Browse container location</source>
+        <translation>Browse container location</translation>
+    </message>
+    <message>
+        <source>Encrypt document</source>
+        <translation>Encrypt document</translation>
     </message>
 </context>
 <context>

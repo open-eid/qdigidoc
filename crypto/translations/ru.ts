@@ -405,14 +405,6 @@ message: %2</source>
         <translation>Контейнер:</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt; &lt;a href=&quot;saveAll&quot;&gt;Save files to disk&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;addFile&quot;&gt;Добавить файл&lt;/a&gt; &lt;a href=&quot;saveAll&quot;&gt;Сохранить файлы&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;addRecipient&quot;&gt;Add recipient&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;addRecipient&quot;&gt;Добавить получателя&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Container content:</source>
         <translation>Содержание контейнера:</translation>
     </message>
@@ -479,10 +471,6 @@ already in container, ovewrite?</source>
 уже в контейнере, переписать?</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;save&quot;&gt;Сохранить&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>I agree</source>
         <translation>Подтверждаю</translation>
     </message>
@@ -503,16 +491,8 @@ already in container, ovewrite?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;email&quot;&gt;Послать контейнер на эл. почту&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Container content</source>
         <translation>Содержание контейнера</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;browse&quot;&gt;Показать расположение контейнера&lt;/a&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
@@ -527,6 +507,30 @@ The private key needed for decryption is stored only on the ID-card of the recip
 Для шифрования файлов используется предоставляемая AS Sertifitseerimiskeskus LDAP-услуга для поиска сертификатов. Файлы шифруются открытым ключом, содержащимся в сертификате. Шифрование является односторонним, для расшифровки необходим персональный ключ сертификата получателя файла, встроенный в его ID-карту.&lt;br /&gt;&lt;br /&gt;
 &lt;b&gt;&lt;font color=&quot;red&quot;&gt;ПРЕДУПРЕЖДЕНИЕ:&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
 Так как сертификат, позволяющий расшифровать данные, встроен только в конкретную ID-карту, то после утери, обновления, истечения срока действия или механического повреждения этой ID-карты расшифровка данных становится технически невозможной.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation>Добавить файл</translation>
+    </message>
+    <message>
+        <source>Save files to disk</source>
+        <translation>Сохранить файлы</translation>
+    </message>
+    <message>
+        <source>Add recipient</source>
+        <translation>Добавить получателя</translation>
+    </message>
+    <message>
+        <source>Send container to email</source>
+        <translation>Послать контейнер на эл. почту</translation>
+    </message>
+    <message>
+        <source>Browse container location</source>
+        <translation>Показать расположение контейнера</translation>
     </message>
 </context>
 <context>

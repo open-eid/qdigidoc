@@ -370,28 +370,8 @@ Media type: %3</source>
         <translation>Индекс</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;addFile&quot;&gt;Добавить файл&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>This container is </source>
         <translation>Данный контейнер</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;email&quot;&gt;Отослать контейнер по эл. почте&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;print&quot;&gt;Print summary&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;print&quot;&gt;Распечатать подтверждающий лист&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;browse&quot;&gt;Открыть папку с контейнером&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;saveAs&quot;&gt;Save files to disk&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;saveAs&quot;&gt;Сохранить файлы на жёсткий диск&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%1 already exists.&lt;br /&gt;Do you want replace it?</source>
@@ -484,10 +464,6 @@ already in container, ovewrite?</source>
 уже в контейнере, переписать?</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;save&quot;&gt;Сохранить&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Server access certificate has been installed</source>
         <translation>Сертификат доступа к серверу установлен</translation>
     </message>
@@ -514,10 +490,6 @@ already in container, ovewrite?</source>
     <message>
         <source>NB! Weak signature</source>
         <translation>NB! Слабая подпись</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;encrypt&quot;&gt;Зашифровать документ&lt;/a&gt;</translation>
     </message>
     <message>
         <source>BDOC signing is not supported, please upgrade software</source>
@@ -554,6 +526,34 @@ Also an active internet connection is needed.</source>
     <message>
         <source>All fields are optional</source>
         <translation>Заполнение полей необязательно</translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation>Добавить файл</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Save files to disk</source>
+        <translation>Сохранить файлы на жёсткий диск</translation>
+    </message>
+    <message>
+        <source>Send container to email</source>
+        <translation>Отослать контейнер по эл. почте</translation>
+    </message>
+    <message>
+        <source>Print summary</source>
+        <translation>Распечатать подтверждающий лист</translation>
+    </message>
+    <message>
+        <source>Browse container location</source>
+        <translation>Открыть папку с контейнером</translation>
+    </message>
+    <message>
+        <source>Encrypt document</source>
+        <translation>Зашифровать документ</translation>
     </message>
 </context>
 <context>

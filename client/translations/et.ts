@@ -354,22 +354,6 @@ Media type: %3</source>
         <translation>See ümbrik on</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;saveAs&quot;&gt;Save files to disk&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;saveAs&quot;&gt;Salvesta failid kettale&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;email&quot;&gt;Saada ümbrik e-postiga&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;print&quot;&gt;Print summary&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;print&quot;&gt;Trüki kinnitusleht&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;browse&quot;&gt;Näita ümbriku asukohta kettal&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>File already in container</source>
         <translation>Fail on juba ümbrikus</translation>
     </message>
@@ -388,10 +372,6 @@ Media type: %3</source>
     <message>
         <source>Encrypt files for secure transfer</source>
         <translation>Krüpteerida faile turvaliseks edastamiseks</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;addFile&quot;&gt;Lisa fail&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%1 already exists.&lt;br /&gt;Do you want replace it?</source>
@@ -481,10 +461,6 @@ already in container, ovewrite?</source>
 on juba ümbrikus. Kas kirjutan üle?</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;save&quot;&gt;Salvesta&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Server access certificate has been installed</source>
         <translation>Juurdepääsutõend on edukalt paigaldatud</translation>
     </message>
@@ -511,10 +487,6 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
     <message>
         <source>NB! Weak signature</source>
         <translation>NB! Nõrga turvalisusega allkiri</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;encrypt&quot;&gt;Encrypt document&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;encrypt&quot;&gt;Krüpteeri dokument&lt;/a&gt;</translation>
     </message>
     <message>
         <source>BDOC signing is not supported, please upgrade software</source>
@@ -551,6 +523,34 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
     <message>
         <source>All fields are optional</source>
         <translation>Väljade täitmine ei ole kohustuslik</translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation>Lisa fail</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Salvesta</translation>
+    </message>
+    <message>
+        <source>Save files to disk</source>
+        <translation>Salvesta failid kettale</translation>
+    </message>
+    <message>
+        <source>Send container to email</source>
+        <translation>Saada ümbrik e-postiga</translation>
+    </message>
+    <message>
+        <source>Print summary</source>
+        <translation>Trüki kinnitusleht</translation>
+    </message>
+    <message>
+        <source>Browse container location</source>
+        <translation>Näita ümbriku asukohta kettal</translation>
+    </message>
+    <message>
+        <source>Encrypt document</source>
+        <translation>Krüpteeri dokument</translation>
     </message>
 </context>
 <context>

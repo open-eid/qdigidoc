@@ -410,14 +410,6 @@ Kas avan Digidoc kliendiga?</translation>
         <translation>Turvaümbrik:</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;addFile&quot;&gt;Add file&lt;/a&gt; &lt;a href=&quot;saveAll&quot;&gt;Save files to disk&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;addFile&quot;&gt;Lisa fail&lt;/a&gt; &lt;a href=&quot;saveAll&quot;&gt;Salvesta failid kettale&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;addRecipient&quot;&gt;Add recipient&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;addRecipient&quot;&gt;Lisa adressaat&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>%1 already exists.&lt;br /&gt;Do you want replace it?</source>
         <translation>%1 on juba olemas.&lt;br /&gt;Kas sa tahad seda asendada?</translation>
     </message>
@@ -480,10 +472,6 @@ already in container, ovewrite?</source>
 on juba ümbrikus. Kas kirjutan üle?</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;save&quot;&gt;Save&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;save&quot;&gt;Salvesta&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>I agree</source>
         <translation>Nõustun</translation>
     </message>
@@ -504,16 +492,8 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <translation>Kaardi info</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;email&quot;&gt;Send container to email&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;email&quot;&gt;Saada turvaümbrik e-postiga&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Container content</source>
         <translation>Konteineri sisu</translation>
-    </message>
-    <message>
-        <source>&lt;a href=&quot;browse&quot;&gt;Browse container location&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;browse&quot;&gt;Näita turvaümbriku asukohta kettal&lt;/a&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;File encryption&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
@@ -528,6 +508,30 @@ ID-kaardi sertifikaatidega krüptimine ei ole mõeldud andmete pikaajaliseks tur
 Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(te) sertifikaatide otsimiseks. Failid krüptitakse sertifikaadis sisalduva avaliku võtmega. Krüptimine on ühesuunaline, dekrüpteerimiseks on vaja vastava sertifikaadi privaatvõtit, mis on salvestatud ainult vastava isiku ID-kaardil.&lt;br /&gt;&lt;br /&gt;
 &lt;b&gt;&lt;font color=&quot;red&quot;&gt;HOIATUS:&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
 Kuna dekrüpteerimist võimaldav sertifikaat on salvestatud ainult ID-kaardile, pole pärast ID-kaardi kaotamist, aegumist, uuendamist, tühistamist või mehaanilist kiibi vigastamist dekrüpteerimine tehniliselt võimalik.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Salvesta</translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation>Lisa fail</translation>
+    </message>
+    <message>
+        <source>Save files to disk</source>
+        <translation>Salvesta failid kettale</translation>
+    </message>
+    <message>
+        <source>Add recipient</source>
+        <translation>Lisa adressaat</translation>
+    </message>
+    <message>
+        <source>Send container to email</source>
+        <translation>Saada turvaümbrik e-postiga</translation>
+    </message>
+    <message>
+        <source>Browse container location</source>
+        <translation>Näita turvaümbriku asukohta kettal</translation>
     </message>
 </context>
 <context>
