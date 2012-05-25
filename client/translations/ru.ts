@@ -941,10 +941,6 @@ Control code: %1</source>
         <translation>Согласно условиям пользования услугой подтверждения действительности Вы можете пользоваться услугой в объеме не более 10 цифровых подписей в месяц. Чтобы получить возможность пользоваться услугой в большем объеме или использовать ее в коммерческих целях, обратитесь в службу ИТ-поддержки Вашего учреждения. За дополнительной информацией обращайтесь по адресу &lt;a href=&quot;http://www.id.ee/rus/access&quot;&gt;http://www.id.ee/rus/access&lt;/a&gt;, по электронной почте sales@sk.ee или по телефону 1777</translation>
     </message>
     <message>
-        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
-        <translation>BDOC – это новый формат цифровой подписи, который еще не поддерживается многими инфосистемами. Не исключено, что получатель не сможет открыть документ в формате BDOC. Дополнительная информация: &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;http://www.id.ee/rus/bdoc&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Always save the last used role, resolution and location</source>
         <translation>Сохранить последнюю введённую роль, резолюцию и местоположение</translation>
     </message>
@@ -979,6 +975,10 @@ Control code: %1</source>
     <message>
         <source>Default file type DDOC</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We currenly do not recommend use of BDOC format as it will be changed in near future to comply with new international standards. Please use DDOC format instead. More information on BDOC format is available at &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
+        <translation>В связи с разработкой нового, соответствующего междунородным стандартам формата BDOC, мы рекомендуем не подписывать документы формата BDOC, а использовать DDOC формат. Дополнительную информацию о BDOC формате наидете на сайте &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;http://www.id.ee/rus/bdoc&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

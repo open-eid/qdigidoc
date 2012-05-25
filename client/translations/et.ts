@@ -938,10 +938,6 @@ Kontrollkood: %1</translation>
         <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
     </message>
     <message>
-        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
-        <translation>BDOC on uus digitaalallkirja vorming, mida paljud infosüsteemid ei oska veel kasutada ega lugeda. Palun arvestage, et saajal võib puududa võimalus selles formaadis allkirjastatud dokumenti avada. Täiendav info &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;http://www.id.ee/bdoc&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Always save the last used role, resolution and location</source>
         <translation>Jäta viimati sisestatud roll, resolutsioon ja asukoht meelde</translation>
     </message>
@@ -976,6 +972,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>Default file type DDOC</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>We currenly do not recommend use of BDOC format as it will be changed in near future to comply with new international standards. Please use DDOC format instead. More information on BDOC format is available at &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
+        <translation>Seoses uue rahvusvahelistele standarditele vastava BDOC formaadi väljatöötamisega soovitame BDOC formaadis dokumente mitte allkirjastada ja kasutada DDOC formaati. Täiendav info BDOC formaadi kohta &lt;a href=&quot;http://www.sk.ee/bdoc&quot;&gt;http://www.sk.ee/bdoc&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
