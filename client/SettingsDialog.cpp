@@ -145,7 +145,7 @@ void SettingsDialog::on_typeBDoc_clicked( bool checked )
 		return;
 
 	QMessageBox b( QMessageBox::Information, windowTitle(), tr(
-		"We currenly do not recommend use of BDOC format as it will be changed in "
+		"We currently do not recommend use of BDOC format as it will be changed in "
 		"near future to comply with new international standards. Please use DDOC "
 		"format instead. More information on BDOC format is available at "
 		"<a href=\"http://www.id.ee/eng/bdoc\">http://www.id.ee/eng/bdoc</a>" ),

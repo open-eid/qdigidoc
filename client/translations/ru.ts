@@ -977,8 +977,8 @@ Control code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>We currenly do not recommend use of BDOC format as it will be changed in near future to comply with new international standards. Please use DDOC format instead. More information on BDOC format is available at &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
-        <translation>В связи с разработкой нового, соответствующего междунородным стандартам формата BDOC, мы рекомендуем не подписывать документы формата BDOC, а использовать DDOC формат. Дополнительную информацию о BDOC формате наидете на сайте &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;http://www.id.ee/rus/bdoc&lt;/a&gt;</translation>
+        <source>We currently do not recommend use of BDOC format as it will be changed in near future to comply with new international standards. Please use DDOC format instead. More information on BDOC format is available at &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
+        <translation>В связи с разработкой нового, соответствующего междунaродным стандартам формата BDOC, мы рекомендуем не подписывать документы формата BDOC, а использовать DDOC формат. Дополнительную информацию о BDOC формате наидете на сайте &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;http://www.id.ee/rus/bdoc&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
