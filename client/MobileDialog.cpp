@@ -68,6 +68,7 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	mobileResults["Certificate is revoked"] = tr("Mobile-ID user certificates are revoked or suspended.");
 
 	setupUi( this );
+	code->setBuddy( signProgressBar );
 
 	statusTimer = new QTimeLine( signProgressBar->maximum() * 1000, this );
 	statusTimer->setCurveShape( QTimeLine::LinearCurve );
@@ -179,8 +180,11 @@ void MobileDialog::finished( QNetworkReply *reply )
 			statusTimer->stop();
 		}
 		else
+		{
 			code->setText( tr("Make sure control code matches with one in phone screen\n"
 				"and enter Mobile-ID PIN.\nControl code: %1").arg( challenge ) );
+			code->setAccessibleName( code->text() );
+		}
 		return;
 	}
 
