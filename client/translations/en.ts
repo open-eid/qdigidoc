@@ -1087,8 +1087,8 @@ Control code: %1</translation>
         <translation>Show OCSP certificate</translation>
     </message>
     <message>
-        <source>Validity of approval</source>
-        <translation>Validity of approval</translation>
+        <source>Validity confirmation</source>
+        <translation>Validity confirmation</translation>
     </message>
     <message>
         <source>Show signer&apos;s certificate</source>

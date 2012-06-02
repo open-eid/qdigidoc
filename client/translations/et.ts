@@ -1062,7 +1062,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Hash value of validity confirmation</source>
-        <translation>Räsi väärtus kehtivuse kinnitamisel</translation>
+        <translation>Kehtivuskinnituse sõnumilühend</translation>
     </message>
     <message>
         <source>Signature is not valid</source>
@@ -1085,7 +1085,7 @@ Kontrollkood: %1</translation>
         <translation>Näita kehtivuskinnituse sertifikaati</translation>
     </message>
     <message>
-        <source>Validity of approval</source>
+        <source>Validity confirmation</source>
         <translation>Kehtivuskinnitus</translation>
     </message>
     <message>

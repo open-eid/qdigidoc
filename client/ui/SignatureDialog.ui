@@ -183,7 +183,7 @@
        <bool>false</bool>
       </property>
       <attribute name="title">
-       <string>Validity of approval</string>
+       <string>Validity confirmation</string>
       </attribute>
       <column>
        <property name="text">

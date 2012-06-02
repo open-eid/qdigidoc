@@ -1065,7 +1065,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Hash value of validity confirmation</source>
-        <translation>Хеш-значение при подтверждении действия</translation>
+        <translation>Сокрашение сообщения подтверждения деиствительности</translation>
     </message>
     <message>
         <source>Signature is not valid</source>
@@ -1088,7 +1088,7 @@ Control code: %1</source>
         <translation>Сертификат OCSP</translation>
     </message>
     <message>
-        <source>Validity of approval</source>
+        <source>Validity confirmation</source>
         <translation>Потдверждение</translation>
     </message>
     <message>
