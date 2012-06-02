@@ -47,7 +47,8 @@
    <item>
     <widget class="QFrame" name="background">
      <property name="styleSheet">
-      <string notr="true">* { color: #355670; font: 12px &quot;Arial, Liberation Sans&quot;; }
+      <string notr="true">QLabel, QAbstractButton, QAbstractItemView, QComboBox
+{ color: #355670; font: 12px &quot;Arial, Liberation Sans&quot;; }
 
 /* widgets */
 QPushButton

@@ -62,8 +62,6 @@ MainWindow::MainWindow( QWidget *parent )
 	infoTypeGroup->setId( infoSignMobile, 1 );
 
 	cards->hide();
-	cards->hack();
-	languages->hack();
 
 	Settings s;
 	// Mobile

@@ -54,8 +54,6 @@ MainWindow::MainWindow( QWidget *parent )
 	Common::setAccessibleName( introContent );
 
 	cards->hide();
-	cards->hack();
-	languages->hack();
 
 	// Buttons
 	buttonGroup = new QButtonGroup( this );
