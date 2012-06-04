@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -34,7 +34,12 @@ class QSigner: public QThread, public digidoc::Signer
 	Q_OBJECT
 
 public:
-	explicit QSigner( bool useCapi, QObject *parent = 0 );
+	enum ApiType
+	{
+		PKCS11,
+		CAPI
+	};
+	explicit QSigner( ApiType api, QObject *parent = 0 );
 	~QSigner();
 
 	X509 *getCert() const throw(digidoc::SignException);

@@ -44,6 +44,7 @@
 #include <QFileOpenEvent>
 #include <QSslCertificate>
 #include <QSslConfiguration>
+#include <QSysInfo>
 #include <QTranslator>
 #include <QUrl>
 
@@ -140,7 +141,14 @@ Application::Application( int &argc, char **argv )
 		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
 	}
 
-	d->signer = new QSigner( args.contains("-capi"), this );
+#ifdef Q_OS_WIN
+	QSigner::ApiType api = QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ? QSigner::CAPI : QSigner::PKCS11;
+#else
+	QSigner::ApiType api = QSigner::PKCS11;
+#endif
+	if( args.contains("-capi") ) api = QSigner::CAPI;
+	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;
+	d->signer = new QSigner( api, this );
 	parseArgs( args );
 }
 

@@ -58,18 +58,17 @@ public:
 
 using namespace digidoc;
 
-QSigner::QSigner( bool useCapi, QObject *parent )
+QSigner::QSigner( ApiType api, QObject *parent )
 :	QThread( parent )
 ,	d( new QSignerPrivate )
 {
+	switch( api )
+	{
 #ifdef Q_OS_WIN
-	if( useCapi )
-		d->csp = new QCSP( this );
-	else
-#else
-	Q_UNUSED(useCapi)
+	case CAPI: d->csp = new QCSP( this ); break;
 #endif
-		d->pkcs11 = new QPKCS11( this );
+	default: d->pkcs11 = new QPKCS11( this ); break;
+	}
 	d->t.setCard( "loading" );
 	connect( this, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
 	start();
