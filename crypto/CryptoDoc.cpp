@@ -26,7 +26,6 @@
 #include "Poller.h"
 
 #include <common/Common.h>
-#include <common/MessageBox.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
@@ -42,6 +41,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QInputDialog>
+#include <QMessageBox>
 #include <QMimeData>
 #include <QProcessEnvironment>
 #include <QTemporaryFile>
@@ -661,7 +661,7 @@ bool CryptoDoc::saveDDoc( const QString &filename )
 
 void CryptoDoc::setLastError( const QString &err, int code )
 {
-	DMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), err, QMessageBox::Close, qApp->activeWindow() );
+	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), err, QMessageBox::Close, qApp->activeWindow() );
 	if( code > 0 )
 	{
 		d.addButton( QMessageBox::Help );
