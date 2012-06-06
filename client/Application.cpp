@@ -141,7 +141,7 @@ Application::Application( int &argc, char **argv )
 		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
 	}
 
-#ifdef Q_OS_WIN
+#if 0 //def Q_OS_WIN
 	QSigner::ApiType api = QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ? QSigner::CAPI : QSigner::PKCS11;
 #else
 	QSigner::ApiType api = QSigner::PKCS11;
