@@ -104,7 +104,7 @@ void CryptoDocThread::encrypt()
 	if( err != ERR_OK )
 		return;
 
-	d->ddoc->flush();
+	d->ddoc->reset();
 	err = dencEncryptedData_AppendData( d->enc, d->ddoc->readAll(), d->ddoc->size() );
 	if( err != ERR_OK )
 	{
