@@ -30,7 +30,10 @@
         <source>Filename: %1
 Filesize: %2
 Media type: %3</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Nimetus: %1
+Suurus: %2
+Tüüp: %3</translatorcomment>
+        <translation></translation>
     </message>
     <message>
         <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>

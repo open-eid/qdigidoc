@@ -224,7 +224,9 @@ This signature is created in the BES format, using no certificate validity confi
         <source>Filename: %1
 Filesize: %2
 Media type: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя файла: %1
+Размер: %2
+Тип: %3</translation>
     </message>
 </context>
 <context>

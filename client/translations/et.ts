@@ -224,7 +224,9 @@ Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusm
         <source>Filename: %1
 Filesize: %2
 Media type: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Nimetus: %1
+Suurus: %2
+Tüüp: %3</translation>
     </message>
 </context>
 <context>
