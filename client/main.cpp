@@ -34,8 +34,6 @@
 #include <QSysInfo>
 #endif
 
-#include <openssl/ssl.h>
-
 int main( int argc, char *argv[] )
 {
 #ifdef Q_OS_MAC
@@ -65,7 +63,6 @@ int main( int argc, char *argv[] )
 	QBreakPad breakpad;
 #endif
 
-	SSL_library_init();
 	Application a( argc, argv );
 	return a.isRunning() ? 0 : a.exec();
 }
