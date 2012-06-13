@@ -26,6 +26,7 @@
 
 #ifdef Q_OS_WIN
 #include <common/QCSP.h>
+#include <common/QCNG.h>
 #endif
 #include <common/QPKCS11.h>
 #include <common/TokenData.h>
@@ -49,6 +50,7 @@ public:
 
 #ifdef Q_OS_WIN
 	QCSP			*csp;
+	QCNG			*cng;
 #endif
 	QPKCS11			*pkcs11;
 	TokenData		t;
@@ -66,6 +68,7 @@ QSigner::QSigner( ApiType api, QObject *parent )
 	{
 #ifdef Q_OS_WIN
 	case CAPI: d->csp = new QCSP( this ); break;
+	case CNG: d->cng = new QCNG( this ); break;
 #endif
 	default: d->pkcs11 = new QPKCS11( this ); break;
 	}
@@ -122,6 +125,8 @@ void QSigner::run()
 #ifdef Q_OS_WIN
 			if( d->csp )
 				cards = d->csp->containers( SslCertificate::NonRepudiation );
+			if( d->cng )
+				cards = d->cng->containers( SslCertificate::NonRepudiation );
 #endif
 			if( d->pkcs11 )
 				cards = d->pkcs11->cards();
@@ -143,6 +148,8 @@ void QSigner::run()
 #ifdef Q_OS_WIN
 				if( d->csp )
 					d->t = d->csp->selectCert( d->t.card(), SslCertificate::NonRepudiation );
+				else if( d->cng )
+					d->t = d->cng->selectCert( d->t.card(), SslCertificate::NonRepudiation );
 				else
 #endif
 					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::NonRepudiation, SslCertificate::EnhancedKeyUsageNone );
@@ -225,6 +232,12 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 		}*/
 		sig = d->csp->sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
 		if( sig.isEmpty() && d->csp->lastError() == QCSP::PinCanceled )
+			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
+	}
+	else if( d->cng )
+	{
+		sig = d->cng->sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
+		if( sig.isEmpty() && d->cng->lastError() == QCNG::PinCanceled )
 			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
 	}
 #endif

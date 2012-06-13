@@ -148,6 +148,7 @@ Application::Application( int &argc, char **argv )
 #endif
 	if( args.contains("-capi") ) api = QSigner::CAPI;
 	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;
+	if( args.contains("-cng") ) api = QSigner::CNG;
 	d->signer = new QSigner( api, this );
 	parseArgs( args );
 }

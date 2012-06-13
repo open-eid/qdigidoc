@@ -37,7 +37,8 @@ public:
 	enum ApiType
 	{
 		PKCS11,
-		CAPI
+		CAPI,
+		CNG
 	};
 	explicit QSigner( ApiType api, QObject *parent = 0 );
 	~QSigner();
