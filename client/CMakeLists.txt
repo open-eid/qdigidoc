@@ -75,8 +75,7 @@ include_directories(
 
 if( APPLE )
 	include( VersionInfoMac )
-	find_library( COCOA_LIBRARY Cocoa )
-	set( ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} ${COCOA_LIBRARY} )
+	set( ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} "-framework Cocoa" )
 endif( APPLE )
 if( WIN32 )
 	set( SOURCES ${SOURCES} ${PROGNAME}.rc )
