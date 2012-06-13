@@ -100,7 +100,7 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	if( !f.open( QIODevice::ReadOnly ) )
 		return;
 
-	PKCS12Certificate pkcs12Cert( &f, Application::confValue( Application::PKCS12Pass ).toString().toUtf8() );
+	PKCS12Certificate pkcs12Cert( &f, Application::confValue( Application::PKCS12Pass ).toString() );
 	if( pkcs12Cert.isNull() )
 		return;
 
