@@ -79,7 +79,6 @@ if( APPLE )
 endif( APPLE )
 if( WIN32 )
 	set( SOURCES ${SOURCES} ${PROGNAME}.rc )
-	set( ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} ncrypt )
 endif( WIN32 )
 
 add_executable(
