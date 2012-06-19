@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
 	<mime-type type="application/x-bdoc">
-		<sub-class-of type="application/zip"/>
 		<comment>DigiDoc signed document</comment>
 		<comment xml:lang="et">DigiDoc allkirjastatud dokument</comment>
 		<comment xml:lang="ru">Подписанный DigiDoc документ</comment>
 		<glob pattern="*.bdoc"/>
 	</mime-type>
 	<mime-type type="application/x-ddoc">
-		<sub-class-of type="application/xml"/>
 		<comment>DigiDoc signed document</comment>
 		<comment xml:lang="et">DigiDoc allkirjastatud dokument</comment>
 		<comment xml:lang="ru">Подписанный DigiDoc документ</comment>
