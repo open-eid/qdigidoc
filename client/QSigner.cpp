@@ -122,17 +122,32 @@ void QSigner::run()
 	{
 		if( d->m.tryLock() )
 		{
-			QStringList cards;
+			QStringList cards, readers;
 #ifdef Q_OS_WIN
 			if( d->csp )
+			{
 				cards = d->csp->containers( SslCertificate::NonRepudiation );
+				readers << "blank";
+			}
 			if( d->cng )
+			{
 				cards = d->cng->containers( SslCertificate::NonRepudiation );
+				readers << "blank";
+			}
 #endif
 			if( d->pkcs11 )
+			{
 				cards = d->pkcs11->cards();
+				readers = d->pkcs11->readers();
+			}
 			bool update = d->t.cards() != cards; // check if cards have inserted/removed, update list
 			d->t.setCards( cards );
+
+			if( d->t.readers() != readers )
+			{
+				d->t.setReaders( readers );
+				update = true;
+			}
 
 			if( !d->t.card().isEmpty() && !cards.contains( d->t.card() ) ) // check if selected card is still in slot
 			{

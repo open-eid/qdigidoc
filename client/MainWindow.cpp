@@ -781,10 +781,18 @@ void MainWindow::showCardStatus()
 		infoCard->setAccessibleDescription( tr("Loading data") );
 		Application::setOverrideCursor( Qt::BusyCursor );
 	}
-	else if( t.card().isEmpty() )
+	else if( t.card().isEmpty() && !t.readers().isEmpty() )
 	{
-		infoCard->setText( tr("No card in reader") );
-		infoCard->setAccessibleDescription( tr("No card in reader") );
+		QString text = tr("No card in reader\n"
+			"Check if the ID-card is inserted correctly to the reader.\n"
+			"New ID-cards have chip on the back side of the card.");
+		infoCard->setText( text );
+		infoCard->setAccessibleDescription( text );
+	}
+	else
+	{
+		infoCard->setText( tr("No readers found") );
+		infoCard->setAccessibleDescription( tr("No readers found") );
 	}
 
 	cards->clear();
