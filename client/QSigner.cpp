@@ -45,6 +45,7 @@ public:
 	QSignerPrivate():
 #ifdef Q_OS_WIN
 		csp(0),
+		cng(0),
 #endif
 		pkcs11(0), terminate(false) {}
 
