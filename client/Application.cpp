@@ -50,27 +50,15 @@
 
 #if defined(Q_OS_MAC)
 #include <common/MacMenuBar.h>
-
-#include <QMenu>
-#include <QMenuBar>
-
-void qt_mac_set_dock_menu( QMenu *menu );
 #endif
 
 class ApplicationPrivate
 {
 public:
-	ApplicationPrivate():
-#ifdef Q_OS_MAC
-		dockSeparator(0),
-#endif
-		signer(0) {}
+	ApplicationPrivate(): signer(0) {}
 
 	QAction		*closeAction, *newAction;
 #ifdef Q_OS_MAC
-	QAction		*dockSeparator;
-	QActionGroup *windowGroup;
-	QMenu		*dock;
 	MacMenuBar	*bar;
 #endif
 	QSigner		*signer;
@@ -114,12 +102,7 @@ Application::Application( int &argc, char **argv )
 	d->bar->addAction( MacMenuBar::PreferencesAction, this, SLOT(showSettings()) );
 	d->bar->fileMenu()->addAction( d->newAction );
 	d->bar->fileMenu()->addAction( d->closeAction );
-
-	d->dock = new QMenu;
-	d->dock->addAction( d->newAction );
-	d->windowGroup = new QActionGroup( d->dock );
-	connect( d->windowGroup, SIGNAL(triggered(QAction*)), SLOT(activateWindow(QAction*)) );
-	qt_mac_set_dock_menu( d->dock );
+	d->bar->dockMenu()->addAction( d->newAction );
 #endif
 
 	installTranslator( d->appTranslator = new QTranslator( this ) );
@@ -161,21 +144,10 @@ Application::~Application()
 			delete obj;
 #ifdef Q_OS_MAC
 		delete d->bar;
-		delete d->dock;
 #endif
 		digidoc::terminate();
 	}
 	delete d;
-}
-
-void Application::activateWindow( QAction *a )
-{
-	if( QWidget *w = a->data().value<QWidget*>() )
-	{
-		w->activateWindow();
-		w->showNormal();
-		w->raise();
-	}
 }
 
 void Application::closeWindow()
@@ -232,48 +204,6 @@ bool Application::event( QEvent *e )
 		return true;
 	default: return Common::event( e );
 	}
-}
-
-bool Application::eventFilter( QObject *o, QEvent *e )
-{
-#ifdef Q_OS_MAC
-	switch( e->type() )
-	{
-	case QEvent::Close:
-	case QEvent::Destroy:
-		Q_FOREACH( QAction *a, d->windowGroup->actions() )
-			if( o == a->data().value<QWidget*>() )
-				delete a;
-		if( d->windowGroup->actions().isEmpty() && d->dockSeparator )
-		{
-			d->dockSeparator->deleteLater();
-			d->dockSeparator = 0;
-		}
-		return Common::eventFilter( o, e );
-	case QEvent::WindowActivate:
-		Q_FOREACH( QAction *a, d->windowGroup->actions() )
-			a->setChecked( o == a->data().value<QWidget*>() );
-		if( !d->windowGroup->checkedAction() )
-		{
-			QAction *a = new QAction( o->property( "windowTitle" ).toString(), d->dock );
-			a->setCheckable( true );
-			a->setData( QVariant::fromValue( qobject_cast<QWidget*>(o) ) );
-			a->setActionGroup( d->windowGroup );
-
-			if( !d->dockSeparator )
-				d->dockSeparator = d->dock->insertSeparator( d->newAction );
-			d->dock->insertAction( d->dockSeparator, a );
-		}
-		return true;
-	case QEvent::WindowTitleChange:
-		Q_FOREACH( QAction *a, d->windowGroup->actions() )
-			if( o == a->data().value<QWidget*>() )
-				a->setText( o->property( "windowTitle" ).toString() );
-		return true;
-	default: break;
-	}
-#endif
-	return Common::eventFilter( o, e );
 }
 
 QString Application::lastPath() const
@@ -341,7 +271,9 @@ void Application::parseArgs( const QStringList &args )
 		if( !params.isEmpty() )
 			QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
 	}
-	w->installEventFilter( this );
+#ifdef Q_OS_MAC
+	w->installEventFilter( d->bar );
+#endif
 	w->addAction( d->closeAction );
 	w->activateWindow();
 	w->show();

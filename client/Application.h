@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2010-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2010-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2010-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2010-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -72,14 +72,12 @@ public Q_SLOTS:
 	void showSettings( int page = 0 );
 
 private Q_SLOTS:
-	void activateWindow( QAction *a );
 	void closeWindow();
 	void parseArgs( const QString &msg = QString() );
 	void parseArgs( const QStringList &args );
 
 private:
 	bool event( QEvent *e );
-	bool eventFilter( QObject *o, QEvent *e );
 
 	ApplicationPrivate *d;
 };
