@@ -132,7 +132,7 @@ void QSigner::run()
 			if( d->cng )
 			{
 				cards = d->cng->containers( SslCertificate::NonRepudiation );
-				readers << "blank";
+				readers << d->cng->readers();
 			}
 #endif
 			if( d->pkcs11 )
