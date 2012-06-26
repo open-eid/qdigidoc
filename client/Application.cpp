@@ -259,6 +259,8 @@ void Application::parseArgs( const QStringList &args )
 {
 	QStringList params = args;
 	params.removeAll("-capi");
+	params.removeAll("-cng");
+	params.removeAll("-pkcs11");
 	params.removeAll("-noNativeFileDialog");
 
 	QStringList exts = QStringList() << "p12" << "p12d";
