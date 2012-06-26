@@ -37,7 +37,7 @@
 			<string>bdoc.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
-				<string>application/bdoc</string>
+				<string>application/x-bdoc</string>
 			</array>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
@@ -57,7 +57,7 @@
 			<string>ddoc.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
-				<string>application/ddoc</string>
+				<string>application/x-ddoc</string>
 			</array>
 			<key>CFBundleTypeOSTypes</key>
 			<array>

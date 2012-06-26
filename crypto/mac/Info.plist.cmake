@@ -37,7 +37,7 @@
 			<string>cdoc.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
-				<string>text/cdoc</string>
+				<string>application/x-cdoc</string>
 			</array>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
