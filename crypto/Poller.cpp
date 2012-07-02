@@ -170,7 +170,7 @@ void Poller::run()
 			}
 			if( d->cng )
 			{
-				cards = d->cng->containers( SslCertificate::KeyEncipherment, SslCertificate::EnhancedKeyUsageNone );
+				cards = d->cng->containers( SslCertificate::KeyEncipherment );
 				readers << d->cng->readers();
 			}
 #endif
