@@ -32,6 +32,12 @@ class Poller: public QThread
 	Q_OBJECT
 
 public:
+	enum ApiType
+	{
+		PKCS11,
+		CAPI,
+		CNG
+	};
 	enum ErrorCode
 	{
 		PinCanceled,
@@ -41,7 +47,7 @@ public:
 		DecryptOK,
 	};
 
-	Poller( bool useCapi, QObject *parent = 0 );
+	Poller( ApiType api, QObject *parent = 0 );
 	~Poller();
 
 	ErrorCode decrypt( const QByteArray &in, QByteArray &out );

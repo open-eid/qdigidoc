@@ -69,6 +69,7 @@ if( APPLE )
 endif( APPLE )
 if( WIN32 )
 	set( SOURCES ${SOURCES} ${PROGNAME}.rc )
+	set( ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} Setupapi )
 endif( WIN32 )
 
 add_executable(

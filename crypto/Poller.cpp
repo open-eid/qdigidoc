@@ -25,6 +25,7 @@
 #include <common/QPKCS11.h>
 #include <common/TokenData.h>
 #ifdef Q_OS_WIN
+#include <common/QCNG.h>
 #include <common/QCSP.h>
 #endif
 
@@ -39,11 +40,13 @@ class PollerPrivate
 public:
 	PollerPrivate():
 #ifdef Q_OS_WIN
+		cng(0),
 		csp(0),
 #endif
 		pkcs11(0), terminate(false) {}
 
 #ifdef Q_OS_WIN
+	QCNG			*cng;
 	QCSP			*csp;
 #endif
 	QPKCS11			*pkcs11;
@@ -54,18 +57,18 @@ public:
 
 
 
-Poller::Poller( bool useCapi, QObject *parent )
+Poller::Poller( ApiType api, QObject *parent )
 :	QThread( parent )
 ,	d( new PollerPrivate )
 {
+	switch( api )
+	{
 #ifdef Q_OS_WIN
-	if( useCapi )
-		d->csp = new QCSP( this );
-	else
-#else
-	Q_UNUSED(useCapi)
+	case CAPI: d->csp = new QCSP( this ); break;
+	case CNG: d->cng = new QCNG( this ); break;
 #endif
-		d->pkcs11 = new QPKCS11( this );
+	default: d->pkcs11 = new QPKCS11( this ); break;
+	}
 	d->t.setCard( "loading" );
 	connect( this, SIGNAL(error(QString)), qApp, SLOT(showWarning(QString)) );
 	start();
@@ -114,9 +117,9 @@ Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 	}
 #ifdef Q_OS_WIN
 	else if( d->csp )
-	{
 		out = d->csp->decrypt( in );
-	}
+	else if( d->cng )
+		out = d->cng->decrypt( in );
 #endif
 
 	if( out.isEmpty() )
@@ -158,15 +161,32 @@ void Poller::run()
 	{
 		if( d->m.tryLock() )
 		{
-			QStringList cards;
+			QStringList cards, readers;
 #ifdef Q_OS_WIN
 			if( d->csp )
+			{
 				cards = d->csp->containers( SslCertificate::KeyEncipherment );
+				readers << "blank";
+			}
+			if( d->cng )
+			{
+				cards = d->cng->containers( SslCertificate::KeyEncipherment, SslCertificate::EnhancedKeyUsageNone );
+				readers << d->cng->readers();
+			}
 #endif
 			if( d->pkcs11 )
+			{
 				cards = d->pkcs11->cards();
+				readers = d->pkcs11->readers();
+			}
 			bool update = d->t.cards() != cards; // check if cards have inserted/removed, update list
 			d->t.setCards( cards );
+
+			if( d->t.readers() != readers )
+			{
+				d->t.setReaders( readers );
+				update = true;
+			}
 
 			if( !d->t.card().isEmpty() && !cards.contains( d->t.card() ) ) // check if selected card is still in slot
 			{
@@ -183,6 +203,8 @@ void Poller::run()
 #ifdef Q_OS_WIN
 				if( d->csp )
 					d->t = d->csp->selectCert( d->t.card(), SslCertificate::KeyEncipherment );
+				else if( d->cng )
+					d->t = d->cng->selectCert( d->t.card(), SslCertificate::KeyEncipherment );
 				else
 #endif
 					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::KeyEncipherment, SslCertificate::EnhancedKeyUsageNone );

@@ -559,10 +559,18 @@ void MainWindow::showCardStatus()
 		infoFrame->setAccessibleDescription( tr("Loading data") );
 		Application::setOverrideCursor( Qt::BusyCursor );
 	}
-	else if( t.card().isEmpty() )
+	else if( t.card().isEmpty() && !t.readers().isEmpty() )
 	{
-		infoFrame->setText( tr("No card in reader") );
-		infoFrame->setAccessibleDescription( tr("No card in reader") );
+		QString text = tr("No card in reader\n"
+			"Check if the ID-card is inserted correctly to the reader.\n"
+			"New ID-cards have chip on the back side of the card.");
+		infoFrame->setText( text );
+		infoFrame->setAccessibleDescription( text );
+	}
+	else
+	{
+		infoFrame->setText( tr("No readers found") );
+		infoFrame->setAccessibleDescription( tr("No readers found") );
 	}
 
 	buttonGroup->button( ViewCrypto )->setEnabled(

@@ -111,7 +111,15 @@ Application::Application( int &argc, char **argv )
 	else
 		initConfigStore( NULL );
 
-	d->poller = new Poller( args.contains("-capi"), this );
+#if 0 //def Q_OS_WIN
+	Poller::ApiType api = QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ? Poller::CAPI : Poller::PKCS11;
+#else
+	Poller::ApiType api = Poller::PKCS11;
+#endif
+	if( args.contains("-capi") ) api = Poller::CAPI;
+	if( args.contains("-pkcs11") ) api = Poller::PKCS11;
+	if( args.contains("-cng") ) api = Poller::CNG;
+	d->poller = new Poller( api, this );
 	parseArgs( args );
 }
 
@@ -196,6 +204,8 @@ void Application::parseArgs( const QStringList &args )
 {
 	QStringList params = args;
 	params.removeAll("-capi");
+	params.removeAll("-cng");
+	params.removeAll("-pkcs11");
 	params.removeAll("-noNativeFileDialog");
 
 	QWidget *w = new MainWindow();
