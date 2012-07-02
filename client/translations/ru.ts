@@ -557,6 +557,18 @@ Also an active internet connection is needed.</source>
         <source>Encrypt document</source>
         <translation>Зашифровать документ</translation>
     </message>
+    <message>
+        <source>No card in reader
+Check if the ID-card is inserted correctly to the reader.
+New ID-cards have chip on the back side of the card.</source>
+        <translation>Не найдена ID-карта
+Check if the ID-card is inserted correctly to the reader.
+New ID-cards have chip on the back side of the card.</translation>
+    </message>
+    <message>
+        <source>No readers found</source>
+        <translation>Считывающее устройство не обнаружено</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

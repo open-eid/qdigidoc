@@ -554,6 +554,18 @@ Also an active internet connection is needed.</translation>
         <source>Encrypt document</source>
         <translation>Encrypt document</translation>
     </message>
+    <message>
+        <source>No card in reader
+Check if the ID-card is inserted correctly to the reader.
+New ID-cards have chip on the back side of the card.</source>
+        <translation>No card in reader
+Check if the ID-card is inserted correctly to the reader.
+New ID-cards have chip on the back side of the card.</translation>
+    </message>
+    <message>
+        <source>No readers found</source>
+        <translation>No readers found</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

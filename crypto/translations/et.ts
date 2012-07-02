@@ -397,10 +397,6 @@ teade: %2</translation>
 Kas avan Digidoc kliendiga?</translation>
     </message>
     <message>
-        <source>No card in reader</source>
-        <translation>Kaarti pole lugejas</translation>
-    </message>
-    <message>
         <source>Loading data</source>
         <translation>Loen andmeid</translation>
     </message>
@@ -535,6 +531,16 @@ Kuna dekrüpteerimist võimaldav sertifikaat on salvestatud ainult ID-kaardile, 
     <message>
         <source>Browse container location</source>
         <translation>Näita turvaümbriku asukohta kettal</translation>
+    </message>
+    <message>
+        <source>No card in reader
+Check if the ID-card is inserted correctly to the reader.
+New ID-cards have chip on the back side of the card.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No readers found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

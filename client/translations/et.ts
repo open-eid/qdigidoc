@@ -554,6 +554,18 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
         <source>Encrypt document</source>
         <translation>Krüpteeri dokument</translation>
     </message>
+    <message>
+        <source>No card in reader
+Check if the ID-card is inserted correctly to the reader.
+New ID-cards have chip on the back side of the card.</source>
+        <translation>Ei leitud ühtegi ID-kaarti
+Kontrolli, kas ID-kaart on õiget pidi lugejas.
+Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
+    </message>
+    <message>
+        <source>No readers found</source>
+        <translation>Ühtegi kiipkaardi lugejat pole ühendatud</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

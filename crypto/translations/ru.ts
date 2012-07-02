@@ -383,10 +383,6 @@ message: %2</source>
         <translation>Загружаю данные</translation>
     </message>
     <message>
-        <source>No card in reader</source>
-        <translation>В считывателе нет карты</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
@@ -533,6 +529,16 @@ The private key needed for decryption is stored only on the ID-card of the recip
     <message>
         <source>Browse container location</source>
         <translation>Показать расположение контейнера</translation>
+    </message>
+    <message>
+        <source>No card in reader
+Check if the ID-card is inserted correctly to the reader.
+New ID-cards have chip on the back side of the card.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No readers found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
