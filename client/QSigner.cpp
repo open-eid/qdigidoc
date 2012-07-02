@@ -92,7 +92,12 @@ X509* QSigner::getCert() const throw(digidoc::SignException)
 	return (X509*)d->t.cert().handle();
 }
 
-QPKCS11* QSigner::handle() const { return d->pkcs11; }
+Qt::HANDLE QSigner::handle() const
+{
+	if( d->csp ) return d->csp;
+	if( d->cng ) return d->cng;
+	return d->pkcs11;
+}
 
 void QSigner::lock() { d->m.lock(); }
 
@@ -124,6 +129,7 @@ void QSigner::run()
 		{
 			QStringList cards, readers;
 #ifdef Q_OS_WIN
+			QList<SslCertificate> certs;
 			if( d->csp )
 			{
 				cards = d->csp->containers( SslCertificate::NonRepudiation );
@@ -131,7 +137,9 @@ void QSigner::run()
 			}
 			if( d->cng )
 			{
-				cards = d->cng->containers( SslCertificate::NonRepudiation );
+				foreach( const SslCertificate &cert, certs = d->cng->certs() )
+					if( cert.isValid() && cert.keyUsage().contains( SslCertificate::NonRepudiation ) )
+						cards << cert.subjectInfo( SslCertificate::CommonName );
 				readers << d->cng->readers();
 			}
 #endif
@@ -165,7 +173,13 @@ void QSigner::run()
 				if( d->csp )
 					d->t = d->csp->selectCert( d->t.card(), SslCertificate::NonRepudiation );
 				else if( d->cng )
-					d->t = d->cng->selectCert( d->t.card(), SslCertificate::NonRepudiation );
+				{
+					foreach( const SslCertificate &cert, certs )
+						if( cert.isValid() &&
+							cert.keyUsage().contains( SslCertificate::NonRepudiation ) &&
+							cert.subjectInfo( SslCertificate::CommonName ) == d->t.card() )
+							d->t = d->cng->selectCert( cert );
+				}
 				else
 #endif
 					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::NonRepudiation, SslCertificate::EnhancedKeyUsageNone );

@@ -25,7 +25,6 @@
 #include <QThread>
 #include <digidocpp/crypto/signer/Signer.h>
 
-class QPKCS11;
 class QSignerPrivate;
 class TokenData;
 
@@ -44,7 +43,7 @@ public:
 	~QSigner();
 
 	X509 *getCert() const throw(digidoc::SignException);
-	QPKCS11* handle() const;
+	Qt::HANDLE handle() const;
 	void lock();
 	int type() const;
 	void sign( const Digest& digest, Signature& signature ) throw(digidoc::SignException);

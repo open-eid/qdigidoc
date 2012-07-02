@@ -163,6 +163,7 @@ void Poller::run()
 		{
 			QStringList cards, readers;
 #ifdef Q_OS_WIN
+			QList<SslCertificate> certs;
 			if( d->csp )
 			{
 				cards = d->csp->containers( SslCertificate::KeyEncipherment );
@@ -170,7 +171,9 @@ void Poller::run()
 			}
 			if( d->cng )
 			{
-				cards = d->cng->containers( SslCertificate::KeyEncipherment );
+				foreach( const SslCertificate &cert, certs = d->cng->certs() )
+					if( cert.isValid() && cert.keyUsage().contains( SslCertificate::NonRepudiation ) )
+						cards << cert.subjectInfo( SslCertificate::CommonName );
 				readers << d->cng->readers();
 			}
 #endif
@@ -204,7 +207,13 @@ void Poller::run()
 				if( d->csp )
 					d->t = d->csp->selectCert( d->t.card(), SslCertificate::KeyEncipherment );
 				else if( d->cng )
-					d->t = d->cng->selectCert( d->t.card(), SslCertificate::KeyEncipherment );
+				{
+					foreach( const SslCertificate &cert, certs )
+						if( cert.isValid() &&
+							cert.keyUsage().contains( SslCertificate::NonRepudiation ) &&
+							cert.subjectInfo( SslCertificate::CommonName ) == d->t.card() )
+							d->t = d->cng->selectCert( cert );
+				}
 				else
 #endif
 					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::KeyEncipherment, SslCertificate::EnhancedKeyUsageNone );

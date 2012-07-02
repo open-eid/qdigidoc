@@ -25,6 +25,7 @@
 #include "Application.h"
 #include "QSigner.h"
 
+#include <common/QCNG.h>
 #include <common/QPKCS11.h>
 #include <common/SslCertificate.h>
 #include <common/sslConnect.h>
@@ -80,35 +81,48 @@ bool AccessCert::download( bool noCard )
 	}
 
 	QSigner *s = qApp->signer();
-	QPKCS11 *p = s->handle();
+	QPKCS11 *p = qobject_cast<QPKCS11*>(static_cast<QObject*>(s->handle()));
+	QCNG *c = qobject_cast<QCNG*>(static_cast<QObject*>(s->handle()));
+	if( !p && !s )
+		return false;
+
 	s->lock();
 	TokenData token;
-	bool retry = false;
-	do
+	if( p )
 	{
-		retry = false;
-		token = p->selectSlot( s->token().card(), SslCertificate::KeyUsageNone, SslCertificate::ClientAuth );
-		QPKCS11::PinStatus status =  p->login( token );
-		switch( status )
+		bool retry = false;
+		do
 		{
-		case QPKCS11::PinOK: break;
-		case QPKCS11::PinCanceled:
-			s->unlock();
-			return false;
-		case QPKCS11::PinIncorrect:
-			showWarning( QPKCS11::errorString( status ) );
-			retry = true;
-			break;
-		default:
-			showWarning( tr("Error downloading server access certificate!") + "\n" + QPKCS11::errorString( status ) );
-			s->unlock();
-			return false;
+			retry = false;
+			token = p->selectSlot( s->token().card(), SslCertificate::KeyUsageNone, SslCertificate::ClientAuth );
+			QPKCS11::PinStatus status = p->login( token );
+			switch( status )
+			{
+			case QPKCS11::PinOK: break;
+			case QPKCS11::PinCanceled:
+				s->unlock();
+				return false;
+			case QPKCS11::PinIncorrect:
+				showWarning( QPKCS11::errorString( status ) );
+				retry = true;
+				break;
+			default:
+				showWarning( tr("Error downloading server access certificate!") + "\n" + QPKCS11::errorString( status ) );
+				s->unlock();
+				return false;
+			}
 		}
+		while( retry );
 	}
-	while( retry );
+	else
+	{
+		foreach( const SslCertificate &cert, c->certs() )
+			if( cert.isValid() && cert.enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
+				token = c->selectCert( cert );
+	}
 
 	QScopedPointer<SSLConnect> ssl( new SSLConnect );
-	ssl->setToken( token.cert(), p->key() );
+	ssl->setToken( token.cert(), p ? p->key() : c->key() );
 	QByteArray result = ssl->getUrl( SSLConnect::AccessCert );
 	if( !ssl->errorString().isEmpty() )
 	{
