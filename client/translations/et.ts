@@ -977,7 +977,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>We currently do not recommend use of BDOC format as it will be changed in near future to comply with new international standards. Please use DDOC format instead. More information on BDOC format is available at &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
-        <translation>Seoses uue rahvusvahelistele standarditele vastava BDOC formaadi väljatöötamisega soovitame BDOC formaadis dokumente mitte allkirjastada ja kasutada DDOC formaati. Täiendav info BDOC formaadi kohta &lt;a href=&quot;http://www.sk.ee/bdoc&quot;&gt;http://www.sk.ee/bdoc&lt;/a&gt;</translation>
+        <translation>Seoses uue rahvusvahelistele standarditele vastava BDOC formaadi väljatöötamisega soovitame BDOC formaadis dokumente mitte allkirjastada ja kasutada DDOC formaati. Täiendav info BDOC formaadi kohta &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;http://www.sk.ee/bdoc&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
