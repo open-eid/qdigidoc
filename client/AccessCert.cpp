@@ -25,7 +25,9 @@
 #include "Application.h"
 #include "QSigner.h"
 
+#ifdef Q_OS_WIN
 #include <common/QCNG.h>
+#endif
 #include <common/QPKCS11.h>
 #include <common/SslCertificate.h>
 #include <common/sslConnect.h>
@@ -82,11 +84,14 @@ bool AccessCert::download( bool noCard )
 
 	QSigner *s = qApp->signer();
 	QPKCS11 *p = qobject_cast<QPKCS11*>(static_cast<QObject*>(s->handle()));
+#ifdef Q_OS_WIN
 	QCNG *c = qobject_cast<QCNG*>(static_cast<QObject*>(s->handle()));
 	if( !p && !s )
 		return false;
+#endif
 
 	s->lock();
+	Qt::HANDLE key = 0;
 	TokenData token;
 	if( p )
 	{
@@ -113,16 +118,22 @@ bool AccessCert::download( bool noCard )
 			}
 		}
 		while( retry );
+		key = p->key();
 	}
 	else
 	{
+#ifdef Q_OS_WIN
 		foreach( const SslCertificate &cert, c->certs() )
 			if( cert.isValid() && cert.enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
 				token = c->selectCert( cert );
+		key = c->key();
+#else
+		return false;
+#endif
 	}
 
 	QScopedPointer<SSLConnect> ssl( new SSLConnect );
-	ssl->setToken( token.cert(), p ? p->key() : c->key() );
+	ssl->setToken( token.cert(), key );
 	QByteArray result = ssl->getUrl( SSLConnect::AccessCert );
 	if( !ssl->errorString().isEmpty() )
 	{

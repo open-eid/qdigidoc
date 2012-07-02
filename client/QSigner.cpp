@@ -94,8 +94,10 @@ X509* QSigner::getCert() const throw(digidoc::SignException)
 
 Qt::HANDLE QSigner::handle() const
 {
+#ifdef Q_OS_WIN
 	if( d->csp ) return d->csp;
 	if( d->cng ) return d->cng;
+#endif
 	return d->pkcs11;
 }
 
