@@ -556,9 +556,11 @@ Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
     </message>
     <message>
         <source>No card in reader
+
 Check if the ID-card is inserted correctly to the reader.
 New ID-cards have chip on the back side of the card.</source>
         <translation>Ei leitud ühtegi ID-kaarti
+
 Kontrolli, kas ID-kaart on õiget pidi lugejas.
 Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>

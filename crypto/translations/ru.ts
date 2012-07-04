@@ -532,13 +532,17 @@ The private key needed for decryption is stored only on the ID-card of the recip
     </message>
     <message>
         <source>No card in reader
+
 Check if the ID-card is inserted correctly to the reader.
 New ID-cards have chip on the back side of the card.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не найдена ID-карта
+
+Check if the ID-card is inserted correctly to the reader.
+New ID-cards have chip on the back side of the card.</translation>
     </message>
     <message>
         <source>No readers found</source>
-        <translation type="unfinished"></translation>
+        <translation>Считывающее устройство не обнаружено</translation>
     </message>
 </context>
 <context>

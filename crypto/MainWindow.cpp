@@ -561,7 +561,7 @@ void MainWindow::showCardStatus()
 	}
 	else if( t.card().isEmpty() && !t.readers().isEmpty() )
 	{
-		QString text = tr("No card in reader\n"
+		QString text = tr("No card in reader\n\n"
 			"Check if the ID-card is inserted correctly to the reader.\n"
 			"New ID-cards have chip on the back side of the card.");
 		infoFrame->setText( text );

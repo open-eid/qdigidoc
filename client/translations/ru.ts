@@ -559,9 +559,11 @@ Also an active internet connection is needed.</source>
     </message>
     <message>
         <source>No card in reader
+
 Check if the ID-card is inserted correctly to the reader.
 New ID-cards have chip on the back side of the card.</source>
         <translation>Не найдена ID-карта
+
 Check if the ID-card is inserted correctly to the reader.
 New ID-cards have chip on the back side of the card.</translation>
     </message>
