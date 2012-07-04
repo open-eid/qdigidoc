@@ -129,6 +129,10 @@ color: #668696;
 padding-left: 10px;
 padding-right: 10px;
 }
+#infoFrame QLabel
+{
+color: #668696;
+}
 
 #infoFrame QLabel, #signInfo 
 { font: bold; }

@@ -86,10 +86,7 @@ margin: 0px;
 min-width: 0px;
 }
 
-#viewKeysLinks
-{
-text-align: right;
-}
+#viewKeysLinks { text-align: right; }
 
 /* header */
 #headerLine, #headerLine2, #headerLine3
