@@ -962,16 +962,12 @@ Control code: %1</translation>
         <translation>Browse container path</translation>
     </message>
     <message>
-        <source>Certificate path</source>
-        <translation>Certificate path</translation>
+        <source>Server access certificate path</source>
+        <translation>Server access certificate path</translation>
     </message>
     <message>
-        <source>Browse certificate path</source>
-        <translation>Browse certificate path</translation>
-    </message>
-    <message>
-        <source>Certificate password</source>
-        <translation>Certificate password</translation>
+        <source>Server access certificate password</source>
+        <translation>Server access certificate password</translation>
     </message>
     <message>
         <source>Container default location same folder</source>

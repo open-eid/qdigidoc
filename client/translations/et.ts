@@ -962,16 +962,12 @@ Kontrollkood: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Certificate path</source>
-        <translation type="unfinished"></translation>
+        <source>Server access certificate path</source>
+        <translation>Juurdepääsutõendi asukoht</translation>
     </message>
     <message>
-        <source>Browse certificate path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Certificate password</source>
-        <translation type="unfinished"></translation>
+        <source>Server access certificate password</source>
+        <translation>Juurdepääsutõendi parool</translation>
     </message>
     <message>
         <source>Container default location same folder</source>

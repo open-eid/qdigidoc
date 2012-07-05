@@ -965,16 +965,12 @@ Control code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Certificate path</source>
-        <translation type="unfinished"></translation>
+        <source>Server access certificate path</source>
+        <translation>Справка доступа путь</translation>
     </message>
     <message>
-        <source>Browse certificate path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Certificate password</source>
-        <translation type="unfinished"></translation>
+        <source>Server access certificate password</source>
+        <translation>Справка доступа пароль</translation>
     </message>
     <message>
         <source>Container default location same folder</source>
