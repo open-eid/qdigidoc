@@ -71,6 +71,9 @@ bool LdapSearch::init()
 		return false;
 	}
 
+	int version = LDAP_VERSION3;
+	ldap_set_option( d->ldap, LDAP_OPT_PROTOCOL_VERSION, &version );
+
 	int err = ldap_simple_bind_s( d->ldap, 0, 0 );
 	if( err )
 		setLastError( tr("Failed to init ldap"), err );
@@ -117,6 +120,8 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 	LDAP_TIMEVAL t = { 5, 0 };
 	int err = ldap_result( d->ldap, d->msg_id, LDAP_MSG_ALL, &t, &result );
 	//int count = ldap_count_messages( ldap, result );
+	if( err == 0 )
+		return;
 	if( err != LDAP_RES_SEARCH_ENTRY && err != LDAP_RES_SEARCH_RESULT )
 	{
 		setLastError( tr("Failed to get result"), err );
