@@ -210,7 +210,7 @@ void Poller::run()
 				{
 					foreach( const SslCertificate &cert, certs )
 						if( cert.isValid() &&
-							cert.keyUsage().contains( SslCertificate::NonRepudiation ) &&
+							cert.keyUsage().contains( SslCertificate::KeyEncipherment ) &&
 							cert.subjectInfo( SslCertificate::CommonName ) == d->t.card() )
 							d->t = d->cng->selectCert( cert );
 				}
