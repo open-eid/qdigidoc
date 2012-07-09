@@ -254,22 +254,14 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 #ifdef Q_OS_WIN
 	else if( d->csp )
 	{
-		/*switch( d->csp.login( d->t ) )
-		{
-		case QCSP::PinOK: break;
-		case QCSP::PinCanceled:
-			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
-		default:
-			throwException( tr("Failed to login token"), Exception::NoException, __LINE__ );
-		}*/
 		sig = d->csp->sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
-		if( sig.isEmpty() && d->csp->lastError() == QCSP::PinCanceled )
+		if( d->csp->lastError() == QCSP::PinCanceled )
 			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
 	}
 	else if( d->cng )
 	{
 		sig = d->cng->sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
-		if( sig.isEmpty() && d->cng->lastError() == QCNG::PinCanceled )
+		if( d->cng->lastError() == QCNG::PinCanceled )
 			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
 	}
 #endif

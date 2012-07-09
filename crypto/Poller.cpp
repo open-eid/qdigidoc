@@ -117,9 +117,17 @@ Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 	}
 #ifdef Q_OS_WIN
 	else if( d->csp )
+	{
 		out = d->csp->decrypt( in );
+		if( d->csp->lastError() == QCSP::PinCanceled )
+			return PinCanceled;
+	}
 	else if( d->cng )
+	{
 		out = d->cng->decrypt( in );
+		if( d->cng->lastError() == QCNG::PinCanceled )
+			return PinCanceled;
+	}
 #endif
 
 	if( out.isEmpty() )
