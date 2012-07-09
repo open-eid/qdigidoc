@@ -139,7 +139,7 @@ void CryptoDocThread::decrypt()
 	{
 		lastError = CryptoDoc::tr("Failed to create temporary files<br />%1").arg( d->ddoc->errorString() );
 		return;
-	}
+	}	
 	d->ddoc->write( (const char*)d->enc->mbufEncryptedData.pMem, d->enc->mbufEncryptedData.nLen );
 	d->ddoc->flush();
 	ddocMemBuf_free( &d->enc->mbufEncryptedData );
@@ -165,6 +165,8 @@ int CDocumentModel::columnCount( const QModelIndex &parent ) const
 
 QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) const
 {
+	if( !d->d->doc && !d->d->ddoc )
+		return QString();
 	QStringList row = m_data.value( index.row() );
 	if( row.value( 1 ).isEmpty() )
 		return QString();
@@ -556,9 +558,10 @@ QString CryptoDoc::fileName() const { return d->fileName; }
 
 bool CryptoDoc::isEncrypted() const
 {
-	return d->enc &&
+	return !d->doc;
+/*	return d->enc &&
 		(d->enc->nDataStatus == DENC_DATA_STATUS_ENCRYPTED_AND_COMPRESSED ||
-		d->enc->nDataStatus == DENC_DATA_STATUS_ENCRYPTED_AND_NOT_COMPRESSED);
+		d->enc->nDataStatus == DENC_DATA_STATUS_ENCRYPTED_AND_NOT_COMPRESSED);*/
 }
 
 bool CryptoDoc::isEncryptedWarning()
