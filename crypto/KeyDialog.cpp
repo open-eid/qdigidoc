@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,24 +27,22 @@
 #include "Poller.h"
 
 #include <common/CertificateWidget.h>
-#include <common/Common.h>
 #include <common/FileDialog.h>
 #include <common/IKValidator.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
-#include <QDateTime>
-#include <QDesktopServices>
-#include <QDir>
-#include <QFile>
-#include <QHeaderView>
-#include <QMessageBox>
-#include <QProgressBar>
-#include <QRegExpValidator>
-#include <QSettings>
-#include <QTimer>
-#include <QXmlStreamReader>
-#include <QXmlStreamWriter>
+#include <QtCore/QDateTime>
+#include <QtCore/QDir>
+#include <QtCore/QFile>
+#include <QtCore/QSettings>
+#include <QtCore/QTimer>
+#include <QtCore/QXmlStreamReader>
+#include <QtCore/QXmlStreamWriter>
+#include <QtGui/QHeaderView>
+#include <QtGui/QMessageBox>
+
+Q_DECLARE_METATYPE( QSslCertificate )
 
 KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 :	QWidget( parent )
