@@ -65,10 +65,11 @@ include_directories(
 
 if( APPLE )
 	include( VersionInfoMac )
+	set( ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} "-framework LDAP" )
 endif( APPLE )
 if( WIN32 )
 	set( SOURCES ${SOURCES} ${PROGNAME}.rc )
-	set( ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} Setupapi )
+	set( ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} Setupapi Wldap32 )
 endif( WIN32 )
 
 add_executable(
