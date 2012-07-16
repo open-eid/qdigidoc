@@ -24,8 +24,8 @@
 	<string>${MACOSX_BUNDLE_COPYRIGHT}</string>
 	<key>LSHasLocalizedDisplayName</key>
 	<true/>
-	<key>ForAppStore</key>
-	<string>yes</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.productivity</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -89,18 +89,12 @@
 			<true/>
 		</dict>
 		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>*</string>
-			</array>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>****</string>
 			</array>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>None</string>
+			<string>Viewer</string>
 		</dict>
 	</array>
 	<key>NSServices</key>
