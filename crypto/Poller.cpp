@@ -31,9 +31,10 @@
 
 #include <libdigidoc/DigiDocConfig.h>
 
-#include <QEventLoop>
-#include <QMutex>
-#include <QStringList>
+#include <QtCore/QEventLoop>
+#include <QtCore/QHash>
+#include <QtCore/QMutex>
+#include <QtCore/QStringList>
 
 class PollerPrivate
 {
