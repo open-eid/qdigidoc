@@ -28,19 +28,17 @@
 #include "version.h"
 
 #include <common/AboutWidget.h>
-#include <common/Common.h>
 #include <common/Settings.h>
 
 #include <libdigidoc/DigiDocConfig.h>
 
 #include "qtsingleapplication/src/qtlocalpeer.h"
 
-#include <QDesktopServices>
-#include <QFileInfo>
-#include <QFileOpenEvent>
-#include <QMessageBox>
-#include <QTranslator>
-#include <QUrl>
+#include <QtCore/QFileInfo>
+#include <QtCore/QTranslator>
+#include <QtCore/QUrl>
+#include <QtGui/QFileOpenEvent>
+#include <QtGui/QMessageBox>
 
 #if defined(Q_OS_MAC)
 #include <common/MacMenuBar.h>
@@ -49,7 +47,7 @@
 class ApplicationPrivate
 {
 public:
-	ApplicationPrivate(): poller(0) {}
+	ApplicationPrivate(): bar(0), poller(0) {}
 
 	QAction		*closeAction, *newAction;
 #ifdef Q_OS_MAC

@@ -27,10 +27,10 @@
 #include <common/Common.h>
 #include <common/FileDialog.h>
 
-#include <QDesktopServices>
-#include <QHeaderView>
-#include <QKeyEvent>
-#include <QMessageBox>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QHeaderView>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QMessageBox>
 
 TreeWidget::TreeWidget( QWidget *parent )
 :	QTreeView( parent )

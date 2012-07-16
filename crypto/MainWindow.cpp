@@ -26,20 +26,17 @@
 #include "KeyDialog.h"
 #include "Poller.h"
 
-#include <common/AboutWidget.h>
 #include <common/FileDialog.h>
 #include <common/Settings.h>
 #include <common/TokenData.h>
 
-#include <QDateTime>
-#include <QDesktopServices>
-#include <QDragEnterEvent>
-#include <QMessageBox>
-#include <QProgressBar>
-#include <QProgressDialog>
-#include <QSslCertificate>
-#include <QTextStream>
-#include <QUrl>
+#include <QtCore/QTextStream>
+#include <QtCore/QUrl>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QMessageBox>
+#include <QtGui/QProgressBar>
+#include <QtGui/QProgressDialog>
 
 MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )

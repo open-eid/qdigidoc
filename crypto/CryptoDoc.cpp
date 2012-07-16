@@ -25,28 +25,24 @@
 #include "Application.h"
 #include "Poller.h"
 
-#include <common/Common.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
 #include <libdigidoc/DigiDocCert.h>
-#include <libdigidoc/DigiDocConvert.h>
 #include <libdigidoc/DigiDocGen.h>
 #include <libdigidoc/DigiDocEncGen.h>
 #include <libdigidoc/DigiDocEncSAXParser.h>
 #include <libdigidoc/DigiDocSAXParser.h>
 
-#include <QDateTime>
-#include <QDesktopServices>
-#include <QDir>
-#include <QFileInfo>
-#include <QInputDialog>
-#include <QMessageBox>
-#include <QMimeData>
-#include <QProcessEnvironment>
-#include <QTemporaryFile>
-#include <QThread>
-#include <QUrl>
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
+#include <QtCore/QMimeData>
+#include <QtCore/QProcessEnvironment>
+#include <QtCore/QTemporaryFile>
+#include <QtCore/QThread>
+#include <QtCore/QUrl>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QMessageBox>
 
 class CryptoDocPrivate
 {

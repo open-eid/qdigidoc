@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <QTreeView>
+#include <QtGui/QTreeView>
 
 class CDocumentModel;
 
