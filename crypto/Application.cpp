@@ -47,7 +47,7 @@
 class ApplicationPrivate
 {
 public:
-	ApplicationPrivate(): bar(0), poller(0) {}
+	ApplicationPrivate(): poller(0) {}
 
 	QAction		*closeAction, *newAction;
 #ifdef Q_OS_MAC
@@ -64,12 +64,14 @@ Application::Application( int &argc, char **argv )
 {
 	QStringList args = arguments();
 	args.removeFirst();
+#ifndef Q_OS_MAC
 	if( isRunning() )
 	{
 		sendMessage( args.join( "\", \"" ) );
 		return;
 	}
 	connect( this, SIGNAL(messageReceived(QString)), SLOT(parseArgs(QString)) );
+#endif
 
 	setApplicationName( APP );
 	setApplicationVersion( VER_STR( FILE_VER_DOT ) );
@@ -123,16 +125,20 @@ Application::Application( int &argc, char **argv )
 
 Application::~Application()
 {
+#ifndef Q_OS_MAC
 	if( !isRunning() )
 	{
 		if( QtLocalPeer *obj = findChild<QtLocalPeer*>() )
 			delete obj;
-#ifdef Q_OS_MAC
-		delete d->bar;
-#endif
-		cleanupConfigStore( NULL );
+		cleanupConfigStore( 0 );
 		finalizeDigiDocLib();
 	}
+#else
+	delete d->bar;
+	cleanupConfigStore( 0 );
+	finalizeDigiDocLib();
+#endif
+
 	delete d;
 }
 
@@ -219,6 +225,14 @@ void Application::parseArgs( const QStringList &args )
 }
 
 Poller* Application::poller() const { return d->poller; }
+
+int Application::run()
+{
+#ifndef Q_OS_MAC
+	if( isRunning() ) return 0;
+#endif
+	return exec();
+}
 
 void Application::setLastPath( const QString &path )
 { Settings().setValue( "Crypto/lastPath", path ); }

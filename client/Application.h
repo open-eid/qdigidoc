@@ -24,7 +24,7 @@
 
 #include <common/Common.h>
 
-#include <QVariant>
+#include <QtCore/QVariant>
 
 #if defined(qApp)
 #undef qApp
@@ -51,7 +51,7 @@ public:
 		ProxyPass,
 		PKCS12Cert,
 		PKCS12Pass,
-		PKCS12Disable,
+		PKCS12Disable
 	};
 
 	explicit Application( int &argc, char **argv );
@@ -62,6 +62,7 @@ public:
 	bool notify( QObject *o, QEvent *e );
 	QSigner* signer() const;
 	void setLastPath( const QString &path );
+	int run();
 
 	static QVariant confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );

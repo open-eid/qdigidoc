@@ -103,7 +103,6 @@ if( WIN32 )
 endif( WIN32 )
 
 target_link_libraries( ${PROGNAME}
-	qtsingleapplication
 	qdigidoccommon
 	${QT_QTMAIN_LIBRARY}
 	${QT_LIBRARIES}

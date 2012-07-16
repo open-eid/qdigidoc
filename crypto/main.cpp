@@ -64,5 +64,5 @@ int main( int argc, char *argv[] )
 #endif
 
 	Application a( argc, argv );
-	return a.isRunning() ? 0 : a.exec();
+	return a.run();
 }

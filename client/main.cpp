@@ -25,13 +25,13 @@
 #ifdef BREAKPAD
 #include "version.h"
 #include <breakpad/QBreakPad.h>
-#include <QVariant>
-#include <QIcon>
+#include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #endif
 
 #ifdef Q_OS_MAC
-#include <QProcess>
-#include <QSysInfo>
+#include <QtCore/QProcess>
+#include <QtCore/QSysInfo>
 #endif
 
 int main( int argc, char *argv[] )
@@ -64,5 +64,5 @@ int main( int argc, char *argv[] )
 #endif
 
 	Application a( argc, argv );
-	return a.isRunning() ? 0 : a.exec();
+	return a.run();
 }

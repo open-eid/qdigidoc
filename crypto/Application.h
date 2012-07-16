@@ -44,6 +44,7 @@ public:
 	void loadTranslation( const QString &lang );
 	Poller* poller() const;
 	void setLastPath( const QString &path );
+	int run();
 
 public Q_SLOTS:
 	void showAbout();

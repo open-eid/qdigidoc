@@ -30,7 +30,6 @@
 #include "version.h"
 
 #include <common/AboutWidget.h>
-#include <common/Common.h>
 #include <common/Settings.h>
 
 #include <digidocpp/ADoc.h>
@@ -38,15 +37,15 @@
 
 #include "qtsingleapplication/src/qtlocalpeer.h"
 
-#include <QDesktopServices>
-#include <QMessageBox>
-#include <QFileInfo>
-#include <QFileOpenEvent>
-#include <QSslCertificate>
-#include <QSslConfiguration>
-#include <QSysInfo>
-#include <QTranslator>
-#include <QUrl>
+#include <QtCore/QFileInfo>
+#include <QtCore/QSysInfo>
+#include <QtCore/QTranslator>
+#include <QtCore/QUrl>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QMessageBox>
+#include <QtGui/QFileOpenEvent>
+#include <QtNetwork/QSslCertificate>
+#include <QtNetwork/QSslConfiguration>
 
 #if defined(Q_OS_MAC)
 #include <common/MacMenuBar.h>
@@ -72,12 +71,14 @@ Application::Application( int &argc, char **argv )
 {
 	QStringList args = arguments();
 	args.removeFirst();
+#ifndef Q_OS_MAC
 	if( isRunning() )
 	{
 		sendMessage( args.join( "\", \"" ) );
 		return;
 	}
 	connect( this, SIGNAL(messageReceived(QString)), SLOT(parseArgs(QString)) );
+#endif
 
 	setApplicationName( APP );
 	setApplicationVersion( VER_STR( FILE_VER_DOT ) );
@@ -138,15 +139,17 @@ Application::Application( int &argc, char **argv )
 
 Application::~Application()
 {
+#ifndef Q_OS_MAC
 	if( !isRunning() )
 	{
 		if( QtLocalPeer *obj = findChild<QtLocalPeer*>() )
 			delete obj;
-#ifdef Q_OS_MAC
-		delete d->bar;
-#endif
 		digidoc::terminate();
 	}
+#else
+	delete d->bar;
+	digidoc::terminate();
+#endif
 	delete d;
 }
 
@@ -280,6 +283,14 @@ void Application::parseArgs( const QStringList &args )
 	w->activateWindow();
 	w->show();
 	w->raise();
+}
+
+int Application::run()
+{
+#ifndef Q_OS_MAC
+	if( isRunning() ) return 0;
+#endif
+	return exec();
 }
 
 void Application::setConfValue( ConfParameter parameter, const QVariant &value )

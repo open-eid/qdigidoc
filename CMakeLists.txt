@@ -21,7 +21,6 @@ find_package( XSD REQUIRED )
 add_definitions( -DPKCS11_MODULE="${PKCS11_MODULE}" )
 
 include( ${QT_USE_FILE} )
-add_subdirectory( qtsingleapplication )
 add_subdirectory( common )
 include( common/resources.cmake )
 include( breakpad/BreakPad.cmake )
