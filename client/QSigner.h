@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <QThread>
+#include <QtCore/QThread>
 #include <digidocpp/crypto/signer/Signer.h>
 
 class QSignerPrivate;

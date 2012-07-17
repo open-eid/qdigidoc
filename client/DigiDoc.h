@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <QAbstractTableModel>
+#include <QtCore/QAbstractTableModel>
 
 #include <digidocpp/ADoc.h>
 

@@ -25,7 +25,6 @@
 #include "Application.h"
 #include "QSigner.h"
 
-#include <common/Common.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
@@ -36,17 +35,16 @@
 #include <digidocpp/crypto/Digest.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
 
-#include <QDateTime>
-#include <QDesktopServices>
-#include <QDir>
-#include <QFileInfo>
-#include <QMessageBox>
-#include <QMimeData>
-#include <QPixmap>
-#include <QProcess>
-#include <QSettings>
-#include <QStringList>
-#include <QUrl>
+#include <QtCore/QDateTime>
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
+#include <QtCore/QMimeData>
+#include <QtCore/QProcessEnvironment>
+#include <QtCore/QStringList>
+#include <QtCore/QUrl>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QMessageBox>
+#include <QtGui/QPixmap>
 
 #include <stdexcept>
 

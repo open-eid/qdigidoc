@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include <QCoreApplication>
-#include <QPainter>
+#include <QtCore/QCoreApplication>
+#include <QtGui/QPainter>
 
 class DigiDoc;
 

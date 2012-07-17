@@ -26,15 +26,14 @@
 #include "Application.h"
 
 #include <common/CertificateWidget.h>
-#include <common/Common.h>
 #include <common/FileDialog.h>
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
 
-#include <QDesktopServices>
-#include <QDropEvent>
-#include <QMessageBox>
-#include <QUrl>
+#include <QtCore/QUrl>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QDropEvent>
+#include <QtGui/QMessageBox>
 
 SettingsDialog::SettingsDialog( QWidget *parent )
 :	QWidget( parent )

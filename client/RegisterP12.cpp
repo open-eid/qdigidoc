@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,17 +26,16 @@
 #include "Application.h"
 
 #include <common/CertificateWidget.h>
-#include <common/Common.h>
 #include <common/FileDialog.h>
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
 
-#include <QDesktopServices>
-#include <QDropEvent>
-#include <QFile>
-#include <QFileInfo>
-#include <QMessageBox>
-#include <QUrl>
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
+#include <QtCore/QUrl>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QDropEvent>
+#include <QtGui/QMessageBox>
 
 RegisterP12::RegisterP12( const QString &cert )
 :	QWidget()

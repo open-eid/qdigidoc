@@ -27,8 +27,8 @@
 #include <common/DateTime.h>
 #include <common/SslCertificate.h>
 
-#include <QPrinter>
-#include <QTextDocument>
+#include <QtGui/QPrinter>
+#include <QtGui/QTextDocument>
 
 PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 :	QPainter( printer )

@@ -37,14 +37,14 @@
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
-#include <QDesktopServices>
-#include <QDragEnterEvent>
-#include <QMessageBox>
-#include <QNetworkProxy>
-#include <QPrinter>
-#include <QPrintPreviewDialog>
-#include <QTextStream>
-#include <QUrl>
+#include <QtCore/QTextStream>
+#include <QtCore/QUrl>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QMessageBox>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintPreviewDialog>
+#include <QtNetwork/QNetworkProxy>
 
 MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )
