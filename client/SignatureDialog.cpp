@@ -31,14 +31,12 @@
 
 #include <digidocpp/Document.h>
 
-#include <QDateTime>
-#include <QDesktopServices>
-#include <QMessageBox>
-#include <QPushButton>
-#include <QSslKey>
-#include <QTextDocument>
-#include <QTextStream>
-#include <QUrl>
+#include <QtCore/QTextStream>
+#include <QtCore/QUrl>
+#include <QtGui/QMessageBox>
+#include <QtGui/QPushButton>
+#include <QtGui/QTextDocument>
+#include <QtNetwork/QSslKey>
 
 SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned int signnum, QWidget *parent )
 :	QLabel( parent )

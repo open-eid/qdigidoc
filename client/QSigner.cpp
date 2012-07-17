@@ -34,10 +34,10 @@
 #include <digidocpp/Conf.h>
 #include <digidocpp/crypto/Digest.h>
 
-#include <QEventLoop>
-#include <QMutex>
-#include <QSslKey>
-#include <QStringList>
+#include <QtCore/QEventLoop>
+#include <QtCore/QMutex>
+#include <QtCore/QStringList>
+#include <QtNetwork/QSslKey>
 
 class QSignerPrivate
 {

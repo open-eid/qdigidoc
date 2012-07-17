@@ -33,15 +33,15 @@
 #include <common/sslConnect.h>
 #include <common/TokenData.h>
 
-#include <QDateTime>
-#include <QDesktopServices>
-#include <QDir>
-#include <QXmlStreamReader>
-#include <QFile>
-#include <QLabel>
-#include <QMessageBox>
-#include <QScopedPointer>
-#include <QUrl>
+#include <QtCore/QDateTime>
+#include <QtCore/QDir>
+#include <QtCore/QFile>
+#include <QtCore/QScopedPointer>
+#include <QtCore/QUrl>
+#include <QtCore/QXmlStreamReader>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QLabel>
+#include <QtGui/QMessageBox>
 
 AccessCert::AccessCert( QWidget *parent )
 :	QObject( parent )

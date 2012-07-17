@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2011 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2011 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,15 +33,15 @@
 #include <digidocpp/Exception.h>
 #include <digidocpp/crypto/Digest.h>
 
-#include <QDir>
-#include <QNetworkAccessManager>
-#include <QNetworkProxy>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QSslKey>
-#include <QSslConfiguration>
-#include <QTimeLine>
-#include <QXmlStreamReader>
+#include <QtCore/QDir>
+#include <QtCore/QTimeLine>
+#include <QtCore/QXmlStreamReader>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkProxy>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QSslKey>
+#include <QtNetwork/QSslConfiguration>
 
 using namespace digidoc;
 
