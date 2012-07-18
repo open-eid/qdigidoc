@@ -562,6 +562,11 @@ DocumentModel* DigiDoc::documentModel() const { return m_documentModel; }
 QString DigiDoc::fileName() const { return m_fileName; }
 bool DigiDoc::isNull() const { return b == 0; }
 
+QString DigiDoc::newSignatureID() const
+{
+	return QString( "S%1" ).arg( b->newSignatureId() );
+}
+
 bool DigiDoc::open( const QString &file )
 {
 	clear();

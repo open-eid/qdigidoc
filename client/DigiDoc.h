@@ -141,6 +141,7 @@ public:
 	DocumentModel *documentModel() const;
 	QString fileName() const;
 	bool isNull() const;
+	QString newSignatureID() const;
 	bool open( const QString &file );
 	void removeSignature( unsigned int num );
 	void save( const QString &filename = QString() );
