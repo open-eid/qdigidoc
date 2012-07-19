@@ -232,7 +232,13 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 	r.writeParameter( "PhoneNo", cell );
 	r.writeParameter( "Language", lang.value( Settings::language(), "EST" ) );
 	r.writeParameter( "ServiceName", "DigiDoc3" );
-	r.writeParameter( "MessageToDisplay", tr("Sign") );
+	QString title =  tr("Sign") + " " + QFileInfo( m_doc->fileName() ).fileName();
+	if( title.size() > 39 )
+	{
+		title.resize( 36 );
+		title += "...";
+	}
+	r.writeParameter( "MessageToDisplay", title + "\n" );
 	r.writeParameter( "City", location.value(0) );
 	r.writeParameter( "StateOrProvince", location.value(1) );
 	r.writeParameter( "PostalCode", location.value(2) );
