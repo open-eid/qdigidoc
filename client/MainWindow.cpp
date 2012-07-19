@@ -392,6 +392,12 @@ void MainWindow::buttonClicked( int button )
 			tr("Select folder where files will be stored") );
 		if( dir.isEmpty() )
 			return;
+		if( !Common::canWrite( dir ) )
+		{
+			qApp->showWarning(
+				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( dir ) );
+			return;
+		}
 		DocumentModel *m = doc->documentModel();
 		for( int i = 0; i < m->rowCount(); ++i )
 		{
