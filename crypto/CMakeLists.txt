@@ -103,7 +103,11 @@ target_link_libraries( ${PROGNAME}
 	${ADDITIONAL_LIBRARIES}
 )
 dump_syms( ${PROGNAME} )
-install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
+if( APPLE )
+	install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR}/qdigidocclient.app/Contents/MacOS/ )
+else()
+	install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
+endif()
 
 if(UNIX AND NOT APPLE)
 	install(FILES qdigidoc-crypto.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
