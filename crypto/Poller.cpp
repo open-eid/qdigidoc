@@ -156,12 +156,13 @@ void Poller::run()
 
 	if( d->pkcs11 )
 	{
-		char driver[200];
-		qsnprintf( driver, sizeof(driver), "DIGIDOC_DRIVER_%d_FILE",
+		char param[200];
+		qsnprintf( param, sizeof(param), "DIGIDOC_DRIVER_%d_FILE",
 			ConfigItem_lookup_int( "DIGIDOC_DEFAULT_DRIVER", 1 ) );
-		if( !d->pkcs11->loadDriver( QString::fromUtf8( ConfigItem_lookup(driver) ) ) )
+		QString driver = QString::fromUtf8( ConfigItem_lookup(param) );
+		if( !d->pkcs11->loadDriver( driver ) )
 		{
-			Q_EMIT error( tr("Failed to load PKCS#11 module") );
+			Q_EMIT error( tr("Failed to load PKCS#11 module") + "\n" + driver );
 			return;
 		}
 	}
