@@ -46,6 +46,12 @@
 #include <QtGui/QPrintPreviewDialog>
 #include <QtNetwork/QNetworkProxy>
 
+#ifdef Q_OS_MAC
+#define qdigidoccrypto qApp->applicationDirPath() + "/qdigidoccrypto.app"
+#else
+#define qdigidoccrypto "qdigidoccrypto"
+#endif
+
 MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )
 ,	cardsGroup( new QActionGroup( this ) )
@@ -245,8 +251,8 @@ void MainWindow::buttonClicked( int button )
 		break;
 	}
 	case HomeCrypt:
-		if( !Common::startDetached( "qdigidoccrypto" ) )
-			qApp->showWarning( tr("Failed to start process '%1'").arg( "qdigidoccrypto" ) );
+		if( !Common::startDetached( qdigidoccrypto ) )
+			qApp->showWarning( tr("Failed to start process '%1'").arg( qdigidoccrypto ) );
 		break;
 	case HomeSign:
 		if( stack->currentIndex() == Home &&
@@ -364,7 +370,7 @@ void MainWindow::buttonClicked( int button )
 		break;
 	}
 	case ViewEncrypt:
-		Common::startDetached( "qdigidoccrypto", QStringList() << doc->fileName() );
+		Common::startDetached( qdigidoccrypto, QStringList() << doc->fileName() );
 		break;
 	case ViewPrint:
 	{
