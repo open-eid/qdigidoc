@@ -132,7 +132,10 @@ MainWindow::MainWindow( QWidget *parent )
 	signContentView->setDocumentModel( doc->documentModel() );
 	viewContentView->setDocumentModel( doc->documentModel() );
 	signContentView->setColumnHidden( DocumentModel::Save, true );
+	signContentView->setColumnHidden( DocumentModel::Id, true );
 	viewContentView->setColumnHidden( DocumentModel::Remove, true );
+	viewContentView->setColumnHidden( DocumentModel::Id, true );
+
 	connect( doc->documentModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), SLOT(enableSign()) );
 	connect( doc->documentModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(enableSign()) );
 	connect( doc->documentModel(), SIGNAL(modelReset()), SLOT(enableSign()) );
@@ -374,13 +377,12 @@ void MainWindow::buttonClicked( int button )
 		break;
 	case ViewPrint:
 	{
-		QPrinter printer;
-		printer.setPaperSize( QPrinter::A4 );
-		printer.setOrientation( QPrinter::Portrait );
-		QPrintPreviewDialog *dialog = new QPrintPreviewDialog( &printer, this );
+		QPrintPreviewDialog *dialog = new QPrintPreviewDialog( this );
+		dialog->printer()->setPaperSize( QPrinter::A4 );
+		dialog->printer()->setOrientation( QPrinter::Portrait );
 		dialog->setWindowFlags( dialog->windowFlags() | Qt::WindowMinMaxButtonsHint );
-		connect( dialog, SIGNAL(paintRequested(QPrinter*)), SLOT(printSheet(QPrinter*)) );
 		dialog->setMinimumHeight( 700 );
+		connect( dialog, SIGNAL(paintRequested(QPrinter*)), SLOT(printSheet(QPrinter*)) );
 		dialog->exec();
 		break;
 	}
@@ -722,6 +724,7 @@ void MainWindow::setCurrentPage( Pages page )
 	case Sign:
 	{
 		signContentView->setColumnHidden( DocumentModel::Remove, !doc->signatures().isEmpty() );
+		signContentView->setColumnHidden( DocumentModel::Id, true );
 		signAddFile->setVisible( doc->signatures().isEmpty() );
 		break;
 	}

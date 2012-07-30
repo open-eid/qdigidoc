@@ -259,7 +259,7 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 			try
 			{
 				std::auto_ptr<Digest> calc(new Digest( URI_SHA1 ));
-				Document file = m->document( m->index( i, 0 ) );
+				Document file = m->document( m->index( i, DocumentModel::Name ) );
 				std::vector<unsigned char> d = file.calcDigest( calc.get() );
 				digest = QByteArray( (char*)&d[0], d.size() );
 				name = QString::fromUtf8( calc->getName().c_str() );
@@ -275,8 +275,7 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 
 		r.writeStartElement( "DataFileDigest" );
 		r.writeAttribute( XML_SCHEMA_INSTANCE, "type", QString( "m:" ).append( "DataFileDigest" ) );
-		r.writeParameter( "Id", m_doc->documentType() == ADoc::BDocType ?
-			QString( "/%1" ).arg( m->index( i, 0 ).data().toString() ) : QString( "D%1" ).arg( i ) );
+		r.writeParameter( "Id", m->index( i, DocumentModel::Id ).data().toString() );
 		r.writeParameter( "DigestType", name );
 		r.writeParameter( "DigestValue", digest.toBase64() );
 		r.writeEndElement();

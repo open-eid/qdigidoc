@@ -49,7 +49,8 @@ public:
 		Mime = 1,
 		Size = 2,
 		Save = 3,
-		Remove = 4
+		Remove = 4,
+		Id = 5
 	};
 
 	int columnCount( const QModelIndex &parent = QModelIndex() ) const;
@@ -83,7 +84,7 @@ public:
 	{
 		Valid,
 		Invalid,
-		Unknown,
+		Unknown
 	};
 	enum SignatureType
 	{
@@ -91,7 +92,7 @@ public:
 		TMType,
 		TSType,
 		DDocType,
-		UnknownType,
+		UnknownType
 	};
 	DigiDocSignature( const digidoc::Signature *signature, DigiDoc *parent );
 

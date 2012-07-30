@@ -64,7 +64,7 @@ DocumentModel::DocumentModel( DigiDoc *doc )
 }
 
 int DocumentModel::columnCount( const QModelIndex &parent ) const
-{ return parent.isValid() ? 0 : 5; }
+{ return parent.isValid() ? 0 : 6; }
 
 QString DocumentModel::copy( const QModelIndex &index, const QString &path ) const
 {
@@ -92,6 +92,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::DisplayRole:
 		switch( index.column() )
 		{
+		case Id: return from( d.getId() );
 		case Name: return from( d.getFileName() ).normalized( QString::NormalizationForm_C );
 		case Mime: return from( d.getMediaType() );
 		case Size: return Common::fileSize( QFileInfo( from( d.getFilePath() ) ).size() );
