@@ -564,8 +564,8 @@ Check if the ID-card is inserted correctly to the reader.
 New ID-cards have chip on the back side of the card.</source>
         <translation>Не найдена ID-карта
 
-Check if the ID-card is inserted correctly to the reader.
-New ID-cards have chip on the back side of the card.</translation>
+Проверьте, правильно ли вставлена ID-карта в считыватель.
+У новых ID-карт чип находится на обратной стороне карты.</translation>
     </message>
     <message>
         <source>No readers found</source>

@@ -546,6 +546,10 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <source>No readers found</source>
         <translation>Ühtegi kiipkaardi lugejat pole ühendatud</translation>
     </message>
+    <message>
+        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
+        <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
+    </message>
 </context>
 <context>
     <name>Poller</name>

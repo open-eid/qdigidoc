@@ -537,12 +537,16 @@ Check if the ID-card is inserted correctly to the reader.
 New ID-cards have chip on the back side of the card.</source>
         <translation>Не найдена ID-карта
 
-Check if the ID-card is inserted correctly to the reader.
-New ID-cards have chip on the back side of the card.</translation>
+Проверьте, правильно ли вставлена ID-карта в считыватель.
+У новых ID-карт чип находится на обратной стороне карты.</translation>
     </message>
     <message>
         <source>No readers found</source>
         <translation>Считывающее устройство не обнаружено</translation>
+    </message>
+    <message>
+        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
+        <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
 </context>
 <context>
