@@ -57,12 +57,12 @@ MainWindow::MainWindow( QWidget *parent )
 ,	cardsGroup( new QActionGroup( this ) )
 ,	quitOnClose( false )
 {
-	setWindowFlags( Qt::Window|Qt::CustomizeWindowHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 #ifdef TESTING
 	if( !qApp->arguments().contains( "-crash" ) )
 #endif
 	setupUi( this );
+	setFixedSize( geometry().size() );
 
 	infoTypeGroup->setId( infoSignCard, 0 );
 	infoTypeGroup->setId( infoSignMobile, 1 );

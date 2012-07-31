@@ -42,12 +42,12 @@ MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )
 ,	cardsGroup( new QActionGroup( this ) )
 {
-	setWindowFlags( Qt::Window|Qt::CustomizeWindowHint|Qt::WindowMinimizeButtonHint|Qt::WindowCloseButtonHint );
 	setAttribute( Qt::WA_DeleteOnClose, true );
 #ifdef TESTING
 	if( !qApp->arguments().contains( "-crash" ) )
 #endif
 	setupUi( this );
+	setFixedSize( geometry().size() );
 	Common::setAccessibleName( introContent );
 
 	cards->hide();
