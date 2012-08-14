@@ -85,6 +85,15 @@ QSigner::~QSigner()
 	delete d;
 }
 
+QSigner::ApiType QSigner::apiType() const
+{
+#ifdef Q_OS_WIN
+	if( d->csp ) return CAPI;
+	if( d->cng ) return CNG;
+#endif
+	return PKCS11;
+}
+
 X509* QSigner::getCert() const throw(digidoc::SignException)
 {
 	if( d->t.cert().isNull() )

@@ -42,6 +42,7 @@ public:
 	explicit QSigner( ApiType api, QObject *parent = 0 );
 	~QSigner();
 
+	ApiType apiType() const;
 	X509 *getCert() const throw(digidoc::SignException);
 	Qt::HANDLE handle() const;
 	void lock();
