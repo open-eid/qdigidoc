@@ -125,8 +125,8 @@ Application::Application( int &argc, char **argv )
 		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
 	}
 
-#if 0 //def Q_OS_WIN
-	QSigner::ApiType api = QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ? QSigner::CAPI : QSigner::PKCS11;
+#ifdef Q_OS_WIN
+	QSigner::ApiType api = QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ? QSigner::CNG : QSigner::PKCS11;
 #else
 	QSigner::ApiType api = QSigner::PKCS11;
 #endif
@@ -244,6 +244,11 @@ bool Application::notify( QObject *o, QEvent *e )
 		DigiDoc::parseException( e, causes, code, ddocError );
 		showWarning( tr("Caught exception!"), ddocError, causes.join("\n") );
 	}
+	catch(...)
+	{
+		showWarning( tr("Caught exception!") );
+	}
+
 	return result;
 }
 

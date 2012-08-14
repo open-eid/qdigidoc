@@ -111,8 +111,8 @@ Application::Application( int &argc, char **argv )
 	else
 		initConfigStore( NULL );
 
-#if 0 //def Q_OS_WIN
-	Poller::ApiType api = QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ? Poller::CAPI : Poller::PKCS11;
+#ifdef Q_OS_WIN
+	Poller::ApiType api = QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ? Poller::CNG : Poller::PKCS11;
 #else
 	Poller::ApiType api = Poller::PKCS11;
 #endif
