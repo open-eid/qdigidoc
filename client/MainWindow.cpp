@@ -717,7 +717,7 @@ QString MainWindow::selectFile( const QString &filename )
 				tr("BDOC signing is not supported in CAPI mode, create DDOC?"),
 				QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes );
 			if( b == QMessageBox::Cancel )
-				return false;
+				return QString();
 			file.replace( ".bdoc", ".ddoc", Qt::CaseInsensitive );
 		}
 

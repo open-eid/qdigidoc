@@ -23,7 +23,6 @@
 #include "SettingsDialog.h"
 
 #include "ui_SettingsDialog.h"
-#include "version.h"
 
 #include <common/FileDialog.h>
 #include <common/Settings.h>
