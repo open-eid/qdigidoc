@@ -23,6 +23,7 @@
 #include "Application.h"
 
 #ifdef BREAKPAD
+#include "version.h"
 #include <breakpad/QBreakPad.h>
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
@@ -48,8 +49,7 @@ int main( int argc, char *argv[] )
 	{
 		Common app( argc, argv );
 		app.setApplicationName( APP );
-		app.setApplicationVersion( QString( "%1.%2.%3.%4" )
-			.arg( MAJOR_VER ).arg( MINOR_VER ).arg( RELEASE_VER ).arg( BUILD_VER ) );
+		app.setApplicationVersion( VER_STR( FILE_VER_DOT ) );
 		app.setOrganizationDomain( DOMAINURL );
 		app.setOrganizationName( ORG );
 		app.setWindowIcon( QIcon( ":/images/crypto_128x128.png" ) );
