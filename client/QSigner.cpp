@@ -150,7 +150,7 @@ void QSigner::run()
 			if( d->cng )
 			{
 				foreach( const SslCertificate &cert, certs = d->cng->certs() )
-					if( cert.isValid() && cert.keyUsage().contains( SslCertificate::NonRepudiation ) )
+					if( cert.keyUsage().contains( SslCertificate::NonRepudiation ) )
 						cards << cert.subjectInfo( SslCertificate::CommonName );
 				readers << d->cng->readers();
 			}
@@ -187,8 +187,7 @@ void QSigner::run()
 				else if( d->cng )
 				{
 					foreach( const SslCertificate &cert, certs )
-						if( cert.isValid() &&
-							cert.keyUsage().contains( SslCertificate::NonRepudiation ) &&
+						if( cert.keyUsage().contains( SslCertificate::NonRepudiation ) &&
 							cert.subjectInfo( SslCertificate::CommonName ) == d->t.card() )
 							d->t = d->cng->selectCert( cert );
 				}
@@ -217,7 +216,7 @@ void QSigner::selectCard( const QString &card )
 
 int QSigner::type() const
 {
-	int digest = digidoc::Digest::toMethod( qApp->confValue( Application::SignatureUri ).toString().toStdString() );
+	int digest = digidoc::Digest::toMethod( qApp->confValue( Application::SignatureUri ).toString().toUtf8().constData() );
 	if( digest == NID_sha1 )
 		return digest;
 	switch( SslCertificate(d->t.cert()).type() )

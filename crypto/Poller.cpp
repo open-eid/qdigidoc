@@ -182,7 +182,7 @@ void Poller::run()
 			if( d->cng )
 			{
 				foreach( const SslCertificate &cert, certs = d->cng->certs() )
-					if( cert.isValid() && cert.keyUsage().contains( SslCertificate::NonRepudiation ) )
+					if( cert.keyUsage().contains( SslCertificate::NonRepudiation ) )
 						cards << cert.subjectInfo( SslCertificate::CommonName );
 				readers << d->cng->readers();
 			}
@@ -219,8 +219,7 @@ void Poller::run()
 				else if( d->cng )
 				{
 					foreach( const SslCertificate &cert, certs )
-						if( cert.isValid() &&
-							cert.keyUsage().contains( SslCertificate::KeyEncipherment ) &&
+						if( cert.keyUsage().contains( SslCertificate::KeyEncipherment ) &&
 							cert.subjectInfo( SslCertificate::CommonName ) == d->t.card() )
 							d->t = d->cng->selectCert( cert );
 				}
