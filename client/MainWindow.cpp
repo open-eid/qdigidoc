@@ -480,12 +480,6 @@ void MainWindow::buttonClicked( int button )
 		{
 			if( !access.download( infoSignMobile->isChecked() || qApp->signer()->token().card().isEmpty() ) )
 				break;
-			QMessageBox b( QMessageBox::Information, tr("DigiDoc3 client"),
-				tr("Server access certificate has been installed") );
-			b.setDefaultButton( b.addButton( tr("Continue signing"), QMessageBox::AcceptRole ) );
-			b.addButton( QMessageBox::Cancel );
-			if( b.exec() == QMessageBox::Cancel )
-				break;
 		}
 
 		if( infoSignCard->isChecked() )

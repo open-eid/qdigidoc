@@ -81,6 +81,18 @@ Alustame laadimist?</translation>
         <source>http://www.sk.ee/toend/</source>
         <translation>https://www.sk.ee/getaccess/index.php?lang=est</translation>
     </message>
+    <message>
+        <source>For getting server access certificate to Tempel contact &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server access certificate has been installed</source>
+        <translation>Juurdepääsutõend on edukalt paigaldatud</translation>
+    </message>
+    <message>
+        <source>Continue signing</source>
+        <translation>Jätkame allkirjastamisega</translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -463,14 +475,6 @@ already in container, ovewrite?</source>
 on juba ümbrikus. Kas kirjutan üle?</translation>
     </message>
     <message>
-        <source>Server access certificate has been installed</source>
-        <translation>Juurdepääsutõend on edukalt paigaldatud</translation>
-    </message>
-    <message>
-        <source>Continue signing</source>
-        <translation>Jätkame allkirjastamisega</translation>
-    </message>
-    <message>
         <source>Signing in process</source>
         <translation>Toimub allkirjastamine</translation>
     </message>
@@ -567,6 +571,10 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     <message>
         <source>No readers found</source>
         <translation>Ühtegi kiipkaardi lugejat pole ühendatud</translation>
+    </message>
+    <message>
+        <source>BDOC signing is not supported in CAPI mode, create DDOC?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

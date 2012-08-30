@@ -22,9 +22,9 @@
 
 #pragma once
 
-#include <QtCore/QObject>
+#include <QtGui/QMessageBox>
 
-class AccessCert: public QObject
+class AccessCert: public QMessageBox
 {
 	Q_OBJECT
 
@@ -39,6 +39,5 @@ private:
 	void showWarning( const QString &msg );
 	bool showWarning2( const QString &msg );
 
-	QWidget *m_parent;
 	QString m_cert, m_pass;
 };

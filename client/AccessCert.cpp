@@ -41,12 +41,14 @@
 #include <QtCore/QXmlStreamReader>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QLabel>
-#include <QtGui/QMessageBox>
+#include <QtGui/QPushButton>
 
 AccessCert::AccessCert( QWidget *parent )
-:	QObject( parent )
-,	m_parent( parent )
+:	QMessageBox( parent )
 {
+	setWindowTitle( tr("Server access certificate") );
+	if( QLabel *label = findChild<QLabel*>() )
+		label->setOpenExternalLinks( true );
 	m_cert = Application::confValue( Application::PKCS12Cert ).toString();
 	m_pass = Application::confValue( Application::PKCS12Pass ).toString();
 }
@@ -65,22 +67,30 @@ bool AccessCert::download( bool noCard )
 		return false;
 	}
 
-	QMessageBox d( QMessageBox::Information, tr("Server access certificate"),
+	SslCertificate tempel( qApp->signer()->token().cert() );
+	if( tempel.isTempel() )
+	{
+		setIcon( Information );
+		setText( tr("For getting server access certificate to Tempel contact <a href=\"mailto:sales@sk.ee\">sales@sk.ee</a>") );
+		return false;
+	}
+
+	setIcon( Information );
+	setText(
 		tr("Hereby I agree to terms and conditions of validity confirmation service and "
 		   "will use the service in extent of 10 signatures per month. If you going to "
 		   "exceed the limit of 10 signatures per month or/and will use the service for "
 		   "commercial purposes, please refer to IT support of your company. Additional "
 		   "information is available from <a href=\"%1\">%1</a> or phone 1777")
-			.arg( tr("http://www.id.ee/kehtivuskinnitus") ),
-		QMessageBox::Help, m_parent );
-	d.addButton( tr("Agree"), QMessageBox::AcceptRole );
-	if( QLabel *label = d.findChild<QLabel*>() )
-		label->setOpenExternalLinks( true );
-	if( d.exec() == QMessageBox::Help )
+			.arg( tr("http://www.id.ee/kehtivuskinnitus") ) );
+	setStandardButtons( Help );
+	QPushButton *agree = addButton( tr("Agree"), AcceptRole );
+	if( exec() == Help )
 	{
 		QDesktopServices::openUrl( QUrl( tr("http://www.id.ee/kehtivuskinnitus") ) );
 		return false;
 	}
+	removeButton( agree );
 
 	QSigner *s = qApp->signer();
 	QPKCS11 *p = qobject_cast<QPKCS11*>(reinterpret_cast<QObject*>(s->handle()));
@@ -124,10 +134,16 @@ bool AccessCert::download( bool noCard )
 	{
 #ifdef Q_OS_WIN
 		foreach( const SslCertificate &cert, c->certs() )
+		{
 			if( cert.isValid() && cert.enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
+			{
 				token = c->selectCert( cert );
+				break;
+			}
+		}
 		key = c->key();
 #else
+		s->unlock();
 		return false;
 #endif
 	}
@@ -135,12 +151,12 @@ bool AccessCert::download( bool noCard )
 	QScopedPointer<SSLConnect> ssl( new SSLConnect );
 	ssl->setToken( token.cert(), key );
 	QByteArray result = ssl->getUrl( SSLConnect::AccessCert );
+	s->unlock();
 	if( !ssl->errorString().isEmpty() )
 	{
 		showWarning( tr("Error downloading server access certificate!") + "\n" + ssl->errorString() );
 		return false;
 	}
-	s->unlock();
 
 	if( result.isEmpty() )
 	{
@@ -204,16 +220,30 @@ bool AccessCert::download( bool noCard )
 
 	Application::setConfValue( Application::PKCS12Cert, m_cert = QDir::toNativeSeparators( f.fileName() ) );
 	Application::setConfValue( Application::PKCS12Pass, m_pass = pass );
-	return true;
+
+	setIcon( Information );
+	setText( tr("Server access certificate has been installed") );
+	setStandardButtons( Cancel );
+	setDefaultButton( addButton( tr("Continue signing"), AcceptRole ) );
+	return exec() == AcceptRole;
 }
 
 void AccessCert::showWarning( const QString &msg )
-{ QMessageBox::warning( m_parent, tr( "Server access certificate" ), msg ); }
+{
+	setIcon( Warning );
+	setText( msg );
+	setStandardButtons( Ok );
+	exec();
+}
 
 bool AccessCert::showWarning2( const QString &msg )
 {
-	return QMessageBox::No == QMessageBox::warning( m_parent, tr( "Server access certificate" ),
-		msg, QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes );
+	setIcon( Warning );
+	setText( msg );
+	setStandardButtons( Yes | No );
+	setDefaultButton( Yes );
+	exec();
+	return standardButton(clickedButton()) == No;
 }
 
 bool AccessCert::validate()
@@ -244,7 +274,7 @@ bool AccessCert::validate()
 	}
 	else
 	{
-		PKCS12Certificate p12Cert( &f, m_pass.toLatin1() );
+		PKCS12Certificate p12Cert( &f, m_pass );
 
 		if( p12Cert.error() == PKCS12Certificate::InvalidPasswordError )
 		{

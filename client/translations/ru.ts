@@ -81,6 +81,18 @@ Start downloading?</source>
         <source>http://www.sk.ee/toend/</source>
         <translation>https://www.sk.ee/getaccess/index.php?lang=rus</translation>
     </message>
+    <message>
+        <source>For getting server access certificate to Tempel contact &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server access certificate has been installed</source>
+        <translation>Сертификат доступа к серверу установлен</translation>
+    </message>
+    <message>
+        <source>Continue signing</source>
+        <translation>Подписать</translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -466,14 +478,6 @@ already in container, ovewrite?</source>
 уже в контейнере, переписать?</translation>
     </message>
     <message>
-        <source>Server access certificate has been installed</source>
-        <translation>Сертификат доступа к серверу установлен</translation>
-    </message>
-    <message>
-        <source>Continue signing</source>
-        <translation>Подписать</translation>
-    </message>
-    <message>
         <source>Signing in process</source>
         <translation>Подписывание</translation>
     </message>
@@ -570,6 +574,10 @@ New ID-cards have chip on the back side of the card.</source>
     <message>
         <source>No readers found</source>
         <translation>Считывающее устройство не обнаружено</translation>
+    </message>
+    <message>
+        <source>BDOC signing is not supported in CAPI mode, create DDOC?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
