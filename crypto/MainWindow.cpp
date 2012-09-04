@@ -125,11 +125,13 @@ bool MainWindow::addFile( const QString &file )
 			select = b == QMessageBox::No;
 		}
 
+#ifndef APPSTORE
 		if( !Common::canWrite( docname ) )
 		{
 			select = true;
 			qApp->showWarning( tr("You don't have privileges to write file %1").arg( docname ) );
 		}
+#endif
 
 		if( select )
 		{

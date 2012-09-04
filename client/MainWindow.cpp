@@ -177,12 +177,14 @@ bool MainWindow::addFile( const QString &file )
 			select = b == QMessageBox::No;
 		}
 
+#ifndef APPSTORE
 		if( !Common::canWrite( docname ) )
 		{
 			select = true;
 			qApp->showWarning(
 				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( docname ) );
 		}
+#endif
 
 		if( select )
 		{
