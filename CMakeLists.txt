@@ -18,6 +18,13 @@ find_package( XercesC REQUIRED )
 find_package( XSD REQUIRED )
 
 include( ${QT_USE_FILE} )
+
+if( APPLE )
+	set( APPSTORE true CACHE BOOL "AppStore build" )
+endif()
+if( APPSTORE )
+	add_definitions(-DAPPSTORE)
+endif()
 add_subdirectory( common )
 include( common/resources.cmake )
 include( breakpad/BreakPad.cmake )
