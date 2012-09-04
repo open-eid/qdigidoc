@@ -43,7 +43,11 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
 	d->defaultDir->setText( s.value( "DefaultDir" ).toString() );
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
-	d->askSaveAs->setChecked( s.value( "AskSaveAs", false ).toBool() );
+#ifdef APPSTORE
+	d->askSaveAs->hide();
+#else
+	d->askSaveAs->setChecked( s.value( "AskSaveAs", true ).toBool() );
+#endif
 	s.endGroup();
 }
 
@@ -66,7 +70,9 @@ void SettingsDialog::save()
 	Settings s;
 	s.beginGroup( "Crypto" );
 	s.setValue( "Intro", d->showIntro->isChecked() );
+#ifndef APPSTORE
 	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
+#endif
 	if( d->defaultSameDir->isChecked() )
 	{
 		d->defaultDir->clear();

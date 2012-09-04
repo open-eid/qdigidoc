@@ -116,7 +116,7 @@ bool MainWindow::addFile( const QString &file )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
 			.arg( fileinfo.suffix() == "cdoc" ? fileinfo.fileName() : fileinfo.completeBaseName() );
 
-		bool select = s.value( "AskSaveAs", false ).toBool();
+		bool select = s.value( "AskSaveAs", true ).toBool();
 		if( !select && QFile::exists( docname ) )
 		{
 			QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 crypto"),

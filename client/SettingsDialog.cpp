@@ -51,7 +51,11 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
 	d->defaultDir->setText( s.value( "DefaultDir" ).toString() );
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
+#ifdef APPSTORE
+	d->askSaveAs->hide();
+#else
 	d->askSaveAs->setChecked( s.value( "AskSaveAs", true ).toBool() );
+#endif
 
 	const QString type = s.value( "type", "ddoc" ).toString();
 	d->typeBDoc->setChecked( type == "bdoc" );
@@ -163,7 +167,9 @@ void SettingsDialog::save()
 	s.beginGroup( "Client" );
 	s.setValue( "Intro", d->showIntro->isChecked() );
 	s.setValue( "Overwrite", d->signOverwrite->isChecked() );
+#ifndef APPSTORE
 	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
+#endif
 	s.setValue( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc" );
 	if( d->defaultSameDir->isChecked() )
 	{
