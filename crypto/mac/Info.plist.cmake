@@ -68,7 +68,7 @@
 			<key>NSMessage</key>
 			<string>openFile</string>
 			<key>NSPortName</key>
-			<string>qdigidoccrypto</string>
+			<string>${MACOSX_BUNDLE_EXECUTABLE_NAME}</string>
 			<key>NSRequiredContext</key>
 			<dict>
 				<key>NSTextContent</key>
