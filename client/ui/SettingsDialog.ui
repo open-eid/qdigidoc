@@ -228,27 +228,20 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="3" column="0" colspan="2">
         <layout class="QHBoxLayout" name="p12ButtonLayout">
          <item>
           <widget class="QLabel" name="p12Error">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="styleSheet">
             <string notr="true">color: red;</string>
            </property>
           </widget>
-         </item>
-         <item>
-          <spacer name="p12ButtonSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>0</height>
-            </size>
-           </property>
-          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="showP12Cert">
@@ -259,7 +252,7 @@
          </item>
         </layout>
        </item>
-       <item row="4" column="1">
+       <item row="4" column="0" colspan="2">
         <widget class="QCheckBox" name="p12Ignore">
          <property name="text">
           <string>Ignore server access certificate (IP based access)</string>
