@@ -1,16 +1,15 @@
-#ifndef Q_CC_BOR
-# if defined(UNDER_CE) && UNDER_CE >= 400
-#  include <winbase.h>
-# else
-#  include <winver.h>
-# endif
-#endif
+#include <winver.h>
 
-#include "version.h"
+#define VER_STR_HELPER(x)	#x
+#define VER_STR(x)		VER_STR_HELPER(x)
+#define FILE_VER		MAJOR_VER,MINOR_VER,RELEASE_VER,BUILD_VER
+#define FILE_VER_STR	VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER) "\0"
+#define PROD_VER		MAJOR_VER,MINOR_VER,0,0
+#define PROD_VER_STR	VER_STR(MAJOR_VER.MINOR_VER) "\0"
 
 VS_VERSION_INFO VERSIONINFO
   FILEVERSION FILE_VER
-  PRODUCTVERSION FILE_VER
+  PRODUCTVERSION PROD_VER
   FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
 #ifdef _DEBUG
   FILEFLAGS VS_FF_DEBUG
@@ -23,20 +22,32 @@ VS_VERSION_INFO VERSIONINFO
 BEGIN
 	BLOCK "StringFileInfo"
 	BEGIN
-		BLOCK "040904E4"
+		BLOCK "040904B0"
 		BEGIN
 			VALUE "CompanyName", ORG "\0"
-			VALUE "FileDescription", APP "\0"
-			VALUE "FileVersion", VER_STR(FILE_VER_DOT) "\0"
-			VALUE "InternalName", "QDigiDocCrypto\0"
-			VALUE "LegalCopyright", "Copyright (C) 2009-2012 Estonian ID Card"
-			VALUE "OriginalFilename", "QDigiDocCrypto.exe\0"
-			VALUE "ProductName", APP "\0"
-			VALUE "ProductVersion", VER_STR(FILE_VER_DOT) "\0"
+			VALUE "FileDescription", "DigiDoc3 Crypto\0"
+			VALUE "FileVersion", FILE_VER_STR
+			VALUE "InternalName", APP "\0"
+			VALUE "LegalCopyright", "Copyright (C) 2009-2012 Estonian Information System's Authority"
+			VALUE "OriginalFilename", APP ".exe\0"
+			VALUE "ProductName", "DigiDoc3 Crypto\0"
+			VALUE "ProductVersion", PROD_VER_STR
+		END
+		BLOCK "042504B0"
+		BEGIN
+			VALUE "CompanyName", ORG "\0"
+			VALUE "FileDescription", "DigiDoc3 Krüpto\0"
+			VALUE "FileVersion", FILE_VER_STR
+			VALUE "InternalName", APP "\0"
+			VALUE "LegalCopyright", "Copyright (C) 2009-2012 Riigi Infosüsteemi Amet"
+			VALUE "OriginalFilename", APP ".exe\0"
+			VALUE "ProductName", "DigiDoc3 Krüpto\0"
+			VALUE "ProductVersion", PROD_VER_STR
 		END
 	END
 	BLOCK "VarFileInfo"
 	BEGIN
+		VALUE "Translation", 0x409, 1200
 		VALUE "Translation", 0x425, 1200
 	END
 END

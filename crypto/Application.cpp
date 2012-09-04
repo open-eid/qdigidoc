@@ -25,7 +25,6 @@
 #include "MainWindow.h"
 #include "Poller.h"
 #include "SettingsDialog.h"
-#include "version.h"
 
 #include <common/AboutWidget.h>
 #include <common/Settings.h>
@@ -74,7 +73,8 @@ Application::Application( int &argc, char **argv )
 #endif
 
 	setApplicationName( APP );
-	setApplicationVersion( VER_STR( FILE_VER_DOT ) );
+	setApplicationVersion( QString( "%1.%2.%3.%4" )
+		.arg( MAJOR_VER ).arg( MINOR_VER ).arg( RELEASE_VER ).arg( BUILD_VER ) );
 	setOrganizationDomain( DOMAINURL );
 	setOrganizationName( ORG );
 	setWindowIcon( QIcon( ":/images/crypto_128x128.png" ) );
