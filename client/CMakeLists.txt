@@ -1,6 +1,6 @@
-set( PROGNAME qdigidocclient )
+set_app_name( PROGNAME qdigidocclient )
 
-set( MOC_HEADERS
+QT4_WRAP_CPP( MOC_SOURCES
 	AccessCert.h
 	Application.h
 	DigiDoc.h
@@ -11,37 +11,14 @@ set( MOC_HEADERS
 	SettingsDialog.h
 	SignatureDialog.h
 	TreeWidget.h
-	)
+)
 QT4_WRAP_UI( UI_HEADERS
 	ui/MainWindow.ui
 	ui/MobileDialog.ui
 	ui/RegisterP12.ui
 	ui/SettingsDialog.ui
 	ui/SignatureDialog.ui
-	)
-set( HEADERS
-	${MOC_HEADERS}
-	${UI_HEADERS}
-	PrintSheet.h
-	version.h
-	)
-QT4_WRAP_CPP( MOC_SOURCES ${MOC_HEADERS} )
-set( SOURCES
-	${HEADERS}
-	${MOC_SOURCES}
-	main.cpp
-	AccessCert.cpp
-	Application.cpp
-	DigiDoc.cpp
-	MainWindow.cpp
-	MobileDialog.cpp
-	PrintSheet.cpp
-	QSigner.cpp
-	RegisterP12.cpp
-	SettingsDialog.cpp
-	SignatureDialog.cpp
-	TreeWidget.cpp
-	)
+)
 
 configure_file(${COMMON}/translations/common_tr.qrc common_tr.qrc COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/breakpad/translations/breakpad.qrc breakpad.qrc COPYONLY)
@@ -75,32 +52,40 @@ include_directories(
 
 if( APPLE )
 	include( VersionInfoMac )
-endif( APPLE )
-if( WIN32 )
-	set( SOURCES ${SOURCES} ${PROGNAME}.rc )
-	set( ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} Setupapi )
-endif( WIN32 )
+endif()
 
-add_executable(
-	${PROGNAME}
-	WIN32
-	MACOSX_BUNDLE
-	${SOURCES}
+add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
+	${PROGNAME}.rc
+	main.cpp
+	AccessCert.cpp
+	Application.cpp
+	DigiDoc.cpp
+	MainWindow.cpp
+	MobileDialog.cpp
+	PrintSheet.cpp
+	QSigner.cpp
+	RegisterP12.cpp
+	SettingsDialog.cpp
+	SignatureDialog.cpp
+	TreeWidget.cpp
+	${UI_HEADERS}
+	${MOC_SOURCES}
 	${QM_FILES}
 	${RC_SOURCES}
 	${RESOURCE_FILES}
-	)
+)
 
 if( APPLE )
 	set_target_properties( ${PROGNAME}
 		PROPERTIES
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
-endif( APPLE )
+endif()
 if( WIN32 )
+	list( APPEND ADDITIONAL_LIBRARIES Setupapi )
 	set_target_properties( ${PROGNAME}
 		PROPERTIES
 		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
-endif( WIN32 )
+endif()
 
 target_link_libraries( ${PROGNAME}
 	qdigidoccommon
@@ -123,11 +108,11 @@ if(UNIX AND NOT APPLE)
 		foreach(TGT application-x-bdoc.png application-x-ddoc.png application-x-p12d.png)
 			set(SRC images/qdigidoc_client_document_${RES}x${RES}.png)
 			install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
-		endforeach(TGT)
+		endforeach()
 
 		set(ICONDIR ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/apps/)
 		set(SRC images/digidoc_icon_${RES}x${RES}.png)
 		set(TGT qdigidoc-client.png)
 		install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
-	endforeach(RES)
-endif(UNIX AND NOT APPLE)
+	endforeach()
+endif()

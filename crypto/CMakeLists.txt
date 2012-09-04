@@ -1,6 +1,6 @@
-set( PROGNAME qdigidoccrypto )
+set_app_name( PROGNAME qdigidoccrypto )
 
-set( MOC_HEADERS
+QT4_WRAP_CPP( MOC_SOURCES
 	Application.h
 	CryptoDoc.h
 	KeyDialog.h
@@ -9,32 +9,13 @@ set( MOC_HEADERS
 	Poller.h
 	SettingsDialog.h
 	TreeWidget.h
-	)
+)
 QT4_WRAP_UI( UI_HEADERS
 	ui/CertAddDialog.ui
 	ui/KeyDialog.ui
 	ui/MainWindow.ui
 	ui/SettingsDialog.ui
-	)
-set( HEADERS
-	${MOC_HEADERS}
-	${UI_HEADERS}
-	version.h
-	)
-QT4_WRAP_CPP( MOC_SOURCES ${MOC_HEADERS} )
-set( SOURCES
-	${HEADERS}
-	${MOC_SOURCES}
-	main.cpp
-	Application.cpp
-	CryptoDoc.cpp
-	KeyDialog.cpp
-	LdapSearch.cpp
-	MainWindow.cpp
-	Poller.cpp
-	SettingsDialog.cpp
-	TreeWidget.cpp
-	)
+)
 
 configure_file(${COMMON}/translations/common_tr.qrc common_tr.qrc COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/breakpad/translations/breakpad.qrc breakpad.qrc COPYONLY)
@@ -65,33 +46,38 @@ include_directories(
 
 if( APPLE )
 	include( VersionInfoMac )
-	set( ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} "-framework LDAP" )
 endif( APPLE )
-if( WIN32 )
-	set( SOURCES ${SOURCES} ${PROGNAME}.rc )
-	set( ADDITIONAL_LIBRARIES ${ADDITIONAL_LIBRARIES} Setupapi Wldap32 )
-endif( WIN32 )
 
-add_executable(
-	${PROGNAME}
-	WIN32
-	MACOSX_BUNDLE
-	${SOURCES}
+add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
+	${PROGNAME}.rc
+	main.cpp
+	Application.cpp
+	CryptoDoc.cpp
+	KeyDialog.cpp
+	LdapSearch.cpp
+	MainWindow.cpp
+	Poller.cpp
+	SettingsDialog.cpp
+	TreeWidget.cpp
+	${UI_HEADERS}
+	${MOC_SOURCES}
 	${QM_FILES}
 	${RC_SOURCES}
 	${RESOURCE_FILES}
-	)
+)
 
 if( APPLE )
+	list( APPEND ADDITIONAL_LIBRARIES "-framework LDAP" )
 	set_target_properties( ${PROGNAME}
 		PROPERTIES
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
-endif( APPLE )
+endif()
 if( WIN32 )
+	list( APPEND ADDITIONAL_LIBRARIES Setupapi Wldap32 )
 	set_target_properties( ${PROGNAME}
 		PROPERTIES
 		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
-endif( WIN32 )
+endif()
 
 target_link_libraries( ${PROGNAME}
 	qdigidoccommon
@@ -124,5 +110,5 @@ if(UNIX AND NOT APPLE)
 		set(SRC images/crypto_${RES}x${RES}.png)
 		set(TGT qdigidoc-crypto.png)
 		install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
-	endforeach(RES)
-endif(UNIX AND NOT APPLE)
+	endforeach()
+endif()
