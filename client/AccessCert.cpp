@@ -216,7 +216,7 @@ bool AccessCert::download( bool noCard )
 	CFDataRef pkcs12data = CFDataCreate( 0, (const UInt8*)data.constData(), data.size() );
 	CFStringRef password = CFStringCreateWithCharacters( 0,
 		reinterpret_cast<const UniChar *>(pass.unicode()), pass.length() );
-#if 0
+
 	SecExternalFormat format = kSecFormatPKCS12;
 	SecExternalItemType type = kSecItemTypeAggregate;
 
@@ -230,35 +230,29 @@ bool AccessCert::download( bool noCard )
 	SecKeychainRef keychain;
 	SecKeychainCopyDefault( &keychain );
 	CFArrayRef items = 0;
-	OSStatus securityError = SecKeychainItemImport( pkcs12data, 0, &format, &type, 0, &params, keychain, &items );
-#else
-	const void *keys[] = { kSecImportExportPassphrase };
-	const void *values[] = { password };
-	CFDictionaryRef options = CFDictionaryCreate( 0, keys, values, 1, 0, 0 );
-
-	CFArrayRef items = CFArrayCreate( 0, 0, 0, 0 );
-	OSStatus securityError = SecPKCS12Import( pkcs12data, options, &items );
-	CFRelease( pkcs12data );
-	CFRelease( options );
-#endif
+	OSStatus err = SecKeychainItemImport( pkcs12data, 0, &format, &type, 0, &params, keychain, &items );
 	CFRelease( password );
 
-	if( securityError == errSecSuccess )
+	if( err != errSecSuccess )
 	{
-#if 0
-		SecIdentityRef identity = 0;
-		for( CFIndex i = 0; i < CFArrayGetCount( items ); ++i )
-		{
-			CFTypeRef item = CFTypeRef(CFArrayGetValueAtIndex( items, i ));
-			if( CFGetTypeID( item ) == SecIdentityGetTypeID() )
-				identity = SecIdentityRef(identity);
-		}
-		CFRelease( items );
-#else
-		CFDictionaryRef identitydict = CFDictionaryRef(CFArrayGetValueAtIndex( items, 0 ));
-		SecIdentityRef identity = SecIdentityRef(CFDictionaryGetValue( identitydict, kSecImportItemIdentity ));
-#endif
-		securityError = SecIdentitySetPreference( identity, CFSTR("ocsp.sk.ee"), 0 );
+		showWarning( tr("Failed to save server access certificate file to KeyChain!") );
+		return false;
+	}
+
+	SecIdentityRef identity = 0;
+	for( CFIndex i = 0; i < CFArrayGetCount( items ); ++i )
+	{
+		CFTypeRef item = CFTypeRef(CFArrayGetValueAtIndex( items, i ));
+		if( CFGetTypeID( item ) == SecIdentityGetTypeID() )
+			identity = SecIdentityRef(item);
+	}
+
+	err = SecIdentitySetPreference( identity, CFSTR("ocsp.sk.ee"), 0 );
+	CFRelease( items );
+	if( err != errSecSuccess )
+	{
+		showWarning( tr("Failed to save server access certificate file to KeyChain!") );
+		return false;
 	}
 #else
 	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
