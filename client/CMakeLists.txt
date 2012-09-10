@@ -78,6 +78,7 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 if( APPLE )
 	set_target_properties( ${PROGNAME}
 		PROPERTIES
+		LINK_FLAGS "-framework Security"
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
 endif()
 if( WIN32 )
