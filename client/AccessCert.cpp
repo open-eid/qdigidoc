@@ -43,20 +43,28 @@
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
 
+#ifdef Q_OS_MAC
+#include <Security/Security.h>
+#endif
+
 AccessCert::AccessCert( QWidget *parent )
 :	QMessageBox( parent )
 {
 	setWindowTitle( tr("Server access certificate") );
 	if( QLabel *label = findChild<QLabel*>() )
 		label->setOpenExternalLinks( true );
+#ifndef Q_OS_MAC
 	m_cert = Application::confValue( Application::PKCS12Cert ).toString();
 	m_pass = Application::confValue( Application::PKCS12Pass ).toString();
+#endif
 }
 
 AccessCert::~AccessCert()
 {
+#ifndef Q_OS_MAC
 	Application::setConfValue( Application::PKCS12Cert, m_cert );
 	Application::setConfValue( Application::PKCS12Pass, m_pass );
+#endif
 }
 
 bool AccessCert::download( bool noCard )
@@ -197,12 +205,62 @@ bool AccessCert::download( bool noCard )
 	default: break; //ok
 	}
 
-	if ( cert.isEmpty() )
+	if( cert.isEmpty() )
 	{
 		showWarning( tr("Error reading server access certificate - empty content!") );
 		return false;
 	}
 
+#ifdef Q_OS_MAC
+	QByteArray data = QByteArray::fromBase64( cert.toUtf8() );
+	CFDataRef pkcs12data = CFDataCreate( 0, (const UInt8*)data.constData(), data.size() );
+	CFStringRef password = CFStringCreateWithCharacters( 0,
+		reinterpret_cast<const UniChar *>(pass.unicode()), pass.length() );
+#if 0
+	SecExternalFormat format = kSecFormatPKCS12;
+	SecExternalItemType type = kSecItemTypeAggregate;
+
+	SecKeyImportExportParameters params;
+	memset( &params, 0, sizeof(params) );
+	params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
+	params.flags = kSecKeyImportOnlyOne;
+	params.keyAttributes = CSSM_KEYATTR_PERMANENT|CSSM_KEYATTR_EXTRACTABLE;
+	params.passphrase = password;
+
+	SecKeychainRef keychain;
+	SecKeychainCopyDefault( &keychain );
+	CFArrayRef items = 0;
+	OSStatus securityError = SecKeychainItemImport( pkcs12data, 0, &format, &type, 0, &params, keychain, &items );
+#else
+	const void *keys[] = { kSecImportExportPassphrase };
+	const void *values[] = { password };
+	CFDictionaryRef options = CFDictionaryCreate( 0, keys, values, 1, 0, 0 );
+
+	CFArrayRef items = CFArrayCreate( 0, 0, 0, 0 );
+	OSStatus securityError = SecPKCS12Import( pkcs12data, options, &items );
+	CFRelease( pkcs12data );
+	CFRelease( options );
+#endif
+	CFRelease( password );
+
+	if( securityError == errSecSuccess )
+	{
+#if 0
+		SecIdentityRef identity = 0;
+		for( CFIndex i = 0; i < CFArrayGetCount( items ); ++i )
+		{
+			CFTypeRef item = CFTypeRef(CFArrayGetValueAtIndex( items, i ));
+			if( CFGetTypeID( item ) == SecIdentityGetTypeID() )
+				identity = SecIdentityRef(identity);
+		}
+		CFRelease( items );
+#else
+		CFDictionaryRef identitydict = CFDictionaryRef(CFArrayGetValueAtIndex( items, 0 ));
+		SecIdentityRef identity = SecIdentityRef(CFDictionaryGetValue( identitydict, kSecImportItemIdentity ));
+#endif
+		securityError = SecIdentitySetPreference( identity, CFSTR("ocsp.sk.ee"), 0 );
+	}
+#else
 	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
 	if ( !QDir( path ).exists() )
 		QDir().mkpath( path );
@@ -216,10 +274,12 @@ bool AccessCert::download( bool noCard )
 			.arg( f.errorString() ) );
 		return false;
 	}
-	f.write( QByteArray::fromBase64( cert.toLatin1() ) );
+	f.write( QByteArray::fromBase64( cert.toUtf8() ) );
+	f.close();
 
 	Application::setConfValue( Application::PKCS12Cert, m_cert = QDir::toNativeSeparators( f.fileName() ) );
 	Application::setConfValue( Application::PKCS12Pass, m_pass = pass );
+#endif
 
 	setIcon( Information );
 	setText( tr("Server access certificate has been installed") );
@@ -250,6 +310,35 @@ bool AccessCert::validate()
 {
 	if( Application::confValue( Application::PKCS12Disable, false ).toBool() )
 		return true;
+#ifdef Q_OS_MAC
+	SecIdentityRef identity = 0;
+	OSStatus err = SecIdentityCopyPreference(CFSTR("ocsp.sk.ee"), 0, 0, &identity);
+	if( !identity )
+		return false;
+
+	SecCertificateRef certref = 0;
+	err = SecIdentityCopyCertificate(identity, &certref);
+	CFRelease(identity);
+	if( !certref )
+		return false;
+
+	CFDataRef certdata = SecCertificateCopyData(certref);
+	CFRelease(certref);
+	if( !certdata )
+		return false;
+
+	QSslCertificate cert(
+		QByteArray( (const char*)CFDataGetBytePtr(certdata), CFDataGetLength(certdata) ), QSsl::Der );
+	CFRelease(certdata);
+
+	if( !cert.isValid() &&
+		showWarning2( tr("Server access certificate is not valid!\nStart downloading?") ) )
+		return true;
+	if( cert.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) &&
+		!showWarning2( tr("Server access certificate is about to expire!\nStart downloading?") ) )
+		return false;
+	return true;
+#else
 	m_cert = Application::confValue( Application::PKCS12Cert ).toString();
 	m_pass = Application::confValue( Application::PKCS12Pass ).toString();
 
@@ -300,6 +389,6 @@ bool AccessCert::validate()
 		else
 			return true;
 	}
-
 	return false;
+#endif
 }
