@@ -9,5 +9,7 @@
         <true/>
         <key>com.apple.security.temporary-exception.files.absolute-path.read-only</key>
         <string>/private/var/run/pcscd.pub</string>
+        <key>com.apple.security.temporary-exception.apple-events</key>
+        <string>com.apple.mail</string>
     </dict>
 </plist>
