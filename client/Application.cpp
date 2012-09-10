@@ -50,6 +50,48 @@
 #include <common/MacMenuBar.h>
 #endif
 
+#ifdef APPSTORE
+class DigidocConf: public digidoc::Conf
+{
+public:
+	DigidocConf(): digidoc::Conf()
+	{
+		s.beginGroup( "Client" );
+	}
+
+	std::string getProxyHost() const
+	{ return s.value( "ProxyHost" ).toString().toStdString(); }
+	std::string getProxyPort() const
+	{ return s.value( "ProxyPort" ).toString().toStdString(); }
+	std::string getProxyUser() const
+	{ return s.value( "ProxyUser" ).toString().toStdString(); }
+	std::string getProxyPass() const
+	{ return s.value( "ProxyPass" ).toString().toStdString(); }
+	bool getPKCS12Disable() const
+	{
+		return s.value( "PKCS12Disable", false ).toBool();
+	}
+
+	void setProxyHost( const std::string &host ) throw(digidoc::IOException)
+	{ s.setValue( "ProxyHost", QString::fromStdString( host ) ); }
+	void setProxyPort( const std::string &port ) throw(digidoc::IOException)
+	{ s.setValue( "ProxyPort", QString::fromStdString( port ) ); }
+	void setProxyUser( const std::string &user ) throw(digidoc::IOException)
+	{ s.setValue( "ProxyUser", QString::fromStdString( user ) ); }
+	void setProxyPass( const std::string &pass ) throw(digidoc::IOException)
+	{ s.setValue( "ProxyPass", QString::fromStdString( pass ) ); }
+	void setPKCS12Cert( const std::string & ) throw(digidoc::IOException) {}
+	void setPKCS12Pass( const std::string & ) throw(digidoc::IOException) {}
+	void setPKCS12Disable( bool disable ) throw(digidoc::IOException)
+	{ s.setValue( "PKCS12Disable", disable ); }
+
+	virtual void setOCSP(const std::string &, const std::string &, const std::string &) throw(digidoc::IOException) {}
+
+private:
+	Settings s;
+};
+#endif
+
 class ApplicationPrivate
 {
 public:
@@ -115,6 +157,9 @@ Application::Application( int &argc, char **argv )
 	{
 		digidoc::initialize( QString( "%1/%2 (%3)" )
 			.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData() );
+#ifdef APPSTORE
+		digidoc::Conf::init( new DigidocConf );
+#endif
 	}
 	catch( const digidoc::Exception &e )
 	{
