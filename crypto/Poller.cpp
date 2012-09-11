@@ -157,7 +157,7 @@ void Poller::run()
 	if( d->pkcs11 )
 	{
 #ifdef APPSTORE
-		QString driver = qApp->applicationDirPath() + "/../../../opensc-pkcs11.so"
+		QString driver = qApp->applicationDirPath() + "/../../../opensc-pkcs11.so";
 #else
 		char param[200];
 		qsnprintf( param, sizeof(param), "DIGIDOC_DRIVER_%d_FILE",
