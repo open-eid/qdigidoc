@@ -32,7 +32,7 @@
 #include <common/Settings.h>
 
 #include <digidocpp/ADoc.h>
-#include <digidocpp/Conf.h>
+#include <digidocpp/XmlConf.h>
 
 #include "qtsingleapplication/src/qtlocalpeer.h"
 
@@ -51,10 +51,10 @@
 #endif
 
 #ifdef APPSTORE
-class DigidocConf: public digidoc::Conf
+class DigidocConf: public digidoc::XmlConf
 {
 public:
-	DigidocConf(): digidoc::Conf()
+	DigidocConf(): digidoc::XmlConf()
 	{
 		s.beginGroup( "Client" );
 	}
@@ -67,10 +67,12 @@ public:
 	{ return s.value( "ProxyUser" ).toString().toStdString(); }
 	std::string getProxyPass() const
 	{ return s.value( "ProxyPass" ).toString().toStdString(); }
+	std::string getKCS12Cert() const
+	{ return ""; }
+	std::string getPKCS12Pass() const
+	{ return ""; }
 	bool getPKCS12Disable() const
-	{
-		return s.value( "PKCS12Disable", false ).toBool();
-	}
+	{ return s.value( "PKCS12Disable", false ).toBool(); }
 
 	void setProxyHost( const std::string &host ) throw(digidoc::IOException)
 	{ s.setValue( "ProxyHost", QString::fromStdString( host ) ); }
