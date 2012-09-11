@@ -29,6 +29,8 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeName</key>
+			<string>BDOC – XAdES signatures container</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>bdoc</string>
@@ -49,6 +51,8 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeName</key>
+			<string>DDOC – XAdES signatures container</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>ddoc</string>
@@ -69,9 +73,13 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeName</key>
+			<string>PKCS #12 archive of certificate and private key</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>p12</string>
 				<string>p12d</string>
+				<string>pfx</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>p12d.icns</string>
@@ -89,6 +97,8 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeName</key>
+			<string>All files</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>****</string>

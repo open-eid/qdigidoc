@@ -29,6 +29,8 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeName</key>
+			<string>CDoc - xml crypto format</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>cdoc</string>
@@ -49,6 +51,8 @@
 			<true/>
 		</dict>
 		<dict>
+			<key>CFBundleTypeName</key>
+			<string>All files</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>****</string>
