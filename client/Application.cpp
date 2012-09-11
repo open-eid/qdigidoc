@@ -54,10 +54,7 @@
 class DigidocConf: public digidoc::XmlConf
 {
 public:
-	DigidocConf(): digidoc::XmlConf()
-	{
-		s.beginGroup( "Client" );
-	}
+	DigidocConf(): digidoc::XmlConf() { s.beginGroup( "Client" ); }
 
 	std::string getProxyHost() const
 	{ return s.value( "ProxyHost" ).toString().toStdString(); }
@@ -73,6 +70,9 @@ public:
 	{ return ""; }
 	bool getPKCS12Disable() const
 	{ return s.value( "PKCS12Disable", false ).toBool(); }
+	std::string getPKCS11DriverPath()
+	{ return QString( qApp->applicationDirPath() + "/opensc-pkcs11.so" ).toStdString(); }
+
 
 	void setProxyHost( const std::string &host ) throw(digidoc::IOException)
 	{ s.setValue( "ProxyHost", QString::fromStdString( host ) ); }

@@ -156,10 +156,14 @@ void Poller::run()
 
 	if( d->pkcs11 )
 	{
+#ifdef APPSTORE
+		QString driver = qApp->applicationDirPath() + "/../../../opensc-pkcs11.so"
+#else
 		char param[200];
 		qsnprintf( param, sizeof(param), "DIGIDOC_DRIVER_%d_FILE",
 			ConfigItem_lookup_int( "DIGIDOC_DEFAULT_DRIVER", 1 ) );
 		QString driver = QString::fromUtf8( ConfigItem_lookup(param) );
+#endif
 		if( !d->pkcs11->loadDriver( driver ) )
 		{
 			Q_EMIT error( tr("Failed to load PKCS#11 module") + "\n" + driver );
