@@ -24,6 +24,8 @@
 
 #include <QtGui/QMessageBox>
 
+class QSslCertificate;
+class AccessCertPrivate;
 class AccessCert: public QMessageBox
 {
 	Q_OBJECT
@@ -35,9 +37,11 @@ public:
 	bool download( bool noCard );
 	bool validate();
 
+	static QSslCertificate cert();
+
 private:
 	void showWarning( const QString &msg );
 	bool showWarning2( const QString &msg );
 
-	QString m_cert, m_pass;
+	AccessCertPrivate *d;
 };

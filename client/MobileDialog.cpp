@@ -96,17 +96,15 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	else
 		request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
 
-	QFile f( Application::confValue( Application::PKCS12Cert ).toString() );
-	if( !f.open( QIODevice::ReadOnly ) )
-		return;
-
-	PKCS12Certificate pkcs12Cert( &f, Application::confValue( Application::PKCS12Pass ).toString() );
-	if( pkcs12Cert.isNull() )
+	PKCS12Certificate p12 = PKCS12Certificate::fromPath(
+		Application::confValue( Application::PKCS12Cert ).toString(),
+		Application::confValue( Application::PKCS12Pass ).toString() );
+	if( p12.isNull() )
 		return;
 
 	QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
-	ssl.setPrivateKey( pkcs12Cert.key() );
-	ssl.setLocalCertificate( pkcs12Cert.certificate() );
+	ssl.setPrivateKey( p12.key() );
+	ssl.setLocalCertificate( p12.certificate() );
 #ifdef Q_OS_LINUX
 	ssl.setCaCertificates( ssl.caCertificates() + QSslCertificate::fromPath(
 		QString( qApp->confValue( Application::CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );

@@ -105,7 +105,7 @@ void SettingsDialog::on_p12Button_clicked()
 	else
 		cert = QFileInfo( cert ).path();
 	cert = FileDialog::getOpenFileName( this, tr("Select server access certificate"), cert,
-		tr("Server access certificates (*.p12 *.p12d)") );
+		tr("Server access certificates (*.p12 *.p12d *.pfx)") );
 	if( !cert.isEmpty() )
 		setP12Cert( cert );
 }
@@ -130,15 +130,11 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 
 void SettingsDialog::on_showP12Cert_clicked()
 {
-	QFile f( d->p12Cert->text() );
-	if( !f.open( QIODevice::ReadOnly ) )
+	PKCS12Certificate p12 = PKCS12Certificate::fromPath(
+		d->p12Cert->text(), d->p12Pass->text() );
+	if( p12.certificate().isNull() )
 		return;
-
-	PKCS12Certificate cert( &f, d->p12Pass->text().toLatin1() );
-	f.close();
-	if( cert.certificate().isNull() )
-		return;
-	CertificateDialog d( cert.certificate() );
+	CertificateDialog d( p12.certificate() );
 	d.exec();
 }
 
@@ -231,21 +227,20 @@ void SettingsDialog::validateP12Cert()
 {
 	d->showP12Cert->setEnabled( false );
 	d->p12Error->clear();
-	QFile f( d->p12Cert->text() );
-	if( !f.open( QIODevice::ReadOnly ) )
-		return;
-
-	PKCS12Certificate cert( &f, d->p12Pass->text().toLatin1() );
-	switch( cert.error() )
+	PKCS12Certificate p12 = PKCS12Certificate::fromPath(
+		d->p12Cert->text(), d->p12Pass->text() );
+	switch( p12.error() )
 	{
+	case PKCS12Certificate::FailedToRead:
+	case PKCS12Certificate::FileNotExist:
 	case PKCS12Certificate::NullError:
-		d->showP12Cert->setEnabled( !cert.isNull() );
+		d->showP12Cert->setEnabled( !p12.isNull() );
 		break;
 	case PKCS12Certificate::InvalidPasswordError:
 		d->p12Error->setText( tr("Invalid password") );
 		break;
 	default:
-		d->p12Error->setText( tr("Server access certificate error: %1").arg( cert.errorString() ) );
+		d->p12Error->setText( tr("Server access certificate error: %1").arg( p12.errorString() ) );
 		break;
 	}
 }

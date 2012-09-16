@@ -47,6 +47,12 @@
 #include <Security/Security.h>
 #endif
 
+class AccessCertPrivate
+{
+public:
+	QString cert, pass;
+};
+
 AccessCert::AccessCert( QWidget *parent )
 :	QMessageBox( parent )
 {
@@ -54,16 +60,46 @@ AccessCert::AccessCert( QWidget *parent )
 	if( QLabel *label = findChild<QLabel*>() )
 		label->setOpenExternalLinks( true );
 #ifndef Q_OS_MAC
-	m_cert = Application::confValue( Application::PKCS12Cert ).toString();
-	m_pass = Application::confValue( Application::PKCS12Pass ).toString();
+	d->cert = Application::confValue( Application::PKCS12Cert ).toString();
+	d->pass = Application::confValue( Application::PKCS12Pass ).toString();
 #endif
 }
 
 AccessCert::~AccessCert()
 {
 #ifndef Q_OS_MAC
-	Application::setConfValue( Application::PKCS12Cert, m_cert );
-	Application::setConfValue( Application::PKCS12Pass, m_pass );
+	Application::setConfValue( Application::PKCS12Cert, d->cert );
+	Application::setConfValue( Application::PKCS12Pass, d->pass );
+#endif
+}
+
+QSslCertificate AccessCert::cert()
+{
+#ifdef Q_OS_MAC
+	SecIdentityRef identity = 0;
+	OSStatus err = SecIdentityCopyPreference( CFSTR("ocsp.sk.ee"), 0, 0, &identity );
+	if( !identity )
+		return QSslCertificate();
+
+	SecCertificateRef certref = 0;
+	err = SecIdentityCopyCertificate( identity, &certref );
+	CFRelease(identity);
+	if( !certref )
+		return QSslCertificate();
+
+	CFDataRef certdata = SecCertificateCopyData( certref );
+	CFRelease( certref );
+	if( !certdata )
+		return QSslCertificate();
+
+	QSslCertificate cert(
+		QByteArray( (const char*)CFDataGetBytePtr( certdata ), CFDataGetLength( certdata ) ), QSsl::Der );
+	CFRelease( certdata );
+	return cert;
+#else
+	return PKCS12Certificate::fromPath(
+		Application::confValue( Application::PKCS12Cert ).toString(),
+		Application::confValue( Application::PKCS12Pass ).toString() ).certificate();
 #endif
 }
 
@@ -271,8 +307,8 @@ bool AccessCert::download( bool noCard )
 	f.write( QByteArray::fromBase64( cert.toUtf8() ) );
 	f.close();
 
-	Application::setConfValue( Application::PKCS12Cert, m_cert = QDir::toNativeSeparators( f.fileName() ) );
-	Application::setConfValue( Application::PKCS12Pass, m_pass = pass );
+	Application::setConfValue( Application::PKCS12Cert, d->cert = QDir::toNativeSeparators( f.fileName() ) );
+	Application::setConfValue( Application::PKCS12Pass, d->pass = pass );
 #endif
 
 	setIcon( Information );
@@ -305,70 +341,47 @@ bool AccessCert::validate()
 	if( Application::confValue( Application::PKCS12Disable, false ).toBool() )
 		return true;
 #ifdef Q_OS_MAC
-	SecIdentityRef identity = 0;
-	OSStatus err = SecIdentityCopyPreference(CFSTR("ocsp.sk.ee"), 0, 0, &identity);
-	if( !identity )
-		return false;
-
-	SecCertificateRef certref = 0;
-	err = SecIdentityCopyCertificate(identity, &certref);
-	CFRelease(identity);
-	if( !certref )
-		return false;
-
-	CFDataRef certdata = SecCertificateCopyData(certref);
-	CFRelease(certref);
-	if( !certdata )
-		return false;
-
-	QSslCertificate cert(
-		QByteArray( (const char*)CFDataGetBytePtr(certdata), CFDataGetLength(certdata) ), QSsl::Der );
-	CFRelease(certdata);
-
-	if( !cert.isValid() &&
+	QSslCertificate c = cert();
+	if( !c.isValid() &&
 		showWarning2( tr("Server access certificate is not valid!\nStart downloading?") ) )
 		return true;
-	if( cert.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) &&
+	if( c.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) &&
 		!showWarning2( tr("Server access certificate is about to expire!\nStart downloading?") ) )
 		return false;
 	return true;
 #else
-	m_cert = Application::confValue( Application::PKCS12Cert ).toString();
-	m_pass = Application::confValue( Application::PKCS12Pass ).toString();
+	d->cert = Application::confValue( Application::PKCS12Cert ).toString();
+	d->pass = Application::confValue( Application::PKCS12Pass ).toString();
 
-	QFile f( m_cert );
-	if( !f.exists() )
+	PKCS12Certificate p12 = PKCS12Certificate::fromPath( d->cert, d->pass );
+	switch( p12.error() )
 	{
+	case PKCS12Certificate::FileNotExist:
 		if( showWarning2( tr("Did not find any server access certificate!\nStart downloading?") ) )
 		{
 			Application::setConfValue( Application::PKCS12Cert, QVariant() );
 			Application::setConfValue( Application::PKCS12Pass, QVariant() );
 			return true;
 		}
-	}
-	else if( !f.open( QIODevice::ReadOnly ) )
-	{
+		break;
+	case PKCS12Certificate::FailedToRead:
 		if( showWarning2( tr("Failed to read server access certificate!\nStart downloading?") ) )
 		{
 			Application::setConfValue( Application::PKCS12Cert, QVariant() );
 			Application::setConfValue( Application::PKCS12Pass, QVariant() );
 			return true;
 		}
-	}
-	else
-	{
-		PKCS12Certificate p12Cert( &f, m_pass );
-
-		if( p12Cert.error() == PKCS12Certificate::InvalidPasswordError )
+		break;
+	case PKCS12Certificate::InvalidPasswordError:
+		if( showWarning2( tr("Server access certificate password is not valid!\nStart downloading?") ) )
 		{
-			if( showWarning2( tr("Server access certificate password is not valid!\nStart downloading?") ) )
-			{
-				Application::setConfValue( Application::PKCS12Cert, QVariant() );
-				Application::setConfValue( Application::PKCS12Pass, QVariant() );
-				return true;
-			}
+			Application::setConfValue( Application::PKCS12Cert, QVariant() );
+			Application::setConfValue( Application::PKCS12Pass, QVariant() );
+			return true;
 		}
-		else if( !p12Cert.certificate().isValid() )
+		break;
+	case PKCS12Certificate::NullError:
+		if( !p12.certificate().isValid() )
 		{
 			if( showWarning2( tr("Server access certificate is not valid!\nStart downloading?") ) )
 			{
@@ -377,11 +390,21 @@ bool AccessCert::validate()
 				return true;
 			}
 		}
-		else if( p12Cert.certificate().expiryDate() < QDateTime::currentDateTime().addDays( 8 ) &&
+		else if( p12.certificate().expiryDate() < QDateTime::currentDateTime().addDays( 8 ) &&
 			!showWarning2( tr("Server access certificate is about to expire!\nStart downloading?") ) )
 			return false;
 		else
 			return true;
+		break;
+	case PKCS12Certificate::UnknownError:
+	default:
+		if( showWarning2( tr("Server access certificate is not valid!\nStart downloading?") ) )
+		{
+			Application::setConfValue( Application::PKCS12Cert, QVariant() );
+			Application::setConfValue( Application::PKCS12Pass, QVariant() );
+			return true;
+		}
+		break;
 	}
 	return false;
 #endif
