@@ -55,6 +55,7 @@ public:
 
 AccessCert::AccessCert( QWidget *parent )
 :	QMessageBox( parent )
+,	d( new AccessCertPrivate )
 {
 	setWindowTitle( tr("Server access certificate") );
 	if( QLabel *label = findChild<QLabel*>() )
@@ -71,6 +72,7 @@ AccessCert::~AccessCert()
 	Application::setConfValue( Application::PKCS12Cert, d->cert );
 	Application::setConfValue( Application::PKCS12Pass, d->pass );
 #endif
+	delete d;
 }
 
 QSslCertificate AccessCert::cert()
@@ -177,7 +179,7 @@ bool AccessCert::download( bool noCard )
 	else
 	{
 #ifdef Q_OS_WIN
-		foreach( const SslCertificate &cert, c->certs() )
+		foreach( const SslCertificate &cert, c->certs().keys() )
 		{
 			if( cert.isValid() && cert.enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
 			{
