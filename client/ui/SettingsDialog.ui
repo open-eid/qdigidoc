@@ -782,8 +782,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>p12Cert</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>validateP12Cert()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>377</x>
+     <y>159</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>p12Pass</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>validateP12Cert()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>396</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
+  <slot>validateP12Cert()</slot>
  </slots>
 </ui>

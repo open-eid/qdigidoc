@@ -23,6 +23,7 @@
 #include "SettingsDialog.h"
 #include "ui_SettingsDialog.h"
 
+#include "AccessCert.h"
 #include "Application.h"
 
 #include <common/CertificateWidget.h>
@@ -34,6 +35,8 @@
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDropEvent>
 #include <QtGui/QMessageBox>
+
+Q_DECLARE_METATYPE(QSslCertificate)
 
 SettingsDialog::SettingsDialog( QWidget *parent )
 :	QWidget( parent )
@@ -53,8 +56,18 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
 #ifdef APPSTORE
 	d->askSaveAs->hide();
+	d->p12Cert->hide();
+	d->p12CertLabel->hide();
+	d->p12Pass->hide();
+	d->p12PassLabel->hide();
+	d->p12Button->hide();
+	QSslCertificate c = AccessCert::cert();
+	d->showP12Cert->setEnabled( !c.isNull() );
+	d->showP12Cert->setProperty( "cert", QVariant::fromValue( c ) );
 #else
 	d->askSaveAs->setChecked( s.value( "AskSaveAs", true ).toBool() );
+	d->p12Cert->setText( Application::confValue( Application::PKCS12Cert ).toString() );
+	d->p12Pass->setText( Application::confValue( Application::PKCS12Pass ).toString() );
 #endif
 
 	const QString type = s.value( "type", "ddoc" ).toString();
@@ -74,8 +87,6 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->proxyPort->setText( Application::confValue( Application::ProxyPort ).toString() );
 	d->proxyUser->setText( Application::confValue( Application::ProxyUser ).toString() );
 	d->proxyPass->setText( Application::confValue( Application::ProxyPass ).toString() );
-	d->p12Cert->setText( Application::confValue( Application::PKCS12Cert ).toString() );
-	d->p12Pass->setText( Application::confValue( Application::PKCS12Pass ).toString() );
 	d->p12Ignore->setChecked( Application::confValue( Application::PKCS12Disable, false ).toBool() );
 
 	s.endGroup();
@@ -110,12 +121,6 @@ void SettingsDialog::on_p12Button_clicked()
 		setP12Cert( cert );
 }
 
-void SettingsDialog::on_p12Cert_textChanged( const QString & )
-{ validateP12Cert(); }
-
-void SettingsDialog::on_p12Pass_textChanged( const QString & )
-{ validateP12Cert(); }
-
 void SettingsDialog::on_selectDefaultDir_clicked()
 {
 	QString dir = Settings().value( "Client/DefaultDir" ).toString();
@@ -130,12 +135,8 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 
 void SettingsDialog::on_showP12Cert_clicked()
 {
-	PKCS12Certificate p12 = PKCS12Certificate::fromPath(
-		d->p12Cert->text(), d->p12Pass->text() );
-	if( p12.certificate().isNull() )
-		return;
-	CertificateDialog d( p12.certificate() );
-	d.exec();
+	CertificateDialog(
+		d->showP12Cert->property( "cert" ).value<QSslCertificate>() ).exec();
 }
 
 void SettingsDialog::on_typeBDoc_clicked( bool checked )
@@ -165,6 +166,8 @@ void SettingsDialog::save()
 	s.setValue( "Overwrite", d->signOverwrite->isChecked() );
 #ifndef APPSTORE
 	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
+	Application::setConfValue( Application::PKCS12Cert, d->p12Cert->text() );
+	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
 #endif
 	s.setValue( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc" );
 	if( d->defaultSameDir->isChecked() )
@@ -177,8 +180,6 @@ void SettingsDialog::save()
 	Application::setConfValue( Application::ProxyPort, d->proxyPort->text() );
 	Application::setConfValue( Application::ProxyUser, d->proxyUser->text() );
 	Application::setConfValue( Application::ProxyPass, d->proxyPass->text() );
-	Application::setConfValue( Application::PKCS12Cert, d->p12Cert->text() );
-	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
 	Application::setConfValue( Application::PKCS12Disable, d->p12Ignore->isChecked() );
 
 	saveSignatureInfo(
@@ -235,6 +236,7 @@ void SettingsDialog::validateP12Cert()
 	case PKCS12Certificate::FileNotExist:
 	case PKCS12Certificate::NullError:
 		d->showP12Cert->setEnabled( !p12.isNull() );
+		d->showP12Cert->setProperty( "cert", QVariant::fromValue( p12.certificate() ) );
 		break;
 	case PKCS12Certificate::InvalidPasswordError:
 		d->p12Error->setText( tr("Invalid password") );

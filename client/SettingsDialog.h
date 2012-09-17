@@ -48,16 +48,14 @@ public:
 
 private Q_SLOTS:
 	void on_p12Button_clicked();
-	void on_p12Cert_textChanged( const QString &text );
-	void on_p12Pass_textChanged( const QString &text );
 	void on_selectDefaultDir_clicked();
 	void on_showP12Cert_clicked();
 	void on_typeBDoc_clicked( bool checked );
 	void save();
+	void validateP12Cert();
 
 private:
 	bool eventFilter( QObject *o, QEvent *e );
-	void validateP12Cert();
 
 	Ui::SettingsDialog *d;
 };
