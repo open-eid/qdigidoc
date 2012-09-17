@@ -118,7 +118,7 @@ void SettingsDialog::on_p12Button_clicked()
 
 void SettingsDialog::on_p12Install_clicked()
 {
-#ifdef APPSTORE
+#ifndef APPSTORE
 	d->showP12Cert->setEnabled( false );
 	d->p12Error->clear();
 	PKCS12Certificate p12 = PKCS12Certificate::fromPath(
@@ -142,6 +142,9 @@ void SettingsDialog::on_p12Install_clicked()
 	QFile f( d->p12Cert->text() );
 	f.open( QFile::ReadOnly );
 	AccessCert().installCert( f.readAll(), d->p12Pass->text() );
+	QSslCertificate c = AccessCert::cert();
+	d->showP12Cert->setEnabled( !c.isNull() );
+	d->showP12Cert->setProperty( "cert", QVariant::fromValue( c ) );
 #endif
 }
 
