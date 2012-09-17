@@ -221,13 +221,6 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="p12Pass">
-         <property name="echoMode">
-          <enum>QLineEdit::Password</enum>
-         </property>
-        </widget>
-       </item>
        <item row="3" column="0" colspan="2">
         <layout class="QHBoxLayout" name="p12ButtonLayout">
          <item>
@@ -258,6 +251,24 @@
           <string>Ignore server access certificate (IP based access)</string>
          </property>
         </widget>
+       </item>
+       <item row="2" column="1">
+        <layout class="QHBoxLayout" name="p12PassLayout">
+         <item>
+          <widget class="QLineEdit" name="p12Pass">
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="p12Install">
+           <property name="text">
+            <string>Install</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -703,22 +714,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>p12Pass</sender>
-   <signal>editingFinished()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>save()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>242</x>
-     <y>82</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>211</x>
-     <y>148</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>p12Cert</sender>
    <signal>editingFinished()</signal>
    <receiver>SettingsDialog</receiver>
@@ -779,38 +774,6 @@
     <hint type="destinationlabel">
      <x>233</x>
      <y>157</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>p12Cert</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>validateP12Cert()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>377</x>
-     <y>159</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>284</x>
-     <y>199</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>p12Pass</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>validateP12Cert()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>396</x>
-     <y>193</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>284</x>
-     <y>199</y>
     </hint>
    </hints>
   </connection>

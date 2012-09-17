@@ -38,6 +38,7 @@ public:
 	bool validate();
 
 	static QSslCertificate cert();
+	bool installCert( const QByteArray &data, const QString &password );
 
 private:
 	void showWarning( const QString &msg );

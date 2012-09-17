@@ -56,11 +56,6 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
 #ifdef APPSTORE
 	d->askSaveAs->hide();
-	d->p12Cert->hide();
-	d->p12CertLabel->hide();
-	d->p12Pass->hide();
-	d->p12PassLabel->hide();
-	d->p12Button->hide();
 	QSslCertificate c = AccessCert::cert();
 	d->showP12Cert->setEnabled( !c.isNull() );
 	d->showP12Cert->setProperty( "cert", QVariant::fromValue( c ) );
@@ -119,6 +114,35 @@ void SettingsDialog::on_p12Button_clicked()
 		tr("Server access certificates (*.p12 *.p12d *.pfx)") );
 	if( !cert.isEmpty() )
 		setP12Cert( cert );
+}
+
+void SettingsDialog::on_p12Install_clicked()
+{
+#ifdef APPSTORE
+	d->showP12Cert->setEnabled( false );
+	d->p12Error->clear();
+	PKCS12Certificate p12 = PKCS12Certificate::fromPath(
+		d->p12Cert->text(), d->p12Pass->text() );
+	switch( p12.error() )
+	{
+	case PKCS12Certificate::FailedToRead:
+	case PKCS12Certificate::FileNotExist:
+	case PKCS12Certificate::NullError:
+		d->showP12Cert->setEnabled( !p12.isNull() );
+		d->showP12Cert->setProperty( "cert", QVariant::fromValue( p12.certificate() ) );
+		break;
+	case PKCS12Certificate::InvalidPasswordError:
+		d->p12Error->setText( tr("Invalid password") );
+		break;
+	default:
+		d->p12Error->setText( tr("Server access certificate error: %1").arg( p12.errorString() ) );
+		break;
+	}
+#else
+	QFile f( d->p12Cert->text() );
+	f.open( QFile::ReadOnly );
+	AccessCert().installCert( f.readAll(), d->p12Pass->text() );
+#endif
 }
 
 void SettingsDialog::on_selectDefaultDir_clicked()
@@ -217,32 +241,8 @@ void SettingsDialog::saveSignatureInfo(
 
 void SettingsDialog::setP12Cert( const QString &cert )
 {
-	Application::setConfValue( Application::PKCS12Cert, cert );
 	d->p12Cert->setText( cert );
 	d->tabWidget->setCurrentIndex( 1 );
 }
 
 void SettingsDialog::setPage( int page ) { d->tabWidget->setCurrentIndex( page ); }
-
-void SettingsDialog::validateP12Cert()
-{
-	d->showP12Cert->setEnabled( false );
-	d->p12Error->clear();
-	PKCS12Certificate p12 = PKCS12Certificate::fromPath(
-		d->p12Cert->text(), d->p12Pass->text() );
-	switch( p12.error() )
-	{
-	case PKCS12Certificate::FailedToRead:
-	case PKCS12Certificate::FileNotExist:
-	case PKCS12Certificate::NullError:
-		d->showP12Cert->setEnabled( !p12.isNull() );
-		d->showP12Cert->setProperty( "cert", QVariant::fromValue( p12.certificate() ) );
-		break;
-	case PKCS12Certificate::InvalidPasswordError:
-		d->p12Error->setText( tr("Invalid password") );
-		break;
-	default:
-		d->p12Error->setText( tr("Server access certificate error: %1").arg( p12.errorString() ) );
-		break;
-	}
-}

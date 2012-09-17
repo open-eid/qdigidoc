@@ -247,11 +247,21 @@ bool AccessCert::download( bool noCard )
 		return false;
 	}
 
+	if( !installCert( QByteArray::fromBase64( cert.toUtf8() ), pass ) )
+		return false;
+	setIcon( Information );
+	setText( tr("Server access certificate has been installed") );
+	setStandardButtons( Cancel );
+	setDefaultButton( addButton( tr("Continue signing"), AcceptRole ) );
+	return exec() == AcceptRole;
+}
+
+bool AccessCert::installCert( const QByteArray &data, const QString &password )
+{
 #ifdef Q_OS_MAC
-	QByteArray data = QByteArray::fromBase64( cert.toUtf8() );
 	CFDataRef pkcs12data = CFDataCreate( 0, (const UInt8*)data.constData(), data.size() );
-	CFStringRef password = CFStringCreateWithCharacters( 0,
-		reinterpret_cast<const UniChar *>(pass.unicode()), pass.length() );
+	CFStringRef pass = CFStringCreateWithCharacters( 0,
+		reinterpret_cast<const UniChar *>(password.unicode()), password.length() );
 
 	SecExternalFormat format = kSecFormatPKCS12;
 	SecExternalItemType type = kSecItemTypeAggregate;
@@ -261,13 +271,13 @@ bool AccessCert::download( bool noCard )
 	params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
 	params.flags = kSecKeyImportOnlyOne;
 	params.keyAttributes = CSSM_KEYATTR_PERMANENT|CSSM_KEYATTR_EXTRACTABLE;
-	params.passphrase = password;
+	params.passphrase = pass;
 
 	SecKeychainRef keychain;
 	SecKeychainCopyDefault( &keychain );
 	CFArrayRef items = 0;
 	OSStatus err = SecKeychainItemImport( pkcs12data, 0, &format, &type, 0, &params, keychain, &items );
-	CFRelease( password );
+	CFRelease( pass );
 
 	if( err != errSecSuccess )
 	{
@@ -304,18 +314,13 @@ bool AccessCert::download( bool noCard )
 			.arg( f.errorString() ) );
 		return false;
 	}
-	f.write( QByteArray::fromBase64( cert.toUtf8() ) );
+	f.write( data );
 	f.close();
 
 	Application::setConfValue( Application::PKCS12Cert, d->cert = QDir::toNativeSeparators( f.fileName() ) );
-	Application::setConfValue( Application::PKCS12Pass, d->pass = pass );
+	Application::setConfValue( Application::PKCS12Pass, d->pass = password );
 #endif
-
-	setIcon( Information );
-	setText( tr("Server access certificate has been installed") );
-	setStandardButtons( Cancel );
-	setDefaultButton( addButton( tr("Continue signing"), AcceptRole ) );
-	return exec() == AcceptRole;
+	return true;
 }
 
 void AccessCert::showWarning( const QString &msg )

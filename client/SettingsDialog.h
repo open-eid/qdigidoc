@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <QtGui/QDialog>
+#include <QtGui/QWidget>
 
 namespace Ui { class SettingsDialog; }
 
@@ -48,11 +48,11 @@ public:
 
 private Q_SLOTS:
 	void on_p12Button_clicked();
+	void on_p12Install_clicked();
 	void on_selectDefaultDir_clicked();
 	void on_showP12Cert_clicked();
 	void on_typeBDoc_clicked( bool checked );
 	void save();
-	void validateP12Cert();
 
 private:
 	bool eventFilter( QObject *o, QEvent *e );
