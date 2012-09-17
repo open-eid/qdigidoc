@@ -179,7 +179,7 @@ bool AccessCert::download( bool noCard )
 	else
 	{
 #ifdef Q_OS_WIN
-		foreach( const SslCertificate &cert, c->certs().keys() )
+		foreach( const SslCertificate &cert, c->certs() )
 		{
 			if( cert.isValid() && cert.enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
 			{
