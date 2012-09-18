@@ -83,7 +83,7 @@ Start downloading?</translation>
     </message>
     <message>
         <source>For getting server access certificate to Tempel contact &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>For getting server access certificate to Tempel contact &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Server access certificate has been installed</source>
@@ -92,6 +92,10 @@ Start downloading?</translation>
     <message>
         <source>Continue signing</source>
         <translation>Continue signing</translation>
+    </message>
+    <message>
+        <source>Failed to save server access certificate file to KeyChain!</source>
+        <translation>Failed to save server access certificate file to KeyChain!</translation>
     </message>
 </context>
 <context>
@@ -835,12 +839,12 @@ Control code: %1</translation>
         <translation>Select server access certificate</translation>
     </message>
     <message>
-        <source>Server access certificates (*.p12 *.p12d)</source>
-        <translation>Server access certificates (*.p12 *.p12d)</translation>
-    </message>
-    <message>
         <source>Server access certificate error: %1</source>
         <translation>Server access certificate error: %1</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
+        <translation>Server access certificates (*.p12 *.p12d *.pfx)</translation>
     </message>
 </context>
 <context>
@@ -942,10 +946,6 @@ Control code: %1</translation>
         <translation>Select server access certificate</translation>
     </message>
     <message>
-        <source>Server access certificates (*.p12 *.p12d)</source>
-        <translation>Server access certificates (*.p12 *.p12d)</translation>
-    </message>
-    <message>
         <source>Server access certificate error: %1</source>
         <translation>Server access certificate error: %1</translation>
     </message>
@@ -996,6 +996,14 @@ Control code: %1</translation>
     <message>
         <source>We currently do not recommend use of BDOC format as it will be changed in near future to comply with new international standards. Please use DDOC format instead. More information on BDOC format is available at &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
         <translation>We currently do not recommend use of BDOC format as it will be changed in near future to comply with new international standards. Please use DDOC format instead. More information on BDOC format is available at &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation>Install</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
+        <translation>Server access certificates (*.p12 *.p12d *.pfx)</translation>
     </message>
 </context>
 <context>

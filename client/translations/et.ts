@@ -93,6 +93,10 @@ Alustame laadimist?</translation>
         <source>Continue signing</source>
         <translation>Jätkame allkirjastamisega</translation>
     </message>
+    <message>
+        <source>Failed to save server access certificate file to KeyChain!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -835,12 +839,12 @@ Kontrollkood: %1</translation>
         <translation>Valige juurdepääsutõend</translation>
     </message>
     <message>
-        <source>Server access certificates (*.p12 *.p12d)</source>
-        <translation>Juurdepääsutõendid (*.p12 *.p12d)</translation>
-    </message>
-    <message>
         <source>Server access certificate error: %1</source>
         <translation>Juurdepääsutõendi viga: %1</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
+        <translation>Juurdepääsutõendid (*.p12 *.p12d *.pfx)</translation>
     </message>
 </context>
 <context>
@@ -942,10 +946,6 @@ Kontrollkood: %1</translation>
         <translation>Valige juurdepääsutõend</translation>
     </message>
     <message>
-        <source>Server access certificates (*.p12 *.p12d)</source>
-        <translation>Juurdepääsutõendid (*.p12 *.p12d)</translation>
-    </message>
-    <message>
         <source>Server access certificate error: %1</source>
         <translation>Juurdepääsutõendi viga: %1</translation>
     </message>
@@ -996,6 +996,14 @@ Kontrollkood: %1</translation>
     <message>
         <source>We currently do not recommend use of BDOC format as it will be changed in near future to comply with new international standards. Please use DDOC format instead. More information on BDOC format is available at &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
         <translation>Seoses uue rahvusvahelistele standarditele vastava BDOC formaadi väljatöötamisega soovitame BDOC formaadis dokumente mitte allkirjastada ja kasutada DDOC formaati. Täiendav info BDOC formaadi kohta &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;http://www.sk.ee/bdoc&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Install</source>
+        <translation>Paigalda</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
+        <translation>Juurdepääsutõendid (*.p12 *.p12d *.pfx)</translation>
     </message>
 </context>
 <context>
