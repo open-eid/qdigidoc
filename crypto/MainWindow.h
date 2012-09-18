@@ -82,4 +82,5 @@ private:
 	CryptoDoc	*doc;
 	QStringList lang, params;
 	QButtonGroup *buttonGroup;
+	bool quitOnClose;
 };

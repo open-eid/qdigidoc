@@ -306,17 +306,12 @@ void MainWindow::buttonClicked( int button )
 		else
 		{
 			QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
-			if( !list.isEmpty() )
+			Q_FOREACH( const QString &file, list )
 			{
-				Q_FOREACH( const QString &file, list )
-				{
-					if( !addFile( file ) )
-						return;
-				}
-				setCurrentPage( Sign );
+				if( !addFile( file ) )
+					return;
 			}
-			else if( doc->isNull() )
-				setCurrentPage( Home );
+			setCurrentPage( doc->isNull() ? Home : Sign );
 		}
 		loadRoles();
 		break;

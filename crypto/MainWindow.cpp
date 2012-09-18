@@ -129,7 +129,8 @@ bool MainWindow::addFile( const QString &file )
 		if( !Common::canWrite( docname ) )
 		{
 			select = true;
-			qApp->showWarning( tr("You don't have privileges to write file %1").arg( docname ) );
+			qApp->showWarning(
+				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( docname ) );
 		}
 #endif
 
@@ -200,8 +201,8 @@ void MainWindow::buttonClicked( int button )
 		break;
 	case HomeView:
 	{
-		QString file = FileDialog::getOpenFileName( this, tr("Open container"),
-			QString(), tr("Documents (*.cdoc)") );
+		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
+			tr("Documents (%1)").arg( "*.cdoc") );
 		if( !file.isEmpty() && doc->open( file ) )
 			setCurrentPage( View );
 		break;
@@ -233,29 +234,25 @@ void MainWindow::buttonClicked( int button )
 			}
 			params.clear();
 			if( !doc->isNull() )
-			{
 				setCurrentPage( View );
-				break;
-			}
 		}
-
-		QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
-		if( !list.isEmpty() )
+		else
 		{
+			QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
 			Q_FOREACH( const QString &file, list )
 			{
 				if( !addFile( file ) )
 					return;
 			}
-			setCurrentPage( View );
+			setCurrentPage( doc->isNull() ? Home : View );
 		}
-		else if( doc->isNull() )
-			setCurrentPage( Home );
 		break;
 	}
 	case IntroBack:
 	case ViewClose:
 		doc->clear();
+		if( quitOnClose )
+			close();
 		setCurrentPage( Home );
 		break;
 	case ViewCrypto:
@@ -434,6 +431,7 @@ void MainWindow::on_languages_activated( int index )
 
 void MainWindow::open( const QStringList &_params )
 {
+	quitOnClose = true;
 	params = _params;
 	buttonClicked( HomeCreate );
 }
@@ -457,7 +455,7 @@ void MainWindow::retranslate()
 {
 	retranslateUi( this );
 	languages->setCurrentIndex( lang.indexOf( Settings::language() ) );
-	buttonGroup->button( IntroAgree )->setText( tr( "I agree" ) );
+	buttonGroup->button( IntroAgree )->setText( tr("I agree") );
 	showCardStatus();
 	updateView();
 }
@@ -466,7 +464,8 @@ void MainWindow::save()
 {
 	if( !Common::canWrite( doc->fileName() ) &&
 		QMessageBox::Yes == QMessageBox::warning( this, tr("DigiDoc3 crypto"),
-			tr("Cannot alter container %1. Save different location?").arg( doc->fileName() ),
+			tr("Cannot alter container %1. Save different location?")
+				.arg( doc->fileName().normalized( QString::NormalizationForm_C ) ),
 			QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes ) )
 	{
 		QString file = selectFile( doc->fileName() );
@@ -484,14 +483,15 @@ QString MainWindow::selectFile( const QString &filename )
 	QString file = filename;
 	Q_FOREVER
 	{
-		file = FileDialog::getSaveFileName(
-			this, tr("Save file"), file, tr("Documents (*.cdoc)") );
+		file = FileDialog::getSaveFileName( this, tr("Save file"), file,
+			tr("Documents (%1)").arg( "*.cdoc") );
 		if( file.isEmpty() )
 			return QString();
 		if( QFileInfo( file ).suffix().toLower() != "cdoc" )
 			file.append( ".cdoc" );
 		if( !Common::canWrite( file ) )
-			qApp->showWarning( tr("You don't have privileges to write file %1").arg( file ) );
+			qApp->showWarning(
+				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( file ) );
 		else
 			return file;
 	}
@@ -504,7 +504,7 @@ void MainWindow::setCurrentPage( Pages page )
 	if( !doc->fileName().isEmpty() )
 	{
 		setWindowTitle( QString( "%1 - %2" )
-			.arg( QFileInfo( doc->fileName() ).fileName() )
+			.arg( QFileInfo( doc->fileName().normalized( QString::NormalizationForm_C ) ).fileName() )
 			.arg( tr("DigiDoc3 Crypto") ) );
 	}
 	else
