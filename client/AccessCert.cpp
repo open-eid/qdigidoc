@@ -352,8 +352,6 @@ QSslKey AccessCert::key()
 		QSsl::Rsa, QSsl::Pem, QSsl::PrivateKey, "pass" );
 	CFRelease( keydata );
 
-	bool valid = key.isNull();
-
 	return key;
 #else
 	return PKCS12Certificate::fromPath(
