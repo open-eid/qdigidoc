@@ -84,19 +84,7 @@ public:
 
 void CryptoDocThread::encrypt()
 {
-	int err = ERR_OK;
-	if( !d->ddoc )
-	{
-		d->ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" ),
-		d->ddoc->open();
-		err = createSignedDoc( d->doc, 0, d->ddoc->fileName().toUtf8() );
-	}
-	else
-		err = createSignedDoc( d->doc, d->ddoc->fileName().toUtf8(), d->ddoc->fileName().toUtf8() );
-	if( err != ERR_OK )
-		return;
-
-	err = dencOrigContent_registerDigiDoc( d->enc, d->doc );
+	int err = dencOrigContent_registerDigiDoc( d->enc, d->doc );
 	if( err != ERR_OK )
 		return;
 
@@ -161,7 +149,7 @@ int CDocumentModel::columnCount( const QModelIndex &parent ) const
 
 QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) const
 {
-	if( !d->d->doc && !d->d->ddoc )
+	if( !d->d->doc || !d->d->ddoc )
 		return QString();
 	QStringList row = m_data.value( index.row() );
 	if( row.value( 1 ).isEmpty() )
@@ -414,6 +402,14 @@ void CryptoDoc::addFile( const QString &file, const QString &mime )
 		DataFile_delete( d->doc, data->szId );
 		setLastError( tr("Failed to calculate digest"), err );
 	}
+
+	err = createSignedDoc( d->doc, d->ddoc->fileName().toUtf8(), d->ddoc->fileName().toUtf8() );
+	if( err != ERR_OK )
+	{
+		DataFile_delete( d->doc, data->szId );
+		setLastError( tr("Failed to calculate digest"), err );
+	}
+
 	d->documents->revert();
 }
 
@@ -469,6 +465,17 @@ void CryptoDoc::create( const QString &file )
 		clear();
 		return;
 	}
+
+	d->ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" ),
+	d->ddoc->open();
+	err = createSignedDoc( d->doc, 0, d->ddoc->fileName().toUtf8() );
+	if( err != ERR_OK )
+	{
+		setLastError( tr("Internal error"), err );
+		clear();
+		return;
+	}
+
 	d->fileName = file;
 }
 
