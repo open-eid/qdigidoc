@@ -22,6 +22,7 @@
 
 #include "MobileDialog.h"
 
+#include "AccessCert.h"
 #include "Application.h"
 #include "DigiDoc.h"
 
@@ -96,15 +97,9 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	else
 		request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
 
-	PKCS12Certificate p12 = PKCS12Certificate::fromPath(
-		Application::confValue( Application::PKCS12Cert ).toString(),
-		Application::confValue( Application::PKCS12Pass ).toString() );
-	if( p12.isNull() )
-		return;
-
 	QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
-	ssl.setPrivateKey( p12.key() );
-	ssl.setLocalCertificate( p12.certificate() );
+	ssl.setPrivateKey( AccessCert::key() );
+	ssl.setLocalCertificate( AccessCert::cert() );
 #ifdef Q_OS_LINUX
 	ssl.setCaCertificates( ssl.caCertificates() + QSslCertificate::fromPath(
 		QString( qApp->confValue( Application::CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );

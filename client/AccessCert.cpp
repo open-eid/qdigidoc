@@ -42,6 +42,7 @@
 #include <QtGui/QDesktopServices>
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
+#include <QtNetwork/QSslKey>
 
 #ifdef Q_OS_MAC
 #include <Security/Security.h>
@@ -85,7 +86,7 @@ QSslCertificate AccessCert::cert()
 
 	SecCertificateRef certref = 0;
 	err = SecIdentityCopyCertificate( identity, &certref );
-	CFRelease(identity);
+	CFRelease( identity );
 	if( !certref )
 		return QSslCertificate();
 
@@ -323,6 +324,42 @@ bool AccessCert::installCert( const QByteArray &data, const QString &password )
 	Application::setConfValue( Application::PKCS12Pass, d->pass = password );
 #endif
 	return true;
+}
+
+QSslKey AccessCert::key()
+{
+#ifdef Q_OS_MAC
+	SecIdentityRef identity = 0;
+	OSStatus err = SecIdentityCopyPreference( CFSTR("ocsp.sk.ee"), 0, 0, &identity );
+	if( !identity )
+		return QSslKey();
+
+	SecKeyRef keyref = 0;
+	err = SecIdentityCopyPrivateKey( identity, &keyref );
+	CFRelease( identity );
+	if( !keyref )
+		return QSslKey();
+
+	CFDataRef keydata = 0;
+	SecKeyImportExportParameters params;
+	memset( &params, 0, sizeof(params) );
+	params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
+	params.passphrase = CFSTR("pass");
+	err = SecKeychainItemExport( keyref, kSecFormatPEMSequence, 0, &params, &keydata );
+	CFRelease( keyref );
+
+	QSslKey key( QByteArray( (const char*)CFDataGetBytePtr(keydata), CFDataGetLength(keydata) ),
+		QSsl::Rsa, QSsl::Pem, QSsl::PrivateKey, "pass" );
+	CFRelease( keydata );
+
+	bool valid = key.isNull();
+
+	return key;
+#else
+	return PKCS12Certificate::fromPath(
+		Application::confValue( Application::PKCS12Cert ).toString(),
+		Application::confValue( Application::PKCS12Pass ).toString() ).key();
+#endif
 }
 
 void AccessCert::showWarning( const QString &msg )

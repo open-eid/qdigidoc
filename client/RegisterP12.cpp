@@ -24,6 +24,7 @@
 #include "ui_RegisterP12.h"
 
 #include "Application.h"
+#include "AccessCert.h"
 
 #include <common/CertificateWidget.h>
 #include <common/FileDialog.h>
@@ -65,21 +66,25 @@ bool RegisterP12::eventFilter( QObject *o, QEvent *e )
 
 void RegisterP12::on_buttonBox_accepted()
 {
-	QFileInfo file( d->p12Cert->text() );
-	if( !file.isFile() )
+	QFile file( d->p12Cert->text() );
+	if( !file.exists() )
 	{
 		QMessageBox::warning( this, windowTitle(),
 			tr("No server access certificate selected") );
 		return;
 	}
 
+#ifdef Q_OS_MAC
+	file.open( QFile::ReadOnly );
+	AccessCert().installCert( file.readAll(), d->p12Pass->text() );
+#else
 	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
 	QDir().mkpath( path );
 	QString dest = QString( "%1/%2" ).arg( path, file.fileName() );
 
 	if( QFile::exists( dest ) )
 		QFile::remove( dest );
-	if( !QFile::copy( d->p12Cert->text(), dest ) )
+	if( !file.copy( dest ) )
 	{
 		QMessageBox::warning( this, windowTitle(), tr("Failed to copy file") );
 		return;
@@ -87,27 +92,24 @@ void RegisterP12::on_buttonBox_accepted()
 
 	Application::setConfValue( Application::PKCS12Cert, dest );
 	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
+#endif
 	close();
 }
 
 void RegisterP12::on_showP12Cert_clicked()
 {
-	QFile f( d->p12Cert->text() );
-	if( !f.open( QIODevice::ReadOnly ) )
+	PKCS12Certificate p12 = PKCS12Certificate::fromPath(
+		d->p12Cert->text(), d->p12Pass->text() );
+	if( p12.certificate().isNull() )
 		return;
-
-	PKCS12Certificate cert( &f, d->p12Pass->text().toLatin1() );
-	f.close();
-	if( cert.certificate().isNull() )
-		return;
-	CertificateDialog d( cert.certificate() );
+	CertificateDialog d( p12.certificate() );
 	d.exec();
 }
 
 void RegisterP12::on_p12Button_clicked()
 {
 	QString cert = FileDialog::getOpenFileName( this, tr("Select server access certificate"),
-		QFileInfo( d->p12Cert->text() ).path(), tr("Server access certificates (*.p12 *.p12d)") );
+		QFileInfo( d->p12Cert->text() ).path(), tr("Server access certificates (*.p12 *.p12d *.pfx)") );
 	if( !cert.isEmpty() )
 		d->p12Cert->setText( cert );
 }

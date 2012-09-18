@@ -25,6 +25,7 @@
 #include <QtGui/QMessageBox>
 
 class QSslCertificate;
+class QSslKey;
 class AccessCertPrivate;
 class AccessCert: public QMessageBox
 {
@@ -38,6 +39,7 @@ public:
 	bool validate();
 
 	static QSslCertificate cert();
+	static QSslKey key();
 	bool installCert( const QByteArray &data, const QString &password );
 
 private:
