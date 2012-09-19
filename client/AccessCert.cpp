@@ -384,12 +384,10 @@ bool AccessCert::validate()
 		return true;
 #ifdef Q_OS_MAC
 	QSslCertificate c = cert();
-	if( !c.isValid() &&
-		showWarning2( tr("Server access certificate is not valid!\nStart downloading?") ) )
-		return true;
-	if( c.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) &&
-		!showWarning2( tr("Server access certificate is about to expire!\nStart downloading?") ) )
-		return false;
+	if( !c.isValid() )
+		return showWarning2( tr("Server access certificate is not valid!\nStart downloading?") );
+	if( c.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) )
+		return showWarning2( tr("Server access certificate is about to expire!\nStart downloading?") );
 	return true;
 #else
 	d->cert = Application::confValue( Application::PKCS12Cert ).toString();
