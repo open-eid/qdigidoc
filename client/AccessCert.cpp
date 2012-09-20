@@ -180,11 +180,14 @@ bool AccessCert::download( bool noCard )
 	else
 	{
 #ifdef Q_OS_WIN
-		foreach( const SslCertificate &cert, c->certs() )
+		QCNG::Certs certs = c->certs();
+		for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
 		{
-			if( cert.isValid() && cert.enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
+			if( i.value() == s->token().card() && i.key().isValid() &&
+				i.key().enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
+
 			{
-				token = c->selectCert( cert );
+				token = c->selectCert( i.key() );
 				break;
 			}
 		}

@@ -141,7 +141,7 @@ void QSigner::run()
 		{
 			QStringList cards, readers;
 #ifdef Q_OS_WIN
-			QList<SslCertificate> certs;
+			QCNG::Certs certs;
 			if( d->csp )
 			{
 				cards = d->csp->containers( SslCertificate::NonRepudiation );
@@ -149,9 +149,10 @@ void QSigner::run()
 			}
 			if( d->cng )
 			{
-				foreach( const SslCertificate &cert, certs = d->cng->certs() )
-					if( cert.keyUsage().contains( SslCertificate::NonRepudiation ) )
-						cards << cert.subjectInfo( SslCertificate::CommonName );
+				certs = d->cng->certs();
+				for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
+					if( i.key().keyUsage().contains( SslCertificate::NonRepudiation ) )
+						cards << i.value();
 				readers << d->cng->readers();
 			}
 #endif
@@ -186,10 +187,15 @@ void QSigner::run()
 					d->t = d->csp->selectCert( d->t.card(), SslCertificate::NonRepudiation );
 				else if( d->cng )
 				{
-					foreach( const SslCertificate &cert, certs )
-						if( cert.keyUsage().contains( SslCertificate::NonRepudiation ) &&
-							cert.subjectInfo( SslCertificate::CommonName ) == d->t.card() )
-							d->t = d->cng->selectCert( cert );
+					for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
+					{
+						if( i.value() == d->t.card() &&
+							i.key().keyUsage().contains( SslCertificate::NonRepudiation ) )
+						{
+							d->t = d->cng->selectCert( i.key() );
+							break;
+						}
+					}
 				}
 				else
 #endif
