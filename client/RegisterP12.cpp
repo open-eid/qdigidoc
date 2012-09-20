@@ -80,7 +80,7 @@ void RegisterP12::on_buttonBox_accepted()
 #else
 	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
 	QDir().mkpath( path );
-	QString dest = QString( "%1/%2" ).arg( path, file.fileName() );
+	QString dest = QString( "%1/%2" ).arg( path, QFileInfo( file ).fileName() );
 
 	if( QFile::exists( dest ) )
 		QFile::remove( dest );
