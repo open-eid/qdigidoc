@@ -112,7 +112,18 @@ Application::Application( int &argc, char **argv )
 		initConfigStore( NULL );
 
 #ifdef Q_OS_WIN
-	Poller::ApiType api = QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ? Poller::CNG : Poller::PKCS11;
+	QString provider;
+	QSettings reg( "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards", QSettings::NativeFormat );
+	Q_FOREACH( const QString &group, reg.childGroups() )
+	{
+		if( group.contains( "esteid", Qt::CaseInsensitive ) )
+		{
+			provider = reg.value( group + "/" + "Crypto Provider" ).toString();
+			break;
+		}
+	}
+	Poller::ApiType api = provider != "EstEID Card CSP" && QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ?
+		Poller::CNG : Poller::PKCS11;
 #else
 	Poller::ApiType api = Poller::PKCS11;
 #endif

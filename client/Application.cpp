@@ -173,7 +173,18 @@ Application::Application( int &argc, char **argv )
 	}
 
 #ifdef Q_OS_WIN
-	QSigner::ApiType api = QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ? QSigner::CNG : QSigner::PKCS11;
+	QString provider;
+	QSettings reg( "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards", QSettings::NativeFormat );
+	Q_FOREACH( const QString &group, reg.childGroups() )
+	{
+		if( group.contains( "esteid", Qt::CaseInsensitive ) )
+		{
+			provider = reg.value( group + "/" + "Crypto Provider" ).toString();
+			break;
+		}
+	}
+	QSigner::ApiType api = provider != "EstEID Card CSP" && QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ?
+		QSigner::CNG : QSigner::PKCS11;
 #else
 	QSigner::ApiType api = QSigner::PKCS11;
 #endif
