@@ -380,7 +380,7 @@ color: #71889A;
            <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>75</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
            <number>0</number>
@@ -462,17 +462,20 @@ color: #71889A;
            </layout>
           </item>
           <item>
-           <spacer name="homeBottomSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+           <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
+            <property name="pixmap">
+             <pixmap resource="../../common/images/common_images.qrc">:/images/EL_Regionaalareng_horisontaal.png</pixmap>
             </property>
-           </spacer>
+            <property name="alignment">
+             <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -491,23 +494,13 @@ You will need a digital certificate of recipient in order to encrypt data. Serti
 &lt;b&gt;&lt;font color=&quot;red&quot;&gt;Warning&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
 The private key needed for decryption is stored only on the ID-card of the recipient. Decryption of data will be impossible if the card is lost, damaged or if certificate is renewed.&lt;/b&gt;</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+            </property>
             <property name="wordWrap">
              <bool>true</bool>
             </property>
            </widget>
-          </item>
-          <item>
-           <spacer name="introSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-           </spacer>
           </item>
           <item>
            <widget class="QCheckBox" name="introCheck">
