@@ -394,7 +394,7 @@ bool MainWindow::event( QEvent *e )
 	case QEvent::DragEnter:
 	{
 		QDragEnterEvent *d = static_cast<QDragEnterEvent*>( e );
-		if( d->mimeData()->hasUrls() && stack->currentIndex() != View )
+		if( d->mimeData()->hasUrls() )
 			d->acceptProposedAction();
 		return QWidget::event( e );
 	}
