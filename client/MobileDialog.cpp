@@ -28,7 +28,6 @@
 
 #include <common/Settings.h>
 #include <common/SOAPDocument.h>
-#include <common/SslCertificate.h>
 
 #include <QtCore/QDir>
 #include <QtCore/QTimeLine>
