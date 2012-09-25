@@ -44,10 +44,6 @@ include_directories(
 	${LDAP_INCLUDE_DIR}
 	)
 
-if( APPLE )
-	include( VersionInfoMac )
-endif( APPLE )
-
 add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	${PROGNAME}.rc
 	main.cpp

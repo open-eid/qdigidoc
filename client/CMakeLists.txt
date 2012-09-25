@@ -50,10 +50,6 @@ include_directories(
 	${LIBDIGIDOCPP_INCLUDE_DIR}
 	)
 
-if( APPLE )
-	include( VersionInfoMac )
-endif()
-
 add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	${PROGNAME}.rc
 	main.cpp
