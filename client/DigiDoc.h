@@ -62,13 +62,13 @@ public:
 	int rowCount( const QModelIndex &parent = QModelIndex() ) const;
 
 	QString copy( const QModelIndex &index, const QString &path ) const;
-	digidoc::Document document( const QModelIndex &index ) const;
 	QString mkpath( const QModelIndex &index, const QString &path ) const;
 
 public Q_SLOTS:
 	void open( const QModelIndex &index );
 
 private:
+	digidoc::Document document( const QModelIndex &index ) const;
 	DocumentModel( DigiDoc *doc );
 	Q_DISABLE_COPY(DocumentModel)
 

@@ -775,7 +775,7 @@ QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 			Document file = m_documentModel->document( m_documentModel->index( i, DocumentModel::Name ) );
 			digest = file.calcDigest( calc.get() );
 		}
-		catch( const IOException &e ) {}
+		catch( const IOException &e ) { d->setLastError( tr("Failed to calculate digest"), e ); }
 	}
 	else
 		digest = b->getFileDigest( i );
