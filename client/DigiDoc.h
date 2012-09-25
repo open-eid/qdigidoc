@@ -155,13 +155,13 @@ public:
 		const QString &role2 );
 	QList<DigiDocSignature> signatures();
 	digidoc::ADoc::DocumentType documentType();
-	QByteArray getFileDigest( unsigned int i );
+	QByteArray getFileDigest( unsigned int i ) const;
 
 	static bool parseException( const digidoc::Exception &e, QStringList &causes,
 		digidoc::Exception::ExceptionCode &code, int &ddocError );
 
 private:
-	bool checkDoc( bool status = false, const QString &msg = QString() );
+	bool checkDoc( bool status = false, const QString &msg = QString() ) const;
 	void setLastError( const QString &msg, const digidoc::Exception &e );
 
 	digidoc::ADoc	*b;

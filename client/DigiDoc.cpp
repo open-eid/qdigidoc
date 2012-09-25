@@ -529,7 +529,7 @@ bool DigiDoc::addSignature( const QByteArray &signature )
 	return result;
 }
 
-bool DigiDoc::checkDoc( bool status, const QString &msg )
+bool DigiDoc::checkDoc( bool status, const QString &msg ) const
 {
 	if( isNull() )
 		qApp->showWarning( tr("Container is not open") );
@@ -761,10 +761,23 @@ QList<DigiDocSignature> DigiDoc::signatures()
 ADoc::DocumentType DigiDoc::documentType()
 { return checkDoc() ? b->documentType() : ADoc::BDocType; }
 
-QByteArray DigiDoc::getFileDigest( unsigned int i )
+QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 {
 	if( !checkDoc() )
 		return QByteArray();
-	std::vector<unsigned char> result = b->getFileDigest( i );
-	return QByteArray( (char*)&result[0], result.size() );
+
+	std::vector<unsigned char> digest;
+	if( b->documentType() == ADoc::BDocType )
+	{
+		try
+		{
+			std::auto_ptr<Digest> calc(new Digest( URI_SHA1 ));
+			Document file = m_documentModel->document( m_documentModel->index( i, DocumentModel::Name ) );
+			digest = file.calcDigest( calc.get() );
+		}
+		catch( const IOException &e ) {}
+	}
+	else
+		digest = b->getFileDigest( i );
+	return digest.empty() ? QByteArray() : QByteArray( (char*)&digest[0], digest.size() );
 }

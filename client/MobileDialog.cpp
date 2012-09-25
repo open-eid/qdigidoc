@@ -30,10 +30,6 @@
 #include <common/SOAPDocument.h>
 #include <common/SslCertificate.h>
 
-#include <digidocpp/Document.h>
-#include <digidocpp/Exception.h>
-#include <digidocpp/crypto/Digest.h>
-
 #include <QtCore/QDir>
 #include <QtCore/QTimeLine>
 #include <QtCore/QXmlStreamReader>
@@ -92,11 +88,6 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 			Application::confValue( Application::ProxyPass ).toString() ) );
 	}
 
-	if ( m_doc->documentType() == ADoc::BDocType )
-		request.setUrl( QUrl( Settings().value("Client/bdocurl", "https://digidocservice.sk.ee").toString() ) );
-	else
-		request.setUrl( QUrl( Settings().value("Client/ddocurl", "https://digidocservice.sk.ee").toString() ) );
-
 	QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
 	ssl.setPrivateKey( AccessCert::key() );
 	ssl.setLocalCertificate( AccessCert::cert() );
@@ -104,6 +95,9 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 	ssl.setCaCertificates( ssl.caCertificates() + QSslCertificate::fromPath(
 		QString( qApp->confValue( Application::CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );
 #endif
+
+	request.setUrl( Settings().value( m_doc->documentType() == ADoc::BDocType ?
+		"Client/bdocurl" : "Client/ddocurl", "https://digidocservice.sk.ee").toUrl() );
 	request.setSslConfiguration( ssl );
 	request.setHeader( QNetworkRequest::ContentTypeHeader, "text/xml" );
 	request.setRawHeader( "User-Agent", QString( "%1/%2 (%3)")
@@ -241,36 +235,14 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 
 	r.writeStartElement( "DataFiles" );
 	r.writeAttribute( XML_SCHEMA_INSTANCE, "type", "m:DataFileDigestList" );
-
 	DocumentModel *m = m_doc->documentModel();
 	for( int i = 0; i < m->rowCount(); ++i )
 	{
-		QByteArray digest;
-		QString name = "sha1";
-		if( m_doc->documentType() == ADoc::BDocType )
-		{
-			try
-			{
-				std::auto_ptr<Digest> calc(new Digest( URI_SHA1 ));
-				Document file = m->document( m->index( i, DocumentModel::Name ) );
-				std::vector<unsigned char> d = file.calcDigest( calc.get() );
-				digest = QByteArray( (char*)&d[0], d.size() );
-				name = QString::fromUtf8( calc->getName().c_str() );
-			}
-			catch( const IOException &e )
-			{
-				labelError->setText( QString::fromUtf8( e.getMsg().c_str() ) );
-				return;
-			}
-		}
-		else
-			digest = m_doc->getFileDigest( i ).left( 20 );
-
 		r.writeStartElement( "DataFileDigest" );
 		r.writeAttribute( XML_SCHEMA_INSTANCE, "type", QString( "m:" ).append( "DataFileDigest" ) );
 		r.writeParameter( "Id", m->index( i, DocumentModel::Id ).data().toString() );
-		r.writeParameter( "DigestType", name );
-		r.writeParameter( "DigestValue", digest.toBase64() );
+		r.writeParameter( "DigestType", "sha1" );
+		r.writeParameter( "DigestValue", m_doc->getFileDigest( i ).toBase64() );
 		r.writeEndElement();
 	}
 	r.writeEndElement();
