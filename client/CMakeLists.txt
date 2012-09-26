@@ -20,17 +20,14 @@ QT4_WRAP_UI( UI_HEADERS
 	ui/SignatureDialog.ui
 )
 
-configure_file(${CMAKE_SOURCE_DIR}/breakpad/translations/breakpad.qrc breakpad.qrc COPYONLY)
 configure_file(translations/tr.qrc tr.qrc COPYONLY)
 
 QT4_ADD_RESOURCES( RC_SOURCES
 	images/images.qrc
-	${CMAKE_CURRENT_BINARY_DIR}/breakpad.qrc
 	${CMAKE_CURRENT_BINARY_DIR}/tr.qrc
 )
 
 QT4_ADD_TRANSLATION( QM_FILES
-	${BREAKPAD_TS}
 	translations/en.ts
 	translations/et.ts
 	translations/ru.ts
