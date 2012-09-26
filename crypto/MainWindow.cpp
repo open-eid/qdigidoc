@@ -345,7 +345,7 @@ void MainWindow::buttonClicked( int button )
 			tr("Select folder where files will be stored") );
 		if( dir.isEmpty() )
 			return;
-		if( !Common::canWrite( dir ) )
+		if( !FileDialog::canWrite( dir ) )
 		{
 			qApp->showWarning(
 				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( dir ) );
@@ -462,7 +462,7 @@ void MainWindow::retranslate()
 
 void MainWindow::save()
 {
-	if( !Common::canWrite( doc->fileName() ) &&
+	if( !FileDialog::canWrite( doc->fileName() ) &&
 		QMessageBox::Yes == QMessageBox::warning( this, tr("DigiDoc3 crypto"),
 			tr("Cannot alter container %1. Save different location?")
 				.arg( doc->fileName().normalized( QString::NormalizationForm_C ) ),
@@ -489,7 +489,7 @@ QString MainWindow::selectFile( const QString &filename )
 			return QString();
 		if( QFileInfo( file ).suffix().toLower() != "cdoc" )
 			file.append( ".cdoc" );
-		if( !Common::canWrite( file ) )
+		if( !FileDialog::canWrite( file ) )
 			qApp->showWarning(
 				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( file ) );
 		else

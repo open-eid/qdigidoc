@@ -49,7 +49,7 @@ void TreeWidget::clicked( const QModelIndex &index )
 				tr("Save file"), QString( "%1/%2" )
 					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
 					.arg( m->index( index.row(), 0 ).data().toString() ) );
-			if( !dest.isEmpty() && !Common::canWrite( dest ) )
+			if( !dest.isEmpty() && !FileDialog::canWrite( dest ) )
 			{
 				QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
 					tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( dest ) );
@@ -96,11 +96,8 @@ void TreeWidget::setDocumentModel( DocumentModel *model )
 {
 	setModel( m = model );
 	header()->setStretchLastSection( false );
+	header()->setResizeMode( QHeaderView::ResizeToContents );
 	header()->setResizeMode( DocumentModel::Name, QHeaderView::Stretch );
-	header()->setResizeMode( DocumentModel::Mime, QHeaderView::ResizeToContents );
-	header()->setResizeMode( DocumentModel::Size, QHeaderView::ResizeToContents );
-	header()->setResizeMode( DocumentModel::Save, QHeaderView::ResizeToContents );
-	header()->setResizeMode( DocumentModel::Remove, QHeaderView::ResizeToContents );
 	setColumnHidden( DocumentModel::Mime, true );
 	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
 	connect( this, SIGNAL(doubleClicked(QModelIndex)), m, SLOT(open(QModelIndex)) );
