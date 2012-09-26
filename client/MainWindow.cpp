@@ -178,7 +178,7 @@ bool MainWindow::addFile( const QString &file )
 		}
 
 #ifndef APPSTORE
-		if( !Common::canWrite( docname ) )
+		if( !FileDialog::canWrite( docname ) )
 		{
 			select = true;
 			qApp->showWarning(
