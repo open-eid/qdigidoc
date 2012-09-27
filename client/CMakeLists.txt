@@ -1,3 +1,7 @@
+find_package( XercesC REQUIRED )
+find_package( XSD REQUIRED )
+find_package( LibDigiDocpp REQUIRED )
+
 set_app_name( PROGNAME qdigidocclient )
 
 QT4_WRAP_CPP( MOC_SOURCES
@@ -82,7 +86,6 @@ target_link_libraries( ${PROGNAME}
 	${QT_QTMAIN_LIBRARY}
 	${QT_LIBRARIES}
 	${LIBDIGIDOCPP_LIBRARY}
-	${OPENSSL_LIBRARIES}
 	${ADDITIONAL_LIBRARIES}
 )
 dump_syms( ${PROGNAME} )

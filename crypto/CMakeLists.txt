@@ -1,3 +1,8 @@
+if( UNIX AND NOT APPLE )
+	find_package( Ldap REQUIRED )
+endif()
+find_package( LibDigiDoc REQUIRED )
+
 set_app_name( PROGNAME qdigidoccrypto )
 
 QT4_WRAP_CPP( MOC_SOURCES
@@ -73,7 +78,6 @@ target_link_libraries( ${PROGNAME}
 	${QT_QTMAIN_LIBRARY}
 	${QT_LIBRARIES}
 	${LIBDIGIDOC_LIBRARY}
-	${OPENSSL_LIBRARIES}
 	${LDAP_LIBRARIES}
 	${ADDITIONAL_LIBRARIES}
 )

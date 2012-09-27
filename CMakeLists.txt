@@ -7,16 +7,7 @@ set( CMAKE_FIND_ROOT_PATH ${CMAKE_OSX_SYSROOT} )
 include( GNUInstallDirs )
 include( VersionInfo )
 
-if( UNIX AND NOT APPLE )
-	find_package( Ldap REQUIRED )
-endif()
-find_package( LibDigiDoc REQUIRED )
-find_package( LibDigiDocpp REQUIRED )
-find_package( OpenSSL REQUIRED )
 find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui QtNetwork REQUIRED )
-find_package( XercesC REQUIRED )
-find_package( XSD REQUIRED )
-
 include( ${QT_USE_FILE} )
 
 if( APPLE )
