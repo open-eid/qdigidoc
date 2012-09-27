@@ -28,7 +28,7 @@
 #include "RegisterP12.h"
 #include "SettingsDialog.h"
 
-#include <common/AboutWidget.h>
+#include <common/AboutDialog.h>
 #include <common/Settings.h>
 
 #include <digidocpp/ADoc.h>
@@ -389,9 +389,9 @@ void Application::setLastPath( const QString &path )
 
 void Application::showAbout()
 {
-	AboutWidget *a = new AboutWidget( activeWindow() );
+	AboutDialog *a = new AboutDialog( activeWindow() );
 	a->addAction( d->closeAction );
-	a->show();
+	a->open();
 }
 
 void Application::showSettings( int page )
