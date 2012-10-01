@@ -46,6 +46,7 @@
 
 #ifdef Q_OS_MAC
 #include <Security/Security.h>
+#include <Security/SecItem.h>
 #endif
 
 class AccessCertPrivate
