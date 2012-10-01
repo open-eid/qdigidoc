@@ -53,16 +53,6 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="defaultDirLabel">
-     <property name="text">
-      <string>It is not possible to change the file location. Changes will be valid to new containers only.</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QCheckBox" name="askSaveAs">
      <property name="text">
       <string>Ask container name</string>

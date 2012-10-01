@@ -49,7 +49,9 @@ public:
 private Q_SLOTS:
 	void on_p12Button_clicked();
 	void on_p12Install_clicked();
+#ifndef APPSTORE
 	void on_selectDefaultDir_clicked();
+#endif
 	void on_showP12Cert_clicked();
 	void on_typeBDoc_clicked( bool checked );
 	void save();

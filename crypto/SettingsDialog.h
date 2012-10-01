@@ -34,7 +34,9 @@ public:
 	~SettingsDialog();
 
 private Q_SLOTS:
+#ifdef APPSTORE
 	void on_selectDefaultDir_clicked();
+#endif
 	void save();
 
 private:

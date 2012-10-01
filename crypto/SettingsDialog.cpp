@@ -40,12 +40,16 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	Settings s;
 	s.beginGroup( "Crypto" );
 
-	d->defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
-	d->defaultDir->setText( s.value( "DefaultDir" ).toString() );
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
 #ifdef APPSTORE
+	d->label->hide();
+	d->defaultSameDir->hide();
+	d->defaultDir->hide();
+	d->selectDefaultDir->hide();
 	d->askSaveAs->hide();
 #else
+	d->defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
+	d->defaultDir->setText( s.value( "DefaultDir" ).toString() );
 	d->askSaveAs->setChecked( s.value( "AskSaveAs", true ).toBool() );
 #endif
 	s.endGroup();
@@ -53,6 +57,7 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 
 SettingsDialog::~SettingsDialog() { delete d; }
 
+#ifdef APPSTORE
 void SettingsDialog::on_selectDefaultDir_clicked()
 {
 	QString dir = Settings().value( "Crypto/DefaultDir" ).toString();
@@ -64,6 +69,7 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 	}
 	d->defaultSameDir->setChecked( d->defaultDir->text().isEmpty() );
 }
+#endif
 
 void SettingsDialog::save()
 {
@@ -72,11 +78,10 @@ void SettingsDialog::save()
 	s.setValue( "Intro", d->showIntro->isChecked() );
 #ifndef APPSTORE
 	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
-#endif
 	if( d->defaultSameDir->isChecked() )
 	{
 		d->defaultDir->clear();
 		s.remove( "DefaultDir" );
 	}
-	s.endGroup();
+#endif
 }

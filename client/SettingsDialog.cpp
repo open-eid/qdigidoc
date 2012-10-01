@@ -51,15 +51,20 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	Settings s;
 	s.beginGroup( "Client" );
 
-	d->defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
-	d->defaultDir->setText( s.value( "DefaultDir" ).toString() );
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
 #ifdef APPSTORE
+	d->label->hide();
+	d->defaultSameDir->hide();
+	d->defaultDir->hide();
+	d->selectDefaultDir->hide();
 	d->askSaveAs->hide();
+
 	QSslCertificate c = AccessCert::cert();
 	d->showP12Cert->setEnabled( !c.isNull() );
 	d->showP12Cert->setProperty( "cert", QVariant::fromValue( c ) );
 #else
+	d->defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
+	d->defaultDir->setText( s.value( "DefaultDir" ).toString() );
 	d->askSaveAs->setChecked( s.value( "AskSaveAs", true ).toBool() );
 	d->p12Cert->setText( Application::confValue( Application::PKCS12Cert ).toString() );
 	d->p12Pass->setText( Application::confValue( Application::PKCS12Pass ).toString() );
@@ -148,6 +153,7 @@ void SettingsDialog::on_p12Install_clicked()
 #endif
 }
 
+#ifndef APPSTORE
 void SettingsDialog::on_selectDefaultDir_clicked()
 {
 	QString dir = Settings().value( "Client/DefaultDir" ).toString();
@@ -159,6 +165,7 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 	}
 	d->defaultSameDir->setChecked( d->defaultDir->text().isEmpty() );
 }
+#endif
 
 void SettingsDialog::on_showP12Cert_clicked()
 {
@@ -193,15 +200,15 @@ void SettingsDialog::save()
 	s.setValue( "Overwrite", d->signOverwrite->isChecked() );
 #ifndef APPSTORE
 	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
-	Application::setConfValue( Application::PKCS12Cert, d->p12Cert->text() );
-	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
-#endif
-	s.setValue( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc" );
 	if( d->defaultSameDir->isChecked() )
 	{
 		d->defaultDir->clear();
 		s.remove( "DefaultDir" );
 	}
+	Application::setConfValue( Application::PKCS12Cert, d->p12Cert->text() );
+	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
+#endif
+	s.setValue( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc" );
 
 	Application::setConfValue( Application::ProxyHost, d->proxyHost->text() );
 	Application::setConfValue( Application::ProxyPort, d->proxyPort->text() );
