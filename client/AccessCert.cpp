@@ -372,16 +372,15 @@ void AccessCert::remove()
 	if( !identity )
 		return;
 
-	const void *list[] = { identity };
-	CFArrayRef array = CFArrayCreate( 0, list, 1, 0 );
-	const void *keys[] = { kSecClass, kSecMatchItemList };
-	const void *values[] = { kSecClassIdentity, array };
-	CFDictionaryRef attributes = CFDictionaryCreate( 0, keys, values, 2, 0, 0 );
-
-	err = SecItemDelete( attributes );
-	CFRelease( attributes );
-	CFRelease( array );
-
+	SecCertificateRef certref = 0;
+	SecKeyRef keyref = 0;
+	err = SecIdentityCopyCertificate( identity, &certref );
+	err = SecIdentityCopyPrivateKey( identity, &keyref );
+	CFRelease( identity );
+	err = SecKeychainItemDelete( SecKeychainItemRef(certref) );
+	err = SecKeychainItemDelete( SecKeychainItemRef(keyref) );
+	CFRelease( certref );
+	CFRelease( keyref );
 #else
 	Application::setConfValue( Application::PKCS12Cert, QVariant() );
 	Application::setConfValue( Application::PKCS12Pass, QVariant() );

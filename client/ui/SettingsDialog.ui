@@ -182,7 +182,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="p12Error" />
+        <widget class="QLabel" name="p12Error"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="p12ButtonLayout">
@@ -190,6 +190,12 @@
           <spacer name="p12Spacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
            </property>
           </spacer>
          </item>
@@ -227,6 +233,12 @@
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
          </property>
         </spacer>
        </item>
