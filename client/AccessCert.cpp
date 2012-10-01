@@ -363,6 +363,30 @@ QSslKey AccessCert::key()
 #endif
 }
 
+void AccessCert::remove()
+{
+#ifdef Q_OS_MAC
+	SecIdentityRef identity = 0;
+	OSStatus err = SecIdentityCopyPreference( CFSTR("ocsp.sk.ee"), 0, 0, &identity );
+	if( !identity )
+		return;
+
+	const void *list[] = { identity };
+	CFArrayRef array = CFArrayCreate( 0, list, 1, 0 );
+	const void *keys[] = { kSecClass, kSecMatchItemList };
+	const void *values[] = { kSecClassIdentity, array };
+	CFDictionaryRef attributes = CFDictionaryCreate( 0, keys, values, 2, 0, 0 );
+
+	err = SecItemDelete( attributes );
+	CFRelease( attributes );
+	CFRelease( array );
+
+#else
+	Application::setConfValue( Application::PKCS12Cert, QVariant() );
+	Application::setConfValue( Application::PKCS12Pass, QVariant() );
+#endif
+}
+
 void AccessCert::showWarning( const QString &msg )
 {
 	setIcon( Warning );
@@ -402,24 +426,21 @@ bool AccessCert::validate()
 	case PKCS12Certificate::FileNotExist:
 		if( showWarning2( tr("Did not find any server access certificate!\nStart downloading?") ) )
 		{
-			Application::setConfValue( Application::PKCS12Cert, QVariant() );
-			Application::setConfValue( Application::PKCS12Pass, QVariant() );
+			remove();
 			return true;
 		}
 		break;
 	case PKCS12Certificate::FailedToRead:
 		if( showWarning2( tr("Failed to read server access certificate!\nStart downloading?") ) )
 		{
-			Application::setConfValue( Application::PKCS12Cert, QVariant() );
-			Application::setConfValue( Application::PKCS12Pass, QVariant() );
+			remove();
 			return true;
 		}
 		break;
 	case PKCS12Certificate::InvalidPasswordError:
 		if( showWarning2( tr("Server access certificate password is not valid!\nStart downloading?") ) )
 		{
-			Application::setConfValue( Application::PKCS12Cert, QVariant() );
-			Application::setConfValue( Application::PKCS12Pass, QVariant() );
+			remove();
 			return true;
 		}
 		break;
@@ -428,8 +449,7 @@ bool AccessCert::validate()
 		{
 			if( showWarning2( tr("Server access certificate is not valid!\nStart downloading?") ) )
 			{
-				Application::setConfValue( Application::PKCS12Cert, QVariant() );
-				Application::setConfValue( Application::PKCS12Pass, QVariant() );
+				remove();
 				return true;
 			}
 		}
@@ -443,8 +463,7 @@ bool AccessCert::validate()
 	default:
 		if( showWarning2( tr("Server access certificate is not valid!\nStart downloading?") ) )
 		{
-			Application::setConfValue( Application::PKCS12Cert, QVariant() );
-			Application::setConfValue( Application::PKCS12Pass, QVariant() );
+			remove();
 			return true;
 		}
 		break;

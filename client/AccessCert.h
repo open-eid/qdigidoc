@@ -41,6 +41,7 @@ public:
 	static QSslCertificate cert();
 	static QSslKey key();
 	bool installCert( const QByteArray &data, const QString &password );
+	void remove();
 
 private:
 	void showWarning( const QString &msg );

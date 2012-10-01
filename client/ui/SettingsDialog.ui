@@ -164,11 +164,8 @@
       <attribute name="title">
        <string>Server access certificate</string>
       </attribute>
-      <layout class="QFormLayout" name="tabPKCS12Layout">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::ExpandingFieldsGrow</enum>
-       </property>
-       <item row="0" column="0" colspan="2">
+      <layout class="QVBoxLayout" name="tabPKCS12Layout">
+       <item>
         <widget class="QLabel" name="p12Label">
          <property name="text">
           <string>Regarding to terms and conditions of validity confirmation service you're allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</string>
@@ -184,80 +181,22 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="p12CertLabel">
-         <property name="text">
-          <string>Server access certificate path</string>
-         </property>
-         <property name="buddy">
-          <cstring>p12Cert</cstring>
-         </property>
-        </widget>
+       <item>
+        <widget class="QLabel" name="p12Error" />
        </item>
-       <item row="1" column="1">
-        <layout class="QHBoxLayout" name="p12Layout">
-         <item>
-          <widget class="QLineEdit" name="p12Cert"/>
-         </item>
-         <item>
-          <widget class="QToolButton" name="p12Button">
-           <property name="accessibleName">
-            <string>Select server access certificate</string>
-           </property>
-           <property name="text">
-            <string notr="true">...</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="p12PassLabel">
-         <property name="text">
-          <string>Server access certificate password</string>
-         </property>
-         <property name="buddy">
-          <cstring>p12Pass</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
+       <item>
         <layout class="QHBoxLayout" name="p12ButtonLayout">
          <item>
-          <widget class="QLabel" name="p12Error">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+          <spacer name="p12Spacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-           <property name="styleSheet">
-            <string notr="true">color: red;</string>
-           </property>
-          </widget>
+          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="showP12Cert">
            <property name="text">
             <string>Show certificate</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QCheckBox" name="p12Ignore">
-         <property name="text">
-          <string>Ignore server access certificate (IP based access)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <layout class="QHBoxLayout" name="p12PassLayout">
-         <item>
-          <widget class="QLineEdit" name="p12Pass">
-           <property name="echoMode">
-            <enum>QLineEdit::Password</enum>
            </property>
           </widget>
          </item>
@@ -268,7 +207,28 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="p12Remove">
+           <property name="text">
+            <string>Remove</string>
+           </property>
+          </widget>
+         </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="p12Ignore">
+         <property name="text">
+          <string>Ignore server access certificate (IP based access)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -709,22 +669,6 @@
     </hint>
     <hint type="destinationlabel">
      <x>222</x>
-     <y>148</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>p12Cert</sender>
-   <signal>editingFinished()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>save()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>225</x>
-     <y>51</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>211</x>
      <y>148</y>
     </hint>
    </hints>

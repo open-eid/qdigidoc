@@ -38,8 +38,19 @@
 #include <QtGui/QDropEvent>
 #include <QtGui/QMessageBox>
 
-RegisterP12::RegisterP12( const QString &cert )
-:	QWidget()
+RegisterP12::RegisterP12( QWidget *parent )
+:	QDialog( parent )
+,	d( new Ui::RegisterP12 )
+{
+	setAttribute( Qt::WA_DeleteOnClose, true );
+	d->setupUi( this );
+	d->p12Cert->installEventFilter( this );
+	d->p12Cert->setText( qApp->confValue( Application::PKCS12Cert ).toString() );
+	d->p12Pass->setText( qApp->confValue( Application::PKCS12Pass ).toString() );
+}
+
+RegisterP12::RegisterP12( const QString &cert , QWidget *parent )
+:	QDialog( parent )
 ,	d( new Ui::RegisterP12 )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );

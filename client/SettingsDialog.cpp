@@ -25,6 +25,7 @@
 
 #include "AccessCert.h"
 #include "Application.h"
+#include "RegisterP12.h"
 
 #include <common/CertificateWidget.h>
 #include <common/FileDialog.h>
@@ -32,7 +33,6 @@
 #include <common/SslCertificate.h>
 
 #include <QtCore/QUrl>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QDropEvent>
 #include <QtGui/QMessageBox>
 
@@ -45,29 +45,23 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	d->setupUi( this );
 	setAttribute( Qt::WA_DeleteOnClose );
 	setWindowFlags( Qt::Sheet );
-	d->p12Cert->installEventFilter( this );
 	Common::setAccessibleName( d->p12Label );
 
 	Settings s;
 	s.beginGroup( "Client" );
 
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
+	updateCert();
 #ifdef APPSTORE
 	d->label->hide();
 	d->defaultSameDir->hide();
 	d->defaultDir->hide();
 	d->selectDefaultDir->hide();
 	d->askSaveAs->hide();
-
-	QSslCertificate c = AccessCert::cert();
-	d->showP12Cert->setEnabled( !c.isNull() );
-	d->showP12Cert->setProperty( "cert", QVariant::fromValue( c ) );
 #else
 	d->defaultSameDir->setChecked( s.value( "DefaultDir" ).isNull() );
 	d->defaultDir->setText( s.value( "DefaultDir" ).toString() );
 	d->askSaveAs->setChecked( s.value( "AskSaveAs", true ).toBool() );
-	d->p12Cert->setText( Application::confValue( Application::PKCS12Cert ).toString() );
-	d->p12Pass->setText( Application::confValue( Application::PKCS12Pass ).toString() );
 #endif
 
 	const QString type = s.value( "type", "ddoc" ).toString();
@@ -94,63 +88,17 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 
 SettingsDialog::~SettingsDialog() { delete d; }
 
-bool SettingsDialog::eventFilter( QObject *o, QEvent *e )
-{
-	if( o == d->p12Cert && e->type() == QEvent::Drop )
-	{
-		QDropEvent *d = static_cast<QDropEvent*>(e);
-		if( d->mimeData()->hasUrls() )
-		{
-			setP12Cert( d->mimeData()->urls().value( 0 ).toLocalFile() );
-			return true;
-		}
-	}
-	return QWidget::eventFilter( o, e );
-}
-
-void SettingsDialog::on_p12Button_clicked()
-{
-	QString cert = Application::confValue( Application::PKCS12Cert ).toString();
-	if( cert.isEmpty() )
-		cert = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
-	else
-		cert = QFileInfo( cert ).path();
-	cert = FileDialog::getOpenFileName( this, tr("Select server access certificate"), cert,
-		tr("Server access certificates (*.p12 *.p12d *.pfx)") );
-	if( !cert.isEmpty() )
-		setP12Cert( cert );
-}
-
 void SettingsDialog::on_p12Install_clicked()
 {
-#ifndef APPSTORE
-	d->showP12Cert->setEnabled( false );
-	d->p12Error->clear();
-	PKCS12Certificate p12 = PKCS12Certificate::fromPath(
-		d->p12Cert->text(), d->p12Pass->text() );
-	switch( p12.error() )
-	{
-	case PKCS12Certificate::FailedToRead:
-	case PKCS12Certificate::FileNotExist:
-	case PKCS12Certificate::NullError:
-		d->showP12Cert->setEnabled( !p12.isNull() );
-		d->showP12Cert->setProperty( "cert", QVariant::fromValue( p12.certificate() ) );
-		break;
-	case PKCS12Certificate::InvalidPasswordError:
-		d->p12Error->setText( tr("Invalid password") );
-		break;
-	default:
-		d->p12Error->setText( tr("Server access certificate error: %1").arg( p12.errorString() ) );
-		break;
-	}
-#else
-	QFile f( d->p12Cert->text() );
-	f.open( QFile::ReadOnly );
-	AccessCert().installCert( f.readAll(), d->p12Pass->text() );
-	QSslCertificate c = AccessCert::cert();
-	d->showP12Cert->setEnabled( !c.isNull() );
-	d->showP12Cert->setProperty( "cert", QVariant::fromValue( c ) );
-#endif
+	RegisterP12 *p12 = new RegisterP12( this );
+	p12->exec();
+	updateCert();
+}
+
+void SettingsDialog::on_p12Remove_clicked()
+{
+	AccessCert().remove();
+	updateCert();
 }
 
 #ifndef APPSTORE
@@ -205,8 +153,6 @@ void SettingsDialog::save()
 		d->defaultDir->clear();
 		s.remove( "DefaultDir" );
 	}
-	Application::setConfValue( Application::PKCS12Cert, d->p12Cert->text() );
-	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
 #endif
 	s.setValue( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc" );
 
@@ -249,10 +195,15 @@ void SettingsDialog::saveSignatureInfo(
 	s.endGroup();
 }
 
-void SettingsDialog::setP12Cert( const QString &cert )
-{
-	d->p12Cert->setText( cert );
-	d->tabWidget->setCurrentIndex( 1 );
-}
-
 void SettingsDialog::setPage( int page ) { d->tabWidget->setCurrentIndex( page ); }
+
+void SettingsDialog::updateCert()
+{
+	QSslCertificate c = AccessCert::cert();
+	if( !c.isNull() )
+		d->p12Error->setText( tr("Server access certificate: ") + c.subjectInfo( QSslCertificate::CommonName ) );
+	else
+		d->p12Error->clear();
+	d->showP12Cert->setEnabled( !c.isNull() );
+	d->showP12Cert->setProperty( "cert", QVariant::fromValue( c ) );
+}

@@ -22,15 +22,16 @@
 
 #pragma once
 
-#include <QtGui/QWidget>
+#include <QtGui/QDialog>
 
 namespace Ui { class RegisterP12; }
 
-class RegisterP12: public QWidget
+class RegisterP12: public QDialog
 {
 	Q_OBJECT
 public:
-	explicit RegisterP12( const QString &cert );
+	explicit RegisterP12( QWidget *parent = 0 );
+	explicit RegisterP12( const QString &cert, QWidget *parent = 0 );
 	~RegisterP12();
 
 private Q_SLOTS:

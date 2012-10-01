@@ -34,7 +34,6 @@ public:
 	explicit SettingsDialog( QWidget *parent = 0 );
 	~SettingsDialog();
 
-	void setP12Cert( const QString &cert );
 	void setPage( int page );
 
 	static void saveSignatureInfo(
@@ -47,8 +46,8 @@ public:
 		bool force = false );
 
 private Q_SLOTS:
-	void on_p12Button_clicked();
 	void on_p12Install_clicked();
+	void on_p12Remove_clicked();
 #ifndef APPSTORE
 	void on_selectDefaultDir_clicked();
 #endif
@@ -57,7 +56,7 @@ private Q_SLOTS:
 	void save();
 
 private:
-	bool eventFilter( QObject *o, QEvent *e );
+	void updateCert();
 
 	Ui::SettingsDialog *d;
 };
