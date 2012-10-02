@@ -28,21 +28,8 @@
 #include <QtGui/QIcon>
 #endif
 
-#ifdef Q_OS_MAC
-#include <QtCore/QProcess>
-#include <QtCore/QSysInfo>
-#endif
-
 int main( int argc, char *argv[] )
 {
-#ifdef Q_OS_MAC
-	if( QSysInfo::MacintoshVersion == QSysInfo::MV_10_5 && QSysInfo::WordSize == 64 )
-	{
-		QCoreApplication app( argc, argv );
-		return QProcess::startDetached( "arch", QStringList() << "-i386" << app.applicationFilePath() << app.arguments() );
-	}
-#endif
-
 #ifdef BREAKPAD
 	if( QBreakPad::isCrashReport( argc, argv ) )
 	{
