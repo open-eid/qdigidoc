@@ -276,7 +276,7 @@ bool AccessCert::installCert( const QByteArray &data, const QString &password )
 	SecKeyImportExportParameters params;
 	memset( &params, 0, sizeof(params) );
 	params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
-	params.flags = kSecKeyImportOnlyOne;
+	params.flags = kSecKeyImportOnlyOne|kSecKeyNoAccessControl;
 	params.keyAttributes = CSSM_KEYATTR_PERMANENT|CSSM_KEYATTR_EXTRACTABLE;
 	params.passphrase = pass;
 
