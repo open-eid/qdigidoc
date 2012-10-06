@@ -70,7 +70,7 @@ public:
 	{ return ""; }
 	bool getPKCS12Disable() const
 	{ return s.value( "PKCS12Disable", false ).toBool(); }
-	std::string getPKCS11DriverPath()
+	std::string getPKCS11DriverPath() const
 	{ return QString( qApp->applicationDirPath() + "/opensc-pkcs11.so" ).toStdString(); }
 
 
