@@ -64,6 +64,7 @@ if( APPLE )
 	list( APPEND ADDITIONAL_LIBRARIES "-framework LDAP" )
 	set_target_properties( ${PROGNAME}
 		PROPERTIES
+		LINK_FLAGS "-fobjc-arc"
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
 endif()
 if( WIN32 )
