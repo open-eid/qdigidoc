@@ -87,17 +87,20 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 			Application::confValue( Application::ProxyPass ).toString() ) );
 	}
 
-	QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
-	ssl.setPrivateKey( AccessCert::key() );
-	ssl.setLocalCertificate( AccessCert::cert() );
+	if( !Application::confValue( Application::PKCS12Disable ).toBool() )
+	{
+		QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
+		ssl.setPrivateKey( AccessCert::key() );
+		ssl.setLocalCertificate( AccessCert::cert() );
 #ifdef Q_OS_LINUX
-	ssl.setCaCertificates( ssl.caCertificates() + QSslCertificate::fromPath(
-		QString( qApp->confValue( Application::CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );
+		ssl.setCaCertificates( ssl.caCertificates() + QSslCertificate::fromPath(
+			QString( qApp->confValue( Application::CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );
 #endif
+		request.setSslConfiguration( ssl );
+	}
 
 	request.setUrl( Settings().value( m_doc->documentType() == ADoc::BDocType ?
 		"Client/bdocurl" : "Client/ddocurl", "https://digidocservice.sk.ee").toUrl() );
-	request.setSslConfiguration( ssl );
 	request.setHeader( QNetworkRequest::ContentTypeHeader, "text/xml" );
 	request.setRawHeader( "User-Agent", QString( "%1/%2 (%3)")
 		.arg( qApp->applicationName() ).arg( qApp->applicationVersion() ).arg( Common::applicationOs() ).toUtf8() );
