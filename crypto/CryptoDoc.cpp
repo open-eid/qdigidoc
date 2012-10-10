@@ -123,7 +123,7 @@ void CryptoDocThread::decrypt()
 	{
 		lastError = CryptoDoc::tr("Failed to create temporary files<br />%1").arg( d->ddoc->errorString() );
 		return;
-	}	
+	}
 	d->ddoc->write( (const char*)d->enc->mbufEncryptedData.pMem, d->enc->mbufEncryptedData.nLen );
 	d->ddoc->flush();
 	ddocMemBuf_free( &d->enc->mbufEncryptedData );

@@ -160,7 +160,7 @@ border: 1px solid gray;
 padding: 5px;
 }
 
-#viewKeys, #viewKeysScroll
+#viewKeys
 {
 background-color: transparent;
 color: #71889A;
@@ -687,44 +687,13 @@ The private key needed for decryption is stored only on the ID-card of the recip
               <number>0</number>
              </property>
              <item>
-              <widget class="QScrollArea" name="viewKeysScroll">
+              <widget class="QListWidget" name="viewKeys">
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
                </property>
                <property name="horizontalScrollBarPolicy">
                 <enum>Qt::ScrollBarAlwaysOff</enum>
                </property>
-               <property name="widgetResizable">
-                <bool>true</bool>
-               </property>
-               <widget class="QWidget" name="viewKeys">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>288</width>
-                  <height>200</height>
-                 </rect>
-                </property>
-                <layout class="QVBoxLayout" name="viewKeysLayout">
-                 <property name="margin">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <spacer name="viewKeysSpacer">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>0</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </widget>
               </widget>
              </item>
              <item>

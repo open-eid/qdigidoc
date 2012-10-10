@@ -65,6 +65,8 @@ KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 	QVBoxLayout *l = new QVBoxLayout( this );
 	l->addWidget( label );
 	l->addWidget( btn );
+	l->setMargin( 0 );
+	l->setSpacing( 0 );
 }
 
 void KeyWidget::link( const QString &url )
