@@ -111,6 +111,7 @@ Application::Application( int &argc, char **argv )
 	else
 		initConfigStore( NULL );
 
+	Poller::ApiType api = Poller::PKCS11;
 #ifdef Q_OS_WIN
 	QString provider;
 	QSettings reg( "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards", QSettings::NativeFormat );
@@ -122,14 +123,15 @@ Application::Application( int &argc, char **argv )
 			break;
 		}
 	}
-	Poller::ApiType api = provider != "EstEID Card CSP" && QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ?
-		Poller::CNG : Poller::PKCS11;
-#else
-	Poller::ApiType api = Poller::PKCS11;
-#endif
-	if( args.contains("-capi") ) api = Poller::CAPI;
-	if( args.contains("-pkcs11") ) api = Poller::PKCS11;
+	if( QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA && provider != "EstEID Card CSP" )
+		api = Poller::CNG;
+	if( args.contains("-capi") && QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA )
+		showWarning( tr("CAPI parameter is not supported on Windows Vista and newer") );
+	else if( args.contains("-capi") )
+		api = Poller::CAPI;
 	if( args.contains("-cng") ) api = Poller::CNG;
+#endif
+	if( args.contains("-pkcs11") ) api = Poller::PKCS11;
 	d->poller = new Poller( api, this );
 	parseArgs( args );
 }

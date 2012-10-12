@@ -172,6 +172,7 @@ Application::Application( int &argc, char **argv )
 		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
 	}
 
+	QSigner::ApiType api = QSigner::PKCS11;
 #ifdef Q_OS_WIN
 	QString provider;
 	QSettings reg( "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards", QSettings::NativeFormat );
@@ -183,14 +184,15 @@ Application::Application( int &argc, char **argv )
 			break;
 		}
 	}
-	QSigner::ApiType api = provider != "EstEID Card CSP" && QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA ?
-		QSigner::CNG : QSigner::PKCS11;
-#else
-	QSigner::ApiType api = QSigner::PKCS11;
-#endif
-	if( args.contains("-capi") ) api = QSigner::CAPI;
-	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;
+	if( QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA && provider != "EstEID Card CSP" )
+		api = QSigner::CNG;
+	if( args.contains("-capi") && QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA )
+		showWarning( tr("CAPI parameter is not supported on Windows Vista and newer") );
+	else if( args.contains("-capi") )
+		api = QSigner::CAPI;
 	if( args.contains("-cng") ) api = QSigner::CNG;
+#endif
+	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;
 	d->signer = new QSigner( api, this );
 	parseArgs( args );
 }
