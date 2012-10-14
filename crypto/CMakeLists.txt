@@ -22,7 +22,8 @@ QT4_WRAP_UI( UI_HEADERS
 	ui/SettingsDialog.ui
 )
 
-configure_file(translations/tr.qrc tr.qrc COPYONLY)
+configure_file( translations/tr.qrc tr.qrc COPYONLY )
+configure_file( qdigidocclient.1.cmake qdigidocclient.1 )
 
 QT4_ADD_RESOURCES( RC_SOURCES
 	images/images.qrc
@@ -90,8 +91,9 @@ else()
 endif()
 
 if(UNIX AND NOT APPLE)
-	install(FILES qdigidoc-crypto.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
-	install(FILES qdigidoc-crypto.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages)
+	install( FILES qdigidoc-crypto.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
+	install( FILES qdigidoc-crypto.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages )
+	install( FILES ${CMAKE_CURRENT_BINARY_DIR}/qdigidoccrypto.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
 
 	# Install icons
 	foreach(RES 16 22 32 48 128)
