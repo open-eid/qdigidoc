@@ -23,7 +23,7 @@ QT4_WRAP_UI( UI_HEADERS
 )
 
 configure_file( translations/tr.qrc tr.qrc COPYONLY )
-configure_file( qdigidocclient.1.cmake qdigidocclient.1 )
+configure_file( qdigidoccrypto.1.cmake qdigidoccrypto.1 )
 
 QT4_ADD_RESOURCES( RC_SOURCES
 	images/images.qrc
