@@ -36,6 +36,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QSettings>
+#include <QtCore/QTextStream>
 #include <QtCore/QTimer>
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
@@ -45,28 +46,22 @@
 Q_DECLARE_METATYPE( QSslCertificate )
 
 KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
-:	QWidget( parent )
+:	QLabel( parent )
 ,	m_id( id )
 ,	m_key( key )
 {
+	setWordWrap( true );
 	setToolTip( key.recipient );
-	QLabel *label = new QLabel( key.recipient, this );
-	label->setWordWrap( true );
-	label->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Preferred );
+	connect( this, SIGNAL(linkActivated(QString)), SLOT(link(QString)) );
 
-	QString content;
-	content += "<a href=\"details\">" + tr("Show details") + "</a>";
+	QString label;
+	QTextStream sc( &label );
+	sc << "<p>" << toolTip() << "flsdkhflskdjflksdjfslkfldskfjsldkflskdjflksd</p><p align=\"right\">";
+	sc << "<a href=\"details\" title=\"" << tr("Show details") << "\">" << tr("Show details") << "</a>";
 	if( !encrypted )
-		content += "<br /><a href=\"remove\">" + tr("Remove") + "</a>";
-	QLabel *btn = new QLabel( content, this );
-	btn->setAlignment( Qt::AlignRight );
-	connect( btn, SIGNAL(linkActivated(QString)), SLOT(link(QString)) );
-
-	QVBoxLayout *l = new QVBoxLayout( this );
-	l->addWidget( label );
-	l->addWidget( btn );
-	l->setMargin( 0 );
-	l->setSpacing( 0 );
+		sc << "<br /><a href=\"remove\" title=\"" << tr("Remove") << "\">" << tr("Remove") << "</a>";
+	sc << "</p>";
+	setText( label );
 }
 
 void KeyWidget::link( const QString &url )
