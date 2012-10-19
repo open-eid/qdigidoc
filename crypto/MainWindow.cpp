@@ -527,21 +527,22 @@ void MainWindow::setCurrentPage( Pages page )
 		viewContentView->setColumnHidden( CDocumentModel::Save, doc->isEncrypted() );
 		viewContentView->setColumnHidden( CDocumentModel::Remove, doc->isEncrypted() );
 
-		viewKeys->clear();
+		Q_FOREACH( KeyWidget *w, viewKeys->findChildren<KeyWidget*>() )
+			w->deleteLater();
+
 		int j = 0;
-		foreach( const CKey &k, doc->keys() )
+		QList<CKey> keys = doc->keys();
+		for( QList<CKey>::const_iterator i = keys.constBegin(); i != keys.constEnd(); ++i )
 		{
-			KeyWidget *key = new KeyWidget( k, j++, doc->isEncrypted(), viewKeys );
+			KeyWidget *key = new KeyWidget( *i, j, doc->isEncrypted(), viewKeys );
 			connect( key, SIGNAL(remove(int)), SLOT(removeKey(int)) );
-			QListWidgetItem *item = new QListWidgetItem( viewKeys );
-			item->setSizeHint( key->sizeHint() );
-			viewKeys->setItemWidget( item, key );
+			viewKeysLayout->insertWidget( j++, key );
 		}
 
 		buttonGroup->button( ViewCrypto )->setText( doc->isEncrypted() ? tr("Decrypt") : tr("Encrypt") );
 		buttonGroup->button( ViewCrypto )->setEnabled(
 			(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
-			(doc->isEncrypted() && doc->keys().contains( CKey( qApp->poller()->token().cert() ) )) );
+			(doc->isEncrypted() && keys.contains( CKey( qApp->poller()->token().cert() ) )) );
 		break;
 	}
 	default: break;
