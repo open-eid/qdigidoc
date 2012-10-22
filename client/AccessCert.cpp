@@ -382,6 +382,8 @@ void AccessCert::remove()
 	CFRelease( certref );
 	CFRelease( keyref );
 #else
+	d->cert.clear();
+	d->pass.clear();
 	Application::setConfValue( Application::PKCS12Cert, QVariant() );
 	Application::setConfValue( Application::PKCS12Pass, QVariant() );
 #endif
