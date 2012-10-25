@@ -32,11 +32,19 @@ QT4_ADD_RESOURCES( RC_SOURCES
 	${CMAKE_CURRENT_BINARY_DIR}/tr.qrc
 )
 
-QT4_ADD_TRANSLATION( QM_FILES
-	translations/en.ts
-	translations/et.ts
-	translations/ru.ts
-)
+if( APPSTORE )
+	QT4_ADD_TRANSLATION( QM_FILES
+		translations/mac/en.ts
+		translations/mac/et.ts
+		translations/mac/ru.ts
+	)
+else()
+	QT4_ADD_TRANSLATION( QM_FILES
+		translations/en.ts
+		translations/et.ts
+		translations/ru.ts
+	)
+endif()
 
 include_directories(
 	${CMAKE_SOURCE_DIR}
