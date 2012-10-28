@@ -84,7 +84,6 @@ if( APPLE )
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
 endif()
 if( WIN32 )
-	list( APPEND ADDITIONAL_LIBRARIES Setupapi )
 	set_target_properties( ${PROGNAME}
 		PROPERTIES
 		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
