@@ -625,6 +625,9 @@ bool DigiDoc::open( const QString &file )
 bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	Exception::ExceptionCode &code, int &ddocError )
 {
+	causes << from( e.getMsg() ).replace( "\n", "<br />");
+	if( e.ddoc() > 0 )
+		ddocError = e.ddoc();
 	switch( e.code() )
 	{
 	case Exception::CertificateRevoked:
@@ -636,20 +639,8 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	case Exception::PINIncorrect:
 	case Exception::PINLocked:
 		code = e.code();
-		if( e.ddoc() > 0 )
-		{
-			ddocError = e.ddoc();
-			causes << QString("libdigidoc code: %1\nmessage: %2").arg( e.ddoc() ).arg( from( e.ddocMsg() ) );
-		}
 		return false;
-	default:
-		causes << from( e.getMsg() );
-		break;
-	}
-	if( e.ddoc() > 0 )
-	{
-		ddocError = e.ddoc();
-		causes << QString("libdigidoc code: %1\nmessage: %2").arg( e.ddoc() ).arg( from( e.ddocMsg() ) );
+	default: break;
 	}
 	Q_FOREACH( const Exception &c, e.getCauses() )
 		if( !parseException( c, causes, code, ddocError ) )
