@@ -625,7 +625,7 @@ bool DigiDoc::open( const QString &file )
 bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	Exception::ExceptionCode &code, int &ddocError )
 {
-	causes << from( e.getMsg() ).replace( "\n", "<br />");
+	causes << from( e.getMsg() );
 	if( e.ddoc() > 0 )
 		ddocError = e.ddoc();
 	switch( e.code() )
