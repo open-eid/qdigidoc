@@ -56,7 +56,7 @@ KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 
 	QString label;
 	QTextStream sc( &label );
-	sc << "<p>" << toolTip() << "flsdkhflskdjflksdjfslkfldskfjsldkflskdjflksd</p><p align=\"right\">";
+	sc << "<p>" << toolTip() << "</p><p align=\"right\">";
 	sc << "<a href=\"details\" title=\"" << tr("Show details") << "\">" << tr("Show details") << "</a>";
 	if( !encrypted )
 		sc << "<br /><a href=\"remove\" title=\"" << tr("Remove") << "\">" << tr("Remove") << "</a>";
