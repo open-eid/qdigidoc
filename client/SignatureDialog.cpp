@@ -176,16 +176,16 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		break;
 	case DigiDocSignature::Invalid:
 		status = tr("Signature is not valid");
-		d->error->setText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
+		d->error->setPlainText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
 		d->buttonBox->addButton( QDialogButtonBox::Help );
 		break;
 	case DigiDocSignature::Unknown:
 		status = tr("Signature status unknown");
-		d->error->setText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
+		d->error->setPlainText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
 		d->buttonBox->addButton( QDialogButtonBox::Help );
 		break;
 	}
-	if( d->error->text().isEmpty() )
+	if( d->error->toPlainText().isEmpty() )
 		d->tabWidget->removeTab( 0 );
 	d->title->setText( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + "\n" + status );
 	setWindowTitle( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + " - " + status );

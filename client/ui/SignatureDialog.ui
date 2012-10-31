@@ -22,13 +22,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QLabel" name="error">
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
+     <widget class="QPlainTextEdit" name="error">
       <property name="textInteractionFlags">
        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
       </property>
