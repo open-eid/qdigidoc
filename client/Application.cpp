@@ -190,7 +190,10 @@ Application::Application( int &argc, char **argv )
 		showWarning( tr("CAPI parameter is not supported on Windows Vista and newer") );
 	else if( args.contains("-capi") )
 		api = QSigner::CAPI;
-	if( args.contains("-cng") ) api = QSigner::CNG;
+	if( args.contains("-cng") && QSysInfo::windowsVersion() < QSysInfo::WV_VISTA )
+		showWarning( tr("CNG parameter is not supported on Windows XP") );
+	else if( args.contains("-cng") )
+		api = QSigner::CNG;
 #endif
 	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;
 	d->signer = new QSigner( api, this );
