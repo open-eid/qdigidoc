@@ -120,6 +120,14 @@ Alustame laadimist?</translation>
         <source>Caught exception!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>CAPI parameter is not supported on Windows Vista and newer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CNG parameter is not supported on Windows XP</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>
@@ -938,18 +946,6 @@ Kontrollkood: %1</translation>
         <translation>Näita sertifikaati</translation>
     </message>
     <message>
-        <source>Invalid password</source>
-        <translation>Vigane parool</translation>
-    </message>
-    <message>
-        <source>Select server access certificate</source>
-        <translation>Valige juurdepääsutõend</translation>
-    </message>
-    <message>
-        <source>Server access certificate error: %1</source>
-        <translation>Juurdepääsutõendi viga: %1</translation>
-    </message>
-    <message>
         <source>Server access certificate</source>
         <translation>Juurdepääsutõend</translation>
     </message>
@@ -968,14 +964,6 @@ Kontrollkood: %1</translation>
     <message>
         <source>Browse container path</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server access certificate path</source>
-        <translation>Juurdepääsutõendi asukoht</translation>
-    </message>
-    <message>
-        <source>Server access certificate password</source>
-        <translation>Juurdepääsutõendi parool</translation>
     </message>
     <message>
         <source>Container default location same folder</source>
@@ -1002,8 +990,12 @@ Kontrollkood: %1</translation>
         <translation>Paigalda</translation>
     </message>
     <message>
-        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
-        <translation>Juurdepääsutõendid (*.p12 *.p12d *.pfx)</translation>
+        <source>Remove</source>
+        <translation>Eemalda</translation>
+    </message>
+    <message>
+        <source>Server access certificate: </source>
+        <translation>Ligipääsutõend: </translation>
     </message>
 </context>
 <context>

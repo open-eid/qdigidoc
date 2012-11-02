@@ -120,6 +120,14 @@ Start downloading?</source>
         <source>Caught exception!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>CAPI parameter is not supported on Windows Vista and newer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CNG parameter is not supported on Windows XP</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>
@@ -941,18 +949,6 @@ Control code: %1</source>
         <translation>См. сертификат</translation>
     </message>
     <message>
-        <source>Invalid password</source>
-        <translation>Ошибочный пароль</translation>
-    </message>
-    <message>
-        <source>Select server access certificate</source>
-        <translation>Выберите PKCS#12 сертификат</translation>
-    </message>
-    <message>
-        <source>Server access certificate error: %1</source>
-        <translation>Ошибка справки доступа: %1</translation>
-    </message>
-    <message>
         <source>Server access certificate</source>
         <translation>Справка допуска</translation>
     </message>
@@ -971,14 +967,6 @@ Control code: %1</source>
     <message>
         <source>Browse container path</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Server access certificate path</source>
-        <translation>Справка доступа путь</translation>
-    </message>
-    <message>
-        <source>Server access certificate password</source>
-        <translation>Справка доступа пароль</translation>
     </message>
     <message>
         <source>Container default location same folder</source>
@@ -1005,8 +993,12 @@ Control code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
-        <translation>PKCS#12 Сертификаты (*.p12 *.p12d *.pfx)</translation>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Server access certificate: </source>
+        <translation>Справки доступа: </translation>
     </message>
 </context>
 <context>

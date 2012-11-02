@@ -120,6 +120,14 @@ Start downloading?</translation>
         <source>Caught exception!</source>
         <translation>Caught exception!</translation>
     </message>
+    <message>
+        <source>CAPI parameter is not supported on Windows Vista and newer</source>
+        <translation>CAPI parameter is not supported on Windows Vista and newer</translation>
+    </message>
+    <message>
+        <source>CNG parameter is not supported on Windows XP</source>
+        <translation>CNG parameter is not supported on Windows XP</translation>
+    </message>
 </context>
 <context>
     <name>DigiDoc</name>
@@ -938,18 +946,6 @@ Control code: %1</translation>
         <translation>Show certificate</translation>
     </message>
     <message>
-        <source>Invalid password</source>
-        <translation>Invalid password</translation>
-    </message>
-    <message>
-        <source>Select server access certificate</source>
-        <translation>Select server access certificate</translation>
-    </message>
-    <message>
-        <source>Server access certificate error: %1</source>
-        <translation>Server access certificate error: %1</translation>
-    </message>
-    <message>
         <source>Server access certificate</source>
         <translation>Server access certificate</translation>
     </message>
@@ -968,14 +964,6 @@ Control code: %1</translation>
     <message>
         <source>Browse container path</source>
         <translation>Browse container path</translation>
-    </message>
-    <message>
-        <source>Server access certificate path</source>
-        <translation>Server access certificate path</translation>
-    </message>
-    <message>
-        <source>Server access certificate password</source>
-        <translation>Server access certificate password</translation>
     </message>
     <message>
         <source>Container default location same folder</source>
@@ -1002,8 +990,12 @@ Control code: %1</translation>
         <translation>Install</translation>
     </message>
     <message>
-        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
-        <translation>Server access certificates (*.p12 *.p12d *.pfx)</translation>
+        <source>Remove</source>
+        <translation>Remove</translation>
+    </message>
+    <message>
+        <source>Server access certificate: </source>
+        <translation>Server access certificate: </translation>
     </message>
 </context>
 <context>
