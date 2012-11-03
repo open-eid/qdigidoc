@@ -32,36 +32,6 @@
         <translation>Juurdepääsutõend</translation>
     </message>
     <message>
-        <source>Did not find any server access certificate!
-Start downloading?</source>
-        <translation>Puudub juurdepääsutõend!
-Alustame laadimist?</translation>
-    </message>
-    <message>
-        <source>Failed to read server access certificate!
-Start downloading?</source>
-        <translation>Ei õnnestunud juurdepääsutõendit laadida!
-Alustame laadimist?</translation>
-    </message>
-    <message>
-        <source>Server access certificate password is not valid!
-Start downloading?</source>
-        <translation>Juurdepääsutõendi parool on vale!
-Alustame laadimist?</translation>
-    </message>
-    <message>
-        <source>Server access certificate is not valid!
-Start downloading?</source>
-        <translation>Juurdepääsutõend ei ole kehtiv!
-Alustame laadimist?</translation>
-    </message>
-    <message>
-        <source>Server access certificate is about to expire!
-Start downloading?</source>
-        <translation>Juurdepääsutõend aegub varsti!
-Alustame laadimist?</translation>
-    </message>
-    <message>
         <source>Agree</source>
         <translation>Nõustun</translation>
     </message>
@@ -96,6 +66,30 @@ Alustame laadimist?</translation>
     <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find out what is server access certificate. (&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;http://www.id.ee/index.php?id=34321&lt;/a&gt;)&lt;br /&gt;</source>
+        <translation>Juurdepääsutõendi lisainfo. (&lt;a href=&quot;http://www.id.ee/index.php?id=34066&quot;&gt;http://www.id.ee/index.php?id=34066&lt;/a&gt;)&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Juurdepääsutõend ei ole kehtiv!&lt;br /&gt;%1Alustame laadimist?</translation>
+    </message>
+    <message>
+        <source>Server access certificate is about to expire!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Juurdepääsutõend aegub varsti!&lt;br /&gt;%1Alustame laadimist?</translation>
+    </message>
+    <message>
+        <source>Did not find any server access certificate!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Puudub juurdepääsutõend!&lt;br /&gt;%1Alustame laadimist?</translation>
+    </message>
+    <message>
+        <source>Failed to read server access certificate!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Ei õnnestunud juurdepääsutõendit laadida!&lt;br /&gt;%1Alustame laadimist?</translation>
+    </message>
+    <message>
+        <source>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Juurdepääsutõendi parool on vale!&lt;br /&gt;%1Alustame laadimist?</translation>
     </message>
 </context>
 <context>

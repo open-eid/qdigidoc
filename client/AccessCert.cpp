@@ -267,8 +267,6 @@ bool AccessCert::installCert( const QByteArray &data, const QString &password )
 {
 #ifdef Q_OS_MAC
 	CFDataRef pkcs12data = CFDataCreate( 0, (const UInt8*)data.constData(), data.size() );
-	CFStringRef pass = CFStringCreateWithCharacters( 0,
-		reinterpret_cast<const UniChar *>(password.unicode()), password.length() );
 
 	SecExternalFormat format = kSecFormatPKCS12;
 	SecExternalItemType type = kSecItemTypeAggregate;
@@ -276,15 +274,17 @@ bool AccessCert::installCert( const QByteArray &data, const QString &password )
 	SecKeyImportExportParameters params;
 	memset( &params, 0, sizeof(params) );
 	params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
-	params.flags = kSecKeyImportOnlyOne|kSecKeyNoAccessControl;
+	params.flags = kSecKeyImportOnlyOne;
 	params.keyAttributes = CSSM_KEYATTR_PERMANENT|CSSM_KEYATTR_EXTRACTABLE;
-	params.passphrase = pass;
+	params.passphrase = CFStringCreateWithCharacters( 0,
+		reinterpret_cast<const UniChar *>(password.unicode()), password.length() );
 
 	SecKeychainRef keychain;
 	SecKeychainCopyDefault( &keychain );
 	CFArrayRef items = 0;
 	OSStatus err = SecKeychainItemImport( pkcs12data, 0, &format, &type, 0, &params, keychain, &items );
-	CFRelease( pass );
+	CFRelease( pkcs12data );
+	CFRelease( params.passphrase );
 
 	if( err != errSecSuccess )
 	{
@@ -364,6 +364,12 @@ QSslKey AccessCert::key()
 #endif
 }
 
+QString AccessCert::link() const
+{
+	return tr("Find out what is server access certificate. "
+		"(<a href=\"http://www.id.ee/index.php?id=34321\">http://www.id.ee/index.php?id=34321</a>)<br />");
+}
+
 void AccessCert::remove()
 {
 #ifdef Q_OS_MAC
@@ -414,9 +420,9 @@ bool AccessCert::validate()
 #ifdef Q_OS_MAC
 	QSslCertificate c = cert();
 	if( !c.isValid() )
-		return showWarning2( tr("Server access certificate is not valid!\nStart downloading?") );
+		return showWarning2( tr("Server access certificate is not valid!<br />%1Start downloading?").arg( link() ) );
 	if( c.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) )
-		return showWarning2( tr("Server access certificate is about to expire!\nStart downloading?") );
+		return showWarning2( tr("Server access certificate is about to expire!<br />%1Start downloading?").arg( link() ) );
 	return true;
 #else
 	d->cert = Application::confValue( Application::PKCS12Cert ).toString();
@@ -426,21 +432,21 @@ bool AccessCert::validate()
 	switch( p12.error() )
 	{
 	case PKCS12Certificate::FileNotExist:
-		if( showWarning2( tr("Did not find any server access certificate!\nStart downloading?") ) )
+		if( showWarning2( tr("Did not find any server access certificate!<br />%1Start downloading?").arg( link() ) ) )
 		{
 			remove();
 			return true;
 		}
 		break;
 	case PKCS12Certificate::FailedToRead:
-		if( showWarning2( tr("Failed to read server access certificate!\nStart downloading?") ) )
+		if( showWarning2( tr("Failed to read server access certificate!<br />%1Start downloading?").arg( link() ) ) )
 		{
 			remove();
 			return true;
 		}
 		break;
 	case PKCS12Certificate::InvalidPasswordError:
-		if( showWarning2( tr("Server access certificate password is not valid!\nStart downloading?") ) )
+		if( showWarning2( tr("Server access certificate password is not valid!<br />%1Start downloading?").arg( link() ) ) )
 		{
 			remove();
 			return true;
@@ -449,21 +455,21 @@ bool AccessCert::validate()
 	case PKCS12Certificate::NullError:
 		if( !p12.certificate().isValid() )
 		{
-			if( showWarning2( tr("Server access certificate is not valid!\nStart downloading?") ) )
+			if( showWarning2( tr("Server access certificate is not valid!<br />%1Start downloading?").arg( link() ) ) )
 			{
 				remove();
 				return true;
 			}
 		}
 		else if( p12.certificate().expiryDate() < QDateTime::currentDateTime().addDays( 8 ) &&
-			!showWarning2( tr("Server access certificate is about to expire!\nStart downloading?") ) )
+			!showWarning2( tr("Server access certificate is about to expire!<br />%1Start downloading?").arg( link() ) ) )
 			return false;
 		else
 			return true;
 		break;
 	case PKCS12Certificate::UnknownError:
 	default:
-		if( showWarning2( tr("Server access certificate is not valid!\nStart downloading?") ) )
+		if( showWarning2( tr("Server access certificate is not valid!<br />%1Start downloading?").arg( link() ) ) )
 		{
 			remove();
 			return true;

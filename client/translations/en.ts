@@ -32,36 +32,6 @@
         <translation>Server access certificate</translation>
     </message>
     <message>
-        <source>Did not find any server access certificate!
-Start downloading?</source>
-        <translation>Did not find any server access certificate!
-Start downloading?</translation>
-    </message>
-    <message>
-        <source>Failed to read server access certificate!
-Start downloading?</source>
-        <translation>Failed to read server access certificate!
-Start downloading?</translation>
-    </message>
-    <message>
-        <source>Server access certificate password is not valid!
-Start downloading?</source>
-        <translation>Server access certificate password is not valid!
-Start downloading?</translation>
-    </message>
-    <message>
-        <source>Server access certificate is not valid!
-Start downloading?</source>
-        <translation>Server access certificate is not valid!
-Start downloading?</translation>
-    </message>
-    <message>
-        <source>Server access certificate is about to expire!
-Start downloading?</source>
-        <translation>Server access certificate is about to expire!
-Start downloading?</translation>
-    </message>
-    <message>
         <source>Agree</source>
         <translation>Agree</translation>
     </message>
@@ -96,6 +66,30 @@ Start downloading?</translation>
     <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
         <translation>Failed to save server access certificate file to KeyChain!</translation>
+    </message>
+    <message>
+        <source>Find out what is server access certificate. (&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;http://www.id.ee/index.php?id=34321&lt;/a&gt;)&lt;br /&gt;</source>
+        <translation>Find out what is server access certificate. (&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;http://www.id.ee/index.php?id=34321&lt;/a&gt;)&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</translation>
+    </message>
+    <message>
+        <source>Server access certificate is about to expire!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Server access certificate is about to expire!&lt;br /&gt;%1Start downloading?</translation>
+    </message>
+    <message>
+        <source>Did not find any server access certificate!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Did not find any server access certificate!&lt;br /&gt;%1Start downloading?</translation>
+    </message>
+    <message>
+        <source>Failed to read server access certificate!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Failed to read server access certificate!&lt;br /&gt;%1Start downloading?</translation>
+    </message>
+    <message>
+        <source>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</translation>
     </message>
 </context>
 <context>

@@ -32,36 +32,6 @@
         <translation>Справка допуска</translation>
     </message>
     <message>
-        <source>Did not find any server access certificate!
-Start downloading?</source>
-        <translation>Отсутствует справка допуска!
-Начнём загрузку?</translation>
-    </message>
-    <message>
-        <source>Failed to read server access certificate!
-Start downloading?</source>
-        <translation>Не удалось загрузить справку допуска!
-Начнём загрузку?</translation>
-    </message>
-    <message>
-        <source>Server access certificate password is not valid!
-Start downloading?</source>
-        <translation>Пароль справки допуска неверен!
-Начнём загрузку?</translation>
-    </message>
-    <message>
-        <source>Server access certificate is not valid!
-Start downloading?</source>
-        <translation>Справка допуска не действительна!
-Начнём загрузку?</translation>
-    </message>
-    <message>
-        <source>Server access certificate is about to expire!
-Start downloading?</source>
-        <translation>Срок действия справки допуска скоро истечёт!
-Начнём загрузку?</translation>
-    </message>
-    <message>
         <source>Agree</source>
         <translation>Подтверждаю</translation>
     </message>
@@ -96,6 +66,30 @@ Start downloading?</source>
     <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find out what is server access certificate. (&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;http://www.id.ee/index.php?id=34321&lt;/a&gt;)&lt;br /&gt;</source>
+        <translation>Дополнительная информация о справке доступа. (&lt;a href=&quot;http://www.id.ee/index.php?id=34541&quot;&gt;http://www.id.ee/index.php?id=34541&lt;/a&gt;)&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Справка допуска не действительна!&lt;br /&gt;%1Начнём загрузку?</translation>
+    </message>
+    <message>
+        <source>Server access certificate is about to expire!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Срок действия справки допуска скоро истечёт!&lt;br /&gt;%1Начнём загрузку?</translation>
+    </message>
+    <message>
+        <source>Did not find any server access certificate!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Отсутствует справка допуска!&lt;br /&gt;%1Начнём загрузку?</translation>
+    </message>
+    <message>
+        <source>Failed to read server access certificate!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Не удалось загрузить справку допуска!&lt;br /&gt;%1Начнём загрузку?</translation>
+    </message>
+    <message>
+        <source>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</source>
+        <translation>Пароль справки допуска неверен!&lt;br /&gt;%1Начнём загрузку?</translation>
     </message>
 </context>
 <context>
