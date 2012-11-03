@@ -414,7 +414,7 @@ void DigiDocSignature::setLastError( const Exception &e ) const
 	Exception::ExceptionCode code = Exception::NoException;
 	int ddocError = -1;
 	DigiDoc::parseException( e, causes, code, ddocError );
-	m_lastError = causes.join( "<br />" );
+	m_lastError = causes.join( "\n" );
 	m_lastErrorCode = ddocError;
 }
 
