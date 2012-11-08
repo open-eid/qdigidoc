@@ -226,7 +226,7 @@ void Poller::run()
 					for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
 					{
 						if( i.value() == d->t.card() &&
-							i.key().keyUsage().contains( SslCertificate::NonRepudiation ) )
+							i.key().keyUsage().contains( SslCertificate::KeyEncipherment ) )
 						{
 							d->t = d->cng->selectCert( i.key() );
 							break;
