@@ -777,7 +777,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>SIGNATURE IS NOT VALID</source>
-        <translation>НЕ ДЕЙСТВИТЕЛЕН</translation>
+        <translation>ПОДПИСЬ НЕДЕЙСТВИТЕЛЬНА</translation>
     </message>
 </context>
 <context>
