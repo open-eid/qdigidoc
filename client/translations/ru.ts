@@ -984,7 +984,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить</translation>
     </message>
     <message>
         <source>Remove</source>
