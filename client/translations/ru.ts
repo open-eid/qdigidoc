@@ -6,7 +6,7 @@
     <message>
         <source>Error downloading server access certificate!
 %1</source>
-        <translation type="unfinished">Ошибка при загрузке справки доступа!
+        <translation>Ошибка при загрузке справки доступа!
 %1</translation>
     </message>
     <message>
@@ -15,21 +15,21 @@
     </message>
     <message>
         <source>Error parsing server access certificate result!</source>
-        <translation type="unfinished">Ошибка при чтении справки доступа!</translation>
+        <translation>Ошибка при чтении справки доступа!</translation>
     </message>
     <message>
         <source>Error reading server access certificate - empty content!</source>
-        <translation type="unfinished">Ошибка при чтении справки доступа! - содержание пустое!</translation>
+        <translation>Ошибка при чтении справки доступа! - содержание пустое!</translation>
     </message>
     <message>
         <source>Failed to save server access certificate file to %1!
 %2</source>
-        <translation type="unfinished">Ошибка при сохранении справки доступа! %1!
+        <translation>Ошибка при сохранении справки доступа! %1!
 %2</translation>
     </message>
     <message>
         <source>Server access certificate</source>
-        <translation type="unfinished">Справка доступа</translation>
+        <translation>Справка доступа</translation>
     </message>
     <message>
         <source>Agree</source>
@@ -37,7 +37,7 @@
     </message>
     <message>
         <source>Error downloading server access certificate!</source>
-        <translation type="unfinished">Ошибка при загрузке справки доступа!</translation>
+        <translation>Ошибка при загрузке справки доступа!</translation>
     </message>
     <message>
         <source>http://www.id.ee/kehtivuskinnitus</source>
@@ -73,23 +73,23 @@
     </message>
     <message>
         <source>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</source>
-        <translation type="unfinished">Справка доступа не действительна!&lt;br /&gt;%1Начнём загрузку?</translation>
+        <translation>Справка доступа не действительна!&lt;br /&gt;%1Начнём загрузку?</translation>
     </message>
     <message>
         <source>Server access certificate is about to expire!&lt;br /&gt;%1Start downloading?</source>
-        <translation type="unfinished">Срок действия справки доступа скоро истечёт!&lt;br /&gt;%1Начнём загрузку?</translation>
+        <translation>Срок действия справки доступа скоро истечёт!&lt;br /&gt;%1Начнём загрузку?</translation>
     </message>
     <message>
         <source>Did not find any server access certificate!&lt;br /&gt;%1Start downloading?</source>
-        <translation type="unfinished">Отсутствует справка доступа!&lt;br /&gt;%1Начнём загрузку?</translation>
+        <translation>Отсутствует справка доступа!&lt;br /&gt;%1Начнём загрузку?</translation>
     </message>
     <message>
         <source>Failed to read server access certificate!&lt;br /&gt;%1Start downloading?</source>
-        <translation type="unfinished">Не удалось загрузить справку доступа!&lt;br /&gt;%1Начнём загрузку?</translation>
+        <translation>Не удалось загрузить справку доступа!&lt;br /&gt;%1Начнём загрузку?</translation>
     </message>
     <message>
         <source>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</source>
-        <translation type="unfinished">Пароль справки доступа неверен!&lt;br /&gt;%1Начнём загрузку?</translation>
+        <translation>Пароль справки доступа неверен!&lt;br /&gt;%1Начнём загрузку?</translation>
     </message>
 </context>
 <context>
