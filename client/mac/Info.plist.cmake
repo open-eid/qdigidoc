@@ -26,6 +26,8 @@
 	<true/>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.6.0</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
