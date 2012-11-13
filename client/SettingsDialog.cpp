@@ -92,8 +92,8 @@ SettingsDialog::~SettingsDialog() { delete d; }
 void SettingsDialog::on_p12Install_clicked()
 {
 	RegisterP12 *p12 = new RegisterP12( this );
-	p12->exec();
-	updateCert();
+	if( p12->exec() )
+		updateCert();
 }
 
 void SettingsDialog::on_p12Remove_clicked()

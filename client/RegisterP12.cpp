@@ -89,6 +89,9 @@ void RegisterP12::on_buttonBox_accepted()
 	file.open( QFile::ReadOnly );
 	AccessCert().installCert( file.readAll(), d->p12Pass->text() );
 #else
+	if( QDir::toNativeSeparators( file.fileName() ) == Application::confValue( Application::PKCS12Cert ).toString() )
+		return;
+
 	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
 	QDir().mkpath( path );
 	QString dest = QString( "%1/%2" ).arg( path, QFileInfo( file ).fileName() );
