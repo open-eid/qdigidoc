@@ -163,7 +163,7 @@
     </message>
     <message>
         <source>Server access certificate is required</source>
-        <translation>Необходима справка допуска</translation>
+        <translation>Необходима справка доступа</translation>
     </message>
     <message>
         <source>The current file is a DigiDoc container not supported officially any longer.
@@ -662,7 +662,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Not allowed to use OCSP service!&lt;br/&gt;Please check your server access sertificate.</source>
-        <translation>Не разрешено использовать OCSP услугу!&lt;br/&gt;Пожалуйста проверьте действительность справки допуска.</translation>
+        <translation>Не разрешено использовать OCSP услугу!&lt;br/&gt;Пожалуйста проверьте действительность справки доступа.</translation>
     </message>
     <message>
         <source>Connecting to SK server failed!&lt;br/&gt;Please check your internet connection.</source>
@@ -827,7 +827,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Server access certificate</source>
-        <translation>Справка допуска</translation>
+        <translation>Справка доступа</translation>
     </message>
     <message>
         <source>Server access certificate is available at&lt;br /&gt;
@@ -944,7 +944,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Server access certificate</source>
-        <translation>Справка допуска</translation>
+        <translation>Справка доступа</translation>
     </message>
     <message>
         <source>Ignore server access certificate (IP based access)</source>
@@ -991,8 +991,14 @@ Control code: %1</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <source>Server access certificate: </source>
-        <translation>Справки доступа: </translation>
+        <source>Issued to: %1
+Valid to: %2</source>
+        <translation>Выдан: %1
+Действительно до: %2</translation>
+    </message>
+    <message>
+        <source>Server access certificate is not installed.</source>
+        <translation>Отсутствует справка допуска.</translation>
     </message>
 </context>
 <context>

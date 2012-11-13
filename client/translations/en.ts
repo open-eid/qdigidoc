@@ -988,8 +988,14 @@ Control code: %1</translation>
         <translation>Remove</translation>
     </message>
     <message>
-        <source>Server access certificate: </source>
-        <translation>Server access certificate: </translation>
+        <source>Issued to: %1
+Valid to: %2</source>
+        <translation>Issued to: %1
+Valid to: %2</translation>
+    </message>
+    <message>
+        <source>Server access certificate is not installed.</source>
+        <translation>Server access certificate is not installed.</translation>
     </message>
 </context>
 <context>

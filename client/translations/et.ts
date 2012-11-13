@@ -988,8 +988,14 @@ Kontrollkood: %1</translation>
         <translation>Eemalda</translation>
     </message>
     <message>
-        <source>Server access certificate: </source>
-        <translation>Ligipääsutõend: </translation>
+        <source>Issued to: %1
+Valid to: %2</source>
+        <translation>Kellele väljastatud: %1
+Kehtib kuni: %2</translation>
+    </message>
+    <message>
+        <source>Server access certificate is not installed.</source>
+        <translation>Juurdepääsutõend ei ole paigaldatud.</translation>
     </message>
 </context>
 <context>

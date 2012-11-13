@@ -991,8 +991,14 @@ Control code: %1</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <source>Server access certificate: </source>
-        <translation>Справки доступа: </translation>
+        <source>Issued to: %1
+Valid to: %2</source>
+        <translation>Выдан: %1
+Действительно до: %2</translation>
+    </message>
+    <message>
+        <source>Server access certificate is not installed.</source>
+        <translation>Отсутствует справка допуска.</translation>
     </message>
 </context>
 <context>

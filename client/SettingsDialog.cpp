@@ -32,6 +32,7 @@
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
 
+#include <QtCore/QDateTime>
 #include <QtCore/QUrl>
 #include <QtGui/QDropEvent>
 #include <QtGui/QMessageBox>
@@ -201,9 +202,9 @@ void SettingsDialog::updateCert()
 {
 	QSslCertificate c = AccessCert::cert();
 	if( !c.isNull() )
-		d->p12Error->setText( tr("Server access certificate: ") + c.subjectInfo( QSslCertificate::CommonName ) );
+		d->p12Error->setText( tr("Issued to: %1\nValid to: %2").arg( c.subjectInfo( QSslCertificate::CommonName ), c.expiryDate().toString("dd.MM.yyyy") ) );
 	else
-		d->p12Error->clear();
+		d->p12Error->setText( tr("Server access certificate is not installed."));
 	d->showP12Cert->setEnabled( !c.isNull() );
 	d->showP12Cert->setProperty( "cert", QVariant::fromValue( c ) );
 }
