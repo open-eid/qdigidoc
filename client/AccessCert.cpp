@@ -419,6 +419,8 @@ bool AccessCert::validate()
 		return true;
 #ifdef Q_OS_MAC
 	QSslCertificate c = cert();
+	if( c.isNull() )
+		return showWarning2( tr("Did not find any server access certificate!<br />%1Start downloading?").arg( link() ) );
 	if( !c.isValid() )
 		return showWarning2( tr("Server access certificate is not valid!<br />%1Start downloading?").arg( link() ) );
 	if( c.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) )
