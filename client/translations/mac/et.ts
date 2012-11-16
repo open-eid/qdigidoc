@@ -68,10 +68,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find out what is server access certificate. (&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;http://www.id.ee/index.php?id=34321&lt;/a&gt;)&lt;br /&gt;</source>
-        <translation>Juurdepääsutõendi lisainfo. (&lt;a href=&quot;http://www.id.ee/index.php?id=34066&quot;&gt;http://www.id.ee/index.php?id=34066&lt;/a&gt;)&lt;br /&gt;</translation>
-    </message>
-    <message>
         <source>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</source>
         <translation>Juurdepääsutõend ei ole kehtiv!&lt;br /&gt;%1Alustame laadimist?</translation>
     </message>
@@ -90,6 +86,10 @@
     <message>
         <source>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</source>
         <translation>Juurdepääsutõendi parool on vale!&lt;br /&gt;%1Alustame laadimist?</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;Find out what is server access certificate&lt;/a&gt;.&lt;br /&gt;</source>
+        <translation>&lt;a href=&quot;http://www.id.ee/index.php?id=34066&quot;&gt;Juurdepääsutõendi lisainfo&lt;/a&gt;.&lt;br /&gt;</translation>
     </message>
 </context>
 <context>

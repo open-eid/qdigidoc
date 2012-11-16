@@ -68,10 +68,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find out what is server access certificate. (&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;http://www.id.ee/index.php?id=34321&lt;/a&gt;)&lt;br /&gt;</source>
-        <translation>Дополнительная информация о справке доступа. (&lt;a href=&quot;http://www.id.ee/index.php?id=34541&quot;&gt;http://www.id.ee/index.php?id=34541&lt;/a&gt;)&lt;br /&gt;</translation>
-    </message>
-    <message>
         <source>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</source>
         <translation>Справка доступа не действительна!&lt;br /&gt;%1Начнём загрузку?</translation>
     </message>
@@ -90,6 +86,10 @@
     <message>
         <source>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</source>
         <translation>Пароль справки доступа неверен!&lt;br /&gt;%1Начнём загрузку?</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;Find out what is server access certificate&lt;/a&gt;.&lt;br /&gt;</source>
+        <translation>&lt;a href=&quot;http://www.id.ee/index.php?id=34541&quot;&gt;Дополнительная информация о справке доступа&lt;/a&gt;.&lt;br /&gt;</translation>
     </message>
 </context>
 <context>

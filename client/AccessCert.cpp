@@ -366,8 +366,7 @@ QSslKey AccessCert::key()
 
 QString AccessCert::link() const
 {
-	return tr("Find out what is server access certificate. "
-		"(<a href=\"http://www.id.ee/index.php?id=34321\">http://www.id.ee/index.php?id=34321</a>)<br />");
+	return tr("<a href=\"http://www.id.ee/index.php?id=34321\">Find out what is server access certificate</a>.<br />");
 }
 
 void AccessCert::remove()
