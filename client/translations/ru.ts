@@ -998,7 +998,7 @@ Valid to: %2</source>
     </message>
     <message>
         <source>Server access certificate is not installed.</source>
-        <translation>Отсутствует справка допуска.</translation>
+        <translation>Отсутствует справка доступа.</translation>
     </message>
 </context>
 <context>
