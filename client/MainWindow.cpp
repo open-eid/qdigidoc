@@ -181,7 +181,7 @@ bool MainWindow::addFile( const QString &file )
 		}
 
 #ifndef APPSTORE
-		if( !FileDialog::canWrite( docname ) )
+		if( !FileDialog::fileIsWritable( docname ) )
 		{
 			select = true;
 			qApp->showWarning(
@@ -411,7 +411,7 @@ void MainWindow::buttonClicked( int button )
 			tr("Select folder where files will be stored") );
 		if( dir.isEmpty() )
 			return;
-		if( !FileDialog::canWrite( dir ) )
+		if( !FileDialog::folderIsWritable( dir ) )
 		{
 			qApp->showWarning(
 				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( dir ) );
@@ -674,7 +674,7 @@ void MainWindow::retranslate()
 
 void MainWindow::save()
 {
-	if( !FileDialog::canWrite( doc->fileName() ) &&
+	if( !FileDialog::fileIsWritable( doc->fileName() ) &&
 		QMessageBox::Yes == QMessageBox::warning( this, tr("DigiDoc3 client"),
 			tr("Cannot alter container %1. Save different location?")
 				.arg( doc->fileName().normalized( QString::NormalizationForm_C ) ),
@@ -715,7 +715,7 @@ QString MainWindow::selectFile( const QString &filename )
 			file.replace( ".bdoc", ".ddoc", Qt::CaseInsensitive );
 		}
 
-		if( !FileDialog::canWrite( file ) )
+		if( !FileDialog::fileIsWritable( file ) )
 			qApp->showWarning(
 				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( file ) );
 		else

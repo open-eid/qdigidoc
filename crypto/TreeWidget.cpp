@@ -49,7 +49,7 @@ void TreeWidget::clicked( const QModelIndex &index )
 				tr("Save file"), QString( "%1/%2" )
 					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
 					.arg( m->index( index.row(), 0 ).data().toString() ) );
-			if( !dest.isEmpty() && !FileDialog::canWrite( dest ) )
+			if( !dest.isEmpty() && !FileDialog::fileIsWritable( dest ) )
 			{
 				QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 crypto"),
 					tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( dest ) );
