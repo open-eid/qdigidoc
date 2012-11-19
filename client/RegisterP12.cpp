@@ -93,8 +93,8 @@ void RegisterP12::on_buttonBox_accepted()
 	file.open( QFile::ReadOnly );
 	AccessCert().installCert( file.readAll(), d->p12Pass->text() );
 #else
-	if( QDir::toNativeSeparators( file.fileName() ) == Application::confValue( Application::PKCS12Cert ).toString() )
-		return;
+	if( file.fileName() == QDir::fromNativeSeparators( Application::confValue( Application::PKCS12Cert ).toString() ) )
+		return accept();
 
 	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
 	QDir().mkpath( path );
@@ -108,10 +108,10 @@ void RegisterP12::on_buttonBox_accepted()
 		return;
 	}
 
-	Application::setConfValue( Application::PKCS12Cert, dest );
+	Application::setConfValue( Application::PKCS12Cert, QDir::toNativeSeparators( dest ) );
 	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
 #endif
-	close();
+	accept();
 }
 
 void RegisterP12::on_showP12Cert_clicked()
