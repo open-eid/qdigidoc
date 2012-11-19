@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>RegisterP12</class>
- <widget class="QWidget" name="RegisterP12">
+ <widget class="QDialog" name="RegisterP12">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -96,7 +96,7 @@
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
-      <set>QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -113,8 +113,23 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../images/images.qrc"/>
- </resources>
- <connections/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>RegisterP12</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>174</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>120</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

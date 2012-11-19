@@ -851,6 +851,10 @@ Control code: %1</source>
         <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
         <translation>PKCS#12 Сертификаты (*.p12 *.p12d *.pfx)</translation>
     </message>
+    <message>
+        <source>Install</source>
+        <translation>Установить</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>

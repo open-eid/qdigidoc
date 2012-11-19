@@ -848,6 +848,10 @@ Control code: %1</translation>
         <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
         <translation>Server access certificates (*.p12 *.p12d *.pfx)</translation>
     </message>
+    <message>
+        <source>Install</source>
+        <translation>Install</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>

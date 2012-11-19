@@ -47,6 +47,8 @@ RegisterP12::RegisterP12( QWidget *parent )
 	d->p12Cert->installEventFilter( this );
 	d->p12Cert->setText( qApp->confValue( Application::PKCS12Cert ).toString() );
 	d->p12Pass->setText( qApp->confValue( Application::PKCS12Pass ).toString() );
+	if( QPushButton *b = d->buttonBox->button( QDialogButtonBox::Ok ) )
+		b->setText( tr("Install") );
 }
 
 RegisterP12::RegisterP12( const QString &cert , QWidget *parent )
@@ -57,6 +59,8 @@ RegisterP12::RegisterP12( const QString &cert , QWidget *parent )
 	d->setupUi( this );
 	d->p12Cert->installEventFilter( this );
 	d->p12Cert->setText( cert );
+	if( QPushButton *b = d->buttonBox->button( QDialogButtonBox::Ok ) )
+		b->setText( tr("Install") );
 }
 
 RegisterP12::~RegisterP12() { delete d; }

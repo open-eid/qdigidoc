@@ -848,6 +848,10 @@ Kontrollkood: %1</translation>
         <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
         <translation>Juurdepääsutõendid (*.p12 *.p12d *.pfx)</translation>
     </message>
+    <message>
+        <source>Install</source>
+        <translation>Paigalda</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDialog</name>
