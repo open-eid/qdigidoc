@@ -81,6 +81,10 @@ if( APPLE )
 		PROPERTIES
 		LINK_FLAGS "-framework Security -fobjc-arc"
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
+	find_program( LN NAMES "ln" )
+	get_property( BINARY_PATH TARGET ${PROGNAME} PROPERTY LOCATION )
+	get_filename_component( BINARY_DIR ${BINARY_PATH} PATH )
+	execute_process( COMMAND ${LN} "-fs" ${PKCS11_MODULE} ${BINARY_DIR} )
 endif()
 if( WIN32 )
 	set_target_properties( ${PROGNAME}
