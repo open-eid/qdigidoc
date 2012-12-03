@@ -86,9 +86,9 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->setId( homeSign, HomeSign );
 	buttonGroup->setId( homeView, HomeView );
 	buttonGroup->setId( homeCrypt, HomeCrypt );
-#ifdef APPSTORE
+//#ifdef APPSTORE
 	homeCrypt->hide();
-#endif
+//#endif
 
 	buttonGroup->setId( signAddFile, SignAdd );
 
