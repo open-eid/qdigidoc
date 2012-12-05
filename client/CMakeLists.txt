@@ -55,6 +55,11 @@ include_directories(
 	${LIBDIGIDOCPP_INCLUDE_DIR}
 )
 
+if( APPLE )
+	set( SOURCES TreeWidgetMac.mm )
+	set_source_files_properties( ${SOURCES} PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
+endif()
+
 add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	${PROGNAME}.rc
 	main.cpp
@@ -74,6 +79,7 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	${QM_FILES}
 	${RC_SOURCES}
 	${RESOURCE_FILES}
+	${SOURCES}
 )
 
 if(CMAKE_COMPILER_IS_GNUCC OR __COMPILER_GNU)
@@ -83,7 +89,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR __COMPILER_GNU)
 endif()
 if( APPLE )
 	set_target_properties( ${PROGNAME} PROPERTIES
-		LINK_FLAGS "-framework Security"
+		LINK_FLAGS "-framework Security -framework Quartz"
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
 	find_program( LN NAMES "ln" )
 	get_property( BINARY_PATH TARGET ${PROGNAME} PROPERTY LOCATION )

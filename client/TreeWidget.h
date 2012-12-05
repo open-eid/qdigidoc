@@ -30,7 +30,7 @@ class TreeWidget: public QTreeView
 {
 	Q_OBJECT
 public:
-    TreeWidget( QWidget *parent = 0 );
+	TreeWidget( QWidget *parent = 0 );
 
 	void setDocumentModel( DocumentModel *model );
 
@@ -39,6 +39,9 @@ private Q_SLOTS:
 
 private:
 	void keyPressEvent( QKeyEvent *e );
+	void setPreviewIndex( const QModelIndex &index );
+	void showPreview();
+	void hidePreview();
 
 	DocumentModel *m;
 };

@@ -38,6 +38,7 @@ TreeWidget::TreeWidget( QWidget *parent )
 
 void TreeWidget::clicked( const QModelIndex &index )
 {
+	setPreviewIndex( index );
 	switch( index.column() )
 	{
 	case DocumentModel::Save:
@@ -78,6 +79,21 @@ void TreeWidget::keyPressEvent( QKeyEvent *e )
 	{
 		switch( e->key() )
 		{
+		case Qt::Key_Space:
+			showPreview();
+			break;
+		case Qt::Key_Up:
+		case Qt::Key_Down:
+		{
+			QTreeView::keyPressEvent( e );
+			QModelIndexList i = selectionModel()->selectedRows();
+			if( !i.isEmpty() )
+				setPreviewIndex( i[0] );
+			return;
+		}
+		case Qt::Key_Escape:
+			hidePreview();
+			break;
 		case Qt::Key_Delete:
 			model()->removeRow( i[0].row() );
 			e->accept();
@@ -102,3 +118,9 @@ void TreeWidget::setDocumentModel( DocumentModel *model )
 	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
 	connect( this, SIGNAL(doubleClicked(QModelIndex)), m, SLOT(open(QModelIndex)) );
 }
+
+#ifndef Q_OS_MAC
+void TreeWidget::setPreviewIndex( const QModelIndex & ) {}
+void TreeWidget::showPreview() {}
+void TreeWidget::hidePreview() {}
+#endif
