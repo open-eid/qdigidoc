@@ -195,7 +195,7 @@ void MobileDialog::sendStatusRequest( int frame )
 	SOAPDocument doc( "GetMobileCreateSignatureStatus", DIGIDOCSERVICE );
 	doc.writeParameter( "Sesscode", sessionCode.toInt() );
 	doc.writeParameter( "WaitSignature", false );
-	doc.finalize();
+	doc.writeEndDocument();
 	manager->post( request, doc.document() );
 }
 
@@ -254,7 +254,7 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 	r.writeParameter( "SignatureID", m_doc->newSignatureID() );
 	r.writeParameter( "MessagingMode", "asynchClientServer" );
 	r.writeParameter( "AsyncConfiguration", 0 );
-	r.finalize();
+	r.writeEndDocument();
 
 	manager->post( request, r.document() );
 	statusTimer->start();
