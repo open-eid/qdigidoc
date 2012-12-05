@@ -82,11 +82,6 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	${SOURCES}
 )
 
-if(CMAKE_COMPILER_IS_GNUCC OR __COMPILER_GNU)
-	set_target_properties( ${PROGNAME} PROPERTIES
-		COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden"
-	)
-endif()
 if( APPLE )
 	set_target_properties( ${PROGNAME} PROPERTIES
 		LINK_FLAGS "-framework Security -framework Quartz"
