@@ -76,10 +76,14 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	${RESOURCE_FILES}
 )
 
+if(CMAKE_COMPILER_IS_GNUCC OR __COMPILER_GNU)
+	set_target_properties( qdigidoccommon PROPERTIES
+		COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden"
+	)
+endif()
 if( APPLE )
-	set_target_properties( ${PROGNAME}
-		PROPERTIES
-		LINK_FLAGS "-framework Security -fobjc-arc"
+	set_target_properties( ${PROGNAME} PROPERTIES
+		LINK_FLAGS "-framework Security"
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
 	find_program( LN NAMES "ln" )
 	get_property( BINARY_PATH TARGET ${PROGNAME} PROPERTY LOCATION )
@@ -87,8 +91,7 @@ if( APPLE )
 	execute_process( COMMAND ${LN} "-fs" ${PKCS11_MODULE} ${BINARY_DIR} )
 endif()
 if( WIN32 )
-	set_target_properties( ${PROGNAME}
-		PROPERTIES
+	set_target_properties( ${PROGNAME} PROPERTIES
 		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
 endif()
 

@@ -60,16 +60,19 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	${RESOURCE_FILES}
 )
 
+if(CMAKE_COMPILER_IS_GNUCC OR __COMPILER_GNU)
+	set_target_properties( qdigidoccommon PROPERTIES
+		COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden"
+	)
+endif()
 if( APPLE )
-	set_target_properties( ${PROGNAME}
-		PROPERTIES
-		LINK_FLAGS "-fobjc-arc -framework LDAP"
+	set_target_properties( ${PROGNAME} PROPERTIES
+		LINK_FLAGS "-framework LDAP"
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
 endif()
 if( WIN32 )
 	list( APPEND ADDITIONAL_LIBRARIES Wldap32 )
-	set_target_properties( ${PROGNAME}
-		PROPERTIES
+	set_target_properties( ${PROGNAME} PROPERTIES
 		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
 endif()
 
