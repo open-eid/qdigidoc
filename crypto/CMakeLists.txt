@@ -61,7 +61,7 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 )
 
 if(CMAKE_COMPILER_IS_GNUCC OR __COMPILER_GNU)
-	set_target_properties( qdigidoccommon PROPERTIES
+	set_target_properties( ${PROGNAME} PROPERTIES
 		COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden"
 	)
 endif()
