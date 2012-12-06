@@ -40,6 +40,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
+#include <QtGui/QDesktopServices>
 #include <QtGui/QHeaderView>
 #include <QtGui/QMessageBox>
 
@@ -183,9 +184,13 @@ QVariant HistoryModel::data( const QModelIndex &index, int role ) const
 
 QString HistoryModel::path() const
 {
+#ifdef Q_OS_WIN
 	QSettings s( QSettings::IniFormat, QSettings::UserScope, qApp->organizationName(), qApp->applicationName() );
 	QFileInfo f( s.fileName() );
 	return f.absolutePath() + "/" + f.baseName() + "/certhistory.xml";
+#else
+	return QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/certhistory.xml";;
+#endif
 }
 
 bool HistoryModel::removeRows( int row, int count, const QModelIndex &parent )
