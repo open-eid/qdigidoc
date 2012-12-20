@@ -86,8 +86,7 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->setId( homeSign, HomeSign );
 	buttonGroup->setId( homeView, HomeView );
 	buttonGroup->setId( homeCrypt, HomeCrypt );
-	if( !QFileInfo( qApp->applicationDirPath() + "/qdigidoccrypto.app" ).exists() )
-		homeCrypt->hide();
+	homeCrypt->setVisible( QFileInfo( qApp->applicationDirPath() + "/qdigidoccrypto.app" ).exists() );
 
 	buttonGroup->setId( signAddFile, SignAdd );
 
