@@ -16,6 +16,7 @@ set_source_files_properties( ${RESOURCES} PROPERTIES MACOSX_PACKAGE_LOCATION Res
 set_target_properties( DigiDocQL PROPERTIES
 	BUNDLE YES
 	BUNDLE_EXTENSION qlgenerator
+	XCODE_ATTRIBUTE_WRAPPER_EXTENSION qlgenerator
 	MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
 	LINK_FLAGS "-fobjc-arc -framework QuickLook -framework digidocpp -framework Cocoa"
 )

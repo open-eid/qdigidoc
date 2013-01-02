@@ -144,21 +144,21 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 					}
 				}
 				if( [array count] > 0 ) {
-					[h appendFormat:@"<dt>Role</dt><dd>%@</dd>", [array componentsJoinedByString:@" / "]];
+					[h appendFormat:@"<dt>Role</dt><dd>%@&nbsp;</dd>", [array componentsJoinedByString:@" / "]];
 				}
 			}
 			SignatureProductionPlace place = s->getProductionPlace();
 			if (!place.countryName.empty()) {
-				[h appendFormat:@"<dt>Country</dt><dd>%@</dd>", [NSString stdstring:place.countryName]];
+				[h appendFormat:@"<dt>Country</dt><dd>%@&nbsp;</dd>", [NSString stdstring:place.countryName]];
 			}
 			if (!place.city.empty()) {
-				[h appendFormat:@"<dt>City</dt><dd>%@</dd>", [NSString stdstring:place.city]];
+				[h appendFormat:@"<dt>City</dt><dd>%@&nbsp;</dd>", [NSString stdstring:place.city]];
 			}
 			if (!place.stateOrProvince.empty()) {
-				[h appendFormat:@"<dt>State</dt><dd>%@</dd>", [NSString stdstring:place.stateOrProvince]];
+				[h appendFormat:@"<dt>State</dt><dd>%@&nbsp;</dd>", [NSString stdstring:place.stateOrProvince]];
 			}
 			if (!place.postalCode.empty()) {
-				[h appendFormat:@"<dt>Postal code</dt><dd>%@</dd>", [NSString stdstring:place.postalCode]];
+				[h appendFormat:@"<dt>Postal code</dt><dd>%@&nbsp;</dd>", [NSString stdstring:place.postalCode]];
 			}
 			[h appendString:@"</dl>"];
 		}
