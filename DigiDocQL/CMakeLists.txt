@@ -17,6 +17,6 @@ set_target_properties( DigiDocQL PROPERTIES
 	BUNDLE YES
 	BUNDLE_EXTENSION qlgenerator
 	MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-	LINK_FLAGS "-fobjc-arc -framework QuickLook -framework digidocpp -framework CoreServices"
+	LINK_FLAGS "-fobjc-arc -framework QuickLook -framework digidocpp -framework Cocoa"
 )
 install( DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DigiDocQL.qlgenerator DESTINATION ${CMAKE_INSTALL_BINDIR}/qdigidocclient.app/Contents/Library/QuickLook )
