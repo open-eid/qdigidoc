@@ -12,6 +12,7 @@ include( ${QT_USE_FILE} )
 
 if( APPLE )
 	set( APPSTORE true CACHE BOOL "AppStore build" )
+	add_subdirectory( DigiDocQL )
 endif()
 if( APPSTORE )
 	add_definitions(-DAPPSTORE)

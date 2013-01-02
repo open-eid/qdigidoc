@@ -31,8 +31,6 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeName</key>
-			<string>CDoc - xml crypto format</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>cdoc</string>
@@ -43,14 +41,16 @@
 			<array>
 				<string>application/x-cdoc</string>
 			</array>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>CDOC</string>
-			</array>
+			<key>CFBundleTypeName</key>
+			<string>CDoc - xml crypto format</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSIsAppleDefaultForType</key>
-			<true/>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>ee.ria.cdoc</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
@@ -84,6 +84,33 @@
 			<array>
 				<string>public.url</string>
 			</array>
+		</dict>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.xml</string>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>CDoc - xml crypto format</string>
+			<key>UTTypeIconFile</key>
+			<string>cdoc.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>ee.ria.cdoc</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>com.apple.ostype</key>
+				<string>CDOC</string>
+				<key>public.filename-extension</key>
+				<string>cdoc</string>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/x-cdoc</string>
+				</array>
+			</dict>
 		</dict>
 	</array>
 </dict>

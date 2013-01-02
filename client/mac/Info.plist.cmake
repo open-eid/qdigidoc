@@ -31,8 +31,6 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeName</key>
-			<string>BDOC – XAdES signatures container</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>bdoc</string>
@@ -43,18 +41,18 @@
 			<array>
 				<string>application/x-bdoc</string>
 			</array>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>BDOC</string>
-			</array>
+			<key>CFBundleTypeName</key>
+			<string>BDOC – XAdES signatures container</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSIsAppleDefaultForType</key>
-			<true/>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>ee.ria.bdoc</string>
+			</array>
 		</dict>
 		<dict>
-			<key>CFBundleTypeName</key>
-			<string>DDOC – XAdES signatures container</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>ddoc</string>
@@ -65,18 +63,18 @@
 			<array>
 				<string>application/x-ddoc</string>
 			</array>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>DDOC</string>
-			</array>
+			<key>CFBundleTypeName</key>
+			<string>DDOC – XAdES signatures container</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSIsAppleDefaultForType</key>
-			<true/>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>ee.ria.ddoc</string>
+			</array>
 		</dict>
 		<dict>
-			<key>CFBundleTypeName</key>
-			<string>PKCS #12 archive of certificate and private key</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>p12</string>
@@ -87,16 +85,18 @@
 			<string>p12d.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
-				<string>application/x-p12d</string>
+				<string>application/x-pkcs12</string>
 			</array>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>P12D</string>
-			</array>
+			<key>CFBundleTypeName</key>
+			<string>PKCS #12 archive of certificate and private key</string>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSIsAppleDefaultForType</key>
-			<true/>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>ee.ria.p12d</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
@@ -130,6 +130,82 @@
 			<array>
 				<string>public.url</string>
 			</array>
+		</dict>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.archive</string>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>BDOC – XAdES signatures container</string>
+			<key>UTTypeIconFile</key>
+			<string>bdoc.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>ee.ria.bdoc</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>com.apple.ostype</key>
+				<string>BDOC</string>
+				<key>public.filename-extension</key>
+				<string>bdoc</string>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/x-bdoc</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.xml</string>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>DDOC – XAdES signatures container</string>
+			<key>UTTypeIconFile</key>
+			<string>ddoc.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>ee.ria.ddoc</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>com.apple.ostype</key>
+				<string>DDOC</string>
+				<key>public.filename-extension</key>
+				<string>ddoc</string>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/x-ddoc</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>PKCS #12 archive of certificate and private key</string>
+			<key>UTTypeIconFile</key>
+			<string>p12d.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>ee.ria.p12d</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>p12</string>
+					<string>p12d</string>
+					<string>pfx</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/x-pkcs12</string>
+				</array>
+			</dict>
 		</dict>
 	</array>
 </dict>
