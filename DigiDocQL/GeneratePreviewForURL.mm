@@ -1,10 +1,11 @@
-#include <Foundation/Foundation.h>
-#include <QuickLook/QuickLook.h>
 #include <digidocpp/DDoc.h>
 #include <digidocpp/Document.h>
 #include <digidocpp/SignatureTM.h>
 #include <digidocpp/WDoc.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
+
+#include <Foundation/Foundation.h>
+#include <QuickLook/QuickLook.h>
 
 using namespace digidoc;
 
@@ -172,18 +173,34 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 	NSBundle *bundle = [NSBundle bundleWithIdentifier:@"ee.ria.DigiDocQL"];
 	NSString *bimage = [bundle pathForResource:@"bdoc" ofType:@"icns"];
 	NSString *dimage = [bundle pathForResource:@"ddoc" ofType:@"icns"];
-	NSDictionary *bimgProps = @{
-		(__bridge NSString *)kQLPreviewPropertyMIMETypeKey: @"image/icns",
-		(__bridge NSString *)kQLPreviewPropertyAttachmentDataKey: [NSData dataWithContentsOfFile:bimage] };
-	NSDictionary *dimgProps = @{
-		(__bridge NSString *)kQLPreviewPropertyMIMETypeKey: @"image/icns",
-		(__bridge NSString *)kQLPreviewPropertyAttachmentDataKey: [NSData dataWithContentsOfFile:dimage] };
-	NSDictionary *props = @{
-		(__bridge NSString *)kQLPreviewPropertyTextEncodingNameKey: @"UTF-8",
-		(__bridge NSString *)kQLPreviewPropertyMIMETypeKey: @"text/html",
-		(__bridge NSString *)kQLPreviewPropertyWidthKey: [[bundle infoDictionary] valueForKey:@"QLPreviewWidth"],
-		(__bridge NSString *)kQLPreviewPropertyHeightKey: [[bundle infoDictionary] valueForKey:@"QLPreviewHeight"],
-		(__bridge NSString *)kQLPreviewPropertyAttachmentsKey: @{ @"bdoc.icns": bimgProps, @"ddoc.icns": dimgProps } };
+	NSDictionary *bimgProps = [NSDictionary
+		dictionaryWithObjects:[NSArray arrayWithObjects:
+				@"image/icns",
+				[NSData dataWithContentsOfFile:bimage], nil]
+		forKeys:[NSArray arrayWithObjects:
+				(__bridge NSString *)kQLPreviewPropertyMIMETypeKey,
+				(__bridge NSString *)kQLPreviewPropertyAttachmentDataKey, nil]];
+	NSDictionary *dimgProps = [NSDictionary
+		dictionaryWithObjects:[NSArray arrayWithObjects:
+				@"image/icns",
+				[NSData dataWithContentsOfFile:dimage], nil]
+		forKeys:[NSArray arrayWithObjects:
+				(__bridge NSString *)kQLPreviewPropertyMIMETypeKey,
+				(__bridge NSString *)kQLPreviewPropertyAttachmentDataKey, nil]];
+	NSDictionary *props = [NSDictionary
+		dictionaryWithObjects:[NSArray arrayWithObjects:
+				@"UTF-8",
+				@"text/html",
+				[[bundle infoDictionary] valueForKey:@"QLPreviewWidth"],
+				[[bundle infoDictionary] valueForKey:@"QLPreviewHeight"],
+				[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:dimgProps, bimgProps, nil]
+											forKeys:[NSArray arrayWithObjects:@"bdoc.icns", @"ddoc.icns", nil]], nil]
+		forKeys:[NSArray arrayWithObjects:
+				(__bridge NSString *)kQLPreviewPropertyTextEncodingNameKey,
+				(__bridge NSString *)kQLPreviewPropertyMIMETypeKey,
+				(__bridge NSString *)kQLPreviewPropertyWidthKey,
+				(__bridge NSString *)kQLPreviewPropertyHeightKey,
+				(__bridge NSString *)kQLPreviewPropertyAttachmentsKey, nil]];
 	QLPreviewRequestSetDataRepresentation(preview,
 		(__bridge CFDataRef)[h dataUsingEncoding:NSUTF8StringEncoding], kUTTypeHTML, (__bridge CFDictionaryRef)props);
 	return noErr;
