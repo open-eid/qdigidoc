@@ -352,6 +352,9 @@ QSslKey AccessCert::key()
 	err = SecKeychainItemExport( keyref, kSecFormatPEMSequence, 0, &params, &keydata );
 	CFRelease( keyref );
 
+	if( !keydata )
+		return QSslKey();
+
 	QSslKey key( QByteArray( (const char*)CFDataGetBytePtr(keydata), CFDataGetLength(keydata) ),
 		QSsl::Rsa, QSsl::Pem, QSsl::PrivateKey, "pass" );
 	CFRelease( keydata );
