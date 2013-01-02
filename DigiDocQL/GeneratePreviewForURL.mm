@@ -95,7 +95,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 					break;
 				}
 				case ADoc::BDocType:
-					if (s->getMediaType() == SignatureTM::TM_MEDIA_TYPE) {
+					if (s->getMediaType() == SignatureTM::MEDIA_TYPE) {
 						const SignatureTM *tm = static_cast<const SignatureTM*>(s);
 						date = [NSString stdstring:tm->getProducedAt()];
 						ocsp = tm->getOCSPCertificate();
