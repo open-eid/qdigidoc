@@ -4,18 +4,6 @@ find_package( LibDigiDocpp REQUIRED )
 
 set_app_name( PROGNAME qdigidocclient )
 
-QT4_WRAP_CPP( MOC_SOURCES
-	AccessCert.h
-	Application.h
-	DigiDoc.h
-	MainWindow.h
-	MobileDialog.h
-	QSigner.h
-	RegisterP12.h
-	SettingsDialog.h
-	SignatureDialog.h
-	TreeWidget.h
-)
 QT4_WRAP_UI( UI_HEADERS
 	ui/MainWindow.ui
 	ui/MobileDialog.ui
@@ -75,7 +63,6 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	SignatureDialog.cpp
 	TreeWidget.cpp
 	${UI_HEADERS}
-	${MOC_SOURCES}
 	${QM_FILES}
 	${RC_SOURCES}
 	${RESOURCE_FILES}
@@ -95,6 +82,7 @@ if( WIN32 )
 	set_target_properties( ${PROGNAME} PROPERTIES
 		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
 endif()
+set_target_properties( ${PROGNAME} PROPERTIES AUTOMOC TRUE )
 
 target_link_libraries( ${PROGNAME}
 	qdigidoccommon

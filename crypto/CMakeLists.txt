@@ -5,16 +5,6 @@ find_package( LibDigiDoc REQUIRED )
 
 set_app_name( PROGNAME qdigidoccrypto )
 
-QT4_WRAP_CPP( MOC_SOURCES
-	Application.h
-	CryptoDoc.h
-	KeyDialog.h
-	LdapSearch.h
-	MainWindow.h
-	Poller.h
-	SettingsDialog.h
-	TreeWidget.h
-)
 QT4_WRAP_UI( UI_HEADERS
 	ui/CertAddDialog.ui
 	ui/KeyDialog.ui
@@ -54,7 +44,6 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	SettingsDialog.cpp
 	TreeWidget.cpp
 	${UI_HEADERS}
-	${MOC_SOURCES}
 	${QM_FILES}
 	${RC_SOURCES}
 	${RESOURCE_FILES}
@@ -70,6 +59,7 @@ if( WIN32 )
 	set_target_properties( ${PROGNAME} PROPERTIES
 		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
 endif()
+set_target_properties( ${PROGNAME} PROPERTIES AUTOMOC TRUE )
 
 target_link_libraries( ${PROGNAME}
 	qdigidoccommon
