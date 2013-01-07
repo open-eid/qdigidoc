@@ -50,7 +50,9 @@ public:
 		Size = 2,
 		Save = 3,
 		Remove = 4,
-		Id = 5
+		Id = 5,
+
+		NColumns
 	};
 
 	int columnCount( const QModelIndex &parent = QModelIndex() ) const;

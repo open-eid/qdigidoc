@@ -135,7 +135,7 @@ HistoryModel::HistoryModel( QObject *parent )
 }
 
 int HistoryModel::columnCount( const QModelIndex &parent ) const
-{ return parent.isValid() ? 0 : 4; }
+{ return parent.isValid() ? 0 : NColumns; }
 
 QVariant HistoryModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
@@ -143,10 +143,10 @@ QVariant HistoryModel::headerData( int section, Qt::Orientation orientation, int
 		return QVariant();
 	switch( section )
 	{
-	case 0: return tr("Owner");
-	case 1: return tr("Type");
-	case 2: return tr("Issuer");
-	case 3: return tr("Expiry date");
+	case Owner: return tr("Owner");
+	case Type: return tr("Type");
+	case Issuer: return tr("Issuer");
+	case Expire: return tr("Expiry date");
 	default: return QVariant();
 	}
 }
@@ -169,9 +169,9 @@ QVariant HistoryModel::data( const QModelIndex &index, int role ) const
 	switch( role )
 	{
 	case Qt::DisplayRole:
-		if( index.column() != 1 )
+		if( index.column() != Type )
 			return row.value( index.column() );
-		switch( row.value( 1 ).toInt() )
+		switch( row.value( Type ).toInt() )
 		{
 		case DigiID: return tr("DIGI-ID");
 		case TEMPEL: return tr("TEMPEL");
@@ -196,8 +196,8 @@ QString HistoryModel::path() const
 bool HistoryModel::removeRows( int row, int count, const QModelIndex &parent )
 {
 	beginRemoveRows( parent, row, row + count );
-	for( int i = row + count - 1; i >= row; --i )
-		m_data.removeAt( i );
+	for( int i = 0; i < count; ++i )
+		m_data.removeAt( row );
 	endInsertRows();
 	return true;
 }
@@ -256,7 +256,7 @@ void CertModel::clear()
 { certs.clear(); reset(); }
 
 int CertModel::columnCount( const QModelIndex &index ) const
-{ return index.isValid() ? 0 : 3; }
+{ return index.isValid() ? 0 : NColumns; }
 
 QVariant CertModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
@@ -264,9 +264,9 @@ QVariant CertModel::headerData( int section, Qt::Orientation orientation, int ro
 		return QVariant();
 	switch( section )
 	{
-	case 0: return tr("Owner");
-	case 1: return tr("Issuer");
-	case 2: return tr("Expiry date");
+	case Owner: return tr("Owner");
+	case Issuer: return tr("Issuer");
+	case Expire: return tr("Expiry date");
 	default: return QVariant();
 	}
 }
@@ -282,9 +282,9 @@ QVariant CertModel::data( const QModelIndex &index, int role ) const
 	case Qt::EditRole:
 		switch( index.column() )
 		{
-		case 0: return SslCertificate( certs[index.row()] ).friendlyName();
-		case 1: return certs[index.row()].issuerInfo( QSslCertificate::CommonName );
-		case 2: return certs[index.row()].expiryDate().toLocalTime().toString( "dd.MM.yyyy" );
+		case Owner: return SslCertificate( certs[index.row()] ).friendlyName();
+		case Issuer: return certs[index.row()].issuerInfo( QSslCertificate::CommonName );
+		case Expire: return certs[index.row()].expiryDate().toLocalTime().toString( "dd.MM.yyyy" );
 		default: break;
 		}
 	case Qt::UserRole:
@@ -330,13 +330,13 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	skView->setModel( certModel = new CertModel( this ) );
 	skView->header()->setStretchLastSection( false );
 	skView->header()->setResizeMode( QHeaderView::ResizeToContents );
-	skView->header()->setResizeMode( 0, QHeaderView::Stretch );
+	skView->header()->setResizeMode( CertModel::Owner, QHeaderView::Stretch );
 	connect( skView, SIGNAL(doubleClicked(QModelIndex)), SLOT(on_add_clicked()) );
 
 	usedView->setModel( new HistoryModel( this ) );
 	usedView->header()->setStretchLastSection( false );
 	usedView->header()->setResizeMode( QHeaderView::ResizeToContents );
-	usedView->header()->setResizeMode( 0, QHeaderView::Stretch );
+	usedView->header()->setResizeMode( HistoryModel::Owner, QHeaderView::Stretch );
 
 	ldap = new LdapSearch( this );
 	connect( ldap, SIGNAL(searchResult(QList<QSslCertificate>)),
@@ -415,16 +415,16 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 		default: continue;
 		}
 
-		if( !m->match( m->index( 0, 0 ), Qt::DisplayRole, cert.subjectInfo( "CN" ), 1, Qt::MatchExactly ).isEmpty() &&
-			!m->match( m->index( 0, 1 ), Qt::EditRole, type, 1, Qt::MatchExactly ).isEmpty() )
+		if( !m->match( m->index( 0, HistoryModel::Owner ), Qt::DisplayRole, cert.subjectInfo( "CN" ), 1, Qt::MatchExactly ).isEmpty() &&
+			!m->match( m->index( 0, HistoryModel::Type ), Qt::EditRole, type, 1, Qt::MatchExactly ).isEmpty() )
 			continue;
 
 		int row = m->rowCount();
 		m->insertRow( row );
-		m->setData( m->index( row, 0 ), cert.subjectInfo( "CN" ) );
-		m->setData( m->index( row, 1 ), type );
-		m->setData( m->index( row, 2 ), cert.issuerInfo( "CN" ) );
-		m->setData( m->index( row, 3 ), cert.expiryDate().toLocalTime().toString( "dd.MM.yyyy" ) );
+		m->setData( m->index( row, HistoryModel::Owner ), cert.subjectInfo( "CN" ) );
+		m->setData( m->index( row, HistoryModel::Type ), type );
+		m->setData( m->index( row, HistoryModel::Issuer ), cert.issuerInfo( "CN" ) );
+		m->setData( m->index( row, HistoryModel::Expire ), cert.expiryDate().toLocalTime().toString( "dd.MM.yyyy" ) );
 	}
 	m->submit();
 
@@ -496,10 +496,10 @@ void CertAddDialog::on_searchType_currentIndexChanged( int index )
 void CertAddDialog::on_usedView_doubleClicked( const QModelIndex &index )
 {
 	QAbstractItemModel *m = usedView->model();
-	QString text = m->index( index.row(), 0 ).data().toString();
+	QString text = m->index( index.row(), HistoryModel::Owner ).data().toString();
 	tabWidget->setCurrentIndex( 0 );
 	searchType->setCurrentIndex(
-		m->index( index.row(), 1 ).data( Qt::EditRole ).toInt() == HistoryModel::TEMPEL );
+		m->index( index.row(), HistoryModel::Type ).data( Qt::EditRole ).toInt() == HistoryModel::TEMPEL );
 	searchContent->setText( searchType->currentIndex() == 0 ? text.split( ',' ).value( 2 ) : text );
 	on_search_clicked();
 }
@@ -519,7 +519,7 @@ void CertAddDialog::showResult( const QList<QSslCertificate> &result )
 
 	if( certModel->rowCount() )
 	{
-		skView->setCurrentIndex( skView->model()->index( 0, 0 ) );
+		skView->setCurrentIndex( skView->model()->index( 0, CertModel::Owner ) );
 		if( searchType->currentIndex() == 0 )
 			skView->selectAll();
 		add->setFocus();

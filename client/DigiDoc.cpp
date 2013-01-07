@@ -25,6 +25,7 @@
 #include "Application.h"
 #include "QSigner.h"
 
+#include <common/FileDialog.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
@@ -52,7 +53,9 @@
 using namespace digidoc;
 
 static std::string to( const QString &str ) { return std::string( str.toUtf8().constData() ); }
-static QString from( const std::string &str ) { return QString::fromUtf8( str.c_str() ); }
+static QString from( const std::string &str ) { return QString::fromUtf8( str.c_str() ).normalized( QString::NormalizationForm_C ); }
+static QByteArray fromVector( const std::vector<unsigned char> &d )
+{ return d.empty() ? QByteArray() : QByteArray( (const char *)&d[0], d.size() ); }
 
 
 
@@ -64,7 +67,7 @@ DocumentModel::DocumentModel( DigiDoc *doc )
 }
 
 int DocumentModel::columnCount( const QModelIndex &parent ) const
-{ return parent.isValid() ? 0 : 6; }
+{ return parent.isValid() ? 0 : NColumns; }
 
 QString DocumentModel::copy( const QModelIndex &index, const QString &path ) const
 {
@@ -93,9 +96,9 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		switch( index.column() )
 		{
 		case Id: return from( d.getId() );
-		case Name: return from( d.getFileName() ).normalized( QString::NormalizationForm_C );
+		case Name: return from( d.getFileName() );
 		case Mime: return from( d.getMediaType() );
-		case Size: return Common::fileSize( QFileInfo( from( d.getFilePath() ) ).size() );
+		case Size: return FileDialog::fileSize( QFileInfo( from( d.getFilePath() ) ).size() );
 		default: return QVariant();
 		}
 	case Qt::TextAlignmentRole:
@@ -113,7 +116,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		case Remove: return tr("Remove");
 		default: return tr("Filename: %1\nFilesize: %2\nMedia type: %3")
 			.arg( from( d.getFileName() ) )
-			.arg( Common::fileSize( QFileInfo( from( d.getFilePath() ) ).size() ) )
+			.arg( FileDialog::fileSize( QFileInfo( from( d.getFilePath() ) ).size() ) )
 			.arg( from( d.getMediaType() ) );
 		}
 	case Qt::DecorationRole:
@@ -230,9 +233,7 @@ QSslCertificate DigiDocSignature::cert() const
 	QSslCertificate c;
 	try
 	{
-		X509 *x509 = s->getSigningCertificate().getX509();
-		c = SslCertificate::fromX509( Qt::HANDLE(x509) );
-		X509_free( x509 );
+		c = QSslCertificate( fromVector(s->getSigningCertificate().encodeDER()), QSsl::Der );
 	}
 	catch( const Exception & ) {}
 	return c;
@@ -264,10 +265,10 @@ QStringList DigiDocSignature::locations() const
 {
 	const SignatureProductionPlace p = s->getProductionPlace();
 	return QStringList()
-		<< from( p.city ).normalized( QString::NormalizationForm_C ).trimmed()
-		<< from( p.stateOrProvince ).normalized( QString::NormalizationForm_C ).trimmed()
-		<< from( p.postalCode ).normalized( QString::NormalizationForm_C ).trimmed()
-		<< from( p.countryName ).normalized( QString::NormalizationForm_C ).trimmed();
+		<< from( p.city ).trimmed()
+		<< from( p.stateOrProvince ).trimmed()
+		<< from( p.postalCode ).trimmed()
+		<< from( p.countryName ).trimmed();
 }
 
 QString DigiDocSignature::mediaType() const
@@ -275,25 +276,22 @@ QString DigiDocSignature::mediaType() const
 
 QSslCertificate DigiDocSignature::ocspCert() const
 {
-	X509 *x = 0;
 	try
 	{
 		switch( type() )
 		{
 		case TMType:
-			x = static_cast<const SignatureTM*>(s)->getOCSPCertificate().getX509();
-			break;
+			return QSslCertificate(
+				fromVector(static_cast<const SignatureTM*>(s)->getOCSPCertificate().encodeDER()), QSsl::Der );
 		case DDocType:
-			x = static_cast<const SignatureDDOC*>(s)->getOCSPCertificate().getX509();
-			break;
+			return QSslCertificate(
+				fromVector(static_cast<const SignatureDDOC*>(s)->getOCSPCertificate().encodeDER()), QSsl::Der );
 		default: break;
 		}
 	}
 	catch( const Exception & ) {}
 
-	QSslCertificate c = SslCertificate::fromX509( Qt::HANDLE(x) );
-	X509_free( x );
-	return c;
+	return QSslCertificate();
 }
 
 QString DigiDocSignature::ocspDigestMethod() const
@@ -334,8 +332,7 @@ QByteArray DigiDocSignature::ocspDigestValue() const
 			break;
 		default: return QByteArray();
 		}
-		if( data.size() > 0 )
-			return QByteArray( (const char*)&data[0], data.size() );
+		return fromVector( data );
 	}
 	catch( const Exception & ) {}
 	return QByteArray();
@@ -343,19 +340,16 @@ QByteArray DigiDocSignature::ocspDigestValue() const
 
 QByteArray DigiDocSignature::ocspNonce() const
 {
-	std::vector<unsigned char> data;
 	switch( type() )
 	{
 	case TMType:
-		data = static_cast<const SignatureTM*>(s)->getNonce();
-		break;
+		return fromVector(static_cast<const SignatureTM*>(s)->getNonce());
 	case DDocType:
-		data = static_cast<const SignatureDDOC*>(s)->getNonce();
-		break;
+		return fromVector(static_cast<const SignatureDDOC*>(s)->getNonce());
 	default: break;
 	}
 
-	return data.empty() ? QByteArray() : QByteArray( (char*)&data[0], data.size() );
+	return QByteArray();
 }
 
 QDateTime DigiDocSignature::ocspTime() const
@@ -402,9 +396,8 @@ QStringList DigiDocSignature::roles() const
 {
 	QStringList list;
 	const SignerRole::TRoles roles = s->getSignerRole().claimedRoles;
-	SignerRole::TRoles::const_iterator i = roles.begin();
-	for( ; i != roles.end(); ++i )
-		list << QString::fromUtf8( i->c_str() ).normalized( QString::NormalizationForm_C ).trimmed();
+	for( SignerRole::TRoles::const_iterator i = roles.begin(); i != roles.end(); ++i )
+		list << from( *i ).trimmed();
 	return list;
 }
 
@@ -615,6 +608,7 @@ bool DigiDoc::open( const QString &file )
 		}
 		default: break;
 		}
+		qApp->addRecent( file );
 		return true;
 	}
 	catch( const Exception &e )
@@ -665,6 +659,7 @@ void DigiDoc::save( const QString &filename )
 		if( !filename.isEmpty() )
 			m_fileName = filename;
 		b->saveTo( to(m_fileName) );
+		qApp->addRecent( filename );
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to save container"), e ); }
 }
@@ -757,18 +752,17 @@ QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 	if( !checkDoc() )
 		return QByteArray();
 
-	std::vector<unsigned char> digest;
 	if( b->documentType() == ADoc::BDocType )
 	{
 		try
 		{
 			std::auto_ptr<Digest> calc(new Digest( URI_SHA1 ));
 			Document file = m_documentModel->document( m_documentModel->index( i, DocumentModel::Name ) );
-			digest = file.calcDigest( calc.get() );
+			return fromVector(file.calcDigest( calc.get() ));
 		}
 		catch( const IOException & ) {}
 	}
 	else
-		digest = b->getFileDigest( i );
-	return digest.empty() ? QByteArray() : QByteArray( (char*)&digest[0], digest.size() );
+		return fromVector(b->getFileDigest( i ));
+	return QByteArray();
 }

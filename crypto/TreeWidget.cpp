@@ -48,7 +48,7 @@ void TreeWidget::clicked( const QModelIndex &index )
 			dest = FileDialog::getSaveFileName( qApp->activeWindow(),
 				tr("Save file"), QString( "%1/%2" )
 					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-					.arg( m->index( index.row(), 0 ).data().toString() ) );
+					.arg( m->index( index.row(), CDocumentModel::Name ).data().toString() ) );
 			if( !dest.isEmpty() && !FileDialog::fileIsWritable( dest ) )
 			{
 				QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 crypto"),
@@ -57,7 +57,7 @@ void TreeWidget::clicked( const QModelIndex &index )
 			else
 				break;
 		}
-		QString src = m->index( index.row(), 0 ).data( Qt::UserRole ).toString();
+		QString src = m->index( index.row(), CDocumentModel::Name ).data( Qt::UserRole ).toString();
 		if( !dest.isEmpty() && !src.isEmpty() && dest != src )
 			m->copy( index, dest );
 		break;
@@ -92,11 +92,8 @@ void TreeWidget::setDocumentModel( CDocumentModel *model )
 {
 	setModel( m = model );
 	header()->setStretchLastSection( false );
+	header()->setResizeMode( QHeaderView::ResizeToContents );
 	header()->setResizeMode( CDocumentModel::Name, QHeaderView::Stretch );
-	header()->setResizeMode( CDocumentModel::Mime, QHeaderView::ResizeToContents );
-	header()->setResizeMode( CDocumentModel::Size, QHeaderView::ResizeToContents );
-	header()->setResizeMode( CDocumentModel::Save, QHeaderView::ResizeToContents );
-	header()->setResizeMode( CDocumentModel::Remove, QHeaderView::ResizeToContents );
 	setColumnHidden( CDocumentModel::Mime, true );
 	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
 	connect( this, SIGNAL(doubleClicked(QModelIndex)), m, SLOT(open(QModelIndex)) );

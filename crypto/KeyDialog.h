@@ -76,6 +76,15 @@ public:
 		DigiID = 2
 	};
 
+	enum {
+		Owner,
+		Type,
+		Issuer,
+		Expire,
+
+		NColumns
+	};
+
 	HistoryModel( QObject *parent = 0 );
 
 	int columnCount( const QModelIndex &parent = QModelIndex() ) const;
@@ -99,6 +108,13 @@ class CertModel: public QAbstractTableModel
 	Q_OBJECT
 
 public:
+	enum {
+		Owner = 0,
+		Issuer,
+		Expire,
+
+		NColumns
+	};
 	CertModel( QObject *parent = 0 );
 
 	int columnCount( const QModelIndex &index = QModelIndex() ) const;

@@ -35,10 +35,12 @@ public:
 	enum Columns
 	{
 		Name = 0,
-		Mime = 1,
-		Size = 2,
-		Save = 3,
-		Remove = 4
+		Mime,
+		Size,
+		Save,
+		Remove,
+
+		NColumns
 	};
 
 	CDocumentModel( CryptoDoc *doc );

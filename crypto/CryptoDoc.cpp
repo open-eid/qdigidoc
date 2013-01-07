@@ -25,6 +25,7 @@
 #include "Application.h"
 #include "Poller.h"
 
+#include <common/FileDialog.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
@@ -145,7 +146,7 @@ CDocumentModel::CDocumentModel( CryptoDoc *doc )
 }
 
 int CDocumentModel::columnCount( const QModelIndex &parent ) const
-{ return parent.isValid() ? 0 : 5; }
+{ return parent.isValid() ? 0 : NColumns; }
 
 QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) const
 {
@@ -236,7 +237,7 @@ QMimeData* CDocumentModel::mimeData( const QModelIndexList &indexes ) const
 	QList<QUrl> list;
 	Q_FOREACH( const QModelIndex &index, indexes )
 	{
-		if( index.column() != 0 )
+		if( index.column() != Name )
 			continue;
 		QString path = copy( index, QDir::tempPath() );
 		if( !path.isEmpty() )
@@ -333,7 +334,7 @@ void CDocumentModel::revert()
 				<< QFileInfo( QString::fromUtf8( data->szFileName ).normalized( QString::NormalizationForm_C ) ).fileName()
 				<< QString::fromUtf8( data->szId )
 				<< QString::fromUtf8( data->szMimeType ).normalized( QString::NormalizationForm_C )
-				<< Common::fileSize( data->nSize ).normalized( QString::NormalizationForm_C ));
+				<< FileDialog::fileSize( data->nSize ).normalized( QString::NormalizationForm_C ));
 		}
 	}
 	endResetModel();
@@ -611,6 +612,7 @@ bool CryptoDoc::open( const QString &file )
 		d->fileName.clear();
 	}
 	d->documents->revert();
+	qApp->addRecent( file );
 	return err == ERR_OK;
 }
 
@@ -638,6 +640,7 @@ void CryptoDoc::save( const QString &filename )
 	int err = dencGenEncryptedData_writeToFile( d->enc, d->fileName.toUtf8() );
 	if( err != ERR_OK )
 		setLastError( tr("Failed to save encrpyted file"), err );
+	qApp->addRecent( filename );
 }
 
 bool CryptoDoc::saveDDoc( const QString &filename )
