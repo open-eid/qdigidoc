@@ -420,6 +420,8 @@ bool MainWindow::event( QEvent *e )
 	}
 }
 
+bool MainWindow::isOpen() const { return !doc->isNull(); }
+
 void MainWindow::on_introCheck_stateChanged( int state )
 {
 	Settings().setValue( "Crypto/Intro", state == Qt::Unchecked );

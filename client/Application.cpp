@@ -294,10 +294,9 @@ void Application::loadTranslation( const QString &lang )
 
 bool Application::notify( QObject *o, QEvent *e )
 {
-	bool result = false;
 	try
 	{
-		result = QApplication::notify( o, e );
+		return QApplication::notify( o, e );
 	}
 	catch( const digidoc::Exception &e )
 	{
@@ -312,7 +311,7 @@ bool Application::notify( QObject *o, QEvent *e )
 		showWarning( tr("Caught exception!") );
 	}
 
-	return result;
+	return false;
 }
 
 void Application::parseArgs( const QString &msg )
@@ -340,7 +339,17 @@ void Application::parseArgs( const QStringList &args )
 		w = new RegisterP12( params[0] );
 	else
 	{
-		w = new MainWindow();
+		foreach( QWidget *m, qApp->topLevelWidgets() )
+		{
+			MainWindow *main = qobject_cast<MainWindow*>(m);
+			if( main && !main->isOpen() )
+			{
+				w = main;
+				break;
+			}
+		}
+		if( !w )
+			w = new MainWindow();
 		if( !params.isEmpty() )
 			QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
 	}

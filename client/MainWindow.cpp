@@ -622,6 +622,8 @@ bool MainWindow::event( QEvent *e )
 	}
 }
 
+bool MainWindow::isOpen() const { return !doc->isNull(); }
+
 void MainWindow::loadRoles()
 {
 	Settings s;

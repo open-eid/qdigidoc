@@ -225,7 +225,18 @@ void Application::parseArgs( const QStringList &args )
 	params.removeAll("-pkcs11");
 	params.removeAll("-noNativeFileDialog");
 
-	QWidget *w = new MainWindow();
+	QWidget *w = 0;
+	foreach( QWidget *m, qApp->topLevelWidgets() )
+	{
+		MainWindow *main = qobject_cast<MainWindow*>(m);
+		if( main && !main->isOpen() )
+		{
+			w = main;
+			break;
+		}
+	}
+	if( !w )
+		w = new MainWindow();
 #ifdef Q_OS_MAC
 	w->installEventFilter( d->bar );
 #endif
