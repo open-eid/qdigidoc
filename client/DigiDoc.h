@@ -134,7 +134,7 @@ class DigiDoc: public QObject
 {
 	Q_OBJECT
 public:
-	DigiDoc( QObject *parent = 0 );
+	explicit DigiDoc( QObject *parent = 0 );
 	~DigiDoc();
 
 	void addFile( const QString &file );
@@ -156,7 +156,7 @@ public:
 		const QString &role,
 		const QString &role2 );
 	QList<DigiDocSignature> signatures();
-	digidoc::ADoc::DocumentType documentType();
+	digidoc::ADoc::DocumentType documentType() const;
 	QByteArray getFileDigest( unsigned int i ) const;
 
 	static bool parseException( const digidoc::Exception &e, QStringList &causes,

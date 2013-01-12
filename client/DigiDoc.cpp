@@ -605,7 +605,7 @@ bool DigiDoc::open( const QString &file )
 				qApp->showWarning(
 					tr("The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
 			break;
-		}
+		} 
 		default: break;
 		}
 		qApp->addRecent( file );
@@ -620,8 +620,8 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	Exception::ExceptionCode &code, int &ddocError )
 {
 	causes << from( e.getMsg() );
-	if( e.ddoc() > 0 )
-		ddocError = e.ddoc();
+	if( e.type() == DDocException::Type )
+		ddocError = static_cast<const DDocException*>(&e)->ddoc();
 	switch( e.code() )
 	{
 	case Exception::CertificateRevoked:
@@ -744,7 +744,7 @@ QList<DigiDocSignature> DigiDoc::signatures()
 	return list;
 }
 
-ADoc::DocumentType DigiDoc::documentType()
+ADoc::DocumentType DigiDoc::documentType() const
 { return checkDoc() ? b->documentType() : ADoc::BDocType; }
 
 QByteArray DigiDoc::getFileDigest( unsigned int i ) const
