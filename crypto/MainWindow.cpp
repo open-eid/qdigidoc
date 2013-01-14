@@ -263,11 +263,11 @@ void MainWindow::buttonClicked( int button )
 			bar->setTextVisible( false );
 		p.setCancelButton( 0 );
 		p.setRange( 0, 0 );
-		p.open();
 
 		if( doc->isEncrypted() )
 		{
 			p.setLabelText( tr("Decrypting") );
+			p.open();
 			doc->decrypt();
 
 			if( doc->isSigned() )
@@ -287,7 +287,13 @@ void MainWindow::buttonClicked( int button )
 		}
 		else
 		{
+			if( doc->keys().isEmpty() )
+			{
+				qApp->showWarning( tr("No keys specified") );
+				break;
+			}
 			p.setLabelText( tr("Encrypting") );
+			p.open();
 			if( doc->encrypt() )
 				save();
 		}
