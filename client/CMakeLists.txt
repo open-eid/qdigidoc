@@ -1,5 +1,3 @@
-find_package( XercesC REQUIRED )
-find_package( XSD REQUIRED )
 find_package( LibDigiDocpp REQUIRED )
 
 set_app_name( PROGNAME qdigidocclient )
@@ -38,8 +36,6 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}
 	${OPENSSL_INCLUDE_DIR}
-	${XERCESC_INCLUDE_DIR}
-	${XSD_INCLUDE_DIR}
 	${LIBDIGIDOCPP_INCLUDE_DIR}
 )
 
