@@ -99,8 +99,6 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 		request.setSslConfiguration( ssl );
 	}
 
-	request.setUrl( Settings().value( m_doc->documentType() == ADoc::BDocType ?
-		"Client/bdocurl" : "Client/ddocurl", "https://digidocservice.sk.ee").toUrl() );
 	request.setHeader( QNetworkRequest::ContentTypeHeader, "text/xml" );
 	request.setRawHeader( "User-Agent", QString( "%1/%2 (%3)")
 		.arg( qApp->applicationName() ).arg( qApp->applicationVersion() ).arg( Common::applicationOs() ).toUtf8() );
@@ -187,6 +185,20 @@ void MobileDialog::finished( QNetworkReply *reply )
 		close();
 }
 
+bool MobileDialog::isTest( const QString &ssid, const QString &cell )
+{
+	return
+		ssid == "14212128020" && cell == "37200002" ||
+		ssid == "14212128021" && cell == "37200003" ||
+		ssid == "14212128022" && cell == "37200004" ||
+		ssid == "14212128023" && cell == "37200005" ||
+		ssid == "14212128024" && cell == "37200006" ||
+		ssid == "14212128025" && cell == "37200007" ||
+		ssid == "14212128026" && cell == "37200008" ||
+		ssid == "14212128027" && cell == "37200009" ||
+		ssid == "38002240211" && cell == "37200001";
+}
+
 void MobileDialog::sendStatusRequest( int frame )
 {
 	signProgressBar->setValue( frame );
@@ -209,6 +221,11 @@ void MobileDialog::setSignatureInfo( const QString &city, const QString &state, 
 
 void MobileDialog::sign( const QString &ssid, const QString &cell )
 {
+	QString url = isTest( ssid, cell ) ?
+		"https://www.openxades.org:8443" : "https://digidocservice.sk.ee";
+	request.setUrl( Settings().value( m_doc->documentType() == ADoc::BDocType ?
+		"Client/bdocurl" : "Client/ddocurl", url ).toUrl() );
+
 	labelError->setText( mobileResults.value( "START" ) );
 
 	QHash<QString,QString> lang;

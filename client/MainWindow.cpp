@@ -475,11 +475,18 @@ void MainWindow::buttonClicked( int button )
 			break;
 		}
 
-		AccessCert access( this );
-		if( !access.validate() )
+#ifdef Q_OS_MAC
+		if( infoSignCard->isChecked() ||
+			!MobileDialog::isTest( infoMobileCode->text(), infoMobileCell->text() ) ||
+			Settings().value( "Client/mobilecert", false ).toBool() )
+#endif
 		{
-			if( !access.download( infoSignMobile->isChecked() || qApp->signer()->token().card().isEmpty() ) )
-				break;
+			AccessCert access( this );
+			if( !access.validate() )
+			{
+				if( !access.download( infoSignMobile->isChecked() || qApp->signer()->token().card().isEmpty() ) )
+					break;
+			}
 		}
 
 		if( infoSignCard->isChecked() )

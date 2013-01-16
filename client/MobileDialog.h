@@ -44,6 +44,8 @@ public:
 	void sign( const QString &ssid, const QString &cell );
 	QByteArray signature() const;
 
+	static bool isTest( const QString &ssid, const QString &cell );
+
 private Q_SLOTS:
 	void endProgress();
 	void finished( QNetworkReply *reply );
