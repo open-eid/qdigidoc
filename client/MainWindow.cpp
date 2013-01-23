@@ -504,13 +504,13 @@ void MainWindow::buttonClicked( int button )
 				qApp->showWarning( tr("BDOC signing is not supported, please upgrade software") );
 				break;
 			}
+			}
 
-			QScopedPointer<MobileDialog> m( new MobileDialog( doc, this ) );
-			m->setSignatureInfo( signCityInput->text(),
-				signStateInput->text(), signZipInput->text(),
-				signCountryInput->text(), signRoleInput->text(),
-				signResolutionInput->text() );
-			m->sign( infoMobileCode->text(), infoMobileCell->text() );
+			QScopedPointer<MobileDialog> m( new MobileDialog( this ) );
+			m->setSignatureInfo( signCityInput->text(), signStateInput->text(),
+				signZipInput->text(), signCountryInput->text(),
+				QStringList() << signRoleInput->text() << signResolutionInput->text() );
+			m->sign( doc, infoMobileCode->text(), infoMobileCell->text() );
 			m->exec();
 			if( m->signature().isEmpty() || !doc->addSignature( m->signature() ) )
 				break;
@@ -552,6 +552,8 @@ void MainWindow::enableSign()
 
 	if( doc->isNull() )
 		button->setToolTip( tr("Container is not open") );
+	else if( !doc->isSupported() )
+		button->setToolTip( tr("Container format is not supported for signing") );
 	else if( signContentView->model()->rowCount() == 0 )
 		button->setToolTip( tr("Empty container") );
 	else if( infoSignMobile->isChecked() )

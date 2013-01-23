@@ -555,6 +555,15 @@ DocumentModel* DigiDoc::documentModel() const { return m_documentModel; }
 
 QString DigiDoc::fileName() const { return m_fileName; }
 bool DigiDoc::isNull() const { return b == 0; }
+bool DigiDoc::isSupported() const
+{
+	if( b->signatureCount() == 0 )
+		return true;
+	std::string ver = b->getSignature( 0 )->getMediaType();
+	return ver.compare( 0, 6, "SK-XML" ) &&
+		ver.compare( 0, 15, "DIGIDOC-XML/1.1" ) &&
+		ver.compare( 0, 15, "DIGIDOC-XML/1.2" );
+}
 
 QString DigiDoc::newSignatureID() const
 {
@@ -576,14 +585,11 @@ bool DigiDoc::open( const QString &file )
 			if( b->signatureCount() == 0 )
 				break;
 
-			std::string ver = b->getSignature( 0 )->getMediaType();
-			if( ver.compare( 0, 6, "SK-XML" ) == 0 ||
-				ver.compare( 0, 15, "DIGIDOC-XML/1.1" ) == 0 ||
-				ver.compare( 0, 15, "DIGIDOC-XML/1.2" ) == 0 )
+			if( !isSupported() )
 			{
 				qApp->showWarning( tr(
 					"The current file is a DigiDoc container not supported officially any longer.\n"
-					"We do not recommend you to add signature to this document.\n"
+					"We do not support you to add signature to this document.\n"
 					"There is an option to re-sign this document in a new container.") );
 			}
 			break;
