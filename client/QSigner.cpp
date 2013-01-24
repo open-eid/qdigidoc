@@ -230,29 +230,16 @@ void QSigner::selectCard( const QString &card )
 	Q_EMIT dataChanged();
 }
 
-int QSigner::type() const
-{
-	int digest = digidoc::Digest::toMethod( qApp->confValue( Application::SignatureUri ).toString().toUtf8().constData() );
-	if( digest == NID_sha1 )
-		return digest;
-	switch( SslCertificate(d->t.cert()).type() )
-	{
-	case SslCertificate::DigiIDType:
-	case SslCertificate::DigiIDTestType:
-		return digest;
-	default: break;
-	}
-	return d->t.cert().publicKey().length() > 1024 ? digest : NID_sha224;
-}
-
 void QSigner::showWarning( const QString &msg )
 { qApp->showWarning( msg ); }
 
-void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::SignException)
+void QSigner::sign( const std::string &method, const std::vector<unsigned char> &digest, Signature &signature ) throw(digidoc::SignException)
 {
 	QMutexLocker locker( &d->m );
 	if( !d->t.cards().contains( d->t.card() ) || d->t.cert().isNull() )
 		throwException( tr("Signing certificate is not selected."), Exception::NoException, __LINE__ );
+
+	int type = digidoc::Digest::toMethod(method);
 
 	QByteArray sig;
 	if( d->pkcs11 )
@@ -273,19 +260,19 @@ void QSigner::sign( const Digest &digest, Signature &signature ) throw(digidoc::
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::NoException, __LINE__ );
 		}
 
-		sig = d->pkcs11->sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
+		sig = d->pkcs11->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) );
 		d->pkcs11->logout();
 	}
 #ifdef Q_OS_WIN
 	else if( d->csp )
 	{
-		sig = d->csp->sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
+		sig = d->csp->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) ) );
 		if( d->csp->lastError() == QCSP::PinCanceled )
 			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
 	}
 	else if( d->cng )
 	{
-		sig = d->cng->sign( digest.type, QByteArray( (const char*)digest.digest, digest.length ) );
+		sig = d->cng->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) ) );
 		if( d->cng->lastError() == QCNG::PinCanceled )
 			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
 	}
