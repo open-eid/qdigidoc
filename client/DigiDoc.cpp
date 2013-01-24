@@ -443,7 +443,7 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 {
 	try
 	{
-		s->validateOffline();
+		s->validate();
 		if( type() == BESType )
 		{
 			m_lastError = DigiDoc::tr("In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.\n"
@@ -710,10 +710,11 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 	{
 		qApp->signer()->setSignatureProductionPlace(
 			SignatureProductionPlace( to(city), to(state), to(zip), to(country) ) );
-		SignerRole sRole( to(role) );
+		std::vector<std::string> roles;
+		roles.push_back( to(role) );
 		if ( !role2.isEmpty() )
-			sRole.claimedRoles.push_back( to(role2) );
-		qApp->signer()->setSignerRole( sRole );
+			roles.push_back( to(role2) );
+		qApp->signer()->setSignerRole( roles );
 		b->sign( qApp->signer() );
 		result = true;
 	}
