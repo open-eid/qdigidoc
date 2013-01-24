@@ -94,11 +94,21 @@ QSigner::ApiType QSigner::apiType() const
 	return PKCS11;
 }
 
-X509* QSigner::getCert() const throw(digidoc::SignException)
+X509Cert QSigner::getCert() const throw(digidoc::SignException)
 {
 	if( d->t.cert().isNull() )
 		throw SignException( __FILE__, __LINE__, QSigner::tr("Sign certificate is not selected").toUtf8().constData() );
-	return (X509*)d->t.cert().handle();
+	try
+	{
+		QByteArray der = d->t.cert().toDer();
+		return X509Cert(std::vector<unsigned char>(der.constData(), der.constData() + der.size()));
+	}
+	catch(const Exception &e)
+	{
+		throw SignException( __FILE__, __LINE__, QSigner::tr("Sign certificate is not selected").toUtf8().constData(), e );
+	}
+
+	return X509Cert();
 }
 
 Qt::HANDLE QSigner::handle() const

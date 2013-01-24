@@ -395,8 +395,8 @@ QString DigiDocSignature::role() const
 QStringList DigiDocSignature::roles() const
 {
 	QStringList list;
-	const SignerRole::TRoles roles = s->getSignerRole().claimedRoles;
-	for( SignerRole::TRoles::const_iterator i = roles.begin(); i != roles.end(); ++i )
+	std::vector<std::string> roles = s->getSignerRole();
+	for( std::vector<std::string>::const_iterator i = roles.begin(); i != roles.end(); ++i )
 		list << from( *i ).trimmed();
 	return list;
 }
