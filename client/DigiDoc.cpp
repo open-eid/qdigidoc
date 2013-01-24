@@ -763,9 +763,9 @@ QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 	{
 		try
 		{
-			std::auto_ptr<Digest> calc(new Digest( URI_SHA1 ));
+			Digest calc( URI_SHA1 );
 			Document file = m_documentModel->document( m_documentModel->index( i, DocumentModel::Name ) );
-			return fromVector(file.calcDigest( calc.get() ));
+			return fromVector(file.calcDigest( &calc ));
 		}
 		catch( const IOException & ) {}
 	}
