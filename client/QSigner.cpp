@@ -266,13 +266,13 @@ void QSigner::sign( const std::string &method, const std::vector<unsigned char> 
 #ifdef Q_OS_WIN
 	else if( d->csp )
 	{
-		sig = d->csp->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) ) );
+		sig = d->csp->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) );
 		if( d->csp->lastError() == QCSP::PinCanceled )
 			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
 	}
 	else if( d->cng )
 	{
-		sig = d->cng->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) ) );
+		sig = d->cng->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) );
 		if( d->cng->lastError() == QCNG::PinCanceled )
 			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
 	}
