@@ -129,16 +129,16 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 
 			bool valid = false;
 			try {
-				s->validateOffline();
+				s->validate();
 				valid = true;
 			} catch (const Exception &) {
 			}
 			[h appendFormat:@"<dt>Validity</dt><dd>Signature is %@</dd>", valid ? @"valid" : @"not valid"];
 
-			SignerRole roles = s->getSignerRole();
-			if (!roles.isEmpty()) {
+			std::vector<std::string> roles = s->getSignerRole();
+			if (!roles.empty()) {
 				NSMutableArray *array = [NSMutableArray array];
-				for (std::vector<std::string>::const_iterator i = roles.claimedRoles.begin(); i != roles.claimedRoles.end(); ++i) {
+				for (std::vector<std::string>::const_iterator i = roles.begin(); i != roles.end(); ++i) {
 					if( !i->empty() ) {
 						[array addObject:[NSString stdstring:*i]];
 					}
