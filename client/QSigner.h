@@ -46,7 +46,8 @@ public:
 	digidoc::X509Cert getCert() const throw(digidoc::SignException);
 	Qt::HANDLE handle() const;
 	void lock();
-	void sign( const std::string &method, const std::vector<unsigned char> &digest, Signature& signature ) throw(digidoc::SignException);
+	void sign( const std::string &method, const std::vector<unsigned char> &digest,
+		std::vector<unsigned char>& signature ) throw(digidoc::SignException);
 	TokenData token() const;
 	void unlock();
 

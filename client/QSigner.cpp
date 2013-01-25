@@ -233,7 +233,8 @@ void QSigner::selectCard( const QString &card )
 void QSigner::showWarning( const QString &msg )
 { qApp->showWarning( msg ); }
 
-void QSigner::sign( const std::string &method, const std::vector<unsigned char> &digest, Signature &signature ) throw(digidoc::SignException)
+void QSigner::sign(const std::string &method, const std::vector<unsigned char> &digest,
+	std::vector<unsigned char> &signature ) throw(digidoc::SignException)
 {
 	QMutexLocker locker( &d->m );
 	if( !d->t.cards().contains( d->t.card() ) || d->t.cert().isNull() )
@@ -282,9 +283,8 @@ void QSigner::sign( const std::string &method, const std::vector<unsigned char> 
 	reload();
 	if( sig.isEmpty() )
 		throwException( tr("Failed to sign document"), Exception::NoException, __LINE__ );
-	signature.length = sig.size();
-	signature.signature = (unsigned char*)qMalloc( sig.size() );
-	qMemCopy( signature.signature, sig.constData(), sig.size() );
+	signature.resize( sig.size() );
+	qMemCopy( &signature[0], sig.constData(), sig.size() );
 }
 
 void QSigner::throwException( const QString &msg, Exception::ExceptionCode code, int line ) throw(SignException)
