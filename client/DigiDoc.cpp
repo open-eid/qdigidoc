@@ -759,7 +759,9 @@ QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 	if( !checkDoc() )
 		return QByteArray();
 
-	if( b->documentType() == ADoc::BDocType )
+	if( b->documentType() == ADoc::DDocType )
+		return fromVector(static_cast<DDoc*>(b)->getDocumentDigest( i ));
+	else
 	{
 		try
 		{
@@ -769,7 +771,5 @@ QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 		}
 		catch( const IOException & ) {}
 	}
-	else
-		return fromVector(b->getFileDigest( i ));
 	return QByteArray();
 }
