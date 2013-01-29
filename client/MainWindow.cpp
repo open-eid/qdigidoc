@@ -43,6 +43,7 @@
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QMessageBox>
 #include <QtGui/QPrinter>
+#include <QtGui/QPrinterInfo>
 #include <QtGui/QPrintPreviewDialog>
 #include <QtNetwork/QNetworkProxy>
 
@@ -388,6 +389,14 @@ void MainWindow::buttonClicked( int button )
 		break;
 	case ViewPrint:
 	{
+#ifdef Q_OS_WIN
+		if( QPrinterInfo::availablePrinters().isEmpty() )
+		{
+			qApp->showWarning(
+				tr("In order to view to view print summary there has to be at least one printer installed!") );
+			break;
+		}
+#endif
 		QPrintPreviewDialog *dialog = new QPrintPreviewDialog( this );
 		dialog->printer()->setPaperSize( QPrinter::A4 );
 		dialog->printer()->setOrientation( QPrinter::Portrait );

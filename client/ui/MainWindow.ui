@@ -1123,6 +1123,9 @@ color: red;</string>
             <property name="text">
              <string>Print summary</string>
             </property>
+            <property name="shortcut">
+             <string notr="true">Ctrl+P</string>
+            </property>
             <property name="flat">
              <bool>true</bool>
             </property>
