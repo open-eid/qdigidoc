@@ -263,12 +263,11 @@ QString DigiDocSignature::location() const
 
 QStringList DigiDocSignature::locations() const
 {
-	const SignatureProductionPlace p = s->getProductionPlace();
 	return QStringList()
-		<< from( p.city ).trimmed()
-		<< from( p.stateOrProvince ).trimmed()
-		<< from( p.postalCode ).trimmed()
-		<< from( p.countryName ).trimmed();
+		<< from( s->city() ).trimmed()
+		<< from( s->stateOrProvince() ).trimmed()
+		<< from( s->postalCode() ).trimmed()
+		<< from( s->countryName() ).trimmed();
 }
 
 QString DigiDocSignature::mediaType() const
@@ -395,7 +394,7 @@ QString DigiDocSignature::role() const
 QStringList DigiDocSignature::roles() const
 {
 	QStringList list;
-	std::vector<std::string> roles = s->getSignerRole();
+	std::vector<std::string> roles = s->getSignerRoles();
 	for( std::vector<std::string>::const_iterator i = roles.begin(); i != roles.end(); ++i )
 		list << from( *i ).trimmed();
 	return list;
@@ -709,12 +708,12 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 	try
 	{
 		qApp->signer()->setSignatureProductionPlace(
-			SignatureProductionPlace( to(city), to(state), to(zip), to(country) ) );
+			to(city), to(state), to(zip), to(country) );
 		std::vector<std::string> roles;
 		roles.push_back( to(role) );
 		if ( !role2.isEmpty() )
 			roles.push_back( to(role2) );
-		qApp->signer()->setSignerRole( roles );
+		qApp->signer()->setSignerRoles( roles );
 		b->sign( qApp->signer() );
 		result = true;
 	}
