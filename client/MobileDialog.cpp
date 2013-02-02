@@ -187,16 +187,17 @@ void MobileDialog::finished( QNetworkReply *reply )
 
 bool MobileDialog::isTest( const QString &ssid, const QString &cell )
 {
+	QString cell2 = cell.right( 8 );
 	return
-		ssid == "14212128020" && cell == "37200002" ||
-		ssid == "14212128021" && cell == "37200003" ||
-		ssid == "14212128022" && cell == "37200004" ||
-		ssid == "14212128023" && cell == "37200005" ||
-		ssid == "14212128024" && cell == "37200006" ||
-		ssid == "14212128025" && cell == "37200007" ||
-		ssid == "14212128026" && cell == "37200008" ||
-		ssid == "14212128027" && cell == "37200009" ||
-		ssid == "38002240211" && cell == "37200001";
+		ssid == "14212128020" && cell2 == "37200002" ||
+		ssid == "14212128021" && cell2 == "37200003" ||
+		ssid == "14212128022" && cell2 == "37200004" ||
+		ssid == "14212128023" && cell2 == "37200005" ||
+		ssid == "14212128024" && cell2 == "37200006" ||
+		ssid == "14212128025" && cell2 == "37200007" ||
+		ssid == "14212128026" && cell2 == "37200008" ||
+		ssid == "14212128027" && cell2 == "37200009" ||
+		ssid == "38002240211" && cell2 == "37200001";
 }
 
 void MobileDialog::sendStatusRequest( int frame )
