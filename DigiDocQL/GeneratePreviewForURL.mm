@@ -1,5 +1,5 @@
 #include <digidocpp/DDoc.h>
-#include <digidocpp/Document.h>
+#include <digidocpp/DataFile.h>
 #include <digidocpp/SignatureTM.h>
 #include <digidocpp/WDoc.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
@@ -12,7 +12,7 @@ using namespace digidoc;
 extern "C" {
 OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 	CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options);
-void CancelPreviewGeneration(void *thisInterface, QLPreviewRequestRef preview) {}
+void CancelPreviewGeneration(void */*thisInterface*/, QLPreviewRequestRef /*preview*/) {}
 }
 
 @interface NSString (Digidoc)
@@ -54,8 +54,8 @@ void CancelPreviewGeneration(void *thisInterface, QLPreviewRequestRef preview) {
 
 
 
-OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
-	CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options)
+OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef preview,
+	CFURLRef url, CFStringRef /*contentTypeUTI*/, CFDictionaryRef /*options*/)
 {
 	NSMutableString *h = [NSMutableString string];
 	[h appendString:@"<html><head><style>"];
@@ -73,8 +73,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 		WDoc d( [[(__bridge NSURL*)url path] UTF8String] );
 
 		[h appendString:@"<font>Files</font><ol>"];
-		for (unsigned int i = 0; i < d.documentCount(); ++i) {
-			const Document doc = d.getDocument(i);
+		for (const DataFile &doc : d.dataFiles()) {
 			[h appendFormat:@"<li>%@</li>", [NSString stdstring:doc.getFileName()]];
 		}
 		[h appendString:@"</ol>"];
@@ -135,7 +134,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 			}
 			[h appendFormat:@"<dt>Validity</dt><dd>Signature is %@</dd>", valid ? @"valid" : @"not valid"];
 
-			std::vector<std::string> roles = s->getSignerRole();
+			std::vector<std::string> roles = s->getSignerRoles();
 			if (!roles.empty()) {
 				NSMutableArray *array = [NSMutableArray array];
 				for (std::vector<std::string>::const_iterator i = roles.begin(); i != roles.end(); ++i) {
@@ -147,18 +146,17 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 					[h appendFormat:@"<dt>Role</dt><dd>%@&nbsp;</dd>", [array componentsJoinedByString:@" / "]];
 				}
 			}
-			SignatureProductionPlace place = s->getProductionPlace();
-			if (!place.countryName.empty()) {
-				[h appendFormat:@"<dt>Country</dt><dd>%@&nbsp;</dd>", [NSString stdstring:place.countryName]];
+			if (!s->countryName().empty()) {
+				[h appendFormat:@"<dt>Country</dt><dd>%@&nbsp;</dd>", [NSString stdstring:s->countryName()]];
 			}
-			if (!place.city.empty()) {
-				[h appendFormat:@"<dt>City</dt><dd>%@&nbsp;</dd>", [NSString stdstring:place.city]];
+			if (!s->city().empty()) {
+				[h appendFormat:@"<dt>City</dt><dd>%@&nbsp;</dd>", [NSString stdstring:s->city()]];
 			}
-			if (!place.stateOrProvince.empty()) {
-				[h appendFormat:@"<dt>State</dt><dd>%@&nbsp;</dd>", [NSString stdstring:place.stateOrProvince]];
+			if (!s->stateOrProvince().empty()) {
+				[h appendFormat:@"<dt>State</dt><dd>%@&nbsp;</dd>", [NSString stdstring:s->stateOrProvince()]];
 			}
-			if (!place.postalCode.empty()) {
-				[h appendFormat:@"<dt>Postal code</dt><dd>%@&nbsp;</dd>", [NSString stdstring:place.postalCode]];
+			if (!s->postalCode().empty()) {
+				[h appendFormat:@"<dt>Postal code</dt><dd>%@&nbsp;</dd>", [NSString stdstring:s->postalCode()]];
 			}
 			[h appendString:@"</dl>"];
 		}
