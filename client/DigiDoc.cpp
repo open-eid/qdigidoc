@@ -30,7 +30,7 @@
 #include <common/TokenData.h>
 
 #include <digidocpp/DDoc.h>
-#include <digidocpp/Document.h>
+#include <digidocpp/DataFile.h>
 #include <digidocpp/SignatureTM.h>
 #include <digidocpp/WDoc.h>
 #include <digidocpp/crypto/Digest.h>
@@ -71,7 +71,7 @@ int DocumentModel::columnCount( const QModelIndex &parent ) const
 
 QString DocumentModel::copy( const QModelIndex &index, const QString &path ) const
 {
-	Document d = document( index );
+	DataFile d = document( index );
 	if( d.getFilePath().empty() )
 		return QString();
 	QString dst = mkpath( index, path );
@@ -81,7 +81,7 @@ QString DocumentModel::copy( const QModelIndex &index, const QString &path ) con
 
 QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 {
-	Document d = document( index );
+	DataFile d = document( index );
 	if( d.getFilePath().empty() )
 		return QVariant();
 	switch( role )
@@ -138,14 +138,14 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	}
 }
 
-Document DocumentModel::document( const QModelIndex &index ) const
+DataFile DocumentModel::document( const QModelIndex &index ) const
 {
 	if( !hasIndex( index.row(), index.column() ) )
-		return Document( "", "" );
+		return DataFile( "", "" );
 
-	try { return d->b->getDocument( index.row() ); }
+	try { return d->b->dataFiles().at( index.row() ); }
 	catch( const Exception &e ) { d->setLastError( tr("Failed to get files from container"), e ); }
-	return Document( "", "" );
+	return DataFile( "", "" );
 }
 
 Qt::ItemFlags DocumentModel::flags( const QModelIndex & ) const
@@ -209,7 +209,7 @@ bool DocumentModel::removeRows( int row, int count, const QModelIndex &parent )
 	{
 		beginRemoveRows( parent, row, row + count );
 		for( int i = row + count - 1; i >= row; --i )
-			d->b->removeDocument( i );
+			d->b->removeDataFile( i );
 		endRemoveRows();
 		return true;
 	}
@@ -218,7 +218,7 @@ bool DocumentModel::removeRows( int row, int count, const QModelIndex &parent )
 }
 
 int DocumentModel::rowCount( const QModelIndex &parent ) const
-{ return !d->b || parent.isValid() ? 0 : d->b->documentCount(); }
+{ return !d->b || parent.isValid() ? 0 : d->b->dataFiles().size(); }
 
 
 
@@ -502,13 +502,13 @@ void DigiDoc::addFile( const QString &file )
 {
 	if( !checkDoc( b->signatureCount() > 0, tr("Cannot add files to signed container") ) )
 		return;
-	try { b->addDocument( Document( to(file), "application/octet-stream" ) ); m_documentModel->reset(); }
+	try { b->addDataFile( to(file), "application/octet-stream" ); m_documentModel->reset(); }
 	catch( const Exception &e ) { setLastError( tr("Failed add file to container"), e ); }
 }
 
 bool DigiDoc::addSignature( const QByteArray &signature )
 {
-	if( !checkDoc( b->documentCount() == 0, tr("Cannot add signature to empty container") ) )
+	if( !checkDoc( b->dataFiles().size() == 0, tr("Cannot add signature to empty container") ) )
 		return false;
 
 	bool result = false;
@@ -701,7 +701,7 @@ void DigiDoc::setLastError( const QString &msg, const Exception &e )
 bool DigiDoc::sign( const QString &city, const QString &state, const QString &zip,
 	const QString &country, const QString &role, const QString &role2 )
 {
-	if( !checkDoc( b->documentCount() == 0, tr("Cannot add signature to empty container") ) )
+	if( !checkDoc( b->dataFiles().size() == 0, tr("Cannot add signature to empty container") ) )
 		return false;
 
 	bool result = false;
@@ -765,7 +765,7 @@ QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 		try
 		{
 			Digest calc( URI_SHA1 );
-			Document file = m_documentModel->document( m_documentModel->index( i, DocumentModel::Name ) );
+			DataFile file = m_documentModel->document( m_documentModel->index( i, DocumentModel::Name ) );
 			return fromVector(file.calcDigest( &calc ));
 		}
 		catch( const IOException & ) {}

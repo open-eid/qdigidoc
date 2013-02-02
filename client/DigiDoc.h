@@ -26,14 +26,6 @@
 
 #include <digidocpp/ADoc.h>
 
-namespace digidoc
-{
-	class Document;
-	class Exception;
-	class Signer;
-	class Signature;
-}
-
 class DigiDoc;
 class QDateTime;
 class QSslCertificate;
@@ -70,7 +62,7 @@ public Q_SLOTS:
 	void open( const QModelIndex &index );
 
 private:
-	digidoc::Document document( const QModelIndex &index ) const;
+	digidoc::DataFile document( const QModelIndex &index ) const;
 	DocumentModel( DigiDoc *doc );
 	Q_DISABLE_COPY(DocumentModel)
 

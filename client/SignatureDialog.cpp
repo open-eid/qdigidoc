@@ -29,7 +29,7 @@
 #include <common/DateTime.h>
 #include <common/SslCertificate.h>
 
-#include <digidocpp/Document.h>
+#include <digidocpp/DataFile.h>
 
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
