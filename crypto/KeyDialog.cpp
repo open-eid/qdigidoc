@@ -21,6 +21,7 @@
  */
 
 #include "KeyDialog.h"
+#include "ui_KeyDialog.h"
 
 #include "Application.h"
 #include "LdapSearch.h"
@@ -68,7 +69,7 @@ KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 void KeyWidget::link( const QString &url )
 {
 	if( url == "details" )
-		(new KeyDialog( m_key, qApp->activeWindow() ))->show();
+		KeyDialog( m_key, qApp->activeWindow() ).exec();
 	else if( url == "remove" )
 		Q_EMIT remove( m_id );
 }
@@ -76,30 +77,34 @@ void KeyWidget::link( const QString &url )
 
 
 KeyDialog::KeyDialog( const CKey &key, QWidget *parent )
-:	QWidget( parent )
+:	QDialog( parent )
 ,	k( key )
+,	d(new Ui::KeyDialog)
 {
-	setupUi( this );
-	setAttribute( Qt::WA_DeleteOnClose );
-	setWindowFlags( Qt::Dialog );
-	buttonBox->addButton( tr("Show certificate"), QDialogButtonBox::AcceptRole );
+	d->setupUi( this );
+	d->buttonBox->addButton( tr("Show certificate"), QDialogButtonBox::AcceptRole );
 
-	title->setText( k.recipient );
+	d->title->setText( k.recipient );
 
 	addItem( tr("Key"), k.recipient );
 	addItem( tr("Crypt method"), k.type );
 	//addItem( tr("ID"), k.id );
 	addItem( tr("Expires"), key.cert.expiryDate().toLocalTime().toString("dd.MM.yyyy hh:mm:ss") );
 	addItem( tr("Issuer"), key.cert.issuerInfo( QSslCertificate::CommonName ) );
-	view->resizeColumnToContents( 0 );
+	d->view->resizeColumnToContents( 0 );
+}
+
+KeyDialog::~KeyDialog()
+{
+	delete d;
 }
 
 void KeyDialog::addItem( const QString &parameter, const QString &value )
 {
-	QTreeWidgetItem *i = new QTreeWidgetItem( view );
+	QTreeWidgetItem *i = new QTreeWidgetItem( d->view );
 	i->setText( 0, parameter );
 	i->setText( 1, value );
-	view->addTopLevelItem( i );
+	d->view->addTopLevelItem( i );
 }
 
 void KeyDialog::showCertificate()
@@ -430,7 +435,7 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 
 	Q_EMIT updateView();
 	certAddStatus->setText( status ? tr("Certs added successfully") : tr("Failed to add certs") );
-	QTimer::singleShot( 3*1000, certAddStatus, SLOT(hide()) );
+	QTimer::singleShot( 3*1000, certAddStatus, SLOT(clear()) );
 }
 
 void CertAddDialog::enableCardCert() { cardButton->setDisabled( qApp->poller()->token().cert().isNull() ); }
@@ -478,10 +483,10 @@ void CertAddDialog::on_search_clicked()
 		certModel->clear();
 		add->setEnabled( false );
 		disableSearch( true );
-		if( searchType->currentIndex() == 0 )
-			ldap->search( QString( "(serialNumber=%1)" ).arg( searchContent->text() ) );
-		else
+		if( searchType->currentIndex() == 1 )
 			ldap->search( QString( "(cn=*%1*)" ).arg( searchContent->text() ) );
+		else
+			ldap->search( QString( "(serialNumber=%1)" ).arg( searchContent->text() ) );
 	}
 }
 

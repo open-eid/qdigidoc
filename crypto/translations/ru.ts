@@ -15,6 +15,10 @@
         <source>New window</source>
         <translation>Новое окно</translation>
     </message>
+    <message>
+        <source>CAPI parameter is not supported on Windows Vista and newer</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CDocumentModel</name>
@@ -134,6 +138,10 @@ Media type: %3</source>
 It is necessary to have a valid certificate for encryption.</source>
         <translation>У лица или учреждения отсутствует действительный сертификат.
 Для шифрования необходим действительный сертификат.</translation>
+    </message>
+    <message>
+        <source>Company reg nr:</source>
+        <translation>Регистр-ный код:</translation>
     </message>
 </context>
 <context>
@@ -347,7 +355,7 @@ message: %2</source>
     </message>
     <message>
         <source>Documents (*.cdoc)</source>
-        <translation>Документы(*.cdoc)</translation>
+        <translation type="obsolete">Документы(*.cdoc)</translation>
     </message>
     <message>
         <source>Select documents</source>
@@ -428,7 +436,7 @@ message: %2</source>
     </message>
     <message>
         <source>You don&apos;t have privileges to write file %1</source>
-        <translation>У Вас недостаточно прав, для записи файла %1</translation>
+        <translation type="obsolete">У Вас недостаточно прав, для записи файла %1</translation>
     </message>
     <message>
         <source>DigiDoc3 Crypto</source>
@@ -548,6 +556,14 @@ New ID-cards have chip on the back side of the card.</source>
         <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
         <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
+    <message>
+        <source>Documents (%1)</source>
+        <translation>Документы(%1)</translation>
+    </message>
+    <message>
+        <source>No keys specified</source>
+        <translation>Не выбран ни один ключ</translation>
+    </message>
 </context>
 <context>
     <name>Poller</name>
@@ -596,7 +612,7 @@ New ID-cards have chip on the back side of the card.</source>
     </message>
     <message>
         <source>It is not possible to change the file location. Changes will be valid to new containers only.</source>
-        <translation>Невозможно изменить расположение уже открытого конверта. Настройки будут действительны только для новых конвертов.</translation>
+        <translation type="obsolete">Невозможно изменить расположение уже открытого конверта. Настройки будут действительны только для новых конвертов.</translation>
     </message>
 </context>
 <context>

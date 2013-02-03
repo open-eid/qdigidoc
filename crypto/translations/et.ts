@@ -15,6 +15,10 @@
         <source>New window</source>
         <translation>Uus aken</translation>
     </message>
+    <message>
+        <source>CAPI parameter is not supported on Windows Vista and newer</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CDocumentModel</name>
@@ -135,6 +139,10 @@ Tüüp: %3</translatorcomment>
 It is necessary to have a valid certificate for encryption.</source>
         <translation>Isikul või asutusel puudub kehtiv sertifikaat.
 Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
+    </message>
+    <message>
+        <source>Company reg nr:</source>
+        <translation>Registrikood:</translation>
     </message>
 </context>
 <context>
@@ -369,7 +377,7 @@ teade: %2</translation>
     </message>
     <message>
         <source>Documents (*.cdoc)</source>
-        <translation>Turvaümbrikud (*.cdoc)</translation>
+        <translation type="obsolete">Turvaümbrikud (*.cdoc)</translation>
     </message>
     <message>
         <source>Decrypt</source>
@@ -430,7 +438,7 @@ Kas avan Digidoc kliendiga?</translation>
     </message>
     <message>
         <source>You don&apos;t have privileges to write file %1</source>
-        <translation>Sul ei ole piisavalt õigusi et kirjutada faili %1</translation>
+        <translation type="obsolete">Sul ei ole piisavalt õigusi et kirjutada faili %1</translation>
     </message>
     <message>
         <source>DigiDoc3 Crypto</source>
@@ -550,6 +558,14 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
         <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
     </message>
+    <message>
+        <source>Documents (%1)</source>
+        <translation>Turvaümbrikud (%1)</translation>
+    </message>
+    <message>
+        <source>No keys specified</source>
+        <translation>Ühtegi adressaati ei ole lisatud</translation>
+    </message>
 </context>
 <context>
     <name>Poller</name>
@@ -598,7 +614,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>It is not possible to change the file location. Changes will be valid to new containers only.</source>
-        <translation>Juba avatud ümbriku asukohta pole võimalik muuta. See seade kehtib ainult uutele ümbrikutele.</translation>
+        <translation type="obsolete">Juba avatud ümbriku asukohta pole võimalik muuta. See seade kehtib ainult uutele ümbrikutele.</translation>
     </message>
 </context>
 <context>

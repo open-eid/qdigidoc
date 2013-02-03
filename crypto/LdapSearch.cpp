@@ -22,8 +22,8 @@
 
 #include "LdapSearch.h"
 
-#include <QSslCertificate>
-#include <QTimerEvent>
+#include <QtCore/QTimerEvent>
+#include <QtNetwork/QSslCertificate>
 
 #ifdef Q_OS_WIN
 #include <Windows.h>
@@ -64,8 +64,7 @@ bool LdapSearch::init()
 	if( d->ldap )
 		return true;
 
-	d->ldap = ldap_init( "ldap.sk.ee", 389 );
-	if( !d->ldap )
+	if( !(d->ldap = ldap_init( "ldap.sk.ee", 389 )) )
 	{
 		setLastError( tr("Failed to init ldap"), -1 );
 		return false;
@@ -85,7 +84,7 @@ void LdapSearch::search( const QString &search )
 	if( !init() )
 		return;
 
-	char *attrs[] = { const_cast<char*>("userCertificate;binary"), '\0' };
+	char *attrs[] = { const_cast<char*>("userCertificate;binary"), 0 };
 
 	int err = ldap_search_ext( d->ldap, "c=EE", LDAP_SCOPE_SUBTREE,
 		const_cast<char*>(search.toUtf8().constData()), attrs, 0, 0, 0, 0, 0, &d->msg_id );
@@ -98,18 +97,18 @@ void LdapSearch::search( const QString &search )
 void LdapSearch::setLastError( const QString &msg, int err )
 {
 	QString res = msg;
-	if( err != -1 )
+	switch( err )
 	{
+	case -1:
+		break;
+	case LDAP_UNAVAILABLE:
 		res += "<br />";
-		switch( err )
-		{
-		case LDAP_UNAVAILABLE:
-			res += tr("LDAP server is unavailable.");
-			break;
-		default:
-			res += tr( "Error Code: %1 (%2)" ).arg( err ).arg( ldap_err2string( err ) );
-			break;
-		}
+		res += tr("LDAP server is unavailable.");
+		break;
+	default:
+		res += "<br />";
+		res += tr( "Error Code: %1 (%2)" ).arg( err ).arg( ldap_err2string( err ) );
+		break;
 	}
 	Q_EMIT error( res );
 }
@@ -119,44 +118,46 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 	LDAPMessage *result = 0;
 	LDAP_TIMEVAL t = { 5, 0 };
 	int err = ldap_result( d->ldap, d->msg_id, LDAP_MSG_ALL, &t, &result );
-	//int count = ldap_count_messages( ldap, result );
-	if( err == 0 )
-		return;
-	if( err != LDAP_RES_SEARCH_ENTRY && err != LDAP_RES_SEARCH_RESULT )
+	switch( err )
 	{
+	case LDAP_SUCCESS: //Timeout
+		return;
+	case LDAP_RES_SEARCH_ENTRY:
+	case LDAP_RES_SEARCH_RESULT:
+		break;
+	default:
 		setLastError( tr("Failed to get result"), err );
 		killTimer( e->timerId() );
 		return;
 	}
+	killTimer( e->timerId() );
 
 	QList<QSslCertificate> list;
 	if( LDAPMessage *entry = ldap_first_entry( d->ldap, result ) )
 	{
 		do
 		{
-			berval **cert = 0;
-			BerElement *pos;
-			char *attr = ldap_first_attribute( d->ldap, entry, &pos );
-			do
+			BerElement *pos = 0;
+			if( char *attr = ldap_first_attribute( d->ldap, entry, &pos ) )
 			{
-				if( !attr )
-					break;
-				if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
-					cert = ldap_get_values_len( d->ldap, entry, attr );
-				ldap_memfree( attr );
+				do
+				{
+					if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
+					{
+						berval **cert = ldap_get_values_len( d->ldap, entry, attr );
+						for( int i = 0; i < ldap_count_values_len( cert ); ++i )
+							list << QSslCertificate( QByteArray( cert[i]->bv_val, cert[i]->bv_len ), QSsl::Der );
+						ldap_value_free_len( cert );
+					}
+					ldap_memfree( attr );
+				}
+				while( (attr = ldap_next_attribute( d->ldap, entry, pos )) );
 			}
-			while( (attr = ldap_next_attribute( d->ldap, entry, pos ) ) );
 			ber_free( pos, 0 );
-
-			if( ldap_count_values_len( cert ) )
-				list << QSslCertificate( QByteArray( cert[0]->bv_val, cert[0]->bv_len ), QSsl::Der );
-
-			ldap_value_free_len( cert );
 		}
 		while( (entry = ldap_next_entry( d->ldap, entry )) );
 	}
+	ldap_msgfree( result );
 
 	Q_EMIT searchResult( list );
-	ldap_msgfree( result );
-	killTimer( e->timerId() );
 }

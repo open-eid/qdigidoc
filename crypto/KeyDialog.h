@@ -23,12 +23,15 @@
 #pragma once
 
 #include "ui_CertAddDialog.h"
-#include "ui_KeyDialog.h"
 
 #include "CryptoDoc.h"
 
+#include <QDialog>
+
 class IKValidator;
 class LdapSearch;
+
+namespace Ui { class KeyDialog; }
 
 class KeyWidget: public QLabel
 {
@@ -48,12 +51,13 @@ private:
 	CKey m_key;
 };
 
-class KeyDialog: public QWidget, private Ui::KeyDialog
+class KeyDialog: public QDialog
 {
 	Q_OBJECT
 
 public:
 	KeyDialog( const CKey &key, QWidget *parent = 0 );
+	~KeyDialog();
 
 private Q_SLOTS:
 	void showCertificate();
@@ -62,6 +66,7 @@ private:
 	void addItem( const QString &parameter, const QString &value );
 
 	CKey k;
+	Ui::KeyDialog *d;
 };
 
 class HistoryModel: public QAbstractTableModel
