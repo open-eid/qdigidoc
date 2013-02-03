@@ -29,9 +29,10 @@
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
+#include <digidocpp/BDoc.h>
 #include <digidocpp/DDoc.h>
 #include <digidocpp/DataFile.h>
-#include <digidocpp/SignatureTM.h>
+#include <digidocpp/Signature.h>
 #include <digidocpp/WDoc.h>
 #include <digidocpp/crypto/Digest.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
@@ -275,95 +276,34 @@ QString DigiDocSignature::mediaType() const
 
 QSslCertificate DigiDocSignature::ocspCert() const
 {
-	try
-	{
-		switch( type() )
-		{
-		case TMType:
-			return QSslCertificate(
-				fromVector(static_cast<const SignatureTM*>(s)->getOCSPCertificate().encodeDER()), QSsl::Der );
-		case DDocType:
-			return QSslCertificate(
-				fromVector(static_cast<const SignatureDDOC*>(s)->getOCSPCertificate().encodeDER()), QSsl::Der );
-		default: break;
-		}
-	}
-	catch( const Exception & ) {}
-
-	return QSslCertificate();
+	return QSslCertificate(
+		fromVector(s->OCSPCertificate().encodeDER()), QSsl::Der );
 }
 
 QString DigiDocSignature::ocspDigestMethod() const
 {
-	try
-	{
-		std::vector<unsigned char> data;
-		std::string method;
-		switch( type() )
-		{
-		case TMType:
-			static_cast<const SignatureTM*>(s)->getRevocationOCSPRef( data, method );
-			break;
-		case DDocType:
-			static_cast<const SignatureDDOC*>(s)->getRevocationOCSPRef( data, method );
-			break;
-		default: return QString();
-		}
-		return from( method );
-	}
-	catch( const Exception & ) {}
-	return QString();
+	std::vector<unsigned char> data;
+	std::string method;
+	s->revocationOCSPRef( data, method );
+	return from( method );
 }
 
 QByteArray DigiDocSignature::ocspDigestValue() const
 {
-	try
-	{
-		std::vector<unsigned char> data;
-		std::string method;
-		switch( type() )
-		{
-		case TMType:
-			static_cast<const SignatureTM*>(s)->getRevocationOCSPRef( data, method );
-			break;
-		case DDocType:
-			static_cast<const SignatureDDOC*>(s)->getRevocationOCSPRef( data, method );
-			break;
-		default: return QByteArray();
-		}
-		return fromVector( data );
-	}
-	catch( const Exception & ) {}
-	return QByteArray();
+	std::vector<unsigned char> data;
+	std::string method;
+	s->revocationOCSPRef( data, method );
+	return fromVector( data );
 }
 
 QByteArray DigiDocSignature::ocspNonce() const
 {
-	switch( type() )
-	{
-	case TMType:
-		return fromVector(static_cast<const SignatureTM*>(s)->getNonce());
-	case DDocType:
-		return fromVector(static_cast<const SignatureDDOC*>(s)->getNonce());
-	default: break;
-	}
-
-	return QByteArray();
+	return fromVector(s->nonce());
 }
 
 QDateTime DigiDocSignature::ocspTime() const
 {
-	QString dateTime;
-	switch( type() )
-	{
-	case TMType:
-		dateTime = from( static_cast<const SignatureTM*>(s)->getProducedAt() );
-		break;
-	case DDocType:
-		dateTime = from( static_cast<const SignatureDDOC*>(s)->getProducedAt() );
-		break;
-	default: break;
-	}
+	QString dateTime = from( s->producedAt() );
 	if( dateTime.isEmpty() )
 		return QDateTime();
 	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
@@ -411,7 +351,7 @@ void DigiDocSignature::setLastError( const Exception &e ) const
 }
 
 QString DigiDocSignature::signatureMethod() const
-{ return from( s->getSignatureMethod() ); }
+{ return from( s->signatureMethod() ); }
 
 QDateTime DigiDocSignature::signTime() const
 {
@@ -468,24 +408,7 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 
 bool DigiDocSignature::weakDigestMethod() const
 {
-	switch(type())
-	{
-	case BESType:
-	case TMType:
-	case TSType:
-	{
-		std::vector<std::string> ref = static_cast<const digidoc::SignatureBES*>(s)->referenceDigestMethods();
-		Q_FOREACH( const std::string &dig, ref )
-		{
-			if( dig == URI_SHA1 || dig == URI_RSA_SHA1 || dig == URI_SHA224 )
-				return true;
-		}
-		if( signatureMethod() == URI_RSA_SHA1 )
-			return true;
-	}
-	default: break;
-	}
-	return false;
+	return s->isWeak();
 }
 
 
