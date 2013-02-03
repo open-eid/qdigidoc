@@ -271,7 +271,7 @@ QStringList DigiDocSignature::locations() const
 }
 
 QString DigiDocSignature::mediaType() const
-{ return from( s->getMediaType() ); }
+{ return from( s->profile() ); }
 
 QSslCertificate DigiDocSignature::ocspCert() const
 {
@@ -425,7 +425,7 @@ QDateTime DigiDocSignature::signTime() const
 
 DigiDocSignature::SignatureType DigiDocSignature::type() const
 {
-	const std::string ver = s->getMediaType();
+	const std::string ver = s->profile();
 	if( ver.compare( "signature/bdoc-1.0/TM" ) == 0 )
 		return TMType;
 	if( ver.compare( "signature/bdoc-1.0/TS" ) == 0 )
@@ -558,7 +558,7 @@ bool DigiDoc::isSupported() const
 {
 	if( b->signatureCount() == 0 )
 		return true;
-	std::string ver = b->getSignature( 0 )->getMediaType();
+	std::string ver = b->getSignature( 0 )->profile();
 	return ver.compare( 0, 6, "SK-XML" ) &&
 		ver.compare( 0, 15, "DIGIDOC-XML/1.1" ) &&
 		ver.compare( 0, 15, "DIGIDOC-XML/1.2" );
