@@ -249,7 +249,7 @@ QDateTime DigiDocSignature::dateTime() const
 bool DigiDocSignature::isTest() const
 {
 	return SslCertificate( cert() ).type() & SslCertificate::TestType ||
-		SslCertificate( ocspCert() ).type() == SslCertificate::TestType;
+		SslCertificate( ocspCert() ).type() & SslCertificate::TestType;
 }
 
 QString DigiDocSignature::lastError() const { return m_lastError; }
