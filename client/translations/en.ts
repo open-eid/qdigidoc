@@ -169,7 +169,7 @@
         <source>The current file is a DigiDoc container not supported officially any longer.
 We do not recommend you to add signature to this document.
 There is an option to re-sign this document in a new container.</source>
-        <translation>The current file is a DigiDoc container not supported officially any longer.
+        <translation type="obsolete">The current file is a DigiDoc container not supported officially any longer.
 We do not recommend you to add signature to this document.
 There is an option to re-sign this document in a new container.</translation>
     </message>
@@ -210,6 +210,12 @@ There is an option to re-sign this document in a new container.</translation>
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</translation>
+    </message>
+    <message>
+        <source>The current file is a DigiDoc container not supported officially any longer.
+We do not support you to add signature to this document.
+There is an option to re-sign this document in a new container.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -581,6 +587,14 @@ New ID-cards have chip on the back side of the card.</translation>
     <message>
         <source>BDOC signing is not supported in CAPI mode, create DDOC?</source>
         <translation>BDOC signing is not supported in CAPI mode, create DDOC?</translation>
+    </message>
+    <message>
+        <source>In order to view to view print summary there has to be at least one printer installed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Container format is not supported for signing</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1005,10 +1019,6 @@ Valid to: %2</translation>
 <context>
     <name>SignatureDialog</name>
     <message>
-        <source>Signing time</source>
-        <translation>Signing time</translation>
-    </message>
-    <message>
         <source>Signature format</source>
         <translation>Signature format</translation>
     </message>
@@ -1119,6 +1129,10 @@ Valid to: %2</translation>
     <message>
         <source>Nonce value</source>
         <translation>Nonce value</translation>
+    </message>
+    <message>
+        <source>Signers computer time</source>
+        <translation>Signers computer time</translation>
     </message>
 </context>
 <context>

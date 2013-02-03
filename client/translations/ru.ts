@@ -169,7 +169,7 @@
         <source>The current file is a DigiDoc container not supported officially any longer.
 We do not recommend you to add signature to this document.
 There is an option to re-sign this document in a new container.</source>
-        <translation>Данный digidoc контейнер имеет устаревший формат, на который больше не распространяется официальная поддержка.
+        <translation type="obsolete">Данный digidoc контейнер имеет устаревший формат, на который больше не распространяется официальная поддержка.
 Рекомендуем не добавлять к данному документу цифровую подпись.
 При желании Вы можете повторно подписать документ в новом конверте.</translation>
     </message>
@@ -210,6 +210,12 @@ There is an option to re-sign this document in a new container.</source>
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>В понимании эстонского законодательства подпись не равноценна собственноручно данной подписи.
 Данная подпись создана в т.н. формате BES, то есть без подтверждения ее действительности организацией, выдавшей сертификат, и без временного штампа.</translation>
+    </message>
+    <message>
+        <source>The current file is a DigiDoc container not supported officially any longer.
+We do not support you to add signature to this document.
+There is an option to re-sign this document in a new container.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -583,6 +589,14 @@ New ID-cards have chip on the back side of the card.</source>
     </message>
     <message>
         <source>BDOC signing is not supported in CAPI mode, create DDOC?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to view to view print summary there has to be at least one printer installed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Container format is not supported for signing</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1016,10 +1030,6 @@ Valid to: %2</source>
         <translation>Неизвестная ошибка</translation>
     </message>
     <message>
-        <source>Signing time</source>
-        <translation>Время подписи</translation>
-    </message>
-    <message>
         <source>Signature format</source>
         <translation>Формат подписи</translation>
     </message>
@@ -1121,6 +1131,10 @@ Valid to: %2</source>
     </message>
     <message>
         <source>Nonce value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signers computer time</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
