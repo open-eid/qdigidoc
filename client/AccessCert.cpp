@@ -116,7 +116,7 @@ bool AccessCert::download( bool noCard )
 	}
 
 	SslCertificate tempel( qApp->signer()->token().cert() );
-	if( tempel.isTempel() )
+	if( tempel.type() & SslCertificate::TempelType )
 	{
 		setIcon( Information );
 		setText( tr("For getting server access certificate to Tempel contact <a href=\"mailto:sales@sk.ee\">sales@sk.ee</a>") );

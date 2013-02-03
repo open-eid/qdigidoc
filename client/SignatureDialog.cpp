@@ -54,7 +54,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	QTextStream sc( &content );
 	QTextStream st( &tooltip );
 
-	if( cert.isTempel() )
+	if( cert.type() & SslCertificate::TempelType )
 		sc << "<img src=\":/images/ico_stamp_blue_16.png\">";
 	else
 		sc << "<img src=\":/images/ico_person_blue_16.png\">";

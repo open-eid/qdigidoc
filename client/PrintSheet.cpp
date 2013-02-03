@@ -106,7 +106,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 	Q_FOREACH( const DigiDocSignature &sig, doc->signatures() )
 	{
 		const SslCertificate cert = sig.cert();
-		bool tempel = cert.isTempel();
+		bool tempel = cert.type() & SslCertificate::TempelType;
 
 		newPage( 50 );
 		drawText( left, top, tr("NO.") );
