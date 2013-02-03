@@ -1,6 +1,6 @@
 #include <digidocpp/DDoc.h>
 #include <digidocpp/DataFile.h>
-#include <digidocpp/SignatureTM.h>
+#include <digidocpp/Signature.h>
 #include <digidocpp/WDoc.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
 
@@ -82,29 +82,13 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 		for (unsigned int i = 0; i < d.signatureCount(); ++i) {
 			const Signature *s = d.getSignature(i);
 
-			X509Cert ocsp;
-			NSString *date;
-			switch( d.documentType() )
-			{
-				case ADoc::DDocType:
-				{
-					const SignatureDDOC *ddoc = static_cast<const SignatureDDOC*>(s);
-					date = [NSString stdstring:ddoc->getProducedAt()];
-					ocsp = ddoc->getOCSPCertificate();
-					break;
-				}
-				case ADoc::BDocType:
-					if (s->profile() == BDoc::TM_PROFILE) {
-						const SignatureTM *tm = static_cast<const SignatureTM*>(s);
-						date = [NSString stdstring:tm->getProducedAt()];
-						ocsp = tm->getOCSPCertificate();
-						break;
-					}
-				default:
-					date = [NSString stdstring:s->getSigningTime()];
+			NSString *date = [NSString stdstring:s->producedAt()];
+			if ([date length] == 0) {
+				date = [NSString stdstring:s->getSigningTime()];
 			}
 
 			X509Cert cert = s->getSigningCertificate();
+			X509Cert ocsp = s->OCSPCertificate();
 			X509Cert::Type t = cert.type();
 			std::string name;
 			if (t & X509Cert::TempelType) {
@@ -134,17 +118,14 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 			}
 			[h appendFormat:@"<dt>Validity</dt><dd>Signature is %@</dd>", valid ? @"valid" : @"not valid"];
 
-			std::vector<std::string> roles = s->getSignerRoles();
-			if (!roles.empty()) {
-				NSMutableArray *array = [NSMutableArray array];
-				for (std::vector<std::string>::const_iterator i = roles.begin(); i != roles.end(); ++i) {
-					if( !i->empty() ) {
-						[array addObject:[NSString stdstring:*i]];
-					}
+			NSMutableArray *roles = [NSMutableArray array];
+			for (const std::string &role : s->getSignerRoles()) {
+				if( !role.empty() ) {
+					[roles addObject:[NSString stdstring:role]];
 				}
-				if( [array count] > 0 ) {
-					[h appendFormat:@"<dt>Role</dt><dd>%@&nbsp;</dd>", [array componentsJoinedByString:@" / "]];
-				}
+			}
+			if( [roles count] > 0 ) {
+				[h appendFormat:@"<dt>Role</dt><dd>%@&nbsp;</dd>", [roles componentsJoinedByString:@" / "]];
 			}
 			if (!s->countryName().empty()) {
 				[h appendFormat:@"<dt>Country</dt><dd>%@&nbsp;</dd>", [NSString stdstring:s->countryName()]];
