@@ -423,7 +423,7 @@ DigiDoc::~DigiDoc() { clear(); }
 
 void DigiDoc::addFile( const QString &file )
 {
-	if( !checkDoc( b->signatureCount() > 0, tr("Cannot add files to signed container") ) )
+	if( !checkDoc( b->signatures().size() > 0, tr("Cannot add files to signed container") ) )
 		return;
 	try { b->addDataFile( to(file), "application/octet-stream" ); m_documentModel->reset(); }
 	catch( const Exception &e ) { setLastError( tr("Failed add file to container"), e ); }
@@ -479,9 +479,9 @@ QString DigiDoc::fileName() const { return m_fileName; }
 bool DigiDoc::isNull() const { return b == 0; }
 bool DigiDoc::isSupported() const
 {
-	if( b->signatureCount() == 0 )
+	if( b->signatures().empty() )
 		return true;
-	std::string ver = b->getSignature( 0 )->profile();
+	std::string ver = b->signatures().at( 0 )->profile();
 	return ver.compare( 0, 6, "SK-XML" ) &&
 		ver.compare( 0, 15, "DIGIDOC-XML/1.1" ) &&
 		ver.compare( 0, 15, "DIGIDOC-XML/1.2" );
@@ -504,7 +504,7 @@ bool DigiDoc::open( const QString &file )
 		{
 		case ADoc::DDocType:
 		{
-			if( b->signatureCount() == 0 )
+			if( b->signatures().empty() )
 				break;
 
 			if( !isSupported() )
@@ -518,7 +518,7 @@ bool DigiDoc::open( const QString &file )
 		}
 		case ADoc::BDocType:
 		{
-			if( b->signatureCount() == 0 )
+			if( b->signatures().empty() )
 				break;
 
 			bool weak = false;
@@ -572,7 +572,7 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 
 void DigiDoc::removeSignature( unsigned int num )
 {
-	if( !checkDoc( num >= b->signatureCount(), tr("Missing signature") ) )
+	if( !checkDoc( num >= b->signatures().size(), tr("Missing signature") ) )
 		return;
 	try { b->removeSignature( num ); }
 	catch( const Exception &e ) { setLastError( tr("Failed remove signature from container"), e ); }
@@ -665,9 +665,9 @@ QList<DigiDocSignature> DigiDoc::signatures()
 		return list;
 	try
 	{
-		unsigned int count = b->signatureCount();
-		for( unsigned int i = 0; i < count; ++i )
-			list << DigiDocSignature( b->getSignature( i ), this );
+		SignatureList signatures = b->signatures();
+		for( SignatureList::const_iterator i = signatures.begin(); i != signatures.end(); ++i )
+			list << DigiDocSignature( *i, this );
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to get signatures"), e ); }
 	return list;
