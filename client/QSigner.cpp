@@ -240,7 +240,11 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 	if( !d->t.cards().contains( d->t.card() ) || d->t.cert().isNull() )
 		throwException( tr("Signing certificate is not selected."), Exception::NoException, __LINE__ );
 
-	int type = digidoc::Digest::toMethod(method);
+	int type = NID_sha1;
+	if( method == "http://www.w3.org/2001/04/xmldsig-more#rsa-sha224" ) type = NID_sha224;
+	if( method == "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" ) type = NID_sha256;
+	if( method == "http://www.w3.org/2001/04/xmldsig-more#rsa-sha384" ) type = NID_sha384;
+	if( method == "http://www.w3.org/2001/04/xmldsig-more#rsa-sha512" ) type = NID_sha512;
 
 	QByteArray sig;
 	if( d->pkcs11 )

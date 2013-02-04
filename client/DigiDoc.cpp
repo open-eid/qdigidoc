@@ -34,7 +34,6 @@
 #include <digidocpp/DataFile.h>
 #include <digidocpp/Signature.h>
 #include <digidocpp/WDoc.h>
-#include <digidocpp/crypto/Digest.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
 
 #include <QtCore/QDateTime>
@@ -681,17 +680,12 @@ QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 	if( !checkDoc() )
 		return QByteArray();
 
-	if( b->documentType() == ADoc::DDocType )
-		return fromVector(static_cast<DDoc*>(b)->getDocumentDigest( i ));
-	else
+	try
 	{
-		try
-		{
-			Digest calc( URI_SHA1 );
-			DataFile file = m_documentModel->document( m_documentModel->index( i, DocumentModel::Name ) );
-			return fromVector(file.calcDigest( &calc ));
-		}
-		catch( const IOException & ) {}
+		DataFile file = m_documentModel->document( m_documentModel->index( i, DocumentModel::Name ) );
+		return fromVector(file.calcDigest("http://www.w3.org/2000/09/xmldsig#sha1"));
 	}
+	catch( const IOException & ) {}
+
 	return QByteArray();
 }
