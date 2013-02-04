@@ -32,12 +32,13 @@
 #include <common/TokenData.h>
 
 #include <digidocpp/Conf.h>
-#include <digidocpp/crypto/Digest.h>
 
 #include <QtCore/QEventLoop>
 #include <QtCore/QMutex>
 #include <QtCore/QStringList>
 #include <QtNetwork/QSslKey>
+
+#include <openssl/obj_mac.h>
 
 class QSignerPrivate
 {
