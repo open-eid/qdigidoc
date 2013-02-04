@@ -12,7 +12,7 @@ using namespace digidoc;
 extern "C" {
 OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 	CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options);
-void CancelPreviewGeneration(void */*thisInterface*/, QLPreviewRequestRef /*preview*/) {}
+void CancelPreviewGeneration(void * /*thisInterface*/, QLPreviewRequestRef /*preview*/) {}
 }
 
 @interface NSString (Digidoc)
@@ -79,14 +79,7 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 		[h appendString:@"</ol>"];
 
 		[h appendString:@"<font>Signatures</font>"];
-		for (unsigned int i = 0; i < d.signatureCount(); ++i) {
-			const Signature *s = d.getSignature(i);
-
-			NSString *date = [NSString stdstring:s->producedAt()];
-			if ([date length] == 0) {
-				date = [NSString stdstring:s->getSigningTime()];
-			}
-
+		for (const Signature *s : d.signatures()) {
 			X509Cert cert = s->getSigningCertificate();
 			X509Cert ocsp = s->OCSPCertificate();
 			X509Cert::Type t = cert.type();
@@ -102,6 +95,10 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 			}
 			[h appendFormat:@"<dl><dt>Signer</dt><dd>%@</dd>", [NSString stdstring:name]];
 
+			NSString *date = [NSString stdstring:s->producedAt()];
+			if ([date length] == 0) {
+				date = [NSString stdstring:s->getSigningTime()];
+			}
 			[date stringByReplacingOccurrencesOfString:@"Z" withString:@"-0000"];
 			NSDateFormatter *df = [[NSDateFormatter alloc] init];
 			[df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
