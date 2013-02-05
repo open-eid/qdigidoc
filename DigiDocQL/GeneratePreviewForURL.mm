@@ -1,7 +1,6 @@
-#include <digidocpp/DDoc.h>
+#include <digidocpp/Container.h>
 #include <digidocpp/DataFile.h>
 #include <digidocpp/Signature.h>
-#include <digidocpp/WDoc.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
 
 #include <Foundation/Foundation.h>
@@ -70,7 +69,7 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 	try
 	{
 		digidoc::initialize();
-		WDoc d( [[(__bridge NSURL*)url path] UTF8String] );
+		Container d( [[(__bridge NSURL*)url path] UTF8String] );
 
 		[h appendString:@"<font>Files</font><ol>"];
 		for (const DataFile &doc : d.dataFiles()) {
