@@ -224,7 +224,7 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 {
 	QString url = isTest( ssid, cell ) ?
 		"https://www.openxades.org:8443" : "https://digidocservice.sk.ee";
-	request.setUrl( Settings().value( m_doc->documentType() == ADoc::BDocType ?
+	request.setUrl( Settings().value( m_doc->documentType() == DigiDoc::BDocType ?
 		"Client/bdocurl" : "Client/ddocurl", url ).toUrl() );
 
 	labelError->setText( mobileResults.value( "START" ) );
@@ -267,8 +267,8 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 	}
 	r.writeEndElement();
 
-	r.writeParameter( "Format", m_doc->documentType() == ADoc::BDocType ? "BDOC" : "DIGIDOC-XML" );
-	r.writeParameter( "Version", m_doc->documentType() == ADoc::BDocType ? "1.0" : "1.3" );
+	r.writeParameter( "Format", m_doc->documentType() == DigiDoc::BDocType ? "BDOC" : "DIGIDOC-XML" );
+	r.writeParameter( "Version", m_doc->documentType() == DigiDoc::BDocType ? "1.0" : "1.3" );
 	r.writeParameter( "SignatureID", m_doc->newSignatureID() );
 	r.writeParameter( "MessagingMode", "asynchClientServer" );
 	r.writeParameter( "AsyncConfiguration", 0 );

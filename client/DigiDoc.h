@@ -126,6 +126,12 @@ class DigiDoc: public QObject
 {
 	Q_OBJECT
 public:
+	enum DocumentType {
+		DDocType,
+		BDocType,
+		BDoc2Type
+	};
+
 	explicit DigiDoc( QObject *parent = 0 );
 	~DigiDoc();
 
@@ -149,7 +155,7 @@ public:
 		const QString &role,
 		const QString &role2 );
 	QList<DigiDocSignature> signatures();
-	digidoc::ADoc::DocumentType documentType() const;
+	DocumentType documentType() const;
 	QByteArray getFileDigest( unsigned int i ) const;
 
 	static bool parseException( const digidoc::Exception &e, QStringList &causes,

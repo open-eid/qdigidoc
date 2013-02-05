@@ -29,11 +29,10 @@
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
-#include <digidocpp/BDoc.h>
+#include <digidocpp/Container.h>
 #include <digidocpp/DDoc.h>
 #include <digidocpp/DataFile.h>
 #include <digidocpp/Signature.h>
-#include <digidocpp/WDoc.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
 
 #include <QtCore/QDateTime>
@@ -465,9 +464,9 @@ void DigiDoc::create( const QString &file )
 	clear();
 	QString type = QFileInfo( file ).suffix().toLower();
 	if( type == "bdoc" )
-		b = new BDoc();
+		b = new Container(Container::BDocType);
 	else if( type == "ddoc" )
-		b = new DDoc();
+		b = new Container(Container::DDocType);
 	m_fileName = file;
 	m_documentModel->reset();
 }
@@ -496,34 +495,23 @@ bool DigiDoc::open( const QString &file )
 	clear();
 	try
 	{
-		b = new WDoc( to(file) );
+		b = new Container( to(file) );
 		m_fileName = file;
 		m_documentModel->reset();
-		switch( b->documentType() )
-		{
-		case ADoc::DDocType:
-		{
-			if( b->signatures().empty() )
-				break;
 
-			if( !isSupported() )
-			{
-				qApp->showWarning( tr(
-					"The current file is a DigiDoc container not supported officially any longer.\n"
-					"We do not support you to add signature to this document.\n"
-					"There is an option to re-sign this document in a new container.") );
-			}
-			break;
+		if( !isSupported() )
+		{
+			qApp->showWarning( tr(
+				"The current file is a DigiDoc container not supported officially any longer.\n"
+				"We do not support you to add signature to this document.\n"
+				"There is an option to re-sign this document in a new container.") );
 		}
-		case ADoc::BDocType:
+		else if( documentType() != DDocType )
 		{
-			if( b->signatures().empty() )
-				break;
-
 			bool weak = false;
-			Q_FOREACH( const DigiDocSignature &s, signatures() )
+			Q_FOREACH( const Signature *s, b->signatures() )
 			{
-				if( !s.weakDigestMethod() )
+				if( !s->isWeak() )
 					continue;
 				weak = true;
 				break;
@@ -531,10 +519,7 @@ bool DigiDoc::open( const QString &file )
 			if( weak )
 				qApp->showWarning(
 					tr("The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
-			break;
 		} 
-		default: break;
-		}
 		qApp->addRecent( file );
 		return true;
 	}
@@ -672,8 +657,15 @@ QList<DigiDocSignature> DigiDoc::signatures()
 	return list;
 }
 
-ADoc::DocumentType DigiDoc::documentType() const
-{ return checkDoc() ? b->documentType() : ADoc::BDocType; }
+DigiDoc::DocumentType DigiDoc::documentType() const
+{
+	if( checkDoc() )
+	{
+		if( b->mediaType() == "application/vnd.etsi.asic-e+zip" ) return BDoc2Type;
+		if( b->mediaType() == "application/vnd.bdoc-1.0" ) return BDocType;
+	}
+	return DDocType;
+}
 
 QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 {
