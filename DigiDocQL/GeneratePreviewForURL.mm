@@ -44,9 +44,9 @@ void CancelPreviewGeneration(void * /*thisInterface*/, QLPreviewRequestRef /*pre
 
 + (void)parseException:(const Exception&)e result:(NSMutableString *)result
 {
-	[result appendFormat:@"<br />%@", [self stdstring:e.getMsg()]];
-	for( Exception::Causes::const_iterator i = e.getCauses().begin(); i != e.getCauses().end(); ++i ) {
-		[self parseException:*i result:result];
+	[result appendFormat:@"<br />%@", [self stdstring:e.msg()]];
+	for( const Exception &i : e.causes() ) {
+		[self parseException:i result:result];
 	}
 }
 @end
@@ -73,22 +73,22 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 
 		[h appendString:@"<font>Files</font><ol>"];
 		for (const DataFile &doc : d.dataFiles()) {
-			[h appendFormat:@"<li>%@</li>", [NSString stdstring:doc.getFileName()]];
+			[h appendFormat:@"<li>%@</li>", [NSString stdstring:doc.fileName()]];
 		}
 		[h appendString:@"</ol>"];
 
 		[h appendString:@"<font>Signatures</font>"];
 		for (const Signature *s : d.signatures()) {
-			X509Cert cert = s->getSigningCertificate();
+			X509Cert cert = s->signingCertificate();
 			X509Cert ocsp = s->OCSPCertificate();
 			X509Cert::Type t = cert.type();
 			std::string name;
 			if (t & X509Cert::TempelType) {
-				name = cert.getSubjectName("CN");
+				name = cert.subjectName("CN");
 			} else {
-				name = cert.getSubjectName("GN") + " " + cert.getSubjectName("SN");
+				name = cert.subjectName("GN") + " " + cert.subjectName("SN");
 			}
-			name += " " + cert.getSubjectName("serialNumber");
+			name += " " + cert.subjectName("serialNumber");
 			if (t & X509Cert::TestType || ocsp.type() & X509Cert::TestType) {
 				name += " (TEST)";
 			}
@@ -96,7 +96,7 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 
 			NSString *date = [NSString stdstring:s->producedAt()];
 			if ([date length] == 0) {
-				date = [NSString stdstring:s->getSigningTime()];
+				date = [NSString stdstring:s->signingTime()];
 			}
 			[date stringByReplacingOccurrencesOfString:@"Z" withString:@"-0000"];
 			NSDateFormatter *df = [[NSDateFormatter alloc] init];
@@ -115,7 +115,7 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 			[h appendFormat:@"<dt>Validity</dt><dd>Signature is %@</dd>", valid ? @"valid" : @"not valid"];
 
 			NSMutableArray *roles = [NSMutableArray array];
-			for (const std::string &role : s->getSignerRoles()) {
+			for (const std::string &role : s->signerRoles()) {
 				if( !role.empty() ) {
 					[roles addObject:[NSString stdstring:role]];
 				}
