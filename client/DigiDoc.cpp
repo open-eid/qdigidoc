@@ -71,17 +71,17 @@ int DocumentModel::columnCount( const QModelIndex &parent ) const
 QString DocumentModel::copy( const QModelIndex &index, const QString &path ) const
 {
 	DataFile d = document( index );
-	if( d.getFilePath().empty() )
+	if( d.filePath().empty() )
 		return QString();
 	QString dst = mkpath( index, path );
 	QFile::remove( dst );
-	return QFile::copy( from( d.getFilePath() ), dst ) ? dst : QString();
+	return QFile::copy( from( d.filePath() ), dst ) ? dst : QString();
 }
 
 QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 {
 	DataFile d = document( index );
-	if( d.getFilePath().empty() )
+	if( d.filePath().empty() )
 		return QVariant();
 	switch( role )
 	{
@@ -94,10 +94,10 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::DisplayRole:
 		switch( index.column() )
 		{
-		case Id: return from( d.getId() );
-		case Name: return from( d.getFileName() );
-		case Mime: return from( d.getMediaType() );
-		case Size: return FileDialog::fileSize( QFileInfo( from( d.getFilePath() ) ).size() );
+		case Id: return from( d.id() );
+		case Name: return from( d.fileName() );
+		case Mime: return from( d.mediaType() );
+		case Size: return FileDialog::fileSize( QFileInfo( from( d.filePath() ) ).size() );
 		default: return QVariant();
 		}
 	case Qt::TextAlignmentRole:
@@ -114,9 +114,9 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		case Save: return tr("Save");
 		case Remove: return tr("Remove");
 		default: return tr("Filename: %1\nFilesize: %2\nMedia type: %3")
-			.arg( from( d.getFileName() ) )
-			.arg( FileDialog::fileSize( QFileInfo( from( d.getFilePath() ) ).size() ) )
-			.arg( from( d.getMediaType() ) );
+			.arg( from( d.fileName() ) )
+			.arg( FileDialog::fileSize( QFileInfo( from( d.filePath() ) ).size() ) )
+			.arg( from( d.mediaType() ) );
 		}
 	case Qt::DecorationRole:
 		switch( index.column() )
@@ -132,7 +132,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		case Remove: return QSize( 20, 20 );
 		default: return QVariant();
 		}
-	case Qt::UserRole: return QFileInfo( from( d.getFilePath() ) ).absoluteFilePath();
+	case Qt::UserRole: return QFileInfo( from( d.filePath() ) ).absoluteFilePath();
 	default: return QVariant();
 	}
 }
@@ -171,7 +171,7 @@ QStringList DocumentModel::mimeTypes() const
 
 QString DocumentModel::mkpath( const QModelIndex &index, const QString &path ) const
 {
-	QString filename = from( document( index ).getFileName() );
+	QString filename = from( document( index ).fileName() );
 #if defined(Q_OS_WIN)
 	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
 #else
@@ -232,7 +232,7 @@ QSslCertificate DigiDocSignature::cert() const
 	QSslCertificate c;
 	try
 	{
-		c = QSslCertificate( fromVector(s->getSigningCertificate().encodeDER()), QSsl::Der );
+		c = QSslCertificate( fromVector(s->signingCertificate().encodeDER()), QSsl::Der );
 	}
 	catch( const Exception & ) {}
 	return c;
@@ -313,7 +313,7 @@ DigiDoc* DigiDocSignature::parent() const { return m_parent; }
 
 int DigiDocSignature::parseException( const digidoc::Exception &e ) const
 {
-	Q_FOREACH( const Exception &c, e.getCauses() )
+	Q_FOREACH( const Exception &c, e.causes() )
 	{
 		int code = parseException( c );
 		if( code != Exception::NoException )
@@ -332,9 +332,8 @@ QString DigiDocSignature::role() const
 QStringList DigiDocSignature::roles() const
 {
 	QStringList list;
-	std::vector<std::string> roles = s->getSignerRoles();
-	for( std::vector<std::string>::const_iterator i = roles.begin(); i != roles.end(); ++i )
-		list << from( *i ).trimmed();
+	Q_FOREACH( const std::string &role, s->signerRoles() )
+		list << from( role ).trimmed();
 	return list;
 }
 
@@ -353,7 +352,7 @@ QString DigiDocSignature::signatureMethod() const
 
 QDateTime DigiDocSignature::signTime() const
 {
-	QString dateTime = from( s->getSigningTime() );
+	QString dateTime = from( s->signingTime() );
 	if( dateTime.isEmpty() )
 		return QDateTime();
 	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
@@ -531,7 +530,7 @@ bool DigiDoc::open( const QString &file )
 bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	Exception::ExceptionCode &code, int &ddocError )
 {
-	causes << from( e.getMsg() );
+	causes << from( e.msg() );
 	if( e.type() == DDocException::Type )
 		ddocError = static_cast<const DDocException*>(&e)->ddoc();
 	switch( e.code() )
@@ -548,7 +547,7 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 		return false;
 	default: break;
 	}
-	Q_FOREACH( const Exception &c, e.getCauses() )
+	Q_FOREACH( const Exception &c, e.causes() )
 		if( !parseException( c, causes, code, ddocError ) )
 			return false;
 	return true;

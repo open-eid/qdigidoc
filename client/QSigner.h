@@ -43,7 +43,7 @@ public:
 	~QSigner();
 
 	ApiType apiType() const;
-	digidoc::X509Cert getCert() const throw(digidoc::SignException);
+	digidoc::X509Cert cert() const throw(digidoc::SignException);
 	Qt::HANDLE handle() const;
 	void lock();
 	void sign( const std::string &method, const std::vector<unsigned char> &digest,

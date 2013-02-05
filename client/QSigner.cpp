@@ -31,7 +31,7 @@
 #include <common/QPKCS11.h>
 #include <common/TokenData.h>
 
-#include <digidocpp/Conf.h>
+#include <digidocpp/crypto/cert/X509Cert.h>
 
 #include <QtCore/QEventLoop>
 #include <QtCore/QMutex>
@@ -95,7 +95,7 @@ QSigner::ApiType QSigner::apiType() const
 	return PKCS11;
 }
 
-X509Cert QSigner::getCert() const throw(digidoc::SignException)
+X509Cert QSigner::cert() const throw(digidoc::SignException)
 {
 	if( d->t.cert().isNull() )
 		throw SignException( __FILE__, __LINE__, QSigner::tr("Sign certificate is not selected").toUtf8().constData() );
