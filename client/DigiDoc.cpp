@@ -531,8 +531,8 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	Exception::ExceptionCode &code, int &ddocError )
 {
 	causes << from( e.msg() );
-	if( e.type() == DDocException::Type )
-		ddocError = static_cast<const DDocException*>(&e)->ddoc();
+	if( e.code() & Exception::DDocError )
+		ddocError = e.code() & ~Exception::DDocError;
 	switch( e.code() )
 	{
 	case Exception::CertificateRevoked:
