@@ -31,7 +31,7 @@
 #include <common/AboutDialog.h>
 #include <common/Settings.h>
 
-#include <digidocpp/ADoc.h>
+#include <digidocpp/Container.h>
 #include <digidocpp/XmlConf.h>
 
 #include "qtsingleapplication/src/qtlocalpeer.h"

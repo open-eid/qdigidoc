@@ -24,7 +24,8 @@
 
 #include <QtCore/QAbstractTableModel>
 
-#include <digidocpp/ADoc.h>
+#include <digidocpp/Container.h>
+#include <digidocpp/Exception.h>
 
 class DigiDoc;
 class QDateTime;
@@ -165,7 +166,7 @@ private:
 	bool checkDoc( bool status = false, const QString &msg = QString() ) const;
 	void setLastError( const QString &msg, const digidoc::Exception &e );
 
-	digidoc::ADoc	*b;
+	digidoc::Container *b;
 	QString			m_fileName;
 	DocumentModel	*m_documentModel;
 

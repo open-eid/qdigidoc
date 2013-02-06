@@ -29,8 +29,6 @@
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
-#include <digidocpp/Container.h>
-#include <digidocpp/DDoc.h>
 #include <digidocpp/DataFile.h>
 #include <digidocpp/Signature.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
@@ -486,7 +484,24 @@ bool DigiDoc::isSupported() const
 
 QString DigiDoc::newSignatureID() const
 {
-	return QString( "S%1" ).arg( b->newSignatureId() );
+	SignatureList list = b->signatures();
+	unsigned int id = 0;
+	while(true)
+	{
+		bool found = false;
+		for(SignatureList::const_iterator i = list.begin(); i != list.end(); ++i)
+		{
+			if((*i)->id().compare(QString("S%1").arg(id).toUtf8()))
+			{
+				found = true;
+				break;
+			}
+		}
+		if(!found)
+			return QString("S%1").arg(id);
+		++id;
+	}
+	return QString("S%1").arg(id);
 }
 
 bool DigiDoc::open( const QString &file )
