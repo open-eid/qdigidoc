@@ -676,7 +676,7 @@ QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 		DataFile file = m_documentModel->document( m_documentModel->index( i, DocumentModel::Name ) );
 		return fromVector(file.calcDigest("http://www.w3.org/2000/09/xmldsig#sha1"));
 	}
-	catch( const IOException & ) {}
+	catch( const Exception & ) {}
 
 	return QByteArray();
 }

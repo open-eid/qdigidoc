@@ -43,11 +43,11 @@ public:
 	~QSigner();
 
 	ApiType apiType() const;
-	digidoc::X509Cert cert() const throw(digidoc::SignException);
+	digidoc::X509Cert cert() const;
 	Qt::HANDLE handle() const;
 	void lock();
 	void sign( const std::string &method, const std::vector<unsigned char> &digest,
-		std::vector<unsigned char>& signature ) throw(digidoc::SignException);
+		std::vector<unsigned char>& signature );
 	TokenData token() const;
 	void unlock();
 
@@ -62,7 +62,7 @@ private Q_SLOTS:
 private:
 	void reload();
 	void run();
-	void throwException( const QString &msg, digidoc::Exception::ExceptionCode code, int line ) throw(digidoc::SignException);
+	void throwException( const QString &msg, digidoc::Exception::ExceptionCode code, int line );
 
 	QSignerPrivate *d;
 };

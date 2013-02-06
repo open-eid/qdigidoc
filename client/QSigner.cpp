@@ -95,10 +95,10 @@ QSigner::ApiType QSigner::apiType() const
 	return PKCS11;
 }
 
-X509Cert QSigner::cert() const throw(digidoc::SignException)
+X509Cert QSigner::cert() const
 {
 	if( d->t.cert().isNull() )
-		throw SignException( __FILE__, __LINE__, QSigner::tr("Sign certificate is not selected").toUtf8().constData() );
+		throw Exception( __FILE__, __LINE__, QSigner::tr("Sign certificate is not selected").toUtf8().constData() );
 	try
 	{
 		QByteArray der = d->t.cert().toDer();
@@ -106,7 +106,7 @@ X509Cert QSigner::cert() const throw(digidoc::SignException)
 	}
 	catch(const Exception &e)
 	{
-		throw SignException( __FILE__, __LINE__, QSigner::tr("Sign certificate is not selected").toUtf8().constData(), e );
+		throw Exception( __FILE__, __LINE__, QSigner::tr("Sign certificate is not selected").toUtf8().constData(), e );
 	}
 
 	return X509Cert();
@@ -235,7 +235,7 @@ void QSigner::showWarning( const QString &msg )
 { qApp->showWarning( msg ); }
 
 void QSigner::sign(const std::string &method, const std::vector<unsigned char> &digest,
-	std::vector<unsigned char> &signature ) throw(digidoc::SignException)
+	std::vector<unsigned char> &signature )
 {
 	QMutexLocker locker( &d->m );
 	if( !d->t.cards().contains( d->t.card() ) || d->t.cert().isNull() )
@@ -292,10 +292,10 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 	qMemCopy( &signature[0], sig.constData(), sig.size() );
 }
 
-void QSigner::throwException( const QString &msg, Exception::ExceptionCode code, int line ) throw(SignException)
+void QSigner::throwException( const QString &msg, Exception::ExceptionCode code, int line )
 {
 	QString t = msg;
-	SignException e( __FILE__, line, t.toUtf8().constData() );
+	Exception e( __FILE__, line, t.toUtf8().constData() );
 	e.setCode( code );
 	throw e;
 }

@@ -8,6 +8,61 @@
 
 using namespace digidoc;
 
+enum Type
+{
+	UnknownType = 0,
+	DigiIDType = 1,
+	EstEidType = 2,
+	MobileIDType = 4,
+	OCSPType = 8,
+	TempelType = 16,
+
+	TestType = 32,
+	DigiIDTestType = TestType|DigiIDType,
+	EstEidTestType = TestType|EstEidType,
+	MobileIDTestType = TestType|MobileIDType,
+	OCSPTestType = TestType|OCSPType,
+	TempelTestType = TestType|TempelType
+};
+
+static Type type(const X509Cert &cert, bool ocsp)
+{
+	for( const std::string &pol : cert.certificatePolicies() )
+	{
+		if(ocsp)
+		{
+			return pol.compare(0, 20, "1.3.6.1.4.1.10015.3.") == 0 ||
+				cert.subjectName("CN").find("TEST") != std::string::npos ?
+				OCSPTestType : OCSPType;
+		}
+
+		if(pol.compare(0, 22, "1.3.6.1.4.1.10015.1.1.") == 0)
+			return EstEidType;
+		else if(pol.compare(0, 22, "1.3.6.1.4.1.10015.1.2.") == 0)
+			return DigiIDType;
+		else if(pol.compare(0, 22, "1.3.6.1.4.1.10015.1.3.") == 0 ||
+			pol.compare(0, 23, "1.3.6.1.4.1.10015.11.1.") == 0)
+			return MobileIDType;
+
+		else if(pol.compare(0, 22, "1.3.6.1.4.1.10015.3.1.") == 0)
+			return EstEidTestType;
+		else if(pol.compare(0, 22, "1.3.6.1.4.1.10015.3.2.") == 0)
+			return DigiIDTestType;
+		else if(pol.compare(0, 22, "1.3.6.1.4.1.10015.3.3.") == 0 ||
+			pol.compare(0, 23, "1.3.6.1.4.1.10015.11.3.") == 0)
+			return MobileIDTestType;
+		else if(pol.compare(0, 22, "1.3.6.1.4.1.10015.3.7.") == 0 ||
+			(pol.compare(0, 20, "1.3.6.1.4.1.10015.7.") == 0 &&
+			cert.issuerName("CN").find("TEST") != std::string::npos) )
+			return TempelTestType;
+
+		else if(pol.compare(0, 20, "1.3.6.1.4.1.10015.7.") == 0)
+			return TempelType;
+	}
+
+	return UnknownType;
+}
+
 extern "C" {
 OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 	CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options);
@@ -17,7 +72,7 @@ void CancelPreviewGeneration(void * /*thisInterface*/, QLPreviewRequestRef /*pre
 @interface NSString (Digidoc)
 + (NSString*)stdstring:(const std::string&)str;
 + (NSString*)fileSize:(unsigned long)bytes;
-+ (void)parseException:(const Exception&)e result:(NSMutableString *)result;
++ (void)parseException:(const Exception&)e result:(NSMutableArray *)result;
 @end
 
 @implementation NSString (Digidoc)
@@ -42,9 +97,9 @@ void CancelPreviewGeneration(void * /*thisInterface*/, QLPreviewRequestRef /*pre
 	return [NSString stringWithFormat:@"%lu bytes", bytes];
 }
 
-+ (void)parseException:(const Exception&)e result:(NSMutableString *)result
++ (void)parseException:(const Exception&)e result:(NSMutableArray *)result
 {
-	[result appendFormat:@"<br />%@", [self stdstring:e.msg()]];
+	[result addObject:[self stdstring:e.msg()]];
 	for( const Exception &i : e.causes() ) {
 		[self parseException:i result:result];
 	}
@@ -81,15 +136,15 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 		for (const Signature *s : d.signatures()) {
 			X509Cert cert = s->signingCertificate();
 			X509Cert ocsp = s->OCSPCertificate();
-			X509Cert::Type t = cert.type();
+			Type t = type(cert, false);
 			std::string name;
-			if (t & X509Cert::TempelType) {
+			if (t & TempelType) {
 				name = cert.subjectName("CN");
 			} else {
 				name = cert.subjectName("GN") + " " + cert.subjectName("SN");
 			}
 			name += " " + cert.subjectName("serialNumber");
-			if (t & X509Cert::TestType || ocsp.type() & X509Cert::TestType) {
+			if (t & TestType || type(ocsp, true) & TestType) {
 				name += " (TEST)";
 			}
 			[h appendFormat:@"<dl><dt>Signer</dt><dd>%@</dd>", [NSString stdstring:name]];
@@ -139,9 +194,9 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 		}
 		digidoc::terminate();
 	} catch (const Exception &e) {
-		NSMutableString *err = [NSMutableString string];
+		NSMutableArray *err = [NSMutableArray array];
 		[NSString parseException:e result:err];
-		[h appendFormat:@"Failed to load document:%@", err];
+		[h appendFormat:@"Failed to load document:<br />%@", [err componentsJoinedByString:@"<br />"]];
 	}
 	[h appendString:@"</body></html>"];
 
