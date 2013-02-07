@@ -269,7 +269,9 @@ void MainWindow::buttonClicked( int button )
 		if( !file.isEmpty() && doc->open( file ) )
 		{
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
-			buttonGroup->button( ViewAddSignature )->setEnabled( doc->isSupported() );
+			QAbstractButton *b = buttonGroup->button( ViewAddSignature );
+			b->setEnabled( doc->isSupported() );
+			b->setToolTip( b->isEnabled() ? "" : tr("Container format is not supported for signing") );
 		}
 		break;
 	}
@@ -300,7 +302,9 @@ void MainWindow::buttonClicked( int button )
 					if( doc->open( f.absoluteFilePath() ) )
 					{
 						setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
-						buttonGroup->button( ViewAddSignature )->setEnabled( doc->isSupported() );
+						QAbstractButton *b = buttonGroup->button( ViewAddSignature );
+						b->setEnabled( doc->isSupported() );
+						b->setToolTip( b->isEnabled() ? "" : tr("Container format is not supported for signing") );
 					}
 					params.clear();
 					loadRoles();
