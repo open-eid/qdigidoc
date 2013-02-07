@@ -267,7 +267,10 @@ void MainWindow::buttonClicked( int button )
 		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
 			tr("Documents (%1)").arg( "*.bdoc *.ddoc" ) );
 		if( !file.isEmpty() && doc->open( file ) )
+		{
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
+			buttonGroup->button( ViewAddSignature )->setEnabled( doc->isSupported() );
+		}
 		break;
 	}
 	case HomeCrypt:
@@ -295,7 +298,10 @@ void MainWindow::buttonClicked( int button )
 				if( doc->isNull() && exts.contains( f.suffix(), Qt::CaseInsensitive ) )
 				{
 					if( doc->open( f.absoluteFilePath() ) )
+					{
 						setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
+						buttonGroup->button( ViewAddSignature )->setEnabled( doc->isSupported() );
+					}
 					params.clear();
 					loadRoles();
 					return;

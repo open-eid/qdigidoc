@@ -118,7 +118,8 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	sc << "<a href=\"details\" title=\"" << tr("Show details") << "\">" << tr("Show details") << "</a>";
 	sc << "</td></tr><tr><td></td>";
 	sc << "<td align=\"right\">";
-	sc << "<a href=\"remove\" title=\"" << tr("Remove") << "\">" << tr("Remove") << "</a>";
+	if(s.parent()->isSupported())
+		sc << "<a href=\"remove\" title=\"" << tr("Remove") << "\">" << tr("Remove") << "</a>";
 	sc << "</td></tr></table>";
 
 	setText( content );
