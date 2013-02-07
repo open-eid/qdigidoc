@@ -272,7 +272,7 @@ void Application::showSettings()
 {
 	SettingsDialog *s = new SettingsDialog( activeWindow() );
 	s->addAction( d->closeAction );
-	s->show();
+	s->open();
 }
 
 void Application::showWarning( const QString &msg )

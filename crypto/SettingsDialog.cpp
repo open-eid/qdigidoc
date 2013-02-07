@@ -27,21 +27,18 @@
 #include <common/FileDialog.h>
 #include <common/Settings.h>
 
-class SettingsDialogPrivate: public Ui::SettingsDialog {};
-
 SettingsDialog::SettingsDialog( QWidget *parent )
-:	QWidget( parent )
-,	d( new SettingsDialogPrivate )
+:	QDialog( parent )
+,	d( new Ui::SettingsDialog )
 {
 	d->setupUi( this );
 	setAttribute( Qt::WA_DeleteOnClose );
-	setWindowFlags( Qt::Sheet );
 
 	Settings s;
 	s.beginGroup( "Crypto" );
 
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
-#ifdef APPSTORE
+#ifdef Q_OS_MAC
 	d->label->hide();
 	d->defaultSameDir->hide();
 	d->defaultDir->hide();
@@ -57,9 +54,9 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 
 SettingsDialog::~SettingsDialog() { delete d; }
 
-#ifdef APPSTORE
 void SettingsDialog::on_selectDefaultDir_clicked()
 {
+#ifndef Q_OS_MAC
 	QString dir = Settings().value( "Crypto/DefaultDir" ).toString();
 	dir = FileDialog::getExistingDirectory( this, tr("Select folder"), dir );
 	if( !dir.isEmpty() )
@@ -68,15 +65,15 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 		d->defaultDir->setText( dir );
 	}
 	d->defaultSameDir->setChecked( d->defaultDir->text().isEmpty() );
-}
 #endif
+}
 
 void SettingsDialog::save()
 {
 	Settings s;
 	s.beginGroup( "Crypto" );
 	s.setValue( "Intro", d->showIntro->isChecked() );
-#ifndef APPSTORE
+#ifndef Q_OS_MAC
 	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
 	if( d->defaultSameDir->isChecked() )
 	{

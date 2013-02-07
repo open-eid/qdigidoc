@@ -22,10 +22,10 @@
 
 #pragma once
 
-#include <QtGui/QWidget>
+#include <QtGui/QDialog>
 
-class SettingsDialogPrivate;
-class SettingsDialog: public QWidget
+namespace Ui { class SettingsDialog; }
+class SettingsDialog: public QDialog
 {
 	Q_OBJECT
 
@@ -34,11 +34,9 @@ public:
 	~SettingsDialog();
 
 private Q_SLOTS:
-#ifdef APPSTORE
 	void on_selectDefaultDir_clicked();
-#endif
 	void save();
 
 private:
-	SettingsDialogPrivate *d;
+	Ui::SettingsDialog *d;
 };
