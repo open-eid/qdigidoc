@@ -374,8 +374,10 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 {
 	try
 	{
-		digidoc::Conf *i = digidoc::Conf::getInstance();
-                QByteArray v = value.toString().toUtf8();
+		digidoc::XmlConf *i = static_cast<digidoc::XmlConf*>(digidoc::Conf::getInstance());
+		if(!i)
+			return;
+		QByteArray v = value.toString().toUtf8();
 		switch( parameter )
 		{
 		case ProxyHost: i->setProxyHost( v.constData() ); break;
@@ -413,7 +415,7 @@ void Application::showSettings( int page )
 	SettingsDialog *s = new SettingsDialog( activeWindow() );
 	s->addAction( d->closeAction );
 	s->setPage( page );
-	s->show();
+	s->open();
 }
 
 void Application::showWarning( const QString &msg, int err, const QString &details, const QString &search )

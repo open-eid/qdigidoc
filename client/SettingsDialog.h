@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include <QtGui/QWidget>
+#include <QtGui/QDialog>
 
 namespace Ui { class SettingsDialog; }
 
-class SettingsDialog: public QWidget
+class SettingsDialog: public QDialog
 {
 	Q_OBJECT
 
@@ -48,9 +48,7 @@ public:
 private Q_SLOTS:
 	void on_p12Install_clicked();
 	void on_p12Remove_clicked();
-#ifndef APPSTORE
 	void on_selectDefaultDir_clicked();
-#endif
 	void on_showP12Cert_clicked();
 	void on_typeBDoc_clicked( bool checked );
 	void save();

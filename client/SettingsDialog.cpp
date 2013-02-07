@@ -40,12 +40,11 @@
 Q_DECLARE_METATYPE(QSslCertificate)
 
 SettingsDialog::SettingsDialog( QWidget *parent )
-:	QWidget( parent )
+:	QDialog( parent )
 ,	d( new Ui::SettingsDialog )
 {
 	d->setupUi( this );
 	setAttribute( Qt::WA_DeleteOnClose );
-	setWindowFlags( Qt::Sheet );
 	Common::setAccessibleName( d->p12Label );
 
 	Settings s;
@@ -53,7 +52,7 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
 	updateCert();
-#ifdef APPSTORE
+#ifdef Q_OS_MAC
 	d->label->hide();
 	d->defaultSameDir->hide();
 	d->defaultDir->hide();
@@ -102,9 +101,9 @@ void SettingsDialog::on_p12Remove_clicked()
 	updateCert();
 }
 
-#ifndef APPSTORE
 void SettingsDialog::on_selectDefaultDir_clicked()
 {
+#ifndef Q_OS_MAC
 	QString dir = Settings().value( "Client/DefaultDir" ).toString();
 	dir = FileDialog::getExistingDirectory( this, tr("Select folder"), dir );
 	if( !dir.isEmpty() )
@@ -113,8 +112,8 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 		d->defaultDir->setText( dir );
 	}
 	d->defaultSameDir->setChecked( d->defaultDir->text().isEmpty() );
-}
 #endif
+}
 
 void SettingsDialog::on_showP12Cert_clicked()
 {
@@ -147,7 +146,7 @@ void SettingsDialog::save()
 	s.beginGroup( "Client" );
 	s.setValue( "Intro", d->showIntro->isChecked() );
 	s.setValue( "Overwrite", d->signOverwrite->isChecked() );
-#ifndef APPSTORE
+#ifndef Q_OS_MAC
 	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
 	if( d->defaultSameDir->isChecked() )
 	{
