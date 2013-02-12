@@ -589,8 +589,8 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>In order to view to view print summary there has to be at least one printer installed!</source>
-        <translation type="unfinished"></translation>
+        <source>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</source>
+        <translation>Digitaalallkirjade kinnituslehe kuvamiseks peab olema arvutis vähemalt üks printer seadistatud!</translation>
     </message>
     <message>
         <source>Container format is not supported for signing</source>
@@ -1131,7 +1131,7 @@ Kehtib kuni: %2</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Signers computer time</source>
+        <source>Signer&apos;s computer time</source>
         <translation>Allkirjastaja arvuti aeg</translation>
     </message>
 </context>

@@ -592,8 +592,8 @@ New ID-cards have chip on the back side of the card.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>In order to view to view print summary there has to be at least one printer installed!</source>
-        <translation type="unfinished"></translation>
+        <source>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</source>
+        <translation>Для отображения листа подтверждения действительности цифровой подписи на компьютере должен быть установлен как минимум один принтер!</translation>
     </message>
     <message>
         <source>Container format is not supported for signing</source>
@@ -1134,8 +1134,8 @@ Valid to: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Signers computer time</source>
-        <translation type="unfinished"></translation>
+        <source>Signer&apos;s computer time</source>
+        <translation>Время на компьютере подписывающего</translation>
     </message>
 </context>
 <context>

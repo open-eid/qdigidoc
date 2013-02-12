@@ -589,8 +589,8 @@ New ID-cards have chip on the back side of the card.</translation>
         <translation>BDOC signing is not supported in CAPI mode, create DDOC?</translation>
     </message>
     <message>
-        <source>In order to view to view print summary there has to be at least one printer installed!</source>
-        <translation type="unfinished"></translation>
+        <source>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</source>
+        <translation>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</translation>
     </message>
     <message>
         <source>Container format is not supported for signing</source>
@@ -1131,8 +1131,8 @@ Valid to: %2</translation>
         <translation>Nonce value</translation>
     </message>
     <message>
-        <source>Signers computer time</source>
-        <translation>Signers computer time</translation>
+        <source>Signer&apos;s computer time</source>
+        <translation>Signer&apos;s computer time</translation>
     </message>
 </context>
 <context>

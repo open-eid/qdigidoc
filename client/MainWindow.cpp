@@ -403,7 +403,7 @@ void MainWindow::buttonClicked( int button )
 		if( QPrinterInfo::availablePrinters().isEmpty() )
 		{
 			qApp->showWarning(
-				tr("In order to view to view print summary there has to be at least one printer installed!") );
+				tr("In order to view Validity Confirmation Sheet there has to be at least one printer installed!") );
 			break;
 		}
 #endif

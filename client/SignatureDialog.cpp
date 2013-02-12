@@ -206,7 +206,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
-	addItem( t, tr("Signers computer time"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+	addItem( t, tr("Signer's computer time"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature method"), s.signatureMethod() );
 	addItem( t, tr("Signature format"), s.mediaType() );
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
