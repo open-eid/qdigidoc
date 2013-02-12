@@ -74,7 +74,8 @@ MainWindow::MainWindow( QWidget *parent )
 	// Mobile
 	infoMobileCode->setValidator( new IKValidator( infoMobileCode ) );
 	infoMobileCode->setText( s.value( "Client/MobileCode" ).toString() );
-	infoMobileCell->setText( s.value( "Client/MobileNumber", "+372" ).toString() );
+	infoMobileCell->setValidator( new NumberValidator( infoMobileCell ) );
+	infoMobileCell->setText( s.value( "Client/MobileNumber", "372" ).toString() );
 	connect( infoMobileCode, SIGNAL(textEdited(QString)), SLOT(enableSign()) );
 	connect( infoMobileCell, SIGNAL(textEdited(QString)), SLOT(enableSign()) );
 	connect( infoTypeGroup, SIGNAL(buttonClicked(int)), SLOT(showCardStatus()) );
