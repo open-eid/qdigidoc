@@ -48,9 +48,7 @@
 
 #if defined(Q_OS_MAC)
 #include <common/MacMenuBar.h>
-#endif
 
-#ifdef Q_OS_MAC
 class DigidocConf: public digidoc::XmlConf
 {
 public:
@@ -238,7 +236,6 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	QByteArray r;
 	switch( parameter )
 	{
-	case CertStorePath: r = i->getCertStorePath().c_str(); break;
 	case DigestUri: r = i->getDigestUri().c_str(); break;
 	case SignatureUri: r = i->getSignatureUri().c_str(); break;
 	case PKCS11Module: r = i->getPKCS11DriverPath().c_str(); break;

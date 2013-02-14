@@ -41,7 +41,6 @@ class Application: public Common
 public:
 	enum ConfParameter
 	{
-		CertStorePath,
 		DigestUri,
 		SignatureUri,
 		PKCS11Module,
