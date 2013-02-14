@@ -92,10 +92,6 @@ MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
 		QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
 		ssl.setPrivateKey( AccessCert::key() );
 		ssl.setLocalCertificate( AccessCert::cert() );
-#ifdef Q_OS_LINUX
-		ssl.setCaCertificates( ssl.caCertificates() + QSslCertificate::fromPath(
-			QString( qApp->confValue( Application::CertStorePath ).toString() ).append( "/*" ), QSsl::Pem, QRegExp::Wildcard ) );
-#endif
 		request.setSslConfiguration( ssl );
 	}
 
