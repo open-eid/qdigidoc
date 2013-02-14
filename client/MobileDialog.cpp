@@ -232,7 +232,7 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 
 	SOAPDocument r( "MobileCreateSignature", DIGIDOCSERVICE );
 	r.writeParameter( "IDCode", ssid );
-	r.writeParameter( "PhoneNo", cell );
+	r.writeParameter( "PhoneNo", "+" + cell );
 	r.writeParameter( "Language", lang.value( Settings::language(), "EST" ) );
 	r.writeParameter( "ServiceName", "DigiDoc3" );
 	QString title =  tr("Sign") + " " + QFileInfo( m_doc->fileName() ).fileName();

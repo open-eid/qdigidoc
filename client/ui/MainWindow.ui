@@ -442,7 +442,14 @@ padding: 5px;
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QLineEdit" name="infoMobileCell"/>
+                <widget class="QLineEdit" name="infoMobileCell">
+                 <property name="toolTip">
+                  <string>Phone number with format 372XXXXXX</string>
+                 </property>
+                 <property name="placeholderText">
+                  <string>37254321</string>
+                 </property>
+                </widget>
                </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="infoMobileCodeLabel">
@@ -455,7 +462,14 @@ padding: 5px;
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QLineEdit" name="infoMobileCode"/>
+                <widget class="QLineEdit" name="infoMobileCode">
+                 <property name="toolTip">
+                  <string>Personal code</string>
+                 </property>
+                 <property name="placeholderText">
+                  <string>47101010033</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
