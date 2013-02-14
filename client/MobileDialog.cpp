@@ -281,10 +281,10 @@ void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> &err 
 	QStringList msg;
 	Q_FOREACH( const QSslError &e, err )
 	{
-		qWarning() << "SSL Error:" << e.errorString();
 		QString s = e.errorString();
 		if( !e.certificate().isNull() )
 			s.append( QString( " - \"%1\"").arg( e.certificate().subjectInfo( "CN" ) ) );
+		qWarning() << "SSL Error:" << s;
 		msg << s;
 	}
 	reply->ignoreSslErrors();
