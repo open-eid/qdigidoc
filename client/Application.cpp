@@ -236,8 +236,6 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	QByteArray r;
 	switch( parameter )
 	{
-	case DigestUri: r = i->getDigestUri().c_str(); break;
-	case SignatureUri: r = i->getSignatureUri().c_str(); break;
 	case PKCS11Module: r = i->getPKCS11DriverPath().c_str(); break;
 	case ProxyHost: r = i->getProxyHost().c_str(); break;
 	case ProxyPort: r = i->getProxyPort().c_str(); break;

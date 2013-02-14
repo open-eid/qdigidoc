@@ -41,8 +41,6 @@ class Application: public Common
 public:
 	enum ConfParameter
 	{
-		DigestUri,
-		SignatureUri,
 		PKCS11Module,
 		ProxyHost,
 		ProxyPort,

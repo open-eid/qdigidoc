@@ -432,7 +432,7 @@ bool DigiDoc::addSignature( const QByteArray &signature )
 	bool result = false;
 	try
 	{
-		b->addSignature( std::vector<unsigned char>( signature.constData(), signature.constData() + signature.size() ) );
+		b->addRawSignature( std::vector<unsigned char>( signature.constData(), signature.constData() + signature.size() ) );
 		result = true;
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to sign container"), e ); }
