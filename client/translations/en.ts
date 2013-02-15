@@ -215,7 +215,7 @@ This signature is created in the BES format, using no certificate validity confi
         <source>The current file is a DigiDoc container not supported officially any longer.
 We do not support you to add signature to this document.
 There is an option to re-sign this document in a new container.</source>
-        <translation type="unfinished"></translation>
+        <translation>The current file is a DigiDoc container not supported officially any longer.</translation>
     </message>
 </context>
 <context>
@@ -594,7 +594,15 @@ New ID-cards have chip on the back side of the card.</translation>
     </message>
     <message>
         <source>Container format is not supported for signing</source>
-        <translation type="unfinished"></translation>
+        <translation>Container format is not supported for signing</translation>
+    </message>
+    <message>
+        <source>Phone number with format 372XXXXXX</source>
+        <translation>Phone number with format 372XXXXXX</translation>
+    </message>
+    <message>
+        <source>Personal code</source>
+        <translation>Personal code</translation>
     </message>
 </context>
 <context>
@@ -755,10 +763,6 @@ Control code: %1</translation>
         <translation>HASH VALUE OF ISSUER&apos;S PUBLIC KEY</translation>
     </message>
     <message>
-        <source>HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)</source>
-        <translation>HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)</translation>
-    </message>
-    <message>
         <source>The print out of files listed in the section &lt;b&gt;&quot;Signed Files&quot;&lt;/b&gt; are inseparable part of this Validity Confirmation Sheet.</source>
         <translation>The print out of files listed in the section &lt;b&gt;&quot;Signed Files&quot;&lt;/b&gt; are inseparable part of this Validity Confirmation Sheet.</translation>
     </message>
@@ -789,6 +793,10 @@ Control code: %1</translation>
     <message>
         <source>SIGNATURE IS NOT VALID</source>
         <translation>SIGNATURE IS NOT VALID</translation>
+    </message>
+    <message>
+        <source>HASH VALUE OF SIGNATURE</source>
+        <translation>HASH VALUE OF SIGNATURE</translation>
     </message>
 </context>
 <context>
@@ -1095,10 +1103,6 @@ Valid to: %2</translation>
         <translation>Time</translation>
     </message>
     <message>
-        <source>Hash value of validity confirmation</source>
-        <translation>Hash value of validity confirmation</translation>
-    </message>
-    <message>
         <source>Signature is not valid</source>
         <translation>Signature is not valid</translation>
     </message>
@@ -1127,12 +1131,12 @@ Valid to: %2</translation>
         <translation>Show signer&apos;s certificate</translation>
     </message>
     <message>
-        <source>Nonce value</source>
-        <translation>Nonce value</translation>
-    </message>
-    <message>
         <source>Signer&apos;s computer time</source>
         <translation>Signer&apos;s computer time</translation>
+    </message>
+    <message>
+        <source>Hash value of signature</source>
+        <translation>Hash value of signature</translation>
     </message>
 </context>
 <context>

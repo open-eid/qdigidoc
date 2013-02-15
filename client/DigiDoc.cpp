@@ -230,7 +230,7 @@ QSslCertificate DigiDocSignature::cert() const
 	QSslCertificate c;
 	try
 	{
-		c = QSslCertificate( fromVector(s->signingCertificate().encodeDER()), QSsl::Der );
+		c = QSslCertificate( fromVector(s->signingCertificate()), QSsl::Der );
 	}
 	catch( const Exception & ) {}
 	return c;
@@ -273,23 +273,7 @@ QString DigiDocSignature::mediaType() const
 QSslCertificate DigiDocSignature::ocspCert() const
 {
 	return QSslCertificate(
-		fromVector(s->OCSPCertificate().encodeDER()), QSsl::Der );
-}
-
-QString DigiDocSignature::ocspDigestMethod() const
-{
-	std::vector<unsigned char> data;
-	std::string method;
-	s->revocationOCSPRef( data, method );
-	return from( method );
-}
-
-QByteArray DigiDocSignature::ocspDigestValue() const
-{
-	std::vector<unsigned char> data;
-	std::string method;
-	s->revocationOCSPRef( data, method );
-	return fromVector( data );
+		fromVector(s->OCSPCertificate()), QSsl::Der );
 }
 
 QByteArray DigiDocSignature::ocspNonce() const

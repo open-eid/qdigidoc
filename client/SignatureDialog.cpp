@@ -224,8 +224,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		addItem( d->ocspView, tr("Certificate issuer"), ocsp.issuerInfo( QSslCertificate::CommonName ) );
 		addItem( d->ocspView, tr("Certificate serialnumber"), ocsp.serialNumber() );
 		addItem( d->ocspView, tr("Time"), DateTime( s.ocspTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( d->ocspView, tr("Hash value of validity confirmation"), SslCertificate::toHex( s.ocspDigestValue() ) );
-		addItem( d->ocspView, tr("Nonce value"), SslCertificate::toHex( s.ocspNonce() ) );
+		addItem( d->ocspView, tr("Hash value of signature"), SslCertificate::toHex( s.ocspNonce() ) );
 		d->ocspView->resizeColumnToContents( 0 );
 	}
 	else

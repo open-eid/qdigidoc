@@ -149,7 +149,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 			cert.toHex( cert.authorityKeyIdentifier() ) );
 		top += 20 + issuerHeight;
 
-		customText( tr("HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)"), cert.toHex( sig.ocspDigestValue() ) );
+		customText( tr("HASH VALUE OF SIGNATURE"), cert.toHex( sig.ocspNonce() ) );
 		top += 15;
 	}
 	save();

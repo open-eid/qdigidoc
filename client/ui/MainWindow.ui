@@ -447,7 +447,7 @@ padding: 5px;
                   <string>Phone number with format 372XXXXXX</string>
                  </property>
                  <property name="placeholderText">
-                  <string>37254321</string>
+                  <string notr="true">37254321</string>
                  </property>
                 </widget>
                </item>
@@ -467,7 +467,7 @@ padding: 5px;
                   <string>Personal code</string>
                  </property>
                  <property name="placeholderText">
-                  <string>47101010033</string>
+                  <string notr="true">47101010033</string>
                  </property>
                 </widget>
                </item>
@@ -1203,7 +1203,7 @@ color: red;</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../images/images.qrc"/>
+  <include location="../../common/images/common_images.qrc"/>
  </resources>
  <connections>
   <connection>

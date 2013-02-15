@@ -599,6 +599,14 @@ New ID-cards have chip on the back side of the card.</source>
         <source>Container format is not supported for signing</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Phone number with format 372XXXXXX</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Personal code</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -758,10 +766,6 @@ Control code: %1</source>
         <translation>СОКРАШЕНИЕ ПУБЛИЧНОГО КЛЮЧА ВЫДАВШЕГО СЕРТИФИКАТА</translation>
     </message>
     <message>
-        <source>HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)</source>
-        <translation>СОКРАЩЕНИЕ СООБЩЕНИЯ ПОДТВЕРЖДЕНИЯ ДЕЙСТВИТЕЛЬНОСТИ</translation>
-    </message>
-    <message>
         <source>The print out of files listed in the section &lt;b&gt;&quot;Signed Files&quot;&lt;/b&gt; are inseparable part of this Validity Confirmation Sheet.</source>
         <translation>Неотъемлемой частью этого листа подтверждения подписей является распечатка названных файлов на бумаге в разделе &lt;b&gt;&quot;Подписанные файлы&quot;&lt;/b&gt;.</translation>
     </message>
@@ -792,6 +796,10 @@ Control code: %1</source>
     <message>
         <source>SIGNATURE IS NOT VALID</source>
         <translation>ПОДПИСЬ НЕДЕЙСТВИТЕЛЬНА</translation>
+    </message>
+    <message>
+        <source>HASH VALUE OF SIGNATURE</source>
+        <translation>ХЭШ ЗНАЧАНИЕ ПОДТВЕРЖДЕНИЯ ПОДЛИННОСТИ ПОДПИСИ</translation>
     </message>
 </context>
 <context>
@@ -1098,10 +1106,6 @@ Valid to: %2</source>
         <translation>Время</translation>
     </message>
     <message>
-        <source>Hash value of validity confirmation</source>
-        <translation>Сокрашение сообщения подтверждения деиствительности</translation>
-    </message>
-    <message>
         <source>Signature is not valid</source>
         <translation>Подпись недействительна</translation>
     </message>
@@ -1130,12 +1134,12 @@ Valid to: %2</source>
         <translation>Сертификат пользователя</translation>
     </message>
     <message>
-        <source>Nonce value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Signer&apos;s computer time</source>
         <translation>Время на компьютере подписывающего</translation>
+    </message>
+    <message>
+        <source>Hash value of signature</source>
+        <translation>Хэш значание подтверждения подлинности подписи</translation>
     </message>
 </context>
 <context>

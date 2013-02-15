@@ -100,8 +100,6 @@ public:
 	QStringList	locations() const;
 	QString		mediaType() const;
 	QSslCertificate ocspCert() const;
-	QString		ocspDigestMethod() const;
-	QByteArray	ocspDigestValue() const;
 	QByteArray	ocspNonce() const;
 	QDateTime	ocspTime() const;
 	DigiDoc		*parent() const;
