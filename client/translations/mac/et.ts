@@ -169,7 +169,7 @@
         <source>The current file is a DigiDoc container not supported officially any longer.
 We do not recommend you to add signature to this document.
 There is an option to re-sign this document in a new container.</source>
-        <translation>Tegemist on vanas formaadis digidoc konteineriga, mida enam ametlikult ei toetata.
+        <translation type="obsolete">Tegemist on vanas formaadis digidoc konteineriga, mida enam ametlikult ei toetata.
 Soovitame Teil sellele dokumendile mitte allkirja lisada.
 Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjastada.</translation>
     </message>
@@ -210,6 +210,12 @@ Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjast
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>Allkiri ei ole Eesti seadusandluse mõistes võrdväärne käsitsi antud allkirjaga.
 Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusmaterjalita ja sõltumatu osapoole ajakinnituseta.</translation>
+    </message>
+    <message>
+        <source>The current file is a DigiDoc container not supported officially any longer.
+We do not support you to add signature to this document.
+There is an option to re-sign this document in a new container.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -580,6 +586,14 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>BDOC signing is not supported in CAPI mode, create DDOC?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</source>
+        <translation>Digitaalallkirjade kinnituslehe kuvamiseks peab olema arvutis vähemalt üks printer seadistatud!</translation>
+    </message>
+    <message>
+        <source>Container format is not supported for signing</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1005,10 +1019,6 @@ Kehtib kuni: %2</translation>
 <context>
     <name>SignatureDialog</name>
     <message>
-        <source>Signing time</source>
-        <translation>Allkirjastamise aeg</translation>
-    </message>
-    <message>
         <source>Signature format</source>
         <translation>Allkirja formaat</translation>
     </message>
@@ -1119,6 +1129,10 @@ Kehtib kuni: %2</translation>
     <message>
         <source>Nonce value</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signer&apos;s computer time</source>
+        <translation>Allkirjastaja arvuti aeg</translation>
     </message>
 </context>
 <context>
