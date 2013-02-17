@@ -568,7 +568,7 @@ void DigiDoc::save( const QString &filename )
 	{
 		if( !filename.isEmpty() )
 			m_fileName = filename;
-		b->saveTo( to(m_fileName) );
+		b->save( to(m_fileName) );
 		qApp->addRecent( filename );
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to save container"), e ); }
