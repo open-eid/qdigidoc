@@ -1,6 +1,7 @@
 #include <digidocpp/Container.h>
 #include <digidocpp/DataFile.h>
 #include <digidocpp/Signature.h>
+#include <digidocpp/Exception.h>
 #include <digidocpp/crypto/cert/X509Cert.h>
 
 #include <Foundation/Foundation.h>
