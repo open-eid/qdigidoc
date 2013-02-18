@@ -54,21 +54,21 @@ class DigidocConf: public digidoc::XmlConf
 public:
 	DigidocConf(): digidoc::XmlConf() { s.beginGroup( "Client" ); }
 
-	std::string getProxyHost() const
+	std::string proxyHost() const
 	{ return s.value( "ProxyHost" ).toString().toStdString(); }
-	std::string getProxyPort() const
+	std::string proxyPort() const
 	{ return s.value( "ProxyPort" ).toString().toStdString(); }
-	std::string getProxyUser() const
+	std::string proxyUser() const
 	{ return s.value( "ProxyUser" ).toString().toStdString(); }
-	std::string getProxyPass() const
+	std::string proxyPass() const
 	{ return s.value( "ProxyPass" ).toString().toStdString(); }
-	std::string getKCS12Cert() const
+	std::string PKCS12Cert() const
 	{ return ""; }
-	std::string getPKCS12Pass() const
+	std::string PKCS12Pass() const
 	{ return ""; }
-	bool getPKCS12Disable() const
+	bool PKCS12Disable() const
 	{ return s.value( "PKCS12Disable", false ).toBool(); }
-	std::string getPKCS11DriverPath() const
+	std::string PKCS11Driver() const
 	{ return QString( qApp->applicationDirPath() + "/opensc-pkcs11.so" ).toStdString(); }
 
 
@@ -230,20 +230,20 @@ void Application::closeWindow()
 QVariant Application::confValue( ConfParameter parameter, const QVariant &value )
 {
 	digidoc::Conf *i = 0;
-	try { i = digidoc::Conf::getInstance(); }
+	try { i = digidoc::Conf::instance(); }
 	catch( const digidoc::Exception & ) { return value; }
 
 	QByteArray r;
 	switch( parameter )
 	{
-	case PKCS11Module: r = i->getPKCS11DriverPath().c_str(); break;
-	case ProxyHost: r = i->getProxyHost().c_str(); break;
-	case ProxyPort: r = i->getProxyPort().c_str(); break;
-	case ProxyUser: r = i->getProxyUser().c_str(); break;
-	case ProxyPass: r = i->getProxyPass().c_str(); break;
-	case PKCS12Cert: r = i->getPKCS12Cert().c_str(); break;
-	case PKCS12Pass: r = i->getPKCS12Pass().c_str(); break;
-	case PKCS12Disable: return i->getPKCS12Disable(); break;
+	case PKCS11Module: r = i->PKCS11Driver().c_str(); break;
+	case ProxyHost: r = i->proxyHost().c_str(); break;
+	case ProxyPort: r = i->proxyPort().c_str(); break;
+	case ProxyUser: r = i->proxyUser().c_str(); break;
+	case ProxyPass: r = i->proxyPass().c_str(); break;
+	case PKCS12Cert: r = i->PKCS12Cert().c_str(); break;
+	case PKCS12Pass: r = i->PKCS12Pass().c_str(); break;
+	case PKCS12Disable: return i->PKCS12Disable(); break;
 	default: break;
 	}
 	return r.isEmpty() ? value.toString() : QString::fromUtf8( r );
@@ -369,7 +369,7 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 {
 	try
 	{
-		digidoc::XmlConf *i = static_cast<digidoc::XmlConf*>(digidoc::Conf::getInstance());
+		digidoc::XmlConf *i = static_cast<digidoc::XmlConf*>(digidoc::Conf::instance());
 		if(!i)
 			return;
 		QByteArray v = value.toString().toUtf8();
