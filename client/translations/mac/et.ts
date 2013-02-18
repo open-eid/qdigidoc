@@ -596,6 +596,14 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <source>Container format is not supported for signing</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Phone number with format 372XXXXXX</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Personal code</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -755,10 +763,6 @@ Kontrollkood: %1</translation>
         <translation>SERTIFIKAADI VÄLJAANDJA  AVALIKU VÕTME LÜHEND</translation>
     </message>
     <message>
-        <source>HASH VALUE OF VALIDITY CONFIRMATION (OCSP RESPONSE)</source>
-        <translation>KEHTIVUSKINNITUSE SÕNUMILÜHEND</translation>
-    </message>
-    <message>
         <source>The print out of files listed in the section &lt;b&gt;&quot;Signed Files&quot;&lt;/b&gt; are inseparable part of this Validity Confirmation Sheet.</source>
         <translation>Selle kinnituslehe lahutamatu osa on lõigus &lt;b&gt;&quot;Allkirjastatud failid&quot;&lt;/b&gt; nimetatud failide esitus paberil.</translation>
     </message>
@@ -789,6 +793,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>SIGNATURE IS NOT VALID</source>
         <translation>ALLKIRI EI OLE KEHTIV</translation>
+    </message>
+    <message>
+        <source>HASH VALUE OF SIGNATURE</source>
+        <translation>ALLKIRJA SÕNUMILÜHEND</translation>
     </message>
 </context>
 <context>
@@ -1095,10 +1103,6 @@ Kehtib kuni: %2</translation>
         <translation>Aeg</translation>
     </message>
     <message>
-        <source>Hash value of validity confirmation</source>
-        <translation>Kehtivuskinnituse sõnumilühend</translation>
-    </message>
-    <message>
         <source>Signature is not valid</source>
         <translation>Allkiri ei ole kehtiv</translation>
     </message>
@@ -1127,12 +1131,12 @@ Kehtib kuni: %2</translation>
         <translation>Näita allkirjastaja sertifikaati</translation>
     </message>
     <message>
-        <source>Nonce value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Signer&apos;s computer time</source>
         <translation>Allkirjastaja arvuti aeg</translation>
+    </message>
+    <message>
+        <source>Hash value of signature</source>
+        <translation>Allkirja sõnumilühend</translation>
     </message>
 </context>
 <context>
