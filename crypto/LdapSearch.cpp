@@ -145,7 +145,7 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 					if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
 					{
 						berval **cert = ldap_get_values_len( d->ldap, entry, attr );
-						for( int i = 0; i < ldap_count_values_len( cert ); ++i )
+						for( ULONG i = 0; i < ldap_count_values_len( cert ); ++i )
 							list << QSslCertificate( QByteArray( cert[i]->bv_val, cert[i]->bv_len ), QSsl::Der );
 						ldap_value_free_len( cert );
 					}

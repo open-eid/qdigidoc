@@ -320,6 +320,7 @@ int CertModel::rowCount( const QModelIndex &index ) const
 CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 :	QWidget( parent )
 ,	doc( _doc )
+,	ldap( new LdapSearch( this ) )
 {
 	setupUi( this );
 	setAttribute( Qt::WA_DeleteOnClose );
@@ -343,7 +344,6 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	usedView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	usedView->header()->setResizeMode( HistoryModel::Owner, QHeaderView::Stretch );
 
-	ldap = new LdapSearch( this );
 	connect( ldap, SIGNAL(searchResult(QList<QSslCertificate>)),
 		SLOT(showResult(QList<QSslCertificate>)) );
 	connect( ldap, SIGNAL(error(QString)), SLOT(showError(QString)) );
@@ -483,6 +483,7 @@ void CertAddDialog::on_search_clicked()
 		certModel->clear();
 		add->setEnabled( false );
 		disableSearch( true );
+		qApp->processEvents();
 		if( searchType->currentIndex() == 1 )
 			ldap->search( QString( "(cn=*%1*)" ).arg( searchContent->text() ) );
 		else
