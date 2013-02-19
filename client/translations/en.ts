@@ -759,10 +759,6 @@ Control code: %1</translation>
         <translation>ISSUER OF CERTIFICATE</translation>
     </message>
     <message>
-        <source>HASH VALUE OF ISSUER&apos;S PUBLIC KEY</source>
-        <translation>HASH VALUE OF ISSUER&apos;S PUBLIC KEY</translation>
-    </message>
-    <message>
         <source>The print out of files listed in the section &lt;b&gt;&quot;Signed Files&quot;&lt;/b&gt; are inseparable part of this Validity Confirmation Sheet.</source>
         <translation>The print out of files listed in the section &lt;b&gt;&quot;Signed Files&quot;&lt;/b&gt; are inseparable part of this Validity Confirmation Sheet.</translation>
     </message>
@@ -797,6 +793,10 @@ Control code: %1</translation>
     <message>
         <source>HASH VALUE OF SIGNATURE</source>
         <translation>HASH VALUE OF SIGNATURE</translation>
+    </message>
+    <message>
+        <source>AUTHORITY KEY IDENTIFIER</source>
+        <translation>AUTHORITY KEY IDENTIFIER</translation>
     </message>
 </context>
 <context>

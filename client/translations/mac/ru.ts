@@ -762,10 +762,6 @@ Control code: %1</source>
         <translation>ИМЯ ВЫДАВШЕГО СЕРТИФИКАТА</translation>
     </message>
     <message>
-        <source>HASH VALUE OF ISSUER&apos;S PUBLIC KEY</source>
-        <translation>СОКРАШЕНИЕ ПУБЛИЧНОГО КЛЮЧА ВЫДАВШЕГО СЕРТИФИКАТА</translation>
-    </message>
-    <message>
         <source>The print out of files listed in the section &lt;b&gt;&quot;Signed Files&quot;&lt;/b&gt; are inseparable part of this Validity Confirmation Sheet.</source>
         <translation>Неотъемлемой частью этого листа подтверждения подписей является распечатка названных файлов на бумаге в разделе &lt;b&gt;&quot;Подписанные файлы&quot;&lt;/b&gt;.</translation>
     </message>
@@ -800,6 +796,10 @@ Control code: %1</source>
     <message>
         <source>HASH VALUE OF SIGNATURE</source>
         <translation>ХЭШ ЗНАЧАНИЕ ПОДТВЕРЖДЕНИЯ ПОДЛИННОСТИ ПОДПИСИ</translation>
+    </message>
+    <message>
+        <source>AUTHORITY KEY IDENTIFIER</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

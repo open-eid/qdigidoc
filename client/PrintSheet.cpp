@@ -141,7 +141,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 
 		newPage( 50 );
 		drawText( left, top, tr("ISSUER OF CERTIFICATE") );
-		drawText( left+207, top, tr("HASH VALUE OF ISSUER'S PUBLIC KEY") );
+		drawText( left+207, top, tr("AUTHORITY KEY IDENTIFIER") );
 		top += 5;
 		int issuerHeight = drawTextRect( QRect( left, top, 200, 20 ),
 			cert.issuerInfo( QSslCertificate::CommonName ) );

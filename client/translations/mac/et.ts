@@ -759,10 +759,6 @@ Kontrollkood: %1</translation>
         <translation>SERTIFIKAADI VÄLJAANDJA  NIMI</translation>
     </message>
     <message>
-        <source>HASH VALUE OF ISSUER&apos;S PUBLIC KEY</source>
-        <translation>SERTIFIKAADI VÄLJAANDJA  AVALIKU VÕTME LÜHEND</translation>
-    </message>
-    <message>
         <source>The print out of files listed in the section &lt;b&gt;&quot;Signed Files&quot;&lt;/b&gt; are inseparable part of this Validity Confirmation Sheet.</source>
         <translation>Selle kinnituslehe lahutamatu osa on lõigus &lt;b&gt;&quot;Allkirjastatud failid&quot;&lt;/b&gt; nimetatud failide esitus paberil.</translation>
     </message>
@@ -797,6 +793,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>HASH VALUE OF SIGNATURE</source>
         <translation>ALLKIRJA SÕNUMILÜHEND</translation>
+    </message>
+    <message>
+        <source>AUTHORITY KEY IDENTIFIER</source>
+        <translation>VÄLJAANDJA VÕTME IDENTIFIKAATOR</translation>
     </message>
 </context>
 <context>
