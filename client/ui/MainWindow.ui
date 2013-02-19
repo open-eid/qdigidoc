@@ -129,7 +129,7 @@ color: #668696;
 padding-left: 10px;
 padding-right: 10px;
 }
-#infoFrame QLabel
+#infoFrame QLabel, #infoFrame QLineEdit
 {
 color: #668696;
 }
