@@ -38,10 +38,10 @@ class MobileDialog : public QDialog, private Ui::MobileDialog
 	Q_OBJECT
 
 public:
-	MobileDialog( DigiDoc *doc, QWidget *parent = 0 );
-	void setSignatureInfo( const QString &city, const QString &state, const QString &zip,
-							const QString &country, const QString &role, const QString &role2 );
-	void sign( const QString &ssid, const QString &cell );
+	explicit MobileDialog( QWidget *parent = 0 );
+	void setSignatureInfo( const QString &city, const QString &state,
+		const QString &zip, const QString &country, const QStringList &roles );
+	void sign( const DigiDoc *doc, const QString &ssid, const QString &cell );
 	QByteArray signature() const;
 
 	static bool isTest( const QString &ssid, const QString &cell );
@@ -53,7 +53,6 @@ private Q_SLOTS:
 	void sslErrors( QNetworkReply *reply, const QList<QSslError> &errors );
 
 private:
-	DigiDoc *m_doc;
 	QTimeLine *statusTimer;
 	QNetworkAccessManager *manager;
 	QNetworkRequest request;

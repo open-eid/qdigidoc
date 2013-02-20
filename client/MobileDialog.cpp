@@ -41,9 +41,8 @@
 
 using namespace digidoc;
 
-MobileDialog::MobileDialog( DigiDoc *doc, QWidget *parent )
+MobileDialog::MobileDialog( QWidget *parent )
 :	QDialog( parent )
-,	m_doc( doc )
 {
 	mobileResults["START"] = tr("Signing in process");
 	mobileResults["REQUEST_OK"] = tr("Request accepted");
@@ -167,6 +166,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 			code->setText( tr("Make sure control code matches with one in phone screen\n"
 				"and enter Mobile-ID PIN.\nControl code: %1").arg( challenge ) );
 			code->setAccessibleName( code->text() );
+			statusTimer->start();
 		}
 		return;
 	}
@@ -208,19 +208,19 @@ void MobileDialog::sendStatusRequest( int frame )
 	manager->post( request, doc.document() );
 }
 
-void MobileDialog::setSignatureInfo( const QString &city, const QString &state, const QString &zip,
-	const QString &country, const QString &role, const QString &role2 )
+void MobileDialog::setSignatureInfo( const QString &city, const QString &state,
+	const QString &zip, const QString &country, const QStringList &_roles )
 {
-	roles = QStringList() << role << role2;
+	roles = _roles;
 	roles.removeAll( "" );
 	location = QStringList() << city << state << zip << country;
 }
 
-void MobileDialog::sign( const QString &ssid, const QString &cell )
+void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString &cell )
 {
 	QString url = isTest( ssid, cell ) ?
 		"https://www.openxades.org:8443" : "https://digidocservice.sk.ee";
-	request.setUrl( Settings().value( m_doc->documentType() == DigiDoc::BDocType ?
+	request.setUrl( Settings().value( doc->documentType() == DigiDoc::BDocType ?
 		"Client/bdocurl" : "Client/ddocurl", url ).toUrl() );
 
 	labelError->setText( mobileResults.value( "START" ) );
@@ -235,7 +235,7 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 	r.writeParameter( "PhoneNo", "+" + cell );
 	r.writeParameter( "Language", lang.value( Settings::language(), "EST" ) );
 	r.writeParameter( "ServiceName", "DigiDoc3" );
-	QString title =  tr("Sign") + " " + QFileInfo( m_doc->fileName() ).fileName();
+	QString title =  tr("Sign") + " " + QFileInfo( doc->fileName() ).fileName();
 	if( title.size() > 39 )
 	{
 		title.resize( 36 );
@@ -251,27 +251,28 @@ void MobileDialog::sign( const QString &ssid, const QString &cell )
 
 	r.writeStartElement( "DataFiles" );
 	r.writeAttribute( XML_SCHEMA_INSTANCE, "type", "m:DataFileDigestList" );
-	DocumentModel *m = m_doc->documentModel();
+	DocumentModel *m = doc->documentModel();
 	for( int i = 0; i < m->rowCount(); ++i )
 	{
 		r.writeStartElement( "DataFileDigest" );
 		r.writeAttribute( XML_SCHEMA_INSTANCE, "type", QString( "m:" ).append( "DataFileDigest" ) );
 		r.writeParameter( "Id", m->index( i, DocumentModel::Id ).data().toString() );
 		r.writeParameter( "DigestType", "sha1" );
-		r.writeParameter( "DigestValue", m_doc->getFileDigest( i ).toBase64() );
+		r.writeParameter( "DigestValue", doc->getFileDigest( i ).toBase64() );
 		r.writeEndElement();
 	}
 	r.writeEndElement();
 
-	r.writeParameter( "Format", m_doc->documentType() == DigiDoc::BDocType ? "BDOC" : "DIGIDOC-XML" );
-	r.writeParameter( "Version", m_doc->documentType() == DigiDoc::BDocType ? "1.0" : "1.3" );
-	r.writeParameter( "SignatureID", m_doc->newSignatureID() );
+	r.writeParameter( "Format", doc->documentType() == DigiDoc::BDocType ? "BDOC" : "DIGIDOC-XML" );
+	r.writeParameter( "Version", doc->documentType() == DigiDoc::BDocType ? "1.0" : "1.3" );
+	r.writeParameter( "SignatureID", doc->newSignatureID() );
 	r.writeParameter( "MessagingMode", "asynchClientServer" );
 	r.writeParameter( "AsyncConfiguration", 0 );
 	r.writeEndDocument();
 
+	request.setUrl( Settings().value( doc->documentType() == DigiDoc::BDocType ?
+		"Client/bdocurl" : "Client/ddocurl", "https://digidocservice.sk.ee").toUrl() );
 	manager->post( request, r.document() );
-	statusTimer->start();
 }
 
 QByteArray MobileDialog::signature() const { return m_signature; }
