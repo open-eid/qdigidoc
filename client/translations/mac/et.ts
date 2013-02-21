@@ -389,7 +389,7 @@ Tüüp: %3</translation>
     </message>
     <message>
         <source>Mobile number:</source>
-        <translation>Telefoni number:</translation>
+        <translation>Telefoninumber:</translation>
     </message>
     <message>
         <source>Personal code:</source>
