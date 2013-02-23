@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -42,10 +42,15 @@
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
 #include <QtGui/QDesktopServices>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QMessageBox>
+#else
 #include <QtGui/QHeaderView>
 #include <QtGui/QMessageBox>
 
 Q_DECLARE_METATYPE( QSslCertificate )
+#endif
 
 KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 :	QLabel( parent )
@@ -90,7 +95,7 @@ KeyDialog::KeyDialog( const CKey &key, QWidget *parent )
 	addItem( tr("Crypt method"), k.type );
 	//addItem( tr("ID"), k.id );
 	addItem( tr("Expires"), key.cert.expiryDate().toLocalTime().toString("dd.MM.yyyy hh:mm:ss") );
-	addItem( tr("Issuer"), key.cert.issuerInfo( QSslCertificate::CommonName ) );
+	addItem( tr("Issuer"), SslCertificate(key.cert).issuerInfo( QSslCertificate::CommonName ) );
 	d->view->resizeColumnToContents( 0 );
 }
 

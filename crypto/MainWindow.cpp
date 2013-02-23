@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,13 +30,20 @@
 #include <common/Settings.h>
 #include <common/TokenData.h>
 
+#include <QtCore/QMimeData>
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDragEnterEvent>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QProgressBar>
+#include <QtWidgets/QProgressDialog>
+#else
 #include <QtGui/QMessageBox>
 #include <QtGui/QProgressBar>
 #include <QtGui/QProgressDialog>
+#endif
 
 MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )
