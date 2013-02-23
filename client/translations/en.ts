@@ -166,14 +166,6 @@
         <translation>Server access certificate is required</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container not supported officially any longer.
-We do not recommend you to add signature to this document.
-There is an option to re-sign this document in a new container.</source>
-        <translation type="obsolete">The current file is a DigiDoc container not supported officially any longer.
-We do not recommend you to add signature to this document.
-There is an option to re-sign this document in a new container.</translation>
-    </message>
-    <message>
         <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
         <translation>PIN Locked. Please use ID-card utility for PIN opening!</translation>
     </message>
@@ -212,10 +204,12 @@ This signature is created in the BES format, using no certificate validity confi
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container not supported officially any longer.
-We do not support you to add signature to this document.
-There is an option to re-sign this document in a new container.</source>
-        <translation>The current file is a DigiDoc container not supported officially any longer.</translation>
+        <source>The current file is a DigiDoc container that is not supported officially any longer.
+You are not allowed to add or remove signatures to this container.
+&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
+        <translation>The current file is a DigiDoc container that is not supported officially any longer.
+You are not allowed to add or remove signatures to this container.
+&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -593,8 +587,8 @@ New ID-cards have chip on the back side of the card.</translation>
         <translation>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</translation>
     </message>
     <message>
-        <source>Container format is not supported for signing</source>
-        <translation>Container format is not supported for signing</translation>
+        <source>Container format is not supported for signing.</source>
+        <translation>Container format is not supported for signing.</translation>
     </message>
     <message>
         <source>Phone number with format 372XXXXXX</source>

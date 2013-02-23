@@ -166,14 +166,6 @@
         <translation>Необходима справка доступа</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container not supported officially any longer.
-We do not recommend you to add signature to this document.
-There is an option to re-sign this document in a new container.</source>
-        <translation type="obsolete">Данный digidoc контейнер имеет устаревший формат, на который больше не распространяется официальная поддержка.
-Рекомендуем не добавлять к данному документу цифровую подпись.
-При желании Вы можете повторно подписать документ в новом конверте.</translation>
-    </message>
-    <message>
         <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
         <translation>PIN заблокирован. Для разблокирования PIN пожалуйста используйте обслуживание ID-карты!</translation>
     </message>
@@ -212,10 +204,12 @@ This signature is created in the BES format, using no certificate validity confi
 Данная подпись создана в т.н. формате BES, то есть без подтверждения ее действительности организацией, выдавшей сертификат, и без временного штампа.</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container not supported officially any longer.
-We do not support you to add signature to this document.
-There is an option to re-sign this document in a new container.</source>
-        <translation type="unfinished"></translation>
+        <source>The current file is a DigiDoc container that is not supported officially any longer.
+You are not allowed to add or remove signatures to this container.
+&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
+        <translation>DigiDoc контейнер имеет старый формат.
+К данному контейнеру нельзя добавить или удалить из него подпись.
+&lt;a href=&apos;http://www.id.ee/index.php?id=36162&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -596,8 +590,8 @@ New ID-cards have chip on the back side of the card.</source>
         <translation>Для отображения листа подтверждения действительности цифровой подписи на компьютере должен быть установлен как минимум один принтер!</translation>
     </message>
     <message>
-        <source>Container format is not supported for signing</source>
-        <translation type="unfinished"></translation>
+        <source>Container format is not supported for signing.</source>
+        <translation>DigiDoc контейнер в старом формате нельзя подписать цифровой подписью.</translation>
     </message>
     <message>
         <source>Phone number with format 372XXXXXX</source>

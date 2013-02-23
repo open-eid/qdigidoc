@@ -166,14 +166,6 @@
         <translation>Juurdepääsutõend on vajalik</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container not supported officially any longer.
-We do not recommend you to add signature to this document.
-There is an option to re-sign this document in a new container.</source>
-        <translation type="obsolete">Tegemist on vanas formaadis digidoc konteineriga, mida enam ametlikult ei toetata.
-Soovitame Teil sellele dokumendile mitte allkirja lisada.
-Soovi korral saate selle allkirjastatud dokumendi uues ümbrikus üle allkirjastada.</translation>
-    </message>
-    <message>
         <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
         <translation>PIN on lukus. PIN koodi saab avada ID-kaardi haldusvahendis!</translation>
     </message>
@@ -212,10 +204,12 @@ This signature is created in the BES format, using no certificate validity confi
 Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusmaterjalita ja sõltumatu osapoole ajakinnituseta.</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container not supported officially any longer.
-We do not support you to add signature to this document.
-There is an option to re-sign this document in a new container.</source>
-        <translation type="unfinished"></translation>
+        <source>The current file is a DigiDoc container that is not supported officially any longer.
+You are not allowed to add or remove signatures to this container.
+&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
+        <translation>Tegemist on vanas formaadis DigiDoc konteineriga.
+Sellele konteinerile ei saa allkirja lisada ega eemaldada.
+&lt;a href=&apos;http://www.id.ee/index.php?id=36160&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -593,8 +587,8 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>Digitaalallkirjade kinnituslehe kuvamiseks peab olema arvutis vähemalt üks printer seadistatud!</translation>
     </message>
     <message>
-        <source>Container format is not supported for signing</source>
-        <translation type="unfinished"></translation>
+        <source>Container format is not supported for signing.</source>
+        <translation>Allkirja andmine vanale DigiDoc konteinerile ei ole lubatud.</translation>
     </message>
     <message>
         <source>Phone number with format 372XXXXXX</source>

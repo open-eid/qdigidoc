@@ -462,12 +462,11 @@ QString DigiDoc::fileName() const { return m_fileName; }
 bool DigiDoc::isNull() const { return b == 0; }
 bool DigiDoc::isSupported() const
 {
-	if( b->signatures().empty() )
-		return true;
-	std::string ver = b->signatures().at( 0 )->profile();
+	std::string ver = b->mediaType();
 	return ver.compare( 0, 6, "SK-XML" ) &&
 		ver.compare( 0, 15, "DIGIDOC-XML/1.1" ) &&
-		ver.compare( 0, 15, "DIGIDOC-XML/1.2" );
+		ver.compare( 0, 15, "DIGIDOC-XML/1.2" ) &&
+		ver != "application/vnd.bdoc-1.0";
 }
 
 QString DigiDoc::newSignatureID() const
@@ -504,9 +503,9 @@ bool DigiDoc::open( const QString &file )
 		if( !isSupported() )
 		{
 			qApp->showWarning( tr(
-				"The current file is a DigiDoc container not supported officially any longer.\n"
-				"We do not support you to add signature to this document.\n"
-				"There is an option to re-sign this document in a new container.") );
+				"The current file is a DigiDoc container that is not supported officially any longer.\n"
+				"You are not allowed to add or remove signatures to this container.\n"
+				"<a href='http://www.id.ee/index.php?id=36161'>Additional info</a>.") );
 		}
 		else if( documentType() != DDocType )
 		{

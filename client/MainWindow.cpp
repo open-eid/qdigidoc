@@ -190,14 +190,12 @@ bool MainWindow::addFile( const QString &file )
 			select = b == QMessageBox::No;
 		}
 
-#ifndef APPSTORE
 		if( !FileDialog::fileIsWritable( docname ) )
 		{
 			select = true;
 			qApp->showWarning(
 				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( docname ) );
 		}
-#endif
 
 		if( select )
 		{
@@ -280,7 +278,7 @@ void MainWindow::buttonClicked( int button )
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 			QAbstractButton *b = buttonGroup->button( ViewAddSignature );
 			b->setEnabled( doc->isSupported() );
-			b->setToolTip( b->isEnabled() ? "" : tr("Container format is not supported for signing") );
+			b->setToolTip( b->isEnabled() ? "" : tr("Container format is not supported for signing.") );
 		}
 		break;
 	}
@@ -313,7 +311,7 @@ void MainWindow::buttonClicked( int button )
 						setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 						QAbstractButton *b = buttonGroup->button( ViewAddSignature );
 						b->setEnabled( doc->isSupported() );
-						b->setToolTip( b->isEnabled() ? "" : tr("Container format is not supported for signing") );
+						b->setToolTip( b->isEnabled() ? "" : tr("Container format is not supported for signing.") );
 					}
 					params.clear();
 					loadRoles();
@@ -580,7 +578,7 @@ void MainWindow::enableSign()
 	if( doc->isNull() )
 		button->setToolTip( tr("Container is not open") );
 	else if( !doc->isSupported() )
-		button->setToolTip( tr("Container format is not supported for signing") );
+		button->setToolTip( tr("Container format is not supported for signing.") );
 	else if( signContentView->model()->rowCount() == 0 )
 		button->setToolTip( tr("Empty container") );
 	else if( infoSignMobile->isChecked() )
