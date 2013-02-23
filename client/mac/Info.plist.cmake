@@ -34,12 +34,15 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>bdoc</string>
+				<string>asice</string>
+				<string>sce</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>bdoc.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
-				<string>application/x-bdoc</string>
+				<string>application/vnd.bdoc-1.0</string>
+				<string>application/vnd.etsi.asic-e+zip</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>BDOC – XAdES signatures container</string>
@@ -154,7 +157,8 @@
 				<string>bdoc</string>
 				<key>public.mime-type</key>
 				<array>
-					<string>application/x-bdoc</string>
+					<string>application/vnd.bdoc-1.0</string>
+					<string>application/vnd.etsi.asic-e+zip</string>
 				</array>
 			</dict>
 		</dict>
