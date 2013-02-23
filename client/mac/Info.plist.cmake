@@ -154,7 +154,11 @@
 				<key>com.apple.ostype</key>
 				<string>BDOC</string>
 				<key>public.filename-extension</key>
-				<string>bdoc</string>
+				<dict>
+					<string>bdoc</string>
+					<string>asice</string>
+					<string>sce</string>
+				</dict>
 				<key>public.mime-type</key>
 				<array>
 					<string>application/vnd.bdoc-1.0</string>
