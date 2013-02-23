@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,8 +33,13 @@
 
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QPushButton>
+#else
 #include <QtGui/QMessageBox>
 #include <QtGui/QPushButton>
+#endif
 #include <QtGui/QTextDocument>
 #include <QtNetwork/QSslKey>
 

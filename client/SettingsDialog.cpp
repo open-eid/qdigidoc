@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -35,9 +35,15 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QUrl>
 #include <QtGui/QDropEvent>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMessageBox>
+#else
 #include <QtGui/QMessageBox>
+#endif
 
+#if QT_VERSION < 0x050000
 Q_DECLARE_METATYPE(QSslCertificate)
+#endif
 
 SettingsDialog::SettingsDialog( QWidget *parent )
 :	QDialog( parent )
@@ -201,7 +207,7 @@ void SettingsDialog::updateCert()
 {
 	QSslCertificate c = AccessCert::cert();
 	if( !c.isNull() )
-		d->p12Error->setText( tr("Issued to: %1\nValid to: %2").arg( c.subjectInfo( QSslCertificate::CommonName ), c.expiryDate().toString("dd.MM.yyyy") ) );
+		d->p12Error->setText( tr("Issued to: %1\nValid to: %2").arg( SslCertificate(c).subjectInfo( QSslCertificate::CommonName ), c.expiryDate().toString("dd.MM.yyyy") ) );
 	else
 		d->p12Error->setText( tr("Server access certificate is not installed."));
 	d->showP12Cert->setEnabled( !c.isNull() );

@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,14 +37,22 @@
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
+#include <QtCore/QMimeData>
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDragEnterEvent>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMessageBox>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrinterInfo>
+#include <QtPrintSupport/QPrintPreviewDialog>
+#else
 #include <QtGui/QMessageBox>
 #include <QtGui/QPrinter>
 #include <QtGui/QPrinterInfo>
 #include <QtGui/QPrintPreviewDialog>
+#endif
 #include <QtNetwork/QNetworkProxy>
 
 #ifdef Q_OS_MAC
@@ -603,11 +611,11 @@ void MainWindow::enableSign()
 		return;
 
 	bool cardOwnerSignature = false;
-	const QByteArray serialNumber = infoSignMobile->isChecked() ?
-		infoMobileCode->text().toLatin1() : t.cert().subjectInfo( "serialNumber" ).toLatin1();
+	const QString serialNumber = infoSignMobile->isChecked() ?
+		infoMobileCode->text() : SslCertificate(t.cert()).subjectInfo( "serialNumber" );
 	Q_FOREACH( const DigiDocSignature &c, doc->signatures() )
 	{
-		if( c.cert().subjectInfo( "serialNumber" ) == serialNumber )
+		if( SslCertificate(c.cert()).subjectInfo( "serialNumber" ) == serialNumber )
 		{
 			cardOwnerSignature = true;
 			break;

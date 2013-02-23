@@ -2,7 +2,7 @@ find_package( LibDigiDocpp REQUIRED )
 
 set_app_name( PROGNAME qdigidocclient )
 
-QT4_WRAP_UI( UI_HEADERS
+set( UI_FILES
 	ui/MainWindow.ui
 	ui/MobileDialog.ui
 	ui/RegisterP12.ui
@@ -11,24 +11,24 @@ QT4_WRAP_UI( UI_HEADERS
 )
 
 configure_file( translations/tr.qrc tr.qrc COPYONLY )
-
-QT4_ADD_RESOURCES( RC_SOURCES
-	images/images.qrc
-	${CMAKE_CURRENT_BINARY_DIR}/tr.qrc
-)
-
+set( RC_FILES images/images.qrc ${CMAKE_CURRENT_BINARY_DIR}/tr.qrc )
 if( APPSTORE )
-	QT4_ADD_TRANSLATION( QM_FILES
-		translations/mac/en.ts
-		translations/mac/et.ts
-		translations/mac/ru.ts
-	)
+	set( TS_FILES translations/mac/en.ts translations/mac/et.ts translations/mac/ru.ts )
 else()
-	QT4_ADD_TRANSLATION( QM_FILES
-		translations/en.ts
-		translations/et.ts
-		translations/ru.ts
-	)
+	set( TS_FILES translations/en.ts translations/et.ts translations/ru.ts )
+endif()
+
+if( NOT Qt5Widgets_FOUND )
+	qt4_add_translation( QM_FILES ${TS_FILES} )
+	qt4_add_resources( RC_SOURCES ${RC_FILES} )
+	qt4_wrap_ui( UI_HEADERS ${UI_FILES} )
+else()
+	qt5_add_translation( QM_FILES ${TS_FILES} )
+	qt5_add_resources( RC_SOURCES ${RC_FILES} )
+	qt5_wrap_ui( UI_HEADERS ${UI_FILES} )
+	if( WIN32 )
+		set( QT_QTMAIN_LIBRARY Qt5::WinMain )
+	endif()
 endif()
 
 include_directories(
@@ -41,7 +41,7 @@ include_directories(
 
 if( APPLE )
 	set( SOURCES TreeWidgetMac.mm )
-	set_source_files_properties( ${SOURCES} PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
+	set_source_files_properties( TreeWidgetMac.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
 endif()
 
 add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
@@ -79,6 +79,9 @@ if( WIN32 )
 		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
 endif()
 set_target_properties( ${PROGNAME} PROPERTIES AUTOMOC TRUE )
+if( Qt5Widgets_FOUND )
+	qt5_use_modules( ${PROGNAME} Widgets Network PrintSupport )
+endif()
 
 target_link_libraries( ${PROGNAME}
 	qdigidoccommon

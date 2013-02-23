@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,6 +28,7 @@
 
 #include <common/Settings.h>
 #include <common/SOAPDocument.h>
+#include <common/SslCertificate.h>
 
 #include <QtCore/QDir>
 #include <QtCore/QTimeLine>
@@ -284,7 +285,7 @@ void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> &err 
 	{
 		QString s = e.errorString();
 		if( !e.certificate().isNull() )
-			s.append( QString( " - \"%1\"").arg( e.certificate().subjectInfo( "CN" ) ) );
+			s.append( QString( " - \"%1\"").arg( SslCertificate(e.certificate()).subjectInfo( "CN" ) ) );
 		qWarning() << "SSL Error:" << s;
 		msg << s;
 	}

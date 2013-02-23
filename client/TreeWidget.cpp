@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,9 +28,14 @@
 #include <common/FileDialog.h>
 
 #include <QtGui/QDesktopServices>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QMessageBox>
+#else
 #include <QtGui/QHeaderView>
-#include <QtGui/QKeyEvent>
 #include <QtGui/QMessageBox>
+#endif
+#include <QtGui/QKeyEvent>
 
 TreeWidget::TreeWidget( QWidget *parent )
 :	QTreeView( parent )

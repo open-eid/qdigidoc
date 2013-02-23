@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -41,7 +41,11 @@
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMessageBox>
+#else
 #include <QtGui/QMessageBox>
+#endif
 #include <QtGui/QPixmap>
 
 #include <stdexcept>
@@ -86,7 +90,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::ForegroundRole:
 		switch( index.column() )
 		{
-		case Size: return Qt::gray;
+		case Size: return QColor(Qt::gray);
 		default: return QVariant();
 		}
 	case Qt::DisplayRole:
