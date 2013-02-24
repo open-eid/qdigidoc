@@ -272,7 +272,7 @@ void MainWindow::buttonClicked( int button )
 	case HomeView:
 	{
 		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
-			tr("Documents (%1)").arg( "*.bdoc *.ddoc" ) );
+			tr("Documents (%1)").arg( "*.bdoc *.ddoc *.asice *.sce" ) );
 		if( !file.isEmpty() && doc->open( file ) )
 		{
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
@@ -303,7 +303,7 @@ void MainWindow::buttonClicked( int button )
 				const QFileInfo f( param );
 				if( !f.isFile() )
 					continue;
-				QStringList exts = QStringList() << "bdoc" << "ddoc";
+				QStringList exts = QStringList() << "bdoc" << "ddoc" << "asice" << "sce";
 				if( doc->isNull() && exts.contains( f.suffix(), Qt::CaseInsensitive ) )
 				{
 					if( doc->open( f.absoluteFilePath() ) )
@@ -525,7 +525,8 @@ void MainWindow::buttonClicked( int button )
 		}
 		else
 		{
-			if( QFileInfo( doc->fileName() ).suffix().toLower() == "bdoc" )
+			QStringList exts = QStringList() << "bdoc" << "asice" << "sce";
+			if( exts.contains( QFileInfo( doc->fileName() ).suffix(), Qt::CaseInsensitive ) )
 			{
 				qApp->showWarning( tr("BDOC signing is not supported, please upgrade software") );
 				break;
@@ -732,7 +733,7 @@ QString MainWindow::selectFile( const QString &filename )
 	Q_FOREVER
 	{
 		QStringList exts = QStringList() << Settings().value( "Client/type", "ddoc" ).toString();
-		exts << (exts[0] == "ddoc" ? "bdoc" : "ddoc");
+		exts << (exts[0] == "ddoc" ? "bdoc" : "ddoc") << "asice" << "sce";
 		file = FileDialog::getSaveFileName( this, tr("Save file"), file,
 			tr("Documents (%1)").arg( QString( "*.%1 *.%2" ).arg( exts[0], exts[1] ) ) );
 		if( file.isEmpty() )
