@@ -178,7 +178,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 void PrintSheet::customText( const QString &title, const QString &text )
 {
 	QRect rect( left + 5, top + 5,  right - margin -5, 25 );
-	rect.setHeight( qMax( 25,
+	rect.setHeight( std::max( 25,
 		fontMetrics().boundingRect( rect, Qt::TextWordWrap|Qt::TextWrapAnywhere, text ).height() ) );
 
 	newPage( 30 + rect.height() );
@@ -194,7 +194,7 @@ void PrintSheet::customText( const QString &title, const QString &text )
 int PrintSheet::drawTextRect( const QRect &rect, const QString &text )
 {
 	QRect result = rect.adjusted( 5, 0, -5, 0 );
-	result.setHeight( qMax( rect.height(),
+	result.setHeight( std::max( rect.height(),
 		fontMetrics().boundingRect( result, Qt::TextWordWrap|Qt::TextWrapAnywhere, text ).height() ) );
 	drawText( result, Qt::TextWordWrap|Qt::TextWrapAnywhere|Qt::AlignVCenter, text );
 	drawRect( result.adjusted( -5, 0, 5, 0 ) );

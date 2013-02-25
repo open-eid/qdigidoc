@@ -795,11 +795,11 @@ void MainWindow::setCurrentPage( Pages page )
 			viewSignaturesLayout->insertWidget( 0, signature );
 			connect( signature, SIGNAL(removeSignature(unsigned int)),
 				SLOT(viewSignaturesRemove(unsigned int)) );
-			cardOwnerSignature = qMax( cardOwnerSignature,
+			cardOwnerSignature = std::max( cardOwnerSignature,
 				c.cert().subjectInfo( "serialNumber" ) == qApp->signer()->token().cert().subjectInfo( "serialNumber" ) );
-			invalid = qMax( invalid, c.validate() != DigiDocSignature::Valid );
-			test = qMax( test, c.isTest() );
-			weak = qMax( weak, c.weakDigestMethod() );
+			invalid = std::max( invalid, c.validate() != DigiDocSignature::Valid );
+			test = std::max( test, c.isTest() );
+			weak = std::max( weak, c.weakDigestMethod() );
 			++i;
 		}
 

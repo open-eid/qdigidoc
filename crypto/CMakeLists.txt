@@ -24,9 +24,6 @@ else()
 	qt5_add_translation( QM_FILES ${TS_FILES} )
 	qt5_add_resources( RC_SOURCES ${RC_FILES} )
 	qt5_wrap_ui( UI_HEADERS ${UI_FILES} )
-	if( WIN32 )
-		set( QT_QTMAIN_LIBRARY Qt5::WinMain )
-	endif()
 endif()
 
 include_directories(
@@ -73,6 +70,7 @@ endif()
 target_link_libraries( ${PROGNAME}
 	qdigidoccommon
 	${QT_QTMAIN_LIBRARY}
+	${Qt5Core_QTMAIN_LIBRARIES}
 	${QT_LIBRARIES}
 	${LIBDIGIDOC_LIBRARY}
 	${LDAP_LIBRARIES}
