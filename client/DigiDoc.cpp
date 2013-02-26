@@ -391,7 +391,7 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 
 bool DigiDocSignature::weakDigestMethod() const
 {
-	return s->isWeak();
+	return s->isWeak() > 0;
 }
 
 
