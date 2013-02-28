@@ -35,7 +35,7 @@ class TreeWidget: public QTreeView
 {
 	Q_OBJECT
 public:
-	TreeWidget( QWidget *parent = 0 );
+	explicit TreeWidget( QWidget *parent = 0 );
 
 	void setDocumentModel( DocumentModel *model );
 

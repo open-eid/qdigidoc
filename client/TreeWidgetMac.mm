@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2012-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2012-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,7 +23,11 @@
 #import "TreeWidget.h"
 #import "DigiDoc.h"
 
-#import <QtGui/QAbstractItemView>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QAbstractItemView>
+#else
+#include <QtGui/QAbstractItemView>
+#endif
 
 #import <objc/runtime.h>
 
