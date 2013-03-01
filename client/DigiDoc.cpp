@@ -449,7 +449,7 @@ void DigiDoc::create( const QString &file )
 	clear();
 	QString type = QFileInfo( file ).suffix().toLower();
 	if( type == "bdoc" )
-		b = new Container(Container::BDocType);
+		b = new Container(Container::AsicType);
 	else if( type == "ddoc" )
 		b = new Container(Container::DDocType);
 	m_fileName = file;
