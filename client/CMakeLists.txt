@@ -12,7 +12,7 @@ set( UI_FILES
 
 configure_file( translations/tr.qrc tr.qrc COPYONLY )
 set( RC_FILES images/images.qrc ${CMAKE_CURRENT_BINARY_DIR}/tr.qrc )
-if( APPSTORE )
+if( APPLE )
 	set( TS_FILES translations/mac/en.ts translations/mac/et.ts translations/mac/ru.ts )
 else()
 	set( TS_FILES translations/en.ts translations/et.ts translations/ru.ts )
