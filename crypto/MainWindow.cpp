@@ -132,7 +132,7 @@ bool MainWindow::addFile( const QString &file )
 			select = b == QMessageBox::No;
 		}
 
-#ifndef APPSTORE
+#ifndef Q_OS_MAC
 		if( !FileDialog::fileIsWritable( docname ) )
 		{
 			select = true;
