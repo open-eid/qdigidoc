@@ -1,8 +1,8 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -187,7 +187,7 @@ void Poller::run()
 			{
 				certs = d->cng->certs();
 				for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
-					if( i.key().keyUsage().contains( SslCertificate::NonRepudiation ) )
+					if( i.key().keyUsage().contains( SslCertificate::KeyEncipherment ) )
 						cards << i.value();
 				readers << d->cng->readers();
 			}
