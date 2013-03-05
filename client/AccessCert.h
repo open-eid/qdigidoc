@@ -37,7 +37,7 @@ class AccessCert: public QMessageBox
 	Q_OBJECT
 
 public:
-	AccessCert( QWidget *parent = 0 );
+	explicit AccessCert( QWidget *parent = 0 );
 	~AccessCert();
 
 	bool download( bool noCard );
