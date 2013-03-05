@@ -502,10 +502,10 @@ bool DigiDoc::open( const QString &file )
 
 		if( !isSupported() )
 		{
-			qApp->showWarning( tr(
-				"The current file is a DigiDoc container that is not supported officially any longer.\n"
-				"You are not allowed to add or remove signatures to this container.\n"
-				"<a href='http://www.id.ee/index.php?id=36161'>Additional info</a>.") );
+			QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
+				tr("The current file is a DigiDoc container that is not supported officially any longer.<br />"
+					"You are not allowed to add or remove signatures to this container.<br />"
+					"<a href='http://www.id.ee/index.php?id=36161'>Additional info</a>."), QMessageBox::Ok );
 		}
 		else if( documentType() != DDocType )
 		{
