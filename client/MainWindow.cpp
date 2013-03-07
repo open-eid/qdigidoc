@@ -838,9 +838,9 @@ void MainWindow::setCurrentPage( Pages page )
 		switch( status )
 		{
 		case Invalid: viewSignaturesError->setText( tr("NB! Invalid signature") ); break;
-		case Unknown: viewSignaturesError->setText( tr("NB! Unknown signature") ); break;
+		case Unknown: viewSignaturesError->setText( "<i>" + tr("NB! Unknown signature") + "</i>" ); break;
 		case Test: viewSignaturesError->setText( tr("NB! Test signature") ); break;
-		case Weak: viewSignaturesError->setText( tr("NB! Weak signature") ); break;
+		case Weak: viewSignaturesError->setText( "<i>" + tr("NB! Weak signature") + "</i>" ); break;
 		default: viewSignaturesError->clear(); break;
 		}
 		break;
