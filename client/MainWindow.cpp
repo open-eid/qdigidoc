@@ -789,7 +789,14 @@ void MainWindow::setCurrentPage( Pages page )
 		qDeleteAll( viewSignatures->findChildren<SignatureWidget*>() );
 
 		int i = 0;
-		bool cardOwnerSignature = false, invalid = false, test = false, weak = false;
+		bool cardOwnerSignature = false;
+		enum {
+			Good,
+			Weak,
+			Test,
+			Unknown,
+			Invalid
+		} status = Good;
 		QList<DigiDocSignature> signatures = doc->signatures();
 		Q_FOREACH( const DigiDocSignature &c, signatures )
 		{
@@ -799,9 +806,14 @@ void MainWindow::setCurrentPage( Pages page )
 				SLOT(viewSignaturesRemove(unsigned int)) );
 			cardOwnerSignature = std::max( cardOwnerSignature,
 				c.cert().subjectInfo( "serialNumber" ) == qApp->signer()->token().cert().subjectInfo( "serialNumber" ) );
-			invalid = std::max( invalid, c.validate() != DigiDocSignature::Valid );
-			test = std::max( test, c.isTest() );
-			weak = std::max( weak, c.weakDigestMethod() );
+			switch(c.validate())
+			{
+			case DigiDocSignature::Unknown: if(status < Unknown) status = Unknown; break;
+			case DigiDocSignature::Invalid: if(status < Invalid) status = Invalid; break;
+			default: break;
+			}
+			if(c.isTest() && status < Test) status = Test;
+			if(c.weakDigestMethod() && status < Weak) status = Weak;
 			++i;
 		}
 
@@ -823,14 +835,14 @@ void MainWindow::setCurrentPage( Pages page )
 
 		viewSignaturesLabel->setText( tr( "Signature(s)", "", signatures.size() ) );
 
-		if( invalid )
-			viewSignaturesError->setText( tr("NB! Invalid signature") );
-		else if( test )
-			viewSignaturesError->setText( tr("NB! Test signature") );
-		else if( weak )
-			viewSignaturesError->setText( tr("NB! Weak signature") );
-		else
-			viewSignaturesError->clear();
+		switch( status )
+		{
+		case Invalid: viewSignaturesError->setText( tr("NB! Invalid signature") ); break;
+		case Unknown: viewSignaturesError->setText( tr("NB! Unknown signature") ); break;
+		case Test: viewSignaturesError->setText( tr("NB! Test signature") ); break;
+		case Weak: viewSignaturesError->setText( tr("NB! Weak signature") ); break;
+		default: viewSignaturesError->clear(); break;
+		}
 		break;
 	}
 	default: break;
