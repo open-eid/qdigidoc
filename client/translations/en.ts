@@ -204,12 +204,12 @@ This signature is created in the BES format, using no certificate validity confi
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container that is not supported officially any longer.
-You are not allowed to add or remove signatures to this container.
-&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation>The current file is a DigiDoc container that is not supported officially any longer.
-You are not allowed to add or remove signatures to this container.
-&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 client</translation>
+    </message>
+    <message>
+        <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
+        <translation>The current file is a DigiDoc container that is not supported officially any longer.&lt;/br&gt;You are not allowed to add or remove signatures to this container.&lt;/br&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -597,6 +597,10 @@ New ID-cards have chip on the back side of the card.</translation>
     <message>
         <source>Personal code</source>
         <translation>Personal code</translation>
+    </message>
+    <message>
+        <source>NB! Unknown signature</source>
+        <translation>NB! Unknown signature</translation>
     </message>
 </context>
 <context>

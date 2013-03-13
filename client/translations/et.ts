@@ -204,12 +204,12 @@ This signature is created in the BES format, using no certificate validity confi
 Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusmaterjalita ja sõltumatu osapoole ajakinnituseta.</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container that is not supported officially any longer.
-You are not allowed to add or remove signatures to this container.
-&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation>Tegemist on vanas formaadis DigiDoc konteineriga.
-Sellele konteinerile ei saa allkirja lisada ega eemaldada.
-&lt;a href=&apos;http://www.id.ee/index.php?id=36160&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 klient</translation>
+    </message>
+    <message>
+        <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
+        <translation>Tegemist on vanas formaadis DigiDoc konteineriga.&lt;/br&gt;Sellele konteinerile ei saa allkirja lisada ega eemaldada.&lt;/br&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36160&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -596,6 +596,10 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>Personal code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NB! Unknown signature</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
