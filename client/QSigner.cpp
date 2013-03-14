@@ -31,7 +31,7 @@
 #include <common/QPKCS11.h>
 #include <common/TokenData.h>
 
-#include <digidocpp/crypto/cert/X509Cert.h>
+#include <digidocpp/crypto/X509Cert.h>
 
 #include <QtCore/QEventLoop>
 #include <QtCore/QMutex>

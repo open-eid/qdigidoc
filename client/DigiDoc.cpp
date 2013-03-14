@@ -31,7 +31,7 @@
 
 #include <digidocpp/DataFile.h>
 #include <digidocpp/Signature.h>
-#include <digidocpp/crypto/cert/X509Cert.h>
+#include <digidocpp/crypto/X509Cert.h>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
