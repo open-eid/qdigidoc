@@ -276,13 +276,7 @@ void MainWindow::buttonClicked( int button )
 		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
 			tr("Documents (%1)").arg( "*.bdoc *.ddoc *.asice *.sce" ) );
 		if( !file.isEmpty() && doc->open( file ) )
-		{
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
-			QAbstractButton *b = buttonGroup->button( ViewAddSignature );
-			b->setEnabled( doc->isSupported() );
-			b->setProperty( "tooltiptr", b->isEnabled() ? 0 : 1 );
-			updateTranslation();
-		}
 		break;
 	}
 	case HomeCrypt:
@@ -312,10 +306,7 @@ void MainWindow::buttonClicked( int button )
 					if( doc->open( f.absoluteFilePath() ) )
 					{
 						setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
-						QAbstractButton *b = buttonGroup->button( ViewAddSignature );
-						b->setEnabled( doc->isSupported() );
-						b->setProperty( "tooltiptr", b->isEnabled() ? 0 : 1 );
-						updateTranslation();
+						enableSign();
 					}
 					params.clear();
 					loadRoles();
@@ -476,8 +467,7 @@ void MainWindow::buttonClicked( int button )
 	case SignSign:
 	{
 		buttonGroup->button( SignSign )->setEnabled( false );
-		buttonGroup->button( SignSign )->setProperty( "tooltiptr", 2 );
-		updateTranslation();
+		buttonGroup->button( SignSign )->setToolTip( tr("Signing in process") );
 		CheckConnection connection;
 		if( !qApp->confValue( Application::ProxyHost ).toString().isEmpty() )
 		{
@@ -578,30 +568,35 @@ void MainWindow::enableSign()
 	s.setValue( "Client/MobileCode", infoMobileCode->text() );
 	s.setValue( "Client/MobileNumber", infoMobileCell->text() );
 	QAbstractButton *button = buttonGroup->button( SignSign );
-	button->setProperty( "tooltiptr", 0 );
+	button->setToolTip( QString() );
 	TokenData t = qApp->signer()->token();
 
 	if( doc->isNull() )
-		button->setProperty( "tooltiptr", 3 );
+		button->setToolTip( tr("Container is not open") );
 	else if( !doc->isSupported() )
-		button->setProperty( "tooltiptr", 1 );
+	{
+		button->setToolTip( tr("Container format is not supported for signing.") );
+		QAbstractButton *b = buttonGroup->button( ViewAddSignature );
+		b->setEnabled( doc->isSupported() );
+		b->setToolTip( b->isEnabled() ? "" : tr("Container format is not supported for signing.") );
+	}
 	else if( signContentView->model()->rowCount() == 0 )
-		button->setProperty( "tooltiptr", 4 );
+		button->setToolTip( tr("Empty container") );
 	else if( infoSignMobile->isChecked() )
 	{
 		signSigner->setText( QString( "%1 (%2)" )
 			.arg( infoMobileCell->text() ).arg( infoMobileCode->text() ) );
 		if( !IKValidator::isValid( infoMobileCode->text() ) )
-			button->setProperty( "tooltiptr", 5 );
+			button->setToolTip( tr("Personal code is not valid") );
 	}
 	else
 	{
 		if( t.flags() & TokenData::PinLocked )
-			button->setProperty( "tooltiptr", 6 );
+			button->setToolTip( tr("PIN is locked") );
 		else if( t.cert().isNull() )
-			button->setProperty( "tooltiptr", 7 );
+			button->setToolTip( tr("No card in reader") );
 		else if( !t.cert().isValid() )
-			button->setProperty( "tooltiptr", 8 );
+			button->setToolTip( tr("Sign certificate is not valid") );
 		if( !t.cert().isNull() )
 		{
 			SslCertificate c( t.cert() );
@@ -611,7 +606,6 @@ void MainWindow::enableSign()
 			signSigner->clear();
 	}
 	button->setEnabled( button->toolTip().isEmpty() );
-	updateTranslation();
 	if( !button->isEnabled() )
 		return;
 
@@ -713,7 +707,6 @@ void MainWindow::retranslate()
 	buttonGroup->button( ViewAddSignature )->setText( tr("Add signature") );
 	showCardStatus();
 	setCurrentPage( (Pages)stack->currentIndex() );
-	updateTranslation();
 }
 
 void MainWindow::save()
@@ -897,30 +890,6 @@ void MainWindow::showCardStatus()
 	addActions( cardsGroup->actions() );
 
 	enableSign();
-}
-
-void MainWindow::updateTranslation()
-{
-	QAbstractButton *b = buttonGroup->button( ViewAddSignature );
-	switch(b->property("tooltiptr").toUInt())
-	{
-	case 1: b->setToolTip( tr("Container format is not supported for signing.") ); break;
-	default: b->setToolTip( QString() );
-	}
-
-	b = buttonGroup->button( SignSign );
-	switch(b->property("tooltiptr").toUInt())
-	{
-	case 1: b->setToolTip( tr("Container format is not supported for signing.") ); break;
-	case 2: b->setToolTip( tr("Signing in process") ); break;
-	case 3: b->setToolTip( tr("Container is not open") ); break;
-	case 4: b->setToolTip( tr("Empty container") ); break;
-	case 5: b->setToolTip( tr("Personal code is not valid") ); break;
-	case 6: b->setToolTip( tr("PIN is locked") ); break;
-	case 7: b->setToolTip( tr("No card in reader") ); break;
-	case 8: b->setToolTip( tr("Sign certificate is not valid") ); break;
-	default: b->setToolTip( QString() );
-	}
 }
 
 void MainWindow::viewSignaturesRemove( unsigned int num )
