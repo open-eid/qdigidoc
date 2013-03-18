@@ -209,7 +209,7 @@ This signature is created in the BES format, using no certificate validity confi
     </message>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation>The current file is a DigiDoc container that is not supported officially any longer.&lt;/br&gt;You are not allowed to add or remove signatures to this container.&lt;/br&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
+        <translation>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
