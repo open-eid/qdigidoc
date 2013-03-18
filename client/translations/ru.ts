@@ -56,14 +56,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server access certificate has been installed</source>
-        <translation>Сертификат доступа к серверу установлен</translation>
-    </message>
-    <message>
-        <source>Continue signing</source>
-        <translation>Подписать</translation>
-    </message>
-    <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -605,6 +597,14 @@ New ID-cards have chip on the back side of the card.</source>
         <source>NB! Unknown signature</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Server access certificate has been installed</source>
+        <translation>Сертификат доступа к серверу установлен</translation>
+    </message>
+    <message>
+        <source>Continue signing</source>
+        <translation>Подписать</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -1023,6 +1023,10 @@ Valid to: %2</source>
     <message>
         <source>Server access certificate is not installed.</source>
         <translation>Отсутствует справка доступа.</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

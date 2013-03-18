@@ -164,8 +164,8 @@
       <attribute name="title">
        <string>Server access certificate</string>
       </attribute>
-      <layout class="QVBoxLayout" name="tabPKCS12Layout">
-       <item>
+      <layout class="QFormLayout" name="tabPKCS12Layout">
+       <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="p12Label">
          <property name="text">
           <string>Regarding to terms and conditions of validity confirmation service you're allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</string>
@@ -181,10 +181,10 @@
          </property>
         </widget>
        </item>
-       <item>
+       <item row="1" column="0" colspan="2">
         <widget class="QLabel" name="p12Error"/>
        </item>
-       <item>
+       <item row="2" column="0" colspan="2">
         <layout class="QHBoxLayout" name="p12ButtonLayout">
          <item>
           <spacer name="p12Spacer">
@@ -214,6 +214,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="p12Update">
+           <property name="text">
+            <string>Update</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="p12Remove">
            <property name="text">
             <string>Remove</string>
@@ -222,25 +229,12 @@
          </item>
         </layout>
        </item>
-       <item>
+       <item row="3" column="0" colspan="2">
         <widget class="QCheckBox" name="p12Ignore">
          <property name="text">
           <string>Ignore server access certificate (IP based access)</string>
          </property>
         </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>

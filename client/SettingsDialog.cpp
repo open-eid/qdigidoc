@@ -26,11 +26,13 @@
 #include "AccessCert.h"
 #include "Application.h"
 #include "RegisterP12.h"
+#include "QSigner.h"
 
 #include <common/CertificateWidget.h>
 #include <common/FileDialog.h>
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
+#include <common/TokenData.h>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QUrl>
@@ -105,6 +107,13 @@ void SettingsDialog::on_p12Remove_clicked()
 {
 	AccessCert().remove();
 	updateCert();
+}
+
+void SettingsDialog::on_p12Update_clicked()
+{
+	AccessCert a( this );
+	if( a.download( qApp->signer()->token().card().isEmpty() ) )
+		updateCert();
 }
 
 void SettingsDialog::on_selectDefaultDir_clicked()

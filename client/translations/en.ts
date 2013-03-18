@@ -56,14 +56,6 @@
         <translation>For getting server access certificate to Tempel contact &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Server access certificate has been installed</source>
-        <translation>Server access certificate has been installed</translation>
-    </message>
-    <message>
-        <source>Continue signing</source>
-        <translation>Continue signing</translation>
-    </message>
-    <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
         <translation>Failed to save server access certificate file to KeyChain!</translation>
     </message>
@@ -602,6 +594,14 @@ New ID-cards have chip on the back side of the card.</translation>
         <source>NB! Unknown signature</source>
         <translation>NB! Unknown signature</translation>
     </message>
+    <message>
+        <source>Server access certificate has been installed</source>
+        <translation>Server access certificate has been installed</translation>
+    </message>
+    <message>
+        <source>Continue signing</source>
+        <translation>Continue signing</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -1020,6 +1020,10 @@ Valid to: %2</translation>
     <message>
         <source>Server access certificate is not installed.</source>
         <translation>Server access certificate is not installed.</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

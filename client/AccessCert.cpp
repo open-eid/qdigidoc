@@ -259,13 +259,7 @@ bool AccessCert::download( bool noCard )
 		return false;
 	}
 
-	if( !installCert( QByteArray::fromBase64( cert.toUtf8() ), pass ) )
-		return false;
-	setIcon( Information );
-	setText( tr("Server access certificate has been installed") );
-	setStandardButtons( Cancel );
-	setDefaultButton( addButton( tr("Continue signing"), AcceptRole ) );
-	return exec() == AcceptRole;
+	return installCert( QByteArray::fromBase64( cert.toUtf8() ), pass );
 }
 
 bool AccessCert::installCert( const QByteArray &data, const QString &password )

@@ -56,14 +56,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server access certificate has been installed</source>
-        <translation>Juurdepääsutõend on edukalt paigaldatud</translation>
-    </message>
-    <message>
-        <source>Continue signing</source>
-        <translation>Jätkame allkirjastamisega</translation>
-    </message>
-    <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -602,6 +594,14 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <source>NB! Unknown signature</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Server access certificate has been installed</source>
+        <translation>Juurdepääsutõend on edukalt paigaldatud</translation>
+    </message>
+    <message>
+        <source>Continue signing</source>
+        <translation>Jätkame allkirjastamisega</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -1020,6 +1020,10 @@ Kehtib kuni: %2</translation>
     <message>
         <source>Server access certificate is not installed.</source>
         <translation>Juurdepääsutõend ei ole paigaldatud.</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

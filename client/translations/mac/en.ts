@@ -56,14 +56,6 @@
         <translation>For getting server access certificate to Tempel contact &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Server access certificate has been installed</source>
-        <translation>Server access certificate has been installed</translation>
-    </message>
-    <message>
-        <source>Continue signing</source>
-        <translation>Continue signing</translation>
-    </message>
-    <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
         <translation>Failed to save server access certificate file to KeyChain!</translation>
     </message>
@@ -209,7 +201,7 @@ This signature is created in the BES format, using no certificate validity confi
     </message>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation>The current file is a DigiDoc container that is not supported officially any longer.&lt;/br&gt;You are not allowed to add or remove signatures to this container.&lt;/br&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
+        <translation>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -601,6 +593,14 @@ New ID-cards have chip on the back side of the card.</translation>
     <message>
         <source>NB! Unknown signature</source>
         <translation>NB! Unknown signature</translation>
+    </message>
+    <message>
+        <source>Server access certificate has been installed</source>
+        <translation>Server access certificate has been installed</translation>
+    </message>
+    <message>
+        <source>Continue signing</source>
+        <translation>Continue signing</translation>
     </message>
 </context>
 <context>
@@ -1020,6 +1020,10 @@ Valid to: %2</translation>
     <message>
         <source>Server access certificate is not installed.</source>
         <translation>Server access certificate is not installed.</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

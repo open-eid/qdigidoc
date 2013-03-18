@@ -56,14 +56,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server access certificate has been installed</source>
-        <translation>Juurdepääsutõend on edukalt paigaldatud</translation>
-    </message>
-    <message>
-        <source>Continue signing</source>
-        <translation>Jätkame allkirjastamisega</translation>
-    </message>
-    <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -209,7 +201,7 @@ Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusm
     </message>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation>Tegemist on vanas formaadis DigiDoc konteineriga.&lt;/br&gt;Sellele konteinerile ei saa allkirja lisada ega eemaldada.&lt;/br&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36160&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
+        <translation>Tegemist on vanas formaadis DigiDoc konteineriga.&lt;br /&gt;Sellele konteinerile ei saa allkirja lisada ega eemaldada.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36160&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -601,6 +593,14 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     <message>
         <source>NB! Unknown signature</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server access certificate has been installed</source>
+        <translation>Juurdepääsutõend on edukalt paigaldatud</translation>
+    </message>
+    <message>
+        <source>Continue signing</source>
+        <translation>Jätkame allkirjastamisega</translation>
     </message>
 </context>
 <context>
@@ -1020,6 +1020,10 @@ Kehtib kuni: %2</translation>
     <message>
         <source>Server access certificate is not installed.</source>
         <translation>Juurdepääsutõend ei ole paigaldatud.</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
