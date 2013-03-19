@@ -182,7 +182,18 @@
         </widget>
        </item>
        <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="p12Error"/>
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+         <item>
+          <widget class="QLabel" name="p12Error"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="showP12Cert">
+           <property name="text">
+            <string>Show certificate</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item row="2" column="0" colspan="2">
         <layout class="QHBoxLayout" name="p12ButtonLayout">
@@ -200,23 +211,16 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="showP12Cert">
+          <widget class="QPushButton" name="p12Update">
            <property name="text">
-            <string>Show certificate</string>
+            <string>Generate certificate</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="p12Install">
            <property name="text">
-            <string>Install</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="p12Update">
-           <property name="text">
-            <string>Update</string>
+            <string>Install manually</string>
            </property>
           </widget>
          </item>

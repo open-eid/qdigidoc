@@ -1008,7 +1008,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Install</source>
-        <translation>Установить</translation>
+        <translation type="obsolete">Установить</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1025,7 +1025,11 @@ Valid to: %2</source>
         <translation>Отсутствует справка доступа.</translation>
     </message>
     <message>
-        <source>Update</source>
+        <source>Generate certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Install manually</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

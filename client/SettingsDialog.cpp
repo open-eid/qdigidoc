@@ -218,7 +218,7 @@ void SettingsDialog::updateCert()
 	if( !c.isNull() )
 		d->p12Error->setText( tr("Issued to: %1\nValid to: %2").arg( SslCertificate(c).subjectInfo( QSslCertificate::CommonName ), c.expiryDate().toString("dd.MM.yyyy") ) );
 	else
-		d->p12Error->setText( tr("Server access certificate is not installed."));
+		d->p12Error->setText( "<b>" + tr("Server access certificate is not installed.") + "</b>" );
 	d->showP12Cert->setEnabled( !c.isNull() );
 	d->showP12Cert->setProperty( "cert", QVariant::fromValue( c ) );
 }

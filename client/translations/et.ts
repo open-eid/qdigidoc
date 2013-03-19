@@ -961,7 +961,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Show certificate</source>
-        <translation>Näita sertifikaati</translation>
+        <translation>Näita tõendit</translation>
     </message>
     <message>
         <source>Server access certificate</source>
@@ -1005,7 +1005,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation>Paigalda</translation>
+        <translation type="obsolete">Paigalda</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1022,8 +1022,12 @@ Kehtib kuni: %2</translation>
         <translation>Juurdepääsutõend ei ole paigaldatud.</translation>
     </message>
     <message>
-        <source>Update</source>
-        <translation type="unfinished"></translation>
+        <source>Generate certificate</source>
+        <translation>Genereeri tõend</translation>
+    </message>
+    <message>
+        <source>Install manually</source>
+        <translation>Paigalda käsitsi</translation>
     </message>
 </context>
 <context>

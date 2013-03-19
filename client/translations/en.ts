@@ -1005,7 +1005,7 @@ Control code: %1</translation>
     </message>
     <message>
         <source>Install</source>
-        <translation>Install</translation>
+        <translation type="obsolete">Install</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1022,8 +1022,12 @@ Valid to: %2</translation>
         <translation>Server access certificate is not installed.</translation>
     </message>
     <message>
-        <source>Update</source>
-        <translation type="unfinished"></translation>
+        <source>Generate certificate</source>
+        <translation>Generate certificate</translation>
+    </message>
+    <message>
+        <source>Install manually</source>
+        <translation>Install manually</translation>
     </message>
 </context>
 <context>
