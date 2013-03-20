@@ -1004,10 +1004,6 @@ Kontrollkood: %1</translation>
         <translation>Seoses uue rahvusvahelistele standarditele vastava BDOC formaadi väljatöötamisega soovitame BDOC formaadis dokumente mitte allkirjastada ja kasutada DDOC formaati. Täiendav info BDOC formaadi kohta &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;http://www.id.ee/bdoc&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Install</source>
-        <translation type="obsolete">Paigalda</translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation>Eemalda</translation>
     </message>

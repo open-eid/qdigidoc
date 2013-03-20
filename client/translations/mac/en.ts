@@ -1004,10 +1004,6 @@ Control code: %1</translation>
         <translation>We currently do not recommend use of BDOC format as it will be changed in near future to comply with new international standards. Please use DDOC format instead. More information on BDOC format is available at &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Install</source>
-        <translation>Install</translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation>Remove</translation>
     </message>
@@ -1022,8 +1018,12 @@ Valid to: %2</translation>
         <translation>Server access certificate is not installed.</translation>
     </message>
     <message>
-        <source>Update</source>
-        <translation type="unfinished"></translation>
+        <source>Generate certificate</source>
+        <translation>Generate certificate</translation>
+    </message>
+    <message>
+        <source>Install manually</source>
+        <translation>Install manually</translation>
     </message>
 </context>
 <context>

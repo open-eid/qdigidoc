@@ -1007,10 +1007,6 @@ Control code: %1</source>
         <translation>В связи с разработкой нового, соответствующего междунaродным стандартам формата BDOC, мы рекомендуем не подписывать документы формата BDOC, а использовать DDOC формат. Дополнительную информацию о BDOC формате наидете на сайте &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;http://www.id.ee/rus/bdoc&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Install</source>
-        <translation>Установить</translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
@@ -1025,8 +1021,12 @@ Valid to: %2</source>
         <translation>Отсутствует справка доступа.</translation>
     </message>
     <message>
-        <source>Update</source>
-        <translation type="unfinished"></translation>
+        <source>Generate certificate</source>
+        <translation>Создать справку</translation>
+    </message>
+    <message>
+        <source>Install manually</source>
+        <translation>Установить вручную</translation>
     </message>
 </context>
 <context>

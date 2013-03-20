@@ -1004,10 +1004,6 @@ Control code: %1</translation>
         <translation>We currently do not recommend use of BDOC format as it will be changed in near future to comply with new international standards. Please use DDOC format instead. More information on BDOC format is available at &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</translation>
     </message>
     <message>
-        <source>Install</source>
-        <translation type="obsolete">Install</translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation>Remove</translation>
     </message>
