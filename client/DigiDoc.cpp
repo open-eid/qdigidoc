@@ -646,7 +646,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 QList<DigiDocSignature> DigiDoc::signatures()
 {
 	QList<DigiDocSignature> list;
-	if( !checkDoc() )
+	if( isNull() )
 		return list;
 	try
 	{

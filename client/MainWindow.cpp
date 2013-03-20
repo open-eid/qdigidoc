@@ -611,6 +611,11 @@ void MainWindow::enableSign()
 		else
 			signSigner->clear();
 	}
+
+	if( doc->signatures().isEmpty() )
+		viewFileStatus->setText( tr("Container is unsigned") );
+	else
+		viewFileStatus->clear();
 	button->setEnabled( button->toolTip().isEmpty() );
 	if( !button->isEnabled() )
 		return;
@@ -628,6 +633,8 @@ void MainWindow::enableSign()
 	}
 	button->setEnabled( !cardOwnerSignature );
 	button->setToolTip( cardOwnerSignature ? tr("This container is signed by you") : QString() );
+	if( viewFileStatus->text().isEmpty() )
+		viewFileStatus->setText( cardOwnerSignature ? tr("This container is signed by you") : tr("You have not signed this container") );
 }
 
 bool MainWindow::event( QEvent *e )
@@ -793,7 +800,6 @@ void MainWindow::setCurrentPage( Pages page )
 		qDeleteAll( viewSignatures->findChildren<SignatureWidget*>() );
 
 		int i = 0;
-		bool cardOwnerSignature = false;
 		enum {
 			Good,
 			Weak,
@@ -808,8 +814,6 @@ void MainWindow::setCurrentPage( Pages page )
 			viewSignaturesLayout->insertWidget( 0, signature );
 			connect( signature, SIGNAL(removeSignature(unsigned int)),
 				SLOT(viewSignaturesRemove(unsigned int)) );
-			cardOwnerSignature = std::max( cardOwnerSignature,
-				c.cert().subjectInfo( "serialNumber" ) == qApp->signer()->token().cert().subjectInfo( "serialNumber" ) );
 			switch(c.validate())
 			{
 			case DigiDocSignature::Unknown: if(status < Unknown) status = Unknown; break;
@@ -825,17 +829,7 @@ void MainWindow::setCurrentPage( Pages page )
 		viewFileName->setText( viewFileName->fontMetrics().elidedText(
 			viewFileName->toolTip(), Qt::ElideMiddle, viewFileName->width() ) );
 
-		if( !qApp->signer()->token().cert().isNull() )
-		{
-			if( !signatures.isEmpty() && cardOwnerSignature )
-				viewFileStatus->setText( tr("This container is signed by you") );
-			else if( !signatures.isEmpty() && !cardOwnerSignature )
-				viewFileStatus->setText( tr("You have not signed this container") );
-			else
-				viewFileStatus->setText( tr("Container is unsigned") );
-		}
-		else
-			viewFileStatus->clear();
+
 
 		viewSignaturesLabel->setText( tr( "Signature(s)", "", signatures.size() ) );
 
