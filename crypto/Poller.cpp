@@ -22,6 +22,7 @@
 
 #include "Poller.h"
 
+#include <common/Common.h>
 #include <common/QPKCS11.h>
 #include <common/TokenData.h>
 #ifdef Q_OS_WIN
@@ -175,6 +176,7 @@ void Poller::run()
 	{
 		if( d->m.tryLock() )
 		{
+			TokenData t = d->t;
 			QStringList cards, readers;
 #ifdef Q_OS_WIN
 			QCNG::Certs certs;
@@ -197,35 +199,31 @@ void Poller::run()
 				cards = d->pkcs11->cards();
 				readers = d->pkcs11->readers();
 			}
-			bool update = d->t.cards() != cards; // check if cards have inserted/removed, update list
-			d->t.setCards( cards );
 
-			if( d->t.readers() != readers )
+			std::sort( cards.begin(), cards.end(), Common::cardsOrder );
+			std::sort( readers.begin(), readers.end() );
+			t.setCards( cards );
+			t.setReaders( readers );
+
+			if( !t.card().isEmpty() && !cards.contains( t.card() ) ) // check if selected card is still in slot
 			{
-				d->t.setReaders( readers );
-				update = true;
+				t.setCard( QString() );
+				t.setCert( QSslCertificate() );
 			}
 
-			if( !d->t.card().isEmpty() && !cards.contains( d->t.card() ) ) // check if selected card is still in slot
-			{
-				d->t.setCard( QString() );
-				d->t.setCert( QSslCertificate() );
-				update = true;
-			}
+			if( t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
+				t.setCard( cards.first() );
 
-			if( d->t.card().isEmpty() && !cards.isEmpty() ) // if none is selected select first from cardlist
-				selectCard( cards.first() );
-
-			if( cards.contains( d->t.card() ) && d->t.cert().isNull() ) // read cert
+			if( cards.contains( t.card() ) && t.cert().isNull() ) // read cert
 			{
 #ifdef Q_OS_WIN
 				if( d->csp )
-					d->t = d->csp->selectCert( d->t.card(), SslCertificate::KeyEncipherment );
+					d->t = d->csp->selectCert( t.card(), SslCertificate::KeyEncipherment );
 				else if( d->cng )
 				{
 					for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
 					{
-						if( i.value() == d->t.card() &&
+						if( i.value() == t.card() &&
 							i.key().keyUsage().contains( SslCertificate::KeyEncipherment ) )
 						{
 							d->t = d->cng->selectCert( i.key() );
@@ -235,13 +233,15 @@ void Poller::run()
 				}
 				else
 #endif
-					d->t = d->pkcs11->selectSlot( d->t.card(), SslCertificate::KeyEncipherment, SslCertificate::EnhancedKeyUsageNone );
-				d->t.setCards( cards );
-				update = true;
+					t = d->pkcs11->selectSlot( t.card(), SslCertificate::KeyEncipherment, SslCertificate::EnhancedKeyUsageNone );
+				t.setCards( cards );
 			}
 
-			if( update ) // update data if something has changed
+			if( d->t != t ) // update data if something has changed
+			{
+				d->t = t;
 				Q_EMIT dataChanged();
+			}
 			d->m.unlock();
 		}
 
@@ -251,8 +251,10 @@ void Poller::run()
 
 void Poller::selectCard( const QString &card )
 {
-	d->t.setCard( card );
-	d->t.setCert( QSslCertificate() );
+	TokenData t = d->t;
+	t.setCard( card );
+	t.setCert( QSslCertificate() );
+	d->t = t;
 	Q_EMIT dataChanged();
 }
 
