@@ -218,7 +218,7 @@ void Poller::run()
 			{
 #ifdef Q_OS_WIN
 				if( d->csp )
-					d->t = d->csp->selectCert( t.card(), SslCertificate::KeyEncipherment );
+					t = d->csp->selectCert( t.card(), SslCertificate::KeyEncipherment );
 				else if( d->cng )
 				{
 					for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
@@ -226,7 +226,7 @@ void Poller::run()
 						if( i.value() == t.card() &&
 							i.key().keyUsage().contains( SslCertificate::KeyEncipherment ) )
 						{
-							d->t = d->cng->selectCert( i.key() );
+							t = d->cng->selectCert( i.key() );
 							break;
 						}
 					}
