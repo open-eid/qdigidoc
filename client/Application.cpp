@@ -89,8 +89,6 @@ public:
 	void setPKCS12Disable( bool disable )
 	{ s.setValue( "PKCS12Disable", disable ); }
 
-	virtual void setOCSP(const std::string &, const std::string &, const std::string &) {}
-
 private:
 	Settings s;
 };
