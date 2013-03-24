@@ -507,19 +507,27 @@ bool DigiDoc::open( const QString &file )
 					"You are not allowed to add or remove signatures to this container.<br />"
 					"<a href='http://www.id.ee/index.php?id=36161'>Additional info</a>."), QMessageBox::Ok );
 		}
-		else if( documentType() != DDocType )
+		else
 		{
-			bool weak = false;
+			bool weak = false, nswarning = false;
 			Q_FOREACH( const Signature *s, b->signatures() )
 			{
-				if( !s->isWeak() )
-					continue;
-				weak = true;
-				break;
+				switch( s->isWeak() )
+				{
+				case Signature::RefereneceDigestWeak:
+				case Signature::SignatureDigestWeak: weak = true; break;
+				case Signature::WrongNameSpace: nswarning = true; break;
+				default: break;
+				}
 			}
 			if( weak )
 				qApp->showWarning(
 					tr("The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
+			if( nswarning )
+				qApp->showWarning(
+					tr("The current file is a DigiDoc container with minor problem on DDOC format xmlns attribute.\n"
+						"We do not recommend to add signature to this document.\n"
+						"Please inform container source occurred incident."));
 		} 
 		qApp->addRecent( file );
 		return true;
