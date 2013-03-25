@@ -203,6 +203,12 @@ This signature is created in the BES format, using no certificate validity confi
         <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
     </message>
+    <message>
+        <source>The current file is a DigiDoc container with minor problem on DDOC format xmlns attribute.
+We do not recommend to add signature to this document.
+Please inform container source occurred incident.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DocumentModel</name>
@@ -601,6 +607,10 @@ New ID-cards have chip on the back side of the card.</translation>
     <message>
         <source>Continue signing</source>
         <translation>Continue signing</translation>
+    </message>
+    <message>
+        <source>Document already have your signature.</source>
+        <translation>Document already have your signature.</translation>
     </message>
 </context>
 <context>

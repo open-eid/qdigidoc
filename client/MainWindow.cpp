@@ -466,6 +466,14 @@ void MainWindow::buttonClicked( int button )
 	}
 	case SignSign:
 	{
+		if( buttonGroup->button( SignSign )->property("selfsigned").toBool() )
+		{
+			QMessageBox b( QMessageBox::Information, tr("DigiDoc3 client"),
+				tr("Document already have your signature."), QMessageBox::Cancel, this );
+			b.setDefaultButton( b.addButton( tr("Continue signing"), QMessageBox::AcceptRole ) );
+			if( b.exec() == QMessageBox::Cancel )
+				break;
+		}
 		buttonGroup->button( SignSign )->setEnabled( false );
 		buttonGroup->button( SignSign )->setToolTip( tr("Signing in process") );
 		CheckConnection connection;
@@ -631,7 +639,7 @@ void MainWindow::enableSign()
 			break;
 		}
 	}
-	button->setEnabled( !cardOwnerSignature );
+	button->setProperty( "selfsigned", cardOwnerSignature );
 	button->setToolTip( cardOwnerSignature ? tr("This container is signed by you") : QString() );
 	if( viewFileStatus->text().isEmpty() )
 		viewFileStatus->setText( cardOwnerSignature ? tr("This container is signed by you") : tr("You have not signed this container") );
