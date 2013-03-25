@@ -600,7 +600,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>Continue signing</source>
-        <translation>Jätkame allkirjastamisega</translation>
+        <translation>Jätka allkirjastamisega</translation>
     </message>
 </context>
 <context>
