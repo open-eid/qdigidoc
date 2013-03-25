@@ -109,6 +109,7 @@ public:
 	QDateTime	signTime() const;
 	SignatureType type() const;
 	SignatureStatus validate() const;
+	bool		nswarning() const;
 	bool		weakDigestMethod() const;
 
 private:

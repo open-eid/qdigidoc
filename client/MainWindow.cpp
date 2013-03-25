@@ -802,6 +802,7 @@ void MainWindow::setCurrentPage( Pages page )
 		int i = 0;
 		enum {
 			Good,
+			NSWarning,
 			Weak,
 			Test,
 			Unknown,
@@ -822,6 +823,7 @@ void MainWindow::setCurrentPage( Pages page )
 			}
 			if(c.isTest() && status < Test) status = Test;
 			if(c.weakDigestMethod() && status < Weak) status = Weak;
+			if(c.nswarning() && status < NSWarning) status = NSWarning;
 			++i;
 		}
 
@@ -839,6 +841,12 @@ void MainWindow::setCurrentPage( Pages page )
 		case Unknown: viewSignaturesError->setText( "<i>" + tr("NB! Unknown signature") + "</i>" ); break;
 		case Test: viewSignaturesError->setText( tr("NB! Test signature") ); break;
 		case Weak: viewSignaturesError->setText( "<i>" + tr("NB! Weak signature") + "</i>" ); break;
+		case NSWarning:
+			qApp->showWarning(
+				DigiDoc::tr("The current file is a DigiDoc container with minor problem on DDOC format xmlns attribute.\n"
+					"We do not recommend to add signature to this document.\n"
+					"Please inform container source occurred incident."));
+			break;
 		default: viewSignaturesError->clear(); break;
 		}
 		break;

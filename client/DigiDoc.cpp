@@ -274,6 +274,11 @@ QStringList DigiDocSignature::locations() const
 QString DigiDocSignature::mediaType() const
 { return from( s->profile() ); }
 
+bool DigiDocSignature::nswarning() const
+{
+	return s->isWeak() & Signature::WrongNameSpace;
+}
+
 QSslCertificate DigiDocSignature::ocspCert() const
 {
 	return QSslCertificate(
@@ -391,7 +396,7 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 
 bool DigiDocSignature::weakDigestMethod() const
 {
-	return s->isWeak() > 0;
+	return s->isWeak() & (Signature::SignatureDigestWeak|Signature::RefereneceDigestWeak);
 }
 
 
