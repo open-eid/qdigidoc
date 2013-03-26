@@ -599,8 +599,8 @@ void MainWindow::enableSign()
 	{
 		button->setToolTip( tr("Container format is not supported for signing.") );
 		QAbstractButton *b = buttonGroup->button( ViewAddSignature );
-		b->setEnabled( doc->isSupported() );
-		b->setToolTip( b->isEnabled() ? "" : tr("Container format is not supported for signing.") );
+		b->setEnabled( false );
+		b->setToolTip( tr("Container format is not supported for signing.") );
 	}
 	else if( signContentView->model()->rowCount() == 0 )
 		button->setToolTip( tr("Empty container") );
