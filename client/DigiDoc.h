@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -147,6 +147,7 @@ public:
 	bool open( const QString &file );
 	void removeSignature( unsigned int num );
 	void save( const QString &filename = QString() );
+	void showNSWarning();
 	bool sign(
 		const QString &city,
 		const QString &state,
@@ -168,6 +169,7 @@ private:
 	digidoc::Container *b;
 	QString			m_fileName;
 	DocumentModel	*m_documentModel;
+	bool			nswarningshown;
 
 	friend class DocumentModel;
 };

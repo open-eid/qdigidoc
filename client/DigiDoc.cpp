@@ -405,6 +405,7 @@ DigiDoc::DigiDoc( QObject *parent )
 :	QObject( parent )
 ,	b(0)
 ,	m_documentModel( new DocumentModel( this ) )
+,	nswarningshown(false)
 {}
 
 DigiDoc::~DigiDoc() { clear(); }
@@ -504,6 +505,7 @@ bool DigiDoc::open( const QString &file )
 		b = new Container( to(file) );
 		m_fileName = file;
 		m_documentModel->reset();
+		nswarningshown = false;
 
 		if( !isSupported() )
 		{
@@ -529,10 +531,7 @@ bool DigiDoc::open( const QString &file )
 				qApp->showWarning(
 					tr("The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
 			if( nswarning )
-				qApp->showWarning(
-					tr("The current file is a DigiDoc container with minor problem on DDOC format xmlns attribute.\n"
-						"We do not recommend to add signature to this document.\n"
-						"Please inform container source occurred incident."));
+				showNSWarning();
 		} 
 		qApp->addRecent( file );
 		return true;
@@ -617,6 +616,17 @@ void DigiDoc::setLastError( const QString &msg, const Exception &e )
 	default:
 		qApp->showWarning( msg, ddocError, causes.join("\n") ); break;
 	}
+}
+
+void DigiDoc::showNSWarning()
+{
+	if(nswarningshown)
+		return;
+	qApp->showWarning(
+		tr("The current file is a DigiDoc container with minor problem on DDOC format xmlns attribute.\n"
+			"We do not recommend to add signature to this document.\n"
+			"Please inform container source occurred incident."));
+	nswarningshown = true;
 }
 
 bool DigiDoc::sign( const QString &city, const QString &state, const QString &zip,

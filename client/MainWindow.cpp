@@ -61,6 +61,14 @@
 #define qdigidoccrypto "qdigidoccrypto"
 #endif
 
+static bool hasNSWarning( DigiDoc *doc )
+{
+	Q_FOREACH( const DigiDocSignature &s, doc->signatures() )
+		if( s.nswarning() )
+			return true;
+	return false;
+}
+
 MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )
 ,	cardsGroup( new QActionGroup( this ) )
@@ -587,7 +595,7 @@ void MainWindow::enableSign()
 
 	if( doc->isNull() )
 		button->setToolTip( tr("Container is not open") );
-	else if( !doc->isSupported() )
+	else if( !doc->isSupported() || hasNSWarning( doc ) )
 	{
 		button->setToolTip( tr("Container format is not supported for signing.") );
 		QAbstractButton *b = buttonGroup->button( ViewAddSignature );
@@ -849,12 +857,7 @@ void MainWindow::setCurrentPage( Pages page )
 		case Unknown: viewSignaturesError->setText( "<i>" + tr("NB! Unknown signature") + "</i>" ); break;
 		case Test: viewSignaturesError->setText( tr("NB! Test signature") ); break;
 		case Weak: viewSignaturesError->setText( "<i>" + tr("NB! Weak signature") + "</i>" ); break;
-		case NSWarning:
-			qApp->showWarning(
-				DigiDoc::tr("The current file is a DigiDoc container with minor problem on DDOC format xmlns attribute.\n"
-					"We do not recommend to add signature to this document.\n"
-					"Please inform container source occurred incident."));
-			break;
+		case NSWarning: doc->showNSWarning(); break;
 		default: viewSignaturesError->clear(); break;
 		}
 		break;
