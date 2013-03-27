@@ -204,10 +204,8 @@ This signature is created in the BES format, using no certificate validity confi
         <translation>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container with minor problem on DDOC format xmlns attribute.
-We do not recommend to add signature to this document.
-Please inform container source occurred incident.</source>
-        <translation type="unfinished"></translation>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id= 36213&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -585,10 +583,6 @@ New ID-cards have chip on the back side of the card.</translation>
         <translation>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</translation>
     </message>
     <message>
-        <source>Container format is not supported for signing.</source>
-        <translation>Container format is not supported for signing.</translation>
-    </message>
-    <message>
         <source>Phone number with format 372XXXXXX</source>
         <translation>Phone number with format 372XXXXXX</translation>
     </message>
@@ -611,6 +605,10 @@ New ID-cards have chip on the back side of the card.</translation>
     <message>
         <source>Document already have your signature.</source>
         <translation>Document already have your signature.</translation>
+    </message>
+    <message>
+        <source>Signing not allowed.</source>
+        <translation>Signing not allowed.</translation>
     </message>
 </context>
 <context>

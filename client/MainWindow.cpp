@@ -597,10 +597,10 @@ void MainWindow::enableSign()
 		button->setToolTip( tr("Container is not open") );
 	else if( !doc->isSupported() || hasNSWarning( doc ) )
 	{
-		button->setToolTip( tr("Container format is not supported for signing.") );
+		button->setToolTip( tr("Signing not allowed.") );
 		QAbstractButton *b = buttonGroup->button( ViewAddSignature );
 		b->setEnabled( false );
-		b->setToolTip( tr("Container format is not supported for signing.") );
+		b->setToolTip( tr("Signing not allowed.") );
 	}
 	else if( signContentView->model()->rowCount() == 0 )
 		button->setToolTip( tr("Empty container") );

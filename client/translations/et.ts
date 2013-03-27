@@ -204,10 +204,8 @@ Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusm
         <translation>Tegemist on vanas formaadis DigiDoc konteineriga.&lt;br /&gt;Sellele konteinerile ei saa allkirja lisada ega eemaldada.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36160&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container with minor problem on DDOC format xmlns attribute.
-We do not recommend to add signature to this document.
-Please inform container source occurred incident.</source>
-        <translation type="unfinished"></translation>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Sellele konteinerile ei saa allkirja lisada ega eemaldada. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36212&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -585,10 +583,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>Digitaalallkirjade kinnituslehe kuvamiseks peab olema arvutis vähemalt üks printer seadistatud!</translation>
     </message>
     <message>
-        <source>Container format is not supported for signing.</source>
-        <translation>Allkirja andmine vanale DigiDoc konteinerile ei ole lubatud.</translation>
-    </message>
-    <message>
         <source>Phone number with format 372XXXXXX</source>
         <translation type="unfinished"></translation>
     </message>
@@ -611,6 +605,10 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     <message>
         <source>Document already have your signature.</source>
         <translation>Dokument on sinu poolt juba allkirjastatud.</translation>
+    </message>
+    <message>
+        <source>Signing not allowed.</source>
+        <translation>Allkirja andmine ei ole lubatud.</translation>
     </message>
 </context>
 <context>

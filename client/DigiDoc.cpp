@@ -623,9 +623,10 @@ void DigiDoc::showNSWarning()
 	if(nswarningshown)
 		return;
 	qApp->showWarning(
-		tr("The current file is a DigiDoc container with minor problem on DDOC format xmlns attribute.\n"
-			"We do not recommend to add signature to this document.\n"
-			"Please inform container source occurred incident."));
+		tr("This Digidoc document has not been created according to specification, "
+			"but the digital signature is legally valid. You are not allowed to add "
+			"or remove signatures to this container. Please inform the document creator "
+			"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>."));
 	nswarningshown = true;
 }
 
