@@ -123,7 +123,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	sc << "<a href=\"details\" title=\"" << tr("Show details") << "\">" << tr("Show details") << "</a>";
 	sc << "</td></tr><tr><td></td>";
 	sc << "<td align=\"right\">";
-	if(s.parent()->isSupported())
+	if( s.parent()->isSupported() && !s.nswarning() )
 		sc << "<a href=\"remove\" title=\"" << tr("Remove") << "\">" << tr("Remove") << "</a>";
 	sc << "</td></tr></table>";
 

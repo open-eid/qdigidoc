@@ -824,6 +824,7 @@ void MainWindow::setCurrentPage( Pages page )
 			Unknown,
 			Invalid
 		} status = Good;
+		bool nswarning = false;
 		QList<DigiDocSignature> signatures = doc->signatures();
 		Q_FOREACH( const DigiDocSignature &c, signatures )
 		{
@@ -840,6 +841,7 @@ void MainWindow::setCurrentPage( Pages page )
 			if(c.isTest() && status < Test) status = Test;
 			if(c.weakDigestMethod() && status < Weak) status = Weak;
 			if(c.nswarning() && status < NSWarning) status = NSWarning;
+			nswarning = std::max( nswarning, c.nswarning() );
 			++i;
 		}
 
@@ -850,6 +852,7 @@ void MainWindow::setCurrentPage( Pages page )
 
 
 		viewSignaturesLabel->setText( tr( "Signature(s)", "", signatures.size() ) );
+		viewFileNameSave->setHidden( nswarning );
 
 		switch( status )
 		{
