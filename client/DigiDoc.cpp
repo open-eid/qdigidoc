@@ -622,12 +622,12 @@ void DigiDoc::showNSWarning()
 {
 	if(nswarningshown)
 		return;
+	nswarningshown = true;
 	qApp->showWarning(
 		tr("This Digidoc document has not been created according to specification, "
 			"but the digital signature is legally valid. You are not allowed to add "
 			"or remove signatures to this container. Please inform the document creator "
 			"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>."));
-	nswarningshown = true;
 }
 
 bool DigiDoc::sign( const QString &city, const QString &state, const QString &zip,
