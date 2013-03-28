@@ -106,6 +106,7 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->setId( homeCrypt, HomeCrypt );
 #ifdef Q_OS_MAC
 	homeCrypt->setVisible( QFileInfo( qApp->applicationDirPath() + "/qdigidoccrypto.app" ).exists() );
+	viewEncrypt->setVisible( QFileInfo( qApp->applicationDirPath() + "/qdigidoccrypto.app" ).exists() );
 #endif
 
 	buttonGroup->setId( signAddFile, SignAdd );
