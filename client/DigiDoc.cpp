@@ -351,6 +351,11 @@ QDateTime DigiDocSignature::signTime() const
 	return date;
 }
 
+QString DigiDocSignature::spuri() const
+{
+	return from(s->SPUri());
+}
+
 DigiDocSignature::SignatureType DigiDocSignature::type() const
 {
 	const std::string ver = s->profile();

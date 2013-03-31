@@ -40,6 +40,7 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QPushButton>
 #endif
+#include <QtGui/QDesktopServices>
 #include <QtGui/QTextDocument>
 #include <QtNetwork/QSslKey>
 
@@ -219,6 +220,8 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	addItem( t, tr("Certificate valid at"), DateTime( c.effectiveDate() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Certificate valid until"), DateTime( c.expiryDate() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
+	if( !s.spuri().isEmpty() )
+		addItem( t, tr("SPUri"), s.spuri() );
 	t->resizeColumnToContents( 0 );
 
 	// OCSP info
@@ -256,4 +259,10 @@ void SignatureDialog::buttonClicked( QAbstractButton *button )
 		CertificateDialog( s.cert(), this ).exec();
 	else if( button == d->ocspCert )
 		CertificateDialog( s.ocspCert(), this ).exec();
+}
+
+void SignatureDialog::on_signatureView_doubleClicked( const QModelIndex &index )
+{
+	if( index.row() == 8 && index.column() == 1 )
+		QDesktopServices::openUrl( index.data().toUrl() );
 }

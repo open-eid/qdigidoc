@@ -107,6 +107,7 @@ public:
 	QStringList	roles() const;
 	QString		signatureMethod() const;
 	QDateTime	signTime() const;
+	QString		spuri() const;
 	SignatureType type() const;
 	SignatureStatus validate() const;
 	bool		nswarning() const;

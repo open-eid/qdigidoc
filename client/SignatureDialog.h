@@ -64,6 +64,7 @@ public:
 	~SignatureDialog();
 
 private Q_SLOTS:
+	void on_signatureView_doubleClicked( const QModelIndex &index );
 	void buttonClicked( QAbstractButton *button );
 
 private:
