@@ -610,6 +610,14 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <source>Signing not allowed.</source>
         <translation>Allkirja andmine ei ole lubatud.</translation>
     </message>
+    <message>
+        <source>Phone number with format 372XXXXXX</source>
+        <translation>Mobiiltelefoni number formaadis 3725xxxxx</translation>
+    </message>
+    <message>
+        <source>Personal code</source>
+        <translation>Isikukood</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
