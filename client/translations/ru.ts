@@ -613,6 +613,14 @@ New ID-cards have chip on the back side of the card.</source>
         <source>Signing not allowed.</source>
         <translation>Подпись невозможна.</translation>
     </message>
+    <message>
+        <source>Phone number with format 372XXXXXX</source>
+        <translation>Номер моб. телефона (3725xxxxx)</translation>
+    </message>
+    <message>
+        <source>Personal code</source>
+        <translation>Личный код</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
