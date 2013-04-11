@@ -216,7 +216,10 @@ void SettingsDialog::updateCert()
 {
 	QSslCertificate c = AccessCert::cert();
 	if( !c.isNull() )
-		d->p12Error->setText( tr("Issued to: %1\nValid to: %2").arg( SslCertificate(c).subjectInfo( QSslCertificate::CommonName ), c.expiryDate().toString("dd.MM.yyyy") ) );
+		d->p12Error->setText( tr("Issued to: %1<br />Valid to: %2 %3")
+			.arg( SslCertificate(c).subjectInfo( QSslCertificate::CommonName ) )
+			.arg( c.expiryDate().toString("dd.MM.yyyy") )
+			.arg( !c.isValid() ? "<font color='red'>(" + tr("expired") + ")</font>" : "" ) );
 	else
 		d->p12Error->setText( "<b>" + tr("Server access certificate is not installed.") + "</b>" );
 	d->showP12Cert->setEnabled( !c.isNull() );

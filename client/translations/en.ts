@@ -1016,12 +1016,6 @@ Control code: %1</translation>
         <translation>Remove</translation>
     </message>
     <message>
-        <source>Issued to: %1
-Valid to: %2</source>
-        <translation>Issued to: %1
-Valid to: %2</translation>
-    </message>
-    <message>
         <source>Server access certificate is not installed.</source>
         <translation>Server access certificate is not installed.</translation>
     </message>
@@ -1032,6 +1026,14 @@ Valid to: %2</translation>
     <message>
         <source>Install manually</source>
         <translation>Install manually</translation>
+    </message>
+    <message>
+        <source>Issued to: %1&lt;br /&gt;Valid to: %2 %3</source>
+        <translation>Issued to: %1&lt;br /&gt;Valid to: %2 %3</translation>
+    </message>
+    <message>
+        <source>expired</source>
+        <translation>expired</translation>
     </message>
 </context>
 <context>

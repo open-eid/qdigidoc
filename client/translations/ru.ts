@@ -1019,12 +1019,6 @@ Control code: %1</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <source>Issued to: %1
-Valid to: %2</source>
-        <translation>Выдан: %1
-Действительно до: %2</translation>
-    </message>
-    <message>
         <source>Server access certificate is not installed.</source>
         <translation>Отсутствует справка доступа.</translation>
     </message>
@@ -1035,6 +1029,14 @@ Valid to: %2</source>
     <message>
         <source>Install manually</source>
         <translation>Установить вручную</translation>
+    </message>
+    <message>
+        <source>Issued to: %1&lt;br /&gt;Valid to: %2 %3</source>
+        <translation>Выдан: %1&lt;br /&gt;Действительно до: %2 %3</translation>
+    </message>
+    <message>
+        <source>expired</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
