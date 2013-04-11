@@ -221,7 +221,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	addItem( t, tr("Certificate valid until"), DateTime( c.expiryDate() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	if( !s.spuri().isEmpty() )
-		addItem( t, tr("SPUri"), s.spuri() );
+		addItem( t, "SPUri", s.spuri() );
 	t->resizeColumnToContents( 0 );
 
 	// OCSP info

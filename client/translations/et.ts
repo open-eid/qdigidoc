@@ -583,14 +583,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>Digitaalallkirjade kinnituslehe kuvamiseks peab olema arvutis vähemalt üks printer seadistatud!</translation>
     </message>
     <message>
-        <source>Phone number with format 372XXXXXX</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Personal code</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>NB! Unknown signature</source>
         <translation type="unfinished"></translation>
     </message>
@@ -603,7 +595,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>Jätka allkirjastamisega</translation>
     </message>
     <message>
-        <source>Document already have your signature.</source>
+        <source>The document has already been signed by you.</source>
         <translation>Dokument on sinu poolt juba allkirjastatud.</translation>
     </message>
     <message>

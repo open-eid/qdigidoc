@@ -603,7 +603,7 @@ New ID-cards have chip on the back side of the card.</translation>
         <translation>Continue signing</translation>
     </message>
     <message>
-        <source>Document already have your signature.</source>
+        <source>The document has already been signed by you.</source>
         <translation>Document already have your signature.</translation>
     </message>
     <message>

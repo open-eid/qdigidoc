@@ -586,14 +586,6 @@ New ID-cards have chip on the back side of the card.</source>
         <translation>Для отображения листа подтверждения действительности цифровой подписи на компьютере должен быть установлен как минимум один принтер!</translation>
     </message>
     <message>
-        <source>Phone number with format 372XXXXXX</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Personal code</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>NB! Unknown signature</source>
         <translation type="unfinished"></translation>
     </message>
@@ -606,7 +598,7 @@ New ID-cards have chip on the back side of the card.</source>
         <translation>Подписать</translation>
     </message>
     <message>
-        <source>Document already have your signature.</source>
+        <source>The document has already been signed by you.</source>
         <translation>Вы уже подписали этот документ.</translation>
     </message>
     <message>

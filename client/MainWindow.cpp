@@ -478,7 +478,7 @@ void MainWindow::buttonClicked( int button )
 		if( buttonGroup->button( SignSign )->property("selfsigned").toBool() )
 		{
 			QMessageBox b( QMessageBox::Information, tr("DigiDoc3 client"),
-				tr("Document already have your signature."), QMessageBox::Cancel, this );
+				tr("The document has already been signed by you."), QMessageBox::Cancel, this );
 			b.setDefaultButton( b.addButton( tr("Continue signing"), QMessageBox::AcceptRole ) );
 			if( b.exec() == QMessageBox::Cancel )
 				break;
