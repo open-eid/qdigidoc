@@ -386,10 +386,6 @@ Tüüp: %3</translation>
         <translation>Isikukood:</translation>
     </message>
     <message>
-        <source>Encrypt files for secure transfer</source>
-        <translation>Krüpteerida faile turvaliseks edastamiseks</translation>
-    </message>
-    <message>
         <source>%1 already exists.&lt;br /&gt;Do you want replace it?</source>
         <translation>%1 on juba olemas.&lt;br /&gt;Soovid asendada?</translation>
     </message>
@@ -609,6 +605,10 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     <message>
         <source>Personal code</source>
         <translation>Isikukood</translation>
+    </message>
+    <message>
+        <source>Open DigiDoc3 Crypto</source>
+        <translation>Ava DigiDoc3 Krüpto</translation>
     </message>
 </context>
 <context>

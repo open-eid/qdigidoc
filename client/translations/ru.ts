@@ -350,10 +350,6 @@ Media type: %3</source>
         <translation>Просмотреть подписанный документ</translation>
     </message>
     <message>
-        <source>Encrypt files for secure transfer</source>
-        <translation>Зашифровать файлы для безопасной передачи</translation>
-    </message>
-    <message>
         <source>Skip this intro</source>
         <translation>Больше не показывать</translation>
     </message>
@@ -612,6 +608,10 @@ New ID-cards have chip on the back side of the card.</source>
     <message>
         <source>Personal code</source>
         <translation>Личный код</translation>
+    </message>
+    <message>
+        <source>Open DigiDoc3 Crypto</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

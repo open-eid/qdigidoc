@@ -386,10 +386,6 @@ Media type: %3</translation>
         <translation>Personal code:</translation>
     </message>
     <message>
-        <source>Encrypt files for secure transfer</source>
-        <translation>Encrypt files for secure transfer</translation>
-    </message>
-    <message>
         <source>%1 already exists.&lt;br /&gt;Do you want replace it?</source>
         <translation>%1 already exists.&lt;br /&gt;Do you want replace it?</translation>
     </message>
@@ -609,6 +605,10 @@ New ID-cards have chip on the back side of the card.</translation>
     <message>
         <source>Signing not allowed.</source>
         <translation>Signing not allowed.</translation>
+    </message>
+    <message>
+        <source>Open DigiDoc3 Crypto</source>
+        <translation>Open DigiDoc3 Crypto</translation>
     </message>
 </context>
 <context>
