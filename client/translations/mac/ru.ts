@@ -1036,7 +1036,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>expired</source>
-        <translation type="unfinished"></translation>
+        <translation>поросрочен</translation>
     </message>
 </context>
 <context>
