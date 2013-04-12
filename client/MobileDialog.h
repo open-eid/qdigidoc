@@ -49,7 +49,7 @@ public:
 private Q_SLOTS:
 	void endProgress();
 	void finished( QNetworkReply *reply );
-	void sendStatusRequest( int frame );
+	void sendStatusRequest();
 	void sslErrors( QNetworkReply *reply, const QList<QSslError> &errors );
 
 private:

@@ -32,6 +32,7 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QTimeLine>
+#include <QtCore/QTimer>
 #include <QtCore/QXmlStreamReader>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkProxy>
@@ -69,7 +70,7 @@ MobileDialog::MobileDialog( QWidget *parent )
 	statusTimer = new QTimeLine( signProgressBar->maximum() * 1000, this );
 	statusTimer->setCurveShape( QTimeLine::LinearCurve );
 	statusTimer->setFrameRange( signProgressBar->minimum(), signProgressBar->maximum() );
-	connect( statusTimer, SIGNAL(frameChanged(int)), SLOT(sendStatusRequest(int)) );
+	connect( statusTimer, SIGNAL(frameChanged(int)), signProgressBar, SLOT(setValue(int)) );
 	connect( statusTimer, SIGNAL(finished()), SLOT(endProgress()) );
 
 	manager = new QNetworkAccessManager( this );
@@ -167,16 +168,18 @@ void MobileDialog::finished( QNetworkReply *reply )
 			code->setText( tr("Make sure control code matches with one in phone screen\n"
 				"and enter Mobile-ID PIN.\nControl code: %1").arg( challenge ) );
 			code->setAccessibleName( code->text() );
-			statusTimer->start();
 		}
-		return;
 	}
 
 	if( statusTimer->state() == QTimeLine::NotRunning )
 		return;
+
 	labelError->setText( mobileResults.value( status ) );
-	if( status == "REQUEST_OK" || status == "OUTSTANDING_TRANSACTION" )
+	if( status == "OK" || status == "REQUEST_OK" || status == "OUTSTANDING_TRANSACTION" )
+	{
+		QTimer::singleShot(5*1000, this, SLOT(sendStatusRequest()));
 		return;
+	}
 	statusTimer->stop();
 	if( status == "SIGNATURE" )
 		close();
@@ -197,11 +200,8 @@ bool MobileDialog::isTest( const QString &ssid, const QString &cell )
 		(ssid == "38002240211" && cell2 == "37200001");
 }
 
-void MobileDialog::sendStatusRequest( int frame )
+void MobileDialog::sendStatusRequest()
 {
-	signProgressBar->setValue( frame );
-	if( frame % 5 != 0 )
-		return;
 	SOAPDocument doc( "GetMobileCreateSignatureStatus", DIGIDOCSERVICE );
 	doc.writeParameter( "Sesscode", sessionCode.toInt() );
 	doc.writeParameter( "WaitSignature", false );
@@ -273,6 +273,7 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 
 	request.setUrl( Settings().value( doc->documentType() == DigiDoc::BDocType ?
 		"Client/bdocurl" : "Client/ddocurl", "https://digidocservice.sk.ee").toUrl() );
+	statusTimer->start();
 	manager->post( request, r.document() );
 }
 
