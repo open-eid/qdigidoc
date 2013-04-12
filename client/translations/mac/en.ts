@@ -600,7 +600,7 @@ New ID-cards have chip on the back side of the card.</translation>
     </message>
     <message>
         <source>The document has already been signed by you.</source>
-        <translation>Document already have your signature.</translation>
+        <translation>The document has already been signed by you.</translation>
     </message>
     <message>
         <source>Signing not allowed.</source>
