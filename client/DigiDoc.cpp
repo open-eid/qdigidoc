@@ -142,11 +142,11 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 DataFile DocumentModel::document( const QModelIndex &index ) const
 {
 	if( !hasIndex( index.row(), index.column() ) )
-		return DataFile( "", "" );
+		return DataFile( "", "", "" );
 
 	try { return d->b->dataFiles().at( index.row() ); }
 	catch( const Exception &e ) { d->setLastError( tr("Failed to get files from container"), e ); }
-	return DataFile( "", "" );
+	return DataFile( "", "", "" );
 }
 
 Qt::ItemFlags DocumentModel::flags( const QModelIndex & ) const
