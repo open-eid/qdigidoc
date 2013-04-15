@@ -70,9 +70,10 @@ static bool hasNSWarning( DigiDoc *doc )
 }
 
 MainWindow::MainWindow( QWidget *parent )
-:	QWidget( parent )
-,	cardsGroup( new QActionGroup( this ) )
-,	quitOnClose( false )
+	: QWidget( parent )
+	, cardsGroup( new QActionGroup( this ) )
+	, quitOnClose( false )
+	, prevpage( Home )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
 #ifdef TESTING
@@ -292,15 +293,10 @@ void MainWindow::buttonClicked( int button )
 		if( !Common::startDetached( qdigidoccrypto ) )
 			qApp->showWarning( tr("Failed to start process '%1'").arg( qdigidoccrypto ) );
 		break;
-	case HomeSign:
-		if( stack->currentIndex() == Home &&
-			Settings().value( "Client/Intro", true ).toBool() )
-		{
-			introCheck->setChecked( false );
-			setCurrentPage( Intro );
-			break;
-		}
 	case IntroAgree:
+		setCurrentPage( Sign );
+		break;
+	case HomeSign:
 	{
 		if( !params.isEmpty() )
 		{
@@ -383,6 +379,11 @@ void MainWindow::buttonClicked( int button )
 				QFile::remove( doc->fileName() );
 		}
 	case IntroBack:
+		if( prevpage == View )
+		{
+			setCurrentPage( View );
+			break;
+		}
 	case ViewClose:
 		doc->clear();
 		if( quitOnClose )
@@ -792,6 +793,7 @@ QString MainWindow::selectFile( const QString &filename )
 
 void MainWindow::setCurrentPage( Pages page )
 {
+	int prev = stack->currentIndex();
 	stack->setCurrentIndex( page );
 
 	if( !doc->fileName().isEmpty() )
@@ -807,6 +809,14 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 	case Sign:
 	{
+		if( prev != Intro && Settings().value( "Client/Intro", true ).toBool() )
+		{
+			prevpage = prev;
+			introCheck->setChecked( false );
+			setCurrentPage( Intro );
+			break;
+		}
+
 		signContentView->setColumnHidden( DocumentModel::Remove, !doc->signatures().isEmpty() );
 		signContentView->setColumnHidden( DocumentModel::Id, true );
 		signAddFile->setVisible( doc->signatures().isEmpty() );

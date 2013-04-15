@@ -92,4 +92,5 @@ private:
 	DigiDoc	*doc;
 	QStringList lang, params;
 	bool quitOnClose;
+	int prevpage;
 };
