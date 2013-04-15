@@ -276,7 +276,7 @@ QString DigiDocSignature::mediaType() const
 
 bool DigiDocSignature::nswarning() const
 {
-	return s->isWeak() & Signature::WrongNameSpace;
+	return s->warnings() & Signature::WrongNameSpace;
 }
 
 QSslCertificate DigiDocSignature::ocspCert() const
@@ -401,7 +401,7 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 
 bool DigiDocSignature::weakDigestMethod() const
 {
-	return s->isWeak() & (Signature::SignatureDigestWeak|Signature::RefereneceDigestWeak);
+	return s->warnings() & (Signature::SignatureDigestWeak|Signature::RefereneceDigestWeak);
 }
 
 
@@ -524,13 +524,9 @@ bool DigiDoc::open( const QString &file )
 			bool weak = false, nswarning = false;
 			Q_FOREACH( const Signature *s, b->signatures() )
 			{
-				switch( s->isWeak() )
-				{
-				case Signature::RefereneceDigestWeak:
-				case Signature::SignatureDigestWeak: weak = true; break;
-				case Signature::WrongNameSpace: nswarning = true; break;
-				default: break;
-				}
+				int warnings = s->warnings();
+				if( warnings & (Signature::RefereneceDigestWeak|Signature::SignatureDigestWeak) ) weak = true;
+				if( warnings & Signature::WrongNameSpace ) nswarning = true;
 			}
 			if( weak )
 				qApp->showWarning(
