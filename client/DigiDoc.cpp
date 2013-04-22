@@ -482,23 +482,11 @@ bool DigiDoc::isSupported() const
 
 QString DigiDoc::newSignatureID() const
 {
-	SignatureList list = b->signatures();
+	QStringList list;
+	Q_FOREACH(const Signature *s, b->signatures())
+		list << QString::fromUtf8(s->id().c_str());
 	unsigned int id = 0;
-	while(true)
-	{
-		bool found = false;
-		for(SignatureList::const_iterator i = list.begin(); i != list.end(); ++i)
-		{
-			if((*i)->id().compare(QString("S%1").arg(id).toUtf8()))
-			{
-				found = true;
-				break;
-			}
-		}
-		if(!found)
-			return QString("S%1").arg(id);
-		++id;
-	}
+	while(list.contains(QString("S%1").arg(id), Qt::CaseInsensitive)) ++id;
 	return QString("S%1").arg(id);
 }
 
