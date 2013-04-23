@@ -611,7 +611,7 @@ New ID-cards have chip on the back side of the card.</source>
     </message>
     <message>
         <source>Open DigiDoc3 Crypto</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть DigiDoc3 Crypto</translation>
     </message>
 </context>
 <context>
