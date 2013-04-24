@@ -100,7 +100,7 @@ if(UNIX AND NOT APPLE)
 	# Install icons
 	foreach(RES 16 22 32 48 128)
 		set(ICONDIR ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/mimetypes/)
-		foreach(TGT application-x-bdoc.png application-x-ddoc.png application-x-p12d.png)
+		foreach(TGT application-vnd.bdoc-1.0.png application-vnd.etsi.asic-e+zip.png application-x-ddoc.png application-x-p12d.png)
 			set(SRC images/qdigidoc_client_document_${RES}x${RES}.png)
 			install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
 		endforeach()
