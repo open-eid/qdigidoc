@@ -422,7 +422,6 @@ void MainWindow::buttonClicked( int button )
 		QPrintPreviewDialog *dialog = new QPrintPreviewDialog( this );
 		dialog->printer()->setPaperSize( QPrinter::A4 );
 		dialog->printer()->setOrientation( QPrinter::Portrait );
-		dialog->setWindowFlags( dialog->windowFlags() | Qt::WindowMinMaxButtonsHint );
 		dialog->setMinimumHeight( 700 );
 		connect( dialog, SIGNAL(paintRequested(QPrinter*)), SLOT(printSheet(QPrinter*)) );
 		dialog->exec();
