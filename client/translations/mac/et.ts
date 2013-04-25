@@ -608,7 +608,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>Open DigiDoc3 Crypto</source>
-        <translation>Ava DigiDoc3 Krüpto</translation>
+        <translation>Avada DigiDoc3 Krüpto programmi</translation>
     </message>
 </context>
 <context>
