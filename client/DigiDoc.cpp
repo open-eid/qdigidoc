@@ -272,12 +272,7 @@ QStringList DigiDocSignature::locations() const
 }
 
 QString DigiDocSignature::mediaType() const
-{
-	std::string profile = s->profile();
-	if( profile.compare( 0, 19, "signature/bdoc-1.0/" ) == 0 )
-		profile = profile.substr(19);
-	return from( profile );
-}
+{ return from( s->profile() ); }
 
 bool DigiDocSignature::nswarning() const
 {
