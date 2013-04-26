@@ -316,7 +316,11 @@ void Application::parseArgs( const QString &msg )
 	QStringList params;
 	Q_FOREACH( const QString &param, msg.split( "\", \"", QString::SkipEmptyParts ) )
 	{
+#if QT_VERSION >= 0x050000
+		QUrl url( param, QUrl::StrictMode );
+#else
 		QUrl url( param );
+#endif
 		params << (url.errorString().isEmpty() ? url.toLocalFile() : param);
 	}
 	parseArgs( params );
