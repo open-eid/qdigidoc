@@ -356,11 +356,11 @@ QString DigiDocSignature::spuri() const
 DigiDocSignature::SignatureType DigiDocSignature::type() const
 {
 	const std::string ver = s->profile();
-	if( ver.compare( "signature/bdoc-1.0/TM" ) == 0 )
+	if( ver.compare( "TM" ) == 0 )
 		return TMType;
-	if( ver.compare( "signature/bdoc-1.0/TS" ) == 0 )
+	if( ver.compare( "TS" ) == 0 )
 		return TSType;
-	if( ver.compare( "signature/bdoc-1.0/BES" ) == 0 )
+	if( ver.compare( "BES" ) == 0 )
 		return BESType;
 	if( ver.compare( 0, 11, "DIGIDOC-XML" ) == 0 ||
 		ver.compare( 0, 6, "SK-XML" ) == 0 )
