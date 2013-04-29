@@ -98,7 +98,6 @@ public:
 	int			lastErrorCode() const;
 	QString		location() const;
 	QStringList	locations() const;
-	QString		mediaType() const;
 	QSslCertificate ocspCert() const;
 	QByteArray	ocspNonce() const;
 	QDateTime	ocspTime() const;
@@ -144,6 +143,7 @@ public:
 	QString fileName() const;
 	bool isNull() const;
 	bool isSupported() const;
+	QString mediaType() const;
 	QString newSignatureID() const;
 	bool open( const QString &file );
 	void removeSignature( unsigned int num );

@@ -214,7 +214,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	QTreeWidget *t = d->signatureView;
 	addItem( t, tr("Signer's computer time"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature method"), s.signatureMethod() );
-	addItem( t, tr("Signature format"), s.mediaType() );
+	addItem( t, tr("Signature format"), s.parent()->mediaType() );
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
 	addItem( t, tr("Certificate serialnumber"), c.serialNumber() );
 	addItem( t, tr("Certificate valid at"), DateTime( c.effectiveDate() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );

@@ -271,9 +271,6 @@ QStringList DigiDocSignature::locations() const
 		<< from( s->countryName() ).trimmed();
 }
 
-QString DigiDocSignature::mediaType() const
-{ return from( s->profile() ); }
-
 bool DigiDocSignature::nswarning() const
 {
 	return s->warnings() & Signature::WrongNameSpace;
@@ -479,6 +476,9 @@ bool DigiDoc::isSupported() const
 		ver.compare( 0, 15, "DIGIDOC-XML/1.2" ) &&
 		ver != "application/vnd.bdoc-1.0";
 }
+
+QString DigiDoc::mediaType() const
+{ return b ? from( b->mediaType() ) : QString(); }
 
 QString DigiDoc::newSignatureID() const
 {
