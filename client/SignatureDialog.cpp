@@ -216,6 +216,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	addItem( t, tr("Signature method"), s.signatureMethod() );
 	addItem( t, tr("Container format"), s.parent()->mediaType() );
 	addItem( t, tr("Signature format"), s.profile() );
+	addItem( t, tr("Signature policy"), s.policy() );
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
 	addItem( t, tr("Certificate serialnumber"), c.serialNumber() );
 	addItem( t, tr("Certificate valid at"), DateTime( c.effectiveDate() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );

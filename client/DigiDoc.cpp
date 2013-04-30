@@ -310,6 +310,11 @@ int DigiDocSignature::parseException( const digidoc::Exception &e ) const
 	return e.code();
 }
 
+QString DigiDocSignature::policy() const
+{
+	return from(s->policy());
+}
+
 QString DigiDocSignature::profile() const
 {
 	return from(s->profile());
