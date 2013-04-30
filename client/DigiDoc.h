@@ -102,6 +102,7 @@ public:
 	QByteArray	ocspNonce() const;
 	QDateTime	ocspTime() const;
 	DigiDoc		*parent() const;
+	QString		profile() const;
 	QString		role() const;
 	QStringList	roles() const;
 	QString		signatureMethod() const;

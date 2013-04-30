@@ -310,6 +310,11 @@ int DigiDocSignature::parseException( const digidoc::Exception &e ) const
 	return e.code();
 }
 
+QString DigiDocSignature::profile() const
+{
+	return from(s->profile());
+}
+
 QString DigiDocSignature::role() const
 {
 	QStringList r = roles();
@@ -356,11 +361,11 @@ QString DigiDocSignature::spuri() const
 DigiDocSignature::SignatureType DigiDocSignature::type() const
 {
 	const std::string ver = s->profile();
-	if( ver.compare( "TM" ) == 0 )
+	if( ver == "TM" || ver.find("time-mark") != std::string::npos )
 		return TMType;
-	if( ver.compare( "TS" ) == 0 )
+	if( ver == "TS" || ver.find("time-stamp") != std::string::npos )
 		return TSType;
-	if( ver.compare( "BES" ) == 0 )
+	if( ver.find("BES") != std::string::npos || ver.find("EPES") != std::string::npos )
 		return BESType;
 	if( ver.compare( 0, 11, "DIGIDOC-XML" ) == 0 ||
 		ver.compare( 0, 6, "SK-XML" ) == 0 )
