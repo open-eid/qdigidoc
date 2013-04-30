@@ -326,7 +326,7 @@ void CDocumentModel::revert()
 				<< QString::fromUtf8( filename ).normalized( QString::NormalizationForm_C )
 				<< QString()
 				<< QString::fromUtf8( mime ).normalized( QString::NormalizationForm_C )
-				<< QString::fromUtf8( size ).normalized( QString::NormalizationForm_C ));
+				<< FileDialog::fileSize( QString::fromUtf8( size ).toULong() ).normalized( QString::NormalizationForm_C ));
 		}
 	}
 	else if( d->d->doc )
