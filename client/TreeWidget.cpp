@@ -63,13 +63,9 @@ void TreeWidget::clicked( const QModelIndex &index )
 			else
 				break;
 		}
-		QString src = m->index( index.row(), DocumentModel::Name ).data( Qt::UserRole ).toString();
-		if( !dest.isEmpty() && !src.isEmpty() && dest != src )
-		{
-			if( QFile::exists( dest ) )
-				QFile::remove( dest );
-			QFile::copy( src, dest );
-		}
+		if( QFile::exists( dest ) )
+			QFile::remove( dest );
+		m->save( index, dest );
 		break;
 	}
 	case DocumentModel::Remove: model()->removeRow( index.row() ); break;

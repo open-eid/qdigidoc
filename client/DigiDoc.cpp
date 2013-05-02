@@ -70,21 +70,30 @@ DocumentModel::DocumentModel( DigiDoc *doc )
 int DocumentModel::columnCount( const QModelIndex &parent ) const
 { return parent.isValid() ? 0 : NColumns; }
 
-QString DocumentModel::copy( const QModelIndex &index, const QString &path ) const
+QString DocumentModel::save( const QModelIndex &index, const QString &path ) const
 {
-	DataFile d = document( index );
-	if( d.filePath().empty() )
+	if( !hasIndex( index.row(), index.column() ) )
 		return QString();
-	QString dst = mkpath( index, path );
+
+	DataFile file = d->b->dataFiles().at( index.row() );
+	QString filename = from( file.fileName() );
+#if defined(Q_OS_WIN)
+	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
+#else
+	filename.replace( QRegExp( "[\\\\]"), "_" );
+#endif
+	QString dst = path.isEmpty() ? filename : path + "/" + filename;
 	QFile::remove( dst );
-	return QFile::copy( from( d.filePath() ), dst ) ? dst : QString();
+	file.saveAs( dst.toUtf8().constData() );
+	return dst;
 }
 
 QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 {
-	DataFile d = document( index );
-	if( d.filePath().empty() )
+	if( !hasIndex( index.row(), index.column() ) )
 		return QVariant();
+
+	DataFile file = d->b->dataFiles().at( index.row() );
 	switch( role )
 	{
 	case Qt::ForegroundRole:
@@ -96,10 +105,10 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::DisplayRole:
 		switch( index.column() )
 		{
-		case Id: return from( d.id() );
-		case Name: return from( d.fileName() );
-		case Mime: return from( d.mediaType() );
-		case Size: return FileDialog::fileSize( QFileInfo( from( d.filePath() ) ).size() );
+		case Id: return from( file.id() );
+		case Name: return from( file.fileName() );
+		case Mime: return from( file.mediaType() );
+		case Size: return FileDialog::fileSize( file.fileSize() );
 		default: return QVariant();
 		}
 	case Qt::TextAlignmentRole:
@@ -116,9 +125,9 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		case Save: return tr("Save");
 		case Remove: return tr("Remove");
 		default: return tr("Filename: %1\nFilesize: %2\nMedia type: %3")
-			.arg( from( d.fileName() ) )
-			.arg( FileDialog::fileSize( QFileInfo( from( d.filePath() ) ).size() ) )
-			.arg( from( d.mediaType() ) );
+			.arg( from( file.fileName() ) )
+			.arg( FileDialog::fileSize( file.fileSize() ) )
+			.arg( from( file.mediaType() ) );
 		}
 	case Qt::DecorationRole:
 		switch( index.column() )
@@ -134,19 +143,8 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		case Remove: return QSize( 20, 20 );
 		default: return QVariant();
 		}
-	case Qt::UserRole: return QFileInfo( from( d.filePath() ) ).absoluteFilePath();
 	default: return QVariant();
 	}
-}
-
-DataFile DocumentModel::document( const QModelIndex &index ) const
-{
-	if( !hasIndex( index.row(), index.column() ) )
-		return DataFile( "", "", "" );
-
-	try { return d->b->dataFiles().at( index.row() ); }
-	catch( const Exception &e ) { d->setLastError( tr("Failed to get files from container"), e ); }
-	return DataFile( "", "", "" );
 }
 
 Qt::ItemFlags DocumentModel::flags( const QModelIndex & ) const
@@ -159,7 +157,7 @@ QMimeData* DocumentModel::mimeData( const QModelIndexList &indexes ) const
 	{
 		if( index.column() != 0 )
 			continue;
-		QString path = copy( index, QDir::tempPath() );
+		QString path = save( index, QDir::tempPath() );
 		if( !path.isEmpty() )
 			list << QUrl::fromLocalFile( QFileInfo( path ).absoluteFilePath() );
 	}
@@ -171,20 +169,9 @@ QMimeData* DocumentModel::mimeData( const QModelIndexList &indexes ) const
 QStringList DocumentModel::mimeTypes() const
 { return QStringList() << "text/uri-list"; }
 
-QString DocumentModel::mkpath( const QModelIndex &index, const QString &path ) const
-{
-	QString filename = from( document( index ).fileName() );
-#if defined(Q_OS_WIN)
-	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
-#else
-	filename.replace( QRegExp( "[\\\\]"), "_" );
-#endif
-	return path.isEmpty() ? filename : path + "/" + filename;
-}
-
 void DocumentModel::open( const QModelIndex &index )
 {
-	QFileInfo f( copy( index, QDir::tempPath() ) );
+	QFileInfo f( save( index, QDir::tempPath() ) );
 	if( !f.exists() )
 		return;
 #if defined(Q_OS_WIN)
@@ -693,12 +680,12 @@ DigiDoc::DocumentType DigiDoc::documentType() const
 
 QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 {
-	if( !checkDoc() )
+	if( !checkDoc() || i >= b->dataFiles().size() )
 		return QByteArray();
 
 	try
 	{
-		DataFile file = m_documentModel->document( m_documentModel->index( i, DocumentModel::Name ) );
+		DataFile file = b->dataFiles().at( i );
 		return fromVector(file.calcDigest("http://www.w3.org/2000/09/xmldsig#sha1"));
 	}
 	catch( const Exception & ) {}

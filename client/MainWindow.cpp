@@ -451,10 +451,7 @@ void MainWindow::buttonClicked( int button )
 		for( int i = 0; i < m->rowCount(); ++i )
 		{
 			QModelIndex index = m->index( i, 0 );
-			QString source = index.data( Qt::UserRole ).toString();
-			QString dest = m->mkpath( index, dir );
-			if( source == dest )
-				continue;
+			QString dest = dir + "/" + index.data( DocumentModel::Name ).toString();
 			if( QFile::exists( dest ) )
 			{
 				QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 client"),
@@ -469,7 +466,7 @@ void MainWindow::buttonClicked( int button )
 				else
 					QFile::remove( dest );
 			}
-			m->copy( index, dir );
+			m->save( index, dir );
 		}
 		break;
 	}
