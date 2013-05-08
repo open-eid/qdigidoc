@@ -63,8 +63,6 @@ void TreeWidget::clicked( const QModelIndex &index )
 			else
 				break;
 		}
-		if( QFile::exists( dest ) )
-			QFile::remove( dest );
 		m->save( index, dest );
 		break;
 	}

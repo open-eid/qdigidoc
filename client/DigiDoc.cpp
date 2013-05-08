@@ -74,15 +74,19 @@ QString DocumentModel::save( const QModelIndex &index, const QString &path ) con
 {
 	if( !hasIndex( index.row(), index.column() ) )
 		return QString();
-
 	DataFile file = d->b->dataFiles().at( index.row() );
-	QString filename = from( file.fileName() );
+
+	QString dst = path;
+	if( QFileInfo( path ).isDir() )
+	{
+		QString filename = from( file.fileName() );
 #if defined(Q_OS_WIN)
-	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
+		filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
 #else
-	filename.replace( QRegExp( "[\\\\]"), "_" );
+		filename.replace( QRegExp( "[\\\\]"), "_" );
 #endif
-	QString dst = path.isEmpty() ? filename : path + "/" + filename;
+		dst += path.isEmpty() ? filename : QDir::toNativeSeparators( "/" + filename );
+	}
 	QFile::remove( dst );
 	file.saveAs( dst.toUtf8().constData() );
 	return dst;
