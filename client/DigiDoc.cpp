@@ -315,7 +315,7 @@ QString DigiDocSignature::role() const
 {
 	QStringList r = roles();
 	r.removeAll( "" );
-	return r.join( ", " );
+	return r.join( " / " );
 }
 
 QStringList DigiDocSignature::roles() const
