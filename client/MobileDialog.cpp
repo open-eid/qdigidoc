@@ -281,16 +281,47 @@ QByteArray MobileDialog::signature() const { return m_signature; }
 
 void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> &err )
 {
+	QSslCertificate digidocservice(
+		"-----BEGIN CERTIFICATE-----\n"
+		"MIIEjjCCA3agAwIBAgICJMQwDQYJKoZIhvcNAQEFBQAwbTELMAkGA1UEBhMCRUUx\n"
+		"IjAgBgNVBAoTGUFTIFNlcnRpZml0c2VlcmltaXNrZXNrdXMxITAfBgNVBAsTGFNl\n"
+		"cnRpZml0c2VlcmltaXN0ZWVudXNlZDEXMBUGA1UEAxMOS0xBU1MzLVNLIDIwMTAw\n"
+		"HhcNMTIwNDEwMDgxNDMzWhcNMTYwODI2MDgwNzAwWjCBszEZMBcGCSqGSIb3DQEJ\n"
+		"ARYKaW5mb0Bzay5lZTELMAkGA1UEBhMCRUUxETAPBgNVBAgMCEhhcmp1bWFhMRAw\n"
+		"DgYDVQQHDAdUYWxsaW5uMSIwIAYDVQQKDBlBUyBTZXJ0aWZpdHNlZXJpbWlza2Vz\n"
+		"a3VzMSEwHwYDVQQLDBhTZXJ0aWZpdHNlZXJpbWlzdGVlbnVzZWQxHTAbBgNVBAMM\n"
+		"FGRpZ2lkb2NzZXJ2aWNlLnNrLmVlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\n"
+		"CgKCAQEAuFVuWiwzsSpcvXjcIUCE4twbHza1+nw9mA1WPWsVdMv42W+CuG+pIZYV\n"
+		"f2+U6c0rdSZSTfJVdH8t9N/b6xKiN1eoN9wdNcNxfCP6NfKrtBGp+5wytkliEQ8r\n"
+		"MG4bU+6kVHnFOxWChf1XntsFHCGgy03ooKaAyPNtKkJQGS8K2wlR22ODz8oJ8kwL\n"
+		"kS+lUhLZ/KfdIgG/kMOt7hz1D0eEcyVVCD/HRuaCgDufdolkpdHJXKyGsTkdwm98\n"
+		"Z61g7o+/ttONTbYbVCKK1NVe2SVkgoVphHuqm8jj3fsIpHGcMiF8+HRNYoB6Qz2A\n"
+		"vIT+Qeoz/ISThA8RImfM56WOnhTjTQIDAQABo4HwMIHtMAkGA1UdEwQCMAAwPAYD\n"
+		"VR0gBDUwMzAxBgsrBgEEAc4fBwECAjAiMCAGCCsGAQUFBwIBFhRodHRwOi8vd3d3\n"
+		"LnNrLmVlL2NwczAOBgNVHQ8BAf8EBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwEw\n"
+		"HwYDVR0jBBgwFoAUXXUUEYz0pY5Cj3uyQESj7tZ6O3IwPQYDVR0fBDYwNDAyoDCg\n"
+		"LoYsaHR0cDovL3d3dy5zay5lZS9jcmxzL2tsYXNzMy9rbGFzczMtMjAxMC5jcmww\n"
+		"HQYDVR0OBBYEFKonb+tVMFpSS/TCbJKeenhureWOMA0GCSqGSIb3DQEBBQUAA4IB\n"
+		"AQCZfJV+zcpto8o6evT0ZEX9TGHhEejOpLRzhjE6UbRSmQbfNBNSkAPbqluuboHE\n"
+		"iVZeejaj+JEXiDvsSufqI0pTjyNTSinS1XzJp3VLJRtQ+xf1ymJ6uxffNr1U3H1u\n"
+		"sOF3Rar1iXfLEr9Vb86wPawdBRiIu3rqPuZknXS4/FZpFGEaV6Mc/L39ljQCbDT3\n"
+		"+kZUTLEyhpGVLolm0r0fKCPC+blMB9VB5VTJ1o8Bv81Jc6S4O4gqDZLbDSX/yGAc\n"
+		"eWpzL0m51PLo4Abt5ONN098YFKAHW11fypUAh1AH2sPtdufdDdrLcRez3kSlP35i\n"
+		"7efI0hqlI4ilkb1ZUnIktJUd\n"
+		"-----END CERTIFICATE-----\n" );
 	QStringList msg;
 	Q_FOREACH( const QSslError &e, err )
 	{
-		QString s = e.errorString();
-		if( !e.certificate().isNull() )
-			s.append( QString( " - \"%1\"").arg( SslCertificate(e.certificate()).subjectInfo( "CN" ) ) );
-		qWarning() << "SSL Error:" << s;
-		msg << s;
+		qWarning() << "SSL Error:" << e.error() << e.certificate().subjectInfo( "CN" );
+		if( e.certificate() == digidocservice &&
+			(e.error() == QSslError::UnableToGetLocalIssuerCertificate ||
+			 e.error() == QSslError::UnableToVerifyFirstCertificate) )
+		{
+			reply->ignoreSslErrors( err );
+			continue;
+		}
+		msg << e.errorString();
 	}
-	reply->ignoreSslErrors();
-	return;
-	labelError->setText( QString("%1<br/>%2").arg( tr("SSL handshake failed") ).arg( msg.join( "<br />" ) ) );
+	if( !msg.empty() )
+		labelError->setText( QString("%1<br/>%2").arg( tr("SSL handshake failed") ).arg( msg.join( "<br />" ) ) );
 }
