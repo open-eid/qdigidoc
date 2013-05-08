@@ -31,6 +31,7 @@
 #include <common/TokenData.h>
 
 #include <QtCore/QMimeData>
+#include <QtCore/QProcess>
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
@@ -287,7 +288,11 @@ void MainWindow::buttonClicked( int button )
 				QString file = QString( doc->fileName() ).append( ".ddoc" );
 				if( doc->saveDDoc( file ) )
 				{
-					if( !Common::startDetached( "qdigidocclient", QStringList() << file ) )
+#ifdef Q_OS_MAC
+					if( !QProcess::startDetached( "/usr/bin/open", QStringList() << "-a" << "qdigidocclient" << file ) )
+#else
+					if( !QProcess::startDetached( "qdigidocclient", QStringList() << file ) )
+#endif
 						qApp->showWarning( tr("Failed to start process '%1'").arg( "qdigidocclient" ) );
 				}
 			}
@@ -455,7 +460,11 @@ void MainWindow::parseLink( const QString &link )
 {
 	if( link == "openUtility" )
 	{
-		if( !Common::startDetached( "qesteidutil" ) )
+#ifdef Q_OS_MAC
+		if( !QProcess::startDetached( "/usr/bin/open", QStringList() << "-a" << "qesteidutil" ) )
+#else
+		if( !QProcess::startDetached( "qesteidutil" ) )
+#endif
 			qApp->showWarning( tr("Failed to start process '%1'").arg( "qesteidutil" ) );
 	}
 }

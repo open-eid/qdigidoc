@@ -38,6 +38,7 @@
 #include <common/TokenData.h>
 
 #include <QtCore/QMimeData>
+#include <QtCore/QProcess>
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
@@ -54,12 +55,6 @@
 #include <QtGui/QPrintPreviewDialog>
 #endif
 #include <QtNetwork/QNetworkProxy>
-
-#ifdef Q_OS_MAC
-#define qdigidoccrypto qApp->applicationDirPath() + "/qdigidoccrypto.app"
-#else
-#define qdigidoccrypto "qdigidoccrypto"
-#endif
 
 static bool hasNSWarning( DigiDoc *doc )
 {
@@ -290,9 +285,16 @@ void MainWindow::buttonClicked( int button )
 		break;
 	}
 	case HomeCrypt:
-		if( !Common::startDetached( qdigidoccrypto ) )
-			qApp->showWarning( tr("Failed to start process '%1'").arg( qdigidoccrypto ) );
+	{
+#ifdef Q_OS_MAC
+		QProcess *p = new QProcess( qApp );
+		p->start( qApp->applicationDirPath() + "/qdigidoccrypto.app/Contents/MacOS/qdigidoccrypto" );
+#else
+		if( !QProcess::startDetached( "qdigidoccrypto" ) )
+			qApp->showWarning( tr("Failed to start process '%1'").arg( "qdigidoccrypto" ) );
+#endif
 		break;
+	}
 	case IntroAgree:
 		setCurrentPage( Sign );
 		break;
@@ -407,8 +409,16 @@ void MainWindow::buttonClicked( int button )
 		break;
 	}
 	case ViewEncrypt:
-		Common::startDetached( qdigidoccrypto, QStringList() << doc->fileName() );
+	{
+#ifdef Q_OS_MAC
+		QProcess *p = new QProcess( qApp );
+		p->start( qApp->applicationDirPath() + "/qdigidoccrypto.app/Contents/MacOS/qdigidoccrypto",
+			QStringList() << doc->fileName());
+#else
+		QProcess::startDetached( "qdigidoccrypto", QStringList() << doc->fileName() );
+#endif
 		break;
+	}
 	case ViewPrint:
 	{
 #ifdef Q_OS_WIN
@@ -715,7 +725,11 @@ void MainWindow::parseLink( const QString &link )
 {
 	if( link == "openUtility" )
 	{
-		if( !Common::startDetached( "qesteidutil" ) )
+#ifdef Q_OS_MAC
+		if( !QProcess::startDetached( "/usr/bin/open", QStringList() << "-a" << "qesteidutil" ) )
+#else
+		if( !QProcess::startDetached( "qesteidutil" ) )
+#endif
 			qApp->showWarning( tr("Failed to start process '%1'").arg( "qesteidutil" ) );
 	}
 }
