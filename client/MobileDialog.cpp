@@ -91,6 +91,57 @@ MobileDialog::MobileDialog( QWidget *parent )
 	if( !Application::confValue( Application::PKCS12Disable ).toBool() )
 	{
 		QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
+		ssl.setCaCertificates( ssl.caCertificates()
+			<< QSslCertificate( "-----BEGIN CERTIFICATE-----\n"
+			"MIIEOzCCAyOgAwIBAgIBADANBgkqhkiG9w0BAQUFADB2MQswCQYDVQQGEwJFRTEi\n"
+			"MCAGA1UEChMZQVMgU2VydGlmaXRzZWVyaW1pc2tlc2t1czEeMBwGA1UECxMVU0sg\n"
+			"c2VydmljZXMgYWNjZXNzIENBMSMwIQYDVQQDExpTSyBzZXJ2aWNlcyBhY2Nlc3Mg\n"
+			"Q0EgMjAxMDAeFw0xMDAyMDcxNTIxMTBaFw0xOTEyMTcxNTIxMTBaMHYxCzAJBgNV\n"
+			"BAYTAkVFMSIwIAYDVQQKExlBUyBTZXJ0aWZpdHNlZXJpbWlza2Vza3VzMR4wHAYD\n"
+			"VQQLExVTSyBzZXJ2aWNlcyBhY2Nlc3MgQ0ExIzAhBgNVBAMTGlNLIHNlcnZpY2Vz\n"
+			"IGFjY2VzcyBDQSAyMDEwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA\n"
+			"tkjCB8PkmDQRdtjbKDMJj5k6LPpFP3IUD+nCAHVhrpmU8FY3CfS/zBaFCnSlOxP3\n"
+			"TZYlccBz5hcc7lSHSVxsVinW79aw/Sp4sUNVlhqB18UThHrdQiWznjQeOROpjjMo\n"
+			"3WyW2lWlM3semodOSgD8ssSOUtHBeDLsHFdNrVuz6S1y2ulrfezcnDwrGOtWyYca\n"
+			"MZzJZZbNA3cc6mXbvihkYv11o0yFdDrDatzjEVx2KrBaSDej2aPo9gES7tDNpByz\n"
+			"e/hbH1exhc+YZybQ0/odx8N/oiygfjym2OnLFlmArsNPd97mVc6VqA2/Aj68xZN9\n"
+			"pjZDIXF3IUCVX6rYyGhuIwIDAQABo4HTMIHQMB0GA1UdDgQWBBR3Mky/Mx9AxVx+\n"
+			"gsoZmtw6kgnpnzCBoAYDVR0jBIGYMIGVgBR3Mky/Mx9AxVx+gsoZmtw6kgnpn6F6\n"
+			"pHgwdjELMAkGA1UEBhMCRUUxIjAgBgNVBAoTGUFTIFNlcnRpZml0c2VlcmltaXNr\n"
+			"ZXNrdXMxHjAcBgNVBAsTFVNLIHNlcnZpY2VzIGFjY2VzcyBDQTEjMCEGA1UEAxMa\n"
+			"U0sgc2VydmljZXMgYWNjZXNzIENBIDIwMTCCAQAwDAYDVR0TBAUwAwEB/zANBgkq\n"
+			"hkiG9w0BAQUFAAOCAQEASqQRnFdJ5iYTcK1Q98BQsJ097yI/Zp9E8aiZcd+011dK\n"
+			"jcoRMDlnET3SIxeLN5x6FibiDjt1HvSbRHUy+z1XpfzApFBEkV7S56WwWcEm6ni1\n"
+			"dRM8Qcpk+fC2ARHf4MxfdVt7488/27/tFs3RjVXyKL8x2xPU4xzVuD22qdoAXohJ\n"
+			"r7TaVDpk5wpHDCAaQX0LaPaibfW4532iGqG/oFsZo9SiS16qjZ5Aiq0NVhoebZWS\n"
+			"LwRnmCfkc8bA6RmtPFXR6hWAxfsb8nlZjisA+TDkyXEkCLEcABLgrwLbwq7K2xAR\n"
+			"k1ZVHmBoFUaMz7JoF4ZVjqwWJ7qlCwie6syR3ZPu9Q==\n"
+			"-----END CERTIFICATE-----\n" )
+			<< QSslCertificate( "-----BEGIN CERTIFICATE-----\n"
+			"MIIERzCCAy+gAwIBAgIJAIHRdBWILIw0MA0GCSqGSIb3DQEBBQUAMHsxCzAJBgNV\n"
+			"BAYTAkVFMSIwIAYDVQQKExlBUyBTZXJ0aWZpdHNlZXJpbWlza2Vza3VzMR4wHAYD\n"
+			"VQQLExVTSyBzZXJ2aWNlcyBhY2Nlc3MgQ0ExKDAmBgNVBAMTH1NLIFRFU1Qgc2Vy\n"
+			"dmljZXMgYWNjZXNzIENBIDIwMTIwHhcNMTIwODIzMTEzNTMwWhcNMjIwMzI0MTEz\n"
+			"NTMwWjB7MQswCQYDVQQGEwJFRTEiMCAGA1UEChMZQVMgU2VydGlmaXRzZWVyaW1p\n"
+			"c2tlc2t1czEeMBwGA1UECxMVU0sgc2VydmljZXMgYWNjZXNzIENBMSgwJgYDVQQD\n"
+			"Ex9TSyBURVNUIHNlcnZpY2VzIGFjY2VzcyBDQSAyMDEyMIIBIjANBgkqhkiG9w0B\n"
+			"AQEFAAOCAQ8AMIIBCgKCAQEArqkc1v13VAPcM3adjJ5jF/sgOkbzWruooVgDwevA\n"
+			"7e4lOmUle2ZnrCJXlKf7NDQHg3RWrq04MlUOYak2AFhOo4S/V0LVwvUDt+FCSAwy\n"
+			"E8FxK6c3HlrwmxWqOCGRVCB3/BrmNouR54ieqMEx7dayoyYfBLvyiSlzZSxoW55O\n"
+			"ENhgsfPuypAQyuhYab+R65yEtr6sIPJZH2eqGtfWMoaHUAuyOZCfyMFFC1RJ1ymj\n"
+			"azTRcGFXYtDALf5W/tPUhLJlPE5v6zwRR8Xnzgjohsgnv2aJYHa1e/tT9m+Z9CWA\n"
+			"BRaz05qjA5N5zEj7Qs9BN5lo07VLgBuSYMl6dsiDU4VfowIDAQABo4HNMIHKMA8G\n"
+			"A1UdEwEB/wQFMAMBAf8wgZcGA1UdIwSBjzCBjKF/pH0wezELMAkGA1UEBhMCRUUx\n"
+			"IjAgBgNVBAoTGUFTIFNlcnRpZml0c2VlcmltaXNrZXNrdXMxHjAcBgNVBAsTFVNL\n"
+			"IHNlcnZpY2VzIGFjY2VzcyBDQTEoMCYGA1UEAxMfU0sgVEVTVCBzZXJ2aWNlcyBh\n"
+			"Y2Nlc3MgQ0EgMjAxMoIJAIHRdBWILIw0MB0GA1UdDgQWBBQRxbVGxjXI+bcya5iK\n"
+			"4AW3oXjBrDANBgkqhkiG9w0BAQUFAAOCAQEAHqQ1FiZA1u8Qf1SHSZGpgjmy221x\n"
+			"DkJ+gYNE0XRDbQ0G0FgqV8peHpIKxEYMGWVCNGRSIenyUYJDVqFMrqMZb1TaYYEg\n"
+			"Mb5+u3aQpyp9gz3YGh45fvh73M/Pko4WjTsOaIJpXHzGZOSktiuVyEfEkRAupUhY\n"
+			"7S4gJwPg6RIQXu/FfVCMtNyJliM/5Rz3+NeoLzZw4MVmjQGX0fxXDmVcbSkATqSx\n"
+			"EV/PbuITu7jOJuDLEr5IpfJPgfl3vBYr2PSo5/2kypth0jikr4TVbGqLFlvU1DaH\n"
+			"eswmlJbTv3u3juaJ1M6vHyPHX+diK7MUEAkETxlx0HUl0hbIgenvsjSdYA==\n"
+			"-----END CERTIFICATE-----\n" ) );
 		ssl.setPrivateKey( AccessCert::key() );
 		ssl.setLocalCertificate( AccessCert::cert() );
 		request.setSslConfiguration( ssl );
@@ -279,47 +330,12 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 
 QByteArray MobileDialog::signature() const { return m_signature; }
 
-void MobileDialog::sslErrors( QNetworkReply *reply, const QList<QSslError> &err )
+void MobileDialog::sslErrors( QNetworkReply *, const QList<QSslError> &err )
 {
-	QSslCertificate digidocservice(
-		"-----BEGIN CERTIFICATE-----\n"
-		"MIIEjjCCA3agAwIBAgICJMQwDQYJKoZIhvcNAQEFBQAwbTELMAkGA1UEBhMCRUUx\n"
-		"IjAgBgNVBAoTGUFTIFNlcnRpZml0c2VlcmltaXNrZXNrdXMxITAfBgNVBAsTGFNl\n"
-		"cnRpZml0c2VlcmltaXN0ZWVudXNlZDEXMBUGA1UEAxMOS0xBU1MzLVNLIDIwMTAw\n"
-		"HhcNMTIwNDEwMDgxNDMzWhcNMTYwODI2MDgwNzAwWjCBszEZMBcGCSqGSIb3DQEJ\n"
-		"ARYKaW5mb0Bzay5lZTELMAkGA1UEBhMCRUUxETAPBgNVBAgMCEhhcmp1bWFhMRAw\n"
-		"DgYDVQQHDAdUYWxsaW5uMSIwIAYDVQQKDBlBUyBTZXJ0aWZpdHNlZXJpbWlza2Vz\n"
-		"a3VzMSEwHwYDVQQLDBhTZXJ0aWZpdHNlZXJpbWlzdGVlbnVzZWQxHTAbBgNVBAMM\n"
-		"FGRpZ2lkb2NzZXJ2aWNlLnNrLmVlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\n"
-		"CgKCAQEAuFVuWiwzsSpcvXjcIUCE4twbHza1+nw9mA1WPWsVdMv42W+CuG+pIZYV\n"
-		"f2+U6c0rdSZSTfJVdH8t9N/b6xKiN1eoN9wdNcNxfCP6NfKrtBGp+5wytkliEQ8r\n"
-		"MG4bU+6kVHnFOxWChf1XntsFHCGgy03ooKaAyPNtKkJQGS8K2wlR22ODz8oJ8kwL\n"
-		"kS+lUhLZ/KfdIgG/kMOt7hz1D0eEcyVVCD/HRuaCgDufdolkpdHJXKyGsTkdwm98\n"
-		"Z61g7o+/ttONTbYbVCKK1NVe2SVkgoVphHuqm8jj3fsIpHGcMiF8+HRNYoB6Qz2A\n"
-		"vIT+Qeoz/ISThA8RImfM56WOnhTjTQIDAQABo4HwMIHtMAkGA1UdEwQCMAAwPAYD\n"
-		"VR0gBDUwMzAxBgsrBgEEAc4fBwECAjAiMCAGCCsGAQUFBwIBFhRodHRwOi8vd3d3\n"
-		"LnNrLmVlL2NwczAOBgNVHQ8BAf8EBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwEw\n"
-		"HwYDVR0jBBgwFoAUXXUUEYz0pY5Cj3uyQESj7tZ6O3IwPQYDVR0fBDYwNDAyoDCg\n"
-		"LoYsaHR0cDovL3d3dy5zay5lZS9jcmxzL2tsYXNzMy9rbGFzczMtMjAxMC5jcmww\n"
-		"HQYDVR0OBBYEFKonb+tVMFpSS/TCbJKeenhureWOMA0GCSqGSIb3DQEBBQUAA4IB\n"
-		"AQCZfJV+zcpto8o6evT0ZEX9TGHhEejOpLRzhjE6UbRSmQbfNBNSkAPbqluuboHE\n"
-		"iVZeejaj+JEXiDvsSufqI0pTjyNTSinS1XzJp3VLJRtQ+xf1ymJ6uxffNr1U3H1u\n"
-		"sOF3Rar1iXfLEr9Vb86wPawdBRiIu3rqPuZknXS4/FZpFGEaV6Mc/L39ljQCbDT3\n"
-		"+kZUTLEyhpGVLolm0r0fKCPC+blMB9VB5VTJ1o8Bv81Jc6S4O4gqDZLbDSX/yGAc\n"
-		"eWpzL0m51PLo4Abt5ONN098YFKAHW11fypUAh1AH2sPtdufdDdrLcRez3kSlP35i\n"
-		"7efI0hqlI4ilkb1ZUnIktJUd\n"
-		"-----END CERTIFICATE-----\n" );
 	QStringList msg;
 	Q_FOREACH( const QSslError &e, err )
 	{
 		qWarning() << "SSL Error:" << e.error() << e.certificate().subjectInfo( "CN" );
-		if( e.certificate() == digidocservice &&
-			(e.error() == QSslError::UnableToGetLocalIssuerCertificate ||
-			 e.error() == QSslError::UnableToVerifyFirstCertificate) )
-		{
-			reply->ignoreSslErrors( err );
-			continue;
-		}
 		msg << e.errorString();
 	}
 	if( !msg.empty() )
