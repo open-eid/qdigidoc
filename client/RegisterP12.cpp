@@ -50,7 +50,7 @@ RegisterP12::RegisterP12( QWidget *parent )
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	d->setupUi( this );
 	d->p12Cert->installEventFilter( this );
-	d->p12Cert->setText( qApp->confValue( Application::PKCS12Cert ).toString() );
+	d->p12Cert->setText( QDir::toNativeSeparators( qApp->confValue( Application::PKCS12Cert ).toString() ) );
 	d->p12Pass->setText( qApp->confValue( Application::PKCS12Pass ).toString() );
 	if( QPushButton *b = d->buttonBox->button( QDialogButtonBox::Ok ) )
 		b->setText( tr("Install") );
@@ -113,7 +113,7 @@ void RegisterP12::on_buttonBox_accepted()
 		return;
 	}
 
-	Application::setConfValue( Application::PKCS12Cert, QDir::toNativeSeparators( dest ) );
+	Application::setConfValue( Application::PKCS12Cert, dest );
 	Application::setConfValue( Application::PKCS12Pass, d->p12Pass->text() );
 #endif
 	accept();
@@ -151,7 +151,7 @@ void RegisterP12::validateP12Cert()
 	if( !f.open( QIODevice::ReadOnly ) )
 		return;
 
-	PKCS12Certificate cert( &f, d->p12Pass->text().toLatin1() );
+	PKCS12Certificate cert( &f, d->p12Pass->text() );
 	switch( cert.error() )
 	{
 	case PKCS12Certificate::NullError:

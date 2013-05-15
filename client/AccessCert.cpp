@@ -323,7 +323,7 @@ bool AccessCert::installCert( const QByteArray &data, const QString &password )
 	f.write( data );
 	f.close();
 
-	Application::setConfValue( Application::PKCS12Cert, d->cert = QDir::toNativeSeparators( f.fileName() ) );
+	Application::setConfValue( Application::PKCS12Cert, d->cert = f.fileName() );
 	Application::setConfValue( Application::PKCS12Pass, d->pass = password );
 #endif
 	return true;
