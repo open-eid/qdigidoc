@@ -219,10 +219,6 @@ This signature is created in the BES format, using no certificate validity confi
         <translation>Remove</translation>
     </message>
     <message>
-        <source>Failed to get files from container</source>
-        <translation>Failed to get files from container</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 client</translation>
     </message>
@@ -1032,8 +1028,8 @@ Control code: %1</translation>
         <translation>expired</translation>
     </message>
     <message>
-        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
-        <translation>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</translation>
+        <source>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future.Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</source>
+        <translation>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future.Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -1149,6 +1145,14 @@ Control code: %1</translation>
     <message>
         <source>Hash value of signature</source>
         <translation>Hash value of signature</translation>
+    </message>
+    <message>
+        <source>Container format</source>
+        <translation>Container format</translation>
+    </message>
+    <message>
+        <source>Signature policy</source>
+        <translation>Signature policy</translation>
     </message>
 </context>
 <context>

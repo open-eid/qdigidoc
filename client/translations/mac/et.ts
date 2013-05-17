@@ -219,10 +219,6 @@ Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusm
         <translation>Eemalda</translation>
     </message>
     <message>
-        <source>Failed to get files from container</source>
-        <translation>Ümbrikust ei suutnud laadida faile</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 klient</translation>
     </message>
@@ -1032,8 +1028,8 @@ Kontrollkood: %1</translation>
         <translation>aegunud</translation>
     </message>
     <message>
-        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
-        <translation>BDOC on uus digitaalallkirja vorming, mida paljud infosüsteemid ei oska veel kasutada ega lugeda. Palun arvestage, et saajal võib puududa võimalus selles formaadis allkirjastatud dokumenti avada. Täiendav info &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;http://www.id.ee/bdoc&lt;/a&gt;</translation>
+        <source>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future.Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</source>
+        <translation>BDOC 2.0 on uus digitaalallkirja vorming. Antud versioon on mõeldud vaid testimiseks. Lisanduda võib veel formaadi täiendusi ja testfaasis loodud dokumendi hilisem avamine ei pruugi olla võimalik. Täiendav &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;info&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -1149,6 +1145,14 @@ Kontrollkood: %1</translation>
     <message>
         <source>Hash value of signature</source>
         <translation>Allkirja sõnumilühend</translation>
+    </message>
+    <message>
+        <source>Container format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signature policy</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

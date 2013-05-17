@@ -219,10 +219,6 @@ This signature is created in the BES format, using no certificate validity confi
         <translation>Удалить</translation>
     </message>
     <message>
-        <source>Failed to get files from container</source>
-        <translation>Не удается загрузить файлы из конверта</translation>
-    </message>
-    <message>
         <source>DigiDoc3 client</source>
         <translation>DigiDoc3 клиент</translation>
     </message>
@@ -1035,8 +1031,8 @@ Control code: %1</source>
         <translation>поросрочен</translation>
     </message>
     <message>
-        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. Additional information &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;http://www.id.ee/eng/bdoc&lt;/a&gt;</source>
-        <translation>BDOC – это новый формат цифровой подписи, который еще не поддерживается многими инфосистемами. Не исключено, что получатель не сможет открыть документ в формате BDOC. Дополнительная информация: &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;http://www.id.ee/rus/bdoc&lt;/a&gt;</translation>
+        <source>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future.Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</source>
+        <translation>BDOC 2.0 - это новый формат цифровой подписи. Данная версия предназначена только для тестирования. В нее могут быть внесены дополнительные изменения, после которых документ, созданный в процессе тестирования будет невозможно открыть. Дополнительная &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;информация&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -1152,6 +1148,14 @@ Control code: %1</source>
     <message>
         <source>Hash value of signature</source>
         <translation>Хэш значание подтверждения подлинности подписи</translation>
+    </message>
+    <message>
+        <source>Container format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signature policy</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
