@@ -53,7 +53,7 @@
     </message>
     <message>
         <source>For getting server access certificate to Tempel contact &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Juurdepääsutõendi saamiseks digitemplile palun pöörduge &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
