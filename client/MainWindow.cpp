@@ -476,7 +476,7 @@ void MainWindow::buttonClicked( int button )
 				else
 					QFile::remove( dest );
 			}
-			m->save( index, dir );
+			m->save( index, dest );
 		}
 		break;
 	}
