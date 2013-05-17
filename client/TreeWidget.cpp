@@ -27,7 +27,9 @@
 
 #include <common/FileDialog.h>
 
+#include <QtCore/QProcessEnvironment>
 #include <QtGui/QDesktopServices>
+#include <QtGui/QKeyEvent>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMessageBox>
@@ -35,7 +37,6 @@
 #include <QtGui/QHeaderView>
 #include <QtGui/QMessageBox>
 #endif
-#include <QtGui/QKeyEvent>
 
 TreeWidget::TreeWidget( QWidget *parent )
 :	QTreeView( parent )
@@ -98,13 +99,43 @@ void TreeWidget::keyPressEvent( QKeyEvent *e )
 			e->accept();
 			break;
 		case Qt::Key_Return:
-			m->open( i[0] );
+			open( i[0] );
 			e->accept();
 			break;
 		default: break;
 		}
 	}
 	QTreeView::keyPressEvent( e );
+}
+
+void TreeWidget::open( const QModelIndex &index )
+{
+	QFileInfo info( m->index( index.row(), DocumentModel::Name ).data().toString() );
+	QString path = QDir::tempPath() + "/" + info.fileName();
+	if( QFile::exists( path ) )
+	{
+		for( unsigned int i = 1; i < 100; ++i )
+		{
+			path = QString( "%1/%2_%3.%4").arg( QDir::tempPath() ).arg( info.baseName() ).arg( i ).arg( info.completeSuffix() );
+			if( !QFile::exists( path ) )
+				break;
+		}
+	}
+	QFileInfo f( m->save( index, path ) );
+	if( !f.exists() )
+		return;
+#if defined(Q_OS_WIN)
+	QStringList exts = QProcessEnvironment::systemEnvironment().value( "PATHEXT" ).split( ';' );
+	exts << ".PIF" << ".SCR";
+	if( exts.contains( "." + f.suffix(), Qt::CaseInsensitive ) &&
+		QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
+			tr("This is an executable file! "
+				"Executable files may contain viruses or other malicious code that could harm your computer. "
+				"Are you sure you want to launch this file?"),
+			QMessageBox::Yes|QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
+		return;
+#endif
+	QDesktopServices::openUrl( QUrl::fromLocalFile( f.absoluteFilePath() ) );
 }
 
 void TreeWidget::setDocumentModel( DocumentModel *model )
@@ -115,7 +146,7 @@ void TreeWidget::setDocumentModel( DocumentModel *model )
 	header()->setResizeMode( DocumentModel::Name, QHeaderView::Stretch );
 	setColumnHidden( DocumentModel::Mime, true );
 	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
-	connect( this, SIGNAL(doubleClicked(QModelIndex)), m, SLOT(open(QModelIndex)) );
+	connect( this, SIGNAL(doubleClicked(QModelIndex)), SLOT(open(QModelIndex)) );
 }
 
 #ifndef Q_OS_MAC

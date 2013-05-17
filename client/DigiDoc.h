@@ -58,9 +58,6 @@ public:
 
 	QString save( const QModelIndex &index, const QString &path ) const;
 
-public Q_SLOTS:
-	void open( const QModelIndex &index );
-
 private:
 	DocumentModel( DigiDoc *doc );
 	Q_DISABLE_COPY(DocumentModel)
