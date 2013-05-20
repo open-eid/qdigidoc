@@ -28,7 +28,7 @@ BEGIN
 			VALUE "FileDescription", "DigiDoc3 Client\0"
 			VALUE "FileVersion", FILE_VER_STR
 			VALUE "InternalName", APP "\0"
-			VALUE "LegalCopyright", "Copyright (C) 2009-2012 Estonian Information System's Authority"
+			VALUE "LegalCopyright", "Copyright (C) 2009-2013 Estonian Information System's Authority"
 			VALUE "OriginalFilename", APP ".exe\0"
 			VALUE "ProductName", "DigiDoc3 Client\0"
 			VALUE "ProductVersion", PROD_VER_STR
@@ -39,7 +39,7 @@ BEGIN
 			VALUE "FileDescription", "DigiDoc3 Klient\0"
 			VALUE "FileVersion", FILE_VER_STR
 			VALUE "InternalName", APP "\0"
-			VALUE "LegalCopyright", "Copyright (C) 2009-2012 Riigi Infosüsteemi Amet"
+			VALUE "LegalCopyright", "Copyright (C) 2009-2013 Riigi Infosüsteemi Amet"
 			VALUE "OriginalFilename", APP ".exe\0"
 			VALUE "ProductName", "DigiDoc3 Klient\0"
 			VALUE "ProductVersion", PROD_VER_STR
