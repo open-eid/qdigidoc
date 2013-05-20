@@ -51,6 +51,8 @@ private Q_SLOTS:
 	void link( const QString &url );
 
 private:
+	void mouseDoubleClickEvent( QMouseEvent *e );
+
 	unsigned int num;
 	DigiDocSignature s;
 };
