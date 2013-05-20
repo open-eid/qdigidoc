@@ -42,6 +42,7 @@
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
 #include <QtGui/QDesktopServices>
+#include <QtGui/QMouseEvent>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMessageBox>
@@ -64,9 +65,9 @@ KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 	QString label;
 	QTextStream sc( &label );
 	sc << "<p>" << toolTip() << "</p><p align=\"right\">";
-	sc << "<a href=\"details\" title=\"" << tr("Show details") << "\">" << tr("Show details") << "</a>";
+	sc << "<a href=\"details\" style=\"color: #509B00\" title=\"" << tr("Show details") << "\">" << tr("Show details") << "</a>";
 	if( !encrypted )
-		sc << "<br /><a href=\"remove\" title=\"" << tr("Remove") << "\">" << tr("Remove") << "</a>";
+		sc << "<br /><a href=\"remove\" style=\"color: #509B00\" title=\"" << tr("Remove") << "\">" << tr("Remove") << "</a>";
 	sc << "</p>";
 	setText( label );
 }
@@ -77,6 +78,12 @@ void KeyWidget::link( const QString &url )
 		KeyDialog( m_key, qApp->activeWindow() ).exec();
 	else if( url == "remove" )
 		Q_EMIT remove( m_id );
+}
+
+void KeyWidget::mouseDoubleClickEvent( QMouseEvent *e )
+{
+	if( e->button() == Qt::LeftButton )
+		link( "details" );
 }
 
 

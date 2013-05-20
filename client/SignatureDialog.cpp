@@ -152,7 +152,7 @@ void SignatureWidget::link( const QString &url )
 void SignatureWidget::mouseDoubleClickEvent( QMouseEvent *e )
 {
 	if( e->button() == Qt::LeftButton )
-		(new SignatureDialog( s, qApp->activeWindow() ))->show();
+		link( "details" );
 }
 
 

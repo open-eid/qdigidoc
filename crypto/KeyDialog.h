@@ -47,6 +47,8 @@ private Q_SLOTS:
 	void link( const QString &url );
 
 private:
+	void mouseDoubleClickEvent( QMouseEvent *e );
+
 	int m_id;
 	CKey m_key;
 };
