@@ -528,7 +528,6 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	case Exception::PINIncorrect:
 	case Exception::PINLocked:
 		code = e.code();
-		return false;
 	default: break;
 	}
 	Q_FOREACH( const Exception &c, e.causes() )
