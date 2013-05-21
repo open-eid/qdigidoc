@@ -278,7 +278,7 @@ int DigiDocSignature::parseException( const digidoc::Exception &e ) const
 		if( code != Exception::NoException )
 			return code;
 	}
-	return e.code();
+	return e.code() & Exception::DDocError ? Exception::NoException : e.code();
 }
 
 QString DigiDocSignature::policy() const
