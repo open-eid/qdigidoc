@@ -576,7 +576,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>NB! Unknown signature</source>
-        <translation type="unfinished"></translation>
+        <translation>NB! Tundmatu allkiri</translation>
     </message>
     <message>
         <source>Server access certificate has been installed</source>
