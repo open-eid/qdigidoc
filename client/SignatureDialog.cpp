@@ -208,12 +208,12 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	d->signerZip->setText( l.value( 2 ) );
 	d->signerCountry->setText( l.value( 3 ) );
 
-	QStringList roles = s.roles();
-	d->signerRole->setText( roles.value(0) );
-	if( s.type() == DigiDocSignature::DDocType )
-		delete d->signerResolution;
-	else
-		d->signerResolution->setText( roles.value(1) );
+	Q_FOREACH( const QString &role, s.roles() )
+	{
+		QLineEdit *line = new QLineEdit( role, d->signerRoleGroup );
+		line->setReadOnly( true );
+		d->signerRoleGroupLayout->addRow( line );
+	}
 
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
