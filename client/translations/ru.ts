@@ -1194,7 +1194,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>unknown</source>
-        <translation>Неизвестно</translation>
+        <translation>неизвестно</translation>
     </message>
     <message>
         <source>Remove signature %1</source>
