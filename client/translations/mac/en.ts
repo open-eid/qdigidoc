@@ -219,14 +219,6 @@ This signature is created in the BES format, using no certificate validity confi
         <translation>Remove</translation>
     </message>
     <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 client</translation>
-    </message>
-    <message>
-        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
-        <translation>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</translation>
-    </message>
-    <message>
         <source>Failed remove document from container</source>
         <translation>Failed remove document from container</translation>
     </message>
@@ -1223,6 +1215,10 @@ Control code: %1</translation>
     <message>
         <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
         <translation>You don&apos;t have sufficient privileges to write this file into folder %1</translation>
+    </message>
+    <message>
+        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
+        <translation>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</translation>
     </message>
 </context>
 </TS>
