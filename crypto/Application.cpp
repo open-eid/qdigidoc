@@ -233,7 +233,7 @@ void Application::parseArgs( const QStringList &args )
 	foreach( QWidget *m, qApp->topLevelWidgets() )
 	{
 		MainWindow *main = qobject_cast<MainWindow*>(m);
-		if( main && !main->isOpen() )
+		if( main && main->windowFilePath().isEmpty() )
 		{
 			w = main;
 			break;

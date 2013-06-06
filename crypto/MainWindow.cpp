@@ -438,8 +438,6 @@ bool MainWindow::event( QEvent *e )
 	}
 }
 
-bool MainWindow::isOpen() const { return !doc->isNull(); }
-
 void MainWindow::on_introCheck_stateChanged( int state )
 {
 	Settings().setValue( "Crypto/Intro", state == Qt::Unchecked );
@@ -525,14 +523,9 @@ void MainWindow::setCurrentPage( Pages page )
 {
 	stack->setCurrentIndex( page );
 
-	if( !doc->fileName().isEmpty() )
-	{
-		setWindowTitle( QString( "%1 - %2" )
-			.arg( QFileInfo( doc->fileName().normalized( QString::NormalizationForm_C ) ).fileName() )
-			.arg( tr("DigiDoc3 Crypto") ) );
-	}
-	else
-		setWindowTitle( tr("DigiDoc3 Crypto") );
+	setWindowTitle( doc->fileName().isEmpty() ? tr("DigiDoc3 Crypto") : QString() );
+	setWindowFilePath( doc->fileName().normalized( QString::NormalizationForm_C ) );
+	qApp->postEvent( this, new QEvent( QEvent::WindowTitleChange ) );
 
 	switch( page )
 	{

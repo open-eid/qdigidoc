@@ -37,7 +37,6 @@ public:
 	explicit MainWindow( QWidget *parent = 0 );
 
 	void closeDoc();
-	bool isOpen() const;
 
 private Q_SLOTS:
 	void buttonClicked( int button );

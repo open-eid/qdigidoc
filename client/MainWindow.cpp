@@ -694,8 +694,6 @@ bool MainWindow::event( QEvent *e )
 	}
 }
 
-bool MainWindow::isOpen() const { return !doc->isNull(); }
-
 void MainWindow::loadRoles()
 {
 	Settings s;
@@ -806,14 +804,9 @@ void MainWindow::setCurrentPage( Pages page )
 	int prev = stack->currentIndex();
 	stack->setCurrentIndex( page );
 
-	if( !doc->fileName().isEmpty() )
-	{
-		setWindowTitle( QString( "%1 - %2" )
-			.arg( QFileInfo( doc->fileName().normalized( QString::NormalizationForm_C ) ).fileName() )
-			.arg( tr("DigiDoc3 client") ) );
-	}
-	else
-		setWindowTitle( tr("DigiDoc3 client") );
+	setWindowTitle( doc->fileName().isEmpty() ? tr("DigiDoc3 client") : QString() );
+	setWindowFilePath( doc->fileName().normalized( QString::NormalizationForm_C ) );
+	qApp->postEvent( this, new QEvent( QEvent::WindowTitleChange ) );
 
 	switch( page )
 	{
