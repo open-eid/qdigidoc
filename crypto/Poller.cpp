@@ -176,7 +176,7 @@ void Poller::run()
 	{
 		if( d->m.tryLock() )
 		{
-			TokenData t = d->t;
+			TokenData old = d->t, t = old;
 			QStringList cards, readers;
 #ifdef Q_OS_WIN
 			QCNG::Certs certs;
@@ -237,7 +237,7 @@ void Poller::run()
 				t.setCards( cards );
 			}
 
-			if( d->t != t ) // update data if something has changed
+			if( old != t ) // update data if something has changed
 			{
 				d->t = t;
 				Q_EMIT dataChanged();
