@@ -511,7 +511,7 @@ You will need a digital certificate of recipient in order to encrypt data. Serti
 The private key needed for decryption is stored only on the ID-card of the recipient. Decryption of data will be impossible if the card is lost, damaged or if certificate is renewed.&lt;/b&gt;</source>
         <translation>&lt;b&gt;Failide krüpteerimine&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;
 Faili krüpteerimise eesmärgiks on muuta selles asuvad andmed võõrastele loetamatuteks.&lt;br /&gt;&lt;br /&gt;
-ID-kaardi sertifikaatidega krüptimine ei ole mõeldud andmete pikaajaliseks turvaliseks säilitamiseks ja muude ülesannete lahendamiseks. See on ainult viis failide edastamiseks üle ebaturvalise sideknanali.&lt;br /&gt;&lt;br /&gt;
+ID-kaardi sertifikaatidega krüptimine ei ole mõeldud andmete pikaajaliseks turvaliseks säilitamiseks ja muude ülesannete lahendamiseks. See on ainult viis failide edastamiseks üle ebaturvalise sidekanali.&lt;br /&gt;&lt;br /&gt;
 Failide krüptimisel kasutatakse AS Sertifitseerimiskeskuse LDAP teenust saaja(te) sertifikaatide otsimiseks. Failid krüptitakse sertifikaadis sisalduva avaliku võtmega. Krüptimine on ühesuunaline, dekrüpteerimiseks on vaja vastava sertifikaadi privaatvõtit, mis on salvestatud ainult vastava isiku ID-kaardil.&lt;br /&gt;&lt;br /&gt;
 &lt;b&gt;&lt;font color=&quot;red&quot;&gt;HOIATUS:&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
 Kuna dekrüpteerimist võimaldav sertifikaat on salvestatud ainult ID-kaardile, pole pärast ID-kaardi kaotamist, aegumist, uuendamist, tühistamist või mehaanilist kiibi vigastamist dekrüpteerimine tehniliselt võimalik.&lt;/b&gt;</translation>
