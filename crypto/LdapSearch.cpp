@@ -133,29 +133,23 @@ void LdapSearch::timerEvent( QTimerEvent *e )
 	killTimer( e->timerId() );
 
 	QList<QSslCertificate> list;
-	if( LDAPMessage *entry = ldap_first_entry( d->ldap, result ) )
+	for( LDAPMessage *entry = ldap_first_entry( d->ldap, result );
+		 entry; entry = ldap_next_entry( d->ldap, entry ) )
 	{
-		do
+		BerElement *pos = 0;
+		for( char *attr = ldap_first_attribute( d->ldap, entry, &pos );
+			 attr; attr = ldap_next_attribute( d->ldap, entry, pos ) )
 		{
-			BerElement *pos = 0;
-			if( char *attr = ldap_first_attribute( d->ldap, entry, &pos ) )
+			if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
 			{
-				do
-				{
-					if( qstrcmp( attr, "userCertificate;binary" ) == 0 )
-					{
-						berval **cert = ldap_get_values_len( d->ldap, entry, attr );
-						for( ULONG i = 0; i < ldap_count_values_len( cert ); ++i )
-							list << QSslCertificate( QByteArray( cert[i]->bv_val, cert[i]->bv_len ), QSsl::Der );
-						ldap_value_free_len( cert );
-					}
-					ldap_memfree( attr );
-				}
-				while( (attr = ldap_next_attribute( d->ldap, entry, pos )) );
+				berval **cert = ldap_get_values_len( d->ldap, entry, attr );
+				for( ULONG i = 0; i < ldap_count_values_len( cert ); ++i )
+					list << QSslCertificate( QByteArray( cert[i]->bv_val, cert[i]->bv_len ), QSsl::Der );
+				ldap_value_free_len( cert );
 			}
-			ber_free( pos, 0 );
+			ldap_memfree( attr );
 		}
-		while( (entry = ldap_next_entry( d->ldap, entry )) );
+		ber_free( pos, 0 );
 	}
 	ldap_msgfree( result );
 
