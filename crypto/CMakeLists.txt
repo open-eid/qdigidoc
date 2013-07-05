@@ -59,8 +59,6 @@ if( APPLE )
 endif()
 if( WIN32 )
 	list( APPEND ADDITIONAL_LIBRARIES Wldap32 )
-	set_target_properties( ${PROGNAME} PROPERTIES
-		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
 endif()
 set_target_properties( ${PROGNAME} PROPERTIES AUTOMOC TRUE )
 if( Qt5Widgets_FOUND )

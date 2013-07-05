@@ -71,10 +71,7 @@ if( APPLE )
 	get_filename_component( BINARY_DIR ${BINARY_PATH} PATH )
 	execute_process( COMMAND ${LN} "-fs" ${PKCS11_MODULE} ${BINARY_DIR} )
 endif()
-if( WIN32 )
-	set_target_properties( ${PROGNAME} PROPERTIES
-		LINK_FLAGS "/MANIFESTDEPENDENCY:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'\"" )
-endif()
+
 set_target_properties( ${PROGNAME} PROPERTIES AUTOMOC TRUE )
 if( Qt5Widgets_FOUND )
 	qt5_use_modules( ${PROGNAME} Widgets Network PrintSupport )
