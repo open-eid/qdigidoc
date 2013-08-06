@@ -33,6 +33,8 @@
 
 #import <Quartz/Quartz.h>
 
+static QAbstractItemView *itemView = 0;
+
 @interface NSView ( NSViewQuickPreview ) <QLPreviewPanelDataSource, QLPreviewPanelDelegate>
 
 - (QAbstractItemView *)view;
@@ -52,12 +54,20 @@
 
 - (QAbstractItemView *)view
 {
+#if QT_VERSION >= 0x050000
+	return itemView;
+#else
 	return (__bridge QAbstractItemView*)objc_getAssociatedObject( self, "QAbstractItemView" );
+#endif
 }
 
 - (void)setView:(QAbstractItemView *)view
 {
+#if QT_VERSION >= 0x050000
+	itemView = view;
+#else
 	objc_setAssociatedObject( self, "QAbstractItemView", (__bridge id)view, OBJC_ASSOCIATION_ASSIGN );
+#endif
 }
 
 - (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel
@@ -75,7 +85,7 @@
 
 - (void)endPreviewPanelControl:(QLPreviewPanel *)panel
 {
-    Q_UNUSED(panel)
+	Q_UNUSED(panel)
 	self.view->setCurrentIndex( self.view->model()->index( panel.currentPreviewItemIndex, 0 ) );
 	self.view = nil;
 }
@@ -89,8 +99,8 @@
 - (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index
 {
 	Q_UNUSED(panel)
-	DocumentModel *model = qobject_cast<DocumentModel*>(self.view->model());
-	QByteArray path = model->index( index, 0 ).data( Qt::UserRole ).toString().toUtf8();
+	DocumentModel *m = qobject_cast<DocumentModel*>(self.view->model());
+	QByteArray path = m->save( m->index( index, 0 ), "" ).toUtf8();
 	return [NSURL fileURLWithPath:[NSString stringWithUTF8String: path.constData()]];
 }
 

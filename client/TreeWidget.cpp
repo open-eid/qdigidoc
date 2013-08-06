@@ -65,7 +65,8 @@ void TreeWidget::clicked( const QModelIndex &index )
 			else
 				break;
 		}
-		m->save( index, dest );
+		if( !dest.isEmpty() )
+			m->save( index, dest );
 		break;
 	}
 	case DocumentModel::Remove: model()->removeRow( index.row() ); break;
@@ -111,18 +112,7 @@ void TreeWidget::keyPressEvent( QKeyEvent *e )
 
 void TreeWidget::open( const QModelIndex &index )
 {
-	QFileInfo info( m->index( index.row(), DocumentModel::Name ).data().toString() );
-	QString path = QDir::tempPath() + "/" + info.fileName();
-	if( QFile::exists( path ) )
-	{
-		for( unsigned int i = 1; i < 100; ++i )
-		{
-			path = QString( "%1/%2_%3.%4").arg( QDir::tempPath() ).arg( info.baseName() ).arg( i ).arg( info.completeSuffix() );
-			if( !QFile::exists( path ) )
-				break;
-		}
-	}
-	QFileInfo f( m->save( index, path ) );
+	QFileInfo f( m->save( index, "" ) );
 	if( !f.exists() )
 		return;
 #if defined(Q_OS_WIN)

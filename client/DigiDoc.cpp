@@ -75,10 +75,25 @@ QString DocumentModel::save( const QModelIndex &index, const QString &path ) con
 		return QString();
 	DataFile file = d->b->dataFiles().at( index.row() );
 
+	QFileInfo info( from( file.fileName() ) );
 	QString dst = path;
+	if( dst.isEmpty() )
+	{
+		dst = QDir::tempPath() + "/" + info.fileName();
+		if( QFile::exists( dst ) )
+		{
+			for( unsigned int i = 1; i < 100; ++i )
+			{
+				dst = QString( "%1/%2_%3.%4").arg( QDir::tempPath() ).arg( info.baseName() ).arg( i ).arg( info.completeSuffix() );
+				if( !QFile::exists( dst ) )
+					break;
+			}
+		}
+	}
+
 	if( QFileInfo( path ).isDir() )
 	{
-		QString filename = from( file.fileName() );
+		QString filename = info.fileName();
 #if defined(Q_OS_WIN)
 		filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
 #else
