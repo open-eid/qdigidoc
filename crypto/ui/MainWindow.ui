@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QWidget" name="MainWindow">
+ <class>Crypto::MainWindow</class>
+ <widget class="QWidget" name="Crypto::MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -793,7 +793,7 @@ The private key needed for decryption is stored only on the ID-card of the recip
   <connection>
    <sender>infoFrame</sender>
    <signal>linkActivated(QString)</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>Crypto::MainWindow</receiver>
    <slot>parseLink(QString)</slot>
    <hints>
     <hint type="sourcelabel">

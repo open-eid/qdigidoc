@@ -29,8 +29,8 @@
 #include <QtGui/QDialog>
 #endif
 
-namespace Ui { class SettingsDialog; }
 namespace Crypto {
+namespace Ui { class SettingsDialog; }
 class SettingsDialog: public QDialog
 {
 	Q_OBJECT
