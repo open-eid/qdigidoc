@@ -37,6 +37,8 @@
 #endif
 #include <QtGui/QKeyEvent>
 
+using namespace Crypto;
+
 TreeWidget::TreeWidget( QWidget *parent )
 :	QTreeView( parent )
 {}

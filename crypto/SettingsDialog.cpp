@@ -27,6 +27,8 @@
 #include <common/FileDialog.h>
 #include <common/Settings.h>
 
+using namespace Crypto;
+
 SettingsDialog::SettingsDialog( QWidget *parent )
 :	QDialog( parent )
 ,	d( new Ui::SettingsDialog )

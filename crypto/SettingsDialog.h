@@ -30,6 +30,7 @@
 #endif
 
 namespace Ui { class SettingsDialog; }
+namespace Crypto {
 class SettingsDialog: public QDialog
 {
 	Q_OBJECT
@@ -45,3 +46,5 @@ private Q_SLOTS:
 private:
 	Ui::SettingsDialog *d;
 };
+
+}

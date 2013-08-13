@@ -608,7 +608,7 @@ The private key needed for decryption is stored only on the ID-card of the recip
               <number>0</number>
              </property>
              <item row="0" column="0" colspan="3">
-              <widget class="TreeWidget" name="viewContentView">
+              <widget class="Crypto::TreeWidget" name="viewContentView">
                <property name="accessibleName">
                 <string>Container content</string>
                </property>
@@ -783,7 +783,7 @@ The private key needed for decryption is stored only on the ID-card of the recip
    <header location="global">common/ComboBox.h</header>
   </customwidget>
   <customwidget>
-   <class>TreeWidget</class>
+   <class>Crypto::TreeWidget</class>
    <extends>QTreeView</extends>
    <header>TreeWidget.h</header>
   </customwidget>

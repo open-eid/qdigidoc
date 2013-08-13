@@ -27,6 +27,8 @@
 class CKey;
 class CryptoDoc;
 
+namespace Crypto {
+
 class MainWindow: public QWidget, private Ui::MainWindow
 {
 	Q_OBJECT
@@ -84,3 +86,5 @@ private:
 	QButtonGroup *buttonGroup;
 	bool quitOnClose;
 };
+
+}

@@ -46,6 +46,8 @@
 #include <QtGui/QProgressDialog>
 #endif
 
+using namespace Crypto;
+
 MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )
 ,	cardsGroup( new QActionGroup( this ) )

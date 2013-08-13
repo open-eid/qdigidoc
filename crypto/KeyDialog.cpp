@@ -53,6 +53,8 @@
 Q_DECLARE_METATYPE( QSslCertificate )
 #endif
 
+using namespace Crypto;
+
 KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 :	QLabel( parent )
 ,	m_id( id )

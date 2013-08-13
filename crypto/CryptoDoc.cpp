@@ -49,6 +49,8 @@
 #include <QtGui/QMessageBox>
 #endif
 
+using namespace Crypto;
+
 class CryptoDocPrivate
 {
 public:

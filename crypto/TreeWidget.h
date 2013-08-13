@@ -31,6 +31,8 @@
 
 class CDocumentModel;
 
+namespace Crypto {
+
 class TreeWidget: public QTreeView
 {
 	Q_OBJECT
@@ -47,3 +49,5 @@ private:
 
 	CDocumentModel *m;
 };
+
+}

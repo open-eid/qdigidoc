@@ -47,6 +47,8 @@
 #include <common/MacMenuBar.h>
 #endif
 
+using namespace Crypto;
+
 class ApplicationPrivate
 {
 public:

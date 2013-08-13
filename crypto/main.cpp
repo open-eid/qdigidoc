@@ -50,6 +50,6 @@ int main( int argc, char *argv[] )
 	QBreakPad breakpad;
 #endif
 
-	Application a( argc, argv );
+	Crypto::Application a( argc, argv );
 	return a.run();
 }

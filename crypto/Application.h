@@ -31,7 +31,10 @@
 
 class QAction;
 class Poller;
+
 class ApplicationPrivate;
+namespace Crypto {
+
 class Application: public Common
 {
 	Q_OBJECT
@@ -61,3 +64,5 @@ private:
 
 	ApplicationPrivate *d;
 };
+
+}
