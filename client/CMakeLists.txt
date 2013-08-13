@@ -85,6 +85,7 @@ target_link_libraries( ${PROGNAME}
 	${LIBDIGIDOCPP_LIBRARY}
 	${ADDITIONAL_LIBRARIES}
 )
+add_manifest( ${PROGNAME} )
 dump_syms( ${PROGNAME} )
 install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
 

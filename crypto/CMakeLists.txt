@@ -74,6 +74,7 @@ target_link_libraries( ${PROGNAME}
 	${LDAP_LIBRARIES}
 	${ADDITIONAL_LIBRARIES}
 )
+add_manifest( ${PROGNAME} )
 dump_syms( ${PROGNAME} )
 if( APPLE )
 	install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR}/qdigidocclient.app/Contents/MacOS/ )
