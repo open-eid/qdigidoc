@@ -35,7 +35,7 @@
    <string>DigiDoc3 Crypto</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#background { background-image: url(&quot;:/images/background.png&quot;); }</string>
+   <string notr="true">#background { background-image: url(&quot;:/images/crypto_background.png&quot;); }</string>
   </property>
   <layout class="QVBoxLayout" name="MainLayout">
    <property name="spacing">
