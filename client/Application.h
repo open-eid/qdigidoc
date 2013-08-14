@@ -69,6 +69,8 @@ public:
 
 public Q_SLOTS:
 	void showAbout();
+	void showClient( const QStringList &params = QStringList() );
+	void showCrypto( const QStringList &params = QStringList() );
 	void showSettings( int page = 0 );
 	void showWarning( const QString &msg );
 
@@ -78,6 +80,7 @@ private Q_SLOTS:
 	void parseArgs( const QStringList &args );
 
 private:
+	void activate( QWidget *w );
 	bool event( QEvent *e );
 
 	ApplicationPrivate *d;

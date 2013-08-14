@@ -100,10 +100,6 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->setId( homeSign, HomeSign );
 	buttonGroup->setId( homeView, HomeView );
 	buttonGroup->setId( homeCrypt, HomeCrypt );
-#ifdef Q_OS_MAC
-	homeCrypt->setVisible( QFileInfo( qApp->applicationDirPath() + "/qdigidoccrypto.app" ).exists() );
-	viewEncrypt->setVisible( QFileInfo( qApp->applicationDirPath() + "/qdigidoccrypto.app" ).exists() );
-#endif
 
 	buttonGroup->setId( signAddFile, SignAdd );
 
@@ -285,16 +281,8 @@ void MainWindow::buttonClicked( int button )
 		break;
 	}
 	case HomeCrypt:
-	{
-#ifdef Q_OS_MAC
-		QProcess *p = new QProcess( qApp );
-		p->start( qApp->applicationDirPath() + "/qdigidoccrypto.app/Contents/MacOS/qdigidoccrypto" );
-#else
-		if( !QProcess::startDetached( "qdigidoccrypto" ) )
-			qApp->showWarning( tr("Failed to start process '%1'").arg( "qdigidoccrypto" ) );
-#endif
+		qApp->showCrypto();
 		break;
-	}
 	case IntroAgree:
 		setCurrentPage( Sign );
 		break;
@@ -410,13 +398,7 @@ void MainWindow::buttonClicked( int button )
 	}
 	case ViewEncrypt:
 	{
-#ifdef Q_OS_MAC
-		QProcess *p = new QProcess( qApp );
-		p->start( qApp->applicationDirPath() + "/qdigidoccrypto.app/Contents/MacOS/qdigidoccrypto",
-			QStringList() << doc->fileName());
-#else
-		QProcess::startDetached( "qdigidoccrypto", QStringList() << doc->fileName() );
-#endif
+		qApp->showCrypto( QStringList() << doc->fileName() );
 		break;
 	}
 	case ViewPrint:

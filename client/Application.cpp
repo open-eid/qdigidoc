@@ -236,6 +236,17 @@ Application::~Application()
 	delete d;
 }
 
+void Application::activate( QWidget *w )
+{
+#ifdef Q_OS_MAC
+	w->installEventFilter( d->bar );
+#endif
+	w->addAction( d->closeAction );
+	w->activateWindow();
+	w->show();
+	w->raise();
+}
+
 void Application::closeWindow()
 {
 #ifndef Q_OS_MAC
@@ -357,48 +368,12 @@ void Application::parseArgs( const QStringList &args )
 	params.removeAll("-noNativeFileDialog");
 
 	QString suffix = QFileInfo( params.value( 0 ) ).suffix();
-	QWidget *w = 0;
 	if( (QStringList() << "p12" << "p12d").contains( suffix, Qt::CaseInsensitive ) )
-		w = new RegisterP12( params[0] );
+		activate( new RegisterP12( params[0] ) );
 	else if( crypto || (QStringList() << "cdoc").contains( suffix, Qt::CaseInsensitive ) )
-	{
-		foreach( QWidget *m, qApp->topLevelWidgets() )
-		{
-			Crypto::MainWindow *main = qobject_cast<Crypto::MainWindow*>(m);
-			if( main && main->windowFilePath().isEmpty() )
-			{
-				w = main;
-				break;
-			}
-		}
-		if( !w )
-			w = new Crypto::MainWindow();
-		if( !params.isEmpty() )
-			QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
-	}
+		showCrypto( params );
 	else
-	{
-		foreach( QWidget *m, qApp->topLevelWidgets() )
-		{
-			MainWindow *main = qobject_cast<MainWindow*>(m);
-			if( main && main->windowFilePath().isEmpty() )
-			{
-				w = main;
-				break;
-			}
-		}
-		if( !w )
-			w = new MainWindow();
-		if( !params.isEmpty() )
-			QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
-	}
-#ifdef Q_OS_MAC
-	w->installEventFilter( d->bar );
-#endif
-	w->addAction( d->closeAction );
-	w->activateWindow();
-	w->show();
-	w->raise();
+		showClient( params );
 }
 
 Poller* Application::poller() const { return d->poller; }
@@ -449,6 +424,44 @@ void Application::showAbout()
 	AboutDialog *a = new AboutDialog( activeWindow() );
 	a->addAction( d->closeAction );
 	a->open();
+}
+
+void Application::showClient( const QStringList &params )
+{
+	QWidget *w = 0;
+	foreach( QWidget *m, qApp->topLevelWidgets() )
+	{
+		MainWindow *main = qobject_cast<MainWindow*>(m);
+		if( main && main->windowFilePath().isEmpty() )
+		{
+			w = main;
+			break;
+		}
+	}
+	if( !w )
+		w = new MainWindow();
+	if( !params.isEmpty() )
+		QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
+	activate( w );
+}
+
+void Application::showCrypto( const QStringList &params )
+{
+	QWidget *w = 0;
+	foreach( QWidget *m, qApp->topLevelWidgets() )
+	{
+		Crypto::MainWindow *main = qobject_cast<Crypto::MainWindow*>(m);
+		if( main && main->windowFilePath().isEmpty() )
+		{
+			w = main;
+			break;
+		}
+	}
+	if( !w )
+		w = new Crypto::MainWindow();
+	if( !params.isEmpty() )
+		QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
+	activate( w );
 }
 
 void Application::showSettings( int page )
