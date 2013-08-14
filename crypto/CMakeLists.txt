@@ -35,10 +35,8 @@ include_directories(
 	${LDAP_INCLUDE_DIR}
 )
 
-add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
+add_library( ${PROGNAME} STATIC
 	${PROGNAME}.rc
-	main.cpp
-	Application.cpp
 	CryptoDoc.cpp
 	KeyDialog.cpp
 	LdapSearch.cpp

@@ -22,7 +22,7 @@
 
 #include "CryptoDoc.h"
 
-#include "Application.h"
+#include "client/Application.h"
 #include "Poller.h"
 
 #include <common/FileDialog.h>
@@ -48,8 +48,6 @@
 #else
 #include <QtGui/QMessageBox>
 #endif
-
-using namespace Crypto;
 
 class CryptoDocPrivate
 {

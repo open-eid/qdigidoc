@@ -28,11 +28,16 @@
 #include "RegisterP12.h"
 #include "SettingsDialog.h"
 
+#include "crypto/MainWindow.h"
+#include "crypto/Poller.h"
+
 #include <common/AboutDialog.h>
 #include <common/Settings.h>
 
 #include <digidocpp/Container.h>
 #include <digidocpp/XmlConf.h>
+
+#include <libdigidoc/DigiDocConfig.h>
 
 #include "qtsingleapplication/src/qtlocalpeer.h"
 
@@ -97,12 +102,13 @@ private:
 class ApplicationPrivate
 {
 public:
-	ApplicationPrivate(): signer(0) {}
+	ApplicationPrivate(): poller(0), signer(0) {}
 
 	QAction		*closeAction, *newAction;
 #ifdef Q_OS_MAC
 	MacMenuBar	*bar;
 #endif
+	Poller		*poller;
 	QSigner		*signer;
 	QTranslator	*appTranslator, *commonTranslator, *qtTranslator;
 	QString		lang;
@@ -172,6 +178,13 @@ Application::Application( int &argc, char **argv )
 		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
 	}
 
+	initDigiDocLib();
+	QString ini = QString( "%1/digidoc.ini" ).arg( applicationDirPath() );
+	if( QFileInfo( ini ).isFile() )
+		initConfigStore( ini.toUtf8() );
+	else
+		initConfigStore( NULL );
+
 	QSigner::ApiType api = QSigner::PKCS11;
 #ifdef Q_OS_WIN
 	QString provider;
@@ -196,6 +209,7 @@ Application::Application( int &argc, char **argv )
 		api = QSigner::CNG;
 #endif
 	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;
+	d->poller = new Poller( Poller::ApiType(api), this );
 	d->signer = new QSigner( api, this );
 	parseArgs( args );
 }
@@ -208,10 +222,14 @@ Application::~Application()
 		if( QtLocalPeer *obj = findChild<QtLocalPeer*>() )
 			delete obj;
 		digidoc::terminate();
+		cleanupConfigStore( 0 );
+		finalizeDigiDocLib();
 	}
 #else
 	delete d->bar;
 	digidoc::terminate();
+	cleanupConfigStore( 0 );
+	finalizeDigiDocLib();
 #endif
 	delete d;
 }
@@ -328,16 +346,34 @@ void Application::parseArgs( const QString &msg )
 
 void Application::parseArgs( const QStringList &args )
 {
+	bool crypto = args.contains("-crypto");
 	QStringList params = args;
+	params.removeAll("-crypto");
 	params.removeAll("-capi");
 	params.removeAll("-cng");
 	params.removeAll("-pkcs11");
 	params.removeAll("-noNativeFileDialog");
 
-	QStringList exts = QStringList() << "p12" << "p12d";
+	QString suffix = QFileInfo( params.value( 0 ) ).suffix();
 	QWidget *w = 0;
-	if( exts.contains( QFileInfo( params.value( 0 ) ).suffix(), Qt::CaseInsensitive ) )
+	if( (QStringList() << "p12" << "p12d").contains( suffix, Qt::CaseInsensitive ) )
 		w = new RegisterP12( params[0] );
+	else if( crypto || (QStringList() << "cdoc").contains( suffix, Qt::CaseInsensitive ) )
+	{
+		foreach( QWidget *m, qApp->topLevelWidgets() )
+		{
+			Crypto::MainWindow *main = qobject_cast<Crypto::MainWindow*>(m);
+			if( main && main->windowFilePath().isEmpty() )
+			{
+				w = main;
+				break;
+			}
+		}
+		if( !w )
+			w = new Crypto::MainWindow();
+		if( !params.isEmpty() )
+			QMetaObject::invokeMethod( w, "open", Q_ARG(QStringList,params) );
+	}
 	else
 	{
 		foreach( QWidget *m, qApp->topLevelWidgets() )
@@ -362,6 +398,8 @@ void Application::parseArgs( const QStringList &args )
 	w->show();
 	w->raise();
 }
+
+Poller* Application::poller() const { return d->poller; }
 
 int Application::run()
 {

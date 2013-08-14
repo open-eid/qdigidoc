@@ -64,7 +64,7 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 
 if( APPLE )
 	set_target_properties( ${PROGNAME} PROPERTIES
-		LINK_FLAGS "-framework Security -framework Quartz"
+		LINK_FLAGS "-framework Security -framework Quartz -framework LDAP"
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
 	find_program( LN NAMES "ln" )
 	get_property( BINARY_PATH TARGET ${PROGNAME} PROPERTY LOCATION )
@@ -79,10 +79,13 @@ endif()
 
 target_link_libraries( ${PROGNAME}
 	qdigidoccommon
+	qdigidoccrypto
 	${QT_QTMAIN_LIBRARY}
 	${Qt5Core_QTMAIN_LIBRARIES}
 	${QT_LIBRARIES}
+	${LIBDIGIDOC_LIBRARY}
 	${LIBDIGIDOCPP_LIBRARY}
+	${LDAP_LIBRARIES}
 	${ADDITIONAL_LIBRARIES}
 )
 add_manifest( ${PROGNAME} )

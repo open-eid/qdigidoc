@@ -23,7 +23,7 @@
 #include "KeyDialog.h"
 #include "ui_KeyDialog.h"
 
-#include "Application.h"
+#include "client/Application.h"
 #include "LdapSearch.h"
 #include "Poller.h"
 
@@ -52,8 +52,6 @@
 
 Q_DECLARE_METATYPE( QSslCertificate )
 #endif
-
-using namespace Crypto;
 
 KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 :	QLabel( parent )

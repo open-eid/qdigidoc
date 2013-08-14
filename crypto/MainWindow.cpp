@@ -22,7 +22,7 @@
 
 #include "MainWindow.h"
 
-#include "Application.h"
+#include "client/Application.h"
 #include "KeyDialog.h"
 #include "Poller.h"
 

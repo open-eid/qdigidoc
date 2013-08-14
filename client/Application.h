@@ -33,6 +33,7 @@
 
 class QAction;
 class QSigner;
+class Poller;
 class ApplicationPrivate;
 class Application: public Common
 {
@@ -58,6 +59,7 @@ public:
 	void loadTranslation( const QString &lang );
 	bool notify( QObject *o, QEvent *e );
 	QSigner* signer() const;
+	Poller* poller() const;
 	void setLastPath( const QString &path );
 	int run();
 

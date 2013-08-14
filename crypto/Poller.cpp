@@ -63,6 +63,7 @@ Poller::Poller( ApiType api, QObject *parent )
 :	QThread( parent )
 ,	d( new PollerPrivate )
 {
+	Q_INIT_RESOURCE(crypto_images);
 	switch( api )
 	{
 #ifdef Q_OS_WIN
@@ -158,7 +159,7 @@ void Poller::run()
 	if( d->pkcs11 )
 	{
 #ifdef Q_OS_MAC
-		QString driver = qApp->applicationDirPath() + "/../../../opensc-pkcs11.so";
+		QString driver = qApp->applicationDirPath() + "/opensc-pkcs11.so";
 #else
 		char param[200];
 		qsnprintf( param, sizeof(param), "DIGIDOC_DRIVER_%d_FILE",
