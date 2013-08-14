@@ -20,6 +20,8 @@
  *
  */
 
+#define NOMINMAX
+
 #include "Application.h"
 
 #include "DigiDoc.h"
