@@ -34,6 +34,10 @@
   <property name="windowTitle">
    <string>DigiDoc3 Crypto</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../images/crypto_images.qrc">
+    <normaloff>:/images/crypto_128x128.png</normaloff>:/images/crypto_128x128.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">#background { background-image: url(&quot;:/images/crypto_background.png&quot;); }</string>
   </property>
