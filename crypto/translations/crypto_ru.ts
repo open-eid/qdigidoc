@@ -2,25 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="ru">
 <context>
-    <name>Application</name>
-    <message>
-        <source>DigiDoc3 crypto</source>
-        <translation>DigiDoc3 Crypto</translation>
-    </message>
-    <message>
-        <source>Close window</source>
-        <translation>Закрыть окно</translation>
-    </message>
-    <message>
-        <source>New window</source>
-        <translation>Новое окно</translation>
-    </message>
-    <message>
-        <source>CAPI parameter is not supported on Windows Vista and newer</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CDocumentModel</name>
     <message>
         <source>Save</source>
@@ -348,7 +329,7 @@ message: %2</source>
     </message>
 </context>
 <context>
-    <name>MainWindow</name>
+    <name>Crypto::MainWindow</name>
     <message>
         <source>Save file</source>
         <translation>Сохранить файл</translation>
@@ -585,7 +566,7 @@ New ID-cards have chip on the back side of the card.</source>
     </message>
 </context>
 <context>
-    <name>SettingsDialog</name>
+    <name>Crypto::SettingsDialog</name>
     <message>
         <source>Select folder</source>
         <translation>Выбрать папку</translation>
@@ -616,7 +597,7 @@ New ID-cards have chip on the back side of the card.</source>
     </message>
 </context>
 <context>
-    <name>TreeWidget</name>
+    <name>Crypto::TreeWidget</name>
     <message>
         <source>Save file</source>
         <translation>Сохранить файл</translation>

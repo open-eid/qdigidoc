@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="translations" >
+	<file alias="crypto_et" >crypto_et.qm</file>
+	<file alias="crypto_ru" >crypto_ru.qm</file>
+  </qresource>
+</RCC>

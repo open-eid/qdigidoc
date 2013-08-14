@@ -2,25 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="et">
 <context>
-    <name>Application</name>
-    <message>
-        <source>DigiDoc3 crypto</source>
-        <translation>DigiDoc3 Krüpto</translation>
-    </message>
-    <message>
-        <source>Close window</source>
-        <translation>Sulge aken</translation>
-    </message>
-    <message>
-        <source>New window</source>
-        <translation>Uus aken</translation>
-    </message>
-    <message>
-        <source>CAPI parameter is not supported on Windows Vista and newer</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CDocumentModel</name>
     <message>
         <source>Save</source>
@@ -350,7 +331,7 @@ teade: %2</translation>
     </message>
 </context>
 <context>
-    <name>MainWindow</name>
+    <name>Crypto::MainWindow</name>
     <message>
         <source>Settings</source>
         <translation>Seaded</translation>
@@ -587,7 +568,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
 </context>
 <context>
-    <name>SettingsDialog</name>
+    <name>Crypto::SettingsDialog</name>
     <message>
         <source>Settings</source>
         <translation>Seaded</translation>
@@ -618,7 +599,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
 </context>
 <context>
-    <name>TreeWidget</name>
+    <name>Crypto::TreeWidget</name>
     <message>
         <source>Save file</source>
         <translation>Salvesta fail</translation>

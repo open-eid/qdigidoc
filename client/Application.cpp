@@ -112,7 +112,7 @@ public:
 #endif
 	Poller		*poller;
 	QSigner		*signer;
-	QTranslator	*appTranslator, *commonTranslator, *qtTranslator;
+	QTranslator	*appTranslator, *commonTranslator, *cryptoTranslator, *qtTranslator;
 	QString		lang;
 };
 
@@ -160,6 +160,7 @@ Application::Application( int &argc, char **argv )
 
 	installTranslator( d->appTranslator = new QTranslator( this ) );
 	installTranslator( d->commonTranslator = new QTranslator( this ) );
+	installTranslator( d->cryptoTranslator = new QTranslator( this ) );
 	installTranslator( d->qtTranslator = new QTranslator( this ) );
 	loadTranslation( Settings::language() );
 
@@ -315,6 +316,7 @@ void Application::loadTranslation( const QString &lang )
 
 	d->appTranslator->load( ":/translations/" + lang );
 	d->commonTranslator->load( ":/translations/common_" + lang );
+	d->cryptoTranslator->load( ":/translations/crypto_" + lang );
 	d->qtTranslator->load( ":/translations/qt_" + lang );
 	d->closeAction->setText( tr("Close window") );
 	d->newAction->setText( tr("New window") );

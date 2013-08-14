@@ -12,9 +12,9 @@ set( UI_FILES
 	ui/SettingsDialog.ui
 )
 
-configure_file( translations/tr.qrc tr.qrc COPYONLY )
-set( RC_FILES images/crypto_images.qrc ${CMAKE_CURRENT_BINARY_DIR}/tr.qrc )
-set( TS_FILES translations/et.ts translations/ru.ts )
+configure_file( translations/crypto_tr.qrc crypto_tr.qrc COPYONLY )
+set( RC_FILES images/crypto_images.qrc ${CMAKE_CURRENT_BINARY_DIR}/crypto_tr.qrc )
+set( TS_FILES translations/crypto_et.ts translations/crypto_ru.ts )
 
 if( NOT Qt5Widgets_FOUND )
 	qt4_add_translation( QM_FILES ${TS_FILES} )

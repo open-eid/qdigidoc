@@ -64,6 +64,7 @@ Poller::Poller( ApiType api, QObject *parent )
 ,	d( new PollerPrivate )
 {
 	Q_INIT_RESOURCE(crypto_images);
+	Q_INIT_RESOURCE(crypto_tr);
 	switch( api )
 	{
 #ifdef Q_OS_WIN
