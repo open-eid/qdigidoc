@@ -36,7 +36,6 @@ include_directories(
 )
 
 add_library( ${PROGNAME} STATIC
-	${PROGNAME}.rc
 	CryptoDoc.cpp
 	KeyDialog.cpp
 	LdapSearch.cpp
@@ -51,9 +50,7 @@ add_library( ${PROGNAME} STATIC
 )
 
 if( APPLE )
-	set_target_properties( ${PROGNAME} PROPERTIES
-		LINK_FLAGS "-framework LDAP"
-		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
+	list( APPEND ADDITIONAL_LIBRARIES "-framework LDAP" )
 endif()
 if( WIN32 )
 	list( APPEND ADDITIONAL_LIBRARIES Wldap32 )
@@ -72,17 +69,9 @@ target_link_libraries( ${PROGNAME}
 	${LDAP_LIBRARIES}
 	${ADDITIONAL_LIBRARIES}
 )
-#add_manifest( ${PROGNAME} )
 dump_syms( ${PROGNAME} )
-if( APPLE )
-	install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR}/qdigidocclient.app/Contents/MacOS/ )
-else()
-	install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
-endif()
 
 if(UNIX AND NOT APPLE)
-	configure_file( qdigidoccrypto.1.cmake qdigidoccrypto.1 )
-	install( FILES ${CMAKE_CURRENT_BINARY_DIR}/qdigidoccrypto.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
 	install( FILES qdigidoc-crypto.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
 	install( FILES qdigidoc-crypto.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages )
 

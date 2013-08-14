@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Type=Application
 
-Exec=qdigidoccrypto %F
+Exec=qdigidocclient -crypto %F
 Icon=qdigidoc-crypto
 
 Name=DigiDoc Crypto
