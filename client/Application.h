@@ -65,11 +65,12 @@ public:
 
 	static QVariant confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
-	static void showWarning( const QString &msg, int err = -1, const QString &details = QString(), const QString &search = QString() );
+	static void showWarning( const QString &msg, int err, const QString &details = QString(), const QString &search = QString() );
 
 public Q_SLOTS:
 	void showAbout();
 	void showSettings( int page = 0 );
+	void showWarning( const QString &msg );
 
 private Q_SLOTS:
 	void closeWindow();

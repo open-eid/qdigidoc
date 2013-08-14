@@ -459,6 +459,11 @@ void Application::showSettings( int page )
 	s->open();
 }
 
+void Application::showWarning( const QString &msg )
+{
+    showWarning( msg, -1 );
+}
+
 void Application::showWarning( const QString &msg, int err, const QString &details, const QString &search )
 {
 	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close, activeWindow() );
