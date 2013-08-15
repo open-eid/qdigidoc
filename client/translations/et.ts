@@ -1023,6 +1023,10 @@ Kontrollkood: %1</translation>
         <source>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future. Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</source>
         <translation>BDOC 2.0 on uus digitaalallkirja vorming. Antud versioon on mõeldud vaid testimiseks. Lisanduda võib veel formaadi täiendusi ja testfaasis loodud dokumendi hilisem avamine ei pruugi olla võimalik. Täiendav &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;info&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Show encrypting intro</source>
+        <translation>Näita krüpteerimisel sissejuhatust</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

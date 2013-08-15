@@ -1023,6 +1023,10 @@ Control code: %1</translation>
         <source>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future. Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</source>
         <translation>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future. Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Show encrypting intro</source>
+        <translation>Show encrypting intro</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

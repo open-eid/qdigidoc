@@ -568,37 +568,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
 </context>
 <context>
-    <name>Crypto::SettingsDialog</name>
-    <message>
-        <source>Settings</source>
-        <translation>Seaded</translation>
-    </message>
-    <message>
-        <source>Container default location</source>
-        <translation>Turvaümbriku loomise vaikekataloog</translation>
-    </message>
-    <message>
-        <source>Select folder</source>
-        <translation>Vali kataloog</translation>
-    </message>
-    <message>
-        <source>Show encrypting intro</source>
-        <translation>Näita krüpteerimisel sissejuhatust</translation>
-    </message>
-    <message>
-        <source>Same folder</source>
-        <translation>Samasse kataloogi</translation>
-    </message>
-    <message>
-        <source>Ask container name</source>
-        <translation>Küsi turvaümbriku nime</translation>
-    </message>
-    <message>
-        <source>It is not possible to change the file location. Changes will be valid to new containers only.</source>
-        <translation type="obsolete">Juba avatud ümbriku asukohta pole võimalik muuta. See seade kehtib ainult uutele ümbrikutele.</translation>
-    </message>
-</context>
-<context>
     <name>Crypto::TreeWidget</name>
     <message>
         <source>Save file</source>

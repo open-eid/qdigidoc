@@ -1026,6 +1026,10 @@ Control code: %1</source>
         <source>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future. Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</source>
         <translation>BDOC 2.0 - это новый формат цифровой подписи. Данная версия предназначена только для тестирования. В нее могут быть внесены дополнительные изменения, после которых документ, созданный в процессе тестирования будет невозможно открыть. Дополнительная &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;информация&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Show encrypting intro</source>
+        <translation>Показывать подсказку для шифрования</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

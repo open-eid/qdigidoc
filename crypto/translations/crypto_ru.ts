@@ -566,37 +566,6 @@ New ID-cards have chip on the back side of the card.</source>
     </message>
 </context>
 <context>
-    <name>Crypto::SettingsDialog</name>
-    <message>
-        <source>Select folder</source>
-        <translation>Выбрать папку</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Настройки</translation>
-    </message>
-    <message>
-        <source>Container default location</source>
-        <translation>Расположение контейнера по умолчанию</translation>
-    </message>
-    <message>
-        <source>Same folder</source>
-        <translation>Та же папка</translation>
-    </message>
-    <message>
-        <source>Ask container name</source>
-        <translation>Спрашивать имя документа</translation>
-    </message>
-    <message>
-        <source>Show encrypting intro</source>
-        <translation>Показывать подсказку для шифрования</translation>
-    </message>
-    <message>
-        <source>It is not possible to change the file location. Changes will be valid to new containers only.</source>
-        <translation type="obsolete">Невозможно изменить расположение уже открытого конверта. Настройки будут действительны только для новых конвертов.</translation>
-    </message>
-</context>
-<context>
     <name>Crypto::TreeWidget</name>
     <message>
         <source>Save file</source>
