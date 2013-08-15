@@ -291,9 +291,6 @@ bool Application::event( QEvent *e )
 		if( !activeWindow() )
 			parseArgs();
 		return true;
-	case OpenFilesEvent::Type:
-		parseArgs( static_cast<OpenFilesEvent*>(e)->files() );
-		return true;
 	case QEvent::FileOpen:
 		parseArgs( QStringList() << static_cast<QFileOpenEvent*>(e)->file() );
 		return true;

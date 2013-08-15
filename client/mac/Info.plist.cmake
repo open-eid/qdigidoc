@@ -106,6 +106,28 @@
 			</array>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>cdoc</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>cdoc.icns</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>application/x-cdoc</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>CDoc - xml crypto format</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>ee.ria.cdoc</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleTypeName</key>
 			<string>All files</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -125,7 +147,27 @@
 				<string>Sign with DigiDoc3 Client</string>
 			</dict>
 			<key>NSMessage</key>
-			<string>openFile</string>
+			<string>openClient</string>
+			<key>NSPortName</key>
+			<string>${MACOSX_BUNDLE_EXECUTABLE_NAME}</string>
+			<key>NSRequiredContext</key>
+			<dict>
+				<key>NSTextContent</key>
+				<string>FilePath</string>
+			</dict>
+			<key>NSSendTypes</key>
+			<array>
+				<string>public.url</string>
+			</array>
+		</dict>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Encrypt with DigiDoc3 Crypto</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>openCrypto</string>
 			<key>NSPortName</key>
 			<string>${MACOSX_BUNDLE_EXECUTABLE_NAME}</string>
 			<key>NSRequiredContext</key>
@@ -216,6 +258,30 @@
 				<key>public.mime-type</key>
 				<array>
 					<string>application/x-pkcs12</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.xml</string>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>CDoc - xml crypto format</string>
+			<key>UTTypeIconFile</key>
+			<string>cdoc.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>ee.ria.cdoc</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>com.apple.ostype</key>
+				<string>CDOC</string>
+				<key>public.filename-extension</key>
+				<string>cdoc</string>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/x-cdoc</string>
 				</array>
 			</dict>
 		</dict>
