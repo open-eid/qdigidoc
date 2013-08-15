@@ -3,7 +3,7 @@ if( UNIX AND NOT APPLE )
 endif()
 find_package( LibDigiDoc REQUIRED )
 
-set_app_name( PROGNAME qdigidoccrypto )
+set( PROGNAME qdigidoccrypto )
 
 set( UI_FILES
 	ui/CertAddDialog.ui
