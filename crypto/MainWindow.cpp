@@ -289,14 +289,7 @@ void MainWindow::buttonClicked( int button )
 					break;
 				QString file = QString( doc->fileName() ).append( ".ddoc" );
 				if( doc->saveDDoc( file ) )
-				{
-#ifdef Q_OS_MAC
-					if( !QProcess::startDetached( "/usr/bin/open", QStringList() << "-a" << "qdigidocclient" << file ) )
-#else
-					if( !QProcess::startDetached( "qdigidocclient", QStringList() << file ) )
-#endif
-						qApp->showWarning( tr("Failed to start process '%1'").arg( "qdigidocclient" ) );
-				}
+					qApp->showClient( QStringList() << file );
 			}
 		}
 		else
