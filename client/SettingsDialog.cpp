@@ -56,8 +56,8 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	Common::setAccessibleName( d->p12Label );
 
 	Settings s;
+	d->showIntro->setChecked( s.value( "Crypto/Intro", true ).toBool() );
 	s.beginGroup( "Client" );
-
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
 	updateCert();
 #ifdef Q_OS_MAC
@@ -158,6 +158,7 @@ void SettingsDialog::on_typeBDoc_clicked( bool checked )
 void SettingsDialog::save()
 {
 	Settings s;
+	s.setValue( "Crypto/Intro", d->showIntro->isChecked() );
 	s.beginGroup( "Client" );
 	s.setValue( "Intro", d->showIntro->isChecked() );
 	s.setValue( "Overwrite", d->signOverwrite->isChecked() );

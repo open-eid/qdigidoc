@@ -9,7 +9,6 @@ set( UI_FILES
 	ui/CertAddDialog.ui
 	ui/KeyDialog.ui
 	ui/MainWindow.ui
-	ui/SettingsDialog.ui
 )
 
 configure_file( translations/crypto_tr.qrc crypto_tr.qrc COPYONLY )
@@ -41,7 +40,6 @@ add_library( ${PROGNAME} STATIC
 	LdapSearch.cpp
 	MainWindow.cpp
 	Poller.cpp
-	SettingsDialog.cpp
 	TreeWidget.cpp
 	${UI_HEADERS}
 	${QM_FILES}

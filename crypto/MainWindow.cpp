@@ -121,7 +121,7 @@ bool MainWindow::addFile( const QString &file )
 	if( doc->isNull() )
 	{
 		Settings s;
-		s.beginGroup( "Crypto" );
+		s.beginGroup( "Client" );
 		QString docname = QString( "%1/%2.cdoc" )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
 			.arg( fileinfo.suffix() == "cdoc" ? fileinfo.fileName() : fileinfo.completeBaseName() );

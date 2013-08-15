@@ -89,6 +89,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="showIntro2">
+         <property name="text">
+          <string>Show encrypting intro</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="typeLayout">
          <item>
           <widget class="QLabel" name="typeLabel">
@@ -728,6 +735,22 @@
     <hint type="destinationlabel">
      <x>233</x>
      <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showIntro2</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>288</x>
+     <y>174</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>199</y>
     </hint>
    </hints>
   </connection>
