@@ -51,6 +51,7 @@ using namespace Crypto;
 MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )
 ,	cardsGroup( new QActionGroup( this ) )
+,	quitOnClose( false )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
 #ifdef TESTING
