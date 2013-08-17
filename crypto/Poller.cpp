@@ -159,6 +159,7 @@ void Poller::run()
 
 	if( d->pkcs11 )
 	{
+		sleep( 2 );
 #ifdef Q_OS_MAC
 		QString driver = qApp->applicationDirPath() + "/opensc-pkcs11.so";
 #else
