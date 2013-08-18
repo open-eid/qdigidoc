@@ -137,6 +137,7 @@ Application::Application( int &argc, char **argv )
 	setOrganizationDomain( DOMAINURL );
 	setOrganizationName( ORG );
 	setWindowIcon( QIcon( ":/images/digidoc_icon_128x128.png" ) );
+	detectPlugins();
 
 	// Actions
 	d->closeAction = new QAction( this );
