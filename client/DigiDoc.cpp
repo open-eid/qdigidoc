@@ -529,7 +529,7 @@ bool DigiDoc::open( const QString &file )
 bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	Exception::ExceptionCode &code, int &ddocError )
 {
-	causes << from( e.msg() );
+	causes << QString( "%1:%2 %3").arg( QFileInfo(from(e.file())).fileName() ).arg( e.line() ).arg( from(e.msg()) );
 	if( e.code() & Exception::DDocError )
 		ddocError = e.code() & ~Exception::DDocError;
 	switch( e.code() )
