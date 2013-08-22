@@ -270,11 +270,6 @@ void MobileDialog::setSignatureInfo( const QString &city, const QString &state,
 
 void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString &cell )
 {
-	QString url = isTest( ssid, cell ) ?
-		"https://www.openxades.org:8443" : "https://digidocservice.sk.ee";
-	request.setUrl( Settings().value( doc->documentType() == DigiDoc::BDocType ?
-		"Client/bdocurl" : "Client/ddocurl", url ).toUrl() );
-
 	labelError->setText( mobileResults.value( "START" ) );
 
 	QHash<QString,QString> lang;
@@ -322,8 +317,10 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 	r.writeParameter( "AsyncConfiguration", 0 );
 	r.writeEndDocument();
 
+	QString url = isTest( ssid, cell ) ?
+		"https://www.openxades.org:8443" : "https://digidocservice.sk.ee";
 	request.setUrl( Settings().value( doc->documentType() == DigiDoc::BDocType ?
-		"Client/bdocurl" : "Client/ddocurl", "https://digidocservice.sk.ee").toUrl() );
+		"Client/bdocurl" : "Client/ddocurl", url ).toUrl() );
 	statusTimer->start();
 	manager->post( request, r.document() );
 }
