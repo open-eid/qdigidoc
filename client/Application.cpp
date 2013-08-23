@@ -352,7 +352,7 @@ void Application::parseArgs( const QString &msg )
 #else
 		QUrl url( param );
 #endif
-		params << (url.errorString().isEmpty() ? url.toLocalFile() : param);
+		params << (param != "-crypto" && url.errorString().isEmpty() ? url.toLocalFile() : param);
 	}
 	parseArgs( params );
 }
