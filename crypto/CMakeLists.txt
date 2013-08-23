@@ -48,10 +48,10 @@ add_library( ${PROGNAME} STATIC
 )
 
 if( APPLE )
-	list( APPEND ADDITIONAL_LIBRARIES "-framework LDAP" )
+	set( LDAP_LIBRARIES "-framework LDAP" )
 endif()
 if( WIN32 )
-	list( APPEND ADDITIONAL_LIBRARIES Wldap32 )
+	set( LDAP_LIBRARIES Wldap32 )
 endif()
 set_target_properties( ${PROGNAME} PROPERTIES AUTOMOC TRUE )
 if( Qt5Widgets_FOUND )
