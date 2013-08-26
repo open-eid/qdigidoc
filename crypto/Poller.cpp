@@ -109,6 +109,7 @@ Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 				Q_EMIT error( QPKCS11::errorString( status ) );
 				return PinIncorrect;
 			}
+			// else pin locked, fall through
 		case QPKCS11::PinLocked:
 			Q_EMIT error( QPKCS11::errorString( status ) );
 			return PinLocked;
