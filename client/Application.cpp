@@ -80,7 +80,7 @@ public:
 	bool PKCS12Disable() const
 	{ return s.value( "PKCS12Disable", false ).toBool(); }
 	std::string PKCS11Driver() const
-	{ return QString( qApp->applicationDirPath() + "/opensc-pkcs11.so" ).toStdString(); }
+	{ return QString( qApp->applicationDirPath() + "/" + QFileInfo( PKCS11_MODULE ).fileName() ).toStdString(); }
 
 
 	void setProxyHost( const std::string &host )
