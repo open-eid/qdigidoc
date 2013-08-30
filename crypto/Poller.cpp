@@ -33,6 +33,7 @@
 #include <libdigidoc/DigiDocConfig.h>
 
 #include <QtCore/QEventLoop>
+#include <QtCore/QFileInfo>
 #include <QtCore/QHash>
 #include <QtCore/QMutex>
 #include <QtCore/QStringList>
@@ -162,7 +163,7 @@ void Poller::run()
 	{
 		sleep( 2 );
 #ifdef Q_OS_MAC
-		QString driver = qApp->applicationDirPath() + "/opensc-pkcs11.so";
+		QString driver = qApp->applicationDirPath() + "/" + QFileInfo( PKCS11_MODULE ).fileName();
 #else
 		char param[200];
 		qsnprintf( param, sizeof(param), "DIGIDOC_DRIVER_%d_FILE",

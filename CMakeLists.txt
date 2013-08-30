@@ -20,6 +20,8 @@ else()
 endif()
 
 if( APPLE )
+	find_package( PKCS11 )
+	add_definitions( -DPKCS11_MODULE="${PKCS11_MODULE}" )
 	add_subdirectory( DigiDocQL )
 endif()
 add_subdirectory( common )
