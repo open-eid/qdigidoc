@@ -1,8 +1,8 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
+ * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
+ * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,6 +30,8 @@
 
 int main( int argc, char *argv[] )
 {
+	QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande"); //Mac 10.9 fix
+
 #ifdef BREAKPAD
 	if( QBreakPad::isCrashReport( argc, argv ) )
 	{
