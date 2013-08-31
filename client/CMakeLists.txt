@@ -67,10 +67,10 @@ if( APPLE )
 	set_target_properties( ${PROGNAME} PROPERTIES
 		LINK_FLAGS "-framework Security -framework Quartz"
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake )
-	find_program( LN NAMES "ln" )
 	get_property( BINARY_PATH TARGET ${PROGNAME} PROPERTY LOCATION )
 	get_filename_component( BINARY_DIR ${BINARY_PATH} PATH )
-	execute_process( COMMAND ${LN} "-fs" ${PKCS11_MODULE} ${BINARY_DIR} )
+	add_custom_command(TARGET ${PROGNAME} POST_BUILD
+		COMMAND ln "-fs" ${PKCS11_MODULE} ${BINARY_DIR})
 endif()
 
 set_target_properties( ${PROGNAME} PROPERTIES AUTOMOC TRUE )

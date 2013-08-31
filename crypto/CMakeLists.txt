@@ -67,7 +67,6 @@ target_link_libraries( ${PROGNAME}
 	${LDAP_LIBRARIES}
 	${ADDITIONAL_LIBRARIES}
 )
-dump_syms( ${PROGNAME} )
 
 if(UNIX AND NOT APPLE)
 	install( FILES qdigidoc-crypto.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
