@@ -166,5 +166,6 @@ private:
 	CryptoDoc	*doc;
 	IKValidator *validator;
 	CertModel	*certModel;
+	QAbstractItemModel *history;
 	LdapSearch	*ldap;
 };

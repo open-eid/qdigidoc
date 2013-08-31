@@ -46,9 +46,11 @@
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMessageBox>
+#include <QtCore/QSortFilterProxyModel>
 #else
 #include <QtGui/QHeaderView>
 #include <QtGui/QMessageBox>
+#include <QtGui/QSortFilterProxyModel>
 
 Q_DECLARE_METATYPE( QSslCertificate )
 #endif
@@ -345,13 +347,17 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	connect( qApp->poller(), SIGNAL(dataChanged()), SLOT(enableCardCert()) );
 	enableCardCert();
 
-	skView->setModel( certModel = new CertModel( this ) );
+	QSortFilterProxyModel *sort = new QSortFilterProxyModel( skView );
+	sort->setSourceModel( certModel = new CertModel( this ) );
+	skView->setModel( sort );
 	skView->header()->setStretchLastSection( false );
 	skView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	skView->header()->setResizeMode( CertModel::Owner, QHeaderView::Stretch );
 	connect( skView, SIGNAL(doubleClicked(QModelIndex)), SLOT(on_add_clicked()) );
 
-	usedView->setModel( new HistoryModel( this ) );
+	sort = new QSortFilterProxyModel( usedView );
+	sort->setSourceModel( history = new HistoryModel( sort ) );
+	usedView->setModel( sort );
 	usedView->header()->setStretchLastSection( false );
 	usedView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	usedView->header()->setResizeMode( HistoryModel::Owner, QHeaderView::Stretch );
@@ -408,7 +414,7 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 	if( certs.isEmpty() )
 		return;
 	bool status = true;
-	QAbstractItemModel *m = usedView->model();
+	QAbstractItemModel *m = history;
 	Q_FOREACH( const QSslCertificate &c, certs )
 	{
 		SslCertificate cert( c );
@@ -419,7 +425,7 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 					.arg( cert.expiryDate().toString( "dd.MM.yyyy hh:mm:ss" ) ),
 				QMessageBox::Yes|QMessageBox::No, QMessageBox::No ) )
 			continue;
-		status = qMin( status, doc->addKey( cert ) );
+		status = std::min( status, doc->addKey( cert ) );
 
 		HistoryModel::KeyType type = HistoryModel::IDCard;
 		switch( cert.type() )

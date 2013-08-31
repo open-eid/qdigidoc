@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>216</height>
+    <height>279</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,6 +71,12 @@
          <property name="rootIsDecorated">
           <bool>false</bool>
          </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <attribute name="headerShowSortIndicator" stdset="0">
+          <bool>true</bool>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -109,6 +115,12 @@
          <property name="rootIsDecorated">
           <bool>false</bool>
          </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <attribute name="headerShowSortIndicator" stdset="0">
+          <bool>true</bool>
+         </attribute>
         </widget>
        </item>
        <item row="2" column="0">
