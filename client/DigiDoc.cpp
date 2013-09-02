@@ -290,7 +290,7 @@ int DigiDocSignature::parseException( const digidoc::Exception &e ) const
 	Q_FOREACH( const Exception &c, e.causes() )
 	{
 		int code = parseException( c );
-			if( code != Exception::General )
+		if( code != Exception::General )
 			return code;
 	}
 	return e.code() & Exception::DDocError ? Exception::General : e.code();
@@ -626,9 +626,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		qApp->signer()->setSignatureProductionPlace(
 			to(city), to(state), to(zip), to(country) );
 		std::vector<std::string> roles;
-		roles.push_back( to(role) );
-		if ( !role2.isEmpty() )
-			roles.push_back( to(role2) );
+		roles.push_back( to((QStringList() << role << role2).join(" / ")) );
 		qApp->signer()->setSignerRoles( roles );
 		b->sign( qApp->signer() );
 		result = true;
