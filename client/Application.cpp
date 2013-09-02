@@ -176,7 +176,7 @@ Application::Application( int &argc, char **argv )
 	catch( const digidoc::Exception &e )
 	{
 		QStringList causes;
-		digidoc::Exception::ExceptionCode code = digidoc::Exception::NoException;
+		digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
 		int ddocError = -1;
 		DigiDoc::parseException( e, causes, code, ddocError );
 		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
@@ -329,7 +329,7 @@ bool Application::notify( QObject *o, QEvent *e )
 	catch( const digidoc::Exception &e )
 	{
 		QStringList causes;
-		digidoc::Exception::ExceptionCode code = digidoc::Exception::NoException;
+		digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
 		int ddocError = -1;
 		DigiDoc::parseException( e, causes, code, ddocError );
 		showWarning( tr("Caught exception!"), ddocError, causes.join("\n") );
@@ -409,7 +409,7 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 	catch( const digidoc::Exception &e )
 	{
 		QStringList causes;
-		digidoc::Exception::ExceptionCode code = digidoc::Exception::NoException;
+		digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
 		int ddocError = -1;
 		DigiDoc::parseException( e, causes, code, ddocError );
 		showWarning( tr("Caught exception!"), ddocError, causes.join("\n") );

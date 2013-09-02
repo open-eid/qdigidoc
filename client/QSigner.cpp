@@ -240,7 +240,7 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 {
 	QMutexLocker locker( &d->m );
 	if( !d->t.cards().contains( d->t.card() ) || d->t.cert().isNull() )
-		throwException( tr("Signing certificate is not selected."), Exception::NoException, __LINE__ );
+		throwException( tr("Signing certificate is not selected."), Exception::General, __LINE__ );
 
 	int type = NID_sha1;
 	if( method == "http://www.w3.org/2001/04/xmldsig-more#rsa-sha224" ) type = NID_sha224;
@@ -264,7 +264,7 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 			reload();
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::PINLocked, __LINE__ );
 		default:
-			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::NoException, __LINE__ );
+			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::General, __LINE__ );
 		}
 
 		sig = d->pkcs11->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) );
@@ -288,7 +288,7 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 	locker.unlock();
 	reload();
 	if( sig.isEmpty() )
-		throwException( tr("Failed to sign document"), Exception::NoException, __LINE__ );
+		throwException( tr("Failed to sign document"), Exception::General, __LINE__ );
 	signature.resize( sig.size() );
 	qMemCopy( &signature[0], sig.constData(), sig.size() );
 }

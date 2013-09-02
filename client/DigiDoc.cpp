@@ -290,10 +290,10 @@ int DigiDocSignature::parseException( const digidoc::Exception &e ) const
 	Q_FOREACH( const Exception &c, e.causes() )
 	{
 		int code = parseException( c );
-		if( code != Exception::NoException )
+			if( code != Exception::General )
 			return code;
 	}
-	return e.code() & Exception::DDocError ? Exception::NoException : e.code();
+	return e.code() & Exception::DDocError ? Exception::General : e.code();
 }
 
 QString DigiDocSignature::policy() const
@@ -324,7 +324,7 @@ QStringList DigiDocSignature::roles() const
 void DigiDocSignature::setLastError( const Exception &e ) const
 {
 	QStringList causes;
-	Exception::ExceptionCode code = Exception::NoException;
+	Exception::ExceptionCode code = Exception::General;
 	int ddocError = -1;
 	DigiDoc::parseException( e, causes, code, ddocError );
 	m_lastError = causes.join( "\n" );
@@ -576,7 +576,7 @@ void DigiDoc::save( const QString &filename )
 void DigiDoc::setLastError( const QString &msg, const Exception &e )
 {
 	QStringList causes;
-	Exception::ExceptionCode code = Exception::NoException;
+	Exception::ExceptionCode code = Exception::General;
 	int ddocError = -1;
 	parseException( e, causes, code, ddocError );
 	switch( code )
@@ -636,7 +636,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 	catch( const Exception &e )
 	{
 		QStringList causes;
-		Exception::ExceptionCode code = Exception::NoException;
+		Exception::ExceptionCode code = Exception::General;
 		int ddocError = -1;
 		parseException( e, causes, code, ddocError );
 		if( code == Exception::PINIncorrect )
