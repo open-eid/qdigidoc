@@ -532,12 +532,14 @@ void MainWindow::buttonClicked( int button )
 		}
 		else
 		{
+#if 0
 			QStringList exts = QStringList() << "bdoc" << "asice" << "sce";
 			if( exts.contains( QFileInfo( doc->fileName() ).suffix(), Qt::CaseInsensitive ) )
 			{
 				qApp->showWarning( tr("BDOC signing is not supported, please upgrade software") );
 				break;
 			}
+#endif
 
 			QScopedPointer<MobileDialog> m( new MobileDialog( this ) );
 			m->setSignatureInfo( signCityInput->text(),	signStateInput->text(),

@@ -299,26 +299,27 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 	r.writeStartElement( "DataFiles" );
 	r.writeAttribute( XML_SCHEMA_INSTANCE, "type", "m:DataFileDigestList" );
 	DocumentModel *m = doc->documentModel();
+	bool ddoc = doc->documentType() == DigiDoc::DDocType;
 	for( int i = 0; i < m->rowCount(); ++i )
 	{
 		r.writeStartElement( "DataFileDigest" );
 		r.writeAttribute( XML_SCHEMA_INSTANCE, "type", QString( "m:" ).append( "DataFileDigest" ) );
 		r.writeParameter( "Id", m->index( i, DocumentModel::Id ).data().toString() );
-		r.writeParameter( "DigestType", "sha1" );
+		r.writeParameter( "DigestType", ddoc ? "sha1" : "sha256" );
 		r.writeParameter( "DigestValue", doc->getFileDigest( i ).toBase64() );
 		r.writeEndElement();
 	}
 	r.writeEndElement();
 
-	r.writeParameter( "Format", doc->documentType() == DigiDoc::BDocType ? "BDOC" : "DIGIDOC-XML" );
-	r.writeParameter( "Version", doc->documentType() == DigiDoc::BDocType ? "1.0" : "1.3" );
+	r.writeParameter( "Format", ddoc ? "DIGIDOC-XML" : "BDOC" );
+	r.writeParameter( "Version", ddoc ? "1.3" : "2.0" );
 	r.writeParameter( "SignatureID", doc->newSignatureID() );
 	r.writeParameter( "MessagingMode", "asynchClientServer" );
 	r.writeParameter( "AsyncConfiguration", 0 );
 	r.writeEndDocument();
 
 	QString url = isTest( ssid, cell ) ?
-		"https://www.openxades.org:8443" : "https://digidocservice.sk.ee";
+		"https://www.openxades.org:9443" : "https://digidocservice.sk.ee";
 	request.setUrl( Settings().value( doc->documentType() == DigiDoc::BDocType ?
 		"Client/bdocurl" : "Client/ddocurl", url ).toUrl() );
 	statusTimer->start();

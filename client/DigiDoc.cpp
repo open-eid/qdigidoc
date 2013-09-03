@@ -682,7 +682,7 @@ QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 	try
 	{
 		DataFile file = b->dataFiles().at( i );
-		return fromVector(file.calcDigest("http://www.w3.org/2000/09/xmldsig#sha1"));
+		return fromVector(file.calcDigest("http://www.w3.org/2001/04/xmlenc#sha256"));
 	}
 	catch( const Exception & ) {}
 
