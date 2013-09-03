@@ -27,6 +27,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #endif
+#include <QtGui/QFont>
 
 int main( int argc, char *argv[] )
 {
