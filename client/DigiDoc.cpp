@@ -213,6 +213,7 @@ DigiDocSignature::DigiDocSignature( const digidoc::Signature *signature, DigiDoc
 :	s(signature)
 ,	m_lastErrorCode(-1)
 ,	m_parent(parent)
+,	m_warning(0)
 {}
 
 QSslCertificate DigiDocSignature::cert() const
@@ -255,11 +256,6 @@ QStringList DigiDocSignature::locations() const
 		<< from( s->stateOrProvince() ).trimmed()
 		<< from( s->postalCode() ).trimmed()
 		<< from( s->countryName() ).trimmed();
-}
-
-bool DigiDocSignature::nswarning() const
-{
-	return s->warnings() & Signature::WrongNameSpace;
 }
 
 QSslCertificate DigiDocSignature::ocspCert() const
@@ -375,26 +371,35 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 				"This signature is created in the BES format, using no certificate validity confimation nor timestamp.");
 			return Invalid;
 		}
-		return Valid;
 	}
 	catch( const Exception &e )
 	{
-		setLastError( e );
-		switch( parseException( e ) )
+		Q_FOREACH( const Exception &child, e.causes() )
 		{
-		case Exception::CertificateIssuerMissing:
-		case Exception::CertificateUnknown:
-		case Exception::OCSPResponderMissing:
-		case Exception::OCSPCertMissing: return Unknown;
-		default: break;
+			switch( child.code() )
+			{
+			case Exception::RefereneceDigestWeak:
+			case Exception::SignatureDigestWeak: m_warning |= DigestWeak; break;
+			case Exception::WrongNameSpace: m_warning |= WrongNameSpace; break;
+			default:
+				setLastError( e );
+				switch( parseException( child ) )
+				{
+				case Exception::CertificateIssuerMissing:
+				case Exception::CertificateUnknown:
+				case Exception::OCSPResponderMissing:
+				case Exception::OCSPCertMissing: return Unknown;
+				default: return Invalid;
+				}
+			}
 		}
 	}
-	return Invalid;
+	return Valid;
 }
 
-bool DigiDocSignature::weakDigestMethod() const
+int DigiDocSignature::warning() const
 {
-	return s->warnings() & (Signature::SignatureDigestWeak|Signature::RefereneceDigestWeak);
+	return m_warning;
 }
 
 
@@ -403,7 +408,6 @@ DigiDoc::DigiDoc( QObject *parent )
 :	QObject( parent )
 ,	b(0)
 ,	m_documentModel( new DocumentModel( this ) )
-,	nswarningshown(false)
 {}
 
 DigiDoc::~DigiDoc() { clear(); }
@@ -494,7 +498,6 @@ bool DigiDoc::open( const QString &file )
 		b = new Container( to(file) );
 		m_fileName = file;
 		m_documentModel->reset();
-		nswarningshown = false;
 
 		if( !isSupported() )
 		{
@@ -503,21 +506,6 @@ bool DigiDoc::open( const QString &file )
 					"You are not allowed to add or remove signatures to this container.<br />"
 					"<a href='http://www.id.ee/index.php?id=36161'>Additional info</a>."), QMessageBox::Ok );
 		}
-		else
-		{
-			bool weak = false, nswarning = false;
-			Q_FOREACH( const Signature *s, b->signatures() )
-			{
-				int warnings = s->warnings();
-				if( warnings & (Signature::RefereneceDigestWeak|Signature::SignatureDigestWeak) ) weak = true;
-				if( warnings & Signature::WrongNameSpace ) nswarning = true;
-			}
-			if( weak )
-				qApp->showWarning(
-					tr("The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
-			if( nswarning )
-				showNSWarning();
-		} 
 		qApp->addRecent( file );
 		return true;
 	}
@@ -600,18 +588,6 @@ void DigiDoc::setLastError( const QString &msg, const Exception &e )
 	default:
 		qApp->showWarning( msg, ddocError, causes.join("\n") ); break;
 	}
-}
-
-void DigiDoc::showNSWarning()
-{
-	if(nswarningshown)
-		return;
-	nswarningshown = true;
-	qApp->showWarning(
-		tr("This Digidoc document has not been created according to specification, "
-			"but the digital signature is legally valid. You are not allowed to add "
-			"or remove signatures to this container. Please inform the document creator "
-			"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>."));
 }
 
 bool DigiDoc::sign( const QString &city, const QString &state, const QString &zip,

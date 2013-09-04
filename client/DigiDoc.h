@@ -76,6 +76,11 @@ public:
 		Invalid,
 		Unknown
 	};
+	enum SignatureWarning
+	{
+		WrongNameSpace = 1 << 1,
+		DigestWeak = 1 << 2
+	};
 	enum SignatureType
 	{
 		BESType,
@@ -106,8 +111,7 @@ public:
 	QString		spuri() const;
 	SignatureType type() const;
 	SignatureStatus validate() const;
-	bool		nswarning() const;
-	bool		weakDigestMethod() const;
+	int warning() const;
 
 private:
 	void setLastError( const digidoc::Exception &e ) const;
@@ -117,6 +121,7 @@ private:
 	mutable QString m_lastError;
 	mutable int m_lastErrorCode;
 	DigiDoc *m_parent;
+	mutable unsigned int m_warning;
 };
 
 class DigiDoc: public QObject
@@ -145,7 +150,6 @@ public:
 	bool open( const QString &file );
 	void removeSignature( unsigned int num );
 	void save( const QString &filename = QString() );
-	void showNSWarning();
 	bool sign(
 		const QString &city,
 		const QString &state,
@@ -167,7 +171,6 @@ private:
 	digidoc::Container *b;
 	QString			m_fileName;
 	DocumentModel	*m_documentModel;
-	bool			nswarningshown;
 
 	friend class DocumentModel;
 };

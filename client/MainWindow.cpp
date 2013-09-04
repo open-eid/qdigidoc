@@ -59,7 +59,7 @@
 static bool hasNSWarning( DigiDoc *doc )
 {
 	Q_FOREACH( const DigiDocSignature &s, doc->signatures() )
-		if( s.nswarning() )
+		if( s.warning() & DigiDocSignature::WrongNameSpace )
 			return true;
 	return false;
 }
@@ -837,18 +837,15 @@ void MainWindow::setCurrentPage( Pages page )
 			default: break;
 			}
 			if(c.isTest() && status < Test) status = Test;
-			if(c.weakDigestMethod() && status < Weak) status = Weak;
-			if(c.nswarning() && status < NSWarning) status = NSWarning;
-			nswarning = std::max( nswarning, c.nswarning() );
+			if(c.warning() & DigiDocSignature::DigestWeak && status < Weak) status = Weak;
+			if(c.warning() & DigiDocSignature::WrongNameSpace && status < NSWarning) status = NSWarning;
+			nswarning = std::max( nswarning, bool(c.warning() & DigiDocSignature::WrongNameSpace) );
 			++i;
 		}
 
 		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName().normalized( QString::NormalizationForm_C ) ) );
 		viewFileName->setText( viewFileName->fontMetrics().elidedText(
 			viewFileName->toolTip(), Qt::ElideMiddle, viewFileName->width() ) );
-
-
-
 		viewSignaturesLabel->setText( tr( "Signature(s)", "", signatures.size() ) );
 		viewFileNameSave->setHidden( nswarning );
 
@@ -857,8 +854,18 @@ void MainWindow::setCurrentPage( Pages page )
 		case Invalid: viewSignaturesError->setText( tr("NB! Invalid signature") ); break;
 		case Unknown: viewSignaturesError->setText( "<i>" + tr("NB! Unknown signature") + "</i>" ); break;
 		case Test: viewSignaturesError->setText( tr("NB! Test signature") ); break;
-		case Weak: viewSignaturesError->setText( "<i>" + tr("NB! Weak signature") + "</i>" ); break;
-		case NSWarning: doc->showNSWarning(); break;
+		case Weak:
+			qApp->showWarning(
+				tr("The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
+			viewSignaturesError->setText( "<i>" + tr("NB! Weak signature") + "</i>" );
+			break;
+		case NSWarning:
+			qApp->showWarning(
+				tr("This Digidoc document has not been created according to specification, "
+					"but the digital signature is legally valid. You are not allowed to add "
+					"or remove signatures to this container. Please inform the document creator "
+					"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>."));
+			break;
 		default: viewSignaturesError->clear(); break;
 		}
 		break;
