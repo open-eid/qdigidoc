@@ -41,6 +41,7 @@
 
 TreeWidget::TreeWidget( QWidget *parent )
 :	QTreeView( parent )
+,	m(0)
 {}
 
 void TreeWidget::clicked( const QModelIndex &index )

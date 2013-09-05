@@ -104,7 +104,15 @@ private:
 class ApplicationPrivate
 {
 public:
-	ApplicationPrivate(): poller(0), signer(0) {}
+	ApplicationPrivate()
+		: closeAction(0)
+		, newAction(0)
+		, poller(0)
+		, signer(0)
+		, appTranslator(0)
+		, commonTranslator(0)
+		, cryptoTranslator(0)
+		, qtTranslator(0) {}
 
 	QAction		*closeAction, *newAction;
 #ifdef Q_OS_MAC
