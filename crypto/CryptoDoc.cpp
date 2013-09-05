@@ -52,7 +52,7 @@
 class CryptoDocPrivate
 {
 public:
-	CryptoDocPrivate():	ddoc(0), enc(0), doc(0) {}
+	CryptoDocPrivate():	documents(0), ddoc(0), enc(0), doc(0) {}
 
 	void cleanProperties();
 	void deleteDDoc();
