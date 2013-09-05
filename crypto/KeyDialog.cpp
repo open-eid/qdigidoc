@@ -204,7 +204,7 @@ QVariant HistoryModel::data( const QModelIndex &index, int role ) const
 QString HistoryModel::path() const
 {
 #ifdef Q_OS_WIN
-	QSettings s( QSettings::IniFormat, QSettings::UserScope, qApp->organizationName(), qApp->applicationName() );
+	QSettings s( QSettings::IniFormat, QSettings::UserScope, qApp->organizationName(), "qdigidoccrypto" );
 	QFileInfo f( s.fileName() );
 	return f.absolutePath() + "/" + f.baseName() + "/certhistory.xml";
 #else
@@ -353,6 +353,7 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	skView->header()->setStretchLastSection( false );
 	skView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	skView->header()->setResizeMode( CertModel::Owner, QHeaderView::Stretch );
+	skView->header()->setSortIndicator( 0, Qt::AscendingOrder );
 	connect( skView, SIGNAL(doubleClicked(QModelIndex)), SLOT(on_add_clicked()) );
 
 	sort = new QSortFilterProxyModel( usedView );
@@ -361,6 +362,7 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	usedView->header()->setStretchLastSection( false );
 	usedView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	usedView->header()->setResizeMode( HistoryModel::Owner, QHeaderView::Stretch );
+	usedView->header()->setSortIndicator( 0, Qt::AscendingOrder );
 
 	connect( ldap, SIGNAL(searchResult(QList<QSslCertificate>)),
 		SLOT(showResult(QList<QSslCertificate>)) );
