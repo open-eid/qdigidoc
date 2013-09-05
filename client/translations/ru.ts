@@ -186,10 +186,6 @@
         <translation>Не удается загрузить подписи</translation>
     </message>
     <message>
-        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
-        <translation>Данный контейнер имеет меньшую надежность по сравнению с официально признанным в Эстонии контейнером в формате BDOC.</translation>
-    </message>
-    <message>
         <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>В понимании эстонского законодательства подпись не равноценна собственноручно данной подписи.
@@ -202,10 +198,6 @@ This signature is created in the BES format, using no certificate validity confi
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>DigiDoc контейнер имеет старый формат.&lt;br /&gt;К данному контейнеру нельзя добавить или удалить из него подпись.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36162&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. К данному контейнеру нельзя добавить или удалить из него подпись. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36214&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -600,6 +592,14 @@ New ID-cards have chip on the back side of the card.</source>
     <message>
         <source>Open DigiDoc3 Crypto</source>
         <translation>Открыть DigiDoc3 Crypto</translation>
+    </message>
+    <message>
+        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
+        <translation>Данный контейнер имеет меньшую надежность по сравнению с официально признанным в Эстонии контейнером в формате BDOC.</translation>
+    </message>
+    <message>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. К данному контейнеру нельзя добавить или удалить из него подпись. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36214&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>

@@ -186,10 +186,6 @@
         <translation>Failed to get signatures</translation>
     </message>
     <message>
-        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
-        <translation>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</translation>
-    </message>
-    <message>
         <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
@@ -202,10 +198,6 @@ This signature is created in the BES format, using no certificate validity confi
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -597,6 +589,14 @@ New ID-cards have chip on the back side of the card.</translation>
     <message>
         <source>Open DigiDoc3 Crypto</source>
         <translation>Open DigiDoc3 Crypto</translation>
+    </message>
+    <message>
+        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
+        <translation>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</translation>
+    </message>
+    <message>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -1022,6 +1022,10 @@ Control code: %1</translation>
     <message>
         <source>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future. Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</source>
         <translation>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future. Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Show encrypting intro</source>
+        <translation>Show encrypting intro</translation>
     </message>
 </context>
 <context>

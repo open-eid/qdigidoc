@@ -186,10 +186,6 @@
         <translation>Ümbrikust ei suutnud laadida allkirju</translation>
     </message>
     <message>
-        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
-        <translation>Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.</translation>
-    </message>
-    <message>
         <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>Allkiri ei ole Eesti seadusandluse mõistes võrdväärne käsitsi antud allkirjaga.
@@ -202,10 +198,6 @@ Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusm
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>Tegemist on vanas formaadis DigiDoc konteineriga.&lt;br /&gt;Sellele konteinerile ei saa allkirja lisada ega eemaldada.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36160&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Sellele konteinerile ei saa allkirja lisada ega eemaldada. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36212&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -597,6 +589,14 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     <message>
         <source>Open DigiDoc3 Crypto</source>
         <translation>Avada DigiDoc3 Krüpto programmi</translation>
+    </message>
+    <message>
+        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
+        <translation>Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.</translation>
+    </message>
+    <message>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Sellele konteinerile ei saa allkirja lisada ega eemaldada. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36212&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
