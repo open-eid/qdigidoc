@@ -170,12 +170,12 @@ QVariant HistoryModel::headerData( int section, Qt::Orientation orientation, int
 	}
 }
 
-bool HistoryModel::insertRows( int row, int count, const QModelIndex &parent )
+bool HistoryModel::insertRows( int row, int count, const QModelIndex & )
 {
-	beginInsertRows( parent, row, row + count );
+	//beginInsertRows( parent, row, row + count );
 	for( int i = 0; i < count; ++i )
 		m_data.insert( row + i, QStringList() << "" << "" << "" << "" );
-	endInsertRows();
+	//endInsertRows();
 	return true;
 }
 
@@ -262,6 +262,7 @@ bool HistoryModel::submit()
 	}
 	xml.writeEndDocument();
 
+	reset();
 	return true;
 }
 
@@ -432,6 +433,7 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 		HistoryModel::KeyType type = HistoryModel::IDCard;
 		switch( cert.type() )
 		{
+		case SslCertificate::TempelTestType:
 		case SslCertificate::TempelType: type = HistoryModel::TEMPEL; break;
 		case SslCertificate::DigiIDTestType:
 		case SslCertificate::DigiIDType: type = HistoryModel::DigiID; break;
@@ -440,8 +442,17 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 		default: continue;
 		}
 
-		if( !m->match( m->index( 0, HistoryModel::Owner ), Qt::DisplayRole, cert.subjectInfo( "CN" ), 1, Qt::MatchExactly ).isEmpty() &&
-			!m->match( m->index( 0, HistoryModel::Type ), Qt::EditRole, type, 1, Qt::MatchExactly ).isEmpty() )
+		bool found = false;
+		for( int i = 0; i < m->rowCount(); ++i )
+		{
+			if( m->index( i, HistoryModel::Owner ).data().toString() == cert.subjectInfo( "CN" ) &&
+				m->index( i, HistoryModel::Type ).data( Qt::EditRole ).toInt() == type )
+			{
+				found = true;
+				break;
+			}
+		}
+		if( found )
 			continue;
 
 		int row = m->rowCount();
@@ -482,7 +493,7 @@ void CertAddDialog::on_add_clicked()
 void CertAddDialog::on_remove_clicked()
 {
 	QModelIndexList rows = usedView->selectionModel()->selectedRows();
-	for( QModelIndexList::const_iterator i = rows.constEnd(); i > rows.begin(); )
+	for( QModelIndexList::const_iterator i = rows.constEnd(); i != rows.begin(); )
 	{
 		--i;
 		usedView->model()->removeRow( i->row() );
