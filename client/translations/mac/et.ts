@@ -155,7 +155,7 @@
     </message>
     <message>
         <source>Server access certificate is required</source>
-        <translation>Juurdepääsutõend on vajalik</translation>
+        <translation>Puudub IP-põhine ligipääs, kontrolli juurdepääsutõendi seadeid</translation>
     </message>
     <message>
         <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
