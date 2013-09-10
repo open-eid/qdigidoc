@@ -31,7 +31,9 @@
 
 int main( int argc, char *argv[] )
 {
+#ifdef Q_OS_MAC
 	QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande"); //Mac 10.9 fix
+#endif
 
 #ifdef BREAKPAD
 	if( QBreakPad::isCrashReport( argc, argv ) )
