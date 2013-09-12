@@ -455,11 +455,8 @@ void DigiDoc::clear()
 void DigiDoc::create( const QString &file )
 {
 	clear();
-	QString type = QFileInfo( file ).suffix().toLower();
-	if( type == "bdoc" )
-		b = new Container(Container::AsicType);
-	else if( type == "ddoc" )
-		b = new Container(Container::DDocType);
+	b = new Container( QFileInfo( file ).suffix().compare( "ddoc", Qt::CaseInsensitive ) ?
+		Container::DDocType : Container::AsicType );
 	m_fileName = file;
 	m_documentModel->reset();
 }
@@ -602,7 +599,8 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		qApp->signer()->setSignatureProductionPlace(
 			to(city), to(state), to(zip), to(country) );
 		std::vector<std::string> roles;
-		roles.push_back( to((QStringList() << role << role2).join(" / ")) );
+		if( !role.isEmpty() || !role.isEmpty() )
+			roles.push_back( to((QStringList() << role << role2).join(" / ")) );
 		qApp->signer()->setSignerRoles( roles );
 		b->sign( qApp->signer() );
 		result = true;
