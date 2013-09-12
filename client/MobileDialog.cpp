@@ -312,7 +312,7 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 	r.writeEndElement();
 
 	r.writeParameter( "Format", ddoc ? "DIGIDOC-XML" : "BDOC" );
-	r.writeParameter( "Version", ddoc ? "1.3" : "2.0" );
+	r.writeParameter( "Version", ddoc ? "1.3" : "2.1" );
 	r.writeParameter( "SignatureID", doc->newSignatureID() );
 	r.writeParameter( "MessagingMode", "asynchClientServer" );
 	r.writeParameter( "AsyncConfiguration", 0 );
