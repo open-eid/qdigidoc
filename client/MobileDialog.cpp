@@ -141,7 +141,30 @@ MobileDialog::MobileDialog( QWidget *parent )
 			"7S4gJwPg6RIQXu/FfVCMtNyJliM/5Rz3+NeoLzZw4MVmjQGX0fxXDmVcbSkATqSx\n"
 			"EV/PbuITu7jOJuDLEr5IpfJPgfl3vBYr2PSo5/2kypth0jikr4TVbGqLFlvU1DaH\n"
 			"eswmlJbTv3u3juaJ1M6vHyPHX+diK7MUEAkETxlx0HUl0hbIgenvsjSdYA==\n"
-			"-----END CERTIFICATE-----\n" ) );
+			"-----END CERTIFICATE-----\n" )
+			<< QSslCertificate( "-----BEGIN CERTIFICATE-----\n"
+			"MIID5TCCAs2gAwIBAgIES7MTKDANBgkqhkiG9w0BAQUFADBdMRgwFgYJKoZIhvcN\n"
+			"AQkBFglwa2lAc2suZWUxCzAJBgNVBAYTAkVFMSIwIAYDVQQKExlBUyBTZXJ0aWZp\n"
+			"dHNlZXJpbWlza2Vza3VzMRAwDgYDVQQDEwdKdXVyLVNLMB4XDTEwMDMzMTA5MTcy\n"
+			"OFoXDTE2MDgyNjE0MjMwMVowbTELMAkGA1UEBhMCRUUxIjAgBgNVBAoTGUFTIFNl\n"
+			"cnRpZml0c2VlcmltaXNrZXNrdXMxITAfBgNVBAsTGFNlcnRpZml0c2VlcmltaXN0\n"
+			"ZWVudXNlZDEXMBUGA1UEAxMOS0xBU1MzLVNLIDIwMTAwggEiMA0GCSqGSIb3DQEB\n"
+			"AQUAA4IBDwAwggEKAoIBAQCrlaYRX2v89k8Hd0ADaOfnUcIn7iM6aOXkAR+jp582\n"
+			"7ZhDqDyNddF9ZUoBgPghGNIrkHbH7qwex39YnI0ka24lCjcwEMvQMPbyPnX/a4Ry\n"
+			"J+wEZttmjBl++FfrZK54L+vD7Dyy4YYB0Og9ktB4qptsDBj+giiv/MGPeGeNs3Ta\n"
+			"cJdNb7+3splTPtPKlDfrufvq4H6jNOv9S9bC+j2VVY9uCFXUro8AA3hoOEKJdSjl\n"
+			"pYCa51N8KGLVJYRuc/K81xqi054Jz+Cy/HY/AcXkk2JkxlpJoEXmcuTkxjO/QE/X\n"
+			"bd+mRJHnq6+HurOiKcxKwZCPAa+d+dvRPkbyq9ohMXH9AgMBAAGjgZwwgZkwEgYD\n"
+			"VR0TAQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAcYwMwYDVR0fBCwwKjAooCag\n"
+			"JIYiaHR0cDovL3d3dy5zay5lZS9jcmxzL2p1dXIvY3JsLmNybDAfBgNVHSMEGDAW\n"
+			"gBQEqnpHo+SJrxrPCkCnGD9v7+l9vjAdBgNVHQ4EFgQUXXUUEYz0pY5Cj3uyQESj\n"
+			"7tZ6O3IwDQYJKoZIhvcNAQEFBQADggEBADFuAGtSoO8PsWRw/QxFzc5EZtbq2KXC\n"
+			"9yZ8YQPWBLY4Mh3OVLFJqWyKC+8JHy9D5tJTG49F5UHyDJPufD/XvC2rjRlkqvS/\n"
+			"W7sy3MqGh7e+6bg+aD4mo+98Oalnqi12UD+ki+N8JKPXjHNJ31AvH6E/xDsCsvtz\n"
+			"ubylxI+FU8R0XODIUFbBqRtatRI1/zVaKRhD6LNGPt3rz/3IJKmuEv6b29mzL+p4\n"
+			"oNULqpPr6aTmheZme8ZHuEIh3Zp5kdoX3i2D4hsmgClpevZifo196zeKRLk0Qs6n\n"
+			"mRjoMxyk6jYIric3/VnV81oyhXSBY1GZnbM4qP1w2S5kSA2bb1pkwFo=\n"
+			"-----END CERTIFICATE-----\n"));
 		ssl.setPrivateKey( AccessCert::key() );
 		ssl.setLocalCertificate( AccessCert::cert() );
 		request.setSslConfiguration( ssl );
@@ -320,8 +343,7 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 
 	QString url = isTest( ssid, cell ) ?
 		"https://www.openxades.org:9443" : "https://digidocservice.sk.ee";
-	request.setUrl( Settings().value( doc->documentType() == DigiDoc::BDocType ?
-		"Client/bdocurl" : "Client/ddocurl", url ).toUrl() );
+	request.setUrl( Settings().value( ddoc ? "Client/ddocurl" : "Client/bdocurl", url ).toUrl() );
 	statusTimer->start();
 	manager->post( request, r.document() );
 }
