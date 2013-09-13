@@ -455,7 +455,7 @@ void DigiDoc::clear()
 void DigiDoc::create( const QString &file )
 {
 	clear();
-	b = new Container( QFileInfo( file ).suffix().compare( "ddoc", Qt::CaseInsensitive ) ?
+	b = new Container( QFileInfo( file ).suffix().compare( "ddoc", Qt::CaseInsensitive ) == 0 ?
 		Container::DDocType : Container::AsicType );
 	m_fileName = file;
 	m_documentModel->reset();
