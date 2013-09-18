@@ -73,8 +73,10 @@ public:
 	enum SignatureStatus
 	{
 		Valid,
-		Invalid,
-		Unknown
+		Warning,
+		Test,
+		Unknown,
+		Invalid
 	};
 	enum SignatureWarning
 	{
@@ -93,7 +95,6 @@ public:
 
 	QSslCertificate	cert() const;
 	QDateTime	dateTime() const;
-	bool		isTest() const;
 	QString		lastError() const;
 	int			lastErrorCode() const;
 	QString		location() const;

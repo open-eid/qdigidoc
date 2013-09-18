@@ -101,9 +101,14 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	sc << "<td>" << tr("Signature is") << " ";
 	switch( s.validate() )
 	{
+	case DigiDocSignature::Warning: // Fall to Valid
 	case DigiDocSignature::Valid:
 		sa << tr("valid");
 		sc << "<font color=\"green\">" << tr("valid");
+		break;
+	case DigiDocSignature::Test:
+		sa << " " << tr("Test signature");
+		sc << " (" << tr("Test signature") << ")";
 		break;
 	case DigiDocSignature::Invalid:
 		sa << tr("not valid");
@@ -113,11 +118,6 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		sa << tr("unknown");
 		sc << "<font color=\"red\">" << tr("unknown");
 		break;
-	}
-	if( signature.isTest() )
-	{
-		sa << " " << tr("Test signature");
-		sc << " (" << tr("Test signature") << ")";
 	}
 	sc << "</font>";
 	sc << "</td><td align=\"right\">";
@@ -186,19 +186,29 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	case DigiDocSignature::Valid:
 		status = tr("Signature is valid");
 		break;
+	case DigiDocSignature::Warning:
+		status = tr("Signature has warnings");
+		if( !s.lastError().isEmpty() )
+			d->error->setPlainText( s.lastError() );
+		break;
+	case DigiDocSignature::Test:
+		status = tr("Test signature");
+		if( !s.lastError().isEmpty() )
+			d->error->setPlainText( s.lastError() );
+		break;
 	case DigiDocSignature::Invalid:
 		status = tr("Signature is not valid");
 		d->error->setPlainText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
-		d->buttonBox->addButton( QDialogButtonBox::Help );
 		break;
 	case DigiDocSignature::Unknown:
 		status = tr("Signature status unknown");
 		d->error->setPlainText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
-		d->buttonBox->addButton( QDialogButtonBox::Help );
 		break;
 	}
 	if( d->error->toPlainText().isEmpty() )
 		d->tabWidget->removeTab( 0 );
+	else
+		d->buttonBox->addButton( QDialogButtonBox::Help );
 	d->title->setText( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + "\n" + status );
 	setWindowTitle( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + " - " + status );
 

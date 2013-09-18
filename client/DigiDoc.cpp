@@ -233,12 +233,6 @@ QDateTime DigiDocSignature::dateTime() const
 	return date.isNull() ? signTime() : date;
 }
 
-bool DigiDocSignature::isTest() const
-{
-	return SslCertificate( cert() ).type() & SslCertificate::TestType ||
-		SslCertificate( ocspCert() ).type() & SslCertificate::TestType;
-}
-
 QString DigiDocSignature::lastError() const { return m_lastError; }
 int DigiDocSignature::lastErrorCode() const { return m_lastErrorCode; }
 
@@ -379,8 +373,14 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 			switch( child.code() )
 			{
 			case Exception::RefereneceDigestWeak:
-			case Exception::SignatureDigestWeak: m_warning |= DigestWeak; break;
-			case Exception::WrongNameSpace: m_warning |= WrongNameSpace; break;
+			case Exception::SignatureDigestWeak:
+				setLastError( e );
+				m_warning |= DigestWeak;
+				break;
+			case Exception::WrongNameSpace:
+				setLastError( e );
+				m_warning |= WrongNameSpace;
+				break;
 			default:
 				setLastError( e );
 				switch( parseException( child ) )
@@ -394,7 +394,11 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 			}
 		}
 	}
-	return Valid;
+	if( SslCertificate( cert() ).type() & SslCertificate::TestType ||
+		SslCertificate( ocspCert() ).type() & SslCertificate::TestType )
+		return Test;
+
+	return m_warning ? Warning : Valid;
 }
 
 int DigiDocSignature::warning() const

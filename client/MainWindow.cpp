@@ -814,14 +814,7 @@ void MainWindow::setCurrentPage( Pages page )
 		qDeleteAll( viewSignatures->findChildren<SignatureWidget*>() );
 
 		int i = 0;
-		enum {
-			Good,
-			NSWarning,
-			Weak,
-			Test,
-			Unknown,
-			Invalid
-		} status = Good;
+		DigiDocSignature::SignatureStatus status = DigiDocSignature::Valid;
 		bool nswarning = false;
 		QList<DigiDocSignature> signatures = doc->signatures();
 		Q_FOREACH( const DigiDocSignature &c, signatures )
@@ -830,15 +823,8 @@ void MainWindow::setCurrentPage( Pages page )
 			viewSignaturesLayout->insertWidget( 0, signature );
 			connect( signature, SIGNAL(removeSignature(unsigned int)),
 				SLOT(viewSignaturesRemove(unsigned int)) );
-			switch(c.validate())
-			{
-			case DigiDocSignature::Unknown: if(status < Unknown) status = Unknown; break;
-			case DigiDocSignature::Invalid: if(status < Invalid) status = Invalid; break;
-			default: break;
-			}
-			if(c.isTest() && status < Test) status = Test;
-			if(c.warning() & DigiDocSignature::DigestWeak && status < Weak) status = Weak;
-			if(c.warning() & DigiDocSignature::WrongNameSpace && status < NSWarning) status = NSWarning;
+			DigiDocSignature::SignatureStatus next = c.validate();
+			if(status < next) status = next;
 			nswarning = std::max( nswarning, bool(c.warning() & DigiDocSignature::WrongNameSpace) );
 			++i;
 		}
@@ -849,24 +835,22 @@ void MainWindow::setCurrentPage( Pages page )
 		viewSignaturesLabel->setText( tr( "Signature(s)", "", signatures.size() ) );
 		viewFileNameSave->setHidden( nswarning );
 
-		switch( status )
+		if( nswarning )
 		{
-		case Invalid: viewSignaturesError->setText( tr("NB! Invalid signature") ); break;
-		case Unknown: viewSignaturesError->setText( "<i>" + tr("NB! Unknown signature") + "</i>" ); break;
-		case Test: viewSignaturesError->setText( tr("NB! Test signature") ); break;
-		case Weak:
-			qApp->showWarning(
-				tr("The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
-			viewSignaturesError->setText( "<i>" + tr("NB! Weak signature") + "</i>" );
-			break;
-		case NSWarning:
 			qApp->showWarning(
 				tr("This Digidoc document has not been created according to specification, "
 					"but the digital signature is legally valid. You are not allowed to add "
 					"or remove signatures to this container. Please inform the document creator "
 					"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>."));
-			break;
-		default: viewSignaturesError->clear(); break;
+		}
+
+		switch( status )
+		{
+		case DigiDocSignature::Invalid: viewSignaturesError->setText( tr("NB! Invalid signature") ); break;
+		case DigiDocSignature::Unknown: viewSignaturesError->setText( "<i>" + tr("NB! Unknown signature") + "</i>" ); break;
+		case DigiDocSignature::Test: viewSignaturesError->setText( tr("NB! Test signature") ); break;
+		case DigiDocSignature::Warning: viewSignaturesError->setText( "<i>" + tr("NB! Signature contains warnings") + "</i>" ); break;
+		case DigiDocSignature::Valid: viewSignaturesError->clear(); break;
 		}
 		break;
 	}
