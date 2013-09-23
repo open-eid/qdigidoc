@@ -55,15 +55,16 @@ public:
 	QPKCS11			*pkcs11;
 	TokenData		t;
 	volatile bool	terminate;
-	QMutex			m;
+	QMutex			*m;
 };
 
 
 
-Poller::Poller( ApiType api, QObject *parent )
+Poller::Poller( ApiType api, QMutex *m, QObject *parent )
 :	QThread( parent )
 ,	d( new PollerPrivate )
 {
+	d->m = m;
 	Q_INIT_RESOURCE(crypto_images);
 	Q_INIT_RESOURCE(crypto_tr);
 	switch( api )
@@ -88,7 +89,7 @@ Poller::~Poller()
 
 Poller::ErrorCode Poller::decrypt( const QByteArray &in, QByteArray &out )
 {
-	QMutexLocker locker( &d->m );
+	QMutexLocker locker( d->m );
 	if( !d->t.cards().contains( d->t.card() ) || d->t.cert().isNull() )
 	{
 		Q_EMIT error( tr("Authentication certificate is not selected.") );
@@ -147,9 +148,9 @@ void Poller::reload()
 {
 	QEventLoop e;
 	QObject::connect( this, SIGNAL(dataChanged()), &e, SLOT(quit()) );
-	d->m.lock();
+	d->m->lock();
 	d->t.setCert( QSslCertificate() );
-	d->m.unlock();
+	d->m->unlock();
 	e.exec();
 }
 
@@ -179,7 +180,7 @@ void Poller::run()
 
 	while( !d->terminate )
 	{
-		if( d->m.tryLock() )
+		if( d->m->tryLock() )
 		{
 			TokenData old = d->t, t = old;
 			QStringList cards, readers;
@@ -247,7 +248,7 @@ void Poller::run()
 				d->t = t;
 				Q_EMIT dataChanged();
 			}
-			d->m.unlock();
+			d->m->unlock();
 		}
 
 		sleep( 5 );

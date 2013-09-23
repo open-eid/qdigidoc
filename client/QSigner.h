@@ -25,6 +25,7 @@
 #include <QtCore/QThread>
 #include <digidocpp/crypto/Signer.h>
 
+class QMutex;
 class QSignerPrivate;
 class TokenData;
 
@@ -45,6 +46,7 @@ public:
 	ApiType apiType() const;
 	digidoc::X509Cert cert() const;
 	Qt::HANDLE handle() const;
+	QMutex* mutex() const;
 	void lock();
 	void sign( const std::string &method, const std::vector<unsigned char> &digest,
 		std::vector<unsigned char>& signature );

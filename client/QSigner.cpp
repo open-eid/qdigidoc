@@ -122,6 +122,7 @@ Qt::HANDLE QSigner::handle() const
 }
 
 void QSigner::lock() { d->m.lock(); }
+QMutex* QSigner::mutex() const { return &d->m; }
 
 void QSigner::reload()
 {

@@ -24,6 +24,7 @@
 
 #include <QtCore/QThread>
 
+class QMutex;
 class PollerPrivate;
 class TokenData;
 
@@ -44,10 +45,10 @@ public:
 		PinIncorrect,
 		PinLocked,
 		DecryptFailed,
-		DecryptOK,
+		DecryptOK
 	};
 
-	Poller( ApiType api, QObject *parent = 0 );
+	Poller( ApiType api, QMutex *m, QObject *parent = 0 );
 	~Poller();
 
 	ErrorCode decrypt( const QByteArray &in, QByteArray &out );

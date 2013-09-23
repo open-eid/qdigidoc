@@ -224,8 +224,8 @@ Application::Application( int &argc, char **argv )
 		api = QSigner::CNG;
 #endif
 	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;
-	d->poller = new Poller( Poller::ApiType(api), this );
 	d->signer = new QSigner( api, this );
+	d->poller = new Poller( Poller::ApiType(api), d->signer->mutex(), this );
 	parseArgs( args );
 }
 
