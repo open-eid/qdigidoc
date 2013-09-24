@@ -162,7 +162,11 @@ bool AccessCert::download( bool noCard )
 		do
 		{
 			retry = false;
-			token = p->selectSlot( s->token().card(), SslCertificate::KeyUsageNone, SslCertificate::ClientAuth );
+			token.setCard( s->token().card() );
+			Q_FOREACH( const TokenData &t, p->tokens() )
+				if( token.card() == t.card() && SslCertificate( t.cert() ).enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
+					token.setCert( t.cert() );
+
 			QPKCS11::PinStatus status = p->login( token );
 			switch( status )
 			{
