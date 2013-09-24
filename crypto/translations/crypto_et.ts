@@ -549,25 +549,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
 </context>
 <context>
-    <name>Poller</name>
-    <message>
-        <source>Authentication certificate is not selected.</source>
-        <translation>Audentimise sertifikaat ei ole valitud.</translation>
-    </message>
-    <message>
-        <source>Failed to login token</source>
-        <translation>PIN koodi valideerimine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt document</source>
-        <translation>Dokumenti dekrüpteerimine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to load PKCS#11 module</source>
-        <translation>PKCS#11 mooduli laadimine ebaõnnestus</translation>
-    </message>
-</context>
-<context>
     <name>Crypto::TreeWidget</name>
     <message>
         <source>Save file</source>

@@ -85,7 +85,6 @@ public:
 };
 
 class CryptoDocPrivate;
-class Poller;
 
 class CryptoDoc: public QObject
 {

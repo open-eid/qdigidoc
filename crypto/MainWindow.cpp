@@ -53,6 +53,8 @@ MainWindow::MainWindow( QWidget *parent )
 ,	cardsGroup( new QActionGroup( this ) )
 ,	quitOnClose( false )
 {
+	Q_INIT_RESOURCE(crypto_images);
+	Q_INIT_RESOURCE(crypto_tr);
 	setAttribute( Qt::WA_DeleteOnClose, true );
 #ifdef TESTING
 	if( !qApp->arguments().contains( "-crash" ) )

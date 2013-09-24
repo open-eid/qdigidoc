@@ -547,25 +547,6 @@ New ID-cards have chip on the back side of the card.</source>
     </message>
 </context>
 <context>
-    <name>Poller</name>
-    <message>
-        <source>Authentication certificate is not selected.</source>
-        <translation>Сертификат идентификации не выбран.</translation>
-    </message>
-    <message>
-        <source>Failed to login token</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Failed to decrypt document</source>
-        <translation>Неудачная зашифровка документа</translation>
-    </message>
-    <message>
-        <source>Failed to load PKCS#11 module</source>
-        <translation>Неудалось загрузить PKCS#11 модуль</translation>
-    </message>
-</context>
-<context>
     <name>Crypto::TreeWidget</name>
     <message>
         <source>Save file</source>
