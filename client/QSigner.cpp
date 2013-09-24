@@ -27,6 +27,9 @@
 #ifdef Q_OS_WIN
 #include <common/QCSP.h>
 #include <common/QCNG.h>
+#else
+class QCSP;
+class QCNG;
 #endif
 #include <common/QPKCS11.h>
 #include <common/TokenData.h>
@@ -43,17 +46,10 @@
 class QSignerPrivate
 {
 public:
-	QSignerPrivate():
-#ifdef Q_OS_WIN
-		csp(0),
-		cng(0),
-#endif
-		pkcs11(0), terminate(false) {}
+	QSignerPrivate(): csp(0), cng(0), pkcs11(0), terminate(false) {}
 
-#ifdef Q_OS_WIN
 	QCSP			*csp;
 	QCNG			*cng;
-#endif
 	QPKCS11			*pkcs11;
 	TokenData		t;
 	volatile bool	terminate;
@@ -88,10 +84,8 @@ QSigner::~QSigner()
 
 QSigner::ApiType QSigner::apiType() const
 {
-#ifdef Q_OS_WIN
 	if( d->csp ) return CAPI;
 	if( d->cng ) return CNG;
-#endif
 	return PKCS11;
 }
 
@@ -114,10 +108,8 @@ X509Cert QSigner::cert() const
 
 Qt::HANDLE QSigner::handle() const
 {
-#ifdef Q_OS_WIN
 	if( d->csp ) return Qt::HANDLE(d->csp);
 	if( d->cng ) return Qt::HANDLE(d->cng);
-#endif
 	return Qt::HANDLE(d->pkcs11);
 }
 
@@ -171,7 +163,10 @@ void QSigner::run()
 #endif
 			if( d->pkcs11 )
 			{
-				cards = d->pkcs11->cards();
+				Q_FOREACH( const TokenData &t, d->pkcs11->tokens() )
+					if( SslCertificate( t.cert() ).keyUsage().contains( SslCertificate::NonRepudiation ) )
+						cards << t.card();
+				cards.removeDuplicates();
 				readers = d->pkcs11->readers();
 			}
 
@@ -208,8 +203,17 @@ void QSigner::run()
 				}
 				else
 #endif
-					t = d->pkcs11->selectSlot( t.card(), SslCertificate::NonRepudiation, SslCertificate::EnhancedKeyUsageNone );
-				t.setCards( cards );
+				{
+					Q_FOREACH( const TokenData &i, d->pkcs11->tokens() )
+					{
+						if( i.card() == t.card() && SslCertificate( i.cert() ).keyUsage().contains( SslCertificate::NonRepudiation ) )
+						{
+							t.setCert( i.cert() );
+							t.setFlags( i.flags() );
+							break;
+						}
+					}
+				}
 			}
 
 			if( old != t ) // update data if something has changed

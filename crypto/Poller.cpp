@@ -202,7 +202,10 @@ void Poller::run()
 #endif
 			if( d->pkcs11 )
 			{
-				cards = d->pkcs11->cards();
+				Q_FOREACH( const TokenData &t, d->pkcs11->tokens() )
+					if( SslCertificate( t.cert() ).keyUsage().contains( SslCertificate::KeyEncipherment ) )
+						cards << t.card();
+				cards.removeDuplicates();
 				readers = d->pkcs11->readers();
 			}
 
@@ -239,8 +242,17 @@ void Poller::run()
 				}
 				else
 #endif
-					t = d->pkcs11->selectSlot( t.card(), SslCertificate::KeyEncipherment, SslCertificate::EnhancedKeyUsageNone );
-				t.setCards( cards );
+				{
+					Q_FOREACH( const TokenData &i, d->pkcs11->tokens() )
+					{
+						if( i.card() == t.card() && SslCertificate( i.cert() ).keyUsage().contains( SslCertificate::KeyEncipherment ) )
+						{
+							t.setCert( i.cert() );
+							t.setFlags( i.flags() );
+							break;
+						}
+					}
+				}
 			}
 
 			if( old != t ) // update data if something has changed
