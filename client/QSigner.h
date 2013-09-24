@@ -40,29 +40,41 @@ public:
 		CAPI,
 		CNG
 	};
+	enum ErrorCode
+	{
+		PinCanceled,
+		PinIncorrect,
+		PinLocked,
+		DecryptFailed,
+		DecryptOK
+	};
 	explicit QSigner( ApiType api, QObject *parent = 0 );
 	~QSigner();
 
 	ApiType apiType() const;
 	digidoc::X509Cert cert() const;
+	ErrorCode decrypt( const QByteArray &in, QByteArray &out );
 	Qt::HANDLE handle() const;
-	QMutex* mutex() const;
 	void lock();
 	void sign( const std::string &method, const std::vector<unsigned char> &digest,
 		std::vector<unsigned char>& signature );
-	TokenData token() const;
+	TokenData tokenauth() const;
+	TokenData tokensign() const;
 	void unlock();
 
 Q_SIGNALS:
-	void dataChanged();
+	void authDataChanged();
+	void signDataChanged();
 	void error( const QString &msg );
 
 private Q_SLOTS:
-	void selectCard( const QString &card );
+	void selectAuthCard( const QString &card );
+	void selectSignCard( const QString &card );
 	void showWarning( const QString &msg );
 
 private:
-	void reload();
+	void reloadauth();
+	void reloadsign();
 	void run();
 	void throwException( const QString &msg, digidoc::Exception::ExceptionCode code, int line );
 

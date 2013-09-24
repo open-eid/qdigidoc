@@ -112,7 +112,7 @@ void SettingsDialog::on_p12Remove_clicked()
 void SettingsDialog::on_p12Update_clicked()
 {
 	AccessCert a( this );
-	if( a.download( qApp->signer()->token().card().isEmpty() ) )
+	if( a.download( qApp->signer()->tokensign().card().isEmpty() ) )
 		updateCert();
 }
 

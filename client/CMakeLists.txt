@@ -1,5 +1,3 @@
-find_package( LibDigiDocpp REQUIRED )
-
 set_app_name( PROGNAME qdigidocclient )
 
 set( UI_FILES
@@ -33,8 +31,6 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}
 	${OPENSSL_INCLUDE_DIR}
-	${LIBDIGIDOC_INCLUDE_DIR}
-	${LIBDIGIDOCPP_INCLUDE_DIR}
 )
 
 if( APPLE )

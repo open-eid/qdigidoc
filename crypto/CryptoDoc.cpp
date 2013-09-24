@@ -23,7 +23,7 @@
 #include "CryptoDoc.h"
 
 #include "client/Application.h"
-#include "Poller.h"
+#include "client/QSigner.h"
 
 #include <common/FileDialog.h>
 #include <common/SslCertificate.h>
@@ -498,7 +498,7 @@ bool CryptoDoc::decrypt()
 	for( int i = 0; i < d->enc->nEncryptedKeys; ++i )
 	{
 		DEncEncryptedKey *tmp = d->enc->arrEncryptedKeys[i];
-		if( qApp->poller()->token().cert() == SslCertificate::fromX509( Qt::HANDLE(tmp->pCert) ) )
+		if( qApp->signer()->tokenauth().cert() == SslCertificate::fromX509( Qt::HANDLE(tmp->pCert) ) )
 		{
 			key = tmp;
 			break;
@@ -514,10 +514,10 @@ bool CryptoDoc::decrypt()
 	bool decrypted = false;
 	while( !decrypted )
 	{
-		switch( qApp->poller()->decrypt( in, out ) )
+		switch( qApp->signer()->decrypt( in, out ) )
 		{
-		case Poller::DecryptOK: decrypted = true; break;
-		case Poller::PinIncorrect: break;
+		case QSigner::DecryptOK: decrypted = true; break;
+		case QSigner::PinIncorrect: break;
 		default: return false;
 		}
 	}

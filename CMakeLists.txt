@@ -12,6 +12,10 @@ endif()
 include( GNUInstallDirs )
 include( VersionInfo )
 
+find_package( LibDigiDoc REQUIRED )
+find_package( LibDigiDocpp REQUIRED )
+include_directories( ${LIBDIGIDOCPP_INCLUDE_DIR} ${LIBDIGIDOC_INCLUDE_DIR} )
+
 find_package( Qt5Widgets QUIET )
 if( Qt5Widgets_FOUND )
 	find_package( Qt5LinguistTools )

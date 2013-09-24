@@ -618,7 +618,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		if( code == Exception::PINIncorrect )
 		{
 			qApp->showWarning( tr("PIN Incorrect") );
-			if( !(qApp->signer()->token().flags() & TokenData::PinLocked) )
+			if( !(qApp->signer()->tokensign().flags() & TokenData::PinLocked) )
 				return sign( city, state, zip, country, role, role2 );
 		}
 		else

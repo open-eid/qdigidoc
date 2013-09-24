@@ -24,8 +24,8 @@
 #include "ui_KeyDialog.h"
 
 #include "client/Application.h"
+#include "client/QSigner.h"
 #include "LdapSearch.h"
-#include "Poller.h"
 
 #include <common/CertificateWidget.h>
 #include <common/FileDialog.h>
@@ -345,7 +345,7 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	connect( cardButton, SIGNAL(clicked()), SLOT(addCardCert()) );
 	connect( buttonBox->addButton( tr("Add cert from file"), QDialogButtonBox::ActionRole ),
 		SIGNAL(clicked()), SLOT(addFile()) );
-	connect( qApp->poller(), SIGNAL(dataChanged()), SLOT(enableCardCert()) );
+	connect( qApp->signer(), SIGNAL(authDataChanged()), SLOT(enableCardCert()) );
 	enableCardCert();
 
 	QSortFilterProxyModel *sort = new QSortFilterProxyModel( skView );
@@ -376,7 +376,7 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 }
 
 void CertAddDialog::addCardCert()
-{ addCerts( QList<QSslCertificate>() << qApp->poller()->token().cert() ); }
+{ addCerts( QList<QSslCertificate>() << qApp->signer()->tokenauth().cert() ); }
 
 void CertAddDialog::addFile()
 {
@@ -469,7 +469,7 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 	QTimer::singleShot( 3*1000, certAddStatus, SLOT(clear()) );
 }
 
-void CertAddDialog::enableCardCert() { cardButton->setDisabled( qApp->poller()->token().cert().isNull() ); }
+void CertAddDialog::enableCardCert() { cardButton->setDisabled( qApp->signer()->tokenauth().cert().isNull() ); }
 
 void CertAddDialog::disableSearch( bool disable )
 {

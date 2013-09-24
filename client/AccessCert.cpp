@@ -120,7 +120,7 @@ bool AccessCert::download( bool noCard )
 		return false;
 	}
 
-	SslCertificate tempel( qApp->signer()->token().cert() );
+	SslCertificate tempel( qApp->signer()->tokensign().cert() );
 	if( tempel.type() & SslCertificate::TempelType )
 	{
 		setIcon( Information );
@@ -162,7 +162,7 @@ bool AccessCert::download( bool noCard )
 		do
 		{
 			retry = false;
-			token.setCard( s->token().card() );
+			token.setCard( s->tokensign().card() );
 			Q_FOREACH( const TokenData &t, p->tokens() )
 				if( token.card() == t.card() && SslCertificate( t.cert() ).enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
 					token.setCert( t.cert() );
@@ -193,7 +193,7 @@ bool AccessCert::download( bool noCard )
 		QCNG::Certs certs = c->certs();
 		for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
 		{
-			if( i.value() == s->token().card() && i.key().isValid() &&
+			if( i.value() == s->tokensign().card() && i.key().isValid() &&
 				i.key().enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
 
 			{
@@ -316,7 +316,7 @@ bool AccessCert::installCert( const QByteArray &data, const QString &password )
 		QDir().mkpath( path );
 
 	QFile f( QString( "%1/%2.p12" ).arg( path,
-		SslCertificate( qApp->signer()->token().cert() ).subjectInfo( "serialNumber" ) ) );
+		SslCertificate( qApp->signer()->tokensign().cert() ).subjectInfo( "serialNumber" ) ) );
 	if ( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
 	{
 		showWarning( tr("Failed to save server access certificate file to %1!\n%2")

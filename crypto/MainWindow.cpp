@@ -23,8 +23,8 @@
 #include "MainWindow.h"
 
 #include "client/Application.h"
+#include "client/QSigner.h"
 #include "KeyDialog.h"
-#include "Poller.h"
 
 #include <common/FileDialog.h>
 #include <common/Settings.h>
@@ -90,8 +90,8 @@ MainWindow::MainWindow( QWidget *parent )
 	connect( buttonGroup, SIGNAL(buttonClicked(int)),
 		SLOT(buttonClicked(int)) );
 
-	connect( cards, SIGNAL(activated(QString)), qApp->poller(), SLOT(selectCard(QString)), Qt::QueuedConnection );
-	connect( qApp->poller(), SIGNAL(dataChanged()), SLOT(showCardStatus()) );
+	connect( cards, SIGNAL(activated(QString)), qApp->signer(), SLOT(selectAuthCard(QString)), Qt::QueuedConnection );
+	connect( qApp->signer(), SIGNAL(authDataChanged()), SLOT(showCardStatus()) );
 
 	// Cryptodoc
 	doc = new CryptoDoc( this );
@@ -396,7 +396,7 @@ void MainWindow::buttonClicked( int button )
 }
 
 void MainWindow::changeCard( QAction *a )
-{ QMetaObject::invokeMethod( qApp->poller(), "selectCard", Qt::QueuedConnection, Q_ARG(QString,a->data().toString()) ); }
+{ QMetaObject::invokeMethod( qApp->signer(), "selectAuthCard", Qt::QueuedConnection, Q_ARG(QString,a->data().toString()) ); }
 void MainWindow::changeLang( QAction *a ) { qApp->loadTranslation( a->data().toString() ); }
 
 void MainWindow::closeDoc() { buttonClicked( ViewClose ); }
@@ -555,7 +555,7 @@ void MainWindow::setCurrentPage( Pages page )
 		buttonGroup->button( ViewCrypto )->setText( doc->isEncrypted() ? tr("Decrypt") : tr("Encrypt") );
 		buttonGroup->button( ViewCrypto )->setEnabled(
 			(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
-			(doc->isEncrypted() && keys.contains( CKey( qApp->poller()->token().cert() ) )) );
+			(doc->isEncrypted() && keys.contains( CKey( qApp->signer()->tokenauth().cert() ) )) );
 		break;
 	}
 	default: break;
@@ -565,7 +565,7 @@ void MainWindow::setCurrentPage( Pages page )
 void MainWindow::showCardStatus()
 {
 	Application::restoreOverrideCursor();
-	TokenData t = qApp->poller()->token();
+	TokenData t = qApp->signer()->tokenauth();
 	if( !t.card().isEmpty() && !t.cert().isNull() )
 	{
 		infoFrame->setText( t.toHtml() );

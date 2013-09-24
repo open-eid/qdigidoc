@@ -1,7 +1,6 @@
 if( UNIX AND NOT APPLE )
 	find_package( Ldap REQUIRED )
 endif()
-find_package( LibDigiDoc REQUIRED )
 
 set( PROGNAME qdigidoccrypto )
 
@@ -30,7 +29,6 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}
 	${OPENSSL_INCLUDE_DIR}
-	${LIBDIGIDOC_INCLUDE_DIR}
 	${LDAP_INCLUDE_DIR}
 )
 
@@ -39,7 +37,6 @@ add_library( ${PROGNAME} STATIC
 	KeyDialog.cpp
 	LdapSearch.cpp
 	MainWindow.cpp
-	Poller.cpp
 	TreeWidget.cpp
 	${UI_HEADERS}
 	${QM_FILES}

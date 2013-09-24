@@ -122,8 +122,8 @@ MainWindow::MainWindow( QWidget *parent )
 		viewButtons->addButton( tr("Add signature"), QDialogButtonBox::AcceptRole ), ViewAddSignature );
 	buttonGroup->addButton( viewButtons->button( QDialogButtonBox::Close ), ViewClose );
 
-	connect( cards, SIGNAL(activated(QString)), qApp->signer(), SLOT(selectCard(QString)), Qt::QueuedConnection );
-	connect( qApp->signer(), SIGNAL(dataChanged()), SLOT(showCardStatus()) );
+	connect( cards, SIGNAL(activated(QString)), qApp->signer(), SLOT(selectSignCard(QString)), Qt::QueuedConnection );
+	connect( qApp->signer(), SIGNAL(signDataChanged()), SLOT(showCardStatus()) );
 
 	// Digidoc
 	doc = new DigiDoc( this );
@@ -512,7 +512,7 @@ void MainWindow::buttonClicked( int button )
 			AccessCert access( this );
 			if( !access.validate() )
 			{
-				if( !access.download( infoSignMobile->isChecked() || qApp->signer()->token().card().isEmpty() ) )
+				if( !access.download( infoSignMobile->isChecked() || qApp->signer()->tokensign().card().isEmpty() ) )
 					break;
 
 				QMessageBox b( QMessageBox::Information, tr("DigiDoc3 client"),
@@ -571,7 +571,7 @@ void MainWindow::buttonClicked( int button )
 }
 
 void MainWindow::changeCard( QAction *a )
-{ QMetaObject::invokeMethod( qApp->signer(), "selectCard", Qt::QueuedConnection, Q_ARG(QString,a->data().toString()) ); }
+{ QMetaObject::invokeMethod( qApp->signer(), "selectSignCard", Qt::QueuedConnection, Q_ARG(QString,a->data().toString()) ); }
 void MainWindow::changeLang( QAction *a ) { qApp->loadTranslation( a->data().toString() ); }
 
 void MainWindow::closeDoc()
@@ -584,7 +584,7 @@ void MainWindow::enableSign()
 	s.setValue( "Client/MobileNumber", infoMobileCell->text() );
 	QAbstractButton *button = buttonGroup->button( SignSign );
 	button->setToolTip( QString() );
-	TokenData t = qApp->signer()->token();
+	TokenData t = qApp->signer()->tokensign();
 
 	if( doc->isNull() )
 		button->setToolTip( tr("Container is not open") );
@@ -862,7 +862,7 @@ void MainWindow::setCurrentPage( Pages page )
 void MainWindow::showCardStatus()
 {
 	Application::restoreOverrideCursor();
-	TokenData t = qApp->signer()->token();
+	TokenData t = qApp->signer()->tokensign();
 	if( !t.card().isEmpty() && !t.cert().isNull() )
 	{
 		infoCard->setText( t.toHtml() );

@@ -31,7 +31,6 @@
 #include "SettingsDialog.h"
 
 #include "crypto/MainWindow.h"
-#include "crypto/Poller.h"
 
 #include <common/AboutDialog.h>
 #include <common/Settings.h>
@@ -107,7 +106,6 @@ public:
 	ApplicationPrivate()
 		: closeAction(0)
 		, newAction(0)
-		, poller(0)
 		, signer(0)
 		, appTranslator(0)
 		, commonTranslator(0)
@@ -118,7 +116,6 @@ public:
 #ifdef Q_OS_MAC
 	MacMenuBar	*bar;
 #endif
-	Poller		*poller;
 	QSigner		*signer;
 	QTranslator	*appTranslator, *commonTranslator, *cryptoTranslator, *qtTranslator;
 	QString		lang;
@@ -225,7 +222,6 @@ Application::Application( int &argc, char **argv )
 #endif
 	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;
 	d->signer = new QSigner( api, this );
-	d->poller = new Poller( Poller::ApiType(api), d->signer->mutex(), this );
 	parseArgs( args );
 }
 
@@ -386,8 +382,6 @@ void Application::parseArgs( const QStringList &args )
 	else
 		showClient( params );
 }
-
-Poller* Application::poller() const { return d->poller; }
 
 int Application::run()
 {
