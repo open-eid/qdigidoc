@@ -37,7 +37,6 @@ class QCNG;
 #include <digidocpp/crypto/X509Cert.h>
 
 #include <QtCore/QEventLoop>
-#include <QtCore/QMutex>
 #include <QtCore/QStringList>
 #include <QtNetwork/QSslKey>
 
@@ -53,7 +52,7 @@ public:
 	QPKCS11			*pkcs11;
 	TokenData		auth, sign;
 	volatile bool	terminate;
-	QMutex			m;
+	QAtomicInt		count;
 };
 
 using namespace digidoc;
@@ -109,10 +108,17 @@ X509Cert QSigner::cert() const
 
 QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 {
-	QMutexLocker locker( &d->m );
+	if( d->count.loadAcquire() > 0 )
+	{
+		Q_EMIT error( tr("Signing/decrypting is alread in progress another window.") );
+		return DecryptFailed;
+	}
+
+	d->count.ref();
 	if( !d->auth.cards().contains( d->auth.card() ) || d->auth.cert().isNull() )
 	{
 		Q_EMIT error( tr("Authentication certificate is not selected.") );
+		d->count.deref();
 		return DecryptFailed;
 	}
 
@@ -122,9 +128,11 @@ QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 		switch( status )
 		{
 		case QPKCS11::PinOK: break;
-		case QPKCS11::PinCanceled: return PinCanceled;
+		case QPKCS11::PinCanceled:
+			d->count.deref();
+			return PinCanceled;
 		case QPKCS11::PinIncorrect:
-			locker.unlock();
+			d->count.deref();
 			reloadauth();
 			if( !(d->auth.flags() & TokenData::PinLocked) )
 			{
@@ -133,9 +141,11 @@ QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 			}
 			// else pin locked, fall through
 		case QPKCS11::PinLocked:
+			d->count.deref();
 			Q_EMIT error( QPKCS11::errorString( status ) );
 			return PinLocked;
 		default:
+			d->count.deref();
 			Q_EMIT error( tr("Failed to login token") + " " + QPKCS11::errorString( status ) );
 			return DecryptFailed;
 		}
@@ -147,20 +157,26 @@ QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 	{
 		out = d->csp->decrypt( in );
 		if( d->csp->lastError() == QCSP::PinCanceled )
+		{
+			d->count.deref();
 			return PinCanceled;
+		}
 	}
 	else if( d->cng )
 	{
 		d->cng->selectCert( d->auth.cert() );
 		out = d->cng->decrypt( in );
 		if( d->cng->lastError() == QCNG::PinCanceled )
+		{
+			d->count.deref();
 			return PinCanceled;
+		}
 	}
 #endif
 
 	if( out.isEmpty() )
 		Q_EMIT error( tr("Failed to decrypt document") );
-	locker.unlock();
+	d->count.deref();
 	reloadauth();
 	return !out.isEmpty() ? DecryptOK : DecryptFailed;
 }
@@ -172,15 +188,15 @@ Qt::HANDLE QSigner::handle() const
 	return Qt::HANDLE(d->pkcs11);
 }
 
-void QSigner::lock() { d->m.lock(); }
+void QSigner::lock() { d->count.ref(); }
 
 void QSigner::reloadauth()
 {
 	QEventLoop e;
 	QObject::connect( this, SIGNAL(authDataChanged()), &e, SLOT(quit()) );
-	d->m.lock();
+	d->count.ref();
 	d->auth.setCert( QSslCertificate() );
-	d->m.unlock();
+	d->count.deref();
 	e.exec();
 }
 
@@ -188,9 +204,9 @@ void QSigner::reloadsign()
 {
 	QEventLoop e;
 	QObject::connect( this, SIGNAL(signDataChanged()), &e, SLOT(quit()) );
-	d->m.lock();
+	d->count.ref();
 	d->sign.setCert( QSslCertificate() );
-	d->m.unlock();
+	d->count.deref();
 	e.exec();
 }
 
@@ -211,8 +227,13 @@ void QSigner::run()
 
 	while( !d->terminate )
 	{
-		if( d->m.tryLock() )
+#if QT_VERSION >= 0x050000
+		if( !d->count.loadAcquire() )
+#else
+		if( !d->count )
+#endif
 		{
+			d->count.deref();
 			TokenData aold = d->auth, at = aold;
 			TokenData sold = d->sign, st = sold;
 			QStringList acards, scards, readers;
@@ -352,7 +373,7 @@ void QSigner::run()
 				d->sign = st;
 				Q_EMIT signDataChanged();
 			}
-			d->m.unlock();
+			d->count.ref();
 		}
 
 		sleep( 5 );
@@ -383,9 +404,15 @@ void QSigner::showWarning( const QString &msg )
 void QSigner::sign(const std::string &method, const std::vector<unsigned char> &digest,
 	std::vector<unsigned char> &signature )
 {
-	QMutexLocker locker( &d->m );
+	if( d->count.loadAcquire() > 0 )
+		throwException( tr("Signing/decrypting is alread in progress another window."), Exception::General, __LINE__ );
+
+	d->count.ref();
 	if( !d->sign.cards().contains( d->sign.card() ) || d->sign.cert().isNull() )
+	{
+		d->count.deref();
 		throwException( tr("Signing certificate is not selected."), Exception::General, __LINE__ );
+	}
 
 	int type = NID_sha1;
 	if( method == "http://www.w3.org/2001/04/xmldsig-more#rsa-sha224" ) type = NID_sha224;
@@ -401,14 +428,17 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 		{
 		case QPKCS11::PinOK: break;
 		case QPKCS11::PinCanceled:
+			d->count.deref();
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::PINCanceled, __LINE__ );
 		case QPKCS11::PinIncorrect:
+			d->count.deref();
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::PINIncorrect, __LINE__ );
 		case QPKCS11::PinLocked:
-			locker.unlock();
+			d->count.deref();
 			reloadsign();
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::PINLocked, __LINE__ );
 		default:
+			d->count.deref();
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::General, __LINE__ );
 		}
 
@@ -420,18 +450,24 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 	{
 		sig = d->csp->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) );
 		if( d->csp->lastError() == QCSP::PinCanceled )
+		{
+			d->count.deref();
 			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
+		}
 	}
 	else if( d->cng )
 	{
 		d->cng->selectCert( d->sign.cert() );
 		sig = d->cng->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) );
 		if( d->cng->lastError() == QCNG::PinCanceled )
+		{
+			d->count.deref();
 			throwException( tr("Failed to login token"), Exception::PINCanceled, __LINE__ );
+		}
 	}
 #endif
 
-	locker.unlock();
+	d->count.deref();
 	reloadsign();
 	if( sig.isEmpty() )
 		throwException( tr("Failed to sign document"), Exception::General, __LINE__ );
@@ -450,4 +486,4 @@ void QSigner::throwException( const QString &msg, Exception::ExceptionCode code,
 TokenData QSigner::tokenauth() const { return d->auth; }
 TokenData QSigner::tokensign() const { return d->sign; }
 
-void QSigner::unlock() { d->m.unlock(); reloadsign(); }
+void QSigner::unlock() { d->count.deref(); reloadsign(); }
