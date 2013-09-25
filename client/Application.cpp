@@ -125,6 +125,8 @@ Application::Application( int &argc, char **argv )
 :	Common( argc, argv )
 ,	d( new ApplicationPrivate )
 {
+	Q_INIT_RESOURCE(crypto_images);
+	Q_INIT_RESOURCE(crypto_tr);
 	QStringList args = arguments();
 	args.removeFirst();
 #ifndef Q_OS_MAC
