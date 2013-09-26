@@ -110,7 +110,11 @@ X509Cert QSigner::cert() const
 
 QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 {
+#if QT_VERSION >= 0x050000
 	if( d->count.loadAcquire() > 0 )
+#else
+	if( d->count > 0 )
+#endif
 	{
 		Q_EMIT error( tr("Signing/decrypting is alread in progress another window.") );
 		return DecryptFailed;
@@ -406,7 +410,11 @@ void QSigner::showWarning( const QString &msg )
 void QSigner::sign(const std::string &method, const std::vector<unsigned char> &digest,
 	std::vector<unsigned char> &signature )
 {
+#if QT_VERSION >= 0x050000
 	if( d->count.loadAcquire() > 0 )
+#else
+	if( d->count > 0 )
+#endif
 		throwException( tr("Signing/decrypting is alread in progress another window."), Exception::General, __LINE__ );
 
 	d->count.ref();
