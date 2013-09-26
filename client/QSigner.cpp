@@ -42,6 +42,8 @@ class QCNG;
 
 #include <openssl/obj_mac.h>
 
+#include <cstring>
+
 class QSignerPrivate
 {
 public:
