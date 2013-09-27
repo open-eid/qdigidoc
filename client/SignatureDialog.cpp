@@ -66,7 +66,6 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		sc << "<img src=\":/images/ico_person_blue_16.png\">";
 	sc << "<b>" << Qt::escape( cert.toString( cert.showCN() ? "CN" : "GN SN" ) ) << "</b>";
 
-	QDateTime date = s.dateTime();
 	if( !s.location().isEmpty() )
 	{
 		sa << " " << tr("Location") << " " << s.location();
@@ -79,20 +78,21 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		sc << "<br />" << Qt::escape( s.role() );
 		st << Qt::escape( s.role() ) << "<br />";
 	}
+	DateTime date( s.dateTime().toLocalTime(), false );
 	if( !date.isNull() )
 	{
 		sa << " " << tr("Signed on") << " "
-			<< DateTime( date ).formatDate( "dd. MMMM yyyy" ) << " "
+			<< date.formatDate( "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
-			<< DateTime( date ).toString( "hh:mm" );
+			<< date.toString( "hh:mm" );
 		sc << "<br />" << tr("Signed on") << " "
-			<< DateTime( date ).formatDate( "dd. MMMM yyyy" ) << " "
+			<< date.formatDate( "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
-			<< DateTime( date ).toString( "hh:mm" );
+			<< date.toString( "hh:mm" );
 		st << tr("Signed on") << " "
-			<< DateTime( date ).formatDate( "dd. MMMM yyyy" ) << " "
+			<< date.formatDate( "dd. MMMM yyyy" ) << " "
 			<< tr("time") << " "
-			<< DateTime( date ).toString( "hh:mm" );
+			<< date.toString( "hh:mm" );
 	}
 	setToolTip( tooltip );
 
@@ -227,15 +227,13 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
-	addItem( t, tr("Signer's computer time"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+	addItem( t, tr("Signer's computer time"), DateTime( s.signTime().toLocalTime(), false ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+	addItem( t, tr("Signer's computer time (UTC)"), DateTime( s.signTime(), false ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature method"), s.signatureMethod() );
 	addItem( t, tr("Container format"), s.parent()->mediaType() );
 	addItem( t, tr("Signature format"), s.profile() );
 	addItem( t, tr("Signature policy"), s.policy() );
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
-	addItem( t, tr("Certificate serialnumber"), c.serialNumber() );
-	addItem( t, tr("Certificate valid at"), DateTime( c.effectiveDate() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-	addItem( t, tr("Certificate valid until"), DateTime( c.expiryDate() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	if( !s.spuri().isEmpty() )
 		addItem( t, "SPUri", s.spuri() );
@@ -247,8 +245,8 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	{
 		SslCertificate ocsp = s.ocspCert();
 		addItem( d->ocspView, tr("Certificate issuer"), ocsp.issuerInfo( QSslCertificate::CommonName ) );
-		addItem( d->ocspView, tr("Certificate serialnumber"), ocsp.serialNumber() );
-		addItem( d->ocspView, tr("Time"), DateTime( s.ocspTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+		addItem( d->ocspView, tr("OCSP time"), DateTime( s.ocspTime().toLocalTime(), false ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+		addItem( d->ocspView, tr("OCSP time (UTC)"), DateTime( s.ocspTime(), false ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( d->ocspView, tr("Hash value of signature"), SslCertificate::toHex( s.ocspNonce() ) );
 		d->ocspView->resizeColumnToContents( 0 );
 	}
