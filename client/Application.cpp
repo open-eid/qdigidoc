@@ -105,14 +105,15 @@ class ApplicationPrivate
 public:
 	ApplicationPrivate()
 		: closeAction(0)
-		, newAction(0)
+		, newClientAction(0)
+		, newCryptoAction(0)
 		, signer(0)
 		, appTranslator(0)
 		, commonTranslator(0)
 		, cryptoTranslator(0)
 		, qtTranslator(0) {}
 
-	QAction		*closeAction, *newAction;
+	QAction		*closeAction, *newClientAction, *newCryptoAction;
 #ifdef Q_OS_MAC
 	MacMenuBar	*bar;
 #endif
@@ -151,9 +152,12 @@ Application::Application( int &argc, char **argv )
 	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
-	d->newAction = new QAction( this );
-	d->newAction->setShortcut( Qt::CTRL + Qt::Key_N );
-	connect( d->newAction, SIGNAL(triggered()), SLOT(parseArgs()) );
+	d->newClientAction = new QAction( this );
+	d->newClientAction->setShortcut( Qt::CTRL + Qt::Key_N );
+	connect( d->newClientAction, SIGNAL(triggered()), SLOT(showClient()) );
+	d->newCryptoAction = new QAction( this );
+	d->newCryptoAction->setShortcut( Qt::CTRL + Qt::Key_C );
+	connect( d->newCryptoAction, SIGNAL(triggered()), SLOT(showCrypto()) );
 
 #if defined(Q_OS_MAC)
 	setQuitOnLastWindowClosed( false );
@@ -161,9 +165,11 @@ Application::Application( int &argc, char **argv )
 	d->bar = new MacMenuBar;
 	d->bar->addAction( MacMenuBar::AboutAction, this, SLOT(showAbout()) );
 	d->bar->addAction( MacMenuBar::PreferencesAction, this, SLOT(showSettings()) );
-	d->bar->fileMenu()->addAction( d->newAction );
+	d->bar->fileMenu()->addAction( d->newClientAction );
+	d->bar->fileMenu()->addAction( d->newCryptoAction );
 	d->bar->fileMenu()->addAction( d->closeAction );
-	d->bar->dockMenu()->addAction( d->newAction );
+	d->bar->dockMenu()->addAction( d->newClientAction );
+	d->bar->dockMenu()->addAction( d->newCryptoAction );
 #endif
 
 	installTranslator( d->appTranslator = new QTranslator( this ) );
@@ -326,7 +332,8 @@ void Application::loadTranslation( const QString &lang )
 	d->cryptoTranslator->load( ":/translations/crypto_" + lang );
 	d->qtTranslator->load( ":/translations/qt_" + lang );
 	d->closeAction->setText( tr("Close window") );
-	d->newAction->setText( tr("New window") );
+	d->newClientAction->setText( tr("New Client window") );
+	d->newCryptoAction->setText( tr("New Crypto window") );
 }
 
 bool Application::notify( QObject *o, QEvent *e )
