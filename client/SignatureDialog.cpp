@@ -232,11 +232,12 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	addItem( t, tr("Signer's computer time (UTC)"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature method"), s.signatureMethod() );
 	addItem( t, tr("Container format"), s.parent()->mediaType() );
-	addItem( t, tr("Signature format"), s.profile() );
-	if( !s.profile().isEmpty() )
+	if( s.type() != DigiDocSignature::DDocType )
+		addItem( t, tr("Signature format"), s.profile() );
+	if( !s.policy().isEmpty() )
 		addItem( t, tr("Signature policy"), s.policy() );
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
-	addItem( t, tr("Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
+	//addItem( t, tr("Signer Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	if( !s.spuri().isEmpty() )
 		addItem( t, "SPUri", s.spuri() );
 
@@ -244,7 +245,8 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	if( s.type() == DigiDocSignature::DDocType ||
 		s.type() == DigiDocSignature::TMType )
 	{
-		//addItem( t, tr("Certificate issuer"), s.ocspCert().issuerInfo( QSslCertificate::CommonName ) );
+		SslCertificate ocsp = s.ocspCert();
+		addItem( t, tr("OCSP Certificate issuer"), ocsp.issuerInfo( QSslCertificate::CommonName ) );
 		addItem( t, tr("OCSP time"), DateTime( s.ocspTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( t, tr("OCSP time (UTC)"), DateTime( s.ocspTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( t, tr("Hash value of signature"), SslCertificate::toHex( s.ocspNonce() ) );
