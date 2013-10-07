@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>305</height>
+    <height>400</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="SignatureDialogLayout">
@@ -164,24 +164,6 @@
       </property>
       <attribute name="title">
        <string>Signature</string>
-      </attribute>
-      <column>
-       <property name="text">
-        <string>Attribute</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Value</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QTreeWidget" name="ocspView">
-      <property name="rootIsDecorated">
-       <bool>false</bool>
-      </property>
-      <attribute name="title">
-       <string>Validity confirmation</string>
       </attribute>
       <column>
        <property name="text">

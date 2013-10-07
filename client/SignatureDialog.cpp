@@ -227,6 +227,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
+	t->header()->setResizeMode( 0, QHeaderView::ResizeToContents );
 	addItem( t, tr("Signer's computer time"), DateTime( s.signTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signer's computer time (UTC)"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature method"), s.signatureMethod() );
@@ -238,21 +239,16 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	addItem( t, tr("Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	if( !s.spuri().isEmpty() )
 		addItem( t, "SPUri", s.spuri() );
-	t->resizeColumnToContents( 0 );
 
 	// OCSP info
 	if( s.type() == DigiDocSignature::DDocType ||
 		s.type() == DigiDocSignature::TMType )
 	{
-		SslCertificate ocsp = s.ocspCert();
-		addItem( d->ocspView, tr("Certificate issuer"), ocsp.issuerInfo( QSslCertificate::CommonName ) );
-		addItem( d->ocspView, tr("OCSP time"), DateTime( s.ocspTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( d->ocspView, tr("OCSP time (UTC)"), DateTime( s.ocspTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( d->ocspView, tr("Hash value of signature"), SslCertificate::toHex( s.ocspNonce() ) );
-		d->ocspView->resizeColumnToContents( 0 );
+		//addItem( t, tr("Certificate issuer"), s.ocspCert().issuerInfo( QSslCertificate::CommonName ) );
+		addItem( t, tr("OCSP time"), DateTime( s.ocspTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+		addItem( t, tr("OCSP time (UTC)"), DateTime( s.ocspTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+		addItem( t, tr("Hash value of signature"), SslCertificate::toHex( s.ocspNonce() ) );
 	}
-	else
-		d->tabWidget->removeTab( 3 );
 }
 
 SignatureDialog::~SignatureDialog() { delete d; }
