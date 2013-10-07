@@ -49,30 +49,15 @@
 #include <QtGui/QMessageBox>
 #endif
 
-class CryptoDocPrivate
+class CryptoDocPrivate: public QThread
 {
+	Q_OBJECT
 public:
-	CryptoDocPrivate():	documents(0), ddoc(0), enc(0), doc(0) {}
+	CryptoDocPrivate(): documents(0), ddoc(0), enc(0), doc(0), encrypt(true), err(0) {}
 
 	void cleanProperties();
 	void deleteDDoc();
-
-	CDocumentModel	*documents;
-	QTemporaryFile	*ddoc;
-	QString			fileName;
-	DEncEncryptedData *enc;
-	SignedDoc		*doc;
-};
-
-class CryptoDocThread: public QThread
-{
-public:
-	CryptoDocThread( bool encrypt, CryptoDocPrivate *_d )
-		: m_encrypt(encrypt), d(_d), err(0) {}
-
-	void encrypt();
-	void decrypt();
-	void run() { m_encrypt ? encrypt() : decrypt(); }
+	void run();
 	void waitForFinished()
 	{
 		QEventLoop e;
@@ -81,63 +66,69 @@ public:
 		e.exec();
 	}
 
-	bool m_encrypt;
-	CryptoDocPrivate *d;
+	CDocumentModel	*documents;
+	QTemporaryFile	*ddoc;
+	QString			fileName;
+	DEncEncryptedData *enc;
+	SignedDoc		*doc;
+	bool encrypt;
 	int err;
 	QString lastError;
 };
 
-void CryptoDocThread::encrypt()
+void CryptoDocPrivate::run()
 {
-	int err = dencOrigContent_registerDigiDoc( d->enc, d->doc );
-	if( err != ERR_OK )
-		return;
-
-	d->ddoc->reset();
-	err = dencEncryptedData_AppendData( d->enc, d->ddoc->readAll(), d->ddoc->size() );
-	if( err != ERR_OK )
+	if( encrypt )
 	{
-		d->cleanProperties();
-		return;
+		err = dencOrigContent_registerDigiDoc( enc, doc );
+		if( err != ERR_OK )
+			return;
+
+		ddoc->reset();
+		err = dencEncryptedData_AppendData( enc, ddoc->readAll(), ddoc->size() );
+		if( err != ERR_OK )
+		{
+			cleanProperties();
+			return;
+		}
+
+		err = dencEncryptedData_encryptData( enc, DENC_COMPRESS_NEVER );
+		if( err != ERR_OK )
+		{
+			cleanProperties();
+			return;
+		}
+
+		deleteDDoc();
 	}
-
-	err = dencEncryptedData_encryptData( d->enc, DENC_COMPRESS_NEVER );
-	if( err != ERR_OK )
-	{
-		d->cleanProperties();
-		return;
-	}
-
-	d->deleteDDoc();
-}
-
-void CryptoDocThread::decrypt()
-{
-	err = dencEncryptedData_decryptData( d->enc );
-
-	DEncEncryptionProperty *prop = dencEncryptedData_FindEncryptionPropertyByName( d->enc, ENCPROP_ORIG_SIZE );
-	if( prop && prop->szContent )
-	{
-		long size = QByteArray( prop->szContent ).toLong();
-		if( size > 0 && size < d->enc->mbufEncryptedData.nLen )
-			d->enc->mbufEncryptedData.nLen = size;
-	}
-
-	d->ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" );
-	if( !d->ddoc->open() )
-	{
-		lastError = CryptoDoc::tr("Failed to create temporary files<br />%1").arg( d->ddoc->errorString() );
-		return;
-	}
-	d->ddoc->write( (const char*)d->enc->mbufEncryptedData.pMem, d->enc->mbufEncryptedData.nLen );
-	d->ddoc->flush();
-	ddocMemBuf_free( &d->enc->mbufEncryptedData );
-
-	err = ddocSaxReadSignedDocFromFile( &d->doc, d->ddoc->fileName().toUtf8(), 0, 0 );
-	if( err != ERR_OK )
-		lastError = CryptoDoc::tr("Failed to read decrypted data");
 	else
-		d->cleanProperties();
+	{
+		err = dencEncryptedData_decryptData( enc );
+
+		DEncEncryptionProperty *prop = dencEncryptedData_FindEncryptionPropertyByName( enc, ENCPROP_ORIG_SIZE );
+		if( prop && prop->szContent )
+		{
+			long size = QByteArray( prop->szContent ).toLong();
+			if( size > 0 && size < enc->mbufEncryptedData.nLen )
+				enc->mbufEncryptedData.nLen = size;
+		}
+
+		ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" );
+		if( !ddoc->open() )
+		{
+			lastError = CryptoDoc::tr("Failed to create temporary files<br />%1").arg( ddoc->errorString() );
+			return;
+		}
+		ddoc->write( (const char*)enc->mbufEncryptedData.pMem, enc->mbufEncryptedData.nLen );
+		ddoc->flush();
+		ddocMemBuf_free( &enc->mbufEncryptedData );
+
+		err = ddocSaxReadSignedDocFromFile( &doc, ddoc->fileName().toUtf8(), 0, 0 );
+		if( err != ERR_OK )
+			lastError = CryptoDoc::tr("Failed to read decrypted data");
+		else
+			cleanProperties();
+	}
 }
 
 
@@ -524,13 +515,12 @@ bool CryptoDoc::decrypt()
 
 	ddocMemAssignData( &d->enc->mbufTransportKey, out.constData(), out.size() );
 	d->enc->nKeyStatus = DENC_KEY_STATUS_INITIALIZED;
-
-	CryptoDocThread dec( false, d );
-	dec.waitForFinished();
-	if( dec.err != ERR_OK )
-		setLastError( dec.lastError.isEmpty() ? tr("Failed to decrypt data") : dec.lastError, dec.err );
-	else if( !dec.lastError.isEmpty() )
-		setLastError( dec.lastError );
+	d->encrypt = false;
+	d->waitForFinished();
+	if( d->err != ERR_OK )
+		setLastError( d->lastError.isEmpty() ? tr("Failed to decrypt data") : d->lastError, d->err );
+	else if( !d->lastError.isEmpty() )
+		setLastError( d->lastError );
 	d->documents->revert();
 	return !isEncrypted();
 }
@@ -552,12 +542,12 @@ bool CryptoDoc::encrypt()
 		return false;
 	}
 
-	CryptoDocThread dec( true, d );
-	dec.waitForFinished();
-	if( dec.err != ERR_OK )
-		setLastError( dec.lastError.isEmpty() ? tr("Failed to encrypt data") : dec.lastError, dec.err );
-	else if( !dec.lastError.isEmpty() )
-		setLastError( dec.lastError );
+	d->encrypt = true;
+	d->waitForFinished();
+	if( d->err != ERR_OK )
+		setLastError( d->lastError.isEmpty() ? tr("Failed to encrypt data") : d->lastError, d->err );
+	else if( !d->lastError.isEmpty() )
+		setLastError( d->lastError );
 	d->documents->revert();
 	return isEncrypted();
 }
@@ -683,3 +673,5 @@ void CryptoDoc::setLastError( const QString &err, int code )
 	if( d.exec() == QMessageBox::Help )
 		Common::showHelp( err, code );
 }
+
+#include "CryptoDoc.moc"
