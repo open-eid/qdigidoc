@@ -196,7 +196,10 @@ QVariant HistoryModel::data( const QModelIndex &index, int role ) const
 		case TEMPEL: return tr("TEMPEL");
 		default: return tr("ID-CARD");
 		}
-	case Qt::EditRole: return row.value( index.column() );
+	case Qt::EditRole:
+		if( index.column() == Expire )
+			return QDateTime::fromString( row.value( index.column() ), "dd.MM.yyyy" );
+		return row.value( index.column() );
 	default: return QVariant();
 	}
 }
@@ -304,7 +307,10 @@ QVariant CertModel::data( const QModelIndex &index, int role ) const
 		{
 		case Owner: return SslCertificate( certs[index.row()] ).friendlyName();
 		case Issuer: return certs[index.row()].issuerInfo( QSslCertificate::CommonName );
-		case Expire: return certs[index.row()].expiryDate().toLocalTime().toString( "dd.MM.yyyy" );
+		case Expire:
+			if( role == Qt::EditRole )
+				return certs[index.row()].expiryDate().toLocalTime();
+			return certs[index.row()].expiryDate().toLocalTime().toString( "dd.MM.yyyy" );
 		default: break;
 		}
 	case Qt::UserRole:
@@ -350,6 +356,7 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 
 	QSortFilterProxyModel *sort = new QSortFilterProxyModel( skView );
 	sort->setSourceModel( certModel = new CertModel( this ) );
+	sort->setSortRole( Qt::EditRole );
 	skView->setModel( sort );
 	skView->header()->setStretchLastSection( false );
 	skView->header()->setResizeMode( QHeaderView::ResizeToContents );
@@ -359,6 +366,7 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 
 	sort = new QSortFilterProxyModel( usedView );
 	sort->setSourceModel( history = new HistoryModel( sort ) );
+	sort->setSortRole( Qt::EditRole );
 	usedView->setModel( sort );
 	usedView->header()->setStretchLastSection( false );
 	usedView->header()->setResizeMode( QHeaderView::ResizeToContents );
