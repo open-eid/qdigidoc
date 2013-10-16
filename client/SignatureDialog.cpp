@@ -228,7 +228,6 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
 	t->header()->setResizeMode( 0, QHeaderView::ResizeToContents );
-	addItem( t, tr("Signer's computer time"), DateTime( s.signTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signer's computer time (UTC)"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature method"), s.signatureMethod() );
 	addItem( t, tr("Container format"), s.parent()->mediaType() );
@@ -237,7 +236,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	if( !s.policy().isEmpty() )
 		addItem( t, tr("Signature policy"), s.policy() );
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
-	//addItem( t, tr("Signer Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
+	addItem( t, tr("Signer Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	if( !s.spuri().isEmpty() )
 		addItem( t, "SPUri", s.spuri() );
 

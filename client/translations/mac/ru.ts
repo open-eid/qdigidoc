@@ -100,7 +100,7 @@
     </message>
     <message>
         <source>New window</source>
-        <translation>Новое окно</translation>
+        <translation type="obsolete">Новое окно</translation>
     </message>
     <message>
         <source>Caught exception!</source>
@@ -112,6 +112,14 @@
     </message>
     <message>
         <source>CNG parameter is not supported on Windows XP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Client window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Crypto window</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -473,7 +481,7 @@ already in container, ovewrite?</source>
     </message>
     <message>
         <source>NB! Weak signature</source>
-        <translation>NB! Слабая подпись</translation>
+        <translation type="obsolete">NB! Слабая подпись</translation>
     </message>
     <message>
         <source>BDOC signing is not supported, please upgrade software</source>
@@ -595,11 +603,15 @@ New ID-cards have chip on the back side of the card.</source>
     </message>
     <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
-        <translation>Данный контейнер имеет меньшую надежность по сравнению с официально признанным в Эстонии контейнером в формате BDOC.</translation>
+        <translation type="obsolete">Данный контейнер имеет меньшую надежность по сравнению с официально признанным в Эстонии контейнером в формате BDOC.</translation>
     </message>
     <message>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. К данному контейнеру нельзя добавить или удалить из него подпись. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36214&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>NB! Signature contains warnings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -817,6 +829,18 @@ Control code: %1</source>
     <message>
         <source>Sign certificate is not selected</source>
         <translation>Сертификат подписи не выбран</translation>
+    </message>
+    <message>
+        <source>Signing/decrypting is alread in progress another window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authentication certificate is not selected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to decrypt document</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1051,19 +1075,19 @@ Control code: %1</source>
     </message>
     <message>
         <source>Certificate serialnumber</source>
-        <translation>Серийный номер сертификатов</translation>
+        <translation type="obsolete">Серийный номер сертификатов</translation>
     </message>
     <message>
         <source>Certificate valid at</source>
-        <translation>Сертификат действителен с</translation>
+        <translation type="obsolete">Сертификат действителен с</translation>
     </message>
     <message>
         <source>Certificate valid until</source>
-        <translation>Сертификат действителен до</translation>
+        <translation type="obsolete">Сертификат действителен до</translation>
     </message>
     <message>
         <source>Certificate issuer</source>
-        <translation>Выдавший сертификат</translation>
+        <translation type="obsolete">Выдавший сертификат</translation>
     </message>
     <message>
         <source>Signer</source>
@@ -1107,7 +1131,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Time</source>
-        <translation>Время</translation>
+        <translation type="obsolete">Время</translation>
     </message>
     <message>
         <source>Signature is not valid</source>
@@ -1131,7 +1155,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Validity confirmation</source>
-        <translation>Потдверждение</translation>
+        <translation type="obsolete">Потдверждение</translation>
     </message>
     <message>
         <source>Show signer&apos;s certificate</source>
@@ -1139,7 +1163,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Signer&apos;s computer time</source>
-        <translation>Время на компьютере подписывающего</translation>
+        <translation type="obsolete">Время на компьютере подписывающего</translation>
     </message>
     <message>
         <source>Hash value of signature</source>
@@ -1151,6 +1175,34 @@ Control code: %1</source>
     </message>
     <message>
         <source>Signature policy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signature has warnings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test signature</source>
+        <translation>Пробная подпись</translation>
+    </message>
+    <message>
+        <source>Signer&apos;s computer time (UTC)</source>
+        <translation>Время на компьютере подписывающего (UTC)</translation>
+    </message>
+    <message>
+        <source>Signer Certificate issuer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OCSP Certificate issuer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OCSP time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OCSP time (UTC)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

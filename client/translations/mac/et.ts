@@ -100,7 +100,7 @@
     </message>
     <message>
         <source>New window</source>
-        <translation>Uus aken</translation>
+        <translation type="obsolete">Uus aken</translation>
     </message>
     <message>
         <source>Caught exception!</source>
@@ -112,6 +112,14 @@
     </message>
     <message>
         <source>CNG parameter is not supported on Windows XP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Client window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Crypto window</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -470,7 +478,7 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
     </message>
     <message>
         <source>NB! Weak signature</source>
-        <translation>NB! Nõrga turvalisusega allkiri</translation>
+        <translation type="obsolete">NB! Nõrga turvalisusega allkiri</translation>
     </message>
     <message>
         <source>BDOC signing is not supported, please upgrade software</source>
@@ -592,11 +600,15 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
-        <translation>Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.</translation>
+        <translation type="obsolete">Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.</translation>
     </message>
     <message>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Sellele konteinerile ei saa allkirja lisada ega eemaldada. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36212&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>NB! Signature contains warnings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -814,6 +826,18 @@ Kontrollkood: %1</translation>
     <message>
         <source>Sign certificate is not selected</source>
         <translation>Allkirjastamise sertifikaat ei ole valitud</translation>
+    </message>
+    <message>
+        <source>Signing/decrypting is alread in progress another window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authentication certificate is not selected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to decrypt document</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1040,19 +1064,19 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Certificate serialnumber</source>
-        <translation>Sertifikaadi seerianumber</translation>
+        <translation type="obsolete">Sertifikaadi seerianumber</translation>
     </message>
     <message>
         <source>Certificate valid at</source>
-        <translation>Sertifikaat kehtib alates</translation>
+        <translation type="obsolete">Sertifikaat kehtib alates</translation>
     </message>
     <message>
         <source>Certificate valid until</source>
-        <translation>Sertifikaat kehtib kuni</translation>
+        <translation type="obsolete">Sertifikaat kehtib kuni</translation>
     </message>
     <message>
         <source>Certificate issuer</source>
-        <translation>Sertifikaadi väljaandja</translation>
+        <translation type="obsolete">Sertifikaadi väljaandja</translation>
     </message>
     <message>
         <source>Signer</source>
@@ -1104,7 +1128,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation>Aeg</translation>
+        <translation type="obsolete">Aeg</translation>
     </message>
     <message>
         <source>Signature is not valid</source>
@@ -1128,7 +1152,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Validity confirmation</source>
-        <translation>Kehtivuskinnitus</translation>
+        <translation type="obsolete">Kehtivuskinnitus</translation>
     </message>
     <message>
         <source>Show signer&apos;s certificate</source>
@@ -1136,7 +1160,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Signer&apos;s computer time</source>
-        <translation>Allkirjastaja arvuti aeg</translation>
+        <translation type="obsolete">Allkirjastaja arvuti aeg</translation>
     </message>
     <message>
         <source>Hash value of signature</source>
@@ -1148,6 +1172,34 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Signature policy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signature has warnings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test signature</source>
+        <translation>Test allkiri</translation>
+    </message>
+    <message>
+        <source>Signer&apos;s computer time (UTC)</source>
+        <translation>Allkirjastaja arvuti aeg (UTC)</translation>
+    </message>
+    <message>
+        <source>Signer Certificate issuer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OCSP Certificate issuer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OCSP time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OCSP time (UTC)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
