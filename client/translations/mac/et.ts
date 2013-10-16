@@ -1172,7 +1172,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Signature policy</source>
-        <translation type="unfinished"></translation>
+        <translation>Allkirja vorming</translation>
     </message>
     <message>
         <source>Signature has warnings</source>
@@ -1188,19 +1188,19 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Signer Certificate issuer</source>
-        <translation type="unfinished"></translation>
+        <translation>Allkirjastaja sertifikaadi väljaandja</translation>
     </message>
     <message>
         <source>OCSP Certificate issuer</source>
-        <translation type="unfinished"></translation>
+        <translation>Kehtivuskinnituse sertifikaadi väljaandja</translation>
     </message>
     <message>
         <source>OCSP time</source>
-        <translation type="unfinished"></translation>
+        <translation>Kehtivuskinnituse aeg</translation>
     </message>
     <message>
         <source>OCSP time (UTC)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kehtivuskinnituse aeg (UTC)</translation>
     </message>
 </context>
 <context>

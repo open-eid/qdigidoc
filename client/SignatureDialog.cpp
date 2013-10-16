@@ -234,7 +234,14 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	if( s.type() != DigiDocSignature::DDocType )
 		addItem( t, tr("Signature format"), s.profile() );
 	if( !s.policy().isEmpty() )
-		addItem( t, tr("Signature policy"), s.policy() );
+	{
+		#define toVer(X) (X)->toUInt() - 1
+		QStringList ver = s.policy().split( "." );
+		if( ver.size() >= 3 )
+			addItem( t, tr("Signature policy"), QString("%1.%2.%3").arg( toVer(ver.end()-3) ).arg( toVer(ver.end()-2) ).arg( toVer(ver.end()-1) ) );
+		else
+			addItem( t, tr("Signature policy"), s.policy() );
+	}
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
 	addItem( t, tr("Signer Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	if( !s.spuri().isEmpty() )
