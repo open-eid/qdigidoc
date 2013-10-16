@@ -108,7 +108,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		break;
 	case DigiDocSignature::Test:
 		sa << " " << tr("Test signature");
-		sc << " (" << tr("Test signature") << ")";
+		sc << "<font color=\"green\">" << tr("Test signature");
 		break;
 	case DigiDocSignature::Invalid:
 		sa << tr("not valid");
