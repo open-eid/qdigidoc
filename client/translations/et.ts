@@ -1168,7 +1168,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Container format</source>
-        <translation type="unfinished"></translation>
+        <translation>Konteineri formaat</translation>
     </message>
     <message>
         <source>Signature policy</source>
