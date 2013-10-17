@@ -1171,7 +1171,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Container format</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат контейнера</translation>
     </message>
     <message>
         <source>Signature policy</source>
