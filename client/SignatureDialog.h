@@ -68,6 +68,7 @@ public:
 private Q_SLOTS:
 	void on_signatureView_doubleClicked( const QModelIndex &index );
 	void buttonClicked( QAbstractButton *button );
+	void on_more_linkActivated( const QString &link );
 
 private:
 	void addItem( QTreeWidget *view, const QString &variable, const QString &value );

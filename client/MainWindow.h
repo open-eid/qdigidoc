@@ -92,4 +92,5 @@ private:
 	QStringList lang, params;
 	bool quitOnClose;
 	int prevpage;
+	QLabel *message;
 };

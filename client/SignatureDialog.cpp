@@ -101,13 +101,16 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	sc << "<td>" << tr("Signature is") << " ";
 	switch( s.validate() )
 	{
-	case DigiDocSignature::Warning: // Fall to Valid
 	case DigiDocSignature::Valid:
 		sa << tr("valid");
 		sc << "<font color=\"green\">" << tr("valid");
 		break;
+	case DigiDocSignature::Warning:
+		sa << tr("valid") << " (" << tr("Warnings") << ")";
+		sc << "<font color=\"green\">" << tr("valid") << "</font> <font>(" << tr("Warnings") << ")";
+		break;
 	case DigiDocSignature::Test:
-		sa << " " << tr("Test signature");
+		sa << tr("valid") << " (" << tr("Test signature") << ")";
 		sc << "<font color=\"green\">" << tr("valid") << "</font> <font>(" << tr("Test signature") << ")";
 		break;
 	case DigiDocSignature::Invalid:
@@ -171,6 +174,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 ,	d( new SignatureDialogPrivate )
 {
 	d->setupUi( this );
+	d->error->hide();
 	setAttribute( Qt::WA_DeleteOnClose );
 	setWindowFlags( Qt::Sheet );
 
@@ -211,6 +215,19 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		d->buttonBox->addButton( QDialogButtonBox::Help );
 	d->title->setText( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + "\n" + status );
 	setWindowTitle( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + " - " + status );
+
+	if( s.warning() & DigiDocSignature::WrongNameSpace )
+	{
+		d->info->setText( tr(
+			"This Digidoc document has not been created according to specification, "
+			"but the digital signature is legally valid. You are not allowed to add "
+			"or remove signatures to this container. Please inform the document creator "
+			"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>.") );
+	}
+	if( s.warning() & DigiDocSignature::DigestWeak )
+	{
+		d->info->setText( tr("The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
+	}
 
 	const QStringList l = s.locations();
 	d->signerCity->setText( l.value( 0 ) );
@@ -279,6 +296,11 @@ void SignatureDialog::buttonClicked( QAbstractButton *button )
 		CertificateDialog( s.cert(), this ).exec();
 	else if( button == d->ocspCert )
 		CertificateDialog( s.ocspCert(), this ).exec();
+}
+
+void SignatureDialog::on_more_linkActivated( const QString & )
+{
+	d->error->setVisible( !d->error->isVisible() );
 }
 
 void SignatureDialog::on_signatureView_doubleClicked( const QModelIndex &index )

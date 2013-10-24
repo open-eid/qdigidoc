@@ -56,19 +56,12 @@
 #endif
 #include <QtNetwork/QNetworkProxy>
 
-static bool hasNSWarning( DigiDoc *doc )
-{
-	Q_FOREACH( const DigiDocSignature &s, doc->signatures() )
-		if( s.warning() & DigiDocSignature::WrongNameSpace )
-			return true;
-	return false;
-}
-
 MainWindow::MainWindow( QWidget *parent )
 	: QWidget( parent )
 	, cardsGroup( new QActionGroup( this ) )
 	, quitOnClose( false )
 	, prevpage( Home )
+	, message( 0 )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
 #ifdef TESTING
@@ -76,6 +69,12 @@ MainWindow::MainWindow( QWidget *parent )
 #endif
 	setupUi( this );
 	setFixedSize( geometry().size() );
+	message = new QLabel( stack->widget( Sign ) );
+	message->setObjectName( "warning" );
+	message->setAlignment( Qt::AlignCenter );
+	message->setWordWrap( true );
+	message->setFixedSize( 400, 200 );
+	message->hide();
 
 	infoTypeGroup->setId( infoSignCard, 0 );
 	infoTypeGroup->setId( infoSignMobile, 1 );
@@ -585,15 +584,51 @@ void MainWindow::enableSign()
 	QAbstractButton *button = buttonGroup->button( SignSign );
 	button->setToolTip( QString() );
 	TokenData t = qApp->signer()->tokensign();
+	message->hide();
+	signContentFrame->setEnabled( true );
+	signSignerRole->setEnabled( true );
+
+	int warning = 0;
+	Q_FOREACH( const DigiDocSignature &s, doc->signatures() )
+	{
+		s.validate();
+		if( s.warning() )
+			warning |= s.warning();
+	}
 
 	if( doc->isNull() )
 		button->setToolTip( tr("Container is not open") );
-	else if( !doc->isSupported() || hasNSWarning( doc ) )
+	else if( !doc->isSupported() )
 	{
 		button->setToolTip( tr("Signing not allowed.") );
 		QAbstractButton *b = buttonGroup->button( ViewAddSignature );
 		b->setEnabled( false );
 		b->setToolTip( tr("Signing not allowed.") );
+	}
+	else if( warning )
+	{
+		QString text;
+		if( warning & DigiDocSignature::WrongNameSpace )
+		{
+			text = SignatureDialog::tr(
+				"This Digidoc document has not been created according to specification, "
+				"but the digital signature is legally valid. You are not allowed to add "
+				"or remove signatures to this container. Please inform the document creator "
+				"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>.");
+		}
+		if( warning & DigiDocSignature::DigestWeak )
+		{
+			text = SignatureDialog::tr(
+				"The current BDOC container uses weaker encryption method than officialy accepted in Estonia.");
+		}
+		message->move(
+			message->parentWidget()->width()/2 - message->width()/2,
+			message->parentWidget()->height()/2 - message->height()/2 );
+		message->setText( text );
+		message->show();
+		signContentFrame->setEnabled( false );
+		signSignerRole->setEnabled( false );
+		button->setToolTip( tr("Signing not allowed.") );
 	}
 	else if( signContentView->model()->rowCount() == 0 )
 		button->setToolTip( tr("Empty container") );
@@ -836,21 +871,12 @@ void MainWindow::setCurrentPage( Pages page )
 		viewSignaturesLabel->setText( tr( "Signature(s)", "", signatures.size() ) );
 		viewFileNameSave->setHidden( nswarning );
 
-		if( nswarning )
-		{
-			qApp->showWarning(
-				tr("This Digidoc document has not been created according to specification, "
-					"but the digital signature is legally valid. You are not allowed to add "
-					"or remove signatures to this container. Please inform the document creator "
-					"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>."));
-		}
-
 		switch( status )
 		{
 		case DigiDocSignature::Invalid: viewSignaturesError->setText( tr("NB! Invalid signature") ); break;
 		case DigiDocSignature::Unknown: viewSignaturesError->setText( "<i>" + tr("NB! Unknown signature") + "</i>" ); break;
 		case DigiDocSignature::Test: viewSignaturesError->setText( tr("NB! Test signature") ); break;
-		case DigiDocSignature::Warning: viewSignaturesError->setText( "<i>" + tr("NB! Signature contains warnings") + "</i>" ); break;
+		case DigiDocSignature::Warning: viewSignaturesError->setText( "<font color=\"#FFB366\">" + tr("NB! Signature contains warnings") + "</font>" ); break;
 		case DigiDocSignature::Valid: viewSignaturesError->clear(); break;
 		}
 		break;

@@ -22,13 +22,46 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QPlainTextEdit" name="error">
-      <property name="textInteractionFlags">
-       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-      </property>
+	 <widget class="QWidget" name="errorTab">
       <attribute name="title">
        <string>Error</string>
       </attribute>
+	   <layout class="QVBoxLayout" name="errorLayout">
+        <item>
+         <widget class="QLabel" name="info">
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="more">
+          <property name="text">
+           <string>&lt;a href=&quot;info&quot;&gt;More info&lt;/a&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPlainTextEdit" name="error">
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="errorScrollSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
      </widget>
      <widget class="QWidget" name="signer">
       <attribute name="title">
