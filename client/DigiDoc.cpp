@@ -280,15 +280,32 @@ QDateTime DigiDocSignature::ocspTime() const
 
 DigiDoc* DigiDocSignature::parent() const { return m_parent; }
 
-int DigiDocSignature::parseException( const digidoc::Exception &e ) const
+void DigiDocSignature::parseException( DigiDocSignature::SignatureStatus &result, const digidoc::Exception &e ) const
 {
-	Q_FOREACH( const Exception &c, e.causes() )
+	Q_FOREACH( const Exception &child, e.causes() )
 	{
-		int code = parseException( c );
-		if( code != Exception::General )
-			return code;
+		switch( child.code() )
+		{
+		case Exception::RefereneceDigestWeak:
+		case Exception::SignatureDigestWeak:
+			m_warning |= DigestWeak;
+			result = std::max( result, Warning );
+			break;
+		case Exception::WrongNameSpace:
+			m_warning |= WrongNameSpace;
+			result = std::max( result, Warning );
+			break;
+		case Exception::CertificateIssuerMissing:
+		case Exception::CertificateUnknown:
+		case Exception::OCSPResponderMissing:
+		case Exception::OCSPCertMissing:
+			result = std::max( result, Unknown );
+			break;
+		default:
+			result = std::max( result, Invalid );
+		}
+		parseException( result, child );
 	}
-	return e.code() & Exception::DDocError ? Exception::General : e.code();
 }
 
 QString DigiDocSignature::policy() const
@@ -375,35 +392,7 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 	}
 	catch( const Exception &e )
 	{
-		std::function<void (const Exception &e)> validate = [&] (const Exception &e)
-		{
-			Q_FOREACH( const Exception &child, e.causes() )
-			{
-				switch( child.code() )
-				{
-				case Exception::RefereneceDigestWeak:
-				case Exception::SignatureDigestWeak:
-					m_warning |= DigestWeak;
-					result = std::max( result, Warning );
-					break;
-				case Exception::WrongNameSpace:
-					m_warning |= WrongNameSpace;
-					result = std::max( result, Warning );
-					break;
-				case Exception::CertificateIssuerMissing:
-				case Exception::CertificateUnknown:
-				case Exception::OCSPResponderMissing:
-				case Exception::OCSPCertMissing:
-					result = std::max( result, Unknown );
-					break;
-				default:
-					result = std::max( result, Invalid );
-					break;
-				}
-				validate( child );
-			}
-		};
-		validate( e );
+		parseException( result, e );
 		setLastError( e );
 	}
 	switch( result )

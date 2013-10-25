@@ -116,7 +116,7 @@ public:
 
 private:
 	void setLastError( const digidoc::Exception &e ) const;
-	int parseException( const digidoc::Exception &e ) const;
+	void parseException( SignatureStatus &result, const digidoc::Exception &e ) const;
 
 	const digidoc::Signature *s;
 	mutable QString m_lastError;
