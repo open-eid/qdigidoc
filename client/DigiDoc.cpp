@@ -48,7 +48,12 @@
 #include <QtGui/QPixmap>
 
 #include <stdexcept>
-
+#if defined(_LIBCPP_ABI_VERSION) || _MSC_VER >= 1500 || (__GNUC__ >= 4 && __GNUC_MINOR__ >= 6 && (__cplusplus > 201100L || defined(__GXX_EXPERIMENTAL_CXX0X__)))
+#include <functional>
+#else
+#include <tr1/functional>
+namespace std { using namespace std::tr1; }
+#endif
 
 using namespace digidoc;
 
@@ -356,6 +361,8 @@ DigiDocSignature::SignatureType DigiDocSignature::type() const
 
 DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 {
+	DigiDocSignature::SignatureStatus result = Valid;
+	m_warning = 0;
 	try
 	{
 		s->validate();
@@ -368,37 +375,48 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 	}
 	catch( const Exception &e )
 	{
-		Q_FOREACH( const Exception &child, e.causes() )
+		std::function<void (const Exception &e)> validate = [&] (const Exception &e)
 		{
-			switch( child.code() )
+			Q_FOREACH( const Exception &child, e.causes() )
 			{
-			case Exception::RefereneceDigestWeak:
-			case Exception::SignatureDigestWeak:
-				setLastError( e );
-				m_warning |= DigestWeak;
-				break;
-			case Exception::WrongNameSpace:
-				setLastError( e );
-				m_warning |= WrongNameSpace;
-				break;
-			default:
-				setLastError( e );
-				switch( parseException( child ) )
+				switch( child.code() )
 				{
+				case Exception::RefereneceDigestWeak:
+				case Exception::SignatureDigestWeak:
+					m_warning |= DigestWeak;
+					result = std::max( result, Warning );
+					break;
+				case Exception::WrongNameSpace:
+					m_warning |= WrongNameSpace;
+					result = std::max( result, Warning );
+					break;
 				case Exception::CertificateIssuerMissing:
 				case Exception::CertificateUnknown:
 				case Exception::OCSPResponderMissing:
-				case Exception::OCSPCertMissing: return Unknown;
-				default: return Invalid;
+				case Exception::OCSPCertMissing:
+					result = std::max( result, Unknown );
+					break;
+				default:
+					result = std::max( result, Invalid );
+					break;
 				}
+				validate( child );
 			}
-		}
+		};
+		validate( e );
+		setLastError( e );
 	}
-	if( SslCertificate( cert() ).type() & SslCertificate::TestType ||
-		SslCertificate( ocspCert() ).type() & SslCertificate::TestType )
-		return Test;
+	switch( result )
+	{
+	case Unknown:
+	case Invalid: return result;
+	default:
+		if( SslCertificate( cert() ).type() & SslCertificate::TestType ||
+			SslCertificate( ocspCert() ).type() & SslCertificate::TestType )
+			return Test;
 
-	return m_warning ? Warning : Valid;
+		return result;
+	}
 }
 
 int DigiDocSignature::warning() const
