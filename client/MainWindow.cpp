@@ -74,6 +74,7 @@ MainWindow::MainWindow( QWidget *parent )
 	message->setAlignment( Qt::AlignCenter );
 	message->setWordWrap( true );
 	message->setFixedSize( 400, 200 );
+	message->setOpenExternalLinks( true );
 	message->hide();
 
 	infoTypeGroup->setId( infoSignCard, 0 );

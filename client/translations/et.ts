@@ -604,7 +604,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Sellele konteinerile ei saa allkirja lisada ega eemaldada. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36212&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
+        <translation type="obsolete">Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Sellele konteinerile ei saa allkirja lisada ega eemaldada. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36212&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>NB! Signature contains warnings</source>
@@ -1202,6 +1202,18 @@ Kontrollkood: %1</translation>
         <source>OCSP time (UTC)</source>
         <translation>Kehtivuskinnituse aeg (UTC)</translation>
     </message>
+    <message>
+        <source>&lt;a href=&quot;info&quot;&gt;More info&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;info&quot;&gt;Rohkem infot&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Sellele konteinerile ei saa allkirja lisada ega eemaldada. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36212&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
+        <translation>Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.</translation>
+    </message>
 </context>
 <context>
     <name>SignatureWidget</name>
@@ -1256,6 +1268,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>Signature</source>
         <translation>Allkiri</translation>
+    </message>
+    <message>
+        <source>Warnings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

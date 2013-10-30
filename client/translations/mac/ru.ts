@@ -607,7 +607,7 @@ New ID-cards have chip on the back side of the card.</source>
     </message>
     <message>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. К данному контейнеру нельзя добавить или удалить из него подпись. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36214&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
+        <translation type="obsolete">Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. К данному контейнеру нельзя добавить или удалить из него подпись. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36214&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>NB! Signature contains warnings</source>
@@ -1205,6 +1205,18 @@ Control code: %1</source>
         <source>OCSP time (UTC)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;a href=&quot;info&quot;&gt;More info&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. К данному контейнеру нельзя добавить или удалить из него подпись. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36214&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
+        <translation>Данный контейнер имеет меньшую надежность по сравнению с официально признанным в Эстонии контейнером в формате BDOC.</translation>
+    </message>
 </context>
 <context>
     <name>SignatureWidget</name>
@@ -1259,6 +1271,10 @@ Control code: %1</source>
     <message>
         <source>Signature</source>
         <translation>Подпись</translation>
+    </message>
+    <message>
+        <source>Warnings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
