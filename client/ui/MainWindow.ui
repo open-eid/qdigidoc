@@ -139,15 +139,11 @@ color: #668696;
 
 /* content */
 #warning {
-color: #54859b;
-font-weight: bold;
-font-size: 16px;
+color: #668696;
 background-color: rgba(255,255,255,200);
 border: 1px solid #cddbeb;
 border-radius: 5px;
-color: #509b00;
-font-weight: bold;
-font-size: 18px;
+padding: 10px;
 }
 
 #homeButtonLabel,
