@@ -75,8 +75,8 @@ public:
 		Valid,
 		Warning,
 		Test,
-		Unknown,
-		Invalid
+		Invalid,
+		Unknown
 	};
 	enum SignatureWarning
 	{
