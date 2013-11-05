@@ -825,9 +825,9 @@ void MainWindow::setCurrentPage( Pages page )
 	int prev = stack->currentIndex();
 	stack->setCurrentIndex( page );
 
-	setWindowTitle( doc->fileName().isEmpty() ? tr("DigiDoc3 client") : QString() );
-	setWindowFilePath( doc->fileName().normalized( QString::NormalizationForm_C ) );
-	qApp->postEvent( this, new QEvent( QEvent::WindowTitleChange ) );
+	QString file = doc->fileName().normalized( QString::NormalizationForm_C );
+	setWindowFilePath( file );
+	setWindowTitle( file.isEmpty() ? tr("DigiDoc3 client") : QFileInfo( file ).fileName() );
 
 	switch( page )
 	{
