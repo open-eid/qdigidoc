@@ -134,7 +134,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		{
 		case DigiDocSignature::Warning: //Fall to Valid
 		case DigiDocSignature::Valid: valid.append( tr("SIGNATURE IS VALID") ); break;
-		case DigiDocSignature::Test: valid.append( tr("(NB! TEST SIGNATURE)") ); break;
+		case DigiDocSignature::Test: valid.append( tr("SIGNATURE IS VALID (NB! TEST SIGNATURE)") ); break;
 		case DigiDocSignature::Invalid: valid.append( tr("SIGNATURE IS NOT VALID") ); break;
 		case DigiDocSignature::Unknown: valid.append( tr("UNKNOWN") ); break;
 		}
