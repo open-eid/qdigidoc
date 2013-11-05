@@ -191,7 +191,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		status = tr("Signature is valid");
 		break;
 	case DigiDocSignature::Warning:
-		status = tr("Signature has warnings");
+		status = tr("Signature is valid with warnings");
 		if( !s.lastError().isEmpty() )
 			d->error->setPlainText( s.lastError() );
 		break;
