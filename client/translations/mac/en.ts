@@ -99,10 +99,6 @@
         <translation>Close window</translation>
     </message>
     <message>
-        <source>New window</source>
-        <translation type="obsolete">New window</translation>
-    </message>
-    <message>
         <source>Caught exception!</source>
         <translation>Caught exception!</translation>
     </message>
@@ -477,10 +473,6 @@ already in container, ovewrite?</translation>
         <translation>Empty container</translation>
     </message>
     <message>
-        <source>NB! Weak signature</source>
-        <translation type="obsolete">NB! Weak signature</translation>
-    </message>
-    <message>
         <source>BDOC signing is not supported, please upgrade software</source>
         <translation>BDOC signing is not supported, please upgrade software</translation>
     </message>
@@ -599,14 +591,6 @@ New ID-cards have chip on the back side of the card.</translation>
         <translation>Open DigiDoc3 Crypto</translation>
     </message>
     <message>
-        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
-        <translation type="obsolete">The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</translation>
-    </message>
-    <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation type="obsolete">This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>NB! Signature contains warnings</source>
         <translation>NB! Signature contains warnings</translation>
     </message>
@@ -694,16 +678,16 @@ Control code: %1</translation>
         <translation>Connecting to SK server failed!&lt;br/&gt;Please check your internet connection.</translation>
     </message>
     <message>
-        <source>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</source>
-        <translation>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Mobile-ID user certificates are revoked or suspended.</source>
         <translation>Mobile-ID user certificates are revoked or suspended.</translation>
     </message>
     <message>
         <source>SSL handshake failed</source>
         <translation>SSL handshake failed</translation>
+    </message>
+    <message>
+        <source>Your Mobile-ID service is not activated.</source>
+        <translation>Your Mobile-ID service is not activated.</translation>
     </message>
 </context>
 <context>
@@ -779,10 +763,6 @@ Control code: %1</translation>
     <message>
         <source>UNKNOWN</source>
         <translation>UNKNOWN</translation>
-    </message>
-    <message>
-        <source>(NB! TEST SIGNATURE)</source>
-        <translation type="obsolete">(NB! TEST SIGNATURE)</translation>
     </message>
     <message>
         <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
@@ -1067,22 +1047,6 @@ Control code: %1</translation>
         <translation>Signed file count</translation>
     </message>
     <message>
-        <source>Certificate serialnumber</source>
-        <translation type="obsolete">Certificate serialnumber</translation>
-    </message>
-    <message>
-        <source>Certificate valid at</source>
-        <translation type="obsolete">Certificate valid at</translation>
-    </message>
-    <message>
-        <source>Certificate valid until</source>
-        <translation type="obsolete">Certificate valid until</translation>
-    </message>
-    <message>
-        <source>Certificate issuer</source>
-        <translation type="obsolete">Certificate issuer</translation>
-    </message>
-    <message>
         <source>Signer</source>
         <translation>Signer</translation>
     </message>
@@ -1131,10 +1095,6 @@ Control code: %1</translation>
         <translation>Unknown error</translation>
     </message>
     <message>
-        <source>Time</source>
-        <translation type="obsolete">Time</translation>
-    </message>
-    <message>
         <source>Signature is not valid</source>
         <translation>Signature is not valid</translation>
     </message>
@@ -1155,16 +1115,8 @@ Control code: %1</translation>
         <translation>Show OCSP certificate</translation>
     </message>
     <message>
-        <source>Validity confirmation</source>
-        <translation type="obsolete">Validity confirmation</translation>
-    </message>
-    <message>
         <source>Show signer&apos;s certificate</source>
         <translation>Show signer&apos;s certificate</translation>
-    </message>
-    <message>
-        <source>Signer&apos;s computer time</source>
-        <translation type="obsolete">Signer&apos;s computer time</translation>
     </message>
     <message>
         <source>Hash value of signature</source>
@@ -1177,10 +1129,6 @@ Control code: %1</translation>
     <message>
         <source>Signature policy</source>
         <translation>Signature policy</translation>
-    </message>
-    <message>
-        <source>Signature has warnings</source>
-        <translation type="obsolete">Signature has warnings</translation>
     </message>
     <message>
         <source>Test signature</source>

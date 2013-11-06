@@ -99,10 +99,6 @@
         <translation>Закрыть окно</translation>
     </message>
     <message>
-        <source>New window</source>
-        <translation type="obsolete">Новое окно</translation>
-    </message>
-    <message>
         <source>Caught exception!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -480,10 +476,6 @@ already in container, ovewrite?</source>
         <translation>пустой контейнер</translation>
     </message>
     <message>
-        <source>NB! Weak signature</source>
-        <translation type="obsolete">NB! Слабая подпись</translation>
-    </message>
-    <message>
         <source>BDOC signing is not supported, please upgrade software</source>
         <translation type="unfinished"></translation>
     </message>
@@ -602,14 +594,6 @@ New ID-cards have chip on the back side of the card.</source>
         <translation>Открыть DigiDoc3 Crypto</translation>
     </message>
     <message>
-        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
-        <translation type="obsolete">Данный контейнер имеет меньшую надежность по сравнению с официально признанным в Эстонии контейнером в формате BDOC.</translation>
-    </message>
-    <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation type="obsolete">Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. К данному контейнеру нельзя добавить или удалить из него подпись. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36214&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>NB! Signature contains warnings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -697,16 +681,16 @@ Control code: %1</source>
         <translation>Ошибка при подключении с SK сервером&lt;br/&gt;Пожалуйста проверьте подключение к интернету.</translation>
     </message>
     <message>
-        <source>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</source>
-        <translation>Не активирована услуга Mobiil-ID.&lt;br/&gt;Для активации услуги Mobiil-ID адресом &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Mobile-ID user certificates are revoked or suspended.</source>
         <translation>Сертификаты Mobiil-ID признаны не действительными или их действие приостановлено.</translation>
     </message>
     <message>
         <source>SSL handshake failed</source>
         <translation>SSL handshake (&quot;рукопожатие&quot;) не удалось</translation>
+    </message>
+    <message>
+        <source>Your Mobile-ID service is not activated.</source>
+        <translation>Mobiil-ID sertifikaadid ei ole aktiveeritud.</translation>
     </message>
 </context>
 <context>
@@ -782,10 +766,6 @@ Control code: %1</source>
     <message>
         <source>UNKNOWN</source>
         <translation>НЕИЗВЕСТНО</translation>
-    </message>
-    <message>
-        <source>(NB! TEST SIGNATURE)</source>
-        <translation type="obsolete">(NB! ПРОБНАЯ ПОДПИСЬ)</translation>
     </message>
     <message>
         <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
@@ -1078,22 +1058,6 @@ Control code: %1</source>
         <translation>Количество подписанных файлов</translation>
     </message>
     <message>
-        <source>Certificate serialnumber</source>
-        <translation type="obsolete">Серийный номер сертификатов</translation>
-    </message>
-    <message>
-        <source>Certificate valid at</source>
-        <translation type="obsolete">Сертификат действителен с</translation>
-    </message>
-    <message>
-        <source>Certificate valid until</source>
-        <translation type="obsolete">Сертификат действителен до</translation>
-    </message>
-    <message>
-        <source>Certificate issuer</source>
-        <translation type="obsolete">Выдавший сертификат</translation>
-    </message>
-    <message>
         <source>Signer</source>
         <translation>Подписавшаяся сторона</translation>
     </message>
@@ -1134,10 +1098,6 @@ Control code: %1</source>
         <translation>Значение</translation>
     </message>
     <message>
-        <source>Time</source>
-        <translation type="obsolete">Время</translation>
-    </message>
-    <message>
         <source>Signature is not valid</source>
         <translation>Подпись недействительна</translation>
     </message>
@@ -1158,16 +1118,8 @@ Control code: %1</source>
         <translation>Сертификат OCSP</translation>
     </message>
     <message>
-        <source>Validity confirmation</source>
-        <translation type="obsolete">Потдверждение</translation>
-    </message>
-    <message>
         <source>Show signer&apos;s certificate</source>
         <translation>Сертификат пользователя</translation>
-    </message>
-    <message>
-        <source>Signer&apos;s computer time</source>
-        <translation type="obsolete">Время на компьютере подписывающего</translation>
     </message>
     <message>
         <source>Hash value of signature</source>

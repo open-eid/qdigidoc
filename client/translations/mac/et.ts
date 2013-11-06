@@ -99,10 +99,6 @@
         <translation>Sulge aken</translation>
     </message>
     <message>
-        <source>New window</source>
-        <translation type="obsolete">Uus aken</translation>
-    </message>
-    <message>
         <source>Caught exception!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -477,10 +473,6 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <translation>Tühi ümbrik</translation>
     </message>
     <message>
-        <source>NB! Weak signature</source>
-        <translation type="obsolete">NB! Nõrga turvalisusega allkiri</translation>
-    </message>
-    <message>
         <source>BDOC signing is not supported, please upgrade software</source>
         <translation>BDOC allkirjastamine pole toetatud, palun uuenda tarkvara</translation>
     </message>
@@ -599,14 +591,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>Avada DigiDoc3 Krüpto programmi</translation>
     </message>
     <message>
-        <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
-        <translation type="obsolete">Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.</translation>
-    </message>
-    <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation type="obsolete">Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Sellele konteinerile ei saa allkirja lisada ega eemaldada. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36212&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>NB! Signature contains warnings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -694,16 +678,16 @@ Kontrollkood: %1</translation>
         <translation>Viga SK serveriga ühenduse saamisel!&lt;br/&gt;Palun kontrollige internetiühendust.</translation>
     </message>
     <message>
-        <source>Your Mobile-ID service is not activated.&lt;br/&gt;Please activate your Mobiil-ID at &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</source>
-        <translation>Mobiil-ID sertifikaadid ei ole aktiveeritud.&lt;br/&gt;Mobiil-ID saate aktiveerida &lt;a href=&quot;http://mobiil.id.ee/akt&quot;&gt;http://mobiil.id.ee/akt&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Mobile-ID user certificates are revoked or suspended.</source>
         <translation>Kasutaja Mobiil-ID sertifikaadid on tühistatud või peatatud.</translation>
     </message>
     <message>
         <source>SSL handshake failed</source>
         <translation>SSL &quot;käepigistus&quot; ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Your Mobile-ID service is not activated.</source>
+        <translation>Mobiil-ID sertifikaadid ei ole aktiveeritud.</translation>
     </message>
 </context>
 <context>
@@ -779,10 +763,6 @@ Kontrollkood: %1</translation>
     <message>
         <source>UNKNOWN</source>
         <translation>TEADMATA</translation>
-    </message>
-    <message>
-        <source>(NB! TEST SIGNATURE)</source>
-        <translation type="obsolete">(NB! TESTALLKIRI)</translation>
     </message>
     <message>
         <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
@@ -1067,22 +1047,6 @@ Kontrollkood: %1</translation>
         <translation>Allkirjastatud failide arv</translation>
     </message>
     <message>
-        <source>Certificate serialnumber</source>
-        <translation type="obsolete">Sertifikaadi seerianumber</translation>
-    </message>
-    <message>
-        <source>Certificate valid at</source>
-        <translation type="obsolete">Sertifikaat kehtib alates</translation>
-    </message>
-    <message>
-        <source>Certificate valid until</source>
-        <translation type="obsolete">Sertifikaat kehtib kuni</translation>
-    </message>
-    <message>
-        <source>Certificate issuer</source>
-        <translation type="obsolete">Sertifikaadi väljaandja</translation>
-    </message>
-    <message>
         <source>Signer</source>
         <translation>Allkirjastaja</translation>
     </message>
@@ -1131,10 +1095,6 @@ Kontrollkood: %1</translation>
         <translation>Tundmatu viga</translation>
     </message>
     <message>
-        <source>Time</source>
-        <translation type="obsolete">Aeg</translation>
-    </message>
-    <message>
         <source>Signature is not valid</source>
         <translation>Allkiri ei ole kehtiv</translation>
     </message>
@@ -1155,16 +1115,8 @@ Kontrollkood: %1</translation>
         <translation>Näita kehtivuskinnituse sertifikaati</translation>
     </message>
     <message>
-        <source>Validity confirmation</source>
-        <translation type="obsolete">Kehtivuskinnitus</translation>
-    </message>
-    <message>
         <source>Show signer&apos;s certificate</source>
         <translation>Näita allkirjastaja sertifikaati</translation>
-    </message>
-    <message>
-        <source>Signer&apos;s computer time</source>
-        <translation type="obsolete">Allkirjastaja arvuti aeg</translation>
     </message>
     <message>
         <source>Hash value of signature</source>
