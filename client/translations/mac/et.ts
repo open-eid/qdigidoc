@@ -782,7 +782,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>(NB! TEST SIGNATURE)</source>
-        <translation>(NB! TESTALLKIRI)</translation>
+        <translation type="obsolete">(NB! TESTALLKIRI)</translation>
     </message>
     <message>
         <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
@@ -803,6 +803,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>AUTHORITY KEY IDENTIFIER</source>
         <translation>VÄLJAANDJA VÕTME IDENTIFIKAATOR</translation>
+    </message>
+    <message>
+        <source>SIGNATURE IS VALID (NB! TEST SIGNATURE)</source>
+        <translation>ALLKIRI ON KEHTIV (NB! TESTALLKIRI)</translation>
     </message>
 </context>
 <context>
@@ -1175,10 +1179,6 @@ Kontrollkood: %1</translation>
         <translation>Allkirja vorming</translation>
     </message>
     <message>
-        <source>Signature has warnings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Test signature</source>
         <translation>Test allkiri</translation>
     </message>
@@ -1213,6 +1213,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
         <translation>Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.</translation>
+    </message>
+    <message>
+        <source>Signature is valid with warnings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

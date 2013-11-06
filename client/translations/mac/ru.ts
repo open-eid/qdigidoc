@@ -785,7 +785,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>(NB! TEST SIGNATURE)</source>
-        <translation>(NB! ПРОБНАЯ ПОДПИСЬ)</translation>
+        <translation type="obsolete">(NB! ПРОБНАЯ ПОДПИСЬ)</translation>
     </message>
     <message>
         <source>SERIAL NUMBER OF SIGNER CERTIFICATE</source>
@@ -806,6 +806,10 @@ Control code: %1</source>
     <message>
         <source>AUTHORITY KEY IDENTIFIER</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SIGNATURE IS VALID (NB! TEST SIGNATURE)</source>
+        <translation>ПОДПИСЬ ДЕЙСТВИТЕЛЬНА (NB! ПРОБНАЯ ПОДПИСЬ)</translation>
     </message>
 </context>
 <context>
@@ -1178,10 +1182,6 @@ Control code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Signature has warnings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Test signature</source>
         <translation>Пробная подпись</translation>
     </message>
@@ -1216,6 +1216,10 @@ Control code: %1</source>
     <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
         <translation>Данный контейнер имеет меньшую надежность по сравнению с официально признанным в Эстонии контейнером в формате BDOC.</translation>
+    </message>
+    <message>
+        <source>Signature is valid with warnings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
