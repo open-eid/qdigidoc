@@ -194,19 +194,43 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		status = tr("Signature is valid with warnings");
 		if( !s.lastError().isEmpty() )
 			d->error->setPlainText( s.lastError() );
+		if( s.warning() & DigiDocSignature::WrongNameSpace )
+		{
+			d->info->setText( tr(
+				"This Digidoc document has not been created according to specification, "
+				"but the digital signature is legally valid. You are not allowed to add "
+				"or remove signatures to this container. Please inform the document creator "
+				"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>.") );
+		}
+		if( s.warning() & DigiDocSignature::DigestWeak )
+		{
+			d->info->setText( tr(
+				"The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
+		}
 		break;
 	case DigiDocSignature::Test:
-		status = tr("Test signature");
+		status = QString("%1 (%2)").arg( tr("Signature is valid"), tr("Test signature") );
 		if( !s.lastError().isEmpty() )
 			d->error->setPlainText( s.lastError() );
+		d->info->setText( tr(
+			"Test signature is signed with test certificates that are similar to the "
+			"certificates of real tokens, but digital signatures with legal force cannot "
+			"be given with them as there is no actual owner of the card. "
+			"<a href='http://www.id.ee/index.php?id=30494'>Additional information</a>.") );
 		break;
 	case DigiDocSignature::Invalid:
 		status = tr("Signature is not valid");
 		d->error->setPlainText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
+		d->info->setText( tr(
+			"This is an invalid signature or malformed digitally signed file. The signature is not valid.") );
 		break;
 	case DigiDocSignature::Unknown:
 		status = tr("Signature status unknown");
 		d->error->setPlainText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
+		d->info->setText( tr(
+			"Signature status is displayed unknown if you don't have all validity confirmation service "
+			"certificates and/or certificate authority certificates installed into your computer. "
+			"<a href='http://www.id.ee/index.php?id=35941'>Additional information</a>.") );
 		break;
 	}
 	if( d->error->toPlainText().isEmpty() )
@@ -215,19 +239,6 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		d->buttonBox->addButton( QDialogButtonBox::Help );
 	d->title->setText( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + "\n" + status );
 	setWindowTitle( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + " - " + status );
-
-	if( s.warning() & DigiDocSignature::WrongNameSpace )
-	{
-		d->info->setText( tr(
-			"This Digidoc document has not been created according to specification, "
-			"but the digital signature is legally valid. You are not allowed to add "
-			"or remove signatures to this container. Please inform the document creator "
-			"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>.") );
-	}
-	if( s.warning() & DigiDocSignature::DigestWeak )
-	{
-		d->info->setText( tr("The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
-	}
 
 	const QStringList l = s.locations();
 	d->signerCity->setText( l.value( 0 ) );

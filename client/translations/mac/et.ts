@@ -559,10 +559,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>Digitaalallkirjade kinnituslehe kuvamiseks peab olema arvutis vähemalt üks printer seadistatud!</translation>
     </message>
     <message>
-        <source>NB! Unknown signature</source>
-        <translation>NB! Tundmatu allkiri</translation>
-    </message>
-    <message>
         <source>Server access certificate has been installed</source>
         <translation>Juurdepääsutõend on edukalt paigaldatud</translation>
     </message>
@@ -593,6 +589,10 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     <message>
         <source>NB! Signature contains warnings</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NB! Status unknown</source>
+        <translation>NB! Staatus teadmata</translation>
     </message>
 </context>
 <context>
@@ -1169,6 +1169,18 @@ Kontrollkood: %1</translation>
     <message>
         <source>Signature is valid with warnings</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test signature is signed with test certificates that are similar to the certificates of real tokens, but digital signatures with legal force cannot be given with them as there is no actual owner of the card. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Testallkiri on allkirjastatud testsertifikaadiga, mis sarnaneb päris sertifikaadiga, kuid sellega ei saa anda õigusjõuga digitaalallkirju, sest kaardi omanikku tegelikkuses ei eksisteeri. &lt;a href=&apos;http://www.id.ee/index.php?id=30379&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>This is an invalid signature or malformed digitally signed file. The signature is not valid.</source>
+        <translation>Tegu on vigase allkirjaga või valesti koostatud digiallkirjastatud failiga. See allkiri ei ole kehtiv.</translation>
+    </message>
+    <message>
+        <source>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Allkirja staatus kuvatakse teadmata kui arvutis puuduvad allkirja kontrollimiseks vajalikud sertifitseerija ja/või kehtivuskinnituse teenuse sertifikaadid. &lt;a href=&apos;http://www.id.ee/?id=35939&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>

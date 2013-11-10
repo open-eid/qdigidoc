@@ -567,10 +567,6 @@ New ID-cards have chip on the back side of the card.</translation>
         <translation>Personal code</translation>
     </message>
     <message>
-        <source>NB! Unknown signature</source>
-        <translation>NB! Unknown signature</translation>
-    </message>
-    <message>
         <source>Server access certificate has been installed</source>
         <translation>Server access certificate has been installed</translation>
     </message>
@@ -593,6 +589,10 @@ New ID-cards have chip on the back side of the card.</translation>
     <message>
         <source>NB! Signature contains warnings</source>
         <translation>NB! Signature contains warnings</translation>
+    </message>
+    <message>
+        <source>NB! Status unknown</source>
+        <translation>NB! Status unknown</translation>
     </message>
 </context>
 <context>
@@ -1169,6 +1169,18 @@ Control code: %1</translation>
     <message>
         <source>Signature is valid with warnings</source>
         <translation>Signature is valid with warnings</translation>
+    </message>
+    <message>
+        <source>Test signature is signed with test certificates that are similar to the certificates of real tokens, but digital signatures with legal force cannot be given with them as there is no actual owner of the card. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Test signature is signed with test certificates that are similar to the certificates of real tokens, but digital signatures with legal force cannot be given with them as there is no actual owner of the card. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Additional information&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>This is an invalid signature or malformed digitally signed file. The signature is not valid.</source>
+        <translation>This is an invalid signature or malformed digitally signed file. The signature is not valid.</translation>
+    </message>
+    <message>
+        <source>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>

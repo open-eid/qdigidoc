@@ -875,7 +875,7 @@ void MainWindow::setCurrentPage( Pages page )
 		switch( status )
 		{
 		case DigiDocSignature::Invalid: viewSignaturesError->setText( tr("NB! Invalid signature") ); break;
-		case DigiDocSignature::Unknown: viewSignaturesError->setText( "<i>" + tr("NB! Unknown signature") + "</i>" ); break;
+		case DigiDocSignature::Unknown: viewSignaturesError->setText( "<i>" + tr("NB! Status unknown") + "</i>" ); break;
 		case DigiDocSignature::Test: viewSignaturesError->setText( tr("NB! Test signature") ); break;
 		case DigiDocSignature::Warning: viewSignaturesError->setText( "<font color=\"#FFB366\">" + tr("NB! Signature contains warnings") + "</font>" ); break;
 		case DigiDocSignature::Valid: viewSignaturesError->clear(); break;

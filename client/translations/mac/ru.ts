@@ -562,10 +562,6 @@ New ID-cards have chip on the back side of the card.</source>
         <translation>Для отображения листа подтверждения действительности цифровой подписи на компьютере должен быть установлен как минимум один принтер!</translation>
     </message>
     <message>
-        <source>NB! Unknown signature</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Server access certificate has been installed</source>
         <translation>Сертификат доступа к серверу установлен</translation>
     </message>
@@ -596,6 +592,10 @@ New ID-cards have chip on the back side of the card.</source>
     <message>
         <source>NB! Signature contains warnings</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NB! Status unknown</source>
+        <translation>NB! Статус неизвестен</translation>
     </message>
 </context>
 <context>
@@ -1172,6 +1172,18 @@ Control code: %1</source>
     <message>
         <source>Signature is valid with warnings</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test signature is signed with test certificates that are similar to the certificates of real tokens, but digital signatures with legal force cannot be given with them as there is no actual owner of the card. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Тестовая подпись создается тестовым сертификатом, который отличается от настоящего тем, что с тестовым сертификатом нельзя поставить юридически действительную подись, потому что владелец карты на самом деле не существует. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>This is an invalid signature or malformed digitally signed file. The signature is not valid.</source>
+        <translation>Повреждена подпись или подписанный файл. Данная подпись недействительна.</translation>
+    </message>
+    <message>
+        <source>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Статус подписи отображается как &quot;неизвестный&quot;, если на компьютере не установлены необходимые для проверки подписи сертификаты сертифицирующей организации и/или услуги подтверждения действительности. &lt;a href=&apos;http://www.id.ee/index.php?id=35940&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
