@@ -685,12 +685,12 @@ Control code: %1</source>
         <translation>Сертификаты Mobiil-ID признаны не действительными или их действие приостановлено.</translation>
     </message>
     <message>
-        <source>SSL handshake failed</source>
-        <translation>SSL handshake (&quot;рукопожатие&quot;) не удалось</translation>
-    </message>
-    <message>
         <source>Your Mobile-ID service is not activated.</source>
         <translation>Mobiil-ID sertifikaadid ei ole aktiveeritud.</translation>
+    </message>
+    <message>
+        <source>SSL handshake failed. Check the proxy settings of your computer or software upgrades.</source>
+        <translation>Не удалось создать SSL канал передачи данных. Проверьте настройки буферного сервера компьютера или обновления программного обеспечения.</translation>
     </message>
 </context>
 <context>

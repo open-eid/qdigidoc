@@ -682,12 +682,12 @@ Control code: %1</translation>
         <translation>Mobile-ID user certificates are revoked or suspended.</translation>
     </message>
     <message>
-        <source>SSL handshake failed</source>
-        <translation>SSL handshake failed</translation>
-    </message>
-    <message>
         <source>Your Mobile-ID service is not activated.</source>
         <translation>Your Mobile-ID service is not activated.</translation>
+    </message>
+    <message>
+        <source>SSL handshake failed. Check the proxy settings of your computer or software upgrades.</source>
+        <translation>SSL handshake failed. Check the proxy settings of your computer or software upgrades.</translation>
     </message>
 </context>
 <context>

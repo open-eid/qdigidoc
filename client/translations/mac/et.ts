@@ -682,12 +682,12 @@ Kontrollkood: %1</translation>
         <translation>Kasutaja Mobiil-ID sertifikaadid on tühistatud või peatatud.</translation>
     </message>
     <message>
-        <source>SSL handshake failed</source>
-        <translation>SSL &quot;käepigistus&quot; ebaõnnestus</translation>
-    </message>
-    <message>
         <source>Your Mobile-ID service is not activated.</source>
         <translation>Mobiil-ID sertifikaadid ei ole aktiveeritud.</translation>
+    </message>
+    <message>
+        <source>SSL handshake failed. Check the proxy settings of your computer or software upgrades.</source>
+        <translation>SSL ühenduskanali loomine ebaõnnestus. Kontrolli arvuti puhverserveri seadeid või tarkvara uuendusi.</translation>
     </message>
 </context>
 <context>

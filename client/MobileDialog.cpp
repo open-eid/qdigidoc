@@ -359,5 +359,8 @@ void MobileDialog::sslErrors( QNetworkReply *, const QList<QSslError> &err )
 		msg << e.errorString();
 	}
 	if( !msg.empty() )
-		labelError->setText( QString("%1<br/>%2").arg( tr("SSL handshake failed") ).arg( msg.join( "<br />" ) ) );
+	{
+		msg.prepend( tr("SSL handshake failed. Check the proxy settings of your computer or software upgrades.") );
+		labelError->setText( msg.join( "<br />" ) );
+	}
 }
