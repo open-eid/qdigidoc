@@ -86,6 +86,7 @@ private:
 	void save();
 	QString selectFile( const QString &filename );
 	void setCurrentPage( Pages page );
+	void showWarning( const QString &text );
 
 	QActionGroup *cardsGroup;
 	DigiDoc	*doc;

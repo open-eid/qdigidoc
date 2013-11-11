@@ -507,14 +507,6 @@ bool DigiDoc::open( const QString &file )
 		b = new Container( to(file) );
 		m_fileName = file;
 		m_documentModel->reset();
-
-		if( !isSupported() )
-		{
-			QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
-				tr("The current file is a DigiDoc container that is not supported officially any longer.<br />"
-					"You are not allowed to add or remove signatures to this container.<br />"
-					"<a href='http://www.id.ee/index.php?id=36161'>Additional info</a>."), QMessageBox::Ok );
-		}
 		qApp->addRecent( file );
 		return true;
 	}

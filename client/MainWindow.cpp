@@ -601,32 +601,27 @@ void MainWindow::enableSign()
 		button->setToolTip( tr("Container is not open") );
 	else if( !doc->isSupported() )
 	{
+		showWarning( SignatureDialog::tr(
+			"The current file is a DigiDoc container that is not supported officially any longer. "
+			"You are not allowed to add or remove signatures to this container. "
+			"<a href='http://www.id.ee/index.php?id=36161'>Additional info</a>.") );
 		button->setToolTip( tr("Signing not allowed.") );
-		QAbstractButton *b = buttonGroup->button( ViewAddSignature );
-		b->setEnabled( false );
-		b->setToolTip( tr("Signing not allowed.") );
 	}
 	else if( warning )
 	{
-		QString text;
 		if( warning & DigiDocSignature::WrongNameSpace )
 		{
-			text = SignatureDialog::tr(
+			showWarning( SignatureDialog::tr(
 				"This Digidoc document has not been created according to specification, "
 				"but the digital signature is legally valid. You are not allowed to add "
 				"or remove signatures to this container. Please inform the document creator "
-				"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>.");
+				"of this issue. <a href='http://www.id.ee/?id=36213'>Additional information</a>.") );
 		}
 		if( warning & DigiDocSignature::DigestWeak )
 		{
-			text = SignatureDialog::tr(
-				"The current BDOC container uses weaker encryption method than officialy accepted in Estonia.");
+			showWarning( SignatureDialog::tr(
+				"The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
 		}
-		message->move(
-			message->parentWidget()->width()/2 - message->width()/2,
-			message->parentWidget()->height()/2 - message->height()/2 );
-		message->setText( text );
-		message->show();
 		signContentFrame->setEnabled( false );
 		signSignerRole->setEnabled( false );
 		button->setToolTip( tr("Signing not allowed.") );
@@ -929,6 +924,15 @@ void MainWindow::showCardStatus()
 	addActions( cardsGroup->actions() );
 
 	enableSign();
+}
+
+void MainWindow::showWarning( const QString &text )
+{
+	message->move(
+		message->parentWidget()->width()/2 - message->width()/2,
+		message->parentWidget()->height()/2 - message->height()/2 );
+	message->setText( text );
+	message->show();
 }
 
 void MainWindow::viewSignaturesRemove( unsigned int num )

@@ -195,14 +195,6 @@ This signature is created in the BES format, using no certificate validity confi
         <translation>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</translation>
     </message>
-    <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 client</translation>
-    </message>
-    <message>
-        <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
-    </message>
 </context>
 <context>
     <name>DocumentModel</name>
@@ -1181,6 +1173,10 @@ Control code: %1</translation>
     <message>
         <source>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
+        <translation>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>

@@ -195,14 +195,6 @@ This signature is created in the BES format, using no certificate validity confi
         <translation>В понимании эстонского законодательства подпись не равноценна собственноручно данной подписи.
 Данная подпись создана в т.н. формате BES, то есть без подтверждения ее действительности организацией, выдавшей сертификат, и без временного штампа.</translation>
     </message>
-    <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 клиент</translation>
-    </message>
-    <message>
-        <source>The current file is a DigiDoc container that is not supported officially any longer.&lt;br /&gt;You are not allowed to add or remove signatures to this container.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation>DigiDoc контейнер имеет старый формат.&lt;br /&gt;К данному контейнеру нельзя добавить или удалить из него подпись.&lt;br /&gt;&lt;a href=&apos;http://www.id.ee/index.php?id=36162&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
-    </message>
 </context>
 <context>
     <name>DocumentModel</name>
@@ -1184,6 +1176,10 @@ Control code: %1</source>
     <message>
         <source>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>Статус подписи отображается как &quot;неизвестный&quot;, если на компьютере не установлены необходимые для проверки подписи сертификаты сертифицирующей организации и/или услуги подтверждения действительности. &lt;a href=&apos;http://www.id.ee/index.php?id=35940&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
+        <translation>DigiDoc контейнер имеет старый формат. К данному контейнеру нельзя добавить или удалить из него подпись. &lt;a href=&apos;http://www.id.ee/index.php?id=36162&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
