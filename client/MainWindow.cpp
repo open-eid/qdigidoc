@@ -585,9 +585,7 @@ void MainWindow::enableSign()
 	QAbstractButton *button = buttonGroup->button( SignSign );
 	button->setToolTip( QString() );
 	TokenData t = qApp->signer()->tokensign();
-	message->hide();
-	signContentFrame->setEnabled( true );
-	signSignerRole->setEnabled( true );
+	showWarning( QString() );
 
 	int warning = 0;
 	Q_FOREACH( const DigiDocSignature &s, doc->signatures() )
@@ -622,8 +620,6 @@ void MainWindow::enableSign()
 			showWarning( SignatureDialog::tr(
 				"The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
 		}
-		signContentFrame->setEnabled( false );
-		signSignerRole->setEnabled( false );
 		button->setToolTip( tr("Signing not allowed.") );
 	}
 	else if( signContentView->model()->rowCount() == 0 )
@@ -928,11 +924,13 @@ void MainWindow::showCardStatus()
 
 void MainWindow::showWarning( const QString &text )
 {
+	signContentFrame->setEnabled( text.isEmpty() );
+	signSignerRole->setEnabled( text.isEmpty() );
 	message->move(
 		message->parentWidget()->width()/2 - message->width()/2,
 		message->parentWidget()->height()/2 - message->height()/2 );
 	message->setText( text );
-	message->show();
+	message->setVisible( !text.isEmpty() );
 }
 
 void MainWindow::viewSignaturesRemove( unsigned int num )
