@@ -602,7 +602,7 @@ void MainWindow::enableSign()
 		showWarning( SignatureDialog::tr(
 			"The current file is a DigiDoc container that is not supported officially any longer. "
 			"You are not allowed to add or remove signatures to this container. "
-			"<a href='http://www.id.ee/index.php?id=36161'>Additional info</a>.") );
+			"<a href='http://www.id.ee/?id=36511'>Additional info</a>.") );
 		button->setToolTip( tr("Signing not allowed.") );
 	}
 	else if( warning )

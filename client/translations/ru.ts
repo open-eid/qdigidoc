@@ -1179,7 +1179,11 @@ Control code: %1</source>
     </message>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation>DigiDoc контейнер имеет старый формат. К данному контейнеру нельзя добавить или удалить из него подпись. &lt;a href=&apos;http://www.id.ee/index.php?id=36162&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
+        <translation type="obsolete">DigiDoc контейнер имеет старый формат. К данному контейнеру нельзя добавить или удалить из него подпись. &lt;a href=&apos;http://www.id.ee/index.php?id=36162&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional info&lt;/a&gt;.</source>
+        <translation>DigiDoc контейнер имеет старый формат. К данному контейнеру нельзя добавить или удалить из него подпись. &lt;a href=&apos;http://www.id.ee/?id=30602&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
