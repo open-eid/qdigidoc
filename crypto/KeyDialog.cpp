@@ -358,7 +358,6 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	sort->setSourceModel( certModel = new CertModel( this ) );
 	sort->setSortRole( Qt::EditRole );
 	skView->setModel( sort );
-	skView->header()->setStretchLastSection( false );
 	skView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	skView->header()->setResizeMode( CertModel::Owner, QHeaderView::Stretch );
 	skView->header()->setSortIndicator( 0, Qt::AscendingOrder );
@@ -368,7 +367,6 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	sort->setSourceModel( history = new HistoryModel( sort ) );
 	sort->setSortRole( Qt::EditRole );
 	usedView->setModel( sort );
-	usedView->header()->setStretchLastSection( false );
 	usedView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	usedView->header()->setResizeMode( HistoryModel::Owner, QHeaderView::Stretch );
 	usedView->header()->setSortIndicator( 0, Qt::AscendingOrder );
@@ -500,6 +498,8 @@ void CertAddDialog::on_add_clicked()
 
 void CertAddDialog::on_remove_clicked()
 {
+	if( !usedView->selectionModel() || !usedView->selectionModel()->hasSelection() )
+		return;
 	QModelIndexList rows = usedView->selectionModel()->selectedRows();
 	for( QModelIndexList::const_iterator i = rows.constEnd(); i != rows.begin(); )
 	{
