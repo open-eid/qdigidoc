@@ -1172,7 +1172,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Allkirja staatus kuvatakse teadmata kui arvutis puuduvad allkirja kontrollimiseks vajalikud sertifitseerija ja/või kehtivuskinnituse teenuse sertifikaadid. &lt;a href=&apos;http://www.id.ee/?id=35939&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
+        <translation>Allkirja staatus kuvatakse &quot;teadmata&quot;, kui arvutis puuduvad allkirja kontrollimiseks vajalikud sertifitseerija ja/või kehtivuskinnituse teenuse sertifikaadid. &lt;a href=&apos;http://www.id.ee/?id=35939&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
