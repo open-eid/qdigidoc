@@ -233,7 +233,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 			"<a href='http://www.id.ee/index.php?id=35941'>Additional information</a>.") );
 		break;
 	}
-	if( d->error->toPlainText().isEmpty() )
+	if( d->error->toPlainText().isEmpty() && d->info->text().isEmpty() )
 		d->tabWidget->removeTab( 0 );
 	else
 		d->buttonBox->addButton( QDialogButtonBox::Help );
