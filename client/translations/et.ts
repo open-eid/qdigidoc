@@ -1147,10 +1147,6 @@ Kontrollkood: %1</translation>
         <translation>Kehtivuskinnituse aeg (UTC)</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;info&quot;&gt;More info&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;info&quot;&gt;Rohkem infot&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Sellele konteinerile ei saa allkirja lisada ega eemaldada. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36212&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
@@ -1177,6 +1173,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>Tegemist on vanas formaadis DigiDoc konteineriga. Sellele konteinerile ei saa allkirja lisada ega eemaldada. &lt;a href=&apos;http://www.id.ee/?id=36510&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;info&quot;&gt;Tehniline info&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

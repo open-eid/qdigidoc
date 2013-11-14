@@ -40,7 +40,7 @@
        <item>
         <widget class="QLabel" name="more">
          <property name="text">
-          <string>&lt;a href=&quot;info&quot;&gt;More info&lt;/a&gt;</string>
+          <string>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</string>
          </property>
         </widget>
        </item>

@@ -1147,10 +1147,6 @@ Control code: %1</translation>
         <translation>OCSP time (UTC)</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;info&quot;&gt;More info&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;info&quot;&gt;More info&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
@@ -1177,6 +1173,10 @@ Control code: %1</translation>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional info&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
