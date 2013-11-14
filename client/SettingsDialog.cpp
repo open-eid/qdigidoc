@@ -142,10 +142,10 @@ void SettingsDialog::on_typeBDoc_clicked( bool checked )
 		return;
 
 	QMessageBox b( QMessageBox::Information, windowTitle(), tr(
-		"BDOC 2.0 is new format for digital signatures. BDOC implementation in current "
-		"application version is for testing only. BDOC 2 format is subject to change therefore "
-		"BDOC files created in testing phase might not supported in the future. "
-		"Additional <a href=\"http://www.id.ee/eng/bdoc\">information</a>"),
+		"BDOC is new format for digital signatures, which may yet not be supported "
+		"by all information systems and applications. Please note that the recipient "
+		"might be not capable opening a document signed in this format. "
+		"<a href=\"http://www.id.ee/eng/bdoc\">Additional information</a>."),
 		QMessageBox::NoButton, this );
 	if( QLabel *l = b.findChild<QLabel*>() )
 	{

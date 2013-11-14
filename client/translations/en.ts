@@ -1020,12 +1020,12 @@ Control code: %1</translation>
         <translation>expired</translation>
     </message>
     <message>
-        <source>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future. Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</source>
-        <translation>BDOC 2.0 is new format for digital signatures. BDOC implementation in current application version is for testing only. BDOC 2 format is subject to change therefore BDOC files created in testing phase might not supported in the future. Additional &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;information&lt;/a&gt;</translation>
-    </message>
-    <message>
         <source>Show encrypting intro</source>
         <translation>Show encrypting intro</translation>
+    </message>
+    <message>
+        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -1173,10 +1173,6 @@ Control code: %1</translation>
     <message>
         <source>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation type="obsolete">The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/index.php?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional info&lt;/a&gt;.</source>
