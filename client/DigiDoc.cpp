@@ -509,7 +509,7 @@ bool DigiDoc::open( const QString &file )
 		{
 			QWidget *w = qobject_cast<QWidget*>(parent());
 			QMessageBox::warning( w, w ? w->windowTitle() : 0,
-				QT_TRANSLATE_NOOP("SignatureDialog",
+				QCoreApplication::translate("SignatureDialog",
 					"The current file is a DigiDoc container that is not supported officially any longer. "
 					"You are not allowed to add or remove signatures to this container. "
 					"<a href='http://www.id.ee/?id=36511'>Additional info</a>."), QMessageBox::Ok );
