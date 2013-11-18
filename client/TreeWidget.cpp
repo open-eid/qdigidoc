@@ -54,13 +54,13 @@ void TreeWidget::clicked( const QModelIndex &index )
 		QString dest;
 		while( true )
 		{
-			dest = FileDialog::getSaveFileName( qApp->activeWindow(),
+			dest = FileDialog::getSaveFileName( this,
 				tr("Save file"), QString( "%1/%2" )
 					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
 					.arg( m->index( index.row(), DocumentModel::Name ).data().toString() ) );
 			if( !dest.isEmpty() && !FileDialog::fileIsWritable( dest ) )
 			{
-				QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
+				QMessageBox::warning( this, tr("DigiDoc3 client"),
 					tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( dest ) );
 			}
 			else
@@ -98,6 +98,8 @@ void TreeWidget::keyPressEvent( QKeyEvent *e )
 			hidePreview();
 			break;
 		case Qt::Key_Delete:
+			if( isColumnHidden( DocumentModel::Remove ) )
+				break;
 			model()->removeRow( i[0].row() );
 			e->accept();
 			break;
