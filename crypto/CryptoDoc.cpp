@@ -360,7 +360,8 @@ void CryptoDocPrivate::cleanProperties()
 
 void CryptoDocPrivate::deleteDDoc()
 {
-	SignedDoc_free( doc );
+	if( doc )
+		SignedDoc_free( doc );
 	doc = 0;
 	delete ddoc;
 	ddoc = 0;
@@ -438,7 +439,8 @@ bool CryptoDoc::addKey( const CKey &key )
 
 void CryptoDoc::clear()
 {
-	dencEncryptedData_free( d->enc );
+	if( d->enc )
+		dencEncryptedData_free( d->enc );
 	d->enc = 0;
 	d->deleteDDoc();
 	d->fileName.clear();
