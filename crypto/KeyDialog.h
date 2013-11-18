@@ -152,10 +152,10 @@ private Q_SLOTS:
 	void addFile();
 	void enableCardCert();
 	void on_add_clicked();
+	void on_find_clicked();
 	void on_remove_clicked();
 	void on_search_clicked();
 	void on_searchType_currentIndexChanged( int index );
-	void on_usedView_doubleClicked( const QModelIndex &index );
 	void showError( const QString &msg );
 	void showResult( const QList<QSslCertificate> &result );
 

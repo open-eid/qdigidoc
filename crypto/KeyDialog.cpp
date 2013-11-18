@@ -181,7 +181,7 @@ bool HistoryModel::insertRows( int row, int count, const QModelIndex & )
 
 QVariant HistoryModel::data( const QModelIndex &index, int role ) const
 {
-	if( !index.isValid() || index.row() >= m_data.size() )
+	if( !hasIndex( index.row(), index.column() ) )
 		return QVariant();
 
 	QStringList row = m_data[index.row()];
@@ -229,7 +229,7 @@ int HistoryModel::rowCount( const QModelIndex &parent ) const
 
 bool HistoryModel::setData( const QModelIndex &index, const QVariant &value, int role )
 {
-	if( !index.isValid() || index.row() >= m_data.size() )
+	if( !hasIndex( index.row(), index.column() ) )
 		return false;
 	switch( role )
 	{
@@ -361,7 +361,7 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	skView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	skView->header()->setResizeMode( CertModel::Owner, QHeaderView::Stretch );
 	skView->header()->setSortIndicator( 0, Qt::AscendingOrder );
-	connect( skView, SIGNAL(doubleClicked(QModelIndex)), SLOT(on_add_clicked()) );
+	connect( skView, SIGNAL(activated(QModelIndex)), SLOT(on_add_clicked()) );
 
 	sort = new QSortFilterProxyModel( usedView );
 	sort->setSourceModel( history = new HistoryModel( sort ) );
@@ -370,6 +370,7 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	usedView->header()->setResizeMode( QHeaderView::ResizeToContents );
 	usedView->header()->setResizeMode( HistoryModel::Owner, QHeaderView::Stretch );
 	usedView->header()->setSortIndicator( 0, Qt::AscendingOrder );
+	connect( usedView, SIGNAL(activated(QModelIndex)), SLOT(on_find_clicked()) );
 
 	connect( ldap, SIGNAL(searchResult(QList<QSslCertificate>)),
 		SLOT(showResult(QList<QSslCertificate>)) );
@@ -538,8 +539,12 @@ void CertAddDialog::on_searchType_currentIndexChanged( int index )
 	searchContent->setFocus();
 }
 
-void CertAddDialog::on_usedView_doubleClicked( const QModelIndex &index )
+void CertAddDialog::on_find_clicked()
 {
+	if( !usedView->selectionModel() || !usedView->selectionModel()->hasSelection() )
+		return;
+	QModelIndexList rows = usedView->selectionModel()->selectedRows();
+	QModelIndex index = rows[0];
 	QAbstractItemModel *m = usedView->model();
 	QString text = m->index( index.row(), HistoryModel::Owner ).data().toString();
 	tabWidget->setCurrentIndex( 0 );
