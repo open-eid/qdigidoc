@@ -580,7 +580,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>NB! Signature contains warnings</source>
-        <translation type="unfinished"></translation>
+        <translation>NB! Allkirjale kehtivad piirangud</translation>
     </message>
     <message>
         <source>NB! Status unknown</source>
@@ -1099,10 +1099,6 @@ Kontrollkood: %1</translation>
         <translation>Allkirja meetod</translation>
     </message>
     <message>
-        <source>Error</source>
-        <translation>Viga</translation>
-    </message>
-    <message>
         <source>Show OCSP certificate</source>
         <translation>Näita kehtivuskinnituse sertifikaati</translation>
     </message>
@@ -1156,7 +1152,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Signature is valid with warnings</source>
-        <translation type="unfinished"></translation>
+        <translation>Allkiri on kehtiv (hoiatusega)</translation>
     </message>
     <message>
         <source>Test signature is signed with test certificates that are similar to the certificates of real tokens, but digital signatures with legal force cannot be given with them as there is no actual owner of the card. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Additional information&lt;/a&gt;.</source>
@@ -1177,6 +1173,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;info&quot;&gt;Tehniline info&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Notice</source>
+        <translation>Hoiatus</translation>
     </message>
 </context>
 <context>

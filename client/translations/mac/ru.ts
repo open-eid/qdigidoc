@@ -583,7 +583,7 @@ New ID-cards have chip on the back side of the card.</source>
     </message>
     <message>
         <source>NB! Signature contains warnings</source>
-        <translation type="unfinished"></translation>
+        <translation>NB! Подпись содержит предупреждения</translation>
     </message>
     <message>
         <source>NB! Status unknown</source>
@@ -1102,10 +1102,6 @@ Control code: %1</source>
         <translation>Метод подписи</translation>
     </message>
     <message>
-        <source>Error</source>
-        <translation>Ошибка</translation>
-    </message>
-    <message>
         <source>Show OCSP certificate</source>
         <translation>Сертификат OCSP</translation>
     </message>
@@ -1159,7 +1155,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Signature is valid with warnings</source>
-        <translation type="unfinished"></translation>
+        <translation>Подпись действительна (предупреждения)</translation>
     </message>
     <message>
         <source>Test signature is signed with test certificates that are similar to the certificates of real tokens, but digital signatures with legal force cannot be given with them as there is no actual owner of the card. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Additional information&lt;/a&gt;.</source>
@@ -1180,6 +1176,10 @@ Control code: %1</source>
     <message>
         <source>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;info&quot;&gt;Техническая информация&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Notice</source>
+        <translation>Предупреждения</translation>
     </message>
 </context>
 <context>

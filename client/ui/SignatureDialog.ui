@@ -24,7 +24,7 @@
      </property>
      <widget class="QWidget" name="errorTab">
       <attribute name="title">
-       <string>Error</string>
+       <string>Notice</string>
       </attribute>
       <layout class="QVBoxLayout" name="errorLayout">
        <item>

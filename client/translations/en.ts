@@ -1099,10 +1099,6 @@ Control code: %1</translation>
         <translation>Signature method</translation>
     </message>
     <message>
-        <source>Error</source>
-        <translation>Error</translation>
-    </message>
-    <message>
         <source>Show OCSP certificate</source>
         <translation>Show OCSP certificate</translation>
     </message>
@@ -1177,6 +1173,10 @@ Control code: %1</translation>
     <message>
         <source>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Notice</source>
+        <translation>Notice</translation>
     </message>
 </context>
 <context>
