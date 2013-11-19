@@ -678,7 +678,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Your Mobile-ID service is not activated.</source>
-        <translation>Mobiil-ID sertifikaadid ei ole aktiveeritud.</translation>
+        <translation>Не активирована услуга Mobiil-ID.</translation>
     </message>
     <message>
         <source>SSL handshake failed. Check the proxy settings of your computer or software upgrades.</source>
