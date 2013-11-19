@@ -125,6 +125,10 @@ Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
         <source>Company reg nr:</source>
         <translation>Registrikood:</translation>
     </message>
+    <message>
+        <source>Find</source>
+        <translation>Otsi</translation>
+    </message>
 </context>
 <context>
     <name>CertModel</name>
@@ -139,195 +143,6 @@ Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
     <message>
         <source>Expiry date</source>
         <translation>Aegumiskuupäev</translation>
-    </message>
-</context>
-<context>
-    <name>CryptoDoc</name>
-    <message>
-        <source>Container is not open</source>
-        <translation>Turvaümbrik ei ole avatud</translation>
-    </message>
-    <message>
-        <source>Container is encrypted</source>
-        <translation>Turvaümbrik on krüpteeritud</translation>
-    </message>
-    <message>
-        <source>Failed to add file</source>
-        <translation>Faili lisamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to calculate digest</source>
-        <translation>Räsi arvutamine ei õnnestunud</translation>
-    </message>
-    <message>
-        <source>Failed to add key</source>
-        <translation>Adressaadi lisamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to read decrypted data</source>
-        <translation>Dekrüpteeritud andmete lugemine ebaõnnstus</translation>
-    </message>
-    <message>
-        <source>Failed to encrypt data</source>
-        <translation>Andmete krüpteerimine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to open crypted document</source>
-        <translation>Turvaümbriku avamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to remove key</source>
-        <translation>Adressaadi eemaldamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Container is not crypted</source>
-        <translation>Turvaümbrik pole krüpteeritud</translation>
-    </message>
-    <message>
-        <source>Failed to save encrpyted file</source>
-        <translation>Krüpteeritud faili salvestamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to save file</source>
-        <translation>Faili salvestamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Document not open</source>
-        <translation>Turvaümbrik pole avatud</translation>
-    </message>
-    <message>
-        <source>Internal error</source>
-        <translation>Teegi viga</translation>
-    </message>
-    <message>
-        <source>Key already exists</source>
-        <translation>Adressaat on juba lisatud</translation>
-    </message>
-    <message>
-        <source>Failed to create temporary files&lt;br /&gt;%1</source>
-        <translation>Ajutiste failde loomine ebaõnnestus&lt;br /&gt;%1</translation>
-    </message>
-    <message>
-        <source>You do not have the key to decrypt this document</source>
-        <translation>Sul puudub võti millega dekrüpteerida seda turvaümbrikut</translation>
-    </message>
-    <message>
-        <source>No keys specified</source>
-        <translation>Ühtegi adressaati ei ole lisatud</translation>
-    </message>
-    <message>
-        <source>libdigidoc code: %1
-message: %2</source>
-        <translation>libdigidoc&apos;i kood: %1
-teade: %2</translation>
-    </message>
-    <message>
-        <source>DigiDoc3 crypto</source>
-        <translation>DigiDoc3 Krüpto</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt data</source>
-        <translation>Andmete dekrüpteerimine ebaõnnestus</translation>
-    </message>
-</context>
-<context>
-    <name>HistoryModel</name>
-    <message>
-        <source>Owner</source>
-        <translation>Omanik</translation>
-    </message>
-    <message>
-        <source>Issuer</source>
-        <translation>Väljaandja</translation>
-    </message>
-    <message>
-        <source>Expiry date</source>
-        <translation>Aegumiskuupäev</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Tüüp</translation>
-    </message>
-    <message>
-        <source>DIGI-ID</source>
-        <translation>DIGI-ID</translation>
-    </message>
-    <message>
-        <source>TEMPEL</source>
-        <translation>TEMPEL</translation>
-    </message>
-    <message>
-        <source>ID-CARD</source>
-        <translation>ID-KAART</translation>
-    </message>
-</context>
-<context>
-    <name>KeyDialog</name>
-    <message>
-        <source>Crypt method</source>
-        <translation>Krüpteerimismeetod</translation>
-    </message>
-    <message>
-        <source>Expires</source>
-        <translation>Aegub</translation>
-    </message>
-    <message>
-        <source>Issuer</source>
-        <translation>Väljaandja</translation>
-    </message>
-    <message>
-        <source>Crypt recipient</source>
-        <translation>Krüpteerida adressaadile</translation>
-    </message>
-    <message>
-        <source>Attribute</source>
-        <translation>Atribuut</translation>
-    </message>
-    <message>
-        <source>Value</source>
-        <translation>Väärtus</translation>
-    </message>
-    <message>
-        <source>Show certificate</source>
-        <translation>Näita sertifikaati</translation>
-    </message>
-    <message>
-        <source>Key</source>
-        <translation>Adressaat</translation>
-    </message>
-</context>
-<context>
-    <name>KeyWidget</name>
-    <message>
-        <source>Show details</source>
-        <translation>Vaata üksikasju</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Eemalda</translation>
-    </message>
-</context>
-<context>
-    <name>LdapSearch</name>
-    <message>
-        <source>Failed to init ldap</source>
-        <translation>LDAP initsialiseerimine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to init ldap search</source>
-        <translation>LDAP otsingu initsialiseerimine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to get result</source>
-        <translation>Ei saanud LDAP päringule vastust</translation>
-    </message>
-    <message>
-        <source>LDAP server is unavailable.</source>
-        <translation>Ei saa ühendust LDAP serveriga.</translation>
-    </message>
-    <message>
-        <source>Error Code: %1 (%2)</source>
-        <translation>Veakood: %1 (%2)</translation>
     </message>
 </context>
 <context>
@@ -561,6 +376,195 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     <message>
         <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
         <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
+    </message>
+</context>
+<context>
+    <name>CryptoDoc</name>
+    <message>
+        <source>Container is not open</source>
+        <translation>Turvaümbrik ei ole avatud</translation>
+    </message>
+    <message>
+        <source>Container is encrypted</source>
+        <translation>Turvaümbrik on krüpteeritud</translation>
+    </message>
+    <message>
+        <source>Failed to add file</source>
+        <translation>Faili lisamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to calculate digest</source>
+        <translation>Räsi arvutamine ei õnnestunud</translation>
+    </message>
+    <message>
+        <source>Failed to add key</source>
+        <translation>Adressaadi lisamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to read decrypted data</source>
+        <translation>Dekrüpteeritud andmete lugemine ebaõnnstus</translation>
+    </message>
+    <message>
+        <source>Failed to encrypt data</source>
+        <translation>Andmete krüpteerimine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to open crypted document</source>
+        <translation>Turvaümbriku avamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to remove key</source>
+        <translation>Adressaadi eemaldamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Container is not crypted</source>
+        <translation>Turvaümbrik pole krüpteeritud</translation>
+    </message>
+    <message>
+        <source>Failed to save encrpyted file</source>
+        <translation>Krüpteeritud faili salvestamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to save file</source>
+        <translation>Faili salvestamine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Document not open</source>
+        <translation>Turvaümbrik pole avatud</translation>
+    </message>
+    <message>
+        <source>Internal error</source>
+        <translation>Teegi viga</translation>
+    </message>
+    <message>
+        <source>Key already exists</source>
+        <translation>Adressaat on juba lisatud</translation>
+    </message>
+    <message>
+        <source>Failed to create temporary files&lt;br /&gt;%1</source>
+        <translation>Ajutiste failde loomine ebaõnnestus&lt;br /&gt;%1</translation>
+    </message>
+    <message>
+        <source>You do not have the key to decrypt this document</source>
+        <translation>Sul puudub võti millega dekrüpteerida seda turvaümbrikut</translation>
+    </message>
+    <message>
+        <source>No keys specified</source>
+        <translation>Ühtegi adressaati ei ole lisatud</translation>
+    </message>
+    <message>
+        <source>libdigidoc code: %1
+message: %2</source>
+        <translation>libdigidoc&apos;i kood: %1
+teade: %2</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Krüpto</translation>
+    </message>
+    <message>
+        <source>Failed to decrypt data</source>
+        <translation>Andmete dekrüpteerimine ebaõnnestus</translation>
+    </message>
+</context>
+<context>
+    <name>HistoryModel</name>
+    <message>
+        <source>Owner</source>
+        <translation>Omanik</translation>
+    </message>
+    <message>
+        <source>Issuer</source>
+        <translation>Väljaandja</translation>
+    </message>
+    <message>
+        <source>Expiry date</source>
+        <translation>Aegumiskuupäev</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tüüp</translation>
+    </message>
+    <message>
+        <source>DIGI-ID</source>
+        <translation>DIGI-ID</translation>
+    </message>
+    <message>
+        <source>TEMPEL</source>
+        <translation>TEMPEL</translation>
+    </message>
+    <message>
+        <source>ID-CARD</source>
+        <translation>ID-KAART</translation>
+    </message>
+</context>
+<context>
+    <name>KeyDialog</name>
+    <message>
+        <source>Crypt method</source>
+        <translation>Krüpteerimismeetod</translation>
+    </message>
+    <message>
+        <source>Expires</source>
+        <translation>Aegub</translation>
+    </message>
+    <message>
+        <source>Issuer</source>
+        <translation>Väljaandja</translation>
+    </message>
+    <message>
+        <source>Crypt recipient</source>
+        <translation>Krüpteerida adressaadile</translation>
+    </message>
+    <message>
+        <source>Attribute</source>
+        <translation>Atribuut</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Väärtus</translation>
+    </message>
+    <message>
+        <source>Show certificate</source>
+        <translation>Näita sertifikaati</translation>
+    </message>
+    <message>
+        <source>Key</source>
+        <translation>Adressaat</translation>
+    </message>
+</context>
+<context>
+    <name>KeyWidget</name>
+    <message>
+        <source>Show details</source>
+        <translation>Vaata üksikasju</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Eemalda</translation>
+    </message>
+</context>
+<context>
+    <name>LdapSearch</name>
+    <message>
+        <source>Failed to init ldap</source>
+        <translation>LDAP initsialiseerimine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to init ldap search</source>
+        <translation>LDAP otsingu initsialiseerimine ebaõnnestus</translation>
+    </message>
+    <message>
+        <source>Failed to get result</source>
+        <translation>Ei saanud LDAP päringule vastust</translation>
+    </message>
+    <message>
+        <source>LDAP server is unavailable.</source>
+        <translation>Ei saa ühendust LDAP serveriga.</translation>
+    </message>
+    <message>
+        <source>Error Code: %1 (%2)</source>
+        <translation>Veakood: %1 (%2)</translation>
     </message>
 </context>
 </TS>

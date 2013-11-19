@@ -124,6 +124,10 @@ It is necessary to have a valid certificate for encryption.</source>
         <source>Company reg nr:</source>
         <translation>Регистр-ный код:</translation>
     </message>
+    <message>
+        <source>Find</source>
+        <translation>Находить</translation>
+    </message>
 </context>
 <context>
     <name>CertModel</name>
@@ -138,194 +142,6 @@ It is necessary to have a valid certificate for encryption.</source>
     <message>
         <source>Expiry date</source>
         <translation>Дата окончания</translation>
-    </message>
-</context>
-<context>
-    <name>CryptoDoc</name>
-    <message>
-        <source>Container is not open</source>
-        <translation>Контейнер не открыт</translation>
-    </message>
-    <message>
-        <source>Container is encrypted</source>
-        <translation>Контейнер зашифрован</translation>
-    </message>
-    <message>
-        <source>Failed to add file</source>
-        <translation>Неудачное добавление файла</translation>
-    </message>
-    <message>
-        <source>Failed to calculate digest</source>
-        <translation>Неудачное вычисление хэша</translation>
-    </message>
-    <message>
-        <source>Key already exists</source>
-        <translation>Адресат уже добавлен</translation>
-    </message>
-    <message>
-        <source>Failed to add key</source>
-        <translation>Неудачное добавление ключа</translation>
-    </message>
-    <message>
-        <source>Internal error</source>
-        <translation>Внутренняя ошибка</translation>
-    </message>
-    <message>
-        <source>Failed to create temporary files&lt;br /&gt;%1</source>
-        <translation>Неудачное создание временных файлов&lt;br /&gt;%1</translation>
-    </message>
-    <message>
-        <source>Failed to read decrypted data</source>
-        <translation>Неудачное чтение расшифрованных данных</translation>
-    </message>
-    <message>
-        <source>Failed to encrypt data</source>
-        <translation>Неудачная зашифровка данных</translation>
-    </message>
-    <message>
-        <source>Failed to open crypted document</source>
-        <translation>Открытие зашифрованного файла прошла неуспешно</translation>
-    </message>
-    <message>
-        <source>Failed to remove key</source>
-        <translation>Неудачное удаление ключа</translation>
-    </message>
-    <message>
-        <source>Container is not crypted</source>
-        <translation>Контейнер незашифрован</translation>
-    </message>
-    <message>
-        <source>Failed to save encrpyted file</source>
-        <translation>Неудачное сохранение зашифрованного файла</translation>
-    </message>
-    <message>
-        <source>Document not open</source>
-        <translation>Документ не открыт</translation>
-    </message>
-    <message>
-        <source>Failed to save file</source>
-        <translation>Неудачное сохранение файла</translation>
-    </message>
-    <message>
-        <source>You do not have the key to decrypt this document</source>
-        <translation>У вас отсутствует ключ для расшифровки документа</translation>
-    </message>
-    <message>
-        <source>No keys specified</source>
-        <translation>Не выбран ни один ключ</translation>
-    </message>
-    <message>
-        <source>libdigidoc code: %1
-message: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>DigiDoc3 crypto</source>
-        <translation>DigiDoc3 Crypto</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt data</source>
-        <translation>Неудачная расшифровка данных</translation>
-    </message>
-</context>
-<context>
-    <name>HistoryModel</name>
-    <message>
-        <source>Owner</source>
-        <translation>Владелец</translation>
-    </message>
-    <message>
-        <source>Issuer</source>
-        <translation>Выдавший</translation>
-    </message>
-    <message>
-        <source>Expiry date</source>
-        <translation>Дата окончания</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>DIGI-ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>TEMPEL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ID-CARD</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>KeyDialog</name>
-    <message>
-        <source>Crypt method</source>
-        <translation>Метод шифровки</translation>
-    </message>
-    <message>
-        <source>Expires</source>
-        <translation>Истекает</translation>
-    </message>
-    <message>
-        <source>Issuer</source>
-        <translation>Выдавший</translation>
-    </message>
-    <message>
-        <source>Crypt recipient</source>
-        <translation>Зашифровать получателю</translation>
-    </message>
-    <message>
-        <source>Attribute</source>
-        <translation>Атрибут</translation>
-    </message>
-    <message>
-        <source>Value</source>
-        <translation>Значение</translation>
-    </message>
-    <message>
-        <source>Show certificate</source>
-        <translation>Показать сертификат</translation>
-    </message>
-    <message>
-        <source>Key</source>
-        <translation>Ключ</translation>
-    </message>
-</context>
-<context>
-    <name>KeyWidget</name>
-    <message>
-        <source>Show details</source>
-        <translation>Показать детали</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-</context>
-<context>
-    <name>LdapSearch</name>
-    <message>
-        <source>Failed to init ldap</source>
-        <translation>Инициализация LDAP неудалась</translation>
-    </message>
-    <message>
-        <source>Failed to init ldap search</source>
-        <translation>Инициализация поиска LDAP неуспешна</translation>
-    </message>
-    <message>
-        <source>Failed to get result</source>
-        <translation>Получение ответа неуспешно</translation>
-    </message>
-    <message>
-        <source>LDAP server is unavailable.</source>
-        <translation>Не могу подключиться к LDAP серверу.</translation>
-    </message>
-    <message>
-        <source>Error Code: %1 (%2)</source>
-        <translation>Код ошибки:%1 (%2)</translation>
     </message>
 </context>
 <context>
@@ -559,6 +375,194 @@ New ID-cards have chip on the back side of the card.</source>
     <message>
         <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
         <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
+    </message>
+</context>
+<context>
+    <name>CryptoDoc</name>
+    <message>
+        <source>Container is not open</source>
+        <translation>Контейнер не открыт</translation>
+    </message>
+    <message>
+        <source>Container is encrypted</source>
+        <translation>Контейнер зашифрован</translation>
+    </message>
+    <message>
+        <source>Failed to add file</source>
+        <translation>Неудачное добавление файла</translation>
+    </message>
+    <message>
+        <source>Failed to calculate digest</source>
+        <translation>Неудачное вычисление хэша</translation>
+    </message>
+    <message>
+        <source>Key already exists</source>
+        <translation>Адресат уже добавлен</translation>
+    </message>
+    <message>
+        <source>Failed to add key</source>
+        <translation>Неудачное добавление ключа</translation>
+    </message>
+    <message>
+        <source>Internal error</source>
+        <translation>Внутренняя ошибка</translation>
+    </message>
+    <message>
+        <source>Failed to create temporary files&lt;br /&gt;%1</source>
+        <translation>Неудачное создание временных файлов&lt;br /&gt;%1</translation>
+    </message>
+    <message>
+        <source>Failed to read decrypted data</source>
+        <translation>Неудачное чтение расшифрованных данных</translation>
+    </message>
+    <message>
+        <source>Failed to encrypt data</source>
+        <translation>Неудачная зашифровка данных</translation>
+    </message>
+    <message>
+        <source>Failed to open crypted document</source>
+        <translation>Открытие зашифрованного файла прошла неуспешно</translation>
+    </message>
+    <message>
+        <source>Failed to remove key</source>
+        <translation>Неудачное удаление ключа</translation>
+    </message>
+    <message>
+        <source>Container is not crypted</source>
+        <translation>Контейнер незашифрован</translation>
+    </message>
+    <message>
+        <source>Failed to save encrpyted file</source>
+        <translation>Неудачное сохранение зашифрованного файла</translation>
+    </message>
+    <message>
+        <source>Document not open</source>
+        <translation>Документ не открыт</translation>
+    </message>
+    <message>
+        <source>Failed to save file</source>
+        <translation>Неудачное сохранение файла</translation>
+    </message>
+    <message>
+        <source>You do not have the key to decrypt this document</source>
+        <translation>У вас отсутствует ключ для расшифровки документа</translation>
+    </message>
+    <message>
+        <source>No keys specified</source>
+        <translation>Не выбран ни один ключ</translation>
+    </message>
+    <message>
+        <source>libdigidoc code: %1
+message: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DigiDoc3 crypto</source>
+        <translation>DigiDoc3 Crypto</translation>
+    </message>
+    <message>
+        <source>Failed to decrypt data</source>
+        <translation>Неудачная расшифровка данных</translation>
+    </message>
+</context>
+<context>
+    <name>HistoryModel</name>
+    <message>
+        <source>Owner</source>
+        <translation>Владелец</translation>
+    </message>
+    <message>
+        <source>Issuer</source>
+        <translation>Выдавший</translation>
+    </message>
+    <message>
+        <source>Expiry date</source>
+        <translation>Дата окончания</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DIGI-ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TEMPEL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ID-CARD</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>KeyDialog</name>
+    <message>
+        <source>Crypt method</source>
+        <translation>Метод шифровки</translation>
+    </message>
+    <message>
+        <source>Expires</source>
+        <translation>Истекает</translation>
+    </message>
+    <message>
+        <source>Issuer</source>
+        <translation>Выдавший</translation>
+    </message>
+    <message>
+        <source>Crypt recipient</source>
+        <translation>Зашифровать получателю</translation>
+    </message>
+    <message>
+        <source>Attribute</source>
+        <translation>Атрибут</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Значение</translation>
+    </message>
+    <message>
+        <source>Show certificate</source>
+        <translation>Показать сертификат</translation>
+    </message>
+    <message>
+        <source>Key</source>
+        <translation>Ключ</translation>
+    </message>
+</context>
+<context>
+    <name>KeyWidget</name>
+    <message>
+        <source>Show details</source>
+        <translation>Показать детали</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+</context>
+<context>
+    <name>LdapSearch</name>
+    <message>
+        <source>Failed to init ldap</source>
+        <translation>Инициализация LDAP неудалась</translation>
+    </message>
+    <message>
+        <source>Failed to init ldap search</source>
+        <translation>Инициализация поиска LDAP неуспешна</translation>
+    </message>
+    <message>
+        <source>Failed to get result</source>
+        <translation>Получение ответа неуспешно</translation>
+    </message>
+    <message>
+        <source>LDAP server is unavailable.</source>
+        <translation>Не могу подключиться к LDAP серверу.</translation>
+    </message>
+    <message>
+        <source>Error Code: %1 (%2)</source>
+        <translation>Код ошибки:%1 (%2)</translation>
     </message>
 </context>
 </TS>
