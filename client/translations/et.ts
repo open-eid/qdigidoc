@@ -1235,7 +1235,7 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Warnings</source>
-        <translation type="unfinished"></translation>
+        <translation>hoiatusega</translation>
     </message>
 </context>
 <context>

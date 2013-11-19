@@ -1238,7 +1238,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Warnings</source>
-        <translation type="unfinished"></translation>
+        <translation>предупреждения</translation>
     </message>
 </context>
 <context>
