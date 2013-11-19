@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="et">
+<TS version="2.1" language="et">
 <context>
     <name>CDocumentModel</name>
     <message>
@@ -126,8 +126,8 @@ Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
         <translation>Registrikood:</translation>
     </message>
     <message>
-        <source>Find</source>
-        <translation>Otsi</translation>
+        <source>Select</source>
+        <translation>Vali</translation>
     </message>
 </context>
 <context>
