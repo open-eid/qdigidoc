@@ -92,6 +92,9 @@ MobileDialog::MobileDialog( QWidget *parent )
 	{
 		QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
 		ssl.setCaCertificates( ssl.caCertificates()
+#ifdef Q_OS_LINUX
+			<< QSslCertificate::fromPath( "/usr/share/esteid/certs/*.crt", QSsl::Pem, QRegExp::Wildcard )
+#endif
 			<< QSslCertificate( "-----BEGIN CERTIFICATE-----\n"
 			"MIIEOzCCAyOgAwIBAgIBADANBgkqhkiG9w0BAQUFADB2MQswCQYDVQQGEwJFRTEi\n"
 			"MCAGA1UEChMZQVMgU2VydGlmaXRzZWVyaW1pc2tlc2t1czEeMBwGA1UECxMVU0sg\n"
