@@ -512,7 +512,7 @@ bool DigiDoc::open( const QString &file )
 				QCoreApplication::translate("SignatureDialog",
 					"The current file is a DigiDoc container that is not supported officially any longer. "
 					"You are not allowed to add or remove signatures to this container. "
-					"<a href='http://www.id.ee/?id=36511'>Additional info</a>."), QMessageBox::Ok );
+					"<a href='http://www.id.ee/?id=36161'>Additional info</a>."), QMessageBox::Ok );
 		}
 		m_fileName = file;
 		m_documentModel->reset();

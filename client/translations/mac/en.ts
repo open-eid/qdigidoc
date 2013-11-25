@@ -1143,10 +1143,6 @@ Control code: %1</translation>
         <translation>OCSP time (UTC)</translation>
     </message>
     <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
         <translation>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</translation>
     </message>
@@ -1167,16 +1163,20 @@ Control code: %1</translation>
         <translation>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional info&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Notice</source>
         <translation>Notice</translation>
+    </message>
+    <message>
+        <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
+        <translation>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>

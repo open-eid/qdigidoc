@@ -1146,10 +1146,6 @@ Control code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36213&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. К данному контейнеру нельзя добавить или удалить из него подпись. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36214&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
         <translation>Данный контейнер имеет меньшую надежность по сравнению с официально признанным в Эстонии контейнером в формате BDOC.</translation>
     </message>
@@ -1170,16 +1166,20 @@ Control code: %1</source>
         <translation>Статус подписи отображается как &quot;неизвестный&quot;, если на компьютере не установлены необходимые для проверки подписи сертификаты сертифицирующей организации и/или услуги подтверждения действительности. &lt;a href=&apos;http://www.id.ee/index.php?id=35940&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional info&lt;/a&gt;.</source>
-        <translation>DigiDoc контейнер имеет старый формат. К данному контейнеру нельзя добавить или удалить из него подпись. &lt;a href=&apos;http://www.id.ee/?id=30602&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;info&quot;&gt;Техническая информация&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Notice</source>
         <translation>Предупреждения</translation>
+    </message>
+    <message>
+        <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
+        <translation>DigiDoc контейнер имеет старый формат. К данному контейнеру нельзя добавить или удалить из него подпись. &lt;a href=&apos;http://www.id.ee/?id=36162&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. К данному контейнеру нельзя добавить или удалить из него подпись. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36512&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
