@@ -50,21 +50,10 @@ void TreeWidget::clicked( const QModelIndex &index )
 	{
 	case CDocumentModel::Save:
 	{
-		QString dest;
-		while( true )
-		{
-			dest = FileDialog::getSaveFileName( qApp->activeWindow(),
-				tr("Save file"), QString( "%1/%2" )
-					.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-					.arg( m->index( index.row(), CDocumentModel::Name ).data().toString() ) );
-			if( !dest.isEmpty() && !FileDialog::fileIsWritable( dest ) )
-			{
-				QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 crypto"),
-					tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( dest ) );
-			}
-			else
-				break;
-		}
+		QString dest = FileDialog::getSaveFileName( qApp->activeWindow(),
+			tr("Save file"), QString( "%1/%2" )
+				.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
+				.arg( m->index( index.row(), CDocumentModel::Name ).data().toString() ) );
 		QString src = m->index( index.row(), CDocumentModel::Name ).data( Qt::UserRole ).toString();
 		if( !dest.isEmpty() && !src.isEmpty() && dest != src )
 			m->copy( index, dest );
