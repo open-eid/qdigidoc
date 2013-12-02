@@ -172,10 +172,6 @@ Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
         <translation>Salvesta fail</translation>
     </message>
     <message>
-        <source>Documents (*.cdoc)</source>
-        <translation type="obsolete">Turvaümbrikud (*.cdoc)</translation>
-    </message>
-    <message>
         <source>Decrypt</source>
         <translation>Dekrüpteeri</translation>
     </message>
@@ -231,10 +227,6 @@ Kas avan Digidoc kliendiga?</translation>
     <message>
         <source>Decrypting</source>
         <translation>Dekrüpteerimine</translation>
-    </message>
-    <message>
-        <source>You don&apos;t have privileges to write file %1</source>
-        <translation type="obsolete">Sul ei ole piisavalt õigusi et kirjutada faili %1</translation>
     </message>
     <message>
         <source>DigiDoc3 Crypto</source>
@@ -368,14 +360,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     <message>
         <source>Save file</source>
         <translation>Salvesta fail</translation>
-    </message>
-    <message>
-        <source>DigiDoc3 crypto</source>
-        <translation>DigiDoc3 Krüpto</translation>
-    </message>
-    <message>
-        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
-        <translation>Sul ei ole piisavalt õigusi, et kirjutada fail kataloogi %1</translation>
     </message>
 </context>
 <context>

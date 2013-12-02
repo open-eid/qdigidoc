@@ -1249,10 +1249,6 @@ Control code: %1</translation>
         <translation>DigiDoc3 client</translation>
     </message>
     <message>
-        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
-        <translation>You don&apos;t have sufficient privileges to write this file into folder %1</translation>
-    </message>
-    <message>
         <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
         <translation>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</translation>
     </message>

@@ -151,10 +151,6 @@ It is necessary to have a valid certificate for encryption.</source>
         <translation>Сохранить файл</translation>
     </message>
     <message>
-        <source>Documents (*.cdoc)</source>
-        <translation type="obsolete">Документы(*.cdoc)</translation>
-    </message>
-    <message>
         <source>Select documents</source>
         <translation>Добавить файлы</translation>
     </message>
@@ -230,10 +226,6 @@ It is necessary to have a valid certificate for encryption.</source>
     <message>
         <source>Decrypting</source>
         <translation>Расшифровка</translation>
-    </message>
-    <message>
-        <source>You don&apos;t have privileges to write file %1</source>
-        <translation type="obsolete">У Вас недостаточно прав, для записи файла %1</translation>
     </message>
     <message>
         <source>DigiDoc3 Crypto</source>
@@ -367,14 +359,6 @@ New ID-cards have chip on the back side of the card.</source>
     <message>
         <source>Save file</source>
         <translation>Сохранить файл</translation>
-    </message>
-    <message>
-        <source>DigiDoc3 crypto</source>
-        <translation>DigiDoc3 Crypto</translation>
-    </message>
-    <message>
-        <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>
-        <translation>У Вас недостаточно прав для записи файла в каталог %1</translation>
     </message>
 </context>
 <context>
