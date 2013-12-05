@@ -1,0 +1,31 @@
+DigiDoc3 Client version 3.8 release notes
+
+- Added BDOC 2.1 document format support. See http://www.id.ee/?id=34336 for more information. Added Elliptic Curve Cryptography (ECC) based certificates support for BDOC 2.1 format.
+- Changed the distribution of ID-software for OSX platform. DigiDoc3 Client (common application for Client and Crypto) and Utility program are now accessible only from Apple App Store. When using ID-card or both ID-card and Mobile-ID then the user is prompted to install an additional software package. 
+- Added warnings system and changed the priorities of DigiDoc file's validation result statuses. See CDigiDoc and Libdigidocpp software libraries documentation for more information.
+- Added support for signing with Finnish ID cards and validation of signatures that are created with Finnish live and test certificates. The certificate files have to be installed with separate packages. The live certificates package contains Finnish root CA certificate (http://fineid.fi/default.aspx?id=596) and certificates which are included in the Finnish national Trust Service List (TSL) (https://www.viestintavirasto.fi/attachments/TSL-Ficora.xml). Finnish test certificates (http://fineid.fi/default.aspx?id=597) are included in the overall test certificates package.  
+- Improved the user’s notification in case of altering old and not supported DigiDoc file formats (SK-XML 1.0, DIGIDOC-XML 1.1, 1.2).
+- Moved signature and OCSP confirmation information to a single Signature tab (in “Show details” window), optimized the information that is displayed.
+- Improved of displaying the signature creation time in case of daylight saving time.
+- Added field of OCSP validity confirmation time in UTC format to Signature tab in “Show details” window.
+- Changed the name of the field “Signing time” to “Signer’s computer time (UTC)” in Signature tab (“Show details” window). The time is shown in UTC format.
+- Fixed the problem of not showing the time of the day in the signer certificate’s validity period fields in Signature tab (in “Show details” window).
+- Replaced the field “Hash value of validity confirmation (OCSP response)” with “Hash value of signature” in Validity Confirmation Sheet (Print Summary view). 
+- Added “Valid to” field to the Server Access Certificate tab (under Settings window) and the possibility to generate new certificate if the previous one is expired or about to expire (button “Generate certificate”). 
+- Changed the name of the field “Hash value of issuer’s public key” to “Authority key identifier” in Validity Confirmation Sheet (Print Summary view).
+- Added notification to the user when trying to view Validity Confirmation Sheet if there is no printer installed in the user’s system. 
+- It is now allowed for a person to give more than one signature to a single DigiDoc document. Notification is displayed to the user before adding a complementary signature to a document that he/she has previously signed.
+- Changed the displaying of Digital signing intro, the intro is shown to the user when signing the first document instead of running the application for the first time.
+- Fixed the problem of the application not responding in specific situations when signing two documents in parallel in two DigiDoc3 Client application windows with ID-card.
+- Fixed the problem in OSX that caused the application to open multiple overlapping windows when signing from context menu or opening a DigiDoc file with double click.
+- Fixed the problem in Windows with using \ characters as folder separators in digidocpp.conf configuration file’s OCSP server access certificate’s file name (parameter "pkcs12.cert"). Now, both / and \ characters are supported as folder separators in the parameter value.
+- Fixed the problem of mistakenly overwriting an existing data file with the same name when saving data files to disk and not choosing to overwrite the file.
+- Fixed the problem of not being able to concurrently open two data files that have the same name but are in different DigiDoc containers.
+- Fixed the problem with updating the notification “This container is signed by you” which shows if the current DigiDoc container is signed by the owner of the ID card which is inserted into card reader. 
+- Fixed the problem with crash reports in OSX in case of application that was installed from Apple App Store. Improved the crash report system. 
+- Started using coverity.com static analysis tool to find source code defects and vulnerabilities. Fixed the defects that were discovered.
+- Optimized sending status requests to DigiDocService web service during signature creation with Mobile-ID.
+- Qt framework has been updated to version 5.2 in OSX, version 5.1.1 in Windows environments, version 5.0.2 in Ubuntu 13.10, version 4.8 in Ubuntu 12.04.
+
+- Security fixes:
+- Improved the check for the server access certificate when creating TLS connection with DigiDocService web service. It is now checked that the certificate would be in trust store/trusted certificates list. This is a highly relevant security fix having an effect on the security of connection with DigiDocService system. Without this fix it is possible that the user’s computer may be harmed by a man in the middle attack.
