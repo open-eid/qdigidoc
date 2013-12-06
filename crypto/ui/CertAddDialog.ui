@@ -43,7 +43,7 @@
            </item>
            <item>
             <property name="text">
-             <string>Company reg nr:</string>
+             <string>Company reg no:</string>
             </property>
            </item>
           </widget>

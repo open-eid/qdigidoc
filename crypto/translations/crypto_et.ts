@@ -122,12 +122,12 @@ It is necessary to have a valid certificate for encryption.</source>
 Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
     </message>
     <message>
-        <source>Company reg nr:</source>
-        <translation>Registrikood:</translation>
-    </message>
-    <message>
         <source>Select</source>
         <translation>Vali</translation>
+    </message>
+    <message>
+        <source>Company reg no:</source>
+        <translation>Registrikood:</translation>
     </message>
 </context>
 <context>

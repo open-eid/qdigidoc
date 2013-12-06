@@ -121,12 +121,12 @@ It is necessary to have a valid certificate for encryption.</source>
 Для шифрования необходим действительный сертификат.</translation>
     </message>
     <message>
-        <source>Company reg nr:</source>
-        <translation>Регистр-ный код:</translation>
-    </message>
-    <message>
         <source>Select</source>
         <translation>Выбрать</translation>
+    </message>
+    <message>
+        <source>Company reg no:</source>
+        <translation>Регистр-ный код:</translation>
     </message>
 </context>
 <context>
