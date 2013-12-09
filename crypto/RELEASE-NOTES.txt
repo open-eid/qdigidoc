@@ -1,7 +1,8 @@
 DigiDoc3 Crypto version 3.8 release notes
 
 - DigiDoc3 Crypto and DigiDoc3 Client are now run with a single executable file. 
-- Changed the distribution of ID-software for OSX platform. DigiDoc3 Client (common application for Client and Crypto) and Utility program are now accessible only from Apple App Store. When using ID-card or both ID-card and Mobile-ID then the user is prompted to install an additional software package. 
-- Improved the Used Certificates and SK certificates tabs (in Add recipient window), it is now possible to sort the previously used certificates list by owner, type, issuer and expiry date.
+- Changed the distribution of DigiDoc3 Crypto for OSX platform. DigiDoc3 Client (common application for Client and Crypto) and Utility program are now available only from Apple App Store. When using ID-card or both ID-card and Mobile-ID then the user is prompted to install an additional software package. 
+- Added functionality to the Used Certificates and SK certificates tabs (in Add Recipient window), it is now possible to sort the previously used certificates list by owner, type, issuer and expiry date.
 - Added functionality to search for the recipient’s certificate by company’s registry number (in Add recipient view). Can be used when searching for certificates issued to legal entities.
 - Fixed the error situation which occurred when using special characters when searching for recipient’s certificate by company name.
+

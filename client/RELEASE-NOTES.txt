@@ -1,7 +1,7 @@
 DigiDoc3 Client version 3.8 release notes
 
-- Added BDOC 2.1 document format support. See http://www.id.ee/?id=34336 for more information. Added Elliptic Curve Cryptography (ECC) based certificates support for BDOC 2.1 format.
-- Changed the distribution of ID-software for OSX platform. DigiDoc3 Client (common application for Client and Crypto) and Utility program are now accessible only from Apple App Store. When using ID-card or both ID-card and Mobile-ID then the user is prompted to install an additional software package. 
+- Added BDOC 2.1 document format support. Added Elliptic Curve Cryptography (ECC) based certificates support for BDOC 2.1 format.
+- Changed the distribution of DigiDoc3 Client for OSX platform. DigiDoc3 Client (common application for Client and Crypto) and Utility program are now available only from Apple App Store. When using ID-card or both ID-card and Mobile-ID then the user is prompted to install an additional software package. 
 - Added warnings system and changed the priorities of DigiDoc file's validation result statuses. See CDigiDoc and Libdigidocpp software libraries documentation for more information.
 - Added support for signing with Finnish ID cards and validation of signatures that are created with Finnish live and test certificates. The certificate files have to be installed with separate packages. The live certificates package contains Finnish root CA certificate (http://fineid.fi/default.aspx?id=596) and certificates which are included in the Finnish national Trust Service List (TSL) (https://www.viestintavirasto.fi/attachments/TSL-Ficora.xml). Finnish test certificates (http://fineid.fi/default.aspx?id=597) are included in the overall test certificates package.  
 - Improved the user’s notification in case of altering old and not supported DigiDoc file formats (SK-XML 1.0, DIGIDOC-XML 1.1, 1.2).
@@ -11,7 +11,7 @@ DigiDoc3 Client version 3.8 release notes
 - Changed the name of the field “Signing time” to “Signer’s computer time (UTC)” in Signature tab (“Show details” window). The time is shown in UTC format.
 - Fixed the problem of not showing the time of the day in the signer certificate’s validity period fields in Signature tab (in “Show details” window).
 - Replaced the field “Hash value of validity confirmation (OCSP response)” with “Hash value of signature” in Validity Confirmation Sheet (Print Summary view). 
-- Added “Valid to” field to the Server Access Certificate tab (under Settings window) and the possibility to generate new certificate if the previous one is expired or about to expire (button “Generate certificate”). 
+- Added  “Generate certificate” button to Server Access Certificate tab (under Settings window). The button enables to generate a new server access certificate if the previous one is expired or about to expire. 
 - Changed the name of the field “Hash value of issuer’s public key” to “Authority key identifier” in Validity Confirmation Sheet (Print Summary view).
 - Added notification to the user when trying to view Validity Confirmation Sheet if there is no printer installed in the user’s system. 
 - It is now allowed for a person to give more than one signature to a single DigiDoc document. Notification is displayed to the user before adding a complementary signature to a document that he/she has previously signed.
@@ -28,4 +28,4 @@ DigiDoc3 Client version 3.8 release notes
 - Qt framework has been updated to version 5.2 in OSX, version 5.1.1 in Windows environments, version 5.0.2 in Ubuntu 13.10, version 4.8 in Ubuntu 12.04.
 
 - Security fixes:
-- Improved the check for the server access certificate when creating TLS connection with DigiDocService web service. It is now checked that the certificate would be in trust store/trusted certificates list. This is a highly relevant security fix having an effect on the security of connection with DigiDocService system. Without this fix it is possible that the user’s computer may be harmed by a man in the middle attack.
+- Client side verification for DigiDocService web site certificates added [while creating a TLS connection to DigiDocService website]. The missing verification step was discovered analytically. No attacks or malware are known to take advantage of the missed control.
