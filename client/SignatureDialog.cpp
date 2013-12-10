@@ -49,7 +49,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 ,	num( signnum )
 ,	s( signature )
 {
-	setObjectName( QString("signatureWidget%1").arg(signum) );
+	setObjectName( QString("signatureWidget%1").arg(signnum) );
 	setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Preferred );
 	setWordWrap( true );
 	setTextInteractionFlags( Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse );
