@@ -586,7 +586,8 @@ void DigiDoc::setLastError( const QString &msg, const Exception &e )
 	case Exception::OCSPTimeSlot:
 		qApp->showWarning( tr("Check your computer time"), ddocError, causes.join("\n") ); break;
 	case Exception::OCSPRequestUnauthorized:
-		qApp->showWarning( tr("Server access certificate is required"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("You have not granted IP-based access. "
+			"Check the settings of your server access certificate."), ddocError, causes.join("\n") ); break;
 	case Exception::PINCanceled:
 		break;
 	case Exception::PINFailed:

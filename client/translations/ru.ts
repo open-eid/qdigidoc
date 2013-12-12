@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru">
+<TS version="2.1" language="ru">
 <context>
     <name>AccessCert</name>
     <message>
@@ -158,10 +158,6 @@
         <translation>Проверьте время Вашего компьютера</translation>
     </message>
     <message>
-        <source>Server access certificate is required</source>
-        <translation>Необходима справка доступа</translation>
-    </message>
-    <message>
         <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
         <translation>PIN заблокирован. Для разблокирования PIN пожалуйста используйте обслуживание ID-карты!</translation>
     </message>
@@ -194,6 +190,10 @@
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>В понимании эстонского законодательства подпись не равноценна собственноручно данной подписи.
 Данная подпись создана в т.н. формате BES, то есть без подтверждения ее действительности организацией, выдавшей сертификат, и без временного штампа.</translation>
+    </message>
+    <message>
+        <source>You have not granted IP-based access. Check the settings of your server access certificate.</source>
+        <translation>Отсутствует IP-основанный доступ. Проверьте настройки справки доступа.</translation>
     </message>
 </context>
 <context>

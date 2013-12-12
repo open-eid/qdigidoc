@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="et">
+<TS version="2.1" language="et">
 <context>
     <name>AccessCert</name>
     <message>
@@ -158,10 +158,6 @@
         <translation>Kontrollige oma arvuti kella</translation>
     </message>
     <message>
-        <source>Server access certificate is required</source>
-        <translation>Puudub IP-põhine ligipääs, kontrolli juurdepääsutõendi seadeid</translation>
-    </message>
-    <message>
         <source>PIN Locked. Please use ID-card utility for PIN opening!</source>
         <translation>PIN on lukus. PIN koodi saab avada ID-kaardi haldusvahendis!</translation>
     </message>
@@ -194,6 +190,10 @@
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>Allkiri ei ole Eesti seadusandluse mõistes võrdväärne käsitsi antud allkirjaga.
 Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusmaterjalita ja sõltumatu osapoole ajakinnituseta.</translation>
+    </message>
+    <message>
+        <source>You have not granted IP-based access. Check the settings of your server access certificate.</source>
+        <translation>Puudub IP-põhine ligipääs, kontrolli juurdepääsutõendi seadeid.</translation>
     </message>
 </context>
 <context>
