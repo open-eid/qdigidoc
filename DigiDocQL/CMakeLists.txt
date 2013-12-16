@@ -11,7 +11,7 @@ add_library( DigiDocQL MODULE
 	GenerateThumbnailForURL.c
 	GeneratePreviewForURL.mm
 )
-set_source_files_properties( GeneratePreviewForURL.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc -std=c++11" )
+set_source_files_properties( GeneratePreviewForURL.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
 set_source_files_properties( ${RESOURCES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources )
 set_target_properties( DigiDocQL PROPERTIES
 	BUNDLE YES
