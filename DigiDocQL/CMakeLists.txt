@@ -4,7 +4,7 @@ include_directories(
 	${XSD_INCLUDE_DIR}
 	${LIBDIGIDOCPP_INCLUDE_DIR}
 )
-set( RESOURCES bdoc.icns ddoc.icns )
+set( RESOURCES Info.plist bdoc.icns ddoc.icns )
 add_library( DigiDocQL MODULE
 	${RESOURCES}
 	main.c
@@ -17,7 +17,7 @@ set_target_properties( DigiDocQL PROPERTIES
 	BUNDLE YES
 	BUNDLE_EXTENSION qlgenerator
 	XCODE_ATTRIBUTE_WRAPPER_EXTENSION qlgenerator
-	MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+	#MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
 	COMPILE_FLAGS "-Wno-unused-parameter"
 	LINK_FLAGS "-F/Library/Frameworks -fobjc-arc -framework QuickLook -framework digidocpp -framework Cocoa"
 )
