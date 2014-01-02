@@ -14,6 +14,7 @@ add_library( DigiDocQL MODULE
 )
 set_source_files_properties( GeneratePreviewForURL.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
 set_source_files_properties( ${RESOURCES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources )
+set_source_files_properties( Info.plist PROPERTIES MACOSX_PACKAGE_LOCATION . )
 set_target_properties( DigiDocQL PROPERTIES
 	BUNDLE YES
 	BUNDLE_EXTENSION qlgenerator
