@@ -4,7 +4,7 @@ include_directories(
 	${XSD_INCLUDE_DIR}
 	${LIBDIGIDOCPP_INCLUDE_DIR}
 )
-set( RESOURCES bdoc.icns ddoc.icns )
+set( RESOURCES ../client/mac/Resources/bdoc.icns ../client/mac/Resources/ddoc.icns )
 add_library( DigiDocQL MODULE
 	${RESOURCES}
 	Info.plist
