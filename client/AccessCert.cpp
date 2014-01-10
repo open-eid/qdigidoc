@@ -279,6 +279,7 @@ bool AccessCert::installCert( const QByteArray &data, const QString &password )
 	params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
 	params.flags = kSecKeyImportOnlyOne|kSecKeyNoAccessControl;
 	params.keyAttributes = CSSM_KEYATTR_PERMANENT|CSSM_KEYATTR_EXTRACTABLE;
+	params.keyUsage = CSSM_KEYUSE_DECRYPT|CSSM_KEYUSE_UNWRAP|CSSM_KEYUSE_DERIVE;
 	params.passphrase = CFStringCreateWithCharacters( 0,
 		reinterpret_cast<const UniChar *>(password.unicode()), password.length() );
 
