@@ -613,8 +613,8 @@ void MainWindow::enableSign()
 		{
 			showWarning( SignatureDialog::tr(
 				"The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
+			button->setToolTip( tr("Signing not allowed.") );
 		}
-		button->setToolTip( tr("Signing not allowed.") );
 	}
 	else if( signContentView->model()->rowCount() == 0 )
 		button->setToolTip( tr("Empty container") );
