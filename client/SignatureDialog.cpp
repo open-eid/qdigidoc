@@ -128,7 +128,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	sc << "<a href=\"details\" style=\"color: #509B00\" title=\"" << tr("Show details") << "\">" << tr("Show details") << "</a>";
 	sc << "</td></tr><tr><td></td>";
 	sc << "<td align=\"right\">";
-	if( s.parent()->isSupported() && !(s.warning() & DigiDocSignature::WrongNameSpace) )
+	if( s.parent()->isSupported() )
 		sc << "<a href=\"remove\" style=\"color: #509B00\" title=\"" << tr("Remove") << "\">" << tr("Remove") << "</a>";
 	sc << "</td></tr></table>";
 
