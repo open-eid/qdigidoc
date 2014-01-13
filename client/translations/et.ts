@@ -1178,6 +1178,10 @@ Kontrollkood: %1</translation>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Sellele konteinerile ei saa allkirja lisada ega eemaldada. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36510&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
+    <message>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;&lt;a href=&apos;close&apos;&gt;Close&lt;/a&gt;</source>
+        <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36510&apos;&gt;Täiendav info&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;&lt;a href=&apos;close&apos;&gt;Sulge&lt;/a&gt;</translation>
+    </message>
 </context>
 <context>
     <name>SignatureWidget</name>

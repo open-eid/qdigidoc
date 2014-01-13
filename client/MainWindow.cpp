@@ -74,7 +74,7 @@ MainWindow::MainWindow( QWidget *parent )
 	message->setAlignment( Qt::AlignCenter );
 	message->setWordWrap( true );
 	message->setFixedSize( 400, 200 );
-	message->setOpenExternalLinks( true );
+	connect( message, SIGNAL(linkActivated(QString)), this, SLOT(messageClicked(QString)) );
 	message->hide();
 
 	infoTypeGroup->setId( infoSignCard, 0 );
@@ -605,9 +605,9 @@ void MainWindow::enableSign()
 		{
 			showWarning( SignatureDialog::tr(
 				"This Digidoc document has not been created according to specification, "
-				"but the digital signature is legally valid. You are not allowed to add "
-				"or remove signatures to this container. Please inform the document creator "
-				"of this issue. <a href='http://www.id.ee/?id=36511'>Additional information</a>.") );
+				"but the digital signature is legally valid. Please inform the document creator "
+				"of this issue. <a href='http://www.id.ee/?id=36511'>Additional information</a>."
+				"<br /><br /><a href='close'>Close</a>") );
 		}
 		if( warning & DigiDocSignature::DigestWeak )
 		{
@@ -710,6 +710,14 @@ void MainWindow::loadRoles()
 	signStateInput->setText( s.value( "State" ).toString() );
 	signCountryInput->setText( s.value( "Country" ).toString() );
 	signZipInput->setText( s.value( "Zip" ).toString() );
+}
+
+void MainWindow::messageClicked( const QString &link )
+{
+	if( link == "close" )
+		showWarning( QString() );
+	else
+		QDesktopServices::openUrl( link );
 }
 
 void MainWindow::on_introCheck_stateChanged( int state )

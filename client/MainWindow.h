@@ -43,6 +43,7 @@ private Q_SLOTS:
 	void changeCard( QAction *a );
 	void changeLang( QAction *a );
 	void enableSign();
+	void messageClicked( const QString &link );
 	void on_introCheck_stateChanged( int state );
 	void on_languages_activated( int index );
 	void open( const QStringList &params );
