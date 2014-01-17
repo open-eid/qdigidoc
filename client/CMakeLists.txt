@@ -36,6 +36,7 @@ include_directories(
 if( APPLE )
 	set( SOURCES TreeWidgetMac.mm )
 	set_source_files_properties( TreeWidgetMac.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
+	set_source_files_properties( AccessCert.cpp PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations" )
 endif()
 
 add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
