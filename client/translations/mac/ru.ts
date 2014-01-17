@@ -589,6 +589,10 @@ New ID-cards have chip on the back side of the card.</source>
         <source>NB! Status unknown</source>
         <translation>NB! Статус неизвестен</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>Закрыть</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -1178,12 +1182,8 @@ Control code: %1</source>
         <translation>DigiDoc контейнер имеет старый формат. К данному контейнеру нельзя добавить или удалить из него подпись. &lt;a href=&apos;http://www.id.ee/?id=36162&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. You are not allowed to add or remove signatures to this container. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. К данному контейнеру нельзя добавить или удалить из него подпись. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36512&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;&lt;a href=&apos;close&apos;&gt;Close&lt;/a&gt;</source>
-        <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36512&apos;&gt;Дополнительная информация&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;&lt;a href=&apos;close&apos;&gt;Закрыть&lt;/a&gt;</translation>
+        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
+        <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36512&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>

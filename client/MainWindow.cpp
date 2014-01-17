@@ -603,11 +603,12 @@ void MainWindow::enableSign()
 	{
 		if( warning & DigiDocSignature::WrongNameSpace )
 		{
-			showWarning( SignatureDialog::tr(
+			showWarning( QString("%1<br /><br /><a href='close'>%2</a>")
+				.arg( SignatureDialog::tr(
 				"This Digidoc document has not been created according to specification, "
 				"but the digital signature is legally valid. Please inform the document creator "
-				"of this issue. <a href='http://www.id.ee/?id=36511'>Additional information</a>."
-				"<br /><br /><a href='close'>Close</a>") );
+				"of this issue. <a href='http://www.id.ee/?id=36511'>Additional information</a>.") )
+				.arg( tr("Close") ) );
 		}
 		if( warning & DigiDocSignature::DigestWeak )
 		{

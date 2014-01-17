@@ -199,8 +199,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		{
 			d->info->setText( tr(
 				"This Digidoc document has not been created according to specification, "
-				"but the digital signature is legally valid. You are not allowed to add "
-				"or remove signatures to this container. Please inform the document creator "
+				"but the digital signature is legally valid. Please inform the document creator "
 				"of this issue. <a href='http://www.id.ee/?id=36511'>Additional information</a>.") );
 		}
 		if( s.warning() & DigiDocSignature::DigestWeak )
