@@ -1,4 +1,13 @@
-DigiDoc3 Client version 3.8 release notes
+DigiDoc3 Client version 3.8.1 release notes
+--------------------------------------
+Changes compared to ver 3.8.0
+
+- Removed the restriction of altering DDOC files (adding new signatures and removing existing signatures) with validation warning “X509IssuerName or X509IssuerSerial missing xmlns attribute”
+- Improved server access certificate’s import to OSX keychain so that the user is not asked about server access certificate’s private key export during signature creation with DigiDoc3 Client. The server access certificates are not displayed during authentication with Safari web browser. 
+
+
+DigiDoc3 Client version 3.8.0 release notes
+--------------------------------------
 
 - Added BDOC 2.1 document format support. Added Elliptic Curve Cryptography (ECC) based certificates support for BDOC 2.1 format.
 - Changed the distribution of DigiDoc3 Client for OSX platform. DigiDoc3 Client (common application for Client and Crypto) and Utility program are now available only from Apple App Store. When using ID-card or both ID-card and Mobile-ID then the user is prompted to install an additional software package. 
