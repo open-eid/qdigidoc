@@ -1,9 +1,6 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -58,7 +55,6 @@ private:
 	};
 	enum Buttons {
 		HeadAbout,
-		HeadSettings,
 		HeadHelp,
 		HomeCreate,
 		HomeView,

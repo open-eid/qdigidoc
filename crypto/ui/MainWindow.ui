@@ -205,29 +205,6 @@ color: #71889A;
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="settings">
-          <property name="text">
-           <string>Settings</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Line" name="headerLine">
-          <property name="maximumSize">
-           <size>
-            <width>2</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Plain</enum>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="help">
           <property name="text">
            <string>Help</string>
