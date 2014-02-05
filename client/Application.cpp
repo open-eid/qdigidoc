@@ -56,10 +56,10 @@
 #if defined(Q_OS_MAC)
 #include <common/MacMenuBar.h>
 
-class DigidocConf: public digidoc::XmlConf
+class DigidocConf: public digidoc::XmlConfV2
 {
 public:
-	DigidocConf(): digidoc::XmlConf() { s.beginGroup( "Client" ); }
+	DigidocConf(): digidoc::XmlConfV2() { s.beginGroup( "Client" ); }
 
 	std::string proxyHost() const
 	{ return s.value( "ProxyHost" ).toString().toStdString(); }
