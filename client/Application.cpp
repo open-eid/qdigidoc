@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2010-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2010-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -107,18 +104,14 @@ public:
 		: closeAction(0)
 		, newClientAction(0)
 		, newCryptoAction(0)
-		, signer(0)
-		, appTranslator(0)
-		, commonTranslator(0)
-		, cryptoTranslator(0)
-		, qtTranslator(0) {}
+		, signer(0) {}
 
 	QAction		*closeAction, *newClientAction, *newCryptoAction;
 #ifdef Q_OS_MAC
 	MacMenuBar	*bar;
 #endif
 	QSigner		*signer;
-	QTranslator	*appTranslator, *commonTranslator, *cryptoTranslator, *qtTranslator;
+	QTranslator	appTranslator, commonTranslator, cryptoTranslator, qtTranslator;
 	QString		lang;
 };
 
@@ -172,10 +165,10 @@ Application::Application( int &argc, char **argv )
 	d->bar->dockMenu()->addAction( d->newCryptoAction );
 #endif
 
-	installTranslator( d->appTranslator = new QTranslator( this ) );
-	installTranslator( d->commonTranslator = new QTranslator( this ) );
-	installTranslator( d->cryptoTranslator = new QTranslator( this ) );
-	installTranslator( d->qtTranslator = new QTranslator( this ) );
+	installTranslator( &d->appTranslator );
+	installTranslator( &d->commonTranslator );
+	installTranslator( &d->cryptoTranslator );
+	installTranslator( &d->qtTranslator );
 	loadTranslation( Settings::language() );
 
 	try
@@ -327,10 +320,10 @@ void Application::loadTranslation( const QString &lang )
 	else if( lang == "ru" ) QLocale::setDefault( QLocale( QLocale::Russian, QLocale::RussianFederation ) );
 	else QLocale::setDefault( QLocale( QLocale::Estonian, QLocale::Estonia ) );
 
-	d->appTranslator->load( ":/translations/" + lang );
-	d->commonTranslator->load( ":/translations/common_" + lang );
-	d->cryptoTranslator->load( ":/translations/crypto_" + lang );
-	d->qtTranslator->load( ":/translations/qt_" + lang );
+	d->appTranslator.load( ":/translations/" + lang );
+	d->commonTranslator.load( ":/translations/common_" + lang );
+	d->cryptoTranslator.load( ":/translations/crypto_" + lang );
+	d->qtTranslator.load( ":/translations/qt_" + lang );
 	d->closeAction->setText( tr("Close window") );
 	d->newClientAction->setText( tr("New Client window") );
 	d->newCryptoAction->setText( tr("New Crypto window") );
@@ -404,18 +397,18 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 {
 	try
 	{
-		digidoc::XmlConf *i = static_cast<digidoc::XmlConf*>(digidoc::Conf::instance());
+		digidoc::XmlConfV2 *i = dynamic_cast<digidoc::XmlConfV2*>(digidoc::Conf::instance());
 		if(!i)
 			return;
 		QByteArray v = value.toString().toUtf8();
 		switch( parameter )
 		{
-		case ProxyHost: i->setProxyHost( v.constData() ); break;
-		case ProxyPort: i->setProxyPort( v.constData() ); break;
-		case ProxyUser: i->setProxyUser( v.constData() ); break;
-		case ProxyPass: i->setProxyPass( v.constData() ); break;
-		case PKCS12Cert: i->setPKCS12Cert( v.constData() ); break;
-		case PKCS12Pass: i->setPKCS12Pass( v.constData() ); break;
+		case ProxyHost: i->setProxyHost( v.isEmpty()? std::string() :  v.constData() ); break;
+		case ProxyPort: i->setProxyPort( v.isEmpty()? std::string() : v.constData() ); break;
+		case ProxyUser: i->setProxyUser( v.isEmpty()? std::string() : v.constData() ); break;
+		case ProxyPass: i->setProxyPass( v.isEmpty()? std::string() : v.constData() ); break;
+		case PKCS12Cert: i->setPKCS12Cert( v.isEmpty()? std::string() : v.constData() ); break;
+		case PKCS12Pass: i->setPKCS12Pass( v.isEmpty()? std::string() : v.constData() ); break;
 		case PKCS12Disable: i->setPKCS12Disable( value.toBool() ); break;
 		default: break;
 		}
