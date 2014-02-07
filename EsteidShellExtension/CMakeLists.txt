@@ -5,6 +5,7 @@ add_definitions(
     -D_UNICODE
     -DUNICODE
     -D_MERGE_PROXYSTUB
+    -D_WINDLL
 )
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
