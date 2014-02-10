@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -123,7 +120,7 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->addButton( viewButtons->button( QDialogButtonBox::Close ), ViewClose );
 
 	connect( cards, SIGNAL(activated(QString)), qApp->signer(), SLOT(selectSignCard(QString)), Qt::QueuedConnection );
-	connect( qApp->signer(), SIGNAL(signDataChanged()), SLOT(showCardStatus()) );
+	connect( qApp->signer(), SIGNAL(signDataChanged(TokenData)), SLOT(showCardStatus()) );
 
 	// Digidoc
 	doc = new DigiDoc( this );

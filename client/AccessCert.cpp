@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -120,8 +117,7 @@ bool AccessCert::download( bool noCard )
 		return false;
 	}
 
-	SslCertificate tempel( qApp->signer()->tokensign().cert() );
-	if( tempel.type() & SslCertificate::TempelType )
+	if( SslCertificate( qApp->signer()->tokensign().cert() ).type() & SslCertificate::TempelType )
 	{
 		setIcon( Information );
 		setText( tr("For getting server access certificate to Tempel contact <a href=\"mailto:sales@sk.ee\">sales@sk.ee</a>") );
@@ -146,9 +142,9 @@ bool AccessCert::download( bool noCard )
 	removeButton( agree );
 
 	QSigner *s = qApp->signer();
-	QPKCS11 *p = qobject_cast<QPKCS11*>(reinterpret_cast<QObject*>(s->handle()));
+	QPKCS11 *p = qobject_cast<QPKCS11*>(s->handle());
 #ifdef Q_OS_WIN
-	QCNG *c = qobject_cast<QCNG*>(reinterpret_cast<QObject*>(s->handle()));
+	QCNG *c = qobject_cast<QCNG*>(s->handle());
 	if( !p && !c )
 		return false;
 #endif
@@ -159,8 +155,7 @@ bool AccessCert::download( bool noCard )
 	if( p )
 	{
 		bool retry = false;
-		do
-		{
+		do {
 			retry = false;
 			token.setCard( s->tokensign().card() );
 			Q_FOREACH( const TokenData &t, p->tokens() )
@@ -183,8 +178,7 @@ bool AccessCert::download( bool noCard )
 				s->unlock();
 				return false;
 			}
-		}
-		while( retry );
+		} while( retry );
 		key = p->key();
 	}
 	else
@@ -208,13 +202,13 @@ bool AccessCert::download( bool noCard )
 #endif
 	}
 
-	QScopedPointer<SSLConnect> ssl( new SSLConnect );
-	ssl->setToken( token.cert(), key );
-	QByteArray result = ssl->getUrl( SSLConnect::AccessCert );
+	SSLConnect ssl;
+	ssl.setToken( token.cert(), key );
+	QByteArray result = ssl.getUrl( SSLConnect::AccessCert );
 	s->unlock();
-	if( !ssl->errorString().isEmpty() )
+	if( !ssl.errorString().isEmpty() )
 	{
-		showWarning( tr("Error downloading server access certificate!") + "\n" + ssl->errorString() );
+		showWarning( tr("Error downloading server access certificate!") + "\n" + ssl.errorString() );
 		return false;
 	}
 

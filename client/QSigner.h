@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -54,7 +51,7 @@ public:
 	ApiType apiType() const;
 	digidoc::X509Cert cert() const;
 	ErrorCode decrypt( const QByteArray &in, QByteArray &out );
-	Qt::HANDLE handle() const;
+	QObject *handle() const;
 	void lock();
 	void sign( const std::string &method, const std::vector<unsigned char> &digest,
 		std::vector<unsigned char>& signature );
@@ -63,8 +60,8 @@ public:
 	void unlock();
 
 Q_SIGNALS:
-	void authDataChanged();
-	void signDataChanged();
+	void authDataChanged( const TokenData &token );
+	void signDataChanged( const TokenData &token );
 	void error( const QString &msg );
 
 private Q_SLOTS:

@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -60,7 +57,7 @@ using namespace digidoc;
 static std::string to( const QString &str ) { return std::string( str.toUtf8().constData() ); }
 static QString from( const std::string &str ) { return QString::fromUtf8( str.c_str() ).normalized( QString::NormalizationForm_C ); }
 static QByteArray fromVector( const std::vector<unsigned char> &d )
-{ return d.empty() ? QByteArray() : QByteArray( (const char *)&d[0], d.size() ); }
+{ return d.empty() ? QByteArray() : QByteArray( (const char *)&d[0], int(d.size()) ); }
 
 
 
@@ -210,7 +207,7 @@ bool DocumentModel::removeRows( int row, int count, const QModelIndex &parent )
 }
 
 int DocumentModel::rowCount( const QModelIndex &parent ) const
-{ return !d->b || parent.isValid() ? 0 : d->b->dataFiles().size(); }
+{ return !d->b || parent.isValid() ? 0 : int(d->b->dataFiles().size()); }
 
 
 

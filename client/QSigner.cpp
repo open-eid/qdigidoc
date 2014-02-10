@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -187,11 +184,11 @@ QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 	return !out.isEmpty() ? DecryptOK : DecryptFailed;
 }
 
-Qt::HANDLE QSigner::handle() const
+QObject* QSigner::handle() const
 {
-	if( d->csp ) return Qt::HANDLE(d->csp);
-	if( d->cng ) return Qt::HANDLE(d->cng);
-	return Qt::HANDLE(d->pkcs11);
+	if( d->csp ) return d->csp;
+	if( d->cng ) return d->cng;
+	return d->pkcs11;
 }
 
 void QSigner::lock() { d->count.ref(); }
@@ -199,7 +196,7 @@ void QSigner::lock() { d->count.ref(); }
 void QSigner::reloadauth()
 {
 	QEventLoop e;
-	QObject::connect( this, SIGNAL(authDataChanged()), &e, SLOT(quit()) );
+	QObject::connect( this, SIGNAL(authDataChanged(TokenData)), &e, SLOT(quit()) );
 	d->count.ref();
 	d->auth.setCert( QSslCertificate() );
 	d->count.deref();
@@ -209,7 +206,7 @@ void QSigner::reloadauth()
 void QSigner::reloadsign()
 {
 	QEventLoop e;
-	QObject::connect( this, SIGNAL(signDataChanged()), &e, SLOT(quit()) );
+	QObject::connect( this, SIGNAL(signDataChanged(TokenData)), &e, SLOT(quit()) );
 	d->count.ref();
 	d->sign.setCert( QSslCertificate() );
 	d->count.deref();
@@ -370,15 +367,9 @@ void QSigner::run()
 			}
 
 			if( aold != at ) // update auth data if something has changed
-			{
-				d->auth = at;
-				Q_EMIT authDataChanged();
-			}
+				Q_EMIT authDataChanged(d->auth = at);
 			if( sold != st ) // update sign data if something has changed
-			{
-				d->sign = st;
-				Q_EMIT signDataChanged();
-			}
+				Q_EMIT signDataChanged(d->sign = st);
 			d->count.ref();
 		}
 
@@ -391,8 +382,7 @@ void QSigner::selectAuthCard( const QString &card )
 	TokenData t = d->auth;
 	t.setCard( card );
 	t.setCert( QSslCertificate() );
-	d->auth = t;
-	Q_EMIT signDataChanged();
+	Q_EMIT signDataChanged(d->auth = t);
 }
 
 void QSigner::selectSignCard( const QString &card )
@@ -400,8 +390,7 @@ void QSigner::selectSignCard( const QString &card )
 	TokenData t = d->sign;
 	t.setCard( card );
 	t.setCert( QSslCertificate() );
-	d->sign = t;
-	Q_EMIT signDataChanged();
+	Q_EMIT signDataChanged(d->sign = t);
 }
 
 void QSigner::showWarning( const QString &msg )
@@ -452,13 +441,13 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::General, __LINE__ );
 		}
 
-		sig = d->pkcs11->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) );
+		sig = d->pkcs11->sign( type, QByteArray( (const char*)&digest[0], int(digest.size()) ) );
 		d->pkcs11->logout();
 	}
 #ifdef Q_OS_WIN
 	else if( d->csp )
 	{
-		sig = d->csp->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) );
+		sig = d->csp->sign( type, QByteArray( (const char*)&digest[0], int(digest.size()) ) );
 		if( d->csp->lastError() == QCSP::PinCanceled )
 		{
 			d->count.deref();
@@ -468,7 +457,7 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 	else if( d->cng )
 	{
 		d->cng->selectCert( d->sign.cert() );
-		sig = d->cng->sign( type, QByteArray( (const char*)&digest[0], digest.size() ) );
+		sig = d->cng->sign( type, QByteArray( (const char*)&digest[0], int(digest.size()) ) );
 		if( d->cng->lastError() == QCNG::PinCanceled )
 		{
 			d->count.deref();

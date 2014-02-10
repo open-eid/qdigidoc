@@ -83,11 +83,10 @@ MainWindow::MainWindow( QWidget *parent )
 	buttonGroup->addButton(
 		viewButtons->addButton( tr("Encrypt"), QDialogButtonBox::AcceptRole ), ViewCrypto );
 	buttonGroup->addButton( viewButtons->button( QDialogButtonBox::Close ), ViewClose );
-	connect( buttonGroup, SIGNAL(buttonClicked(int)),
-		SLOT(buttonClicked(int)) );
+	connect( buttonGroup, SIGNAL(buttonClicked(int)), SLOT(buttonClicked(int)) );
 
 	connect( cards, SIGNAL(activated(QString)), qApp->signer(), SLOT(selectAuthCard(QString)), Qt::QueuedConnection );
-	connect( qApp->signer(), SIGNAL(authDataChanged()), SLOT(showCardStatus()) );
+	connect( qApp->signer(), SIGNAL(authDataChanged(TokenData)), SLOT(showCardStatus()) );
 
 	// Cryptodoc
 	doc = new CryptoDoc( this );
