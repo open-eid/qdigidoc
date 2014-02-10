@@ -144,7 +144,7 @@ bool AccessCert::download( bool noCard )
 	QSigner *s = qApp->signer();
 	QPKCS11 *p = qobject_cast<QPKCS11*>(reinterpret_cast<QObject*>(s->handle()));
 #ifdef Q_OS_WIN
-	QCNG *c = qobject_cast<QCNG*>(reinterpret_cast<QObject*>(s->handle());
+	QCNG *c = qobject_cast<QCNG*>(reinterpret_cast<QObject*>(s->handle()));
 	if( !p && !c )
 		return false;
 #endif
