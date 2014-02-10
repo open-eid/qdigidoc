@@ -184,7 +184,7 @@ QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 	return !out.isEmpty() ? DecryptOK : DecryptFailed;
 }
 
-QObject* QSigner::handle() const
+Qt::HANDLE QSigner::handle() const
 {
 	if( d->csp ) return d->csp;
 	if( d->cng ) return d->cng;
