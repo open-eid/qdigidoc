@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -56,7 +53,7 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 	Common::setAccessibleName( d->p12Label );
 
 	Settings s;
-	d->showIntro->setChecked( s.value( "Crypto/Intro", true ).toBool() );
+	d->showIntro2->setChecked( s.value( "Crypto/Intro", true ).toBool() );
 	s.beginGroup( "Client" );
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
 	updateCert();
@@ -158,7 +155,7 @@ void SettingsDialog::on_typeBDoc_clicked( bool checked )
 void SettingsDialog::save()
 {
 	Settings s;
-	s.setValue( "Crypto/Intro", d->showIntro->isChecked() );
+	s.setValue( "Crypto/Intro", d->showIntro2->isChecked() );
 	s.beginGroup( "Client" );
 	s.setValue( "Intro", d->showIntro->isChecked() );
 	s.setValue( "Overwrite", d->signOverwrite->isChecked() );
