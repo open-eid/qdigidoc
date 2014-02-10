@@ -186,9 +186,9 @@ QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 
 Qt::HANDLE QSigner::handle() const
 {
-	if( d->csp ) return d->csp;
-	if( d->cng ) return d->cng;
-	return d->pkcs11;
+	if( d->csp ) return Qt::HANDLE(d->csp);
+	if( d->cng ) return Qt::HANDLE(d->cng);
+	return Qt::HANDLE(d->pkcs11);
 }
 
 void QSigner::lock() { d->count.ref(); }
