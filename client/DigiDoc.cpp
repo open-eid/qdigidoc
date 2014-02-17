@@ -45,12 +45,6 @@
 #include <QtGui/QPixmap>
 
 #include <stdexcept>
-#if defined(_LIBCPP_ABI_VERSION) || _MSC_VER >= 1500 || (__GNUC__ >= 4 && __GNUC_MINOR__ >= 6 && (__cplusplus > 201100L || defined(__GXX_EXPERIMENTAL_CXX0X__)))
-#include <functional>
-#else
-#include <tr1/functional>
-namespace std { using namespace std::tr1; }
-#endif
 
 using namespace digidoc;
 
