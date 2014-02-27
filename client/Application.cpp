@@ -95,6 +95,8 @@ public:
 private:
 	Settings s;
 };
+#else
+class MacMenuBar;
 #endif
 
 class ApplicationPrivate
@@ -104,12 +106,11 @@ public:
 		: closeAction(0)
 		, newClientAction(0)
 		, newCryptoAction(0)
+		, bar(0)
 		, signer(0) {}
 
 	QAction		*closeAction, *newClientAction, *newCryptoAction;
-#ifdef Q_OS_MAC
 	MacMenuBar	*bar;
-#endif
 	QSigner		*signer;
 	QTranslator	appTranslator, commonTranslator, cryptoTranslator, qtTranslator;
 	QString		lang;
