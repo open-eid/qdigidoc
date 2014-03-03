@@ -1,9 +1,6 @@
 /*
  * QDigiDocCrypt
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -133,6 +130,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		switch( sig.validate() )
 		{
 		case DigiDocSignature::Warning: //Fall to Valid
+		case DigiDocSignature::WarningLimits: //Fall to Valid
 		case DigiDocSignature::Valid: valid.append( tr("SIGNATURE IS VALID") ); break;
 		case DigiDocSignature::Test: valid.append( tr("SIGNATURE IS VALID (NB! TEST SIGNATURE)") ); break;
 		case DigiDocSignature::Invalid: valid.append( tr("SIGNATURE IS NOT VALID") ); break;

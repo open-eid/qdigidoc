@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -110,6 +107,10 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		sa << tr("valid") << " (" << tr("Warnings") << ")";
 		sc << "<font color=\"green\">" << tr("valid") << "</font> <font>(" << tr("Warnings") << ")";
 		break;
+	case DigiDocSignature::WarningLimits:
+		sa << tr("valid") << " (" << tr("Warnings with limitations") << ")";
+		sc << "<font color=\"green\">" << tr("valid") << "</font> <font>(" << tr("Warnings with limitations") << ")";
+		break;
 	case DigiDocSignature::Test:
 		sa << tr("valid") << " (" << tr("Test signature") << ")";
 		sc << "<font color=\"green\">" << tr("valid") << "</font> <font>(" << tr("Test signature") << ")";
@@ -192,6 +193,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		status = tr("Signature is valid");
 		break;
 	case DigiDocSignature::Warning:
+	case DigiDocSignature::WarningLimits:
 		status = tr("Signature is valid with warnings");
 		if( !s.lastError().isEmpty() )
 			d->error->setPlainText( s.lastError() );
