@@ -22,7 +22,7 @@
         </dict>
 	<key>com.apple.developer.ubiquity-container-identifiers</key>
 	<array>
-		<string>ET847QJV9F.ee.ria.attachment</string>
+		<string>ET847QJV9F.ee.ria.qdigidocclient</string>
 	</array>
     </dict>
 </plist>
