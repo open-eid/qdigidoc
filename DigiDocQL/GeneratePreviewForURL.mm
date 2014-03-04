@@ -120,7 +120,7 @@ void CancelPreviewGeneration(void * /*thisInterface*/, QLPreviewRequestRef /*pre
 + (void)parseException:(const Exception&)e result:(NSMutableArray *)result
 {
 	[result addObject:[self stdstring:e.msg()]];
-	for( const Exception &i : e.causes() ) {
+	for (const Exception &i : e.causes()) {
 		[self parseException:i result:result];
 	}
 }
@@ -144,6 +144,11 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 	try
 	{
 		digidoc::initialize();
+		Exception::setIgnoreList({
+			Exception::RefereneceDigestWeak,
+			Exception::SignatureDigestWeak,
+			Exception::DataFileNameSpaceWarning,
+			Exception::IssuerNameSpaceWarning });
 		Container d( [[(__bridge NSURL*)url path] UTF8String] );
 
 		[h appendString:@"<font>Files</font><ol>"];
