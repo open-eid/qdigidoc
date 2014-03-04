@@ -20,5 +20,9 @@
                 <string>com.apple.mail.compose</string>
             </array>
         </dict>
+	<key>com.apple.developer.ubiquity-container-identifiers</key>
+	<array>
+		<string>ET847QJV9F.ee.ria.attachment</string>
+	</array>
     </dict>
 </plist>
