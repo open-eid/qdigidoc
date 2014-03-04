@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2012-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2012-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -23,11 +20,9 @@
 #import "TreeWidget.h"
 #import "DigiDoc.h"
 
-#if QT_VERSION >= 0x050000
 #include <QtWidgets/QAbstractItemView>
-#else
-#include <QtGui/QAbstractItemView>
-#endif
+#include <QtMacExtras/QtMac>
+using namespace QtMac;
 
 #import <objc/runtime.h>
 
@@ -54,20 +49,14 @@ static QAbstractItemView *itemView = 0;
 
 - (QAbstractItemView *)view
 {
-#if QT_VERSION >= 0x050000
 	return itemView;
-#else
-	return (__bridge QAbstractItemView*)objc_getAssociatedObject( self, "QAbstractItemView" );
-#endif
+	//return (__bridge QAbstractItemView*)objc_getAssociatedObject( self, "QAbstractItemView" );
 }
 
 - (void)setView:(QAbstractItemView *)view
 {
-#if QT_VERSION >= 0x050000
 	itemView = view;
-#else
-	objc_setAssociatedObject( self, "QAbstractItemView", (__bridge id)view, OBJC_ASSOCIATION_ASSIGN );
-#endif
+	//objc_setAssociatedObject( self, "QAbstractItemView", (__bridge id)view, OBJC_ASSOCIATION_ASSIGN );
 }
 
 - (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel
@@ -100,8 +89,7 @@ static QAbstractItemView *itemView = 0;
 {
 	Q_UNUSED(panel)
 	DocumentModel *m = qobject_cast<DocumentModel*>(self.view->model());
-	QByteArray path = m->save( m->index( index, 0 ), "" ).toUtf8();
-	return [NSURL fileURLWithPath:[NSString stringWithUTF8String: path.constData()]];
+	return [NSURL fileURLWithPath:m->save( m->index( index, 0 ), "" ).toNSString()];
 }
 
 - (BOOL)previewPanel:(QLPreviewPanel *)panel handleEvent:(NSEvent *)event
