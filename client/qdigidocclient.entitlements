@@ -20,9 +20,9 @@
                 <string>com.apple.mail.compose</string>
             </array>
         </dict>
-	<key>com.apple.developer.ubiquity-container-identifiers</key>
+	<!--key>com.apple.developer.ubiquity-container-identifiers</key>
 	<array>
 		<string>ET847QJV9F.ee.ria.qdigidocclient</string>
-	</array>
+	</array-->
     </dict>
 </plist>
