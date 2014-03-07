@@ -1,9 +1,6 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -351,7 +348,7 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	connect( cardButton, SIGNAL(clicked()), SLOT(addCardCert()) );
 	connect( buttonBox->addButton( tr("Add cert from file"), QDialogButtonBox::ActionRole ),
 		SIGNAL(clicked()), SLOT(addFile()) );
-	connect( qApp->signer(), SIGNAL(authDataChanged()), SLOT(enableCardCert()) );
+	connect( qApp->signer(), SIGNAL(authDataChanged(TokenData)), SLOT(enableCardCert()) );
 	enableCardCert();
 
 	QSortFilterProxyModel *sort = new QSortFilterProxyModel( skView );
