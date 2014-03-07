@@ -123,7 +123,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		drawTextRect( QRect( right-300, top, 130, nameHeight ),
 			cert.subjectInfo( "serialNumber" ) );
 		drawTextRect( QRect( right-170, top, 170, nameHeight ),
-			DateTime( sig.dateTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+			DateTime( sig.dateTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		top += 20 + nameHeight;
 
 		QString valid;
