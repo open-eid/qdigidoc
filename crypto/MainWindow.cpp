@@ -280,8 +280,9 @@ void MainWindow::buttonClicked( int button )
 					QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes );
 				if( b != QMessageBox::Yes )
 					break;
-				QString file = QString( doc->fileName() ).append( ".ddoc" );
-				if( doc->saveDDoc( file ) )
+				QString file = QString( QFileInfo( doc->fileName() ).baseName() ).append( ".ddoc" );
+				file = FileDialog::getSaveFileName( this, tr("Save file"), file, tr("Documents (%1)").arg("*.DDoc") );
+				if( !file.isEmpty() && doc->saveDDoc( file ) )
 					qApp->showClient( QStringList() << file );
 			}
 		}
