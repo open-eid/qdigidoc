@@ -1,9 +1,6 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -35,6 +32,7 @@
 #include <libdigidoc/DigiDocEncSAXParser.h>
 #include <libdigidoc/DigiDocSAXParser.h>
 
+#include <QtCore/QBuffer>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMimeData>
@@ -42,6 +40,7 @@
 #include <QtCore/QTemporaryFile>
 #include <QtCore/QThread>
 #include <QtCore/QUrl>
+#include <QtCore/QXmlStreamWriter>
 #include <QtGui/QDesktopServices>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QMessageBox>
@@ -65,6 +64,7 @@ public:
 		start();
 		e.exec();
 	}
+	void writeDDoc(QIODevice *ddoc);
 
 	CDocumentModel	*documents;
 	QTemporaryFile	*ddoc;
@@ -84,8 +84,14 @@ void CryptoDocPrivate::run()
 		if( err != ERR_OK )
 			return;
 
-		ddoc->reset();
-		err = dencEncryptedData_AppendData( enc, ddoc->readAll(), ddoc->size() );
+		//ddoc->reset();
+		//err = dencEncryptedData_AppendData( enc, ddoc->readAll(), ddoc->size() );
+		QByteArray data;
+		QBuffer buf(&data);
+		buf.open(QBuffer::WriteOnly);
+		writeDDoc(&buf);
+		buf.close();
+		err = dencEncryptedData_AppendData(enc, data, data.size());
 		if( err != ERR_OK )
 		{
 			cleanProperties();
@@ -130,6 +136,40 @@ void CryptoDocPrivate::run()
 			cleanProperties();
 	}
 }
+
+void CryptoDocPrivate::writeDDoc(QIODevice *ddoc)
+{
+	QXmlStreamWriter x(ddoc);
+	x.setAutoFormatting(true);
+	x.writeStartDocument();
+	x.writeDefaultNamespace("http://www.sk.ee/DigiDoc/v1.3.0#");
+	x.writeStartElement("SignedDoc");
+	x.writeAttribute("format", "DIGIDOC-XML");
+	x.writeAttribute("version", "1.3");
+
+	for(int i = 0; i < documents->rowCount(); ++i)
+	{
+		QModelIndex index = documents->index(i, 0);
+		QString name = documents->copy(index, QDir::tempPath());
+		QFile f(name);
+		bool open = f.open(QFile::ReadOnly);
+		QByteArray data =  f.readAll();
+		x.writeStartElement("DataFile");
+		x.writeAttribute("ContentType", "EMBEDDED_BASE64");
+		x.writeAttribute("Filename", QFileInfo(f.fileName()).fileName());
+		x.writeAttribute("Id", index.data(Qt::UserRole).toString());
+		x.writeAttribute("MimeType", "application/octet-stream");
+		x.writeAttribute("Size", QString::number(f.size()));
+		x.writeDefaultNamespace("http://www.sk.ee/DigiDoc/v1.3.0#");
+		x.writeCharacters(data.toBase64());
+		x.writeEndElement(); //DataFile
+		f.close();
+	}
+
+	x.writeEndElement(); //SignedDoc
+	x.writeEndDocument();
+}
+
 
 
 
