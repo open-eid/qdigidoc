@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -205,7 +202,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 	}
 
 	QXmlStreamReader xml( reply );
-	QString fault, message, sess, challenge, status;
+	QString fault, message, status;
 	while( xml.readNext() != QXmlStreamReader::Invalid )
 	{
 		if( !xml.isStartElement() )
@@ -215,9 +212,13 @@ void MobileDialog::finished( QNetworkReply *reply )
 		else if( xml.name() == "message" )
 			message = xml.readElementText();
 		else if( xml.name() == "ChallengeID" )
-			challenge = xml.readElementText();
+		{
+			code->setText( tr("Make sure control code matches with one in phone screen\n"
+				"and enter Mobile-ID PIN.\nControl code: %1").arg( xml.readElementText() ) );
+			code->setAccessibleName( code->text() );
+		}
 		else if( xml.name() == "Sesscode" )
-			sess = xml.readElementText();
+			sessionCode = xml.readElementText();
 		else if( xml.name() == "Status" )
 			status = xml.readElementText();
 		else if( xml.name() == "Signature" )
@@ -234,18 +235,9 @@ void MobileDialog::finished( QNetworkReply *reply )
 
 	if( sessionCode.isEmpty() )
 	{
-		sessionCode = sess;
-		if( sessionCode.isEmpty() )
-		{
-			labelError->setText( mobileResults.value( message ) );
-			statusTimer->stop();
-		}
-		else
-		{
-			code->setText( tr("Make sure control code matches with one in phone screen\n"
-				"and enter Mobile-ID PIN.\nControl code: %1").arg( challenge ) );
-			code->setAccessibleName( code->text() );
-		}
+		labelError->setText( mobileResults.value( message ) );
+		statusTimer->stop();
+		return;
 	}
 
 	if( statusTimer->state() == QTimeLine::NotRunning )
