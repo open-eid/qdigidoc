@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -54,7 +51,7 @@ void TreeWidget::clicked( const QModelIndex &index )
 		QString dest = FileDialog::getSaveFileName( qApp->activeWindow(),
 			tr("Save file"), QString( "%1/%2" )
 				.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-				.arg( m->index( index.row(), DocumentModel::Name ).data().toString() ) );
+				.arg( m->index( index.row(), DocumentModel::Name ).data( Qt::UserRole ).toString() ) );
 		if( !dest.isEmpty() )
 			m->save( index, dest );
 		break;
@@ -104,7 +101,7 @@ void TreeWidget::keyPressEvent( QKeyEvent *e )
 
 void TreeWidget::open( const QModelIndex &index )
 {
-	QFileInfo f( m->save( index, "" ) );
+	QFileInfo f( m->save( index, QDir::tempPath() + "/" + index.data(Qt::UserRole).toString() ) );
 	if( !f.exists() )
 		return;
 #if defined(Q_OS_WIN)

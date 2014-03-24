@@ -69,37 +69,9 @@ QString DocumentModel::save( const QModelIndex &index, const QString &path ) con
 {
 	if( !hasIndex( index.row(), index.column() ) )
 		return QString();
-	DataFile file = d->b->dataFiles().at( index.row() );
-
-	QFileInfo info( from( file.fileName() ) );
-	QString dst = path;
-	if( dst.isEmpty() )
-	{
-		dst = QDir::tempPath() + "/" + info.fileName();
-		if( QFile::exists( dst ) )
-		{
-			for( unsigned int i = 1; i < 100; ++i )
-			{
-				dst = QString( "%1/%2_%3.%4").arg( QDir::tempPath() ).arg( info.baseName() ).arg( i ).arg( info.completeSuffix() );
-				if( !QFile::exists( dst ) )
-					break;
-			}
-		}
-	}
-
-	if( QFileInfo( path ).isDir() )
-	{
-		QString filename = info.fileName();
-#if defined(Q_OS_WIN)
-		filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
-#else
-		filename.replace( QRegExp( "[\\\\]"), "_" );
-#endif
-		dst += path.isEmpty() ? filename : QDir::toNativeSeparators( "/" + filename );
-	}
-	QFile::remove( dst );
-	file.saveAs( dst.toUtf8().constData() );
-	return dst;
+	QFile::remove( path );
+	d->b->dataFiles().at( index.row() ).saveAs( path.toUtf8().constData() );
+	return path;
 }
 
 QVariant DocumentModel::data( const QModelIndex &index, int role ) const
@@ -157,6 +129,14 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		case Remove: return QSize( 20, 20 );
 		default: return QVariant();
 		}
+	case Qt::UserRole:
+#ifdef Q_OS_WIN
+		return from(file.fileName()).replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
+#elif defined(Q_OS_MAC)
+		return from(file.fileName()).replace( QRegExp( "[\\\\:]"), "_" );
+#else
+		return from(file.fileName()).replace( QRegExp( "[\\\\]"), "_" );
+#endif
 	default: return QVariant();
 	}
 }
@@ -171,7 +151,7 @@ QMimeData* DocumentModel::mimeData( const QModelIndexList &indexes ) const
 	{
 		if( index.column() != 0 )
 			continue;
-		QString path = save( index, QDir::tempPath() );
+		QString path = save( index, QDir::tempPath() + "/" + index.data(Qt::UserRole).toString() );
 		if( !path.isEmpty() )
 			list << QUrl::fromLocalFile( QFileInfo( path ).absoluteFilePath() );
 	}

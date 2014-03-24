@@ -434,8 +434,8 @@ void MainWindow::buttonClicked( int button )
 		DocumentModel *m = doc->documentModel();
 		for( int i = 0; i < m->rowCount(); ++i )
 		{
-			QModelIndex index = m->index( i, 0 );
-			QString dest = dir + "/" + index.data( DocumentModel::Name ).toString();
+			QModelIndex index = m->index( i, DocumentModel::Name );
+			QString dest = dir + "/" + index.data( Qt::UserRole ).toString();
 			if( QFile::exists( dest ) )
 			{
 				QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 client"),
