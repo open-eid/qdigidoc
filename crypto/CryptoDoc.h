@@ -1,9 +1,6 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2012 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2012 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -95,8 +92,7 @@ public:
 
 	void addFile( const QString &file, const QString &mime );
 	bool addKey( const CKey &key );
-	void create( const QString &file );
-	void clear();
+	void clear( const QString &file = QString() );
 	bool decrypt();
 	CDocumentModel* documents() const;
 	bool encrypt();

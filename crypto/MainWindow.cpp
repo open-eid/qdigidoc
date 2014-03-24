@@ -149,7 +149,7 @@ bool MainWindow::addFile( const QString &file )
 
 		if( QFile::exists( docname ) )
 			QFile::remove( docname );
-		doc->create( docname );
+		doc->clear( docname );
 	}
 
 	QString display = fileinfo.absoluteFilePath();
