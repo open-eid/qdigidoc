@@ -542,7 +542,6 @@ void MainWindow::buttonClicked( int button )
 			if( m->signature().isEmpty() || !doc->addSignature( m->signature() ) )
 				break;
 			save();
-			doc->open( doc->fileName() );
 		}
 		SettingsDialog::saveSignatureInfo( signRoleInput->text(),
 			signResolutionInput->text(), signCityInput->text(),
