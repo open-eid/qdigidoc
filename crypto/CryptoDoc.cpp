@@ -205,6 +205,7 @@ void CryptoDocPrivate::writeDDoc(QIODevice *ddoc)
 		x.writeCharacters(data.toBase64());
 		x.writeEndElement(); //DataFile
 		f.close();
+		f.remove();
 	}
 
 	x.writeEndElement(); //SignedDoc
