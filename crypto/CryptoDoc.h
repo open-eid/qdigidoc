@@ -92,7 +92,8 @@ public:
 
 	void addFile( const QString &file, const QString &mime );
 	bool addKey( const CKey &key );
-	void clear( const QString &file = QString() );
+	void create( const QString &file );
+	void clear();
 	bool decrypt();
 	CDocumentModel* documents() const;
 	bool encrypt();
