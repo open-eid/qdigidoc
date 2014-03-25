@@ -448,7 +448,7 @@ void CryptoDoc::addFile( const QString &file, const QString &mime )
 	QFile data(file);
 	data.open(QFile::ReadOnly);
 	CryptoDocPrivate::File f;
-	f.id = QString("D%").arg(d->files.size());
+	f.id = QString("D%1").arg(d->files.size());
 	f.mime = mime;
 	f.name = QFileInfo(file).fileName();
 	f.data = data.readAll();
@@ -494,6 +494,7 @@ void CryptoDoc::clear( const QString &file )
 	d->hasSignature = false;
 	d->encrypted = false;
 	d->fileName = file;
+	d->files.clear();
 }
 
 bool CryptoDoc::decrypt()
@@ -576,9 +577,6 @@ QString CryptoDoc::fileName() const { return d->fileName; }
 bool CryptoDoc::isEncrypted() const
 {
 	return d->encrypted;
-/*	return d->enc &&
-		(d->enc->nDataStatus == DENC_DATA_STATUS_ENCRYPTED_AND_COMPRESSED ||
-		d->enc->nDataStatus == DENC_DATA_STATUS_ENCRYPTED_AND_NOT_COMPRESSED);*/
 }
 
 bool CryptoDoc::isEncryptedWarning()
@@ -590,7 +588,7 @@ bool CryptoDoc::isEncryptedWarning()
 	return isNull() || isEncrypted();
 }
 
-bool CryptoDoc::isNull() const { return d->enc == 0; }
+bool CryptoDoc::isNull() const { return d->fileName.isEmpty(); }
 bool CryptoDoc::isSigned() const { return d->hasSignature; }
 
 QList<CKey> CryptoDoc::keys()
