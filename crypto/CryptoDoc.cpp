@@ -72,6 +72,11 @@ public:
 		for(int i = 0; i < data.size(); i+=48)
 			x.writeCharacters(data.mid(i, 48).toBase64() + "\n");
 	}
+	inline void writeBase64(QXmlStreamWriter &x, QIODevice *data)
+	{
+		for(int i = 0; i < data->size(); i+=48)
+			x.writeCharacters(data->read(48).toBase64() + "\n");
+	}
 	void run();
 	inline void waitForFinished()
 	{
@@ -104,14 +109,7 @@ QByteArray CryptoDocPrivate::crypto(const QByteArray &iv, const QByteArray &key,
 	int err = EVP_CipherInit(&ctx, EVP_aes_128_cbc(), (unsigned char*)key.constData(), (unsigned char*)iv.constData(), op);
 	QByteArray result(data.size() + EVP_CIPHER_CTX_block_size(&ctx), 0);
 	err = EVP_CipherUpdate(&ctx, (unsigned char*)result.data(), &size, (const unsigned char*)data.constData(), data.size());
-	if(op == Encrypt)
-	{
-		QByteArray pad(AES_BLOCK_SIZE - data.size() % AES_BLOCK_SIZE, 0);
-		pad[pad.size()-1] = pad.size();
-		err = EVP_CipherUpdate(&ctx, (unsigned char*)(result.data() + size), &size2, (const unsigned char*)pad.constData(), pad.size());
-		size += size2;
-	}
-	err = EVP_DecryptFinal(&ctx, (unsigned char*)(result.data() + size), &size2);
+	err = EVP_CipherFinal(&ctx, (unsigned char*)(result.data() + size), &size2);
 	result.resize(size + size2);
 	return result;
 }
@@ -300,7 +298,6 @@ void CryptoDocPrivate::writeDDoc(QIODevice *ddoc)
 		QFile f(name);
 		if(!f.open(QFile::ReadOnly))
 			continue;
-		QByteArray data =  f.readAll();
 		x.writeStartElement("DataFile");
 		x.writeAttribute("ContentType", "EMBEDDED_BASE64");
 		x.writeAttribute("Filename", QFileInfo(f.fileName()).fileName());
@@ -308,7 +305,7 @@ void CryptoDocPrivate::writeDDoc(QIODevice *ddoc)
 		x.writeAttribute("MimeType", "application/octet-stream");
 		x.writeAttribute("Size", QString::number(f.size()));
 		x.writeDefaultNamespace("http://www.sk.ee/DigiDoc/v1.3.0#");
-		writeBase64(x, data);
+		writeBase64(x, &f);
 		x.writeEndElement(); //DataFile
 		f.close();
 		f.remove();
