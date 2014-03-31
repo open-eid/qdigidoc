@@ -295,8 +295,20 @@ void MainWindow::buttonClicked( int button )
 			}
 			p.setLabelText( tr("Encrypting") );
 			p.open();
-			if( doc->encrypt() )
-				save();
+			if( !FileDialog::fileIsWritable( doc->fileName() ) &&
+				QMessageBox::Yes == QMessageBox::warning( this, tr("DigiDoc3 crypto"),
+					tr("Cannot alter container %1. Save different location?")
+						.arg( doc->fileName().normalized( QString::NormalizationForm_C ) ),
+					QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes ) )
+			{
+				QString file = selectFile( doc->fileName() );
+				if( !file.isEmpty() )
+				{
+					doc->encrypt( file );
+					return;
+				}
+			}
+			doc->encrypt();
 		}
 		setCurrentPage( View );
 		break;
@@ -342,7 +354,12 @@ void MainWindow::buttonClicked( int button )
 	{
 		QString file = selectFile( doc->fileName() );
 		if( !file.isEmpty() )
-			doc->save( file );
+		{
+			if( !doc->isEncrypted() )
+				qApp->showWarning( CryptoDoc::tr("Container is not encrypted") );
+			else
+				QFile::copy( doc->fileName(), file );
+		}
 		setCurrentPage( View );
 		break;
 	}
@@ -463,24 +480,6 @@ void MainWindow::retranslate()
 	buttonGroup->button( IntroAgree )->setText( tr("I agree") );
 	showCardStatus();
 	updateView();
-}
-
-void MainWindow::save()
-{
-	if( !FileDialog::fileIsWritable( doc->fileName() ) &&
-		QMessageBox::Yes == QMessageBox::warning( this, tr("DigiDoc3 crypto"),
-			tr("Cannot alter container %1. Save different location?")
-				.arg( doc->fileName().normalized( QString::NormalizationForm_C ) ),
-			QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes ) )
-	{
-		QString file = selectFile( doc->fileName() );
-		if( !file.isEmpty() )
-		{
-			doc->save( file );
-			return;
-		}
-	}
-	doc->save();
 }
 
 QString MainWindow::selectFile( const QString &filename )

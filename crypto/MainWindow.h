@@ -72,7 +72,6 @@ private:
 	bool addFile( const QString &file );
 	bool event( QEvent *e );
 	void retranslate();
-	void save();
 	QString selectFile( const QString &filename );
 	void setCurrentPage( Pages page );
 

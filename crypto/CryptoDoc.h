@@ -95,7 +95,7 @@ public:
 	void clear( const QString &file = QString() );
 	bool decrypt();
 	CDocumentModel* documents() const;
-	bool encrypt();
+	bool encrypt( const QString &filename = QString() );
 	QString fileName() const;
 	bool isEncrypted() const;
 	bool isNull() const;
@@ -103,7 +103,6 @@ public:
 	QList<CKey> keys();
 	bool open( const QString &file );
 	void removeKey( int id );
-	void save( const QString &filename = QString() );
 	bool saveDDoc( const QString &filename );
 
 private Q_SLOTS:

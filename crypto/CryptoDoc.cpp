@@ -67,12 +67,10 @@ public:
 
 	CryptoDocPrivate(): hasSignature(false), documents(0), ddoc(0), enc(0), encrypted(false), err(0) {}
 
-	inline QByteArray lineBreak65(const QByteArray &data)
+	inline void writeBase64(QXmlStreamWriter &x, const QByteArray &data)
 	{
-		QByteArray result;
-		for(int i = 0; i < data.size(); i+=65)
-			result += data.mid(i, 65)+ "\n";
-		return result;
+		for(int i = 0; i < data.size(); i+=48)
+			x.writeCharacters(data.mid(i, 48).toBase64() + "\n");
 	}
 	void run();
 	inline void waitForFinished()
@@ -214,7 +212,9 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const Q
 
 		w.writeStartElement(DS, "KeyInfo");
 		w.writeStartElement(DS, "X509Data");
-		w.writeTextElement(DS, "X509Certificate", lineBreak65(k.cert.toDer().toBase64()));
+		w.writeStartElement(DS, "X509Certificate");
+		writeBase64(w, k.cert.toDer());
+		w.writeEndElement(); //X509Certificate
 		w.writeEndElement(); //X509Data
 		w.writeEndElement(); //KeyInfo
 		w.writeStartElement(DENC, "CipherData");
@@ -222,14 +222,18 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const Q
 		RSA *rsa = (RSA*)k.cert.publicKey().handle();
 		QByteArray chipper(RSA_size(rsa), 0);
 		int size = RSA_public_encrypt(key.size(), (unsigned char*)key.constData(), (unsigned char*)chipper.data(), rsa, RSA_PKCS1_PADDING);
-		w.writeTextElement(DENC, "CipherValue", lineBreak65(chipper.toBase64()));
+		w.writeStartElement(DENC, "CipherValue");
+		writeBase64(w, chipper);
+		w.writeEndElement(); //CipherValue
 		w.writeEndElement(); //CipherData
 		w.writeEndElement(); //EncryptedKey
 	}
 	w.writeEndElement(); //KeyInfo
 
 	w.writeStartElement(DENC, "CipherData");
-	w.writeTextElement(DENC, "CipherValue", lineBreak65(data.toBase64()));
+	w.writeStartElement(DENC, "CipherValue");
+	writeBase64(w, data);
+	w.writeEndElement(); //CipherValue
 	w.writeEndElement(); //CipherData
 
 	w.writeStartElement(DENC, "EncryptionProperties");
@@ -304,7 +308,7 @@ void CryptoDocPrivate::writeDDoc(QIODevice *ddoc)
 		x.writeAttribute("MimeType", "application/octet-stream");
 		x.writeAttribute("Size", QString::number(f.size()));
 		x.writeDefaultNamespace("http://www.sk.ee/DigiDoc/v1.3.0#");
-		x.writeCharacters(lineBreak65(data.toBase64()));
+		writeBase64(x, data);
 		x.writeEndElement(); //DataFile
 		f.close();
 		f.remove();
@@ -626,7 +630,7 @@ bool CryptoDoc::decrypt()
 
 CDocumentModel* CryptoDoc::documents() const { return d->documents; }
 
-bool CryptoDoc::encrypt()
+bool CryptoDoc::encrypt( const QString &filename )
 {
 	if( isNull() )
 	{
@@ -640,6 +644,9 @@ bool CryptoDoc::encrypt()
 		setLastError( tr("No keys specified") );
 		return false;
 	}
+	if( !filename.isEmpty() )
+		d->fileName = filename;
+	qApp->addRecent( d->fileName );
 
 	d->waitForFinished();
 	if( d->err != ERR_OK )
@@ -705,20 +712,6 @@ void CryptoDoc::removeKey( int id )
 {
 	if( !isEncryptedWarning() )
 		d->keys.removeAt(id);
-}
-
-void CryptoDoc::save( const QString &filename )
-{
-	if( isNull() )
-		return setLastError( tr("Container is not open") );
-	if( !isEncrypted() )
-		return setLastError( tr("Container is not crypted") );
-	if( !filename.isEmpty() )
-		d->fileName = filename;
-	int err = dencGenEncryptedData_writeToFile( d->enc, d->fileName.toUtf8() );
-	if( err != ERR_OK )
-		setLastError( tr("Failed to save encrpyted file"), err );
-	qApp->addRecent( d->fileName );
 }
 
 bool CryptoDoc::saveDDoc( const QString &filename )
