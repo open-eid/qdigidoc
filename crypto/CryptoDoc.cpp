@@ -88,7 +88,7 @@ public:
 			x.writeCharacters(data.mid(i, 48).toBase64() + "\n");
 		x.writeEndElement();
 	}
-	void writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &mime);
+	void writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &file, const QString &mime);
 	void writeDDoc(QIODevice *ddoc);
 
 	QString			method, mime, fileName, lastError;
@@ -126,10 +126,22 @@ void CryptoDocPrivate::run()
 {
 	if( !encrypted )
 	{
+		QString file, mime;
 		QBuffer data;
-		data.open(QBuffer::WriteOnly);
-		writeDDoc(&data);
-		data.close();
+		if(files.size() > 1)
+		{
+			data.open(QBuffer::WriteOnly);
+			writeDDoc(&data);
+			data.close();
+			file = QFileInfo(fileName).fileName() + ".ddoc";
+			mime = MIME_DDOC;
+		}
+		else
+		{
+			data.setData(files[0].data);
+			file = files[0].name;
+		}
+
 #ifdef WIN32
 		RAND_screen();
 #else
@@ -146,7 +158,7 @@ void CryptoDocPrivate::run()
 
 		QFile cdoc(fileName);
 		cdoc.open(QFile::WriteOnly);
-		writeCDoc(&cdoc, key, iv + result, MIME_DDOC);
+		writeCDoc(&cdoc, key, iv + result, file, mime);
 		cdoc.close();
 
 		delete ddoc;
@@ -159,16 +171,29 @@ void CryptoDocPrivate::run()
 		QByteArray result = readCDoc(&cdoc, true);
 		cdoc.close();
 
-		ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" );
-		if( !ddoc->open() )
+		result = crypto(result.left(16), key, result.mid(16), Decrypt);
+
+		if(mime == MIME_ZLIB)
 		{
-			lastError = CryptoDoc::tr("Failed to create temporary files<br />%1").arg( ddoc->errorString() );
-			return;
+			result = qUncompress(result);
+			mime = properties["OriginalMimeType"];
 		}
-		ddoc->write(crypto(result.left(16), key, result.mid(16), Decrypt));
-		ddoc->flush();
-		ddoc->reset();
-		readDDoc(ddoc);
+
+		if(mime == MIME_DDOC)
+		{
+			ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" );
+			if( !ddoc->open() )
+			{
+				lastError = CryptoDoc::tr("Failed to create temporary files<br />%1").arg( ddoc->errorString() );
+				return;
+			}
+			ddoc->write(result);
+			ddoc->flush();
+			ddoc->reset();
+			readDDoc(ddoc);
+		}
+		else
+			files[0].data = result;
 	}
 	encrypted = !encrypted;
 }
@@ -269,12 +294,12 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 	return QByteArray();
 }
 
-void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &mime)
+void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &file, const QString &mime)
 {
 	QHash<QString,QString> props;
 	props["DocumentFormat"] = "ENCDOC-XML|1.1";
 	props["LibraryVersion"] = qApp->applicationName() + "|" + qApp->applicationVersion();
-	props["Filename"] = QFileInfo(fileName).fileName();
+	props["Filename"] = file;
 
 	static const QString DS = "http://www.w3.org/2000/09/xmldsig#";
 	static const QString DENC = "http://www.w3.org/2001/04/xmlenc#";
