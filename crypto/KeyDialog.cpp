@@ -98,7 +98,7 @@ KeyDialog::KeyDialog( const CKey &key, QWidget *parent )
 	d->title->setText( k.recipient );
 
 	addItem( tr("Key"), k.recipient );
-	addItem( tr("Crypt method"), k.type );
+	addItem( tr("Crypt method"), k.method );
 	//addItem( tr("ID"), k.id );
 	addItem( tr("Expires"), key.cert.expiryDate().toLocalTime().toString("dd.MM.yyyy hh:mm:ss") );
 	addItem( tr("Issuer"), SslCertificate(key.cert).issuerInfo( QSslCertificate::CommonName ) );

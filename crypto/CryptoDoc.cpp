@@ -26,10 +26,6 @@
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
-#include <libdigidoc/DigiDocCert.h>
-#include <libdigidoc/DigiDocEncGen.h>
-#include <libdigidoc/DigiDocEncSAXParser.h>
-
 #include <QtCore/QBuffer>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
@@ -48,8 +44,13 @@
 #include <QtGui/QMessageBox>
 #endif
 
-#include <openssl/aes.h>
+#include <openssl/evp.h>
 #include <openssl/rand.h>
+#include <openssl/rsa.h>
+
+#define MIME_XML  "text/xml"
+#define MIME_ZLIB "http://www.isi.edu/in-noes/iana/assignments/media-types/application/zip"
+#define MIME_DDOC "http://www.sk.ee/DigiDoc/v1.3.0/digidoc.xsd"
 
 class CryptoDocPrivate: public QThread
 {
@@ -65,19 +66,14 @@ public:
 		QByteArray data;
 	};
 
-	CryptoDocPrivate(): hasSignature(false), documents(0), ddoc(0), enc(0), encrypted(false), err(0) {}
+	CryptoDocPrivate(): hasSignature(false), encrypted(false), documents(nullptr), ddoc(nullptr) {}
 
-	inline void writeBase64(QXmlStreamWriter &x, const QByteArray &data)
-	{
-		for(int i = 0; i < data.size(); i+=48)
-			x.writeCharacters(data.mid(i, 48).toBase64() + "\n");
-	}
-	inline void writeBase64(QXmlStreamWriter &x, QIODevice *data)
-	{
-		for(int i = 0; i < data->size(); i+=48)
-			x.writeCharacters(data->read(48).toBase64() + "\n");
-	}
+	QByteArray crypto(const QByteArray &iv, const QByteArray &key, const QByteArray &data, Operation op) const;
+	bool isEncryptedWarning();
+	QByteArray readCDoc(QIODevice *cdoc, bool data);
+	void readDDoc(QIODevice *ddoc);
 	void run();
+	void setLastError(const QString &err);
 	inline void waitForFinished()
 	{
 		QEventLoop e;
@@ -85,21 +81,24 @@ public:
 		start();
 		e.exec();
 	}
-	QByteArray crypto(const QByteArray &iv, const QByteArray &key, const QByteArray &data, Operation op) const;
+	inline void writeBase64(QXmlStreamWriter &x, const QString &ns, const QString &name, const QByteArray &data)
+	{
+		x.writeStartElement(ns, name);
+		for(int i = 0; i < data.size(); i+=48)
+			x.writeCharacters(data.mid(i, 48).toBase64() + "\n");
+		x.writeEndElement();
+	}
 	void writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &mime);
-	void readDDoc(QIODevice *ddoc);
 	void writeDDoc(QIODevice *ddoc);
 
-	QList<File> files;
-	QList<CKey> keys;
-	bool hasSignature;
+	QString			method, mime, fileName, lastError;
+	QByteArray		key;
+	QHash<QString,QString> properties;
+	QList<CKey>		keys;
+	QList<File>		files;
+	bool			hasSignature, encrypted;
 	CDocumentModel	*documents;
 	QTemporaryFile	*ddoc;
-	QString			fileName;
-	DEncEncryptedData *enc;
-	bool encrypted;
-	int err;
-	QString lastError;
 };
 
 QByteArray CryptoDocPrivate::crypto(const QByteArray &iv, const QByteArray &key, const QByteArray &data, Operation op) const
@@ -109,20 +108,28 @@ QByteArray CryptoDocPrivate::crypto(const QByteArray &iv, const QByteArray &key,
 	int err = EVP_CipherInit(&ctx, EVP_aes_128_cbc(), (unsigned char*)key.constData(), (unsigned char*)iv.constData(), op);
 	QByteArray result(data.size() + EVP_CIPHER_CTX_block_size(&ctx), 0);
 	err = EVP_CipherUpdate(&ctx, (unsigned char*)result.data(), &size, (const unsigned char*)data.constData(), data.size());
-	err = EVP_CipherFinal(&ctx, (unsigned char*)(result.data() + size), &size2);
+	err = EVP_CipherFinal(&ctx, (unsigned char*)result.data() + size, &size2);
 	result.resize(size + size2);
 	return result;
+}
+
+bool CryptoDocPrivate::isEncryptedWarning()
+{
+	if( fileName.isEmpty() )
+		setLastError( CryptoDoc::tr("Container is not open") );
+	if( encrypted )
+		setLastError( CryptoDoc::tr("Container is encrypted") );
+	return fileName.isEmpty() || encrypted;
 }
 
 void CryptoDocPrivate::run()
 {
 	if( !encrypted )
 	{
-		QByteArray data;
-		QBuffer buf(&data);
-		buf.open(QBuffer::WriteOnly);
-		writeDDoc(&buf);
-		buf.close();
+		QBuffer data;
+		data.open(QBuffer::WriteOnly);
+		writeDDoc(&data);
+		data.close();
 #ifdef WIN32
 		RAND_screen();
 #else
@@ -133,12 +140,13 @@ void CryptoDocPrivate::run()
 		RAND_bytes(indata, sizeof(indata));
 
 		QByteArray iv(EVP_MAX_IV_LENGTH, 0), key(16, 0);
-		int size = EVP_BytesToKey(EVP_aes_128_cbc(), EVP_md5(), salt, indata, sizeof(indata), 1, (unsigned char*)key.data(), (unsigned char*)iv.data());
-		QByteArray result = crypto(iv, key, data, Encrypt);
+		EVP_BytesToKey(EVP_aes_128_cbc(), EVP_md5(), salt, indata, sizeof(indata),
+			1, (unsigned char*)key.data(), (unsigned char*)iv.data());
+		QByteArray result = crypto(iv, key, data.data(), Encrypt);
 
 		QFile cdoc(fileName);
 		cdoc.open(QFile::WriteOnly);
-		writeCDoc(&cdoc, key, iv + result, DENC_ENCDATA_TYPE_DDOC);
+		writeCDoc(&cdoc, key, iv + result, MIME_DDOC);
 		cdoc.close();
 
 		delete ddoc;
@@ -146,15 +154,10 @@ void CryptoDocPrivate::run()
 	}
 	else
 	{
-		err = dencEncryptedData_decryptData( enc );
-
-		DEncEncryptionProperty *prop = dencEncryptedData_FindEncryptionPropertyByName( enc, ENCPROP_ORIG_SIZE );
-		if( prop && prop->szContent )
-		{
-			long size = QByteArray( prop->szContent ).toLong();
-			if( size > 0 && size < enc->mbufEncryptedData.nLen )
-				enc->mbufEncryptedData.nLen = size;
-		}
+		QFile cdoc(fileName);
+		cdoc.open(QFile::ReadOnly);
+		QByteArray result = readCDoc(&cdoc, true);
+		cdoc.close();
 
 		ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" );
 		if( !ddoc->open() )
@@ -162,14 +165,108 @@ void CryptoDocPrivate::run()
 			lastError = CryptoDoc::tr("Failed to create temporary files<br />%1").arg( ddoc->errorString() );
 			return;
 		}
-		ddoc->write( (const char*)enc->mbufEncryptedData.pMem, enc->mbufEncryptedData.nLen );
+		ddoc->write(crypto(result.left(16), key, result.mid(16), Decrypt));
 		ddoc->flush();
 		ddoc->reset();
-		ddocMemBuf_free( &enc->mbufEncryptedData );
-
 		readDDoc(ddoc);
 	}
 	encrypted = !encrypted;
+}
+
+void CryptoDocPrivate::setLastError( const QString &err )
+{
+	QMessageBox d( QMessageBox::Warning, CryptoDoc::tr("DigiDoc3 crypto"),
+		err, QMessageBox::Close, qApp->activeWindow() );
+	if( d.exec() == QMessageBox::Help )
+		Common::showHelp( err );
+}
+
+QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
+{
+	QXmlStreamReader xml(cdoc);
+
+	if(!data)
+	{
+		files.clear();
+		keys.clear();
+		properties.clear();
+		method.clear();
+		mime.clear();
+	}
+	while( !xml.atEnd() )
+	{
+		if( !xml.readNextStartElement() )
+			continue;
+		if(data)
+		{
+			// EncryptedData/KeyInfo
+			if(xml.name() == "KeyInfo")
+				xml.skipCurrentElement();
+			// EncryptedData/CipherData/CipherValue
+			else if(xml.name() == "CipherValue")
+			{
+				xml.readNext();
+				return QByteArray::fromBase64( xml.text().toUtf8() );
+			}
+			continue;
+		}
+
+		// EncryptedData
+		else if( xml.name() == "EncryptedData")
+			mime = xml.attributes().value("MimeType").toString();
+		// EncryptedData/EncryptionProperties/EncryptionProperty
+		else if( xml.name() == "EncryptionProperty" )
+		{
+			if( xml.attributes().value("Name") == "orig_file" )
+			{
+				QStringList fileparts = xml.readElementText().split("|");
+				File file;
+				file.name = fileparts.value(0);
+				file.size = FileDialog::fileSize(fileparts.value(1).toUInt());
+				file.mime = fileparts.value(2);
+				file.id = fileparts.value(3);
+				files << file;
+			}
+			else
+				properties[xml.attributes().value("Name").toString()] = xml.readElementText();
+		}
+		// EncryptedData/EncryptionMethod
+		else if( xml.name() == "EncryptionMethod" )
+			method = xml.attributes().value("Algorithm").toString();
+		// EncryptedData/KeyInfo/EncryptedKey
+		else if( xml.name() == "EncryptedKey" )
+		{
+			CKey key;
+			key.id = xml.attributes().value("Id").toString();
+			key.recipient = xml.attributes().value("Recipient").toString();
+			key.name = xml.attributes().value("Name").toString();
+			while(!xml.atEnd())
+			{
+				xml.readNext();
+				if( xml.name() == "EncryptedKey" && xml.isEndElement() )
+					break;
+				if( !xml.isStartElement() )
+					continue;
+				// EncryptedData/KeyInfo/EncryptedKey/EncryptionMethod
+				if(xml.name() == "EncryptionMethod")
+					key.method = xml.attributes().value("Algorithm").toString();
+				// EncryptedData/KeyInfo/EncryptedKey/KeyInfo/X509Data/X509Certificate
+				else if(xml.name() == "X509Certificate")
+				{
+					xml.readNext();
+					key.cert = QSslCertificate( QByteArray::fromBase64( xml.text().toUtf8() ), QSsl::Der );
+				}
+				// EncryptedData/KeyInfo/EncryptedKey/KeyInfo/CipherData/CipherValue
+				else if(xml.name() == "CipherValue")
+				{
+					xml.readNext();
+					key.chipher = QByteArray::fromBase64( xml.text().toUtf8() );
+				}
+			}
+			keys << key;
+		}
+	}
+	return QByteArray();
 }
 
 void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &mime)
@@ -179,8 +276,8 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const Q
 	props["LibraryVersion"] = qApp->applicationName() + "|" + qApp->applicationVersion();
 	props["Filename"] = QFileInfo(fileName).fileName();
 
-	QString DS = "http://www.w3.org/2000/09/xmldsig#";
-	QString DENC = "http://www.w3.org/2001/04/xmlenc#";
+	static const QString DS = "http://www.w3.org/2000/09/xmldsig#";
+	static const QString DENC = "http://www.w3.org/2001/04/xmlenc#";
 
 	QXmlStreamWriter w(cdoc);
 	w.setAutoFormatting(true);
@@ -210,28 +307,22 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const Q
 
 		w.writeStartElement(DS, "KeyInfo");
 		w.writeStartElement(DS, "X509Data");
-		w.writeStartElement(DS, "X509Certificate");
-		writeBase64(w, k.cert.toDer());
-		w.writeEndElement(); //X509Certificate
+		writeBase64(w, DS, "X509Certificate", k.cert.toDer());
 		w.writeEndElement(); //X509Data
 		w.writeEndElement(); //KeyInfo
 		w.writeStartElement(DENC, "CipherData");
 
 		RSA *rsa = (RSA*)k.cert.publicKey().handle();
 		QByteArray chipper(RSA_size(rsa), 0);
-		int size = RSA_public_encrypt(key.size(), (unsigned char*)key.constData(), (unsigned char*)chipper.data(), rsa, RSA_PKCS1_PADDING);
-		w.writeStartElement(DENC, "CipherValue");
-		writeBase64(w, chipper);
-		w.writeEndElement(); //CipherValue
+		RSA_public_encrypt(key.size(), (unsigned char*)key.constData(), (unsigned char*)chipper.data(), rsa, RSA_PKCS1_PADDING);
+		writeBase64(w, DENC, "CipherValue", chipper);
 		w.writeEndElement(); //CipherData
 		w.writeEndElement(); //EncryptedKey
 	}
 	w.writeEndElement(); //KeyInfo
 
 	w.writeStartElement(DENC, "CipherData");
-	w.writeStartElement(DENC, "CipherValue");
-	writeBase64(w, data);
-	w.writeEndElement(); //CipherValue
+	writeBase64(w, DENC, "CipherValue", data);
 	w.writeEndElement(); //CipherData
 
 	w.writeStartElement(DENC, "EncryptionProperties");
@@ -274,10 +365,7 @@ void CryptoDocPrivate::readDDoc(QIODevice *ddoc)
 			files << file;
 		}
 		else if(x.name() == "Signature")
-		{
 			hasSignature = true;
-			break;
-		}
 	}
 }
 
@@ -291,24 +379,18 @@ void CryptoDocPrivate::writeDDoc(QIODevice *ddoc)
 	x.writeAttribute("format", "DIGIDOC-XML");
 	x.writeAttribute("version", "1.3");
 
-	for(int i = 0; i < documents->rowCount(); ++i)
+	for(const File &file: files)
 	{
-		QModelIndex index = documents->index(i, 0);
-		QString name = documents->copy(index, QDir::tempPath());
-		QFile f(name);
-		if(!f.open(QFile::ReadOnly))
-			continue;
 		x.writeStartElement("DataFile");
 		x.writeAttribute("ContentType", "EMBEDDED_BASE64");
-		x.writeAttribute("Filename", QFileInfo(f.fileName()).fileName());
-		x.writeAttribute("Id", index.data(Qt::UserRole).toString());
-		x.writeAttribute("MimeType", "application/octet-stream");
-		x.writeAttribute("Size", QString::number(f.size()));
+		x.writeAttribute("Filename", file.name);
+		x.writeAttribute("Id", file.id);
+		x.writeAttribute("MimeType", file.mime);
+		x.writeAttribute("Size", file.size);
 		x.writeDefaultNamespace("http://www.sk.ee/DigiDoc/v1.3.0#");
-		writeBase64(x, &f);
+		for(int i = 0; i < file.data.size(); i+=48)
+			x.writeCharacters(file.data.mid(i, 48).toBase64() + "\n");
 		x.writeEndElement(); //DataFile
-		f.close();
-		f.remove();
 	}
 
 	x.writeEndElement(); //SignedDoc
@@ -317,7 +399,7 @@ void CryptoDocPrivate::writeDDoc(QIODevice *ddoc)
 
 
 
-CDocumentModel::CDocumentModel( CryptoDoc *doc )
+CDocumentModel::CDocumentModel( CryptoDocPrivate *doc )
 :	QAbstractTableModel( doc )
 ,	d( doc )
 {
@@ -329,17 +411,17 @@ int CDocumentModel::columnCount( const QModelIndex &parent ) const
 
 QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) const
 {
-	if( d->d->files.isEmpty() )
+	if( d->files.isEmpty() )
 		return QString();
-	QStringList row = m_data.value( index.row() );
-	if( row.value( 1 ).isEmpty() )
+	const CryptoDocPrivate::File &row = d->files.value( index.row() );
+	if( row.name.isEmpty() )
 		return QString();
 	QString dst = QFileInfo( path ).isDir() ? mkpath( index, path ) : path;
 	if( QFile::exists( dst ) )
 		QFile::remove( dst );
 
 	QFile f(dst);
-	if(!f.open(QFile::WriteOnly) || !f.write(d->d->files.value(index.row()).data))
+	if(!f.open(QFile::WriteOnly) || !f.write(d->files.value(index.row()).data))
 	{
 		d->setLastError( tr("Failed to save file '%1'").arg( dst ) );
 		return QString();
@@ -349,8 +431,8 @@ QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) co
 
 QVariant CDocumentModel::data( const QModelIndex &index, int role ) const
 {
-	QStringList d = m_data.value( index.row() );
-	if( d.empty() )
+	const CryptoDocPrivate::File &f = d->files.value( index.row() );
+	if( f.name.isEmpty() )
 		return QVariant();
 	switch( role )
 	{
@@ -363,9 +445,9 @@ QVariant CDocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::DisplayRole:
 		switch( index.column() )
 		{
-		case Name: return d.value( 0 );
-		case Mime: return d.value( 2 );
-		case Size: return d.value( 3 );
+		case Name: return f.name;
+		case Mime: return f.mime;
+		case Size: return f.size;
 		default: return QVariant();
 		}
 	case Qt::TextAlignmentRole:
@@ -382,9 +464,7 @@ QVariant CDocumentModel::data( const QModelIndex &index, int role ) const
 		case Save: return tr("Save");
 		case Remove: return tr("Remove");
 		default: return tr("Filename: %1\nFilesize: %2\nMedia type: %3")
-			.arg( d.value( 0 ) )
-			.arg( d.value( 3 ) )
-			.arg( d.value( 2 ) );
+			.arg( f.name, f.size, f.mime );
 		}
 	case Qt::DecorationRole:
 		switch( index.column() )
@@ -400,14 +480,14 @@ QVariant CDocumentModel::data( const QModelIndex &index, int role ) const
 		case Remove: return QSize( 20, 20 );
 		default: return QVariant();
 		}
-	case Qt::UserRole: return d.value( 1 );
+	case Qt::UserRole: return f.id;
 	default: return QVariant();
 	}
 }
 
 Qt::ItemFlags CDocumentModel::flags( const QModelIndex & ) const
 {
-	return !d->isEncrypted() ? Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsDragEnabled : Qt::NoItemFlags;
+	return !d->encrypted ? Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsDragEnabled : Qt::NoItemFlags;
 }
 
 QMimeData* CDocumentModel::mimeData( const QModelIndexList &indexes ) const
@@ -431,7 +511,7 @@ QStringList CDocumentModel::mimeTypes() const
 
 QString CDocumentModel::mkpath( const QModelIndex &index, const QString &path ) const
 {
-	QString filename = m_data.value( index.row() ).value( 0 );
+	QString filename = d->files.value( index.row() ).name;
 #if defined(Q_OS_WIN)
 	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
 #else
@@ -464,7 +544,7 @@ bool CDocumentModel::removeRows( int row, int count, const QModelIndex &parent )
 	if( parent.isValid() || d->isEncryptedWarning() )
 		return false;
 
-	if( d->d->files.isEmpty() || row >= d->d->files.size() )
+	if( d->files.isEmpty() || row >= d->files.size() )
 	{
 		d->setLastError( tr("Internal error") );
 		return false;
@@ -472,45 +552,13 @@ bool CDocumentModel::removeRows( int row, int count, const QModelIndex &parent )
 
 	beginRemoveRows( parent, row, row + count );
 	for( int i = row + count - 1; i >= row; --i )
-	{
-		d->d->files.removeAt( i );
-		m_data.removeAt( i );
-	}
+		d->files.removeAt( i );
 	endRemoveRows();
 	return true;
 }
 
-void CDocumentModel::revert()
-{
-	beginResetModel();
-	m_data.clear();
-	if( d->isNull() )
-		return endResetModel();
-
-	if( d->isEncrypted() )
-	{
-		int count = dencOrigContent_count( d->d->enc );
-		for( int i = 0; i < count; ++i )
-		{
-			char filename[255], size[255], mime[255], id[255];
-			dencOrigContent_findByIndex( d->d->enc, i, filename, 255, size, 255, mime, 255, id, 255 );
-			m_data << (QStringList()
-				<< QString::fromUtf8( filename ).normalized( QString::NormalizationForm_C )
-				<< QString()
-				<< QString::fromUtf8( mime ).normalized( QString::NormalizationForm_C )
-				<< FileDialog::fileSize( QString::fromUtf8( size ).toULong() ).normalized( QString::NormalizationForm_C ));
-		}
-	}
-	else if( !d->d->files.isEmpty() )
-	{
-		for( const CryptoDocPrivate::File &file: d->d->files )
-			m_data << (QStringList() << file.name << file.id << file.mime << file.size);
-	}
-	endResetModel();
-}
-
 int CDocumentModel::rowCount( const QModelIndex &parent ) const
-{ return parent.isValid() ? 0 : m_data.size(); }
+{ return parent.isValid() ? 0 : d->files.size(); }
 
 
 
@@ -526,14 +574,14 @@ CryptoDoc::CryptoDoc( QObject *parent )
 :	QObject( parent )
 ,	d( new CryptoDocPrivate )
 {
-	d->documents = new CDocumentModel( this );
+	d->documents = new CDocumentModel( d );
 }
 
 CryptoDoc::~CryptoDoc() { clear(); delete d; }
 
 void CryptoDoc::addFile( const QString &file, const QString &mime )
 {
-	if( isEncryptedWarning() )
+	if( d->isEncryptedWarning() )
 		return;
 
 	QFile data(file);
@@ -551,11 +599,11 @@ void CryptoDoc::addFile( const QString &file, const QString &mime )
 
 bool CryptoDoc::addKey( const CKey &key )
 {
-	if( isEncryptedWarning() )
+	if( d->isEncryptedWarning() )
 		return false;
 	if( keys().contains( key ) )
 	{
-		setLastError( tr("Key already exists") );
+		d->setLastError( tr("Key already exists") );
 		return false;
 	}
 	d->keys << key;
@@ -564,9 +612,6 @@ bool CryptoDoc::addKey( const CKey &key )
 
 void CryptoDoc::clear( const QString &file )
 {
-	if( d->enc )
-		dencEncryptedData_free( d->enc );
-	d->enc = nullptr;
 	delete d->ddoc;
 	d->ddoc = nullptr;
 	d->hasSignature = false;
@@ -574,39 +619,40 @@ void CryptoDoc::clear( const QString &file )
 	d->fileName = file;
 	d->files.clear();
 	d->keys.clear();
+	d->properties.clear();
+	d->method.clear();
+	d->mime.clear();
 }
 
 bool CryptoDoc::decrypt()
 {
-	if( isNull() )
+	if( d->fileName.isEmpty() )
 	{
-		setLastError( tr("Container is not open") );
+		d->setLastError( tr("Container is not open") );
 		return false;
 	}
 	if( !isEncrypted() )
 		return true;
 
-	DEncEncryptedKey *key = 0;
-	for( int i = 0; i < d->enc->nEncryptedKeys; ++i )
+	CKey key;
+	for(const CKey &k: d->keys)
 	{
-		DEncEncryptedKey *tmp = d->enc->arrEncryptedKeys[i];
-		if( qApp->signer()->tokenauth().cert() == SslCertificate::fromX509( Qt::HANDLE(tmp->pCert) ) )
+		if( qApp->signer()->tokenauth().cert() == k.cert )
 		{
-			key = tmp;
+			key = k;
 			break;
 		}
 	}
-	if( !key )
+	if( key.cert.isNull() )
 	{
-		setLastError( tr("You do not have the key to decrypt this document") );
+		d->setLastError( tr("You do not have the key to decrypt this document") );
 		return false;
 	}
 
-	QByteArray in( (const char*)key->mbufTransportKey.pMem, key->mbufTransportKey.nLen ), out;
 	bool decrypted = false;
 	while( !decrypted )
 	{
-		switch( qApp->signer()->decrypt( in, out ) )
+		switch( qApp->signer()->decrypt( key.chipher, d->key ) )
 		{
 		case QSigner::DecryptOK: decrypted = true; break;
 		case QSigner::PinIncorrect: break;
@@ -614,13 +660,9 @@ bool CryptoDoc::decrypt()
 		}
 	}
 
-	ddocMemAssignData( &d->enc->mbufTransportKey, out.constData(), out.size() );
-	d->enc->nKeyStatus = DENC_KEY_STATUS_INITIALIZED;
 	d->waitForFinished();
-	if( d->err != ERR_OK )
-		setLastError( d->lastError.isEmpty() ? tr("Failed to decrypt data") : d->lastError, d->err );
-	else if( !d->lastError.isEmpty() )
-		setLastError( d->lastError );
+	if( !d->lastError.isEmpty() )
+		d->setLastError( d->lastError );
 	d->documents->revert();
 	return !isEncrypted();
 }
@@ -629,47 +671,31 @@ CDocumentModel* CryptoDoc::documents() const { return d->documents; }
 
 bool CryptoDoc::encrypt( const QString &filename )
 {
-	if( isNull() )
+	if( !filename.isEmpty() )
+		d->fileName = filename;
+	if( d->fileName.isEmpty() )
 	{
-		setLastError( tr("Container is not open") );
+		d->setLastError( tr("Container is not open") );
 		return false;
 	}
 	if( isEncrypted() )
 		return true;
 	if( d->keys.isEmpty() )
 	{
-		setLastError( tr("No keys specified") );
+		d->setLastError( tr("No keys specified") );
 		return false;
 	}
-	if( !filename.isEmpty() )
-		d->fileName = filename;
 	qApp->addRecent( d->fileName );
 
 	d->waitForFinished();
-	if( d->err != ERR_OK )
-		setLastError( d->lastError.isEmpty() ? tr("Failed to encrypt data") : d->lastError, d->err );
-	else if( !d->lastError.isEmpty() )
-		setLastError( d->lastError );
+	if( !d->lastError.isEmpty() )
+		d->setLastError( d->lastError );
 	open(d->fileName);
 	return isEncrypted();
 }
 
 QString CryptoDoc::fileName() const { return d->fileName; }
-
-bool CryptoDoc::isEncrypted() const
-{
-	return d->encrypted;
-}
-
-bool CryptoDoc::isEncryptedWarning()
-{
-	if( isNull() )
-		setLastError( tr("Container is not open") );
-	if( isEncrypted() )
-		setLastError( tr("Container is encrypted") );
-	return isNull() || isEncrypted();
-}
-
+bool CryptoDoc::isEncrypted() const { return d->encrypted; }
 bool CryptoDoc::isNull() const { return d->fileName.isEmpty(); }
 bool CryptoDoc::isSigned() const { return d->hasSignature; }
 
@@ -681,33 +707,20 @@ QList<CKey> CryptoDoc::keys()
 bool CryptoDoc::open( const QString &file )
 {
 	clear(file);
-	int err = dencSaxReadEncryptedData( &d->enc, file.toUtf8() );
-	if( err != ERR_OK )
-	{
-		setLastError( tr("Failed to open encrypted document"), err );
-		d->fileName.clear();
-	}
-	for( int i = 0; i < d->enc->nEncryptedKeys; ++i )
-	{
-		CKey ckey;
-		ckey.cert = SslCertificate::fromX509( Qt::HANDLE(d->enc->arrEncryptedKeys[i]->pCert) );
-		ckey.id = QString::fromUtf8( d->enc->arrEncryptedKeys[i]->szId );
-		ckey.name = QString::fromUtf8( d->enc->arrEncryptedKeys[i]->szKeyName );
-		ckey.recipient = QString::fromUtf8( d->enc->arrEncryptedKeys[i]->szRecipient );
-		ckey.type = QString::fromUtf8( d->enc->arrEncryptedKeys[i]->szEncryptionMethod );
-
-		d->keys << ckey;
-	}
+	QFile cdoc(d->fileName);
+	cdoc.open(QFile::ReadOnly);
+	d->readCDoc(&cdoc, false);
+	cdoc.close();
 
 	d->encrypted = true;
 	d->documents->revert();
 	qApp->addRecent( file );
-	return err == ERR_OK;
+	return !d->keys.isEmpty();
 }
 
 void CryptoDoc::removeKey( int id )
 {
-	if( !isEncryptedWarning() )
+	if( !d->isEncryptedWarning() )
 		d->keys.removeAt(id);
 }
 
@@ -715,26 +728,14 @@ bool CryptoDoc::saveDDoc( const QString &filename )
 {
 	if( !d->ddoc )
 	{
-		setLastError( tr("Document not open") );
+		d->setLastError( tr("Document not open") );
 		return false;
 	}
 
 	bool result = d->ddoc->copy( filename );
 	if( !result )
-		setLastError( tr("Failed to save file") );
+		d->setLastError( tr("Failed to save file") );
 	return result;
-}
-
-void CryptoDoc::setLastError( const QString &err, int code )
-{
-	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 crypto"), err, QMessageBox::Close, qApp->activeWindow() );
-	if( code > 0 )
-	{
-		d.addButton( QMessageBox::Help );
-		d.setDetailedText( tr("libdigidoc code: %1\nmessage: %2").arg( code ).arg( getErrorString( code ) ) );
-	}
-	if( d.exec() == QMessageBox::Help )
-		Common::showHelp( err, code );
 }
 
 #include "CryptoDoc.moc"

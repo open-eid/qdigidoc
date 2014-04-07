@@ -6,15 +6,14 @@ set( CMAKE_FIND_ROOT_PATH ${CMAKE_OSX_SYSROOT} )
 
 set( FIN true CACHE BOOL "Enable Finnland smart card support" )
 if( FIN )
-    add_definitions( -DFIN )
+	add_definitions( -DFIN )
 endif()
 
 include( GNUInstallDirs )
 include( VersionInfo )
 
-find_package( LibDigiDoc REQUIRED )
 find_package( LibDigiDocpp REQUIRED )
-include_directories( ${LIBDIGIDOCPP_INCLUDE_DIR} ${LIBDIGIDOC_INCLUDE_DIR} )
+include_directories( ${LIBDIGIDOCPP_INCLUDE_DIR} )
 
 find_package( Qt5Widgets QUIET )
 if( Qt5Widgets_FOUND )

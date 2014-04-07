@@ -35,8 +35,6 @@
 #include <digidocpp/Container.h>
 #include <digidocpp/XmlConf.h>
 
-#include <libdigidoc/DigiDocConfig.h>
-
 #include "qtsingleapplication/src/qtlocalpeer.h"
 
 #include <QtCore/QFileInfo>
@@ -189,13 +187,6 @@ Application::Application( int &argc, char **argv )
 		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
 	}
 
-	initDigiDocLib();
-	QString ini = QString( "%1/digidoc.ini" ).arg( applicationDirPath() );
-	if( QFileInfo( ini ).isFile() )
-		initConfigStore( ini.toUtf8() );
-	else
-		initConfigStore( NULL );
-
 	QSigner::ApiType api = QSigner::PKCS11;
 #ifdef Q_OS_WIN
 	QString provider;
@@ -235,14 +226,10 @@ Application::~Application()
 		if( QtLocalPeer *obj = findChild<QtLocalPeer*>() )
 			delete obj;
 		digidoc::terminate();
-		cleanupConfigStore( 0 );
-		finalizeDigiDocLib();
 	}
 #else
 	delete d->bar;
 	digidoc::terminate();
-	cleanupConfigStore( 0 );
-	finalizeDigiDocLib();
 #endif
 	delete d;
 }

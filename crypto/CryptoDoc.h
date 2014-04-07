@@ -24,7 +24,7 @@
 #include <QtCore/QStringList>
 #include <QtNetwork/QSslCertificate>
 
-class CryptoDoc;
+class CryptoDocPrivate;
 class CDocumentModel: public QAbstractTableModel
 {
 	Q_OBJECT
@@ -40,7 +40,7 @@ public:
 		NColumns
 	};
 
-	CDocumentModel( CryptoDoc *doc );
+	CDocumentModel( CryptoDocPrivate *doc );
 
 	int columnCount( const QModelIndex &parent = QModelIndex() ) const;
 	QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
@@ -55,15 +55,11 @@ public:
 
 public slots:
 	void open( const QModelIndex &index );
-	void revert();
 
 private:
 	Q_DISABLE_COPY(CDocumentModel)
 
-	CryptoDoc *d;
-	QList<QStringList> m_data;
-
-	friend class CDigiDoc;
+	CryptoDocPrivate *d;
 };
 
 class CKey
@@ -75,13 +71,9 @@ public:
 	bool operator==( const CKey &other ) const { return other.cert == cert; }
 
 	QSslCertificate cert;
-	QString id;
-	QString name;
-	QString recipient;
-	QString type;
+	QString id, name, recipient, method;
+	QByteArray chipher;
 };
-
-class CryptoDocPrivate;
 
 class CryptoDoc: public QObject
 {
@@ -90,7 +82,7 @@ public:
 	CryptoDoc( QObject *parent = 0 );
 	~CryptoDoc();
 
-	void addFile( const QString &file, const QString &mime );
+	void addFile( const QString &file, const QString &mime = "application/octet-stream" );
 	bool addKey( const CKey &key );
 	void clear( const QString &file = QString() );
 	bool decrypt();
@@ -105,13 +97,6 @@ public:
 	void removeKey( int id );
 	bool saveDDoc( const QString &filename );
 
-private Q_SLOTS:
-	void setLastError( const QString &err, int code = -1 );
-
 private:
-	bool isEncryptedWarning();
-
 	CryptoDocPrivate *d;
-
-	friend class CDocumentModel;
 };
