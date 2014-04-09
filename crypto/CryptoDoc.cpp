@@ -264,7 +264,6 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 			CKey key;
 			key.id = xml.attributes().value("Id").toString();
 			key.recipient = xml.attributes().value("Recipient").toString();
-			key.name = xml.attributes().value("Name").toString();
 			while(!xml.atEnd())
 			{
 				xml.readNext();
@@ -272,8 +271,11 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 					break;
 				if( !xml.isStartElement() )
 					continue;
+				// EncryptedData/KeyInfo/KeyName
+				if(xml.name() == "KeyName")
+					key.name = xml.readElementText();
 				// EncryptedData/KeyInfo/EncryptedKey/EncryptionMethod
-				if(xml.name() == "EncryptionMethod")
+				else if(xml.name() == "EncryptionMethod")
 					key.method = xml.attributes().value("Algorithm").toString();
 				// EncryptedData/KeyInfo/EncryptedKey/KeyInfo/X509Data/X509Certificate
 				else if(xml.name() == "X509Certificate")
@@ -331,6 +333,8 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const Q
 		w.writeEndElement(); //EncryptionMethod
 
 		w.writeStartElement(DS, "KeyInfo");
+		if(!k.name.isEmpty())
+			w.writeTextElement(DS, "KeyName", k.name);
 		w.writeStartElement(DS, "X509Data");
 		writeBase64(w, DS, "X509Certificate", k.cert.toDer());
 		w.writeEndElement(); //X509Data
