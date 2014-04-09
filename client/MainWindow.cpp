@@ -533,13 +533,12 @@ void MainWindow::buttonClicked( int button )
 			}
 #endif
 
-			QScopedPointer<MobileDialog> m( new MobileDialog( this ) );
-			m->setSignatureInfo( signCityInput->text(),	signStateInput->text(),
+			MobileDialog m(this);
+			m.setSignatureInfo( signCityInput->text(),	signStateInput->text(),
 				signZipInput->text(), signCountryInput->text(),
 				QStringList() << signRoleInput->text() << signResolutionInput->text() );
-			m->sign( doc, infoMobileCode->text(), infoMobileCell->text() );
-			m->exec();
-			if( m->signature().isEmpty() || !doc->addSignature( m->signature() ) )
+			m.sign( doc, infoMobileCode->text(), infoMobileCell->text() );
+			if( !m.exec() || !doc->addSignature( m.signature() ) )
 				break;
 			save();
 		}

@@ -251,7 +251,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 	}
 	statusTimer->stop();
 	if( status == "SIGNATURE" )
-		close();
+		accept();
 }
 
 bool MobileDialog::isTest( const QString &ssid, const QString &cell )
