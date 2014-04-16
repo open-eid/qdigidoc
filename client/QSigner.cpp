@@ -34,6 +34,7 @@ class QCNG;
 #include <digidocpp/crypto/X509Cert.h>
 
 #include <QtCore/QEventLoop>
+#include <QtCore/QProcess>
 #include <QtCore/QStringList>
 #include <QtNetwork/QSslKey>
 
@@ -222,14 +223,23 @@ void QSigner::run()
 	d->sign.setCard( "loading" );
 
 	QString driver = qApp->confValue( Application::PKCS11Module ).toString();
-	if( d->pkcs11 && !d->pkcs11->loadDriver( driver ) )
-	{
-		Q_EMIT error( tr("Failed to load PKCS#11 module") + "\n" + driver );
-		return;
-	}
-
 	while( !d->terminate )
 	{
+#ifdef Q_OS_MAC
+		QProcess p;
+		p.start("ps", { "acux" } );
+		p.waitForFinished();
+		bool pcscrunning = p.readAll().contains("pcscd");
+#else
+		bool pcscrunning = true;
+#endif
+		if( d->pkcs11 && !d->pkcs11->isLoaded() && pcscrunning )
+		{
+			if( !d->pkcs11->loadDriver( driver ) )
+				Q_EMIT error( tr("Failed to load PKCS#11 module") + "\n" + driver );
+			return;
+		}
+
 #if QT_VERSION >= 0x050000
 		if( !d->count.loadAcquire() )
 #else
@@ -262,7 +272,7 @@ void QSigner::run()
 			}
 #endif
 			QList<TokenData> pkcs11;
-			if( d->pkcs11 )
+			if( d->pkcs11 && d->pkcs11->isLoaded() )
 			{
 				pkcs11 = d->pkcs11->tokens();
 				Q_FOREACH( const TokenData &t, pkcs11 )
@@ -286,20 +296,22 @@ void QSigner::run()
 			st.setCards( scards );
 			st.setReaders( readers );
 
-			if( !at.card().isEmpty() && !acards.contains( at.card() ) ) // check if selected auth card is still in slot
+			// check if selected card is still in slot
+			if( !at.card().isEmpty() && !acards.contains( at.card() ) )
 			{
 				at.setCard( QString() );
 				at.setCert( QSslCertificate() );
 			}
-			if( !st.card().isEmpty() && !scards.contains( st.card() ) ) // check if selected sign card is still in slot
+			if( !st.card().isEmpty() && !scards.contains( st.card() ) )
 			{
 				st.setCard( QString() );
 				st.setCert( QSslCertificate() );
 			}
 
-			if( at.card().isEmpty() && !acards.isEmpty() ) // if none is selected select first auth from cardlist
+			// if none is selected select first from cardlist
+			if( at.card().isEmpty() && !acards.isEmpty() )
 				at.setCard( acards.first() );
-			if( st.card().isEmpty() && !scards.isEmpty() ) // if none is selected select first sign from cardlist
+			if( st.card().isEmpty() && !scards.isEmpty() )
 				st.setCard( scards.first() );
 
 			if( acards.contains( at.card() ) && at.cert().isNull() ) // read auth cert
@@ -366,9 +378,10 @@ void QSigner::run()
 				}
 			}
 
-			if( aold != at ) // update auth data if something has changed
+			// update data if something has changed
+			if( aold != at )
 				Q_EMIT authDataChanged(d->auth = at);
-			if( sold != st ) // update sign data if something has changed
+			if( sold != st )
 				Q_EMIT signDataChanged(d->sign = st);
 			d->count.ref();
 		}
