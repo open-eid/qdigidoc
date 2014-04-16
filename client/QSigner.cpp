@@ -29,12 +29,12 @@ class QCSP;
 class QCNG;
 #endif
 #include <common/QPKCS11.h>
+#include <common/QPCSC.h>
 #include <common/TokenData.h>
 
 #include <digidocpp/crypto/X509Cert.h>
 
 #include <QtCore/QEventLoop>
-#include <QtCore/QProcess>
 #include <QtCore/QStringList>
 #include <QtNetwork/QSslKey>
 
@@ -226,10 +226,7 @@ void QSigner::run()
 	while( !d->terminate )
 	{
 #ifdef Q_OS_MAC
-		QProcess p;
-		p.start("ps", { "acux" } );
-		p.waitForFinished();
-		bool pcscrunning = p.readAll().contains("pcscd");
+		bool pcscrunning = QPCSC().serviceRunning();
 #else
 		bool pcscrunning = true;
 #endif
