@@ -182,10 +182,6 @@
         <translation>Failed to sign container</translation>
     </message>
     <message>
-        <source>Failed to get signatures</source>
-        <translation>Failed to get signatures</translation>
-    </message>
-    <message>
         <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
@@ -592,7 +588,7 @@ New ID-cards have chip on the back side of the card.</translation>
     </message>
     <message>
         <source>NB! Signature contains warnings and limits apply</source>
-        <translation type="unfinished"></translation>
+        <translation>NB! Signature contains warnings and limits apply</translation>
     </message>
 </context>
 <context>
@@ -1247,7 +1243,7 @@ Control code: %1</translation>
     </message>
     <message>
         <source>Warnings with limitations</source>
-        <translation type="unfinished"></translation>
+        <translation>Warnings with limitations</translation>
     </message>
 </context>
 <context>

@@ -182,10 +182,6 @@
         <translation>Ümbriku allkirjastamine ebaõnnestus</translation>
     </message>
     <message>
-        <source>Failed to get signatures</source>
-        <translation>Ümbrikust ei suutnud laadida allkirju</translation>
-    </message>
-    <message>
         <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>Allkiri ei ole Eesti seadusandluse mõistes võrdväärne käsitsi antud allkirjaga.
@@ -580,7 +576,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>NB! Signature contains warnings</source>
-        <translation>NB! Allkirjale kehtivad piirangud</translation>
+        <translation>NB! Allkiri sisaldab hoiatusi</translation>
     </message>
     <message>
         <source>NB! Status unknown</source>
@@ -592,7 +588,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>NB! Signature contains warnings and limits apply</source>
-        <translation type="unfinished"></translation>
+        <translation>NB! Allkirjale kehtivad piirangud</translation>
     </message>
 </context>
 <context>

@@ -182,10 +182,6 @@
         <translation>Failed to sign container</translation>
     </message>
     <message>
-        <source>Failed to get signatures</source>
-        <translation>Failed to get signatures</translation>
-    </message>
-    <message>
         <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.

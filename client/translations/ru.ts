@@ -182,10 +182,6 @@
         <translation>Не удается подписать конверт</translation>
     </message>
     <message>
-        <source>Failed to get signatures</source>
-        <translation>Не удается загрузить подписи</translation>
-    </message>
-    <message>
         <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
 This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
         <translation>В понимании эстонского законодательства подпись не равноценна собственноручно данной подписи.
@@ -1119,7 +1115,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Hash value of signature</source>
-        <translation>Хэш значание подтверждения подлинности подписи</translation>
+        <translation>Хэш значение подтверждения подлинности подписи</translation>
     </message>
     <message>
         <source>Container format</source>
@@ -1127,7 +1123,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Signature policy</source>
-        <translation type="unfinished"></translation>
+        <translation>Политика цифровой подписи</translation>
     </message>
     <message>
         <source>Test signature</source>
@@ -1139,19 +1135,19 @@ Control code: %1</source>
     </message>
     <message>
         <source>Signer Certificate issuer</source>
-        <translation type="unfinished"></translation>
+        <translation>Организация, выдавшая сертификат подписавшего</translation>
     </message>
     <message>
         <source>OCSP Certificate issuer</source>
-        <translation type="unfinished"></translation>
+        <translation>Организация, выдавшая сертификат подтверждения подлинности</translation>
     </message>
     <message>
         <source>OCSP time</source>
-        <translation type="unfinished"></translation>
+        <translation>Время подтверждения подлинности подписи</translation>
     </message>
     <message>
         <source>OCSP time (UTC)</source>
-        <translation type="unfinished"></translation>
+        <translation>Время подтверждения подлинности подписи (UTC)</translation>
     </message>
     <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
