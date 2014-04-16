@@ -226,11 +226,10 @@ void QSigner::run()
 	while( !d->terminate )
 	{
 #ifdef Q_OS_MAC
-		bool pcscrunning = QPCSC().serviceRunning();
+		if( d->pkcs11 && !d->pkcs11->isLoaded() && QPCSC().serviceRunning() )
 #else
-		bool pcscrunning = true;
+		if( d->pkcs11 && !d->pkcs11->isLoaded() )
 #endif
-		if( d->pkcs11 && !d->pkcs11->isLoaded() && pcscrunning )
 		{
 			if( !d->pkcs11->loadDriver( driver ) )
 				Q_EMIT error( tr("Failed to load PKCS#11 module") + "\n" + driver );
