@@ -225,14 +225,13 @@ void QSigner::run()
 	QString driver = qApp->confValue( Application::PKCS11Module ).toString();
 	while( !d->terminate )
 	{
+		if( d->pkcs11 && !d->pkcs11->isLoaded() &&
 #ifdef Q_OS_MAC
-		if( d->pkcs11 && !d->pkcs11->isLoaded() && QPCSC().serviceRunning() )
-#else
-		if( d->pkcs11 && !d->pkcs11->isLoaded() )
+			QPCSC().serviceRunning() &&
 #endif
+			!d->pkcs11->loadDriver( driver ) )
 		{
-			if( !d->pkcs11->loadDriver( driver ) )
-				Q_EMIT error( tr("Failed to load PKCS#11 module") + "\n" + driver );
+			Q_EMIT error( tr("Failed to load PKCS#11 module") + "\n" + driver );
 			return;
 		}
 
