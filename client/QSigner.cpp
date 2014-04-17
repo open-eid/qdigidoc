@@ -33,7 +33,6 @@ class QCNG;
 
 #include <digidocpp/crypto/X509Cert.h>
 
-#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QEventLoop>
 #include <QtCore/QStringList>
@@ -234,7 +233,6 @@ void QSigner::run()
 #ifdef Q_OS_MAC
 		f.seek(0);
 		QByteArray reader = f.read(20);
-		qDebug() << reader.toHex();
 #endif
 
 		if( d->pkcs11 && !d->pkcs11->isLoaded() &&
