@@ -91,7 +91,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::DisplayRole:
 		switch( index.column() )
 		{
-		case Id: return from( file.id() );
+		case Id: return QString::fromUtf8( file.id().c_str() );
 		case Name: return from( file.fileName() );
 		case Mime: return from( file.mediaType() );
 		case Size: return FileDialog::fileSize( file.fileSize() );
@@ -194,13 +194,12 @@ DigiDocSignature::DigiDocSignature( const digidoc::Signature *signature, DigiDoc
 
 QSslCertificate DigiDocSignature::cert() const
 {
-	QSslCertificate c;
 	try
 	{
-		c = QSslCertificate( fromVector(s->signingCertificate()), QSsl::Der );
+		return QSslCertificate( fromVector(s->signingCertificate()), QSsl::Der );
 	}
 	catch( const Exception & ) {}
-	return c;
+	return QSslCertificate();
 }
 
 QDateTime DigiDocSignature::dateTime() const
@@ -392,7 +391,7 @@ int DigiDocSignature::warning() const
 
 DigiDoc::DigiDoc( QObject *parent )
 :	QObject( parent )
-,	b(0)
+,	b(nullptr)
 ,	m_documentModel( new DocumentModel( this ) )
 {}
 
@@ -433,7 +432,7 @@ bool DigiDoc::checkDoc( bool status, const QString &msg ) const
 void DigiDoc::clear()
 {
 	delete b;
-	b = 0;
+	b = nullptr;
 	m_fileName.clear();
 	m_documentModel->reset();
 }
@@ -450,7 +449,7 @@ void DigiDoc::create( const QString &file )
 DocumentModel* DigiDoc::documentModel() const { return m_documentModel; }
 
 QString DigiDoc::fileName() const { return m_fileName; }
-bool DigiDoc::isNull() const { return b == 0; }
+bool DigiDoc::isNull() const { return b == nullptr; }
 bool DigiDoc::isSupported() const
 {
 	std::string ver = b->mediaType();
@@ -466,7 +465,7 @@ QString DigiDoc::mediaType() const
 QString DigiDoc::newSignatureID() const
 {
 	QStringList list;
-	Q_FOREACH(const Signature *s, b->signatures())
+	for(const Signature *s: b->signatures())
 		list << QString::fromUtf8(s->id().c_str());
 	unsigned int id = 0;
 	while(list.contains(QString("S%1").arg(id), Qt::CaseInsensitive)) ++id;
