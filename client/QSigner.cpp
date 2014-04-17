@@ -224,13 +224,14 @@ void QSigner::run()
 
 #ifdef Q_OS_MAC
 	QFile f("/private/var/run/pcscd.pub");
-	f.open(QFile::ReadOnly);
 #endif
 
 	QString driver = qApp->confValue( Application::PKCS11Module ).toString();
 	while( !d->terminate )
 	{
 #ifdef Q_OS_MAC
+		if(!f.isOpen())
+			f.open(QFile::ReadOnly);
 		f.seek(0);
 		QByteArray reader = f.read(20);
 #endif
