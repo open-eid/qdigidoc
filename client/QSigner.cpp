@@ -29,11 +29,12 @@ class QCSP;
 class QCNG;
 #endif
 #include <common/QPKCS11.h>
-#include <common/QPCSC.h>
 #include <common/TokenData.h>
 
 #include <digidocpp/crypto/X509Cert.h>
 
+#include <QtCore/QDebug>
+#include <QtCore/QFile>
 #include <QtCore/QEventLoop>
 #include <QtCore/QStringList>
 #include <QtNetwork/QSslKey>
@@ -222,12 +223,23 @@ void QSigner::run()
 	d->sign.clear();
 	d->sign.setCard( "loading" );
 
+#ifdef Q_OS_MAC
+	QFile f("/private/var/run/pcscd.pub");
+	f.open(QFile::ReadOnly);
+#endif
+
 	QString driver = qApp->confValue( Application::PKCS11Module ).toString();
 	while( !d->terminate )
 	{
+#ifdef Q_OS_MAC
+		f.seek(0);
+		QByteArray reader = f.read(20);
+		qDebug() << reader.toHex();
+#endif
+
 		if( d->pkcs11 && !d->pkcs11->isLoaded() &&
 #ifdef Q_OS_MAC
-			QPCSC().serviceRunning() &&
+			reader != QByteArray(20, 0) &&
 #endif
 			!d->pkcs11->loadDriver( driver ) )
 		{
