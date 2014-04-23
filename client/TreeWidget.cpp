@@ -41,6 +41,11 @@ TreeWidget::TreeWidget( QWidget *parent )
 ,	m(0)
 {}
 
+TreeWidget::~TreeWidget()
+{
+	hidePreview();
+}
+
 void TreeWidget::clicked( const QModelIndex &index )
 {
 	setPreviewIndex( index );
