@@ -88,7 +88,7 @@ public:
 			x.writeCharacters(data.mid(i, 48).toBase64() + "\n");
 		x.writeEndElement();
 	}
-	void writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &file, const QString &mime);
+	void writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &file, const QString &ver, const QString &mime);
 	void writeDDoc(QIODevice *ddoc);
 
 	QString			method, mime, fileName, lastError;
@@ -126,7 +126,7 @@ void CryptoDocPrivate::run()
 {
 	if( !encrypted )
 	{
-		QString file, mime;
+		QString file, mime, ver;
 		QBuffer data;
 		if(files.size() > 1)
 		{
@@ -135,11 +135,13 @@ void CryptoDocPrivate::run()
 			data.close();
 			file = QFileInfo(fileName).fileName() + ".ddoc";
 			mime = MIME_DDOC;
+			ver = "1.1";
 		}
 		else
 		{
 			data.setData(files[0].data);
 			file = files[0].name;
+			ver = "2.0";
 		}
 
 #ifdef WIN32
@@ -158,7 +160,7 @@ void CryptoDocPrivate::run()
 
 		QFile cdoc(fileName);
 		cdoc.open(QFile::WriteOnly);
-		writeCDoc(&cdoc, key, iv + result, file, mime);
+		writeCDoc(&cdoc, key, iv + result, file, ver, mime);
 		cdoc.close();
 
 		delete ddoc;
@@ -296,10 +298,10 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 	return QByteArray();
 }
 
-void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &file, const QString &mime)
+void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &file, const QString &ver, const QString &mime)
 {
 	QHash<QString,QString> props;
-	props["DocumentFormat"] = "ENCDOC-XML|1.1";
+	props["DocumentFormat"] = "ENCDOC-XML|" + ver;
 	props["LibraryVersion"] = qApp->applicationName() + "|" + qApp->applicationVersion();
 	props["Filename"] = file;
 
