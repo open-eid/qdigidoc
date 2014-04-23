@@ -545,6 +545,8 @@ QString CDocumentModel::mkpath( const QModelIndex &index, const QString &path ) 
 	QString filename = d->files.value( index.row() ).name;
 #if defined(Q_OS_WIN)
 	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
+#elif defined(Q_OS_MAC)
+	filename.replace( QRegExp( "[\\\\:]"), "_" );
 #else
 	filename.replace( QRegExp( "[\\\\]"), "_" );
 #endif
@@ -553,6 +555,8 @@ QString CDocumentModel::mkpath( const QModelIndex &index, const QString &path ) 
 
 void CDocumentModel::open( const QModelIndex &index )
 {
+	if(d->encrypted)
+		return;
 	QFileInfo f( copy( index, QDir::tempPath() ) );
 	if( !f.exists() )
 		return;
@@ -716,7 +720,6 @@ bool CryptoDoc::encrypt( const QString &filename )
 		d->setLastError( tr("No keys specified") );
 		return false;
 	}
-	qApp->addRecent( d->fileName );
 
 	d->waitForFinished();
 	if( !d->lastError.isEmpty() )

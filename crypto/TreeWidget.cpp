@@ -1,9 +1,6 @@
 /*
  * QDigiDocCrypto
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -67,13 +64,11 @@ void TreeWidget::clicked( const QModelIndex &index )
 void TreeWidget::keyPressEvent( QKeyEvent *e )
 {
 	QModelIndexList i = selectionModel()->selectedRows();
-	if( hasFocus() && !i.isEmpty() && i[0].isValid() )
+	if( !isColumnHidden( CDocumentModel::Remove ) && hasFocus() && !i.isEmpty() && i[0].isValid() )
 	{
 		switch( e->key() )
 		{
 		case Qt::Key_Delete:
-			if( isColumnHidden( CDocumentModel::Remove ) )
-				break;
 			model()->removeRow( i[0].row() );
 			e->accept();
 			break;
