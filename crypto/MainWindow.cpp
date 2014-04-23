@@ -188,7 +188,7 @@ bool MainWindow::addFile( const QString &file )
 		}
 	}
 
-	doc->addFile( file );
+	doc->documents()->addFile( file );
 	return true;
 }
 

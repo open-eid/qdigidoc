@@ -437,13 +437,29 @@ CDocumentModel::CDocumentModel( CryptoDocPrivate *doc )
 	setSupportedDragActions( Qt::CopyAction );
 }
 
+void CDocumentModel::addFile( const QString &file, const QString &mime )
+{
+	if( d->isEncryptedWarning() )
+		return;
+
+	emit beginInsertRows(QModelIndex(), d->files.size(), 1);
+	QFile data(file);
+	data.open(QFile::ReadOnly);
+	CryptoDocPrivate::File f;
+	f.id = QString("D%1").arg(d->files.size());
+	f.mime = mime;
+	f.name = QFileInfo(file).fileName();
+	f.data = data.readAll();
+	f.size = FileDialog::fileSize(f.data.size());
+	d->files << f;
+	emit endInsertRows();
+}
+
 int CDocumentModel::columnCount( const QModelIndex &parent ) const
 { return parent.isValid() ? 0 : NColumns; }
 
 QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) const
 {
-	if( d->files.isEmpty() )
-		return QString();
 	const CryptoDocPrivate::File &row = d->files.value( index.row() );
 	if( row.name.isEmpty() )
 		return QString();
@@ -613,24 +629,6 @@ CryptoDoc::CryptoDoc( QObject *parent )
 }
 
 CryptoDoc::~CryptoDoc() { clear(); delete d; }
-
-void CryptoDoc::addFile( const QString &file, const QString &mime )
-{
-	if( d->isEncryptedWarning() )
-		return;
-
-	QFile data(file);
-	data.open(QFile::ReadOnly);
-	CryptoDocPrivate::File f;
-	f.id = QString("D%1").arg(d->files.size());
-	f.mime = mime;
-	f.name = QFileInfo(file).fileName();
-	f.data = data.readAll();
-	f.size = FileDialog::fileSize(f.data.size());
-	d->files << f;
-
-	d->documents->revert();
-}
 
 bool CryptoDoc::addKey( const CKey &key )
 {

@@ -50,6 +50,7 @@ public:
 	bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 	int rowCount( const QModelIndex &parent = QModelIndex() ) const;
 
+	void addFile( const QString &file, const QString &mime = "application/octet-stream" );
 	QString copy( const QModelIndex &index, const QString &path ) const;
 	QString mkpath( const QModelIndex &index, const QString &path ) const;
 
@@ -82,7 +83,6 @@ public:
 	CryptoDoc( QObject *parent = 0 );
 	~CryptoDoc();
 
-	void addFile( const QString &file, const QString &mime = "application/octet-stream" );
 	bool addKey( const CKey &key );
 	void clear( const QString &file = QString() );
 	bool decrypt();
