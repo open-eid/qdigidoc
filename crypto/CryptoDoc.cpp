@@ -132,6 +132,10 @@ void CryptoDocPrivate::run()
 		{
 			data.open(QBuffer::WriteOnly);
 			writeDDoc(&data);
+			// add ANSIX923 padding
+			QByteArray ansix923(16 - (data.size() % 16), 0);
+			ansix923[ansix923.size() - 1] = ansix923.size();
+			data.write(ansix923);
 			data.close();
 			file = QFileInfo(fileName).fileName() + ".ddoc";
 			mime = MIME_DDOC;
@@ -174,6 +178,15 @@ void CryptoDocPrivate::run()
 		cdoc.close();
 
 		result = crypto(result.left(16), key, result.mid(16), Decrypt);
+
+		// remove ANSIX923 padding
+		if(result.size() > 0)
+		{
+			QByteArray ansix923(result[result.size()-1], 0);
+			ansix923[ansix923.size()-1] = ansix923.size();
+			if(result.right(ansix923.size()) == ansix923)
+				result.resize(result.size() - ansix923.size());
+		}
 
 		if(mime == MIME_ZLIB)
 		{
@@ -634,7 +647,7 @@ bool CryptoDoc::addKey( const CKey &key )
 {
 	if( d->isEncryptedWarning() )
 		return false;
-	if( keys().contains( key ) )
+	if( d->keys.contains( key ) )
 	{
 		d->setLastError( tr("Key already exists") );
 		return false;
@@ -664,7 +677,7 @@ bool CryptoDoc::decrypt()
 		d->setLastError( tr("Container is not open") );
 		return false;
 	}
-	if( !isEncrypted() )
+	if( !d->encrypted )
 		return true;
 
 	CKey key;
@@ -697,7 +710,7 @@ bool CryptoDoc::decrypt()
 	if( !d->lastError.isEmpty() )
 		d->setLastError( d->lastError );
 	d->documents->revert();
-	return !isEncrypted();
+	return !d->encrypted;
 }
 
 CDocumentModel* CryptoDoc::documents() const { return d->documents; }
@@ -711,7 +724,7 @@ bool CryptoDoc::encrypt( const QString &filename )
 		d->setLastError( tr("Container is not open") );
 		return false;
 	}
-	if( isEncrypted() )
+	if( d->encrypted )
 		return true;
 	if( d->keys.isEmpty() )
 	{
@@ -723,7 +736,7 @@ bool CryptoDoc::encrypt( const QString &filename )
 	if( !d->lastError.isEmpty() )
 		d->setLastError( d->lastError );
 	open(d->fileName);
-	return isEncrypted();
+	return d->encrypted;
 }
 
 QString CryptoDoc::fileName() const { return d->fileName; }
