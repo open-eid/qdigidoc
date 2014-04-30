@@ -335,6 +335,12 @@ QString DigiDocSignature::spuri() const
 	return from(s->SPUri());
 }
 
+QSslCertificate DigiDocSignature::tsaCert() const
+{
+	return QSslCertificate(
+		fromVector(s->TSCertificate()), QSsl::Der );
+}
+
 DigiDocSignature::SignatureType DigiDocSignature::type() const
 {
 	const std::string ver = s->profile();

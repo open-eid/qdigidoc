@@ -162,13 +162,7 @@ void SignatureWidget::mouseDoubleClickEvent( QMouseEvent *e )
 
 
 
-class SignatureDialogPrivate: public Ui::SignatureDialog
-{
-public:
-	SignatureDialogPrivate(): signCert(0), ocspCert(0) {}
-
-	QAbstractButton *signCert, *ocspCert;
-};
+class SignatureDialogPrivate: public Ui::SignatureDialog {};
 
 SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *parent )
 :	QWidget( parent )
@@ -181,10 +175,10 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	setWindowFlags( Qt::Sheet );
 
 	const SslCertificate c = s.cert();
-	if( !s.cert().isNull() )
-		d->signCert = d->buttonBox->addButton( tr("Show signer's certificate"), QDialogButtonBox::ActionRole );
-	if( !s.ocspCert().isNull() )
-		d->ocspCert = d->buttonBox->addButton( tr("Show OCSP certificate"), QDialogButtonBox::ActionRole );
+#define addCertButton(cert, button) if(!cert.isNull()) d->buttonBox->addButton(button, QDialogButtonBox::ActionRole)->setProperty("cert", QVariant::fromValue(cert));
+	addCertButton(s.cert(), tr("Show signer's certificate"));
+	addCertButton(s.ocspCert(), tr("Show OCSP certificate"));
+	addCertButton(s.tsaCert(), tr("Show TSA certificate"));
 
 	QString status;
 	switch( s.validate() )
@@ -278,14 +272,23 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		addItem( t, "SPUri", s.spuri() );
 
 	// OCSP info
-	if( s.type() == DigiDocSignature::DDocType ||
-		s.type() == DigiDocSignature::TMType )
+	switch( s.type() )
+	{
+	case DigiDocSignature::TSType:
+	{
+		addItem( t, tr("TSA Certificate issuer"), SslCertificate(s.tsaCert()).issuerInfo( QSslCertificate::CommonName ) );
+	} //Fall through to OCSP info
+	case DigiDocSignature::DDocType:
+	case DigiDocSignature::TMType:
 	{
 		SslCertificate ocsp = s.ocspCert();
 		addItem( t, tr("OCSP Certificate issuer"), ocsp.issuerInfo( QSslCertificate::CommonName ) );
 		addItem( t, tr("OCSP time"), DateTime( s.ocspTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( t, tr("OCSP time (UTC)"), DateTime( s.ocspTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+		addItem( t, tr("OCSP time") + " (UTC)", DateTime( s.ocspTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( t, tr("Hash value of signature"), SslCertificate::toHex( s.ocspNonce() ) );
+		break;
+	}
+	default: break;
 	}
 }
 
@@ -301,14 +304,12 @@ void SignatureDialog::addItem( QTreeWidget *view, const QString &variable, const
 
 void SignatureDialog::buttonClicked( QAbstractButton *button )
 {
-	if( button == d->buttonBox->button( QDialogButtonBox::Help ) )
+	if( !button->property("cert").isNull() )
+		CertificateDialog( button->property("cert").value<QSslCertificate>(), this ).exec();
+	else if( button == d->buttonBox->button( QDialogButtonBox::Help ) )
 		Common::showHelp( s.lastError(), s.lastErrorCode() );
 	else if( button == d->buttonBox->button( QDialogButtonBox::Close ) )
 		close();
-	else if( button == d->signCert )
-		CertificateDialog( s.cert(), this ).exec();
-	else if( button == d->ocspCert )
-		CertificateDialog( s.ocspCert(), this ).exec();
 }
 
 void SignatureDialog::on_more_linkActivated( const QString & )
