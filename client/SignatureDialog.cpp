@@ -36,6 +36,7 @@
 #else
 #include <QtGui/QMessageBox>
 #include <QtGui/QPushButton>
+Q_DECLARE_METATYPE(QSslCertificate)
 #endif
 #include <QtGui/QDesktopServices>
 #include <QtGui/QTextDocument>
