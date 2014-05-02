@@ -341,6 +341,16 @@ QSslCertificate DigiDocSignature::tsaCert() const
 		fromVector(s->TSCertificate()), QSsl::Der );
 }
 
+QDateTime DigiDocSignature::tsaTime() const
+{
+	QString dateTime = from( s->TSTime() );
+	if( dateTime.isEmpty() )
+		return QDateTime();
+	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
+	date.setTimeSpec( Qt::UTC );
+	return date;
+}
+
 DigiDocSignature::SignatureType DigiDocSignature::type() const
 {
 	const std::string ver = s->profile();

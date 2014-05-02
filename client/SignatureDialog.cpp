@@ -176,7 +176,8 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	setWindowFlags( Qt::Sheet );
 
 	const SslCertificate c = s.cert();
-#define addCertButton(cert, button) if(!cert.isNull()) d->buttonBox->addButton(button, QDialogButtonBox::ActionRole)->setProperty("cert", QVariant::fromValue(cert));
+#define addCertButton(cert, button) if(!cert.isNull()) \
+	d->buttonBox->addButton(button, QDialogButtonBox::ActionRole)->setProperty("cert", QVariant::fromValue(cert));
 	addCertButton(s.cert(), tr("Show signer's certificate"));
 	addCertButton(s.ocspCert(), tr("Show OCSP certificate"));
 	addCertButton(s.tsaCert(), tr("Show TSA certificate"));
@@ -277,6 +278,8 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	{
 	case DigiDocSignature::TSType:
 	{
+		addItem( t, tr("TSA time"), DateTime( s.tsaTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ));
+		addItem( t, tr("TSA time") + " (UTC)", DateTime( s.tsaTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( t, tr("TSA Certificate issuer"), SslCertificate(s.tsaCert()).issuerInfo( QSslCertificate::CommonName ) );
 	} //Fall through to OCSP info
 	case DigiDocSignature::DDocType:

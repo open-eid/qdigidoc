@@ -110,6 +110,7 @@ public:
 	QString		spuri() const;
 	SignatureType type() const;
 	QSslCertificate tsaCert() const;
+	QDateTime	tsaTime() const;
 	SignatureStatus validate() const;
 	int warning() const;
 
