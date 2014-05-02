@@ -204,8 +204,11 @@ QSslCertificate DigiDocSignature::cert() const
 
 QDateTime DigiDocSignature::dateTime() const
 {
-	QDateTime date = ocspTime();
-	return date.isNull() ? signTime() : date;
+	QDateTime tsa = tsaTime();
+	if(!tsa.isNull()) return tsa;
+	QDateTime ocsp = ocspTime();
+	if(!ocsp.isNull()) return ocsp;
+	return signTime();
 }
 
 QString DigiDocSignature::lastError() const { return m_lastError; }
