@@ -73,6 +73,9 @@ endif()
 set_target_properties( ${PROGNAME} PROPERTIES AUTOMOC TRUE )
 if( Qt5Widgets_FOUND )
 	qt5_use_modules( ${PROGNAME} Widgets Network PrintSupport )
+	if( WIN32 )
+		qt5_use_modules( ${PROGNAME} WinExtras )
+	endif()
 endif()
 
 target_link_libraries( ${PROGNAME}

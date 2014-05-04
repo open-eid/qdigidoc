@@ -37,11 +37,16 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QSslKey>
 #include <QtNetwork/QSslConfiguration>
+#ifdef Q_OS_WIN
+#include <QtWinExtras/QWinTaskbarButton>
+#include <QtWinExtras/QWinTaskbarProgress>
+#endif
 
 using namespace digidoc;
 
 MobileDialog::MobileDialog( QWidget *parent )
-:	QDialog( parent )
+	: QDialog(parent)
+	, taskbar(nullptr)
 {
 	mobileResults["START"] = tr("Signing in process");
 	mobileResults["REQUEST_OK"] = tr("Request accepted");
@@ -69,6 +74,12 @@ MobileDialog::MobileDialog( QWidget *parent )
 	statusTimer->setFrameRange( signProgressBar->minimum(), signProgressBar->maximum() );
 	connect( statusTimer, SIGNAL(frameChanged(int)), signProgressBar, SLOT(setValue(int)) );
 	connect( statusTimer, SIGNAL(finished()), SLOT(endProgress()) );
+#ifdef Q_OS_WIN
+	taskbar = new QWinTaskbarButton(this);
+	taskbar->setWindow(windowHandle());
+	taskbar->progress()->setRange(signProgressBar->minimum(), signProgressBar->maximum());
+	connect(statusTimer, &QTimeLine::frameChanged, taskbar->progress(), &QWinTaskbarProgress::setValue);
+#endif
 
 	manager = new QNetworkAccessManager( this );
 	connect( manager, SIGNAL(finished(QNetworkReply*)), SLOT(finished(QNetworkReply*)) );
@@ -176,7 +187,12 @@ MobileDialog::MobileDialog( QWidget *parent )
 }
 
 void MobileDialog::endProgress()
-{ labelError->setText( mobileResults.value( "EXPIRED_TRANSACTION" ) ); }
+{
+	labelError->setText( mobileResults.value( "EXPIRED_TRANSACTION" ) );
+#ifdef Q_OS_WIN
+	taskbar->progress()->setVisible(false);
+#endif
+}
 
 void MobileDialog::finished( QNetworkReply *reply )
 {
@@ -340,6 +356,9 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 		"https://www.openxades.org:9443" : "https://digidocservice.sk.ee";
 	request.setUrl( Settings().value( ddoc ? "Client/ddocurl" : "Client/bdocurl", url ).toUrl() );
 	statusTimer->start();
+#ifdef Q_OS_WIN
+	taskbar->progress()->setVisible(true);
+#endif
 	manager->post( request, r.document() );
 }
 

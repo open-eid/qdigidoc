@@ -29,6 +29,7 @@ class DigiDoc;
 class QNetworkAccessManager;
 class QNetworkReply;
 class QTimeLine;
+class QWinTaskbarButton;
 
 class MobileDialog : public QDialog, private Ui::MobileDialog
 {
@@ -57,4 +58,5 @@ private:
 	QByteArray m_signature;
 	QString sessionCode;
 	QHash<QString,QString> mobileResults;
+	QWinTaskbarButton *taskbar;
 };
