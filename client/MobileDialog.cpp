@@ -76,7 +76,7 @@ MobileDialog::MobileDialog( QWidget *parent )
 	connect( statusTimer, SIGNAL(finished()), SLOT(endProgress()) );
 #ifdef Q_OS_WIN
 	taskbar = new QWinTaskbarButton(this);
-	taskbar->setWindow(windowHandle());
+	taskbar->setWindow(parent->windowHandle());
 	taskbar->progress()->setRange(signProgressBar->minimum(), signProgressBar->maximum());
 	connect(statusTimer, &QTimeLine::frameChanged, taskbar->progress(), &QWinTaskbarProgress::setValue);
 #endif
@@ -190,7 +190,8 @@ void MobileDialog::endProgress()
 {
 	labelError->setText( mobileResults.value( "EXPIRED_TRANSACTION" ) );
 #ifdef Q_OS_WIN
-	taskbar->progress()->setVisible(false);
+	taskbar->progress()->stop();
+	taskbar->progress()->hide();
 #endif
 }
 
@@ -357,7 +358,8 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 	request.setUrl( Settings().value( ddoc ? "Client/ddocurl" : "Client/bdocurl", url ).toUrl() );
 	statusTimer->start();
 #ifdef Q_OS_WIN
-	taskbar->progress()->setVisible(true);
+	taskbar->progress()->show();
+	taskbar->progress()->resume();
 #endif
 	manager->post( request, r.document() );
 }
