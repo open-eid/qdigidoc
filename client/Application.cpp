@@ -276,7 +276,10 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	case PKCS12Pass:
 	{
 		std::string pass = i->PKCS12Pass();
-		return pass.empty() ? value : QByteArray(pass.c_str(), pass.size());
+		if(pass.empty())
+			return value;
+		QByteArray upass = qUncompress((const uchar*)pass.c_str(), pass.size());
+		return upass.isEmpty() ? QByteArray(pass.c_str(), pass.size()) : upass;
 	}
 	case PKCS12Disable: return i->PKCS12Disable(); break;
 	default: break;

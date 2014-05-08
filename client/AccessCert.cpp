@@ -103,11 +103,9 @@ QSslCertificate AccessCert::cert()
 	CFRelease( certdata );
 	return cert;
 #else
-	QByteArray pass = Application::confValue( Application::PKCS12Pass ).toByteArray();
-	QByteArray upass = qUncompress(pass);
 	return PKCS12Certificate::fromPath(
 		Application::confValue( Application::PKCS12Cert ).toString(),
-		upass.isNull() ? pass : upass ).certificate();
+		Application::confValue( Application::PKCS12Pass ).toString() ).certificate();
 #endif
 }
 
