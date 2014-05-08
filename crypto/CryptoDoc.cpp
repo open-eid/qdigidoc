@@ -190,7 +190,13 @@ void CryptoDocPrivate::run()
 
 		if(mime == MIME_ZLIB)
 		{
-			result = qUncompress(result);
+			QByteArray size(4, 0);
+			int origsize = std::max<int>(properties["OriginalSize"].toInt(), 1);
+			size[0] = (origsize & 0xff000000) >> 24;
+			size[1] = (origsize & 0x00ff0000) >> 16;
+			size[2] = (origsize & 0x0000ff00) >> 8;
+			size[3] = (origsize & 0x000000ff);
+			result = qUncompress(size + result);
 			mime = properties["OriginalMimeType"];
 		}
 
