@@ -2,14 +2,10 @@
 
 #define VER_STR_HELPER(x)	#x
 #define VER_STR(x)		VER_STR_HELPER(x)
-#define FILE_VER		MAJOR_VER,MINOR_VER,RELEASE_VER,BUILD_VER
-#define FILE_VER_STR	VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER) "\0"
-#define PROD_VER		MAJOR_VER,MINOR_VER,0,0
-#define PROD_VER_STR	VER_STR(MAJOR_VER.MINOR_VER) "\0"
 
 VS_VERSION_INFO VERSIONINFO
-  FILEVERSION FILE_VER
-  PRODUCTVERSION PROD_VER
+  FILEVERSION MAJOR_VER,MINOR_VER,RELEASE_VER,BUILD_VER
+  PRODUCTVERSION MAJOR_VER,MINOR_VER,RELEASE_VER,BUILD_VER
   FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
 #ifdef _DEBUG
   FILEFLAGS VS_FF_DEBUG
@@ -24,25 +20,25 @@ BEGIN
 	BEGIN
 		BLOCK "040904B0"
 		BEGIN
-			VALUE "CompanyName", ORG "\0"
-			VALUE "FileDescription", "DigiDoc3 Client\0"
-			VALUE "FileVersion", FILE_VER_STR
-			VALUE "InternalName", APP "\0"
+			VALUE "CompanyName", ORG
+			VALUE "FileDescription", "DigiDoc3 Client"
+			VALUE "FileVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
+			VALUE "InternalName", APP
 			VALUE "LegalCopyright", "Copyright (C) 2009-2014 Estonian Information System's Authority"
-			VALUE "OriginalFilename", APP ".exe\0"
-			VALUE "ProductName", "DigiDoc3 Client\0"
-			VALUE "ProductVersion", PROD_VER_STR
+			VALUE "OriginalFilename", APP ".exe"
+			VALUE "ProductName", "DigiDoc3 Client"
+			VALUE "ProductVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
 		END
 		BLOCK "042504B0"
 		BEGIN
-			VALUE "CompanyName", ORG "\0"
-			VALUE "FileDescription", "DigiDoc3 Klient\0"
-			VALUE "FileVersion", FILE_VER_STR
-			VALUE "InternalName", APP "\0"
+			VALUE "CompanyName", ORG
+			VALUE "FileDescription", "DigiDoc3 Klient"
+			VALUE "FileVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
+			VALUE "InternalName", APP
 			VALUE "LegalCopyright", "Copyright (C) 2009-2014 Riigi Infosüsteemi Amet"
-			VALUE "OriginalFilename", APP ".exe\0"
-			VALUE "ProductName", "DigiDoc3 Klient\0"
-			VALUE "ProductVersion", PROD_VER_STR
+			VALUE "OriginalFilename", APP ".exe"
+			VALUE "ProductName", "DigiDoc3 Klient"
+			VALUE "ProductVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
 		END
 	END
 	BLOCK "VarFileInfo"
