@@ -273,7 +273,11 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	case ProxyUser: r = i->proxyUser().c_str(); break;
 	case ProxyPass: r = i->proxyPass().c_str(); break;
 	case PKCS12Cert: r = i->PKCS12Cert().c_str(); break;
-	case PKCS12Pass: r = i->PKCS12Pass().c_str(); break;
+	case PKCS12Pass:
+	{
+		std::string pass = i->PKCS12Pass();
+		return pass.empty() ? value : QByteArray(pass.c_str(), pass.size());
+	}
 	case PKCS12Disable: return i->PKCS12Disable(); break;
 	default: break;
 	}
@@ -396,7 +400,17 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 		case ProxyUser: i->setProxyUser( v.isEmpty()? std::string() : v.constData() ); break;
 		case ProxyPass: i->setProxyPass( v.isEmpty()? std::string() : v.constData() ); break;
 		case PKCS12Cert: i->setPKCS12Cert( v.isEmpty()? std::string() : v.constData() ); break;
-		case PKCS12Pass: i->setPKCS12Pass( v.isEmpty()? std::string() : v.constData() ); break;
+		case PKCS12Pass:
+		{
+			if(!v.isEmpty())
+			{
+				 QByteArray pass = qCompress(v);
+				 i->setPKCS12Pass(std::string(pass.constData(), pass.size()));
+			}
+			else
+				i->setPKCS12Pass(std::string());
+			break;
+		}
 		case PKCS12Disable: i->setPKCS12Disable( value.toBool() ); break;
 		default: break;
 		}
