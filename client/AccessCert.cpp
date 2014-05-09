@@ -84,29 +84,28 @@ QSslCertificate AccessCert::cert()
 #ifdef Q_OS_MAC
 	SecIdentityRef identity = 0;
 	OSStatus err = SecIdentityCopyPreference( CFSTR("ocsp.sk.ee"), 0, 0, &identity );
-	if( !identity )
-		return QSslCertificate();
+	if( identity )
+	{
+		SecCertificateRef certref = 0;
+		err = SecIdentityCopyCertificate( identity, &certref );
+		CFRelease( identity );
+		if( !certref )
+			return QSslCertificate();
 
-	SecCertificateRef certref = 0;
-	err = SecIdentityCopyCertificate( identity, &certref );
-	CFRelease( identity );
-	if( !certref )
-		return QSslCertificate();
+		CFDataRef certdata = SecCertificateCopyData( certref );
+		CFRelease( certref );
+		if( !certdata )
+			return QSslCertificate();
 
-	CFDataRef certdata = SecCertificateCopyData( certref );
-	CFRelease( certref );
-	if( !certdata )
-		return QSslCertificate();
-
-	QSslCertificate cert(
-		QByteArray( (const char*)CFDataGetBytePtr( certdata ), CFDataGetLength( certdata ) ), QSsl::Der );
-	CFRelease( certdata );
-	return cert;
-#else
+		QSslCertificate cert(
+			QByteArray( (const char*)CFDataGetBytePtr( certdata ), CFDataGetLength( certdata ) ), QSsl::Der );
+		CFRelease( certdata );
+		return cert;
+	}
+#endif
 	return PKCS12Certificate::fromPath(
 		Application::confValue( Application::PKCS12Cert ).toString(),
 		Application::confValue( Application::PKCS12Pass ).toString() ).certificate();
-#endif
 }
 
 bool AccessCert::download( bool noCard )
@@ -333,36 +332,35 @@ QSslKey AccessCert::key()
 #ifdef Q_OS_MAC
 	SecIdentityRef identity = 0;
 	OSStatus err = SecIdentityCopyPreference( CFSTR("ocsp.sk.ee"), 0, 0, &identity );
-	if( !identity )
-		return QSslKey();
+	if( identity )
+	{
+		SecKeyRef keyref = 0;
+		err = SecIdentityCopyPrivateKey( identity, &keyref );
+		CFRelease( identity );
+		if( !keyref )
+			return QSslKey();
 
-	SecKeyRef keyref = 0;
-	err = SecIdentityCopyPrivateKey( identity, &keyref );
-	CFRelease( identity );
-	if( !keyref )
-		return QSslKey();
+		CFDataRef keydata = 0;
+		SecKeyImportExportParameters params;
+		memset( &params, 0, sizeof(params) );
+		params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
+		params.passphrase = CFSTR("pass");
+		err = SecKeychainItemExport( keyref, kSecFormatPEMSequence, 0, &params, &keydata );
+		CFRelease( keyref );
 
-	CFDataRef keydata = 0;
-	SecKeyImportExportParameters params;
-	memset( &params, 0, sizeof(params) );
-	params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
-	params.passphrase = CFSTR("pass");
-	err = SecKeychainItemExport( keyref, kSecFormatPEMSequence, 0, &params, &keydata );
-	CFRelease( keyref );
+		if( !keydata )
+			return QSslKey();
 
-	if( !keydata )
-		return QSslKey();
+		QSslKey key( QByteArray( (const char*)CFDataGetBytePtr(keydata), CFDataGetLength(keydata) ),
+			QSsl::Rsa, QSsl::Pem, QSsl::PrivateKey, "pass" );
+		CFRelease( keydata );
 
-	QSslKey key( QByteArray( (const char*)CFDataGetBytePtr(keydata), CFDataGetLength(keydata) ),
-		QSsl::Rsa, QSsl::Pem, QSsl::PrivateKey, "pass" );
-	CFRelease( keydata );
-
-	return key;
-#else
+		return key;
+	}
+#endif
 	return PKCS12Certificate::fromPath(
 		Application::confValue( Application::PKCS12Cert ).toString(),
 		Application::confValue( Application::PKCS12Pass ).toString() ).key();
-#endif
 }
 
 QString AccessCert::link() const
