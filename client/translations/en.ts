@@ -191,6 +191,10 @@ This signature is created in the BES format, using no certificate validity confi
         <source>You have not granted IP-based access. Check the settings of your server access certificate.</source>
         <translation>You have not granted IP-based access. Check the settings of your server access certificate.</translation>
     </message>
+    <message>
+        <source>Failed to get signatures</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DocumentModel</name>
@@ -1143,10 +1147,6 @@ Control code: %1</translation>
         <translation>OCSP time</translation>
     </message>
     <message>
-        <source>OCSP time (UTC)</source>
-        <translation>OCSP time (UTC)</translation>
-    </message>
-    <message>
         <source>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</source>
         <translation>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</translation>
     </message>
@@ -1181,6 +1181,18 @@ Control code: %1</translation>
     <message>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>Show TSA certificate</source>
+        <translation>Show TSA certificate</translation>
+    </message>
+    <message>
+        <source>TSA time</source>
+        <translation>TSA time</translation>
+    </message>
+    <message>
+        <source>TSA Certificate issuer</source>
+        <translation>TSA Certificate issuer</translation>
     </message>
 </context>
 <context>
