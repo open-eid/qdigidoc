@@ -223,8 +223,6 @@ void CryptoDocPrivate::setLastError( const QString &err )
 {
 	QMessageBox d( QMessageBox::Warning, CryptoDoc::tr("DigiDoc3 crypto"),
 		err, QMessageBox::Close, qApp->activeWindow() );
-	if( d.exec() == QMessageBox::Help )
-		Common::showHelp( err );
 }
 
 QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)

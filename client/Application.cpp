@@ -495,7 +495,7 @@ void Application::showWarning( const QString &msg, int err, const QString &detai
 	d.setWindowModality( Qt::WindowModal );
 	if( !details.isEmpty() )
 	{
-		d.addButton( QMessageBox::Help );
+		//d.addButton( QMessageBox::Help );
 		d.setDetailedText( details );
 	}
 	if( d.exec() == QMessageBox::Help )
