@@ -74,6 +74,12 @@ public:
 	void readDDoc(QIODevice *ddoc);
 	void run();
 	void setLastError(const QString &err);
+	QString size(const QString &size)
+	{
+		bool converted = false;
+		quint64 result = size.toUInt(&converted);
+		return converted ? FileDialog::fileSize(result) : size;
+	}
 	inline void waitForFinished()
 	{
 		QEventLoop e;
@@ -214,7 +220,21 @@ void CryptoDocPrivate::run()
 			readDDoc(ddoc);
 		}
 		else
-			files[0].data = result;
+		{
+			if(!files.isEmpty())
+				files[0].data = result;
+			else if(properties.contains("Filename"))
+			{
+				File f;
+				f.name = properties["Filename"];
+				f.mime = mime;
+				f.size = FileDialog::fileSize(result.size());
+				f.data = result;
+				files << f;
+			}
+			else
+				tr("Error parsing document");
+		}
 	}
 	encrypted = !encrypted;
 }
@@ -266,7 +286,7 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 				QStringList fileparts = xml.readElementText().split("|");
 				File file;
 				file.name = fileparts.value(0);
-				file.size = FileDialog::fileSize(fileparts.value(1).toUInt());
+				file.size = size(fileparts.value(1));
 				file.mime = fileparts.value(2);
 				file.id = fileparts.value(3);
 				files << file;
@@ -760,6 +780,15 @@ bool CryptoDoc::open( const QString &file )
 	cdoc.open(QFile::ReadOnly);
 	d->readCDoc(&cdoc, false);
 	cdoc.close();
+
+	if(d->files.isEmpty() && d->properties.contains("Filename"))
+	{
+		CryptoDocPrivate::File f;
+		f.name = d->properties["Filename"];
+		f.mime = d->mime == MIME_ZLIB ? d->properties["OriginalMimeType"] : d->mime;
+		f.size = d->size(d->properties["OriginalSize"]);
+		d->files << f;
+	}
 
 	d->encrypted = true;
 	d->documents->revert();
