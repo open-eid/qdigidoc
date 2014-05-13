@@ -1151,10 +1151,6 @@ Control code: %1</translation>
         <translation>The current BDOC container uses weaker encryption method than officialy accepted in Estonia.</translation>
     </message>
     <message>
-        <source>Signature is valid with warnings</source>
-        <translation>Signature is valid with warnings</translation>
-    </message>
-    <message>
         <source>Test signature is signed with test certificates that are similar to the certificates of real tokens, but digital signatures with legal force cannot be given with them as there is no actual owner of the card. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>Test signature is signed with test certificates that are similar to the certificates of real tokens, but digital signatures with legal force cannot be given with them as there is no actual owner of the card. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
@@ -1193,6 +1189,10 @@ Control code: %1</translation>
     <message>
         <source>TSA Certificate issuer</source>
         <translation>TSA Certificate issuer</translation>
+    </message>
+    <message>
+        <source>Warnings</source>
+        <translation>Warnings</translation>
     </message>
 </context>
 <context>

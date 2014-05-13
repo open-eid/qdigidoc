@@ -580,7 +580,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>NB! Signature contains warnings</source>
-        <translation>NB! Allkiri sisaldab hoiatusi</translation>
+        <translation>NB! Allkiri on hoiatusega</translation>
     </message>
     <message>
         <source>NB! Status unknown</source>
@@ -1151,10 +1151,6 @@ Kontrollkood: %1</translation>
         <translation>Tegemist on nõrgema usaldusväärsusega kui Eestis ametlikult aksepteeritud BDOC konteiner.</translation>
     </message>
     <message>
-        <source>Signature is valid with warnings</source>
-        <translation>Allkiri on kehtiv (hoiatusega)</translation>
-    </message>
-    <message>
         <source>Test signature is signed with test certificates that are similar to the certificates of real tokens, but digital signatures with legal force cannot be given with them as there is no actual owner of the card. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>Testallkiri on allkirjastatud testsertifikaadiga, mis sarnaneb päris sertifikaadiga, kuid sellega ei saa anda õigusjõuga digitaalallkirju, sest kaardi omanikku tegelikkuses ei eksisteeri. &lt;a href=&apos;http://www.id.ee/index.php?id=30379&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
@@ -1193,6 +1189,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>TSA Certificate issuer</source>
         <translation>Ajatempliteenuse sertifikaadi väljaandja</translation>
+    </message>
+    <message>
+        <source>Warnings</source>
+        <translation>hoiatusega</translation>
     </message>
 </context>
 <context>

@@ -190,7 +190,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		break;
 	case DigiDocSignature::Warning:
 	case DigiDocSignature::WarningLimits:
-		status = tr("Signature is valid with warnings");
+		status = QString("%1 (%2)").arg( tr("Signature is valid"), tr("Warnings") );
 		if( !s.lastError().isEmpty() )
 			d->error->setPlainText( s.lastError() );
 		if( s.warning() & DigiDocSignature::WrongNameSpace )

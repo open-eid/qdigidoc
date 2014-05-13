@@ -1154,10 +1154,6 @@ Control code: %1</source>
         <translation>Данный контейнер имеет меньшую надежность по сравнению с официально признанным в Эстонии контейнером в формате BDOC.</translation>
     </message>
     <message>
-        <source>Signature is valid with warnings</source>
-        <translation>Подпись действительна (предупреждения)</translation>
-    </message>
-    <message>
         <source>Test signature is signed with test certificates that are similar to the certificates of real tokens, but digital signatures with legal force cannot be given with them as there is no actual owner of the card. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Additional information&lt;/a&gt;.</source>
         <translation>Тестовая подпись создается тестовым сертификатом, который отличается от настоящего тем, что с тестовым сертификатом нельзя поставить юридически действительную подись, потому что владелец карты на самом деле не существует. &lt;a href=&apos;http://www.id.ee/index.php?id=30494&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
@@ -1196,6 +1192,10 @@ Control code: %1</source>
     <message>
         <source>TSA Certificate issuer</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warnings</source>
+        <translation>предупреждения</translation>
     </message>
 </context>
 <context>
