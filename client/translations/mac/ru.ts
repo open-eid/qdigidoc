@@ -815,7 +815,7 @@ Control code: %1</source>
         <translation>Сертификат подписи не выбран</translation>
     </message>
     <message>
-        <source>Signing/decrypting is alread in progress another window.</source>
+        <source>Signing/decrypting is already in progress another window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

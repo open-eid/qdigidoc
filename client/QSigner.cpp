@@ -114,7 +114,7 @@ QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 	if( d->count > 0 )
 #endif
 	{
-		Q_EMIT error( tr("Signing/decrypting is alread in progress another window.") );
+		Q_EMIT error( tr("Signing/decrypting is already in progress another window.") );
 		return DecryptFailed;
 	}
 
@@ -423,7 +423,7 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 #else
 	if( d->count > 0 )
 #endif
-		throwException( tr("Signing/decrypting is alread in progress another window."), Exception::General, __LINE__ );
+		throwException( tr("Signing/decrypting is already in progress another window."), Exception::General, __LINE__ );
 
 	d->count.ref();
 	if( !d->sign.cards().contains( d->sign.card() ) || d->sign.cert().isNull() )
