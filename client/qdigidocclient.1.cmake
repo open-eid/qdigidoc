@@ -5,4 +5,4 @@ qdigidocclient \- Qt based UI application for verifying and signing digital sign
 .SH SYNOPSIS
 qdigidocclient [FILES]
 .SH SEE ALSO
-cdigidoc(1), digidoc-tool(1), qdigidoccrypto(1), qesteidutil(1)
+cdigidoc(1), digidoc-tool(1), qesteidutil(1)
