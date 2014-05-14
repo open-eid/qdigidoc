@@ -61,6 +61,7 @@ MobileDialog::MobileDialog( QWidget *parent )
 	mobileResults["INTERNAL_ERROR"] = tr("Service internal error");
 	mobileResults["OCSP_UNAUTHORIZED"] = tr("Not allowed to use OCSP service!<br/>Please check your server access sertificate.");
 	mobileResults["HOSTNOTFOUND"] = tr("Connecting to SK server failed!<br/>Please check your internet connection.");
+	mobileResults["Invalid PhoneNo"] = tr("Invalid phone number! Please include correct country code.");
 	mobileResults["User is not a Mobile-ID client"] = tr("User is not a Mobile-ID client");
 	mobileResults["ID and phone number do not match"] = tr("ID and phone number do not match");
 	mobileResults["Certificate status unknown"] = tr("Your Mobile-ID service is not activated.");

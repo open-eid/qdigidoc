@@ -692,6 +692,10 @@ Control code: %1</source>
         <source>SSL handshake failed. Check the proxy settings of your computer or software upgrades.</source>
         <translation>Не удалось создать SSL канал передачи данных. Проверьте настройки буферного сервера компьютера или обновления программного обеспечения.</translation>
     </message>
+    <message>
+        <source>Invalid phone number! Please include correct country code.</source>
+        <translation>Ошибка! Номер телефона должен содержать код страны.</translation>
+    </message>
 </context>
 <context>
     <name>PrintSheet</name>

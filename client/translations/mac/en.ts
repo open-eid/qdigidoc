@@ -689,6 +689,10 @@ Control code: %1</translation>
         <source>SSL handshake failed. Check the proxy settings of your computer or software upgrades.</source>
         <translation>SSL handshake failed. Check the proxy settings of your computer or software upgrades.</translation>
     </message>
+    <message>
+        <source>Invalid phone number! Please include correct country code.</source>
+        <translation>Invalid phone number! Please include correct country code.</translation>
+    </message>
 </context>
 <context>
     <name>PrintSheet</name>

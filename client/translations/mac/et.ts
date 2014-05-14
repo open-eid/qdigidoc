@@ -689,6 +689,10 @@ Kontrollkood: %1</translation>
         <source>SSL handshake failed. Check the proxy settings of your computer or software upgrades.</source>
         <translation>SSL ühenduskanali loomine ebaõnnestus. Kontrolli arvuti puhverserveri seadeid või tarkvara uuendusi.</translation>
     </message>
+    <message>
+        <source>Invalid phone number! Please include correct country code.</source>
+        <translation>Viga! Telefoninumber peab sisaldama riigikoodi.</translation>
+    </message>
 </context>
 <context>
     <name>PrintSheet</name>
