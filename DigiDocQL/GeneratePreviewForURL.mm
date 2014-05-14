@@ -144,11 +144,12 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 	try
 	{
 		digidoc::initialize();
-		Exception::setIgnoreList({
+		Exception::setWarningIgnoreList({
 			Exception::RefereneceDigestWeak,
 			Exception::SignatureDigestWeak,
 			Exception::DataFileNameSpaceWarning,
-			Exception::IssuerNameSpaceWarning });
+			Exception::IssuerNameSpaceWarning,
+			Exception::ProducedATLateWarning});
 		Container d( [[(__bridge NSURL*)url path] UTF8String] );
 
 		[h appendString:@"<font>Files</font><ol>"];
