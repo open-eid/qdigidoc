@@ -142,7 +142,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 void SignatureWidget::link( const QString &url )
 {
 	if( url == "details" )
-		(new SignatureDialog( s, qApp->activeWindow() ))->show();
+		(new SignatureDialog( s, qApp->activeWindow() ))->open();
 	else if( url == "remove" )
 	{
 		SslCertificate c = s.cert();
@@ -166,14 +166,13 @@ void SignatureWidget::mouseDoubleClickEvent( QMouseEvent *e )
 class SignatureDialogPrivate: public Ui::SignatureDialog {};
 
 SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *parent )
-:	QWidget( parent )
+:	QDialog( parent )
 ,	s( signature )
 ,	d( new SignatureDialogPrivate )
 {
 	d->setupUi( this );
 	d->error->hide();
 	setAttribute( Qt::WA_DeleteOnClose );
-	setWindowFlags( Qt::Sheet );
 
 	const SslCertificate c = s.cert();
 #define addCertButton(cert, button) if(!cert.isNull()) \

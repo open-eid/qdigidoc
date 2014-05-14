@@ -22,10 +22,10 @@
 #include <QtCore/QtGlobal>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QWidget>
+#include <QtWidgets/QDialog>
 #else
 #include <QtGui/QLabel>
-#include <QtGui/QWidget>
+#include <QtGui/QDialog>
 #endif
 
 #include "DigiDoc.h"
@@ -54,7 +54,7 @@ private:
 	DigiDocSignature s;
 };
 
-class SignatureDialog: public QWidget
+class SignatureDialog: public QDialog
 {
 	Q_OBJECT
 
