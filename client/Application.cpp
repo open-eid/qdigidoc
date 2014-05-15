@@ -60,19 +60,15 @@ public:
 	DigidocConf(): digidoc::XmlConfV2() { s.beginGroup( "Client" ); }
 
 	std::string proxyHost() const
-	{ return s.value( "ProxyHost" ).toString().toStdString(); }
+	{ return s.value( "ProxyHost", QString::fromStdString(digidoc::XmlConfV2::proxyHost()) ).toString().toStdString(); }
 	std::string proxyPort() const
-	{ return s.value( "ProxyPort" ).toString().toStdString(); }
+	{ return s.value( "ProxyPort", QString::fromStdString(digidoc::XmlConfV2::proxyPort()) ).toString().toStdString(); }
 	std::string proxyUser() const
-	{ return s.value( "ProxyUser" ).toString().toStdString(); }
+	{ return s.value( "ProxyUser", QString::fromStdString(digidoc::XmlConfV2::proxyUser()) ).toString().toStdString(); }
 	std::string proxyPass() const
-	{ return s.value( "ProxyPass" ).toString().toStdString(); }
-	std::string PKCS12Cert() const
-	{ return ""; }
-	std::string PKCS12Pass() const
-	{ return ""; }
+	{ return s.value( "ProxyPass", QString::fromStdString(digidoc::XmlConfV2::proxyPass()) ).toString().toStdString(); }
 	bool PKCS12Disable() const
-	{ return s.value( "PKCS12Disable", false ).toBool(); }
+	{ return s.value( "PKCS12Disable", digidoc::XmlConfV2::PKCS12Disable() ).toBool(); }
 	std::string PKCS11Driver() const
 	{ return QString( qApp->applicationDirPath() + "/" + QFileInfo( PKCS11_MODULE ).fileName() ).toStdString(); }
 
