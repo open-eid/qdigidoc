@@ -434,7 +434,7 @@ bool AccessCert::validate()
 			showWarning( QString("%1<br />%2").arg( tr("Server access certificate is not valid!<br />"), link() ) );
 			return false;
 		}
-		else if( p12.certificate().expiryDate() < QDateTime::currentDateTime().addDays( 8 ) )
+		else if( c.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) )
 		{
 			showWarning( QString("%1<br />%2").arg( tr("Server access certificate is about to expire!"), link() ) );
 			return true;
