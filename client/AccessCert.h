@@ -48,7 +48,6 @@ public:
 private:
 	QString link() const;
 	void showWarning( const QString &msg );
-	bool showWarning2( const QString &msg );
 
 	AccessCertPrivate *d;
 };

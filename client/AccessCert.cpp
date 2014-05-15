@@ -401,81 +401,46 @@ void AccessCert::showWarning( const QString &msg )
 	exec();
 }
 
-bool AccessCert::showWarning2( const QString &msg )
-{
-	setIcon( Warning );
-	setText( msg );
-	setStandardButtons( Yes | No );
-	setDefaultButton( Yes );
-	exec();
-	return standardButton(clickedButton()) == No;
-}
-
 bool AccessCert::validate()
 {
 	if( Application::confValue( Application::PKCS12Disable, false ).toBool() )
 		return true;
 #ifdef Q_OS_MAC
 	QSslCertificate c = cert();
-	if( c.isNull() )
-		return showWarning2( tr("Did not find any server access certificate!<br />%1Start downloading?").arg( link() ) );
-	if( !c.isValid() )
-		return showWarning2( tr("Server access certificate is not valid!<br />%1Start downloading?").arg( link() ) );
-	if( c.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) )
-		return showWarning2( tr("Server access certificate is about to expire!<br />%1Start downloading?").arg( link() ) );
-	return true;
 #else
 	d->cert = Application::confValue( Application::PKCS12Cert ).toString();
 	d->pass = Application::confValue( Application::PKCS12Pass ).toString();
 
+	QSslCertificate c;
 	PKCS12Certificate p12 = PKCS12Certificate::fromPath( d->cert, d->pass );
 	switch( p12.error() )
 	{
-	case PKCS12Certificate::FileNotExist:
-		if( showWarning2( tr("Did not find any server access certificate!<br />%1Start downloading?").arg( link() ) ) )
-		{
-			remove();
-			return true;
-		}
-		break;
-	case PKCS12Certificate::FailedToRead:
-		if( showWarning2( tr("Failed to read server access certificate!<br />%1Start downloading?").arg( link() ) ) )
-		{
-			remove();
-			return true;
-		}
-		break;
-	case PKCS12Certificate::InvalidPasswordError:
-		if( showWarning2( tr("Server access certificate password is not valid!<br />%1Start downloading?").arg( link() ) ) )
-		{
-			remove();
-			return true;
-		}
-		break;
 	case PKCS12Certificate::NullError:
-		if( !p12.certificate().isValid() )
-		{
-			if( showWarning2( tr("Server access certificate is not valid!<br />%1Start downloading?").arg( link() ) ) )
-			{
-				remove();
-				return true;
-			}
-		}
-		else if( p12.certificate().expiryDate() < QDateTime::currentDateTime().addDays( 8 ) &&
-			!showWarning2( tr("Server access certificate is about to expire!<br />%1Start downloading?").arg( link() ) ) )
-			return false;
-		else
-			return true;
+		c = p12.certificate();
 		break;
+	case PKCS12Certificate::FileNotExist:
+	case PKCS12Certificate::FailedToRead:
+	case PKCS12Certificate::InvalidPasswordError:
 	case PKCS12Certificate::UnknownError:
 	default:
-		if( showWarning2( tr("Server access certificate is not valid!<br />%1Start downloading?").arg( link() ) ) )
+		remove();
+		return true;
+	}
+#endif
+	if( !c.isNull() && c.subjectInfo("GN").isEmpty() && c.subjectInfo("SN").isEmpty() )
+	{
+		if( !c.isValid() )
 		{
-			remove();
+			showWarning( QString("%1<br />%2").arg( tr("Server access certificate is not valid!<br />"), link() ) );
+			return false;
+		}
+		else if( p12.certificate().expiryDate() < QDateTime::currentDateTime().addDays( 8 ) )
+		{
+			showWarning( QString("%1<br />%2").arg( tr("Server access certificate is about to expire!"), link() ) );
 			return true;
 		}
-		break;
 	}
-	return false;
-#endif
+
+	remove();
+	return true;
 }
