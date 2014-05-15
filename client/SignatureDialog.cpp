@@ -108,10 +108,6 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		sa << tr("valid") << " (" << tr("Warnings") << ")";
 		sc << "<font color=\"green\">" << tr("valid") << "</font> <font>(" << tr("Warnings") << ")";
 		break;
-	case DigiDocSignature::WarningLimits:
-		sa << tr("valid") << " (" << tr("Warnings with limitations") << ")";
-		sc << "<font color=\"green\">" << tr("valid") << "</font> <font>(" << tr("Warnings with limitations") << ")";
-		break;
 	case DigiDocSignature::Test:
 		sa << tr("valid") << " (" << tr("Test signature") << ")";
 		sc << "<font color=\"green\">" << tr("valid") << "</font> <font>(" << tr("Test signature") << ")";
@@ -188,7 +184,6 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		status = tr("Signature is valid");
 		break;
 	case DigiDocSignature::Warning:
-	case DigiDocSignature::WarningLimits:
 		status = QString("%1 (%2)").arg( tr("Signature is valid"), tr("Warnings") );
 		if( !s.lastError().isEmpty() )
 			d->error->setPlainText( s.lastError() );

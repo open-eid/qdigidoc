@@ -71,7 +71,6 @@ public:
 	{
 		Valid,
 		Warning,
-		WarningLimits,
 		Test,
 		Invalid,
 		Unknown
