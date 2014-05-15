@@ -60,28 +60,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Справка доступа не действительна!&lt;br /&gt;%1Начнём загрузку?</translation>
-    </message>
-    <message>
-        <source>Server access certificate is about to expire!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Срок действия справки доступа скоро истечёт!&lt;br /&gt;%1Начнём загрузку?</translation>
-    </message>
-    <message>
-        <source>Did not find any server access certificate!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Отсутствует справка доступа!&lt;br /&gt;%1Начнём загрузку?</translation>
-    </message>
-    <message>
-        <source>Failed to read server access certificate!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Не удалось загрузить справку доступа!&lt;br /&gt;%1Начнём загрузку?</translation>
-    </message>
-    <message>
-        <source>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Пароль справки доступа неверен!&lt;br /&gt;%1Начнём загрузку?</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;Find out what is server access certificate&lt;/a&gt;.&lt;br /&gt;</source>
         <translation>&lt;a href=&quot;http://www.id.ee/index.php?id=34541&quot;&gt;Дополнительная информация о справке доступа&lt;/a&gt;.&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Server access certificate is about to expire!</source>
+        <translation>Срок действия справки доступа скоро истечёт!</translation>
+    </message>
+    <message>
+        <source>Server access certificate is not valid!</source>
+        <translation>Справка доступа не действительна!</translation>
     </message>
 </context>
 <context>
@@ -832,59 +820,6 @@ Control code: %1</source>
     </message>
 </context>
 <context>
-    <name>RegisterP12</name>
-    <message>
-        <source>Failed to copy file</source>
-        <translation>Копирование файла неуспешно</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Пароль</translation>
-    </message>
-    <message>
-        <source>Show certificate</source>
-        <translation>См. сертификат</translation>
-    </message>
-    <message>
-        <source>Invalid password</source>
-        <translation>Ошибочный пароль</translation>
-    </message>
-    <message>
-        <source>Server access certificate installer</source>
-        <translation>Установка сертификата доступа</translation>
-    </message>
-    <message>
-        <source>Server access certificate</source>
-        <translation>Справка доступа</translation>
-    </message>
-    <message>
-        <source>Server access certificate is available at&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</source>
-        <translation>Подтверждение действительности сервера справки доступа можно получить с веб-страницы SK&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>No server access certificate selected</source>
-        <translation>Ни один OCSP PKCS#12 сертфикат не выбран</translation>
-    </message>
-    <message>
-        <source>Select server access certificate</source>
-        <translation>Выберите PKCS#12 сертификат</translation>
-    </message>
-    <message>
-        <source>Server access certificate error: %1</source>
-        <translation>Ошибка справки доступа: %1</translation>
-    </message>
-    <message>
-        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
-        <translation>PKCS#12 Сертификаты (*.p12 *.p12d *.pfx)</translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation>Установить</translation>
-    </message>
-</context>
-<context>
     <name>SettingsDialog</name>
     <message>
         <source>Select folder</source>
@@ -1042,6 +977,30 @@ Control code: %1</source>
         <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;Additional information&lt;/a&gt;.</source>
         <translation>BDOC – это новый формат цифровой подписи, который еще не поддерживается многими инфосистемами. Не исключено, что получатель не сможет открыть документ в формате BDOC. &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;Дополнительная информация&lt;a&gt;.</translation>
     </message>
+    <message>
+        <source>Select server access certificate</source>
+        <translation>Выберите PKCS#12 сертификат</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
+        <translation>PKCS#12 Сертификаты (*.p12 *.p12d *.pfx)</translation>
+    </message>
+    <message>
+        <source>password</source>
+        <translation>пароль</translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation>Ошибочный пароль</translation>
+    </message>
+    <message>
+        <source>Server access certificate error: %1</source>
+        <translation>Ошибка справки доступа: %1</translation>
+    </message>
+    <message>
+        <source>Failed to copy file</source>
+        <translation>Копирование файла неуспешно</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>
@@ -1187,19 +1146,19 @@ Control code: %1</source>
     </message>
     <message>
         <source>Show TSA certificate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>TSA time</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать сертификат службы штампов времени</translation>
     </message>
     <message>
         <source>TSA Certificate issuer</source>
-        <translation type="unfinished"></translation>
+        <translation>Сертификат службы штампов времени</translation>
     </message>
     <message>
         <source>Warnings</source>
         <translation>предупреждения</translation>
+    </message>
+    <message>
+        <source>Signature Timestamp</source>
+        <translation>Штамп времени подписи</translation>
     </message>
 </context>
 <context>

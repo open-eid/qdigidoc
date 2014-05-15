@@ -277,8 +277,8 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	{
 	case DigiDocSignature::TSType:
 	{
-		addItem( t, tr("TSA time"), DateTime( s.tsaTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ));
-		addItem( t, tr("TSA time") + " (UTC)", DateTime( s.tsaTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+		addItem( t, tr("Signature Timestamp"), DateTime( s.tsaTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ));
+		addItem( t, tr("Signature Timestamp") + " (UTC)", DateTime( s.tsaTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( t, tr("TSA Certificate issuer"), SslCertificate(s.tsaCert()).issuerInfo( QSslCertificate::CommonName ) );
 	} //Fall through to OCSP info
 	case DigiDocSignature::DDocType:

@@ -60,28 +60,16 @@
         <translation>Failed to save server access certificate file to KeyChain!</translation>
     </message>
     <message>
-        <source>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</translation>
-    </message>
-    <message>
-        <source>Server access certificate is about to expire!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Server access certificate is about to expire!&lt;br /&gt;%1Start downloading?</translation>
-    </message>
-    <message>
-        <source>Did not find any server access certificate!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Did not find any server access certificate!&lt;br /&gt;%1Start downloading?</translation>
-    </message>
-    <message>
-        <source>Failed to read server access certificate!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Failed to read server access certificate!&lt;br /&gt;%1Start downloading?</translation>
-    </message>
-    <message>
-        <source>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;Find out what is server access certificate&lt;/a&gt;.&lt;br /&gt;</source>
         <translation>&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;Find out what is server access certificate&lt;/a&gt;.&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Server access certificate is about to expire!</source>
+        <translation>Server access certificate is about to expire!</translation>
+    </message>
+    <message>
+        <source>Server access certificate is not valid!</source>
+        <translation>Server access certificate is not valid!</translation>
     </message>
 </context>
 <context>
@@ -829,59 +817,6 @@ Control code: %1</translation>
     </message>
 </context>
 <context>
-    <name>RegisterP12</name>
-    <message>
-        <source>Failed to copy file</source>
-        <translation>Failed to copy file</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Password</translation>
-    </message>
-    <message>
-        <source>Show certificate</source>
-        <translation>Show certificate</translation>
-    </message>
-    <message>
-        <source>Invalid password</source>
-        <translation>Invalid password</translation>
-    </message>
-    <message>
-        <source>Server access certificate installer</source>
-        <translation>Server access certificate installer</translation>
-    </message>
-    <message>
-        <source>Server access certificate</source>
-        <translation>Server access certificate</translation>
-    </message>
-    <message>
-        <source>Server access certificate is available at&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</source>
-        <translation>Confirmation of validity of the server reference access can be obtained from the SK web page&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>No server access certificate selected</source>
-        <translation>No server access certificate selected</translation>
-    </message>
-    <message>
-        <source>Select server access certificate</source>
-        <translation>Select server access certificate</translation>
-    </message>
-    <message>
-        <source>Server access certificate error: %1</source>
-        <translation>Server access certificate error: %1</translation>
-    </message>
-    <message>
-        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
-        <translation>Server access certificates (*.p12 *.p12d *.pfx)</translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation>Install</translation>
-    </message>
-</context>
-<context>
     <name>SettingsDialog</name>
     <message>
         <source>Settings</source>
@@ -1039,6 +974,30 @@ Control code: %1</translation>
         <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;Additional information&lt;/a&gt;.</source>
         <translation>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
+    <message>
+        <source>Select server access certificate</source>
+        <translation>Select server access certificate</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
+        <translation>Server access certificates (*.p12 *.p12d *.pfx)</translation>
+    </message>
+    <message>
+        <source>password</source>
+        <translation>password</translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation>Invalid password</translation>
+    </message>
+    <message>
+        <source>Server access certificate error: %1</source>
+        <translation>Server access certificate error: %1</translation>
+    </message>
+    <message>
+        <source>Failed to copy file</source>
+        <translation>Failed to copy file</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>
@@ -1187,16 +1146,16 @@ Control code: %1</translation>
         <translation>Show TSA certificate</translation>
     </message>
     <message>
-        <source>TSA time</source>
-        <translation>TSA time</translation>
-    </message>
-    <message>
         <source>TSA Certificate issuer</source>
         <translation>TSA Certificate issuer</translation>
     </message>
     <message>
         <source>Warnings</source>
         <translation>Warnings</translation>
+    </message>
+    <message>
+        <source>Signature Timestamp</source>
+        <translation>Signature Timestamp</translation>
     </message>
 </context>
 <context>

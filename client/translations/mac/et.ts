@@ -60,28 +60,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Server access certificate is not valid!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Juurdepääsutõend ei ole kehtiv!&lt;br /&gt;%1Alustame laadimist?</translation>
-    </message>
-    <message>
-        <source>Server access certificate is about to expire!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Juurdepääsutõend aegub varsti!&lt;br /&gt;%1Alustame laadimist?</translation>
-    </message>
-    <message>
-        <source>Did not find any server access certificate!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Puudub juurdepääsutõend!&lt;br /&gt;%1Alustame laadimist?</translation>
-    </message>
-    <message>
-        <source>Failed to read server access certificate!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Ei õnnestunud juurdepääsutõendit laadida!&lt;br /&gt;%1Alustame laadimist?</translation>
-    </message>
-    <message>
-        <source>Server access certificate password is not valid!&lt;br /&gt;%1Start downloading?</source>
-        <translation>Juurdepääsutõendi parool on vale!&lt;br /&gt;%1Alustame laadimist?</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;Find out what is server access certificate&lt;/a&gt;.&lt;br /&gt;</source>
         <translation>&lt;a href=&quot;http://www.id.ee/index.php?id=34066&quot;&gt;Juurdepääsutõendi lisainfo&lt;/a&gt;.&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Server access certificate is about to expire!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server access certificate is not valid!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -829,59 +817,6 @@ Kontrollkood: %1</translation>
     </message>
 </context>
 <context>
-    <name>RegisterP12</name>
-    <message>
-        <source>Failed to copy file</source>
-        <translation>Faili kopeerimine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Parool</translation>
-    </message>
-    <message>
-        <source>Show certificate</source>
-        <translation>Näita sertifikaati</translation>
-    </message>
-    <message>
-        <source>Invalid password</source>
-        <translation>Vigane parool</translation>
-    </message>
-    <message>
-        <source>Server access certificate installer</source>
-        <translation>Juurdepääsutõendi paigaldamine</translation>
-    </message>
-    <message>
-        <source>Server access certificate</source>
-        <translation>Juurdepääsutõend</translation>
-    </message>
-    <message>
-        <source>Server access certificate is available at&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=eng&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</source>
-        <translation>Kehtivuskinnituse serveri juurdepääsutõendi saab SK leheküljelt&lt;br /&gt;
-&lt;a href=&quot;http://www.sk.ee/getaccess/?lang=est&quot;&gt;http://www.sk.ee/toend/&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>No server access certificate selected</source>
-        <translation>Ühtegi juurdepääsutõendit ei ole valitud</translation>
-    </message>
-    <message>
-        <source>Select server access certificate</source>
-        <translation>Valige juurdepääsutõend</translation>
-    </message>
-    <message>
-        <source>Server access certificate error: %1</source>
-        <translation>Juurdepääsutõendi viga: %1</translation>
-    </message>
-    <message>
-        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
-        <translation>Juurdepääsutõendid (*.p12 *.p12d *.pfx)</translation>
-    </message>
-    <message>
-        <source>Install</source>
-        <translation>Paigalda</translation>
-    </message>
-</context>
-<context>
     <name>SettingsDialog</name>
     <message>
         <source>Settings</source>
@@ -1039,6 +974,30 @@ Kontrollkood: %1</translation>
         <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;Additional information&lt;/a&gt;.</source>
         <translation>BDOC on uus digitaalallkirja vorming, mida paljud infosüsteemid ei oska veel kasutada ega lugeda. Palun arvestage, et saajal võib puududa võimalus selles formaadis allkirjastatud dokumenti avada. &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
+    <message>
+        <source>Select server access certificate</source>
+        <translation type="unfinished">Valige juurdepääsutõend</translation>
+    </message>
+    <message>
+        <source>Server access certificates (*.p12 *.p12d *.pfx)</source>
+        <translation type="unfinished">Juurdepääsutõendid (*.p12 *.p12d *.pfx)</translation>
+    </message>
+    <message>
+        <source>password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid password</source>
+        <translation type="unfinished">Vigane parool</translation>
+    </message>
+    <message>
+        <source>Server access certificate error: %1</source>
+        <translation type="unfinished">Juurdepääsutõendi viga: %1</translation>
+    </message>
+    <message>
+        <source>Failed to copy file</source>
+        <translation type="unfinished">Faili kopeerimine ebaõnnestus</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>
@@ -1187,16 +1146,16 @@ Kontrollkood: %1</translation>
         <translation>Näita ajatempliteenuse sertifikaati</translation>
     </message>
     <message>
-        <source>TSA time</source>
-        <translation>Ajatempli aeg</translation>
-    </message>
-    <message>
         <source>TSA Certificate issuer</source>
         <translation>Ajatempliteenuse sertifikaadi väljaandja</translation>
     </message>
     <message>
         <source>Warnings</source>
         <translation>hoiatusega</translation>
+    </message>
+    <message>
+        <source>Signature Timestamp</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
