@@ -24,7 +24,6 @@
 #include "DigiDoc.h"
 #include "MainWindow.h"
 #include "QSigner.h"
-#include "RegisterP12.h"
 #include "SettingsDialog.h"
 
 #include "crypto/MainWindow.h"
@@ -362,7 +361,7 @@ void Application::parseArgs( const QStringList &args )
 
 	QString suffix = QFileInfo( params.value( 0 ) ).suffix();
 	if( (QStringList() << "p12" << "p12d").contains( suffix, Qt::CaseInsensitive ) )
-		activate( new RegisterP12( params[0] ) );
+		showSettings( SettingsDialog::AccessCertSettings, params[0] );
 	else if( crypto || (QStringList() << "cdoc").contains( suffix, Qt::CaseInsensitive ) )
 		showCrypto( params );
 	else
@@ -455,12 +454,13 @@ void Application::showCrypto( const QStringList &params )
 	activate( w );
 }
 
-void Application::showSettings( int page )
+void Application::showSettings( int page, const QString &path )
 {
-	SettingsDialog *s = new SettingsDialog( activeWindow() );
+	SettingsDialog *s = new SettingsDialog( page, activeWindow() );
 	s->addAction( d->closeAction );
-	s->setPage( page );
 	s->open();
+	if( !path.isEmpty() )
+		s->activateAccessCert( path );
 }
 
 void Application::showWarning( const QString &msg )

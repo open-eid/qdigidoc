@@ -1,9 +1,6 @@
 /*
  * QDigiDocClient
  *
- * Copyright (C) 2009-2013 Jargo Kõster <jargo@innovaatik.ee>
- * Copyright (C) 2009-2013 Raul Metsma <raul@innovaatik.ee>
- *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -36,10 +33,16 @@ class SettingsDialog: public QDialog
 	Q_OBJECT
 
 public:
-	explicit SettingsDialog( QWidget *parent = 0 );
+	enum {
+		GeneralSettings = 0,
+		AccessCertSettings = 1,
+		NetworkSettings = 2
+	};
+
+	explicit SettingsDialog( int page = GeneralSettings, QWidget *parent = 0 );
 	~SettingsDialog();
 
-	void setPage( int page );
+	void activateAccessCert( const QString &path = QString() );
 
 	static void saveSignatureInfo(
 		const QString &role,

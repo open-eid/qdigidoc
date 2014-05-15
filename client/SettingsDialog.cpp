@@ -22,7 +22,6 @@
 
 #include "AccessCert.h"
 #include "Application.h"
-#include "RegisterP12.h"
 #include "QSigner.h"
 
 #include <common/CertificateWidget.h>
@@ -34,8 +33,10 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QUrl>
 #include <QtGui/QDropEvent>
+#include <QtGui/QDesktopServices>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QMessageBox>
+#include <QtWidgets/QInputDialog>
 #else
 #include <QtGui/QMessageBox>
 #endif
@@ -44,11 +45,12 @@
 Q_DECLARE_METATYPE(QSslCertificate)
 #endif
 
-SettingsDialog::SettingsDialog( QWidget *parent )
+SettingsDialog::SettingsDialog( int page, QWidget *parent )
 :	QDialog( parent )
 ,	d( new Ui::SettingsDialog )
 {
 	d->setupUi( this );
+	d->tabWidget->setCurrentIndex( page );
 	setAttribute( Qt::WA_DeleteOnClose );
 	Common::setAccessibleName( d->p12Label );
 
@@ -93,11 +95,64 @@ SettingsDialog::SettingsDialog( QWidget *parent )
 
 SettingsDialog::~SettingsDialog() { delete d; }
 
+void SettingsDialog::activateAccessCert( const QString &certpath )
+{
+	d->tabWidget->setCurrentIndex( 1 );
+	QFile file( FileDialog::getOpenFileName( this, tr("Select server access certificate"),
+		certpath, tr("Server access certificates (*.p12 *.p12d *.pfx)") ) );
+	if(!file.exists())
+		return;
+	QString pass = QInputDialog::getText( this, tr("Select server access certificate"),
+		tr("Select server access certificate") + " " + tr("password"), QLineEdit::Password );
+	if(pass.isEmpty())
+		return;
+
+	if(!file.open(QFile::ReadOnly))
+		return;
+
+	PKCS12Certificate p12(&file, pass);
+	switch(p12.error())
+	{
+	case PKCS12Certificate::NullError: break;
+	case PKCS12Certificate::InvalidPasswordError:
+		QMessageBox::warning(this, tr("Select server access certificate"), tr("Invalid password"));
+		return;
+	default:
+		QMessageBox::warning(this, tr("Select server access certificate"),
+			tr("Server access certificate error: %1").arg(p12.errorString()));
+		return;
+	}
+
+#ifdef Q_OS_MAC
+	file.reset();
+	AccessCert().installCert( file.readAll(), pass );
+#else
+	if( file.fileName() == QDir::fromNativeSeparators( Application::confValue( Application::PKCS12Cert ).toString() ) )
+		return;
+
+	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
+	QDir().mkpath( path );
+	QString dest = QString( "%1/%2" ).arg( path, QFileInfo( file ).fileName() );
+	if( file.fileName() != dest )
+	{
+		if( QFile::exists( dest ) )
+			QFile::remove( dest );
+		if( !file.copy( dest ) )
+		{
+			QMessageBox::warning( this, windowTitle(), tr("Failed to copy file") );
+			return;
+		}
+	}
+
+	Application::setConfValue( Application::PKCS12Cert, dest );
+	Application::setConfValue( Application::PKCS12Pass, pass );
+#endif
+	updateCert();
+}
+
 void SettingsDialog::on_p12Install_clicked()
 {
-	RegisterP12 *p12 = new RegisterP12( this );
-	if( p12->exec() )
-		updateCert();
+	activateAccessCert();
 }
 
 void SettingsDialog::on_p12Remove_clicked()
@@ -207,8 +262,6 @@ void SettingsDialog::saveSignatureInfo(
 	}
 	s.endGroup();
 }
-
-void SettingsDialog::setPage( int page ) { d->tabWidget->setCurrentIndex( page ); }
 
 void SettingsDialog::updateCert()
 {

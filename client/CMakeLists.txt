@@ -3,7 +3,6 @@ set_app_name( PROGNAME qdigidocclient )
 set( UI_FILES
 	ui/MainWindow.ui
 	ui/MobileDialog.ui
-	ui/RegisterP12.ui
 	ui/SettingsDialog.ui
 	ui/SignatureDialog.ui
 )
@@ -49,7 +48,6 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	MobileDialog.cpp
 	PrintSheet.cpp
 	QSigner.cpp
-	RegisterP12.cpp
 	SettingsDialog.cpp
 	SignatureDialog.cpp
 	TreeWidget.cpp

@@ -488,7 +488,7 @@ void MainWindow::buttonClicked( int button )
 			case QNetworkReply::ProxyTimeoutError:
 			case QNetworkReply::ProxyAuthenticationRequiredError:
 			case QNetworkReply::UnknownProxyError:
-				qApp->showSettings( 3 );
+				qApp->showSettings( SettingsDialog::NetworkSettings );
 			default: break;
 			}
 			break;
