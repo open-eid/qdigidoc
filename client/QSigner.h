@@ -51,13 +51,10 @@ public:
 	ApiType apiType() const;
 	digidoc::X509Cert cert() const;
 	ErrorCode decrypt( const QByteArray &in, QByteArray &out );
-	Qt::HANDLE handle() const;
-	void lock();
 	void sign( const std::string &method, const std::vector<unsigned char> &digest,
 		std::vector<unsigned char>& signature );
 	TokenData tokenauth() const;
 	TokenData tokensign() const;
-	void unlock();
 
 Q_SIGNALS:
 	void authDataChanged( const TokenData &token );

@@ -22,7 +22,6 @@
 
 #include "AccessCert.h"
 #include "Application.h"
-#include "QSigner.h"
 
 #include <common/CertificateWidget.h>
 #include <common/FileDialog.h>
@@ -159,13 +158,6 @@ void SettingsDialog::on_p12Remove_clicked()
 {
 	AccessCert().remove();
 	updateCert();
-}
-
-void SettingsDialog::on_p12Update_clicked()
-{
-	AccessCert a( this );
-	if( a.download( qApp->signer()->tokensign().card().isEmpty() ) )
-		updateCert();
 }
 
 void SettingsDialog::on_selectDefaultDir_clicked()

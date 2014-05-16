@@ -494,25 +494,9 @@ void MainWindow::buttonClicked( int button )
 			break;
 		}
 
-#ifdef Q_OS_MAC
-		if( infoSignCard->isChecked() ||
-			!MobileDialog::isTest( infoMobileCode->text(), infoMobileCell->text() ) ||
-			Settings().value( "Client/mobilecert", false ).toBool() )
-#endif
-		{
-			AccessCert access( this );
-			if( !access.validate() )
-			{
-				if( !access.download( infoSignMobile->isChecked() || qApp->signer()->tokensign().card().isEmpty() ) )
-					break;
-
-				QMessageBox b( QMessageBox::Information, tr("DigiDoc3 client"),
-					tr("Server access certificate has been installed"), QMessageBox::Cancel, this );
-				b.setDefaultButton( b.addButton( tr("Continue signing"), QMessageBox::AcceptRole ) );
-				if( b.exec() == QMessageBox::Cancel )
-					break;
-			}
-		}
+		AccessCert access( this );
+		if( !access.validate() )
+			break;
 
 		if( infoSignCard->isChecked() )
 		{

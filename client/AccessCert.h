@@ -37,7 +37,6 @@ public:
 	explicit AccessCert( QWidget *parent = 0 );
 	~AccessCert();
 
-	bool download( bool noCard );
 	bool validate();
 
 	static QSslCertificate cert();

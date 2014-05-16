@@ -185,15 +185,6 @@ QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 	return !out.isEmpty() ? DecryptOK : DecryptFailed;
 }
 
-Qt::HANDLE QSigner::handle() const
-{
-	if( d->csp ) return Qt::HANDLE(d->csp);
-	if( d->cng ) return Qt::HANDLE(d->cng);
-	return Qt::HANDLE(d->pkcs11);
-}
-
-void QSigner::lock() { d->count.ref(); }
-
 void QSigner::reloadauth()
 {
 	QEventLoop e;
@@ -503,5 +494,3 @@ void QSigner::throwException( const QString &msg, Exception::ExceptionCode code,
 
 TokenData QSigner::tokenauth() const { return d->auth; }
 TokenData QSigner::tokensign() const { return d->sign; }
-
-void QSigner::unlock() { d->count.deref(); reloadsign(); }

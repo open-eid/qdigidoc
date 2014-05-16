@@ -218,13 +218,6 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="p12Update">
-           <property name="text">
-            <string>Generate certificate</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QPushButton" name="p12Install">
            <property name="text">
             <string>Install manually</string>

@@ -22,27 +22,17 @@
 #include "Application.h"
 #include "QSigner.h"
 
-#ifdef Q_OS_WIN
-#include <common/QCNG.h>
-#endif
-#include <common/QPKCS11.h>
 #include <common/SslCertificate.h>
-#include <common/sslConnect.h>
 #include <common/TokenData.h>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
-#include <QtCore/QScopedPointer>
-#include <QtCore/QUrl>
-#include <QtCore/QXmlStreamReader>
 #include <QtGui/QDesktopServices>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QPushButton>
 #else
 #include <QtGui/QLabel>
-#include <QtGui/QPushButton>
 #endif
 #include <QtNetwork/QSslKey>
 
@@ -106,157 +96,6 @@ QSslCertificate AccessCert::cert()
 	return PKCS12Certificate::fromPath(
 		Application::confValue( Application::PKCS12Cert ).toString(),
 		Application::confValue( Application::PKCS12Pass ).toString() ).certificate();
-}
-
-bool AccessCert::download( bool noCard )
-{
-	if( noCard )
-	{
-		QDesktopServices::openUrl( QUrl( tr("http://www.sk.ee/toend/") ) );
-		return false;
-	}
-
-	if( SslCertificate( qApp->signer()->tokensign().cert() ).type() & SslCertificate::TempelType )
-	{
-		setIcon( Information );
-		setText( tr("For getting server access certificate to Tempel contact <a href=\"mailto:sales@sk.ee\">sales@sk.ee</a>") );
-		return false;
-	}
-
-	setIcon( Information );
-	setText(
-		tr("Hereby I agree to terms and conditions of validity confirmation service and "
-		   "will use the service in extent of 10 signatures per month. If you going to "
-		   "exceed the limit of 10 signatures per month or/and will use the service for "
-		   "commercial purposes, please refer to IT support of your company. Additional "
-		   "information is available from <a href=\"%1\">%1</a> or phone 1777")
-			.arg( tr("http://www.id.ee/kehtivuskinnitus") ) );
-	setStandardButtons( Help );
-	QPushButton *agree = addButton( tr("Agree"), AcceptRole );
-	if( exec() == Help )
-	{
-		QDesktopServices::openUrl( QUrl( tr("http://www.id.ee/kehtivuskinnitus") ) );
-		return false;
-	}
-	removeButton( agree );
-
-	QSigner *s = qApp->signer();
-	QPKCS11 *p = qobject_cast<QPKCS11*>(reinterpret_cast<QObject*>(s->handle()));
-#ifdef Q_OS_WIN
-	QCNG *c = qobject_cast<QCNG*>(reinterpret_cast<QObject*>(s->handle()));
-	if( !p && !c )
-		return false;
-#endif
-
-	s->lock();
-	Qt::HANDLE key = 0;
-	TokenData token;
-	if( p )
-	{
-		bool retry = false;
-		do {
-			retry = false;
-			token.setCard( s->tokensign().card() );
-			Q_FOREACH( const TokenData &t, p->tokens() )
-				if( token.card() == t.card() && SslCertificate( t.cert() ).enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
-					token.setCert( t.cert() );
-
-			QPKCS11::PinStatus status = p->login( token );
-			switch( status )
-			{
-			case QPKCS11::PinOK: break;
-			case QPKCS11::PinCanceled:
-				s->unlock();
-				return false;
-			case QPKCS11::PinIncorrect:
-				showWarning( QPKCS11::errorString( status ) );
-				retry = true;
-				break;
-			default:
-				showWarning( tr("Error downloading server access certificate!") + "\n" + QPKCS11::errorString( status ) );
-				s->unlock();
-				return false;
-			}
-		} while( retry );
-		key = p->key();
-	}
-	else
-	{
-#ifdef Q_OS_WIN
-		QCNG::Certs certs = c->certs();
-		for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
-		{
-			if( i.value() == s->tokensign().card() && i.key().isValid() &&
-				i.key().enhancedKeyUsage().contains( SslCertificate::ClientAuth ) )
-
-			{
-				token = c->selectCert( i.key() );
-				break;
-			}
-		}
-		key = c->key();
-#else
-		s->unlock();
-		return false;
-#endif
-	}
-
-	SSLConnect ssl;
-	ssl.setToken( token.cert(), key );
-	QByteArray result = ssl.getUrl( SSLConnect::AccessCert );
-	s->unlock();
-	if( !ssl.errorString().isEmpty() )
-	{
-		showWarning( tr("Error downloading server access certificate!") + "\n" + ssl.errorString() );
-		return false;
-	}
-
-	if( result.isEmpty() )
-	{
-		showWarning( tr("Empty result!") );
-		return false;
-	}
-
-	QString status, cert, pass, message;
-	QXmlStreamReader xml( result );
-	while( xml.readNext() != QXmlStreamReader::Invalid )
-	{
-		if( !xml.isStartElement() )
-			continue;
-		if( xml.name() == "StatusCode" )
-			status = xml.readElementText();
-		else if( xml.name() == "MessageToDisplay" )
-			message = xml.readElementText();
-		else if( xml.name() == "TokenData" )
-			cert = xml.readElementText();
-		else if( xml.name() == "TokenPassword" )
-			pass = xml.readElementText();
-	}
-
-	if( status.isEmpty() )
-	{
-		showWarning( tr("Error parsing server access certificate result!") );
-		return false;
-	}
-
-	switch( status.toInt() )
-	{
-	case 1: //need to order cert manually from SK web
-		QDesktopServices::openUrl( QUrl( tr("http://www.sk.ee/toend/") ) );
-		return false;
-	case 2: //got error, show message from MessageToDisplay element
-		showWarning( tr("Error downloading server access certificate!\n%1").arg( message ) );
-		return false;
-	default: break; //ok
-	}
-
-	if( cert.isEmpty() )
-	{
-		showWarning( tr("Error reading server access certificate - empty content!") );
-		return false;
-	}
-
-	return installCert( QByteArray::fromBase64( cert.toUtf8() ), pass );
 }
 
 bool AccessCert::installCert( const QByteArray &data, const QString &password )
