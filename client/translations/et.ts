@@ -578,10 +578,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <source>Close</source>
         <translation>Sulge</translation>
     </message>
-    <message>
-        <source>NB! Signature contains warnings and limits apply</source>
-        <translation>NB! Allkirjale kehtivad piirangud</translation>
-    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -1215,10 +1211,6 @@ Kontrollkood: %1</translation>
     <message>
         <source>Warnings</source>
         <translation>hoiatusega</translation>
-    </message>
-    <message>
-        <source>Warnings with limitations</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

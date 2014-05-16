@@ -581,10 +581,6 @@ New ID-cards have chip on the back side of the card.</source>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
-    <message>
-        <source>NB! Signature contains warnings and limits apply</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -1218,10 +1214,6 @@ Control code: %1</source>
     <message>
         <source>Warnings</source>
         <translation>предупреждения</translation>
-    </message>
-    <message>
-        <source>Warnings with limitations</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
