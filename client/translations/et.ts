@@ -4,24 +4,6 @@
 <context>
     <name>AccessCert</name>
     <message>
-        <source>Error downloading server access certificate!
-%1</source>
-        <translation>Viga juurdepääsutõendi laadimisel!
-%1</translation>
-    </message>
-    <message>
-        <source>Empty result!</source>
-        <translation>Tühi vastus!</translation>
-    </message>
-    <message>
-        <source>Error parsing server access certificate result!</source>
-        <translation>Viga juurdepääsutõendi lugemisel!</translation>
-    </message>
-    <message>
-        <source>Error reading server access certificate - empty content!</source>
-        <translation>Viga juurdepääsutõendi lugemisel - sisu on tühi!</translation>
-    </message>
-    <message>
         <source>Failed to save server access certificate file to %1!
 %2</source>
         <translation>Viga juurdepääsutõendi salvestamisel %1!
@@ -30,30 +12,6 @@
     <message>
         <source>Server access certificate</source>
         <translation>Juurdepääsutõend</translation>
-    </message>
-    <message>
-        <source>Agree</source>
-        <translation>Nõustun</translation>
-    </message>
-    <message>
-        <source>Error downloading server access certificate!</source>
-        <translation>Viga juurdepääsutõendi laadimisel!</translation>
-    </message>
-    <message>
-        <source>http://www.id.ee/kehtivuskinnitus</source>
-        <translation>http://www.id.ee/kehtivuskinnitus</translation>
-    </message>
-    <message>
-        <source>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;%1&quot;&gt;%1&lt;/a&gt; or phone 1777</source>
-        <translation>Käesolevaga nõustun kehtivuskinnitusteenuse kasutamise tavatingimustega ja tarbin teenust mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;%1&quot;&gt;%1&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
-    </message>
-    <message>
-        <source>http://www.sk.ee/toend/</source>
-        <translation>https://www.sk.ee/getaccess/index.php?lang=est</translation>
-    </message>
-    <message>
-        <source>For getting server access certificate to Tempel contact &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</source>
-        <translation>Juurdepääsutõendi saamiseks digitemplile palun pöörduge &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
@@ -539,10 +497,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>Digitaalallkirjade kinnituslehe kuvamiseks peab olema arvutis vähemalt üks printer seadistatud!</translation>
     </message>
     <message>
-        <source>Server access certificate has been installed</source>
-        <translation>Juurdepääsutõend on edukalt paigaldatud</translation>
-    </message>
-    <message>
         <source>Continue signing</source>
         <translation>Jätka allkirjastamisega</translation>
     </message>
@@ -945,10 +899,6 @@ Kontrollkood: %1</translation>
     <message>
         <source>Server access certificate is not installed.</source>
         <translation>Juurdepääsutõend ei ole paigaldatud.</translation>
-    </message>
-    <message>
-        <source>Generate certificate</source>
-        <translation>Genereeri tõend</translation>
     </message>
     <message>
         <source>Install manually</source>

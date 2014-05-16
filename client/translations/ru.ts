@@ -4,24 +4,6 @@
 <context>
     <name>AccessCert</name>
     <message>
-        <source>Error downloading server access certificate!
-%1</source>
-        <translation>Ошибка при загрузке справки доступа!
-%1</translation>
-    </message>
-    <message>
-        <source>Empty result!</source>
-        <translation>Пустой ответ!</translation>
-    </message>
-    <message>
-        <source>Error parsing server access certificate result!</source>
-        <translation>Ошибка при чтении справки доступа!</translation>
-    </message>
-    <message>
-        <source>Error reading server access certificate - empty content!</source>
-        <translation>Ошибка при чтении справки доступа! - содержание пустое!</translation>
-    </message>
-    <message>
         <source>Failed to save server access certificate file to %1!
 %2</source>
         <translation>Ошибка при сохранении справки доступа! %1!
@@ -30,30 +12,6 @@
     <message>
         <source>Server access certificate</source>
         <translation>Справка доступа</translation>
-    </message>
-    <message>
-        <source>Agree</source>
-        <translation>Подтверждаю</translation>
-    </message>
-    <message>
-        <source>Error downloading server access certificate!</source>
-        <translation>Ошибка при загрузке справки доступа!</translation>
-    </message>
-    <message>
-        <source>http://www.id.ee/kehtivuskinnitus</source>
-        <translation>http://www.id.ee/rus/access</translation>
-    </message>
-    <message>
-        <source>Hereby I agree to terms and conditions of validity confirmation service and will use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;%1&quot;&gt;%1&lt;/a&gt; or phone 1777</source>
-        <translation>Я ознакомлен и полностью согласен с условиями пользования услугой подтверждения действительности и обязуюсь пользоваться услугой в объеме не более 10 цифровых подписей в месяц. Чтобы получить возможность пользоваться услугой в большем объеме или использовать ее в коммерческих целях, обратитесь в службу ИТ-поддержки Вашего учреждения. За дополнительной информацией обращайтесь по адресу &lt;a href=&quot;%1&quot;&gt;%1&lt;/a&gt; или по телефону 1777</translation>
-    </message>
-    <message>
-        <source>http://www.sk.ee/toend/</source>
-        <translation>https://www.sk.ee/getaccess/index.php?lang=rus</translation>
-    </message>
-    <message>
-        <source>For getting server access certificate to Tempel contact &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Failed to save server access certificate file to KeyChain!</source>
@@ -542,10 +500,6 @@ New ID-cards have chip on the back side of the card.</source>
         <translation>Для отображения листа подтверждения действительности цифровой подписи на компьютере должен быть установлен как минимум один принтер!</translation>
     </message>
     <message>
-        <source>Server access certificate has been installed</source>
-        <translation>Сертификат доступа к серверу установлен</translation>
-    </message>
-    <message>
         <source>Continue signing</source>
         <translation>Подписать</translation>
     </message>
@@ -950,10 +904,6 @@ Control code: %1</source>
         <translation>Отсутствует справка доступа.</translation>
     </message>
     <message>
-        <source>Generate certificate</source>
-        <translation>Создать справку</translation>
-    </message>
-    <message>
         <source>Install manually</source>
         <translation>Установить вручную</translation>
     </message>
@@ -1142,7 +1092,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>Show TSA certificate</source>
-        <translation>Показать сертификат службы штампов времени</translation>
+        <translation>Сертификат службы штампов времени</translation>
     </message>
     <message>
         <source>TSA Certificate issuer</source>
