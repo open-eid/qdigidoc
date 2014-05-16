@@ -773,7 +773,7 @@ Control code: %1</source>
     </message>
     <message>
         <source>AUTHORITY KEY IDENTIFIER</source>
-        <translation type="unfinished"></translation>
+        <translation>ИДЕНТИФИКАТОР ЛИЧНОГО КЛЮЧА</translation>
     </message>
     <message>
         <source>SIGNATURE IS VALID (NB! TEST SIGNATURE)</source>
