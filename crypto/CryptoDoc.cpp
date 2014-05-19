@@ -281,18 +281,23 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 		// EncryptedData/EncryptionProperties/EncryptionProperty
 		else if( xml.name() == "EncryptionProperty" )
 		{
-			if( xml.attributes().value("Name") == "orig_file" )
+			for(const QXmlStreamAttribute &attr: xml.attributes())
 			{
-				QStringList fileparts = xml.readElementText().split("|");
-				File file;
-				file.name = fileparts.value(0);
-				file.size = size(fileparts.value(1));
-				file.mime = fileparts.value(2);
-				file.id = fileparts.value(3);
-				files << file;
+				if(attr.name() != "Name")
+					continue;
+				if( attr.value() == "orig_file" )
+				{
+					QStringList fileparts = xml.readElementText().split("|");
+					File file;
+					file.name = fileparts.value(0);
+					file.size = size(fileparts.value(1));
+					file.mime = fileparts.value(2);
+					file.id = fileparts.value(3);
+					files << file;
+				}
+				else
+					properties[attr.value().toString()] = xml.readElementText();
 			}
-			else
-				properties[xml.attributes().value("Name").toString()] = xml.readElementText();
 		}
 		// EncryptedData/EncryptionMethod
 		else if( xml.name() == "EncryptionMethod" )
