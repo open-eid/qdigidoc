@@ -727,8 +727,12 @@ Kontrollkood: %1</translation>
         <translation>VÄLJAANDJA VÕTME IDENTIFIKAATOR</translation>
     </message>
     <message>
-        <source>SIGNATURE IS VALID (NB! TEST SIGNATURE)</source>
-        <translation>ALLKIRI ON KEHTIV (NB! TESTALLKIRI)</translation>
+        <source>NB! WITH WARNING</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NB! TEST SIGNATURE</source>
+        <translation>NB! TESTALLKIRI</translation>
     </message>
 </context>
 <context>

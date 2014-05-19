@@ -727,8 +727,12 @@ Control code: %1</translation>
         <translation>AUTHORITY KEY IDENTIFIER</translation>
     </message>
     <message>
-        <source>SIGNATURE IS VALID (NB! TEST SIGNATURE)</source>
-        <translation>SIGNATURE IS VALID (NB! TEST SIGNATURE)</translation>
+        <source>NB! WITH WARNING</source>
+        <translation>NB! WITH WARNING</translation>
+    </message>
+    <message>
+        <source>NB! TEST SIGNATURE</source>
+        <translation>NB! TEST SIGNATURE</translation>
     </message>
 </context>
 <context>

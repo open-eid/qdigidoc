@@ -730,8 +730,12 @@ Control code: %1</source>
         <translation>ИДЕНТИФИКАТОР ЛИЧНОГО КЛЮЧА</translation>
     </message>
     <message>
-        <source>SIGNATURE IS VALID (NB! TEST SIGNATURE)</source>
-        <translation>ПОДПИСЬ ДЕЙСТВИТЕЛЬНА (NB! ПРОБНАЯ ПОДПИСЬ)</translation>
+        <source>NB! WITH WARNING</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NB! TEST SIGNATURE</source>
+        <translation>NB! ПРОБНАЯ ПОДПИСЬ</translation>
     </message>
 </context>
 <context>

@@ -1,5 +1,5 @@
 /*
- * QDigiDocCrypt
+ * QDigiDocClient
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -129,11 +129,11 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		QString valid;
 		switch( sig.validate() )
 		{
-		case DigiDocSignature::Warning: //Fall to Valid
-		case DigiDocSignature::Valid: valid.append( tr("SIGNATURE IS VALID") ); break;
-		case DigiDocSignature::Test: valid.append( tr("SIGNATURE IS VALID (NB! TEST SIGNATURE)") ); break;
-		case DigiDocSignature::Invalid: valid.append( tr("SIGNATURE IS NOT VALID") ); break;
-		case DigiDocSignature::Unknown: valid.append( tr("UNKNOWN") ); break;
+		case DigiDocSignature::Valid: valid = tr("SIGNATURE IS VALID"); break;
+		case DigiDocSignature::Warning:valid = QString("%1 (%2)").arg( tr("SIGNATURE IS VALID"), tr("NB! WITH WARNING") ); break;
+		case DigiDocSignature::Test: valid = QString("%1 (%2)").arg( tr("SIGNATURE IS VALID"), tr("NB! TEST SIGNATURE") ); break;
+		case DigiDocSignature::Invalid: valid = tr("SIGNATURE IS NOT VALID") ; break;
+		case DigiDocSignature::Unknown: valid = tr("UNKNOWN"); break;
 		}
 		customText( tr("VALIDITY OF SIGNATURE"), valid );
 		customText( tr("ROLE / RESOLUTION"), sig.role() );
