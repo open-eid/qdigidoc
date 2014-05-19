@@ -22,6 +22,7 @@
 #include "Application.h"
 #include "QSigner.h"
 
+#include <common/Settings.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
@@ -72,12 +73,10 @@ AccessCert::~AccessCert()
 QSslCertificate AccessCert::cert()
 {
 #ifdef Q_OS_MAC
-	SecIdentityRef identity = 0;
-	OSStatus err = SecIdentityCopyPreference( CFSTR("ocsp.sk.ee"), 0, 0, &identity );
-	if( identity )
+	if( SecIdentityRef identity = SecIdentityCopyPreferred( CFSTR("ocsp.sk.ee"), 0, 0 ) )
 	{
 		SecCertificateRef certref = 0;
-		err = SecIdentityCopyCertificate( identity, &certref );
+		SecIdentityCopyCertificate( identity, &certref );
 		CFRelease( identity );
 		if( !certref )
 			return QSslCertificate();
@@ -169,12 +168,10 @@ bool AccessCert::installCert( const QByteArray &data, const QString &password )
 QSslKey AccessCert::key()
 {
 #ifdef Q_OS_MAC
-	SecIdentityRef identity = 0;
-	OSStatus err = SecIdentityCopyPreference( CFSTR("ocsp.sk.ee"), 0, 0, &identity );
-	if( identity )
+	if( SecIdentityRef identity = SecIdentityCopyPreferred( CFSTR("ocsp.sk.ee"), 0, 0 ) )
 	{
 		SecKeyRef keyref = 0;
-		err = SecIdentityCopyPrivateKey( identity, &keyref );
+		OSStatus err = SecIdentityCopyPrivateKey( identity, &keyref );
 		CFRelease( identity );
 		if( !keyref )
 			return QSslKey();
@@ -279,7 +276,16 @@ bool AccessCert::validate()
 			return true;
 		}
 	}
+	else
+		remove();
 
-	remove();
+	if( !c.isNull() && c.subjectInfo("CN").first() == "Sertifitseerimiskeskus AS" )
+	{
+		QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
+		Settings s;
+		if(s.value(date, 0).toUInt() >= 10)
+			showWarning( QString("%1<br />%2").arg( tr("Access Cert user more than 10 times!"), link() ) );
+		s.setValue(date, s.value(date, 0).toUInt() + 1);
+	}
 	return true;
 }
