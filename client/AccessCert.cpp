@@ -281,10 +281,15 @@ bool AccessCert::validate()
 
 	if( !c.isNull() && c.subjectInfo("CN").first() == "Sertifitseerimiskeskus AS" )
 	{
+		if( !c.isValid() )
+		{
+			showWarning( QString("%1<br />%2").arg( tr("Please upgrade software!"), link() ) );
+			return false;
+		}
 		QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
 		Settings s;
 		if(s.value(date, 0).toUInt() >= 10)
-			showWarning( QString("%1<br />%2").arg( tr("Access Cert user more than 10 times!"), link() ) );
+			showWarning( QString("%1<br />%2").arg( tr("Access Cert used more than 10 times!"), link() ) );
 		s.setValue(date, s.value(date, 0).toUInt() + 1);
 	}
 	return true;
