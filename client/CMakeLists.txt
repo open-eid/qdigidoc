@@ -31,7 +31,6 @@ include_directories(
 if( APPLE )
 	set( SOURCES TreeWidgetMac.mm )
 	set_source_files_properties( TreeWidgetMac.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
-	set_source_files_properties( AccessCert.cpp PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations" )
 endif()
 
 add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
@@ -92,18 +91,18 @@ if(UNIX AND NOT APPLE)
 	install( FILES ${CMAKE_CURRENT_BINARY_DIR}/qdigidocclient.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
 	install( FILES qdigidoc-client.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
 	install( FILES qdigidoc-client.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages )
-
-	# Install icons
 	foreach(RES 16 22 32 48 128)
-		set(ICONDIR ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/mimetypes/)
 		foreach(TGT application-vnd.bdoc-1.0.png application-vnd.etsi.asic-e+zip.png application-x-ddoc.png application-x-p12d.png)
-			set(SRC images/qdigidoc_client_document_${RES}x${RES}.png)
-			install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
+			install(
+				FILES images/qdigidoc_client_document_${RES}x${RES}.png
+				DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/mimetypes/
+				RENAME ${TGT}
+			)
 		endforeach()
-
-		set(ICONDIR ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/apps/)
-		set(SRC images/digidoc_icon_${RES}x${RES}.png)
-		set(TGT qdigidoc-client.png)
-		install(FILES ${SRC} DESTINATION ${ICONDIR} RENAME ${TGT})
+		install(
+			FILES images/digidoc_icon_${RES}x${RES}.png
+			DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/apps/
+			RENAME qdigidoc-client.png
+		)
 	endforeach()
 endif()

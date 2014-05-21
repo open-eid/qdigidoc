@@ -100,26 +100,32 @@ QSslCertificate AccessCert::cert()
 bool AccessCert::installCert( const QByteArray &data, const QString &password )
 {
 #ifdef Q_OS_MAC
-	CFDataRef pkcs12data = CFDataCreate( 0, (const UInt8*)data.constData(), data.size() );
+	CFDataRef pkcs12data = CFDataCreate(nullptr, (const UInt8*)data.constData(), data.size());
 
 	SecExternalFormat format = kSecFormatPKCS12;
 	SecExternalItemType type = kSecItemTypeAggregate;
 
-	SecKeyImportExportParameters params;
+	SecItemImportExportKeyParameters params;
 	memset( &params, 0, sizeof(params) );
 	params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
 	params.flags = kSecKeyImportOnlyOne|kSecKeyNoAccessControl;
-	params.keyAttributes = CSSM_KEYATTR_PERMANENT|CSSM_KEYATTR_EXTRACTABLE;
-	params.keyUsage = CSSM_KEYUSE_DECRYPT|CSSM_KEYUSE_UNWRAP|CSSM_KEYUSE_DERIVE;
+	CFTypeRef keyAttributes[] = { kSecAttrIsPermanent, kSecAttrIsExtractable };
+	params.keyAttributes = CFArrayCreate(nullptr,
+		(const void **)keyAttributes, sizeof(keyAttributes) / sizeof(keyAttributes[0]), nullptr);
+	CFTypeRef keyUsage[] = { kSecAttrCanDecrypt, kSecAttrCanUnwrap, kSecAttrCanDerive };
+	params.keyUsage = CFArrayCreate(nullptr,
+		(const void **)keyUsage, sizeof(keyUsage) / sizeof(keyUsage[0]), nullptr);
 	params.passphrase = CFStringCreateWithCharacters( 0,
 		reinterpret_cast<const UniChar *>(password.unicode()), password.length() );
 
 	SecKeychainRef keychain;
 	SecKeychainCopyDefault( &keychain );
 	CFArrayRef items = 0;
-	OSStatus err = SecKeychainItemImport( pkcs12data, 0, &format, &type, 0, &params, keychain, &items );
+	OSStatus err = SecItemImport( pkcs12data, 0, &format, &type, 0, &params, keychain, &items );
 	CFRelease( pkcs12data );
 	CFRelease( params.passphrase );
+	CFRelease( params.keyUsage );
+	CFRelease( params.keyAttributes );
 
 	if( err != errSecSuccess )
 	{
@@ -135,7 +141,7 @@ bool AccessCert::installCert( const QByteArray &data, const QString &password )
 			identity = SecIdentityRef(item);
 	}
 
-	err = SecIdentitySetPreference( identity, CFSTR("ocsp.sk.ee"), 0 );
+	err = SecIdentitySetPreferred( identity, CFSTR("ocsp.sk.ee"), 0 );
 	CFRelease( items );
 	if( err != errSecSuccess )
 	{
@@ -177,11 +183,11 @@ QSslKey AccessCert::key()
 			return QSslKey();
 
 		CFDataRef keydata = 0;
-		SecKeyImportExportParameters params;
+		SecItemImportExportKeyParameters params;
 		memset( &params, 0, sizeof(params) );
 		params.version = SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION;
 		params.passphrase = CFSTR("pass");
-		err = SecKeychainItemExport( keyref, kSecFormatPEMSequence, 0, &params, &keydata );
+		err = SecItemExport( keyref, kSecFormatPEMSequence, 0, &params, &keydata );
 		CFRelease( keyref );
 
 		if( !keydata )
@@ -207,13 +213,13 @@ QString AccessCert::link() const
 void AccessCert::remove()
 {
 #ifdef Q_OS_MAC
-	SecIdentityRef identity = 0;
-	OSStatus err = SecIdentityCopyPreference( CFSTR("ocsp.sk.ee"), 0, 0, &identity );
+	SecIdentityRef identity = SecIdentityCopyPreferred( CFSTR("ocsp.sk.ee"), 0, 0 );
 	if( !identity )
 		return;
 
 	SecCertificateRef certref = 0;
 	SecKeyRef keyref = 0;
+	OSStatus err = 0;
 	err = SecIdentityCopyCertificate( identity, &certref );
 	err = SecIdentityCopyPrivateKey( identity, &keyref );
 	CFRelease( identity );
