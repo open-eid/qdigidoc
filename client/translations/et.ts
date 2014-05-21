@@ -956,6 +956,10 @@ Kontrollkood: %1</translation>
         <source>Failed to copy file</source>
         <translation>Faili kopeerimine ebaõnnestus</translation>
     </message>
+    <message>
+        <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
+        <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Täiendav informatsioon &lt;a href=&quot;http://www.id.ee/?lang=et&quot;&gt;http://www.id.ee&lt;/a&gt; või ID-abiliini telefonil 1777</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

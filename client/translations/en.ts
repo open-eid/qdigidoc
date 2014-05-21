@@ -956,6 +956,10 @@ Control code: %1</translation>
         <source>Failed to copy file</source>
         <translation>Failed to copy file</translation>
     </message>
+    <message>
+        <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</source>
+        <translation>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

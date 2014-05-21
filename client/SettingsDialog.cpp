@@ -59,6 +59,11 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
 	updateCert();
 #ifdef Q_OS_MAC
+	d->p12Label->setText( tr(
+		"Regarding to terms and conditions of validity confirmation service you're "
+		"allowed to use the service in extent of 10 signatures per month. Additional "
+		"information is available from <a href=\"http://www.id.ee/kehtivuskinnitus\">"
+		"http://www.id.ee/kehtivuskinnitus</a> or phone 1777") );
 	d->label->hide();
 	d->defaultSameDir->hide();
 	d->defaultDir->hide();
