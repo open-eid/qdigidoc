@@ -29,6 +29,14 @@
         <source>Server access certificate is not valid!</source>
         <translation>Server access certificate is not valid!</translation>
     </message>
+    <message>
+        <source>Please upgrade software!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Access Cert used more than 10 times!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application</name>
@@ -727,12 +735,12 @@ Control code: %1</translation>
         <translation>AUTHORITY KEY IDENTIFIER</translation>
     </message>
     <message>
-        <source>NB! WITH WARNING</source>
-        <translation>NB! WITH WARNING</translation>
-    </message>
-    <message>
         <source>NB! TEST SIGNATURE</source>
         <translation>NB! TEST SIGNATURE</translation>
+    </message>
+    <message>
+        <source>NB! WARNINGS</source>
+        <translation>NB! WARNINGS</translation>
     </message>
 </context>
 <context>

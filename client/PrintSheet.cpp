@@ -130,7 +130,7 @@ PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 		switch( sig.validate() )
 		{
 		case DigiDocSignature::Valid: valid = tr("SIGNATURE IS VALID"); break;
-		case DigiDocSignature::Warning:valid = QString("%1 (%2)").arg( tr("SIGNATURE IS VALID"), tr("NB! WITH WARNING") ); break;
+		case DigiDocSignature::Warning:valid = QString("%1 (%2)").arg( tr("SIGNATURE IS VALID"), tr("NB! WARNINGS") ); break;
 		case DigiDocSignature::Test: valid = QString("%1 (%2)").arg( tr("SIGNATURE IS VALID"), tr("NB! TEST SIGNATURE") ); break;
 		case DigiDocSignature::Invalid: valid = tr("SIGNATURE IS NOT VALID") ; break;
 		case DigiDocSignature::Unknown: valid = tr("UNKNOWN"); break;
