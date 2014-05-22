@@ -223,13 +223,13 @@ void QSigner::run()
 #ifdef Q_OS_MAC
 		if(!f.isOpen())
 			f.open(QFile::ReadOnly);
-		f.seek(0);
-		QByteArray reader = f.read(20);
+		else
+			f.seek(0);
 #endif
 
 		if( d->pkcs11 && !d->pkcs11->isLoaded() &&
 #ifdef Q_OS_MAC
-			reader != QByteArray(20, 0) &&
+			(f.isOpen() && f.read(20) != QByteArray(20, 0)) &&
 #endif
 			!d->pkcs11->loadDriver( driver ) )
 		{
