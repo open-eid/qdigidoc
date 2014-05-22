@@ -164,17 +164,6 @@ bool MainWindow::addFile( const QString &file )
 		s.beginGroup( "Client" );
 
 		QString ext = s.value( "type" ,"ddoc" ).toString();
-#ifndef FIN
-		if( qApp->signer()->apiType() == QSigner::CAPI && ext.compare( "bdoc", Qt::CaseInsensitive ) == 0 )
-		{
-			QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 client"),
-				tr("BDOC signing is not supported in CAPI mode, create DDOC?"),
-				QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes );
-			if( b == QMessageBox::Cancel )
-				return false;
-			ext = "ddoc";
-		}
-#endif
 		QString docname = QString( "%1/%2.%3" )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
 			.arg( ext == fileinfo.suffix().toLower() ? fileinfo.fileName() : fileinfo.completeBaseName() )
@@ -774,17 +763,6 @@ QString MainWindow::selectFile( const QString &filename )
 		QString ext = QFileInfo( file ).suffix();
 		if( !exts.contains( ext, Qt::CaseInsensitive ) )
 			file.append( "." + exts[0] );
-#ifndef FIN
-		if( qApp->signer()->apiType() == QSigner::CAPI && ext.compare( "bdoc", Qt::CaseInsensitive ) == 0 )
-		{
-			QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 client"),
-				tr("BDOC signing is not supported in CAPI mode, create DDOC?"),
-				QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes );
-			if( b == QMessageBox::Cancel )
-				return QString();
-			file.replace( ".bdoc", ".ddoc", Qt::CaseInsensitive );
-		}
-#endif
 		if( !FileDialog::fileIsWritable( file ) )
 			qApp->showWarning(
 				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( file ) );

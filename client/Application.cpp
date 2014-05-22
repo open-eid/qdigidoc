@@ -194,18 +194,11 @@ Application::Application( int &argc, char **argv )
 			break;
 		}
 	}
-	if( QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA && provider != "EstEID Card CSP" )
+	if( provider != "EstEID Card CSP" )
 		api = QSigner::CNG;
-#ifndef FIN
-	if( args.contains("-capi") && QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA )
-		showWarning( tr("CAPI parameter is not supported on Windows Vista and newer") );
-	else
-#endif
 	if( args.contains("-capi") )
 		api = QSigner::CAPI;
-	if( args.contains("-cng") && QSysInfo::windowsVersion() < QSysInfo::WV_VISTA )
-		showWarning( tr("CNG parameter is not supported on Windows XP") );
-	else if( args.contains("-cng") )
+	if( args.contains("-cng") )
 		api = QSigner::CNG;
 #endif
 	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;

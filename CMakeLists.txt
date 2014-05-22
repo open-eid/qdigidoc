@@ -4,11 +4,6 @@ project( qdigidoc )
 set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules" )
 set( CMAKE_FIND_ROOT_PATH ${CMAKE_OSX_SYSROOT} )
 
-set( FIN true CACHE BOOL "Enable Finnland smart card support" )
-if( FIN )
-	add_definitions( -DFIN )
-endif()
-
 include( GNUInstallDirs )
 include( VersionInfo )
 
