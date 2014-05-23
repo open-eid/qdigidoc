@@ -132,27 +132,14 @@ void CryptoDocPrivate::run()
 {
 	if( !encrypted )
 	{
-		QString file, mime, ver;
 		QBuffer data;
-		if(files.size() > 1)
-		{
-			data.open(QBuffer::WriteOnly);
-			writeDDoc(&data);
-			// add ANSIX923 padding
-			QByteArray ansix923(16 - (data.size() % 16), 0);
-			ansix923[ansix923.size() - 1] = ansix923.size();
-			data.write(ansix923);
-			data.close();
-			file = QFileInfo(fileName).fileName() + ".ddoc";
-			mime = MIME_DDOC;
-			ver = "1.1";
-		}
-		else
-		{
-			data.setData(files[0].data);
-			file = files[0].name;
-			ver = "2.0";
-		}
+		data.open(QBuffer::WriteOnly);
+		writeDDoc(&data);
+		// add ANSIX923 padding
+		QByteArray ansix923(16 - (data.size() % 16), 0);
+		ansix923[ansix923.size() - 1] = ansix923.size();
+		data.write(ansix923);
+		data.close();
 
 #ifdef WIN32
 		RAND_screen();
@@ -170,7 +157,7 @@ void CryptoDocPrivate::run()
 
 		QFile cdoc(fileName);
 		cdoc.open(QFile::WriteOnly);
-		writeCDoc(&cdoc, key, iv + result, file, ver, mime);
+		writeCDoc(&cdoc, key, iv + result, QFileInfo(fileName).fileName() + ".ddoc", "1.0", MIME_DDOC);
 		cdoc.close();
 
 		delete ddoc;
@@ -197,6 +184,7 @@ void CryptoDocPrivate::run()
 		if(mime == MIME_ZLIB)
 		{
 			QByteArray size(4, 0);
+			// Add size header for qUncompress compatibilty
 			int origsize = std::max<int>(properties["OriginalSize"].toInt(), 1);
 			size[0] = (origsize & 0xff000000) >> 24;
 			size[1] = (origsize & 0x00ff0000) >> 16;
