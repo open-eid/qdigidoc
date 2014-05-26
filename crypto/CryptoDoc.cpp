@@ -157,7 +157,7 @@ void CryptoDocPrivate::run()
 
 		QFile cdoc(fileName);
 		cdoc.open(QFile::WriteOnly);
-		writeCDoc(&cdoc, key, iv + result, QFileInfo(fileName).fileName() + ".ddoc", "1.0", MIME_DDOC);
+		writeCDoc(&cdoc, key, iv + result, QFileInfo(fileName).completeBaseName() + ".ddoc", "1.0", MIME_DDOC);
 		cdoc.close();
 
 		delete ddoc;
