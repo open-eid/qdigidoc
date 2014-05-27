@@ -368,7 +368,8 @@ int Application::run()
 #ifndef Q_OS_MAC
 	if( isRunning() ) return 0;
 #endif
-	return isValid() ? exec() : 0;
+	validate();
+	return exec();
 }
 
 void Application::setConfValue( ConfParameter parameter, const QVariant &value )
