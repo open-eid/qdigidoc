@@ -18,24 +18,20 @@
         <translation>Failed to save server access certificate file to KeyChain!</translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;Find out what is server access certificate&lt;/a&gt;.&lt;br /&gt;</source>
-        <translation>&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;Find out what is server access certificate&lt;/a&gt;.&lt;br /&gt;</translation>
+        <source>Server access certificate expired on %1. To renew the certificate please contact IT support team of your company. Additional information is available &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; or phone 610 1892</source>
+        <translation>Server access certificate expired on %1. To renew the certificate please contact IT support team of your company. Additional information is available &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; or phone 610 1892</translation>
     </message>
     <message>
-        <source>Server access certificate is about to expire!</source>
-        <translation>Server access certificate is about to expire!</translation>
+        <source>Server access certificate is about to expire on %1. To renew the certificate please contact IT support team of your company. Additional information is available &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; or phone 610 1892</source>
+        <translation>Server access certificate is about to expire on %1. To renew the certificate please contact IT support team of your company. Additional information is available &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; or phone 610 1892</translation>
     </message>
     <message>
-        <source>Server access certificate is not valid!</source>
-        <translation>Server access certificate is not valid!</translation>
+        <source>Update your signing software. Download and install new ID-software from &lt;a href=&quot;http://www.id.ee&quot;&gt;www.id.ee&lt;/a&gt;. Additional info is available &lt;a href=&quot;mailto:abi@id.ee&quot;&gt;abi@id.ee&lt;/a&gt; or ID-helpline 1777.</source>
+        <translation>Update your signing software. Download and install new ID-software from &lt;a href=&quot;http://www.id.ee&quot;&gt;www.id.ee&lt;/a&gt;. Additional info is available &lt;a href=&quot;mailto:abi@id.ee&quot;&gt;abi@id.ee&lt;/a&gt; or ID-helpline 1777.</translation>
     </message>
     <message>
-        <source>Please upgrade software!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Access Cert used more than 10 times!</source>
-        <translation type="unfinished"></translation>
+        <source>You&apos;ve completed the free service limit - 10 signatures. Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;service&lt;/a&gt;. Additional information is available &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; or phone 610 1892</source>
+        <translation>You&apos;ve completed the free service limit - 10 signatures. Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;service&lt;/a&gt;. Additional information is available &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; or phone 610 1892</translation>
     </message>
 </context>
 <context>
@@ -55,14 +51,6 @@
     <message>
         <source>Caught exception!</source>
         <translation>Caught exception!</translation>
-    </message>
-    <message>
-        <source>CAPI parameter is not supported on Windows Vista and newer</source>
-        <translation>CAPI parameter is not supported on Windows Vista and newer</translation>
-    </message>
-    <message>
-        <source>CNG parameter is not supported on Windows XP</source>
-        <translation>CNG parameter is not supported on Windows XP</translation>
     </message>
     <message>
         <source>New Client window</source>
@@ -435,22 +423,6 @@ already in container, ovewrite?</translation>
         <translation>Card info</translation>
     </message>
     <message>
-        <source>Digital signing.
-
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.
-
-Signing is done via PIN2 code.
-
-Also an active internet connection is needed.</source>
-        <translation>Digital signing.
-
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.
-
-Signing is done via PIN2 code.
-
-Also an active internet connection is needed.</translation>
-    </message>
-    <message>
         <source>All fields are optional</source>
         <translation>All fields are optional</translation>
     </message>
@@ -497,10 +469,6 @@ New ID-cards have chip on the back side of the card.</translation>
         <translation>No readers found</translation>
     </message>
     <message>
-        <source>BDOC signing is not supported in CAPI mode, create DDOC?</source>
-        <translation>BDOC signing is not supported in CAPI mode, create DDOC?</translation>
-    </message>
-    <message>
         <source>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</source>
         <translation>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</translation>
     </message>
@@ -539,6 +507,18 @@ New ID-cards have chip on the back side of the card.</translation>
     <message>
         <source>Close</source>
         <translation>Close</translation>
+    </message>
+    <message>
+        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
+Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
+Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
+Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;service&lt;/a&gt;. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777.</source>
+        <translation>Digital signing.&lt;br /&gt;&lt;br /&gt;
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
+Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
+Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
+Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;service&lt;/a&gt;. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777.</translation>
     </message>
 </context>
 <context>

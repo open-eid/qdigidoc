@@ -54,6 +54,8 @@ AccessCert::AccessCert( QWidget *parent )
 :	QMessageBox( parent )
 ,	d( new AccessCertPrivate )
 {
+	setIcon( Warning );
+	setStandardButtons( Ok );
 	setWindowTitle( tr("Server access certificate") );
 	if( QLabel *label = findChild<QLabel*>() )
 		label->setOpenExternalLinks( true );
@@ -102,7 +104,8 @@ QSslCertificate AccessCert::cert()
 bool AccessCert::installCert( const QByteArray &data, const QString &password )
 {
 #ifdef Q_OS_MAC
-	CFDataRef pkcs12data = CFDataCreate(nullptr, (const UInt8*)data.constData(), data.size());
+	CFDataRef pkcs12data = CFDataCreateWithBytesNoCopy(nullptr,
+		(const UInt8*)data.constData(), data.size(), kCFAllocatorNull);
 
 	SecExternalFormat format = kSecFormatPKCS12;
 	SecExternalItemType type = kSecItemTypeAggregate;
@@ -207,11 +210,6 @@ QSslKey AccessCert::key()
 		Application::confValue( Application::PKCS12Pass ).toString() ).key();
 }
 
-QString AccessCert::link() const
-{
-	return tr("<a href=\"http://www.id.ee/index.php?id=34321\">Find out what is server access certificate</a>.<br />");
-}
-
 void AccessCert::remove()
 {
 #ifdef Q_OS_MAC
@@ -239,9 +237,7 @@ void AccessCert::remove()
 
 void AccessCert::showWarning( const QString &msg )
 {
-	setIcon( Warning );
 	setText( msg );
-	setStandardButtons( Ok );
 	exec();
 }
 
@@ -275,12 +271,20 @@ bool AccessCert::validate()
 	{
 		if( !c.isValid() )
 		{
-			showWarning( QString("%1<br />%2").arg( tr("Server access certificate is not valid!"), link() ) );
+			showWarning( tr(
+				"Server access certificate expired on %1. To renew the certificate please "
+				"contact IT support team of your company. Additional information is available "
+				"<a href=\"mailto:sales@sk.ee\">sales@sk.ee</a> or phone 610 1892")
+				.arg(c.expiryDate().toLocalTime().toString("dd.MM.yyyy")) );
 			return false;
 		}
 		else if( c.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) )
 		{
-			showWarning( QString("%1<br />%2").arg( tr("Server access certificate is about to expire!"), link() ) );
+			showWarning( tr(
+				"Server access certificate is about to expire on %1. To renew the certificate "
+				"please contact IT support team of your company. Additional information is available "
+				"<a href=\"mailto:sales@sk.ee\">sales@sk.ee</a> or phone 610 1892")
+				.arg(c.expiryDate().toLocalTime().toString("dd.MM.yyyy")) );
 			return true;
 		}
 	}
@@ -291,13 +295,24 @@ bool AccessCert::validate()
 	{
 		if( !c.isValid() )
 		{
-			showWarning( QString("%1<br />%2").arg( tr("Please upgrade software!"), link() ) );
+			showWarning( tr(
+				"Update your signing software. Download and install new ID-software from "
+				"<a href=\"http://www.id.ee\">www.id.ee</a>. Additional info is available "
+				"<a href=\"mailto:abi@id.ee\">abi@id.ee</a> or ID-helpline 1777.") );
 			return false;
 		}
 		QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
 		Settings s;
 		if(s.value(date, 0).toUInt() >= 10)
-			showWarning( QString("%1<br />%2").arg( tr("Access Cert used more than 10 times!"), link() ) );
+			showWarning( tr(
+				"You've completed the free service limit - 10 signatures. Regarding to terms "
+				"and conditions of validity confirmation service you're allowed to use the "
+				"service in extent of 10 signatures per month. If you going to exceed the limit "
+				"of 10 signatures per month or/and will use the service for commercial purposes, "
+				"please contact to IT support team of your company or sign a contract to use the "
+				"<a href=\"http://sk.ee/en/services/validity-confirmation-services\">service</a>. "
+				"Additional information is available <a href=\"mailto:sales@sk.ee\">sales@sk.ee</a> "
+				"or phone 610 1892") );
 		s.setValue(date, s.value(date, 0).toUInt() + 1);
 	}
 	return true;

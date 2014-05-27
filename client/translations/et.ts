@@ -18,24 +18,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;a href=&quot;http://www.id.ee/index.php?id=34321&quot;&gt;Find out what is server access certificate&lt;/a&gt;.&lt;br /&gt;</source>
-        <translation>&lt;a href=&quot;http://www.id.ee/index.php?id=34066&quot;&gt;Juurdepääsutõendi lisainfo&lt;/a&gt;.&lt;br /&gt;</translation>
+        <source>Server access certificate expired on %1. To renew the certificate please contact IT support team of your company. Additional information is available &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; or phone 610 1892</source>
+        <translation>Juurdepääsutõend aegus %1. Juurdepääsutõendi uuendamiseks pöörduge palun oma asutuse IT-meeskonna poole. Täiendav informatsioon: &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; või 610 1892</translation>
     </message>
     <message>
-        <source>Server access certificate is about to expire!</source>
-        <translation>Juurdepääsutõend aegub varsti!</translation>
+        <source>Server access certificate is about to expire on %1. To renew the certificate please contact IT support team of your company. Additional information is available &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; or phone 610 1892</source>
+        <translation>Juurdepääsutõend aegub %1. Juurdepääsutõendi uuendamiseks pöörduge palun oma asutuse IT-meeskonna poole. Täiendav informatsioon: &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; või 610 1892</translation>
     </message>
     <message>
-        <source>Server access certificate is not valid!</source>
-        <translation>Juurdepääsutõend ei ole kehtiv!</translation>
+        <source>Update your signing software. Download and install new ID-software from &lt;a href=&quot;http://www.id.ee&quot;&gt;www.id.ee&lt;/a&gt;. Additional info is available &lt;a href=&quot;mailto:abi@id.ee&quot;&gt;abi@id.ee&lt;/a&gt; or ID-helpline 1777.</source>
+        <translation>Allkirjastamise tarkvara vajab uuendamist. Paigaldage uus ID-tarkvara veebilehelt &lt;a href=&quot;http://www.id.ee&quot;&gt;www.id.ee&lt;/a&gt;. Lisainfo &lt;a href=&quot;mailto:abi@id.ee&quot;&gt;abi@id.ee&lt;/a&gt; või ID-abiliini telefonil 1777. </translation>
     </message>
     <message>
-        <source>Please upgrade software!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Access Cert used more than 10 times!</source>
-        <translation type="unfinished"></translation>
+        <source>You&apos;ve completed the free service limit - 10 signatures. Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;service&lt;/a&gt;. Additional information is available &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; or phone 610 1892</source>
+        <translation>Täitunud on tasuta teenuse 10 allkirja limiit. Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-meeskonna poole või sõlmige teenuse kasutamiseks &lt;a href=&quot;http://sk.ee/teenused/kehtivuskinnituse-teenus&quot;&gt;leping&lt;/a&gt;. Lisainfo: &lt;a href=&quot;mailto:sales@sk.ee&quot;&gt;sales@sk.ee&lt;/a&gt; või 610 1892</translation>
     </message>
 </context>
 <context>
@@ -54,14 +50,6 @@
     </message>
     <message>
         <source>Caught exception!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>CAPI parameter is not supported on Windows Vista and newer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>CNG parameter is not supported on Windows XP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -435,22 +423,6 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <translation>Kaardi info</translation>
     </message>
     <message>
-        <source>Digital signing.
-
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.
-
-Signing is done via PIN2 code.
-
-Also an active internet connection is needed.</source>
-        <translation>Dokumendi allkirjastamine.
-
-Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.
-
-Dokumendi allkirjastamisel on vajalik PIN2 kood.
-
-Digitaalallkirja andmiseks on vajalik internetiühendus.</translation>
-    </message>
-    <message>
         <source>All fields are optional</source>
         <translation>Väljade täitmine ei ole kohustuslik</translation>
     </message>
@@ -497,10 +469,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>Ühtegi kiipkaardi lugejat pole ühendatud</translation>
     </message>
     <message>
-        <source>BDOC signing is not supported in CAPI mode, create DDOC?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</source>
         <translation>Digitaalallkirjade kinnituslehe kuvamiseks peab olema arvutis vähemalt üks printer seadistatud!</translation>
     </message>
@@ -539,6 +507,18 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     <message>
         <source>Close</source>
         <translation>Sulge</translation>
+    </message>
+    <message>
+        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
+Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
+Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
+Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;service&lt;/a&gt;. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777.</source>
+        <translation>Dokumendi allkirjastamine.&lt;br /&gt;&lt;br /&gt;
+Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.&lt;br /&gt;&lt;br /&gt;
+Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
+Digitaalallkirja andmiseks on vajalik internetiühendus.&lt;br /&gt;&lt;br /&gt;
+Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-meeskonna poole või sõlmige teenuse kasutamiseks &lt;a href=&quot;http://sk.ee/teenused/kehtivuskinnituse-teenus&quot;&gt;leping&lt;/a&gt;. Lisainfo: &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; või ID-abiliini telefonil 1777.</translation>
     </message>
 </context>
 <context>

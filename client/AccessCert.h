@@ -45,7 +45,6 @@ public:
 	void remove();
 
 private:
-	QString link() const;
 	void showWarning( const QString &msg );
 
 	AccessCertPrivate *d;
