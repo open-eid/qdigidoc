@@ -238,6 +238,8 @@ void Application::closeWindow()
 #ifndef Q_OS_MAC
 	if( MainWindow *w = qobject_cast<MainWindow*>(activeWindow()) )
 		w->closeDoc();
+	else if( Crypto::MainWindow *w = qobject_cast<Crypto::MainWindow*>(activeWindow()) )
+		w->closeDoc();
 	else
 #endif
 	if( QDialog *d = qobject_cast<QDialog*>(activeWindow()) )
