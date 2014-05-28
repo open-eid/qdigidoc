@@ -130,9 +130,7 @@ HistoryModel::HistoryModel( QObject *parent )
 	if( !f.open( QIODevice::ReadOnly ) )
 		return;
 
-	QXmlStreamReader xml;
-	xml.setDevice( &f );
-
+	QXmlStreamReader xml( &f );
 	if( !xml.readNextStartElement() || xml.name() != "History" )
 		return;
 
@@ -217,7 +215,7 @@ bool HistoryModel::removeRows( int row, int count, const QModelIndex &parent )
 	beginRemoveRows( parent, row, row + count );
 	for( int i = 0; i < count; ++i )
 		m_data.removeAt( row );
-	endInsertRows();
+	endRemoveRows();
 	return true;
 }
 
@@ -246,8 +244,7 @@ bool HistoryModel::submit()
 	if( !f.open( QIODevice::WriteOnly|QIODevice::Truncate ) )
 		return false;
 
-	QXmlStreamWriter xml;
-	xml.setDevice( &f );
+	QXmlStreamWriter xml( &f );
 	xml.setAutoFormatting( true );
 	xml.writeStartDocument();
 	xml.writeStartElement( "History" );
@@ -261,8 +258,6 @@ bool HistoryModel::submit()
 		xml.writeEndElement();
 	}
 	xml.writeEndDocument();
-
-	reset();
 	return true;
 }
 
