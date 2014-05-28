@@ -493,19 +493,11 @@ void MainWindow::buttonClicked( int button )
 					signZipInput->text(), signCountryInput->text(),
 					signRoleInput->text(), signResolutionInput->text() ) )
 				break;
+			access.increment();
 			save();
 		}
 		else
 		{
-#if 0
-			QStringList exts = QStringList() << "bdoc" << "asice" << "sce";
-			if( exts.contains( QFileInfo( doc->fileName() ).suffix(), Qt::CaseInsensitive ) )
-			{
-				qApp->showWarning( tr("BDOC signing is not supported, please upgrade software") );
-				break;
-			}
-#endif
-
 			MobileDialog m(this);
 			m.setSignatureInfo( signCityInput->text(),	signStateInput->text(),
 				signZipInput->text(), signCountryInput->text(),
@@ -513,6 +505,7 @@ void MainWindow::buttonClicked( int button )
 			m.sign( doc, infoMobileCode->text(), infoMobileCell->text() );
 			if( !m.exec() || !doc->addSignature( m.signature() ) )
 				break;
+			access.increment();
 			save();
 		}
 		SettingsDialog::saveSignatureInfo( signRoleInput->text(),

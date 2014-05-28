@@ -22,13 +22,13 @@
 #include "Application.h"
 #include "QSigner.h"
 
-#include <common/Settings.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
+#include <QtCore/QSettings>
 #include <QtGui/QDesktopServices>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QLabel>
@@ -99,6 +99,13 @@ QSslCertificate AccessCert::cert()
 	return PKCS12Certificate::fromPath(
 		Application::confValue( Application::PKCS12Cert ).toString(),
 		Application::confValue( Application::PKCS12Pass ).toString() ).certificate();
+}
+
+void AccessCert::increment()
+{
+	QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
+	QSettings s;
+	s.setValue(date, s.value(date, 0).toUInt() + 1);
 }
 
 bool AccessCert::installCert( const QByteArray &data, const QString &password )
@@ -302,8 +309,7 @@ bool AccessCert::validate()
 			return false;
 		}
 		QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
-		Settings s;
-		if(s.value(date, 0).toUInt() >= 10)
+		if(QSettings().value(date, 0).toUInt() >= 10)
 			showWarning( tr(
 				"You've completed the free service limit - 10 signatures. Regarding to terms "
 				"and conditions of validity confirmation service you're allowed to use the "
@@ -313,7 +319,6 @@ bool AccessCert::validate()
 				"<a href=\"http://sk.ee/en/services/validity-confirmation-services\">service</a>. "
 				"Additional information is available <a href=\"mailto:sales@sk.ee\">sales@sk.ee</a> "
 				"or phone 610 1892") );
-		s.setValue(date, s.value(date, 0).toUInt() + 1);
 	}
 	return true;
 }
