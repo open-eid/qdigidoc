@@ -190,10 +190,7 @@ MobileDialog::MobileDialog( QWidget *parent )
 void MobileDialog::endProgress()
 {
 	labelError->setText( mobileResults.value( "EXPIRED_TRANSACTION" ) );
-#ifdef Q_OS_WIN
-	taskbar->progress()->stop();
-	taskbar->progress()->hide();
-#endif
+	stop();
 }
 
 void MobileDialog::finished( QNetworkReply *reply )
@@ -205,16 +202,16 @@ void MobileDialog::finished( QNetworkReply *reply )
 		break;
 	case QNetworkReply::HostNotFoundError:
 		labelError->setText( mobileResults.value( "HOSTNOTFOUND" ) );
-		statusTimer->stop();
+		stop();
 		reply->deleteLater();
 		return;
 	case QNetworkReply::SslHandshakeFailedError:
-		statusTimer->stop();
+		stop();
 		reply->deleteLater();
 		return;
 	default:
 		labelError->setText( reply->errorString() );
-		statusTimer->stop();
+		stop();
 		reply->deleteLater();
 		return;
 	}
@@ -247,14 +244,14 @@ void MobileDialog::finished( QNetworkReply *reply )
 	if( !fault.isEmpty() )
 	{
 		labelError->setText( mobileResults.value( message, message ) );
-		statusTimer->stop();
+		stop();
 		return;
 	}
 
 	if( sessionCode.isEmpty() )
 	{
 		labelError->setText( mobileResults.value( message ) );
-		statusTimer->stop();
+		stop();
 		return;
 	}
 
@@ -267,7 +264,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 		QTimer::singleShot(5*1000, this, SLOT(sendStatusRequest()));
 		return;
 	}
-	statusTimer->stop();
+	stop();
 	if( status == "SIGNATURE" )
 		accept();
 }
@@ -343,6 +340,7 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 		r.writeParameter( "Id", m->index( i, DocumentModel::Id ).data().toString() );
 		r.writeParameter( "DigestType", ddoc ? "sha1" : "sha256" );
 		r.writeParameter( "DigestValue", doc->getFileDigest( i ).toBase64() );
+		r.writeParameter( "MimeType", m->index( i, DocumentModel::Mime ).data().toString() );
 		r.writeEndElement();
 	}
 	r.writeEndElement();
@@ -380,4 +378,13 @@ void MobileDialog::sslErrors( QNetworkReply *, const QList<QSslError> &err )
 		msg.prepend( tr("SSL handshake failed. Check the proxy settings of your computer or software upgrades.") );
 		labelError->setText( msg.join( "<br />" ) );
 	}
+}
+
+void MobileDialog::stop()
+{
+	statusTimer->stop();
+#ifdef Q_OS_WIN
+	taskbar->progress()->stop();
+	taskbar->progress()->hide();
+#endif
 }

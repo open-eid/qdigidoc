@@ -37,10 +37,12 @@ class MobileDialog : public QDialog, private Ui::MobileDialog
 
 public:
 	explicit MobileDialog( QWidget *parent = 0 );
+
 	void setSignatureInfo( const QString &city, const QString &state,
 		const QString &zip, const QString &country, const QStringList &roles );
 	void sign( const DigiDoc *doc, const QString &ssid, const QString &cell );
 	QByteArray signature() const;
+	void stop();
 
 	static bool isTest( const QString &ssid, const QString &cell );
 
