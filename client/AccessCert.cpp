@@ -103,6 +103,10 @@ QSslCertificate AccessCert::cert()
 
 void AccessCert::increment()
 {
+	// CN = Sertifitseerimiskeskus AS, SN = 0e:eb:07
+	if(cert().digest(QCryptographicHash::Sha1) !=
+		QByteArray("\x8c\xb7\xb0\xf9\xaa\x8c\x12\x70\x42\x2c\x6c\xf8\x5d\x25\x13\x4a\x47\x27\x37\x58"))
+		return;
 	QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
 	Settings s(qApp->applicationName());
 	s.setValue(date, s.value(date, 0).toUInt() + 1);
@@ -297,6 +301,16 @@ bool AccessCert::validate()
 	}
 	else
 		remove();
+
+	QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
+	Settings s(qApp->applicationName());
+	if(s.value(date).isNull())
+	{
+		for(const QString &key: s.allKeys())
+			if(key.startsWith("AccessCertUsage"))
+				s.remove(key);
+	}
+
 	// CN = Sertifitseerimiskeskus AS, SN = 0e:eb:07
 	if( !c.isNull() && c.digest(QCryptographicHash::Sha1) ==
 		QByteArray("\x8c\xb7\xb0\xf9\xaa\x8c\x12\x70\x42\x2c\x6c\xf8\x5d\x25\x13\x4a\x47\x27\x37\x58"))
@@ -308,14 +322,6 @@ bool AccessCert::validate()
 				"<a href=\"http://www.id.ee\">www.id.ee</a>. Additional info is available "
 				"<a href=\"mailto:abi@id.ee\">abi@id.ee</a> or ID-helpline 1777.") );
 			return false;
-		}
-		QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
-		Settings s(qApp->applicationName());
-		if(s.value(date).isNull())
-		{
-			for(const QString &key: s.allKeys())
-				if(key.startsWith("AccessCertUsage"))
-					s.remove(key);
 		}
 		if(s.value(date, 0).toUInt() >= 10)
 			showWarning( tr(
