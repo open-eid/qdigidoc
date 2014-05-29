@@ -22,13 +22,13 @@
 #include "Application.h"
 #include "QSigner.h"
 
+#include <common/Settings.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
-#include <QtCore/QSettings>
 #include <QtGui/QDesktopServices>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QLabel>
@@ -104,7 +104,7 @@ QSslCertificate AccessCert::cert()
 void AccessCert::increment()
 {
 	QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
-	QSettings s;
+	Settings s(qApp->applicationName());
 	s.setValue(date, s.value(date, 0).toUInt() + 1);
 }
 
@@ -297,8 +297,9 @@ bool AccessCert::validate()
 	}
 	else
 		remove();
-
-	if( !c.isNull() && c.subjectInfo("CN").first() == "Sertifitseerimiskeskus AS" )
+	// CN = Sertifitseerimiskeskus AS, SN = 0e:eb:07
+	if( !c.isNull() && c.digest(QCryptographicHash::Sha1) ==
+		QByteArray("\x8c\xb7\xb0\xf9\xaa\x8c\x12\x70\x42\x2c\x6c\xf8\x5d\x25\x13\x4a\x47\x27\x37\x58"))
 	{
 		if( !c.isValid() )
 		{
@@ -309,7 +310,14 @@ bool AccessCert::validate()
 			return false;
 		}
 		QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
-		if(QSettings().value(date, 0).toUInt() >= 10)
+		Settings s(qApp->applicationName());
+		if(s.value(date).isNull())
+		{
+			for(const QString &key: s.allKeys())
+				if(key.startsWith("AccessCertUsage"))
+					s.remove(key);
+		}
+		if(s.value(date, 0).toUInt() >= 10)
 			showWarning( tr(
 				"You've completed the free service limit - 10 signatures. Regarding to terms "
 				"and conditions of validity confirmation service you're allowed to use the "
