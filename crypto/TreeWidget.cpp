@@ -51,8 +51,7 @@ void TreeWidget::clicked( const QModelIndex &index )
 			tr("Save file"), QString( "%1/%2" )
 				.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
 				.arg( m->index( index.row(), CDocumentModel::Name ).data().toString() ) );
-		QString src = m->index( index.row(), CDocumentModel::Name ).data( Qt::UserRole ).toString();
-		if( !dest.isEmpty() && !src.isEmpty() && dest != src )
+		if( !dest.isEmpty() )
 			m->copy( index, dest );
 		break;
 	}
