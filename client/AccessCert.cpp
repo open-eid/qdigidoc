@@ -323,7 +323,7 @@ bool AccessCert::validate()
 				"<a href=\"mailto:abi@id.ee\">abi@id.ee</a> or ID-helpline 1777.") );
 			return false;
 		}
-		if(s.value(date, 0).toUInt() >= 10)
+		if(s.value(date, 0).toUInt() >= 50)
 			showWarning( tr(
 				"You've completed the free service limit - 10 signatures. Regarding to terms "
 				"and conditions of validity confirmation service you're allowed to use the "
