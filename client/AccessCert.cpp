@@ -101,6 +101,11 @@ QSslCertificate AccessCert::cert()
 		Application::confValue( Application::PKCS12Pass ).toString() ).certificate();
 }
 
+unsigned int AccessCert::count(const QString &date) const
+{
+	return QByteArray::fromBase64(Settings(qApp->applicationName()).value(date).toByteArray()).toUInt();
+}
+
 void AccessCert::increment()
 {
 	// CN = Sertifitseerimiskeskus AS, SN = 0e:eb:07
@@ -108,8 +113,7 @@ void AccessCert::increment()
 		QByteArray("\x8c\xb7\xb0\xf9\xaa\x8c\x12\x70\x42\x2c\x6c\xf8\x5d\x25\x13\x4a\x47\x27\x37\x58"))
 		return;
 	QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
-	Settings s(qApp->applicationName());
-	s.setValue(date, s.value(date, 0).toUInt() + 1);
+	Settings(qApp->applicationName()).setValue(date, QString::fromUtf8(QByteArray::number(count(date) + 1).toBase64()));
 }
 
 bool AccessCert::installCert( const QByteArray &data, const QString &password )
@@ -323,7 +327,7 @@ bool AccessCert::validate()
 				"<a href=\"mailto:abi@id.ee\">abi@id.ee</a> or ID-helpline 1777.") );
 			return false;
 		}
-		if(s.value(date, 0).toUInt() >= 50)
+		if(count(date) >= 50)
 			showWarning( tr(
 				"You've completed the free service limit - 10 signatures. Regarding to terms "
 				"and conditions of validity confirmation service you're allowed to use the "

@@ -46,6 +46,7 @@ public:
 	void remove();
 
 private:
+	unsigned int count( const QString &date ) const;
 	void showWarning( const QString &msg );
 
 	AccessCertPrivate *d;
