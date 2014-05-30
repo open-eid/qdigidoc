@@ -47,6 +47,7 @@ public:
 
 private:
 	unsigned int count( const QString &date ) const;
+	bool isDefaultCert( const QSslCertificate &cert ) const;
 	void showWarning( const QString &msg );
 
 	AccessCertPrivate *d;

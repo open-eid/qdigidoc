@@ -108,12 +108,18 @@ unsigned int AccessCert::count(const QString &date) const
 
 void AccessCert::increment()
 {
+	if(isDefaultCert(cert()))
+	{
+		QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
+		Settings(qApp->applicationName()).setValue(date, QString::fromUtf8(QByteArray::number(count(date) + 1).toBase64()));
+	}
+}
+
+bool AccessCert::isDefaultCert(const QSslCertificate &cert) const
+{
 	// CN = Sertifitseerimiskeskus AS, SN = 0e:eb:07
-	if(cert().digest(QCryptographicHash::Sha1) !=
-		QByteArray("\x8c\xb7\xb0\xf9\xaa\x8c\x12\x70\x42\x2c\x6c\xf8\x5d\x25\x13\x4a\x47\x27\x37\x58"))
-		return;
-	QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
-	Settings(qApp->applicationName()).setValue(date, QString::fromUtf8(QByteArray::number(count(date) + 1).toBase64()));
+	return cert.digest(QCryptographicHash::Sha1) ==
+		QByteArray("\x8c\xb7\xb0\xf9\xaa\x8c\x12\x70\x42\x2c\x6c\xf8\x5d\x25\x13\x4a\x47\x27\x37\x58");
 }
 
 bool AccessCert::installCert( const QByteArray &data, const QString &password )
@@ -258,54 +264,6 @@ void AccessCert::showWarning( const QString &msg )
 
 bool AccessCert::validate()
 {
-	if( Application::confValue( Application::PKCS12Disable, false ).toBool() )
-		return true;
-#ifdef Q_OS_MAC
-	QSslCertificate c = cert();
-#else
-	d->cert = Application::confValue( Application::PKCS12Cert ).toString();
-	d->pass = Application::confValue( Application::PKCS12Pass ).toString();
-
-	QSslCertificate c;
-	PKCS12Certificate p12 = PKCS12Certificate::fromPath( d->cert, d->pass );
-	switch( p12.error() )
-	{
-	case PKCS12Certificate::NullError:
-		c = p12.certificate();
-		break;
-	case PKCS12Certificate::FileNotExist:
-	case PKCS12Certificate::FailedToRead:
-	case PKCS12Certificate::InvalidPasswordError:
-	case PKCS12Certificate::UnknownError:
-	default:
-		remove();
-		return true;
-	}
-#endif
-	if( !c.isNull() && c.subjectInfo("GN").isEmpty() && c.subjectInfo("SN").isEmpty() )
-	{
-		if( !c.isValid() )
-		{
-			showWarning( tr(
-				"Server access certificate expired on %1. To renew the certificate please "
-				"contact IT support team of your company. Additional information is available "
-				"<a href=\"mailto:sales@sk.ee\">sales@sk.ee</a> or phone 610 1892")
-				.arg(c.expiryDate().toLocalTime().toString("dd.MM.yyyy")) );
-			return false;
-		}
-		else if( c.expiryDate() < QDateTime::currentDateTime().addDays( 8 ) )
-		{
-			showWarning( tr(
-				"Server access certificate is about to expire on %1. To renew the certificate "
-				"please contact IT support team of your company. Additional information is available "
-				"<a href=\"mailto:sales@sk.ee\">sales@sk.ee</a> or phone 610 1892")
-				.arg(c.expiryDate().toLocalTime().toString("dd.MM.yyyy")) );
-			return true;
-		}
-	}
-	else
-		remove();
-
 	QString date = "AccessCertUsage" + QDate::currentDate().toString("yyyyMM");
 	Settings s(qApp->applicationName());
 	if(s.value(date).isNull())
@@ -315,28 +273,55 @@ bool AccessCert::validate()
 				s.remove(key);
 	}
 
-	// CN = Sertifitseerimiskeskus AS, SN = 0e:eb:07
-	if( !c.isNull() && c.digest(QCryptographicHash::Sha1) ==
-		QByteArray("\x8c\xb7\xb0\xf9\xaa\x8c\x12\x70\x42\x2c\x6c\xf8\x5d\x25\x13\x4a\x47\x27\x37\x58"))
+	if(Application::confValue(Application::PKCS12Disable, false).toBool())
+		return true;
+
+	QSslCertificate c = cert();
+	if(c.isNull() || !c.subjectInfo("GN").isEmpty() || !c.subjectInfo("SN").isEmpty())
 	{
-		if( !c.isValid() )
+		remove();
+		c = cert();
+	}
+
+	if(!isDefaultCert(c))
+	{
+		if(!c.isValid())
 		{
 			showWarning( tr(
-				"Update your signing software. Download and install new ID-software from "
-				"<a href=\"http://www.id.ee\">www.id.ee</a>. Additional info is available "
-				"<a href=\"mailto:abi@id.ee\">abi@id.ee</a> or ID-helpline 1777.") );
+				"Server access certificate expired on %1. To renew the certificate please "
+				"contact IT support team of your company. Additional information is available "
+				"<a href=\"mailto:sales@sk.ee\">sales@sk.ee</a> or phone 610 1892")
+				.arg(c.expiryDate().toLocalTime().toString("dd.MM.yyyy")) );
 			return false;
 		}
-		if(count(date) >= 50)
+		else if(c.expiryDate() < QDateTime::currentDateTime().addDays(8))
+		{
 			showWarning( tr(
-				"You've completed the free service limit - 10 signatures. Regarding to terms "
-				"and conditions of validity confirmation service you're allowed to use the "
-				"service in extent of 10 signatures per month. If you are going to exceed the limit "
-				"of 10 signatures per month or/and will use the service for commercial purposes, "
-				"please contact to IT support team of your company or sign a contract to use the "
-				"<a href=\"http://sk.ee/en/services/validity-confirmation-services\">service</a>. "
-				"Additional information is available <a href=\"mailto:sales@sk.ee\">sales@sk.ee</a> "
-				"or phone 610 1892") );
+				"Server access certificate is about to expire on %1. To renew the certificate "
+				"please contact IT support team of your company. Additional information is available "
+				"<a href=\"mailto:sales@sk.ee\">sales@sk.ee</a> or phone 610 1892")
+				.arg(c.expiryDate().toLocalTime().toString("dd.MM.yyyy")) );
+		}
+	}
+	else if(!c.isValid())
+	{
+		showWarning( tr(
+			"Update your signing software. Download and install new ID-software from "
+			"<a href=\"http://www.id.ee\">www.id.ee</a>. Additional info is available "
+			"<a href=\"mailto:abi@id.ee\">abi@id.ee</a> or ID-helpline 1777.") );
+		return false;
+	}
+	else if(count(date) >= 50)
+	{
+		showWarning( tr(
+			"You've completed the free service limit - 10 signatures. Regarding to terms "
+			"and conditions of validity confirmation service you're allowed to use the "
+			"service in extent of 10 signatures per month. If you are going to exceed the limit "
+			"of 10 signatures per month or/and will use the service for commercial purposes, "
+			"please contact to IT support team of your company or sign a contract to use the "
+			"<a href=\"http://sk.ee/en/services/validity-confirmation-services\">service</a>. "
+			"Additional information is available <a href=\"mailto:sales@sk.ee\">sales@sk.ee</a> "
+			"or phone 610 1892") );
 	}
 	return true;
 }
