@@ -56,7 +56,7 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 	Settings s;
 	d->showIntro2->setChecked( s.value( "Crypto/Intro", true ).toBool() );
 	s.beginGroup( "Client" );
-	d->showIntro->setChecked( s.value( "Intro", true ).toBool() );
+	d->showIntro->setChecked( Settings(qApp->applicationName()).value( "Intro", true ).toBool() );
 	updateCert();
 #ifdef Q_OS_MAC
 	d->p12Label->setText( tr(
@@ -208,8 +208,8 @@ void SettingsDialog::save()
 {
 	Settings s;
 	s.setValue( "Crypto/Intro", d->showIntro2->isChecked() );
+	Settings(qApp->applicationName()).setValue( "Intro", d->showIntro->isChecked() );
 	s.beginGroup( "Client" );
-	s.setValue( "Intro", d->showIntro->isChecked() );
 	s.setValue( "Overwrite", d->signOverwrite->isChecked() );
 #ifndef Q_OS_MAC
 	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );

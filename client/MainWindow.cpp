@@ -683,7 +683,7 @@ void MainWindow::messageClicked( const QString &link )
 }
 
 void MainWindow::on_introCheck_stateChanged( int state )
-{ Settings().setValue( "Client/Intro", state == Qt::Unchecked ); }
+{ Settings(qApp->applicationName()).setValue( "Intro", state == Qt::Unchecked ); }
 
 void MainWindow::on_languages_activated( int index )
 { qApp->loadTranslation( lang[index] ); }
@@ -777,7 +777,7 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 	case Sign:
 	{
-		if( prev != Intro && Settings().value( "Client/Intro", true ).toBool() )
+		if( prev != Intro && Settings(qApp->applicationName()).value( "Intro", true ).toBool() )
 		{
 			prevpage = prev;
 			introCheck->setChecked( false );
