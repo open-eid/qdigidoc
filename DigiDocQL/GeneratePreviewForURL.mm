@@ -72,11 +72,11 @@ static Type type(const X509Cert &cert, bool ocsp)
 			pol.compare(0, 23, "1.3.6.1.4.1.10015.11.3.") == 0)
 			return MobileIDTestType;
 		else if(pol.compare(0, 22, "1.3.6.1.4.1.10015.3.7.") == 0 ||
-			(pol.compare(0, 20, "1.3.6.1.4.1.10015.7.") == 0 &&
+			(pol.compare(0, 22, "1.3.6.1.4.1.10015.7.1.") == 0 &&
 			cert.issuerName("CN").find("TEST") != std::string::npos) )
 			return TempelTestType;
 
-		else if(pol.compare(0, 20, "1.3.6.1.4.1.10015.7.") == 0)
+		else if(pol.compare(0, 22, "1.3.6.1.4.1.10015.7.1.") == 0)
 			return TempelType;
 	}
 
