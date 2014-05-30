@@ -331,7 +331,7 @@ bool AccessCert::validate()
 			showWarning( tr(
 				"You've completed the free service limit - 10 signatures. Regarding to terms "
 				"and conditions of validity confirmation service you're allowed to use the "
-				"service in extent of 10 signatures per month. If you going to exceed the limit "
+				"service in extent of 10 signatures per month. If you are going to exceed the limit "
 				"of 10 signatures per month or/and will use the service for commercial purposes, "
 				"please contact to IT support team of your company or sign a contract to use the "
 				"<a href=\"http://sk.ee/en/services/validity-confirmation-services\">service</a>. "
