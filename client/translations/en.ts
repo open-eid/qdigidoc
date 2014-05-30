@@ -407,10 +407,6 @@ already in container, ovewrite?</translation>
         <translation>Empty container</translation>
     </message>
     <message>
-        <source>BDOC signing is not supported, please upgrade software</source>
-        <translation>BDOC signing is not supported, please upgrade software</translation>
-    </message>
-    <message>
         <source>Cards</source>
         <translation>Cards</translation>
     </message>
@@ -513,12 +509,12 @@ New ID-cards have chip on the back side of the card.</translation>
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
 Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;service&lt;/a&gt;. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777.</source>
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777.</source>
         <translation>Digital signing.&lt;br /&gt;&lt;br /&gt;
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
 Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;service&lt;/a&gt;. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777.</translation>
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777.</translation>
     </message>
 </context>
 <context>

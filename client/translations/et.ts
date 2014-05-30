@@ -407,10 +407,6 @@ on juba ümbrikus. Kas kirjutan üle?</translation>
         <translation>Tühi ümbrik</translation>
     </message>
     <message>
-        <source>BDOC signing is not supported, please upgrade software</source>
-        <translation>BDOC allkirjastamine pole toetatud, palun uuenda tarkvara</translation>
-    </message>
-    <message>
         <source>Cards</source>
         <translation>Kaardid</translation>
     </message>
@@ -513,12 +509,12 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
 Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;service&lt;/a&gt;. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777.</source>
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777.</source>
         <translation>Dokumendi allkirjastamine.&lt;br /&gt;&lt;br /&gt;
 Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.&lt;br /&gt;&lt;br /&gt;
 Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
 Digitaalallkirja andmiseks on vajalik internetiühendus.&lt;br /&gt;&lt;br /&gt;
-Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-meeskonna poole või sõlmige teenuse kasutamiseks &lt;a href=&quot;http://sk.ee/teenused/kehtivuskinnituse-teenus&quot;&gt;leping&lt;/a&gt;. Lisainfo: &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; või ID-abiliini telefonil 1777.</translation>
+Vastavalt &lt;a href=&quot;http://sk.ee/teenused/kehtivuskinnituse-teenus&quot;&gt;kehtivuskinnitusteenuse kasutamise tavatingimustele&lt;/a&gt; on lubatud allkirjastamise teenust tasuta kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-meeskonna poole või sõlmige teenuse kasutamiseks leping. Lisainfo: &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; või ID-abiliini telefonil 1777.</translation>
     </message>
 </context>
 <context>
