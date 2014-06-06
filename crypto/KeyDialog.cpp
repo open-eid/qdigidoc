@@ -319,7 +319,7 @@ void CertModel::load( const QList<QSslCertificate> &result )
 	{
 		SslCertificate c( k );
 		if( c.keyUsage().contains( SslCertificate::KeyEncipherment ) &&
-			c.enhancedKeyUsage().contains( SslCertificate::ClientAuth ) &&
+			!c.enhancedKeyUsage().contains( SslCertificate::ServerAuth ) &&
 			c.type() != SslCertificate::MobileIDType )
 			certs << c;
 	}
