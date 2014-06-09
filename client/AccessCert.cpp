@@ -57,6 +57,7 @@ AccessCert::AccessCert( QWidget *parent )
 	setIcon( Warning );
 	setStandardButtons( Ok );
 	setWindowTitle( tr("Server access certificate") );
+	setTextFormat( Qt::RichText );
 	if( QLabel *label = findChild<QLabel*>() )
 		label->setOpenExternalLinks( true );
 #ifndef Q_OS_MAC
@@ -303,13 +304,13 @@ bool AccessCert::validate()
 				.arg(c.expiryDate().toLocalTime().toString("dd.MM.yyyy")) );
 		}
 	}
-	else if(!c.isValid())
+	else if(!c.isValid() || c.expiryDate() < QDateTime::currentDateTime().addDays(8))
 	{
 		showWarning( tr(
 			"Update your signing software. Download and install new ID-software from "
 			"<a href=\"http://www.id.ee\">www.id.ee</a>. Additional info is available "
 			"<a href=\"mailto:abi@id.ee\">abi@id.ee</a> or ID-helpline 1777.") );
-		return false;
+		return c.isValid();
 	}
 	else if(count(date) >= 50)
 	{
