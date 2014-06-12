@@ -498,7 +498,7 @@ QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) co
 		QFile::remove( dst );
 
 	QFile f(dst);
-	if(!f.open(QFile::WriteOnly) || !f.write(d->files.value(index.row()).data))
+	if(!f.open(QFile::WriteOnly) || f.write(row.data) < 0)
 	{
 		d->setLastError( tr("Failed to save file '%1'").arg( dst ) );
 		return QString();
