@@ -1,9 +1,44 @@
+DigiDoc3 Client version 3.9 release notes
+--------------------------------------
+Changes compared to ver 3.8.1
+
+- Changed OCSP validity confirmation server access certificate usage for private persons. A default access certificate is installed along with the software’s installation. The same default server access certificate is used in case of all private persons, the private person does not have to manage the access certificate’s installation anymore.
+	- Added monthly signature counter functionality, signatures that are created during one month are counted.
+	- Added OCSP validity service usage conditions’ confirmation to signing intro view. 
+	- Added warning message that is displayed when trying to create a new signature but the monthly signature counter value is over limit.
+	- If the default access certificate has expired then signing is no longer possible with the current version of the software, the software must be updated.
+- Changed the OCSP server access certificate related notification messages for business users. No other changes were made for business users regarding server access certificates.
+- Implemented automated ID-software version check that periodically checks from server if the currently installed ID-software version is up-to-date and officially supported.
+	- Added warning message that is displayed if the software version check has not succeeded after 7 or more consecutive days. Added possibility to prevent the message from appearing consecutively. 
+- Implemented Kill Switch functionality that is executed if the  currently installed ID-software version is not supported or if the automated software version check has not succeeded during 12 months’ period. 
+	- Added restriction so that the ID-software cannot be used if the Kill Switch has been executed. Information in a pop-up window about required update of the software is displayed, the ID-software window is closed after the user clicks OK and the current software version cannot be used.
+- Added support for validating BDOC signatures with time-stamps (BDOC-TS profile) via the Libdigidocpp library. 
+	- Implemented changes to “Signature” tab (“Show details” view):
+	- BDOC-TS signature’s format is displayed as “BES/time-stamp” in the “Signature format” data field. 
+	- Added button “Show TSA certificate”. The Time-Stamping Authority’s certificate is displayed when clicking on the button.
+	- Added data fields “TSA time”, “TSA time (UTC)”, “TSA certificate issuer”.
+	- The signature creation time of BDOC-TS signature is the time-stamp’s creation time (in case of a signature with time-stamp, the OCSP validity confirmation’s creation time is the signing time). The value is displayed in “Signed on” field in the main window, “TSA time” field in “Signature” tab (“Show details” view), “Time” field in Validity Confirmation Sheet (“Print Summary” window).
+- Fixed problem with extracting data files from DDOC container if the data file’s name contains special characters.
+- Started using DigiDocService web service’s new API during M-ID signing. The data file’s mimetype value is now also set to the service.
+- Added error message “Invalid phone number! Please include country code” that occurs during M-ID signing when the user has not inserted mobile number’s country code or the country code is incorrect.
+- Fixed error with M-ID signing in OSX. The problem occurred when the data file’s name contained special characters, an erroneous signature was created as a result.
+- Fixed problem with M-ID signing in OSX, added check that PKCS#11 driver is called out only when PC/SC process is running. Previously, M-ID signing was occasionally not successful and produced libdigidoc error 16 if there was no ID-card reader connected to the computer during signing.
+- Changed the signed document’s signing time display format in “Time” field of the Validity Confirmation Sheet (Print Summary window). The signing time is now displayed in the local time instead of UTC time.
+- Changed the text that is displayed in case of signature that is valid with warnings.
+- Added text “NB! WARNINGS” to the Validity Confirmation Sheet (“Print Summary” window) in case of signatures that are valid with warnings.
+- Added text “NB! TEST SIGNATURE” to the Validity Confirmation Sheet (“Print Summary” window) in case of signatures that are created by using test-certificates.
+- Removed “Help” button from the error message pop-up window.
+- Conducted code review, removed obsolete code.
+
+
+
 DigiDoc3 Client version 3.8.1 release notes
 --------------------------------------
 Changes compared to ver 3.8.0
 
 - Removed the restriction of altering DDOC files (adding new signatures and removing existing signatures) with validation warning “X509IssuerName or X509IssuerSerial missing xmlns attribute”
 - Improved server access certificate’s import to OSX keychain so that the user is not asked about server access certificate’s private key export during signature creation with DigiDoc3 Client. The server access certificates are not displayed during authentication with Safari web browser. 
+
 
 
 DigiDoc3 Client version 3.8.0 release notes
