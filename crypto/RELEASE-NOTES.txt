@@ -8,7 +8,6 @@ Changes compared to ver 3.8
 	- Added restriction so that the ID-software cannot be used if the Kill Switch has been executed. Information in a pop-up window about required update of the software is displayed, the ID-software window is closed after the user clicks OK and the current software version cannot be used.
 - Added support for efficient BDOC decryption. Decrypting CDOC document that contains a directly encrypted BDOC file (that has not been added to additional DDOC container before encryption). 
 - Removed Libdigidoc library’s dependency. Added functionality that enables creating and parsing CDOC and DDOC files during encryption and decryption operations.
-- Removed compression functionality during encryption. Now, the data file is never compressed before encryption.
 - Fixed encryption error in OSX. Previously, the encrypted data was not actually added to CDOC container if there was no ID-card reader connected to the computer during encryption.
 - Fixed error that occurred when trying to encrypt or decrypt data file with the size of 0 bytes. Previously, the file could not be opened from the main window before encryption nor after decryption.-
 - Improved recipient search settings in “Add recipient” view when searching for recipient according to company’s name or registration number. Now, SSL/TLS certificates are not displayed, only Digital Stamp certificates are shown.
