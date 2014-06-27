@@ -24,6 +24,7 @@ Changes compared to ver 3.8.1
 - Added error message "Invalid phone number! Please include country code" that occurs during M-ID signing when the user has not inserted mobile number's country code or the country code is incorrect.
 - Fixed error with M-ID signing in OSX. The problem occurred when the data file's name contained special characters, an erroneous signature was created as a result.
 - Fixed problem with M-ID signing in OSX, added check that PKCS#11 driver is called out only when PC/SC process is running. Previously, M-ID signing was occasionally not successful and produced libdigidoc error 16 if there was no ID-card reader connected to the computer during signing.
+- Fixed "Send container to e-mail" functionality. Previously, the BDOC or DDOC container was not added as an attachment to the e-mail in OSX platform.
 - Changed the signed document's signing time display format in "Time" field of the Validity Confirmation Sheet (Print Summary window). The signing time is now displayed in the local time instead of UTC time.
 - Changed the text that is displayed in case of signature that is valid with warnings.
 - Added text "NB! WARNINGS" to the Validity Confirmation Sheet ("Print Summary" window) in case of signatures that are valid with warnings.
