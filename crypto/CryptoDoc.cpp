@@ -51,6 +51,7 @@
 #define MIME_XML  "text/xml"
 #define MIME_ZLIB "http://www.isi.edu/in-noes/iana/assignments/media-types/application/zip"
 #define MIME_DDOC "http://www.sk.ee/DigiDoc/v1.3.0/digidoc.xsd"
+#define MIME_DDOC_OLD "http://www.sk.ee/DigiDoc/1.3.0/digidoc.xsd"
 
 class CryptoDocPrivate: public QThread
 {
@@ -194,7 +195,7 @@ void CryptoDocPrivate::run()
 			mime = properties["OriginalMimeType"];
 		}
 
-		if(mime == MIME_DDOC)
+		if(mime == MIME_DDOC || mime == MIME_DDOC_OLD)
 		{
 			ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" );
 			if( !ddoc->open() )
