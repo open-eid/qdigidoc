@@ -36,7 +36,6 @@
 
 #include <QtCore/QMimeData>
 #include <QtCore/QProcess>
-#include <QtCore/QTextStream>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDragEnterEvent>
@@ -121,6 +120,7 @@ MainWindow::MainWindow( QWidget *parent )
 
 	connect( cards, SIGNAL(activated(QString)), qApp->signer(), SLOT(selectSignCard(QString)), Qt::QueuedConnection );
 	connect( qApp->signer(), SIGNAL(signDataChanged(TokenData)), SLOT(showCardStatus()) );
+	connect( viewFileName, SIGNAL(linkActivated(QString)), this, SLOT(messageClicked(QString)) );
 
 	// Digidoc
 	doc = new DigiDoc( this );
@@ -189,7 +189,7 @@ bool MainWindow::addFile( const QString &file )
 
 		if( select )
 		{
-			docname = selectFile( docname );
+			docname = selectFile( docname, false );
 			if( docname.isEmpty() )
 				return false;
 		}
@@ -408,7 +408,7 @@ void MainWindow::buttonClicked( int button )
 	}
 	case ViewSaveAs:
 	{
-		QString file = selectFile( doc->fileName() );
+		QString file = selectFile( doc->fileName(), true );
 		if( !file.isEmpty() )
 			doc->save( file );
 		setCurrentPage( View );
@@ -678,6 +678,8 @@ void MainWindow::messageClicked( const QString &link )
 {
 	if( link == "close" )
 		showWarning( QString() );
+	else if( link == viewFileName->toolTip() )
+		buttonClicked( ViewBrowse );
 	else
 		QDesktopServices::openUrl( link );
 }
@@ -732,7 +734,7 @@ void MainWindow::save()
 				.arg( doc->fileName().normalized( QString::NormalizationForm_C ) ),
 			QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes ) )
 	{
-		QString file = selectFile( doc->fileName() );
+		QString file = selectFile( doc->fileName(), true );
 		if( !file.isEmpty() )
 		{
 			doc->save( file );
@@ -742,20 +744,32 @@ void MainWindow::save()
 	doc->save();
 }
 
-QString MainWindow::selectFile( const QString &filename )
+QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 {
+	static const QString bdoc = tr("Documents (%1)").arg( "*.bdoc *.asice *.sce" );
+	static const QString ddoc = tr("Documents (%1)").arg( "*.ddoc" );
+	const QString ext = QFileInfo( filename ).suffix();
+	QStringList exts = QStringList() << ddoc << bdoc;
+	QString active = ext == "ddoc" ? ddoc : bdoc;
+	if( fixedExt )
+	{
+		if( ext == "ddoc" )
+			exts.removeLast();
+		else
+			exts.removeFirst();
+		active.clear();
+	}
+#ifdef INTERNATIONAL
+	exts.removeFirst();
+	active.clear();
+#endif
+
 	QString file = filename;
 	Q_FOREVER
 	{
-		QStringList exts = QStringList() << Settings().value( "Client/type", "ddoc" ).toString();
-		exts << (exts[0] == "ddoc" ? "bdoc" : "ddoc") << "asice" << "sce";
-		file = FileDialog::getSaveFileName( this, tr("Save file"), file,
-			tr("Documents (%1)").arg( QString( "*.%1 *.%2" ).arg( exts[0], exts[1] ) ) );
+		file = FileDialog::getSaveFileName( this, tr("Save file"), file, exts.join(";;"), &active );
 		if( file.isEmpty() )
 			return QString();
-		QString ext = QFileInfo( file ).suffix();
-		if( !exts.contains( ext, Qt::CaseInsensitive ) )
-			file.append( "." + exts[0] );
 		if( !FileDialog::fileIsWritable( file ) )
 			qApp->showWarning(
 				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( file ) );
@@ -811,8 +825,8 @@ void MainWindow::setCurrentPage( Pages page )
 		}
 
 		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName().normalized( QString::NormalizationForm_C ) ) );
-		viewFileName->setText( viewFileName->fontMetrics().elidedText(
-			viewFileName->toolTip(), Qt::ElideMiddle, viewFileName->width() ) );
+		viewFileName->setText( QString("<a href=\"%1\">%2</a>").arg( viewFileName->toolTip().toHtmlEscaped() )
+			.arg( viewFileName->fontMetrics().elidedText( viewFileName->toolTip(), Qt::ElideMiddle, viewFileName->width() ) ) );
 		viewSignaturesLabel->setText( tr( "Signature(s)", "", signatures.size() ) );
 		viewFileNameSave->setHidden( nswarning );
 

@@ -82,7 +82,7 @@ private:
 	void loadRoles();
 	void retranslate();
 	void save();
-	QString selectFile( const QString &filename );
+	QString selectFile( const QString &filename, bool fixedExt );
 	void setCurrentPage( Pages page );
 	void showWarning( const QString &text );
 
