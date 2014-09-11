@@ -163,7 +163,7 @@ bool MainWindow::addFile( const QString &file )
 		Settings s;
 		s.beginGroup( "Client" );
 
-		QString ext = s.value( "type" ,"ddoc" ).toString();
+		QString ext = s.value( "type", "ddoc" ).toString();
 		QString docname = QString( "%1/%2.%3" )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
 			.arg( ext == fileinfo.suffix().toLower() ? fileinfo.fileName() : fileinfo.completeBaseName() )
@@ -748,7 +748,7 @@ QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 {
 	static const QString bdoc = tr("Documents (%1)").arg( "*.bdoc *.asice *.sce" );
 	static const QString ddoc = tr("Documents (%1)").arg( "*.ddoc" );
-	const QString ext = QFileInfo( filename ).suffix();
+	const QString ext = QFileInfo( filename ).suffix().toLower();
 	QStringList exts = QStringList() << ddoc << bdoc;
 	QString active = ext == "ddoc" ? ddoc : bdoc;
 	if( fixedExt )
