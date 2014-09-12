@@ -199,6 +199,9 @@ void MobileDialog::finished( QNetworkReply *reply )
 	{
 	case QNetworkReply::NoError:
 	case QNetworkReply::UnknownContentError:
+#if QT_VERSION >= QT_VERSION_CHECK(5,3,0)
+	case QNetworkReply::InternalServerError:
+#endif
 		break;
 	case QNetworkReply::HostNotFoundError:
 		labelError->setText( mobileResults.value( "HOSTNOTFOUND" ) );
