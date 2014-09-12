@@ -34,6 +34,7 @@
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
+#include <QtCore/QDebug>
 #include <QtCore/QMimeData>
 #include <QtCore/QProcess>
 #include <QtCore/QUrl>
@@ -749,6 +750,7 @@ QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 	static const QString bdoc = tr("Documents (%1)").arg( "*.bdoc *.asice *.sce" );
 	static const QString ddoc = tr("Documents (%1)").arg( "*.ddoc" );
 	const QString ext = QFileInfo( filename ).suffix().toLower();
+	qDebug() << filename << ext;
 	QStringList exts = QStringList() << ddoc << bdoc;
 	QString active = ext == "ddoc" ? ddoc : bdoc;
 	if( fixedExt )
