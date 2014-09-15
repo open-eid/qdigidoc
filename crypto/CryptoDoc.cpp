@@ -236,7 +236,7 @@ void CryptoDocPrivate::run()
 				files << f;
 			}
 			else
-				lastError = tr("Error parsing document");
+				lastError = CryptoDoc::tr("Error parsing document");
 		}
 	}
 	encrypted = !encrypted;

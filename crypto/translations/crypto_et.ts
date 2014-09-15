@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="et">
+<TS version="2.1" language="et">
 <context>
     <name>CDocumentModel</name>
     <message>
@@ -27,10 +27,6 @@ Tüüp: %3</translatorcomment>
     <message>
         <source>Internal error</source>
         <translation>Teegi viga</translation>
-    </message>
-    <message>
-        <source>Failed to remove file</source>
-        <translation>Faili eemaldamine ebaõnnestus</translation>
     </message>
     <message>
         <source>DigiDoc3 crypto</source>
@@ -147,10 +143,6 @@ Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
 </context>
 <context>
     <name>Crypto::MainWindow</name>
-    <message>
-        <source>Settings</source>
-        <translation>Seaded</translation>
-    </message>
     <message>
         <source>Help</source>
         <translation>Abi</translation>
@@ -381,52 +373,12 @@ Kontrolli, kas ID-kaart on õiget pidi lugejas.</translation>
         <translation>Turvaümbrik on krüpteeritud</translation>
     </message>
     <message>
-        <source>Failed to add file</source>
-        <translation>Faili lisamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to calculate digest</source>
-        <translation>Räsi arvutamine ei õnnestunud</translation>
-    </message>
-    <message>
-        <source>Failed to add key</source>
-        <translation>Adressaadi lisamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to read decrypted data</source>
-        <translation>Dekrüpteeritud andmete lugemine ebaõnnstus</translation>
-    </message>
-    <message>
-        <source>Failed to encrypt data</source>
-        <translation>Andmete krüpteerimine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to open crypted document</source>
-        <translation>Turvaümbriku avamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Failed to remove key</source>
-        <translation>Adressaadi eemaldamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <source>Container is not crypted</source>
-        <translation>Turvaümbrik pole krüpteeritud</translation>
-    </message>
-    <message>
-        <source>Failed to save encrpyted file</source>
-        <translation>Krüpteeritud faili salvestamine ebaõnnestus</translation>
-    </message>
-    <message>
         <source>Failed to save file</source>
         <translation>Faili salvestamine ebaõnnestus</translation>
     </message>
     <message>
         <source>Document not open</source>
         <translation>Turvaümbrik pole avatud</translation>
-    </message>
-    <message>
-        <source>Internal error</source>
-        <translation>Teegi viga</translation>
     </message>
     <message>
         <source>Key already exists</source>
@@ -445,18 +397,16 @@ Kontrolli, kas ID-kaart on õiget pidi lugejas.</translation>
         <translation>Ühtegi adressaati ei ole lisatud</translation>
     </message>
     <message>
-        <source>libdigidoc code: %1
-message: %2</source>
-        <translation>libdigidoc&apos;i kood: %1
-teade: %2</translation>
-    </message>
-    <message>
         <source>DigiDoc3 crypto</source>
         <translation>DigiDoc3 Krüpto</translation>
     </message>
     <message>
-        <source>Failed to decrypt data</source>
-        <translation>Andmete dekrüpteerimine ebaõnnestus</translation>
+        <source>Container is not encrypted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error parsing document</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

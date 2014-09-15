@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru">
+<TS version="2.1" language="ru">
 <context>
     <name>CDocumentModel</name>
     <message>
@@ -26,10 +26,6 @@ Media type: %3</source>
     <message>
         <source>Internal error</source>
         <translation>Внутренняя ошибка</translation>
-    </message>
-    <message>
-        <source>Failed to remove file</source>
-        <translation>Неудачное удаление файла</translation>
     </message>
     <message>
         <source>DigiDoc3 crypto</source>
@@ -182,10 +178,6 @@ It is necessary to have a valid certificate for encryption.</source>
     <message>
         <source>Loading data</source>
         <translation>Загружаю данные</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Настройки</translation>
     </message>
     <message>
         <source>Help</source>
@@ -380,52 +372,12 @@ Check if the ID-card is inserted correctly to the reader.</source>
         <translation>Контейнер зашифрован</translation>
     </message>
     <message>
-        <source>Failed to add file</source>
-        <translation>Неудачное добавление файла</translation>
-    </message>
-    <message>
-        <source>Failed to calculate digest</source>
-        <translation>Неудачное вычисление хэша</translation>
-    </message>
-    <message>
         <source>Key already exists</source>
         <translation>Адресат уже добавлен</translation>
     </message>
     <message>
-        <source>Failed to add key</source>
-        <translation>Неудачное добавление ключа</translation>
-    </message>
-    <message>
-        <source>Internal error</source>
-        <translation>Внутренняя ошибка</translation>
-    </message>
-    <message>
         <source>Failed to create temporary files&lt;br /&gt;%1</source>
         <translation>Неудачное создание временных файлов&lt;br /&gt;%1</translation>
-    </message>
-    <message>
-        <source>Failed to read decrypted data</source>
-        <translation>Неудачное чтение расшифрованных данных</translation>
-    </message>
-    <message>
-        <source>Failed to encrypt data</source>
-        <translation>Неудачная зашифровка данных</translation>
-    </message>
-    <message>
-        <source>Failed to open crypted document</source>
-        <translation>Открытие зашифрованного файла прошла неуспешно</translation>
-    </message>
-    <message>
-        <source>Failed to remove key</source>
-        <translation>Неудачное удаление ключа</translation>
-    </message>
-    <message>
-        <source>Container is not crypted</source>
-        <translation>Контейнер незашифрован</translation>
-    </message>
-    <message>
-        <source>Failed to save encrpyted file</source>
-        <translation>Неудачное сохранение зашифрованного файла</translation>
     </message>
     <message>
         <source>Document not open</source>
@@ -444,17 +396,16 @@ Check if the ID-card is inserted correctly to the reader.</source>
         <translation>Не выбран ни один ключ</translation>
     </message>
     <message>
-        <source>libdigidoc code: %1
-message: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>DigiDoc3 crypto</source>
         <translation>DigiDoc3 Crypto</translation>
     </message>
     <message>
-        <source>Failed to decrypt data</source>
-        <translation>Неудачная расшифровка данных</translation>
+        <source>Container is not encrypted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error parsing document</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
