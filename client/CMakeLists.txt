@@ -1,7 +1,7 @@
 set_app_name( PROGNAME qdigidocclient )
 
 add_definitions( -DPKCS11_MODULE="${PKCS11_MODULE}" )
-include_directories( ${CMAKE_SOURCE_DIR} ${OPENSSL_INCLUDE_DIR} )
+include_directories( ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/common ${OPENSSL_INCLUDE_DIR} )
 
 set( UI_FILES
 	ui/MainWindow.ui

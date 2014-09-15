@@ -20,7 +20,7 @@
 #include "Application.h"
 
 #ifdef BREAKPAD
-#include <breakpad/QBreakPad.h>
+#include <common/QBreakPad.h>
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #endif
