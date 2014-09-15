@@ -17,7 +17,8 @@ set_target_properties( DigiDocQL PROPERTIES
 	AUTOMOC OFF
 	INCLUDE_DIRECTORIES "${OPENSSL_INCLUDE_DIR};${LIBDIGIDOCPP_INCLUDE_DIR}"
 	COMPILE_FLAGS "-Wno-unused-parameter"
-	LINK_FLAGS "-F/Library/Frameworks -fobjc-arc -framework QuickLook -framework digidocpp -framework Cocoa -Wl,-rpath,@loader_path/../../../../../Frameworks"
+	LINK_LIBRARIES "-framework QuickLook;-framework digidocpp;-framework Cocoa"
+	LINK_FLAGS "-F/Library/Frameworks -fobjc-arc -Wl,-rpath,@loader_path/../../../../../Frameworks"
 	INSTALL_RPATH "@loader_path/../../../../../Frameworks"
 )
 install( DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DigiDocQL.qlgenerator
