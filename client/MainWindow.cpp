@@ -777,18 +777,7 @@ QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 	active.clear();
 #endif
 
-	QString file = filename;
-	Q_FOREVER
-	{
-		file = FileDialog::getSaveFileName( this, tr("Save file"), file, exts.join(";;"), &active );
-		if( file.isEmpty() )
-			return QString();
-		if( !FileDialog::fileIsWritable( file ) )
-			qApp->showWarning(
-				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( file ) );
-		else
-			return file;
-	}
+	return FileDialog::getSaveFileName( this, tr("Save file"), filename, exts.join(";;"), &active );
 }
 
 void MainWindow::setCurrentPage( Pages page )

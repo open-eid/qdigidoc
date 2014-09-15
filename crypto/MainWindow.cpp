@@ -491,21 +491,8 @@ void MainWindow::retranslate()
 
 QString MainWindow::selectFile( const QString &filename )
 {
-	QString file = filename;
-	Q_FOREVER
-	{
-		file = FileDialog::getSaveFileName( this, tr("Save file"), file,
-			tr("Documents (%1)").arg( "*.cdoc") );
-		if( file.isEmpty() )
-			return QString();
-		if( QFileInfo( file ).suffix().toLower() != "cdoc" )
-			file.append( ".cdoc" );
-		if( !FileDialog::fileIsWritable( file ) )
-			qApp->showWarning(
-				tr( "You don't have sufficient privileges to write this file into folder %1" ).arg( file ) );
-		else
-			return file;
-	}
+	return FileDialog::getSaveFileName( this, tr("Save file"), filename,
+		tr("Documents (%1)").arg( "*.cdoc") );
 }
 
 void MainWindow::setCurrentPage( Pages page )
