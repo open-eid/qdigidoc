@@ -229,8 +229,8 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	}
 	if( d->error->toPlainText().isEmpty() && d->info->text().isEmpty() )
 		d->tabWidget->removeTab( 0 );
-	else
-		d->buttonBox->addButton( QDialogButtonBox::Help );
+	/*else
+		d->buttonBox->addButton( QDialogButtonBox::Help );*/
 	d->title->setText( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + "\n" + status );
 	setWindowTitle( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + " - " + status );
 
