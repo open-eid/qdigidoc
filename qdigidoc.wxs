@@ -51,6 +51,13 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
             <File Source="$(var.libs_path)\digidoc-tool.exe"/>
             <File Source="$(var.libs_path)\digidocpp.conf"/>
             <File Source="$(var.libs_path)\37242.p12"/>
+<?ifdef var.certsLocation ?>
+            <File Source="$(var.libs_path)\libxml2.dll"/>
+            <File Source="$(var.libs_path)\digidoc.dll"/>
+            <File Source="$(var.libs_path)\digidoc.ini"/>
+            <IniFile Id="setCaCertPathX86" Action="addLine" Directory="APPLICATIONFOLDER" Section="ca"
+              Name="digidoc.ini" Key="CA_CERT_PATH" Value="[APPLICATIONFOLDER]certs"/>
+<?endif?>
             <File Source="$(var.qt_path)\bin\Qt5Core.dll"/>
             <File Source="$(var.qt_path)\bin\Qt5Gui.dll"/>
             <File Source="$(var.qt_path)\bin\Qt5Network.dll"/>
@@ -128,6 +135,7 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
               <File Name="ts_102918v010201.xsd"/>
             </Component>
           </Directory>
+          <Directory Id="CertsFolder" Name="certs"/>
         </Directory>
       </Directory>
     </Directory>
@@ -151,6 +159,9 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
       <ComponentRef Id="qtaccessiblewidgets.dll" />
       <ComponentRef Id="windowsprintersupport.dll" />
       <ComponentRef Id="Schemas"/>
+<?ifdef var.certsLocation ?>
+      <ComponentGroupRef Id="Certs"/>
+<?endif?>
     </Feature>
   </Product>
 </Wix>
