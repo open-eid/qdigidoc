@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/certs" >
+        <file>JUUR-SK.crt</file>
+        <file>KLASS3-SK 2010.crt</file>
+        <file>EECCRCA.crt</file>
+        <file>KLASS3-SK 2010 EECCRCA.crt</file>
+        <file>SK TEST services access CA 2012.crt</file>
+        <file>SK services access CA 2010.crt</file>
+    </qresource>
+</RCC>

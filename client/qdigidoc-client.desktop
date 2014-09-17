@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+
+Exec=qdigidocclient %F
+Icon=qdigidoc-client
+
+Name=DigiDoc Client
+Name[et]=DigiDoc klient
+Name[ru]=DigiDoc клиент
+
+Categories=Qt;Office;
+MimeType=application/vnd.bdoc-1.0;application/vnd.etsi.asic-e+zip;application/x-ddoc;application/x-p12d;
