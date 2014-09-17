@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Depends package: Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi
+msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR=C:\target
+
+"\Program Files (x86)\WiX Toolset v3.8\bin\candle.exe" qdigidoc.wxs -dMSI_VERSION=3.9.5
+ -dlibs_path=C:\target\Estonian ID Card Development\libdigidocpp\x86
+ -dqt_path=C:\Qt\5.2.1\msvc2012
+ -dclient_path=client\qdigidocclient.exe
+ -dupdater_path=updater.exe
+
+"\Program Files (x86)\WiX Toolset v3.8\bin\light.exe" -out qdigidoc.msi qdigidoc.wixobj -v -ext WixUIExtension
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Name="DigiDoc3 Client" UpgradeCode="67932072-aa9e-45e3-b697-d825349f273d"
+      Id="*" Language="1033" Version="$(var.MSI_VERSION)" Codepage="1251" Manufacturer="RIA">
+    <Package Keywords="Installer" InstallerVersion="405" Compressed="yes"/>
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
+    <Icon Id="qdigidocclient.exe" SourceFile="$(var.client_path)"/>
+    <Property Id="ARPPRODUCTICON" Value="qdigidocclient.exe"/>
+    <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage=
+      "A newer version of [ProductName] is already installed. If you are trying to downgrade, please uninstall the newer version first."/>
+    <Condition Message="[ProductName] requires Windows 7 or higher.">
+      <![CDATA[Installed OR (VersionNT >= 601)]]>
+    </Condition>
+    <UIRef Id="WixUI_Minimal" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Merge Id='CRT' Language='0' SourceFile='C:\Program Files (x86)\Common Files\Merge Modules\Microsoft_VC110_CRT_x86.msm' DiskId='1'/>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ProgramMenuDir" Name="Digidoc3 Client">
+          <Component Id="ProgramMenuDir" Guid="f16899e5-b0d9-4902-b0e0-350ac5ac6c2d">
+            <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+            <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id='ProgramFilesFolder'>
+        <Directory Id="APPLICATIONFOLDER" Name="DigiDoc3 Client">
+          <Component Id="Application" Guid="810cbd57-b24d-49ee-939a-a1fc38dda46f">
+            <File Source="$(var.libs_path)\libeay32.dll"/>
+            <File Source="$(var.libs_path)\ssleay32.dll"/>
+            <File Source="$(var.libs_path)\zlib1.dll"/>
+            <File Source="$(var.libs_path)\xerces-c_3_1.dll"/>
+            <File Source="$(var.libs_path)\Xalan-C_1_11.dll"/>
+            <File Source="$(var.libs_path)\XalanMessages_1_11.dll"/>
+            <File Source="$(var.libs_path)\xsec_1_7.dll"/>
+            <File Source="$(var.libs_path)\digidocpp.dll"/>
+            <File Source="$(var.libs_path)\digidoc-tool.exe"/>
+            <File Source="$(var.libs_path)\digidocpp.conf"/>
+            <File Source="$(var.libs_path)\37242.p12"/>
+            <File Source="$(var.qt_path)\bin\Qt5Core.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5Gui.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5Network.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5PrintSupport.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5Widgets.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5WinExtras.dll"/>
+            <File Source="$(var.qt_path)\bin\icudt51.dll"/>
+            <File Source="$(var.qt_path)\bin\icuin51.dll"/>
+            <File Source="$(var.qt_path)\bin\icuuc51.dll"/>
+            <File Source="$(var.qt_path)\bin\libEGL.dll"/>
+            <File Source="$(var.qt_path)\bin\libGLESv2.dll"/>
+            <File Source="$(var.qt_path)\bin\D3DCompiler_46.dll"/>
+            <File Source="opensc-pkcs11.dll"/>
+<?ifdef var.updater_path ?>
+            <File Source="$(var.updater_path)" Id="id_updater.exe"/>
+<?endif?>
+            <File Source="$(var.client_path)" KeyPath='yes'>
+              <Shortcut Id="ClientStartMenu" Advertise="yes" Name="DigiDoc3 Client" Icon="qdigidocclient.exe"
+                Directory="ProgramMenuDir" WorkingDirectory="APPLICATIONFOLDER"/>
+              <Shortcut Id="CryptoStartMenu" Advertise="yes" Name="DigiDoc3 Crypto" Icon="qdigidocclient.exe" IconIndex="2"
+                Directory="ProgramMenuDir" WorkingDirectory="APPLICATIONFOLDER" Arguments="-crypto"/>
+            </File>
+            <RegistryValue Root='HKCR' Key='*\shell\[ProductName]' Type='string' Value='Sign with [ProductName]' />
+            <RegistryValue Root='HKCR' Key='*\shell\[ProductName]' Name="Icon" Type='string' Value='"[APPLICATIONFOLDER]qdigidocclient.exe",0' />
+            <RegistryValue Root='HKCR' Key='*\shell\[ProductName]\command' Type='string' Value='"[APPLICATIONFOLDER]qdigidocclient.exe" "%1"' />
+            <ProgId Id="qdigidocclient.bdoc" Description="DigiDoc signed document" Icon="qdigidocclient.exe" IconIndex="1">
+              <Extension Id="bdoc" ContentType="application/vnd.etsi.asic-e+zip">
+                <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
+              </Extension>
+            </ProgId>
+            <ProgId Id="qdigidocclient.asice" Description="DigiDoc signed document" Icon="qdigidocclient.exe" IconIndex="1">
+              <Extension Id="asice" ContentType="application/vnd.etsi.asic-e+zip">
+                <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
+              </Extension>
+            </ProgId>
+            <ProgId Id="qdigidocclient.sce" Description="DigiDoc signed document" Icon="qdigidocclient.exe" IconIndex="1">
+              <Extension Id="sce" ContentType="application/vnd.etsi.asic-e+zip">
+                <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
+              </Extension>
+            </ProgId>
+            <ProgId Id="qdigidocclient.p12d" Description="DigiDoc PKCS#12 certificate" Icon="qdigidocclient.exe" IconIndex="1">
+              <Extension Id="p12d" ContentType="application/x-p12d">
+                <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
+              </Extension>
+            </ProgId>
+            <ProgId Id="qdigidocclient.cdoc" Description="DigiDoc encrypted container" Icon="qdigidocclient.exe" IconIndex="3">
+              <Extension Id="cdoc" ContentType="application/x-cdoc">
+                <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='-crypto "%1"' />
+              </Extension>
+            </ProgId>
+          </Component>
+          <Directory Id="platforms" Name="platforms" FileSource="$(var.qt_path)\plugins\platforms">
+            <Component Id="qwindows.dll">
+              <File Name="qwindows.dll"/>
+            </Component>
+          </Directory>
+          <Directory Id="accessible" Name="accessible" FileSource="$(var.qt_path)\plugins\accessible">
+            <Component Id="qtaccessiblewidgets.dll">
+              <File Name="qtaccessiblewidgets.dll"/>
+            </Component>
+          </Directory>
+          <Directory Id="printsupport" Name="printsupport" FileSource="$(var.qt_path)\plugins\printsupport">
+            <Component Id="windowsprintersupport.dll">
+              <File Name="windowsprintersupport.dll"/>
+            </Component>
+          </Directory>
+          <Directory Id="SchemaFolder" Name="schema" FileSource="$(var.libs_path)\schema">
+            <Component Id="Schemas" Guid="6ab1d3ab-bbb8-42a0-8cf9-5ece75b13079">
+              <File Name="conf.xsd"/>
+              <File Name="OpenDocument_manifest.xsd"/>
+              <File Name="xmldsig-core-schema.xsd"/>
+              <File Name="XAdES.xsd"/>
+              <File Name="XAdESv141.xsd"/>
+              <File Name="ts_119612v010101.xsd"/>
+              <File Name="ts_102918v010201.xsd"/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+<?ifdef var.updater_path ?>
+    <CustomAction Id="ScheduleUpdater" FileKey="id_updater.exe" Impersonate="no" Execute="deferred"
+        ExeCommand="-weekly" Return="ignore"/>
+    <CustomAction Id="UnScheduleUpdater" Directory="APPLICATIONFOLDER" Impersonate="no" Execute="deferred"
+        ExeCommand="id-updater.exe -remove" Return="ignore"/>
+    <InstallExecuteSequence>
+      <Custom Action="ScheduleUpdater" Before="InstallFinalize">NOT Installed</Custom>
+      <Custom Action="UnScheduleUpdater" After="InstallInitialize">REMOVE="ALL"</Custom>
+    </InstallExecuteSequence>
+<?endif?>
+
+    <Feature Id="InstallDigidoc" Level="1" Title="Digidoc3 Client" Display="expand" ConfigurableDirectory="APPLICATIONFOLDER">
+      <MergeRef Id="CRT"/>
+      <ComponentRef Id='ProgramMenuDir' />
+      <ComponentRef Id="Application"/>
+      <ComponentRef Id="qwindows.dll" />
+      <ComponentRef Id="qtaccessiblewidgets.dll" />
+      <ComponentRef Id="windowsprintersupport.dll" />
+      <ComponentRef Id="Schemas"/>
+    </Feature>
+  </Product>
+</Wix>
