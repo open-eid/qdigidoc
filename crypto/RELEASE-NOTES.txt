@@ -1,3 +1,15 @@
+DigiDoc3 Crypto version 3.9.1 release notes
+--------------------------------------
+Changes compared to ver 3.9
+
+- Fixed decryption of CDOC documents that were encrypted with DigiDoc Crypto version 2.7. Previously, the decryption operation did not succeed in Linux environment.
+- Upgraded signing of DigiDoc3 Client and Crypto OSX distribution package, v2 signature is now used.
+ 
+Known issues:
+- In case of OSX platform, some of the buttons appear in English even if the chosen language is Estonian or Russian.
+
+
+
 DigiDoc3 Crypto version 3.9 release notes
 --------------------------------------
 Changes compared to ver 3.8
