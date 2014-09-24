@@ -1,3 +1,15 @@
+DigiDoc3 Client version 3.9.1 release notes
+--------------------------------------
+Changes compared to ver 3.9
+
+- Fixed problems with DDOC and BDOC file extensions in OSX. Previously, in some cases .ddoc or .bdoc file extension was not set according to the document's format when saving the document to file system.
+- Upgraded signing of DigiDoc3 Client and Crypto OSX distribution package, v2 signature is now used. 
+
+Known issues:
+- In case of OSX platform, some of the buttons appear in English even if the chosen language is Estonian or Russian.
+
+
+
 DigiDoc3 Client version 3.9 release notes
 --------------------------------------
 Changes compared to ver 3.8.1
