@@ -7,6 +7,7 @@ Changes compared to ver 3.9
  
 Known issues:
 - In case of OSX platform, some of the buttons appear in English even if the chosen language is Estonian or Russian.
+- The temporary DDOC container that is used internally by DigiDoc3 Crypto to encapsulate the encrypted data files cannot be parsed with JDigiDoc and CDigiDoc libraries after decryption as the DDOC container's <DataFile> element's Size attribute contains the size value in kilobytes with suffix " KB" (the value should be in bytes with no suffix).
 
 
 
