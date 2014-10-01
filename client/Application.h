@@ -79,5 +79,7 @@ private:
 	void activate( QWidget *w );
 	bool event( QEvent *e );
 
+	QHash<QString,QString> urls() const;
+
 	ApplicationPrivate *d;
 };

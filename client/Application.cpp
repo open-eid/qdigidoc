@@ -483,3 +483,10 @@ void Application::showWarning( const QString &msg, int err, const QString &detai
 }
 
 QSigner* Application::signer() const { return d->signer; }
+
+QHash<QString,QString> Application::urls() const
+{
+	QHash<QString,QString> u = Common::urls();
+	u["TSL"] = confValue(TSLUrl).toString();
+	return u;
+}
