@@ -222,7 +222,7 @@ void CryptoDocPrivate::run()
 				files << f;
 			}
 			else
-				tr("Error parsing document");
+				lastError = tr("Error parsing document");
 		}
 	}
 	encrypted = !encrypted;
@@ -270,9 +270,9 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 		// EncryptedData/EncryptionProperties/EncryptionProperty
 		else if( xml.name() == "EncryptionProperty" )
 		{
-			for(const QXmlStreamAttribute &attr: xml.attributes())
+			for( const QXmlStreamAttribute &attr: xml.attributes() )
 			{
-				if(attr.name() != "Name")
+				if( attr.name() != "Name" )
 					continue;
 				if( attr.value() == "orig_file" )
 				{
@@ -448,7 +448,7 @@ void CryptoDocPrivate::writeDDoc(QIODevice *ddoc)
 		x.writeAttribute("Filename", file.name);
 		x.writeAttribute("Id", file.id);
 		x.writeAttribute("MimeType", file.mime);
-		x.writeAttribute("Size", file.size);
+		x.writeAttribute("Size", QString::number(file.data.size()));
 		x.writeDefaultNamespace("http://www.sk.ee/DigiDoc/v1.3.0#");
 		for(int i = 0; i < file.data.size(); i+=48)
 			x.writeCharacters(file.data.mid(i, 48).toBase64() + "\n");
