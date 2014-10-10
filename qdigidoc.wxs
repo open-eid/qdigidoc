@@ -32,7 +32,11 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
     <UIRef Id="WixUI_Minimal" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
+<?ifdef env.VS120COMNTOOLS ?>
+      <Merge Id='CRT' Language='0' SourceFile='C:\Program Files (x86)\Common Files\Merge Modules\Microsoft_VC120_CRT_x86.msm' DiskId='1'/>
+<?else?>
       <Merge Id='CRT' Language='0' SourceFile='C:\Program Files (x86)\Common Files\Merge Modules\Microsoft_VC110_CRT_x86.msm' DiskId='1'/>
+<?endif?>
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ProgramMenuDir" Name="Digidoc3 Client">
           <Component Id="ProgramMenuDir" Guid="f16899e5-b0d9-4902-b0e0-350ac5ac6c2d">
