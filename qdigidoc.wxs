@@ -4,13 +4,17 @@
 Depends package: Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi
 msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR=C:\target
 
-"\Program Files (x86)\WiX Toolset v3.8\bin\candle.exe" qdigidoc.wxs -dMSI_VERSION=3.9.5
- -dlibs_path=C:\target\Estonian ID Card Development\libdigidocpp\x86
- -dqt_path=C:\Qt\5.2.1\msvc2012
+"\Program Files (x86)\WiX Toolset v3.8\bin\heat.exe dir "C:\target\Estonian ID Card Development\libdigidocpp\certs"
+ -cg Certs -gg -scom -sreg -sfrag -srd -dr CertsFolder -var var.certsLocation -out CertsFragment.wxs
+
+"\Program Files (x86)\WiX Toolset v3.8\bin\candle.exe" qdigidoc.wxs CertsFragment.wxs -dMSI_VERSION=3.9.5
+ -dlibs_path="C:\target\Estonian ID Card Development\libdigidocpp\x86"
+ -dcertsLocation="C:\target\Estonian ID Card Development\libdigidocpp\certs"
+ -dqt_path=C:\Qt\5.3\msvc2013
  -dclient_path=client\qdigidocclient.exe
  -dupdater_path=updater.exe
 
-"\Program Files (x86)\WiX Toolset v3.8\bin\light.exe" -out qdigidoc.msi qdigidoc.wixobj -v -ext WixUIExtension
+"\Program Files (x86)\WiX Toolset v3.8\bin\light.exe" -out qdigidoc.msi qdigidoc.wixobj CertsFragment.wixobj -v -ext WixUIExtension
 -->
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -64,12 +68,19 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
             <File Source="$(var.qt_path)\bin\Qt5PrintSupport.dll"/>
             <File Source="$(var.qt_path)\bin\Qt5Widgets.dll"/>
             <File Source="$(var.qt_path)\bin\Qt5WinExtras.dll"/>
+            <File Source="$(var.qt_path)\bin\libEGL.dll"/>
+            <File Source="$(var.qt_path)\bin\libGLESv2.dll"/>
+<?ifdef env.VS120COMNTOOLS ?>
+            <File Source="$(var.qt_path)\bin\icudt52.dll"/>
+            <File Source="$(var.qt_path)\bin\icuin52.dll"/>
+            <File Source="$(var.qt_path)\bin\icuuc52.dll"/>
+            <File Source="$(var.qt_path)\bin\D3DCompiler_47.dll"/>
+<?else?>
             <File Source="$(var.qt_path)\bin\icudt51.dll"/>
             <File Source="$(var.qt_path)\bin\icuin51.dll"/>
             <File Source="$(var.qt_path)\bin\icuuc51.dll"/>
-            <File Source="$(var.qt_path)\bin\libEGL.dll"/>
-            <File Source="$(var.qt_path)\bin\libGLESv2.dll"/>
             <File Source="$(var.qt_path)\bin\D3DCompiler_46.dll"/>
+<?endif?>
             <File Source="opensc-pkcs11.dll"/>
 <?ifdef var.updater_path ?>
             <File Source="$(var.updater_path)" Id="id_updater.exe"/>
