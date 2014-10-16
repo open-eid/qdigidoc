@@ -69,6 +69,7 @@ private Q_SLOTS:
 
 private:
 	void addItem( QTreeWidget *view, const QString &variable, const QString &value );
+	void addItem( QTreeWidget *view, const QString &variable, const QSslCertificate &cert );
 
 	DigiDocSignature s;
 	SignatureDialogPrivate *d;

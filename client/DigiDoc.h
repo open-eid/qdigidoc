@@ -108,8 +108,8 @@ public:
 	QDateTime	signTime() const;
 	QString		spuri() const;
 	SignatureType type() const;
-	QSslCertificate tsaCert() const;
-	QDateTime	tsaTime() const;
+	QSslCertificate tsCert() const;
+	QDateTime	tsTime() const;
 	SignatureStatus validate() const;
 	int warning() const;
 

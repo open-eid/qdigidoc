@@ -204,8 +204,8 @@ QSslCertificate DigiDocSignature::cert() const
 
 QDateTime DigiDocSignature::dateTime() const
 {
-	QDateTime tsa = tsaTime();
-	if(!tsa.isNull()) return tsa;
+	QDateTime ts = tsTime();
+	if(!ts.isNull()) return ts;
 	QDateTime ocsp = ocspTime();
 	if(!ocsp.isNull()) return ocsp;
 	return signTime();
@@ -338,13 +338,13 @@ QString DigiDocSignature::spuri() const
 	return from(s->SPUri());
 }
 
-QSslCertificate DigiDocSignature::tsaCert() const
+QSslCertificate DigiDocSignature::tsCert() const
 {
 	return QSslCertificate(
 		fromVector(s->TSCertificate()), QSsl::Der );
 }
 
-QDateTime DigiDocSignature::tsaTime() const
+QDateTime DigiDocSignature::tsTime() const
 {
 	QString dateTime = from( s->TSTime() );
 	if( dateTime.isEmpty() )

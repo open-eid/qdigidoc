@@ -171,14 +171,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	d->error->hide();
 	setAttribute( Qt::WA_DeleteOnClose );
 
-	const SslCertificate c = s.cert();
-#define addCertButton(cert, button) if(!cert.isNull()) \
-	d->buttonBox->addButton(button, QDialogButtonBox::ActionRole)->setProperty("cert", QVariant::fromValue(cert));
-	addCertButton(s.cert(), tr("Show signer's certificate"));
-	addCertButton(s.ocspCert(), tr("Show OCSP certificate"));
-	addCertButton(s.tsaCert(), tr("Show TSA certificate"));
-	addCertButton(qApp->confValue( Application::TSLCert ).value<QSslCertificate>(), tr("Show TSL certificate"));
-
+	SslCertificate c = signature.cert();
 	QString status;
 	switch( s.validate() )
 	{
@@ -250,7 +243,14 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
 	t->header()->setResizeMode( 0, QHeaderView::ResizeToContents );
-	addItem( t, tr("TSL URL"), qApp->confValue( Application::TSLUrl ).toString() );
+	if( s.type() != DigiDocSignature::DDocType )
+	{
+		addItem( t, tr("TSL URL"), qApp->confValue( Application::TSLUrl ).toString() );
+		addItem( t, tr("TSL Cert"), qApp->confValue( Application::TSLCert ).value<QSslCertificate>() );
+	}
+
+	addItem( t, tr("Signer's Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
+	addItem( t, tr("Signer's Certificate"), c );
 	addItem( t, tr("Signer's computer time (UTC)"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature method"), s.signatureMethod() );
 	addItem( t, tr("Container format"), s.parent()->mediaType() );
@@ -266,7 +266,6 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 			addItem( t, tr("Signature policy"), s.policy() );
 	}
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
-	addItem( t, tr("Signer Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	if( !s.spuri().isEmpty() )
 		addItem( t, "SPUri", s.spuri() );
 
@@ -275,15 +274,17 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	{
 	case DigiDocSignature::TSType:
 	{
-		addItem( t, tr("Signature Timestamp"), DateTime( s.tsaTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ));
-		addItem( t, tr("Signature Timestamp") + " (UTC)", DateTime( s.tsaTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( t, tr("TSA Certificate issuer"), SslCertificate(s.tsaCert()).issuerInfo( QSslCertificate::CommonName ) );
+		addItem( t, tr("Signature Timestamp"), DateTime( s.tsTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ));
+		addItem( t, tr("Signature Timestamp") + " (UTC)", DateTime( s.tsTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+		addItem( t, tr("TS Certificate issuer"), SslCertificate(s.tsCert()).issuerInfo(QSslCertificate::CommonName) );
+		addItem( t, tr("TS Certificate"), s.tsCert() );
 	} //Fall through to OCSP info
 	case DigiDocSignature::DDocType:
 	case DigiDocSignature::TMType:
 	{
 		SslCertificate ocsp = s.ocspCert();
-		addItem( t, tr("OCSP Certificate issuer"), ocsp.issuerInfo( QSslCertificate::CommonName ) );
+		addItem( t, tr("OCSP Certificate issuer"), SslCertificate(ocsp).issuerInfo(QSslCertificate::CommonName) );
+		addItem( t, tr("OCSP Certificate"), ocsp );
 		addItem( t, tr("OCSP time"), DateTime( s.ocspTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( t, tr("OCSP time") + " (UTC)", DateTime( s.ocspTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( t, tr("Hash value of signature"), SslCertificate::toHex( s.ocspNonce() ) );
@@ -303,11 +304,20 @@ void SignatureDialog::addItem( QTreeWidget *view, const QString &variable, const
 	view->addTopLevelItem( i );
 }
 
+void SignatureDialog::addItem( QTreeWidget *view, const QString &variable, const QSslCertificate &value )
+{
+	QTreeWidgetItem *i = new QTreeWidgetItem( view );
+	i->setText( 0, variable );
+	QLabel *b = new QLabel( "<a href='cert'>" + SslCertificate(value).subjectInfo( QSslCertificate::CommonName ) + "</a>", view );
+	b->setStyleSheet("margin-left: 2px");
+	connect( b, &QLabel::linkActivated, [=](){ CertificateDialog( value, this ).exec(); });
+	view->setItemWidget( i, 1, b );
+	view->addTopLevelItem( i );
+}
+
 void SignatureDialog::buttonClicked( QAbstractButton *button )
 {
-	if( !button->property("cert").isNull() )
-		CertificateDialog( button->property("cert").value<QSslCertificate>(), this ).exec();
-	else if( button == d->buttonBox->button( QDialogButtonBox::Help ) )
+	if( button == d->buttonBox->button( QDialogButtonBox::Help ) )
 		Common::showHelp( s.lastError(), s.lastErrorCode() );
 	else if( button == d->buttonBox->button( QDialogButtonBox::Close ) )
 		close();
