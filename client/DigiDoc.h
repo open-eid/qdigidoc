@@ -87,7 +87,9 @@ public:
 	{
 		BESType,
 		TMType,
+		TMAType,
 		TSType,
+		TSAType,
 		DDocType,
 		UnknownType
 	};
@@ -113,6 +115,8 @@ public:
 	SignatureType type() const;
 	QSslCertificate tsCert() const;
 	QDateTime	tsTime() const;
+	QSslCertificate tsaCert() const;
+	QDateTime	tsaTime() const;
 	SignatureStatus validate() const;
 	int warning() const;
 

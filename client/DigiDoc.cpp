@@ -381,9 +381,29 @@ QDateTime DigiDocSignature::tsTime() const
 	return date;
 }
 
+QSslCertificate DigiDocSignature::tsaCert() const
+{
+	return QSslCertificate(
+		fromVector(s->TSACertificate()), QSsl::Der );
+}
+
+QDateTime DigiDocSignature::tsaTime() const
+{
+	QString dateTime = from( s->TSATime() );
+	if( dateTime.isEmpty() )
+		return QDateTime();
+	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
+	date.setTimeSpec( Qt::UTC );
+	return date;
+}
+
 DigiDocSignature::SignatureType DigiDocSignature::type() const
 {
 	const std::string ver = s->profile();
+	if( ver == "TMA" || ver.find("time-mark-archive") != std::string::npos )
+		return TMAType;
+	if( ver == "TSA" || ver.find("time-stamp-archive") != std::string::npos )
+		return TSAType;
 	if( ver == "TM" || ver.find("time-mark") != std::string::npos )
 		return TMType;
 	if( ver == "TS" || ver.find("time-stamp") != std::string::npos )
