@@ -20,6 +20,7 @@
 #import "TreeWidget.h"
 #import "DigiDoc.h"
 
+#include <QtCore/QDir>
 #include <QtWidgets/QAbstractItemView>
 #import <objc/runtime.h>
 #import <Quartz/Quartz.h>
@@ -85,7 +86,9 @@ static QAbstractItemView *itemView = 0;
 {
 	Q_UNUSED(panel)
 	DocumentModel *m = qobject_cast<DocumentModel*>(self.view->model());
-	return [NSURL fileURLWithPath:m->save( m->index( index, 0 ), "" ).toNSString()];
+	QModelIndex i = m->index( index, 0 );
+	QString path = QDir::tempPath() + "/" + i.data(Qt::UserRole).toString();
+	return [NSURL fileURLWithPath:m->save( i, path ).toNSString()];
 }
 
 - (BOOL)previewPanel:(QLPreviewPanel *)panel handleEvent:(NSEvent *)event
