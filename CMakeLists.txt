@@ -6,6 +6,7 @@ set( CMAKE_FIND_ROOT_PATH ${CMAKE_OSX_SYSROOT} )
 
 include( GNUInstallDirs )
 include( VersionInfo )
+set( RELEASE_VER 2 )
 
 find_package( LibDigiDocpp REQUIRED )
 include_directories( ${LIBDIGIDOCPP_INCLUDE_DIR} )
