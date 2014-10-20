@@ -36,6 +36,7 @@ class QCNG;
 #include <QtCore/QFile>
 #include <QtCore/QEventLoop>
 #include <QtCore/QStringList>
+#include <QtCore/QSysInfo>
 #include <QtNetwork/QSslKey>
 
 #include <openssl/obj_mac.h>
@@ -229,7 +230,8 @@ void QSigner::run()
 
 		if( d->pkcs11 && !d->pkcs11->isLoaded() &&
 #ifdef Q_OS_MAC
-			(f.isOpen() && f.read(20) != QByteArray(20, 0)) &&
+			(QSysInfo::macVersion() > QSysInfo::MV_10_9 ||
+			 (f.isOpen() && f.read(20) != QByteArray(20, 0))) &&
 #endif
 			!d->pkcs11->loadDriver( driver ) )
 		{
