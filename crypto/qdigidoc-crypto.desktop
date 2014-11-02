@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+
+Exec=qdigidocclient -crypto %F
+Icon=qdigidoc-crypto
+
+Name=DigiDoc Crypto
+Name[et]=DigiDoc krüpto
+Name[ru]=DigiDoc Crypto
+
+Categories=Qt;Office;
+MimeType=application/x-cdoc;

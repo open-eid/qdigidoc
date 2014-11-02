@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plist version="1.0">
+    <dict>
+        <key>com.apple.security.app-sandbox</key>
+        <true/>
+        <key>com.apple.security.network.client</key>
+        <true/>
+        <key>com.apple.security.files.user-selected.read-write</key>
+        <true/>
+        <key>com.apple.security.print</key>
+        <true/>
+        <key>com.apple.security.smartcard</key>
+        <true/>
+        <key>com.apple.security.temporary-exception.files.absolute-path.read-only</key>
+        <string>/private/var/run/pcscd.pub</string>
+        <key>com.apple.security.temporary-exception.apple-events:before:10.8</key>
+        <string>com.apple.mail</string>
+        <key>com.apple.security.scripting-targets</key>
+        <dict>
+            <key>com.apple.mail</key>
+            <array>
+                <string>com.apple.mail.compose</string>
+            </array>
+        </dict>
+	<!--key>com.apple.developer.ubiquity-container-identifiers</key>
+	<array>
+		<string>ET847QJV9F.ee.ria.qdigidocclient</string>
+	</array-->
+    </dict>
+</plist>

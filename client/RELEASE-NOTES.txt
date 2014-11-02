@@ -1,0 +1,77 @@
+DigiDoc3 Client version 3.9 release notes
+--------------------------------------
+Changes compared to ver 3.8.1
+
+- Changed OCSP validity confirmation server access certificate usage for private persons. A default access certificate is installed along with the software's installation. The same default server access certificate is used in case of all private persons, the private person does not have to manage the access certificate's installation anymore.
+	- Added monthly signature counter functionality, signatures that are created during one month are counted.
+	- Added OCSP validity service usage conditions' confirmation to signing intro view. 
+	- Added warning message that is displayed when trying to create a new signature but the monthly signature counter value is over limit.
+	- If the default access certificate has expired then signing is no longer possible with the current version of the software, the software must be updated.
+- Changed the OCSP server access certificate related notification messages for business users. No other changes were made for business users regarding server access certificates.
+- Implemented automated ID-software version check that periodically checks from server if the currently installed ID-software version is up-to-date and officially supported.
+	- Added warning message that is displayed if the software version check has not succeeded after 7 or more consecutive days. Added possibility to prevent the message from appearing consecutively. 
+- Implemented Kill Switch functionality that is executed if the  currently installed ID-software version is not supported or if the automated software version check has not succeeded during 12 months' period. 
+	- Added restriction so that the ID-software cannot be used if the Kill Switch has been executed. Information in a pop-up window about required update of the software is displayed, the ID-software window is closed after the user clicks OK and the current software version cannot be used.
+- Added support for validating BDOC signatures with time-stamps (BDOC-TS profile) via the Libdigidocpp library. 
+	- Implemented changes to "Signature" tab ("Show details" view):
+	- BDOC-TS signature's format is displayed as "BES/time-stamp" in the "Signature format" data field. 
+	- Added button "Show TSA certificate". The Time-Stamping Authority's certificate is displayed when clicking on the button.
+	- Added data fields "TSA time", "TSA time (UTC)", "TSA certificate issuer".
+	- The signature creation time of BDOC-TS signature is the time-stamp's creation time (in case of a signature with time-stamp, the OCSP validity confirmation's creation time is the signing time). The value is displayed in "Signed on" field in the main window, "TSA time" field in "Signature" tab ("Show details" view), "Time" field in Validity Confirmation Sheet ("Print Summary" window).
+	- Default time-stamping service is not set
+- Fixed problem with extracting data files from DDOC container if the data file's name contains special characters.
+- Implemented changes for using new DigiDocService web service's API during M-ID signing. The data file's mimetype value is now also set to the service.
+- Added error message "Invalid phone number! Please include country code" that occurs during M-ID signing when the user has not inserted mobile number's country code or the country code is incorrect.
+- Fixed error with M-ID signing in OSX. The problem occurred when the data file's name contained special characters, an erroneous signature was created as a result.
+- Fixed problem with M-ID signing in OSX, added check that PKCS#11 driver is called out only when PC/SC process is running. Previously, M-ID signing was occasionally not successful and produced libdigidoc error 16 if there was no ID-card reader connected to the computer during signing.
+- Fixed "Send container to e-mail" functionality. Previously, the BDOC or DDOC container was not added as an attachment to the e-mail in OSX platform.
+- Changed the signed document's signing time display format in "Time" field of the Validity Confirmation Sheet (Print Summary window). The signing time is now displayed in the local time instead of UTC time.
+- Changed the text that is displayed in case of signature that is valid with warnings.
+- Added text "NB! WARNINGS" to the Validity Confirmation Sheet ("Print Summary" window) in case of signatures that are valid with warnings.
+- Added text "NB! TEST SIGNATURE" to the Validity Confirmation Sheet ("Print Summary" window) in case of signatures that are created by using test-certificates.
+- Removed "Help" button from the error message pop-up window.
+- Conducted code review, removed obsolete code.
+
+
+
+DigiDoc3 Client version 3.8.1 release notes
+--------------------------------------
+Changes compared to ver 3.8.0
+
+- Removed the restriction of altering DDOC files (adding new signatures and removing existing signatures) with validation warning "X509IssuerName or X509IssuerSerial missing xmlns attribute"
+- Improved server access certificate's import to OSX keychain so that the user is not asked about server access certificate's private key export during signature creation with DigiDoc3 Client. The server access certificates are not displayed during authentication with Safari web browser. 
+
+
+
+DigiDoc3 Client version 3.8.0 release notes
+--------------------------------------
+
+- Added BDOC 2.1 document format support. Added Elliptic Curve Cryptography (ECC) based certificates support for BDOC 2.1 format.
+- Changed the distribution of DigiDoc3 Client for OSX platform. DigiDoc3 Client (common application for Client and Crypto) and Utility program are now available only from Apple App Store. When using ID-card or both ID-card and Mobile-ID then the user is prompted to install an additional software package. 
+- Added warnings system and changed the priorities of DigiDoc file's validation result statuses. See CDigiDoc and Libdigidocpp software libraries documentation for more information.
+- Added support for signing with Finnish ID cards and validation of signatures that are created with Finnish live and test certificates. The certificate files have to be installed with separate packages. The live certificates package contains Finnish root CA certificate (http://fineid.fi/default.aspx?id=596) and certificates which are included in the Finnish national Trust Service List (TSL) (https://www.viestintavirasto.fi/attachments/TSL-Ficora.xml). Finnish test certificates (http://fineid.fi/default.aspx?id=597) are included in the overall test certificates package.  
+- Improved the user's notification in case of altering old and not supported DigiDoc file formats (SK-XML 1.0, DIGIDOC-XML 1.1, 1.2).
+- Moved signature and OCSP confirmation information to a single Signature tab (in "Show details" window), optimized the information that is displayed.
+- Improved of displaying the signature creation time in case of daylight saving time.
+- Added field of OCSP validity confirmation time in UTC format to Signature tab in "Show details" window.
+- Changed the name of the field "Signing time" to "Signer's computer time (UTC)" in Signature tab ("Show details" window). The time is shown in UTC format.
+- Fixed the problem of not showing the time of the day in the signer certificate's validity period fields in Signature tab (in "Show details" window).
+- Replaced the field "Hash value of validity confirmation (OCSP response)" with "Hash value of signature" in Validity Confirmation Sheet (Print Summary view). 
+- Added  "Generate certificate" button to Server Access Certificate tab (under Settings window). The button enables to generate a new server access certificate if the previous one is expired or about to expire. 
+- Changed the name of the field "Hash value of issuer's public key" to "Authority key identifier" in Validity Confirmation Sheet (Print Summary view).
+- Added notification to the user when trying to view Validity Confirmation Sheet if there is no printer installed in the user's system. 
+- It is now allowed for a person to give more than one signature to a single DigiDoc document. Notification is displayed to the user before adding a complementary signature to a document that he/she has previously signed.
+- Changed the displaying of Digital signing intro, the intro is shown to the user when signing the first document instead of running the application for the first time.
+- Fixed the problem of the application not responding in specific situations when signing two documents in parallel in two DigiDoc3 Client application windows with ID-card.
+- Fixed the problem in OSX that caused the application to open multiple overlapping windows when signing from context menu or opening a DigiDoc file with double click.
+- Fixed the problem in Windows with using \ characters as folder separators in digidocpp.conf configuration file's OCSP server access certificate's file name (parameter "pkcs12.cert"). Now, both / and \ characters are supported as folder separators in the parameter value.
+- Fixed the problem of mistakenly overwriting an existing data file with the same name when saving data files to disk and not choosing to overwrite the file.
+- Fixed the problem of not being able to concurrently open two data files that have the same name but are in different DigiDoc containers.
+- Fixed the problem with updating the notification "This container is signed by you" which shows if the current DigiDoc container is signed by the owner of the ID card which is inserted into card reader. 
+- Fixed the problem with crash reports in OSX in case of application that was installed from Apple App Store. Improved the crash report system. 
+- Started using coverity.com static analysis tool to find source code defects and vulnerabilities. Fixed the defects that were discovered.
+- Optimized sending status requests to DigiDocService web service during signature creation with Mobile-ID.
+- Qt framework has been updated to version 5.2 in OSX, version 5.1.1 in Windows environments, version 5.0.2 in Ubuntu 13.10, version 4.8 in Ubuntu 12.04.
+
+- Security fixes:
+- Client side verification for DigiDocService web site certificates added [while creating a TLS connection to DigiDocService website]. The missing verification step was discovered analytically. No attacks or malware are known to take advantage of the missed control.

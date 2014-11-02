@@ -1,0 +1,27 @@
+DigiDoc3 Crypto version 3.9 release notes
+--------------------------------------
+Changes compared to ver 3.8
+
+- Implemented automated DigiDoc3 Crypto version check that periodically checks from server if the currently installed software version is up-to-date and officially supported.
+	- Added warning message that is displayed if the software version check has not succeeded after 7 or more consecutive days. Added possibility to prevent the message from appearing consecutively. 
+- Implemented Kill Switch functionality that is executed if the  currently installed software version is not supported or if the automated software version check has not succeeded during 12 months’ period. 
+	- Added restriction so that the software cannot be used if the Kill Switch has been executed. Information in a pop-up window about required update of the software is displayed, the DigiDoc3 Crypto window is closed after the user clicks OK and the current software version cannot be used.
+- Added support for efficient BDOC decryption. Decrypting CDOC document that contains a directly encrypted BDOC file (that has not been added to additional DDOC container before encryption). 
+- Removed Libdigidoc library’s dependency. Added functionality that enables creating and parsing CDOC and DDOC files during encryption and decryption operations.
+- Fixed encryption error in OSX. Previously, the encrypted data was not actually added to CDOC container if there was no ID-card reader connected to the computer during encryption.
+- Fixed error that occurred when trying to encrypt or decrypt data file with the size of 0 bytes. Previously, the file could not be opened from the main window before encryption nor after decryption.-
+- Improved recipient search settings in "Add recipient" view when searching for recipient according to company’s name or registration number. Now, SSL/TLS certificates are not displayed, only Digital Stamp certificates are shown.
+- Removed "Settings" menu.
+- Removed "Help" button from the error message pop-up window.
+
+
+
+DigiDoc3 Crypto version 3.8 release notes
+--------------------------------------
+
+- DigiDoc3 Crypto and DigiDoc3 Client are now run with a single executable file. 
+- Changed the distribution of DigiDoc3 Crypto for OSX platform. DigiDoc3 Client (common application for Client and Crypto) and Utility program are now available only from Apple App Store. When using ID-card or both ID-card and Mobile-ID then the user is prompted to install an additional software package. 
+- Added functionality to the Used Certificates and SK certificates tabs (in Add Recipient window), it is now possible to sort the previously used certificates list by owner, type, issuer and expiry date.
+- Added functionality to search for the recipient’s certificate by company’s registry number (in Add recipient view). Can be used when searching for certificates issued to legal entities.
+- Fixed the error situation which occurred when using special characters when searching for recipient’s certificate by company name.
+

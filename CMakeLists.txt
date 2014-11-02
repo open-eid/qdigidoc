@@ -1,0 +1,31 @@
+cmake_minimum_required( VERSION 2.8 )
+project( qdigidoc )
+
+set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules" )
+set( CMAKE_FIND_ROOT_PATH ${CMAKE_OSX_SYSROOT} )
+
+include( GNUInstallDirs )
+include( VersionInfo )
+set( RELEASE_VER 2 )
+
+find_package( LibDigiDocpp REQUIRED )
+include_directories( ${LIBDIGIDOCPP_INCLUDE_DIR} )
+
+find_package( Qt5Widgets QUIET )
+if( Qt5Widgets_FOUND )
+	find_package( Qt5LinguistTools )
+	add_definitions( -DQT_DISABLE_DEPRECATED_BEFORE=0x040800 )
+else()
+	find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui QtNetwork REQUIRED )
+	include( ${QT_USE_FILE} )
+endif()
+
+if( APPLE )
+	find_package( PKCS11 )
+	add_definitions( -DPKCS11_MODULE="${PKCS11_MODULE}" )
+	add_subdirectory( DigiDocQL )
+endif()
+add_subdirectory( common )
+include( breakpad/BreakPad.cmake )
+add_subdirectory( crypto )
+add_subdirectory( client )
