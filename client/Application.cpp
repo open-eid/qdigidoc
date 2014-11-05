@@ -131,8 +131,8 @@ Application::Application( int &argc, char **argv )
 #endif
 
 	setApplicationName( APP );
-	setApplicationVersion( QString( "%1.%2.%3.%4" )
-		.arg( MAJOR_VER ).arg( MINOR_VER ).arg( RELEASE_VER ).arg( BUILD_VER ) );
+	setApplicationVersion( QString( "%1.%2.%3.%4%5" )
+		.arg( MAJOR_VER ).arg( MINOR_VER ).arg( RELEASE_VER ).arg( BUILD_VER ).arg( VER_SUFFIX ) );
 	setOrganizationDomain( DOMAINURL );
 	setOrganizationName( ORG );
 	setWindowIcon( QIcon( ":/images/digidoc_icon_128x128.png" ) );
