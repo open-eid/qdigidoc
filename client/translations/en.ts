@@ -531,24 +531,26 @@ New ID-cards have chip on the back side of the card.</translation>
         <translation>Close</translation>
     </message>
     <message>
-        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
-        <translation>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-According to &lt;a href=&quot;https://sk.ee/en/services/validity-confirmation-services/standard-conditions-of-validation-certification-service/&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee/?lang=en&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</translation>
-    </message>
-    <message>
         <source>No card in reader
 
 Check if the ID-card is inserted correctly to the reader.</source>
         <translation>No card in reader
 
 Check if the ID-card is inserted correctly to the reader.</translation>
+    </message>
+    <message>
+        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
+Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
+BDOC is a digital signature format used for digital signing since 2015.&lt;br /&gt;&lt;br /&gt;
+Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
+        <translation>Digital signing.&lt;br /&gt;&lt;br /&gt;
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
+Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
+BDOC is a digital signature format used for digital signing since 2015.&lt;br /&gt;&lt;br /&gt;
+Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</translation>
     </message>
 </context>
 <context>
@@ -898,10 +900,6 @@ Control code: %1</translation>
         <translation>Username</translation>
     </message>
     <message>
-        <source>If you change file format from .bdoc to .ddoc or vise versa, opened file will not change.</source>
-        <translation>If you change file format from .bdoc to .ddoc or vise versa, opened file will not change.</translation>
-    </message>
-    <message>
         <source>Show certificate</source>
         <translation>Show certificate</translation>
     </message>
@@ -934,14 +932,6 @@ Control code: %1</translation>
         <translation>Container default location path</translation>
     </message>
     <message>
-        <source>Default file type BDOC</source>
-        <translation>Default file type BDOC</translation>
-    </message>
-    <message>
-        <source>Default file type DDOC</source>
-        <translation>Default file type DDOC</translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation>Remove</translation>
     </message>
@@ -964,10 +954,6 @@ Control code: %1</translation>
     <message>
         <source>Show encrypting intro</source>
         <translation>Show encrypting intro</translation>
-    </message>
-    <message>
-        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Select server access certificate</source>
@@ -1002,6 +988,38 @@ Control code: %1</translation>
 software (version 3.8 and earlier).</source>
         <translation>I would like to encrypt for recipients who are using an older DigiDoc3 Crypto
 software (version 3.8 and earlier).</translation>
+    </message>
+    <message>
+        <source>Signing</source>
+        <translation>Signing</translation>
+    </message>
+    <message>
+        <source>Default file type BDOC</source>
+        <translation>Default file type BDOC</translation>
+    </message>
+    <message>
+        <source>Default file type DDOC</source>
+        <translation>Default file type DDOC</translation>
+    </message>
+    <message>
+        <source>If you want to change the digital signature format then it should be done before adding signable files to the container. Otherwise the document will be created in the previous default format. When adding signatures, it is no longer possible to change the format of the document.</source>
+        <translation>If you want to change the digital signature format then it should be done before adding signable files to the container. Otherwise the document will be created in the previous default format. When adding signatures, it is no longer possible to change the format of the document.</translation>
+    </message>
+    <message>
+        <source>Default file type ASiC-E</source>
+        <translation>Default file type ASiC-E</translation>
+    </message>
+    <message>
+        <source>BDOC – default digital signature format in Estonia.</source>
+        <translation>BDOC – default digital signature format in Estonia.</translation>
+    </message>
+    <message>
+        <source>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</source>
+        <translation>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</translation>
+    </message>
+    <message>
+        <source>DDOC – digital signature format used between 2002-2014. We do not recommend creating new documents in DDOC format.</source>
+        <translation>DDOC – digital signature format used between 2002-2014. We do not recommend creating new documents in DDOC format.</translation>
     </message>
 </context>
 <context>

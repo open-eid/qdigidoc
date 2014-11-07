@@ -535,24 +535,26 @@ New ID-cards have chip on the back side of the card.</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
-        <translation>Подписывание документов.&lt;br /&gt;&lt;br /&gt;
-Цифровая подпись аналогична физической подписи. Для цифровой подписи нужна ID-карта, которая имеет действующие сертификаты.&lt;br /&gt;&lt;br /&gt;
-При подписывании документов нужен PIN2 код.&lt;br /&gt;&lt;br /&gt;
-Для цифровой подписи необходимо подключение к интернету.&lt;br /&gt;&lt;br /&gt;
-Согласно &lt;a href=&quot;https://sk.ee/en/services/validity-confirmation-services/standard-conditions-of-validation-certification-service/&quot;&gt;условиям использования услуги подтверждения действительности&lt;/a&gt; Вы можете поставить максимум 10 бесплатных подписей в течение месяца. Если Вам необходимо использовать услугу подтверждения действительности в большем объеме или в служебных целях, обратитесь в ИТ-отдел Вашей организации или заключите договор на использование услуги. Дополнительная информация: &lt;a href=&quot;www.id.ee/?lang=ru&quot;&gt;www.id.ee&lt;/a&gt; или телефон линии помощи ID-карты 1777 (только в пределах Эстонии), (+372) 6773377.</translation>
-    </message>
-    <message>
         <source>No card in reader
 
 Check if the ID-card is inserted correctly to the reader.</source>
         <translation>Не найдена ID-карта
 
 Проверьте, правильно ли вставлена ID-карта в считыватель.</translation>
+    </message>
+    <message>
+        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
+Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
+BDOC is a digital signature format used for digital signing since 2015.&lt;br /&gt;&lt;br /&gt;
+Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
+        <translation>Подписывание документов.&lt;br /&gt;&lt;br /&gt;
+Цифровая подпись аналогична физической подписи. Для цифровой подписи нужна ID-карта, которая имеет действующие сертификаты.&lt;br /&gt;&lt;br /&gt;
+При подписывании документов нужен PIN2 код.&lt;br /&gt;&lt;br /&gt;
+Начиная с 2015 года BDOC является форматом подписи по умолчанию.&lt;br /&gt;&lt;br /&gt;
+Для цифровой подписи необходимо подключение к интернету.&lt;br /&gt;&lt;br /&gt;
+Согласно &lt;a href=&quot;https://sk.ee/en/services/validity-confirmation-services/standard-conditions-of-validation-certification-service/&quot;&gt;условиям использования услуги подтверждения действительности&lt;/a&gt; Вы можете поставить максимум 10 бесплатных подписей в течение месяца. Если Вам необходимо использовать услугу подтверждения действительности в большем объеме или в служебных целях, обратитесь в ИТ-отдел Вашей организации или заключите договор на использование услуги. Дополнительная информация: &lt;a href=&quot;www.id.ee/?lang=ru&quot;&gt;www.id.ee&lt;/a&gt; или телефон линии помощи ID-карты 1777 (только в пределах Эстонии), (+372) 6773377.</translation>
     </message>
 </context>
 <context>
@@ -847,7 +849,7 @@ Kонтрольны код: %1</translation>
     </message>
     <message>
         <source>Default file type:</source>
-        <translation>Тип файла по умолчанию:</translation>
+        <translation>Формат файла по умолчанию:</translation>
     </message>
     <message>
         <source>Role</source>
@@ -902,10 +904,6 @@ Kонтрольны код: %1</translation>
         <translation>Имя пользователя</translation>
     </message>
     <message>
-        <source>If you change file format from .bdoc to .ddoc or vise versa, opened file will not change.</source>
-        <translation>Невозможно изменить формат уже открытого конверта. Настройки будут действительны только для новых конвертов.</translation>
-    </message>
-    <message>
         <source>Show certificate</source>
         <translation>См. сертификат</translation>
     </message>
@@ -938,14 +936,6 @@ Kонтрольны код: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Default file type BDOC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default file type DDOC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
@@ -968,10 +958,6 @@ Kонтрольны код: %1</translation>
     <message>
         <source>Show encrypting intro</source>
         <translation>Показывать подсказку для шифрования</translation>
-    </message>
-    <message>
-        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>BDOC – это новый формат цифровой подписи, который еще не поддерживается многими инфосистемами. Не исключено, что получатель не сможет открыть документ в формате BDOC. &lt;a href=&quot;http://www.id.ee/rus/bdoc&quot;&gt;Дополнительная информация&lt;a&gt;.</translation>
     </message>
     <message>
         <source>Select server access certificate</source>
@@ -1006,6 +992,38 @@ Kонтрольны код: %1</translation>
 software (version 3.8 and earlier).</source>
         <translation>Шифровать документы для получателей использующих старые версии
 DigiDoc3 Crypto (версии 3.8 и старше).</translation>
+    </message>
+    <message>
+        <source>Signing</source>
+        <translation>Подписание</translation>
+    </message>
+    <message>
+        <source>Default file type BDOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default file type DDOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you want to change the digital signature format then it should be done before adding signable files to the container. Otherwise the document will be created in the previous default format. When adding signatures, it is no longer possible to change the format of the document.</source>
+        <translation>Если Вы желаете изменить формат цифровой подписи, это нужно сделать до того, как Вы добавите в конверт подписываемый файл. В противном случае будет действовать формат подписи по умолчанию. Если документ уже подписан, то при добавлении к нему второй подписи формат подписи изменить невозможно.</translation>
+    </message>
+    <message>
+        <source>Default file type ASiC-E</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>BDOC – default digital signature format in Estonia.</source>
+        <translation>BDOC – формат цифровой подписи по умолчанию, используемой в Эстонии на данный момент.</translation>
+    </message>
+    <message>
+        <source>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</source>
+        <translation>ASiC-E – новый, международный формат цифровой подписи, который можно также использовать в Эстонии. Однако, многие инфосистемы еще не умеют распознавать этот формат, поэтому получатель такого документа может не суметь открыть его.</translation>
+    </message>
+    <message>
+        <source>DDOC – digital signature format used between 2002-2014. We do not recommend creating new documents in DDOC format.</source>
+        <translation>DDOC – формат цифровой подписи, использовавшийся в период 2002–2014. Рекомендуется не подписывать новые документы в формате DDOC.</translation>
     </message>
 </context>
 <context>

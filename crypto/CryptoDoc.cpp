@@ -138,7 +138,7 @@ void CryptoDocPrivate::run()
 		data.open(QBuffer::WriteOnly);
 
 		QString mime, name;
-		if(files.size() > 1 || Settings().value("cdocwithddoc", false).toBool())
+		if(files.size() > 1 || Settings(qApp->applicationName()).value("cdocwithddoc", false).toBool())
 		{
 			writeDDoc(&data);
 			mime = MIME_DDOC;

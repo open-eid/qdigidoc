@@ -259,7 +259,7 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 	r.writeParameter( "PostalCode", location.value(2) );
 	r.writeParameter( "CountryName", location.value(3) );
 	r.writeParameter( "Role", roles.join(" / ") );
-	r.writeParameter( "SigningProfile", "" );
+	r.writeParameter( "SigningProfile", doc->signatureFormat() );
 
 	r.writeStartElement( "DataFiles" );
 	r.writeAttribute( XML_SCHEMA_INSTANCE, "type", "m:DataFileDigestList" );

@@ -531,24 +531,26 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>Sulge</translation>
     </message>
     <message>
-        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
-        <translation>Dokumendi allkirjastamine.&lt;br /&gt;&lt;br /&gt;
-Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.&lt;br /&gt;&lt;br /&gt;
-Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
-Digitaalallkirja andmiseks on vajalik internetiühendus.&lt;br /&gt;&lt;br /&gt;
-Vastavalt &lt;a href=&quot;https://sk.ee/teenused/kehtivuskinnituse-teenus/kehtivuskinnituse-teenuse-kasutamise-tavatingimused/&quot;&gt;kehtivuskinnitusteenuse kasutamise tavatingimustele&lt;/a&gt; on lubatud allkirjastamise teenust tasuta kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-meeskonna poole või sõlmige teenuse kasutamiseks leping. Lisainfo: &lt;a href=&quot;www.id.ee/?lang=et&quot;&gt;www.id.ee&lt;/a&gt; või ID-abiliini telefonil 1777 (vaid Eesti-siseselt), (+372) 6773377.</translation>
-    </message>
-    <message>
         <source>No card in reader
 
 Check if the ID-card is inserted correctly to the reader.</source>
         <translation>Ei leitud ühtegi ID-kaarti
 
 Kontrolli, kas ID-kaart on õiget pidi lugejas.</translation>
+    </message>
+    <message>
+        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
+Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
+Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
+BDOC is a digital signature format used for digital signing since 2015.&lt;br /&gt;&lt;br /&gt;
+Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
+        <translation>Dokumendi allkirjastamine.&lt;br /&gt;&lt;br /&gt;
+Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.&lt;br /&gt;&lt;br /&gt;
+Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
+Digitaalallkirjastatud dokumendi loomisel on alates 2015. aastast vaikimisi vorminguks BDOC.&lt;br /&gt;&lt;br /&gt;
+Digitaalallkirja andmiseks on vajalik internetiühendus.&lt;br /&gt;&lt;br /&gt;
+Vastavalt &lt;a href=&quot;https://sk.ee/teenused/kehtivuskinnituse-teenus/kehtivuskinnituse-teenuse-kasutamise-tavatingimused/&quot;&gt;kehtivuskinnitusteenuse kasutamise tavatingimustele&lt;/a&gt; on lubatud allkirjastamise teenust tasuta kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-meeskonna poole või sõlmige teenuse kasutamiseks leping. Lisainfo: &lt;a href=&quot;www.id.ee/?lang=et&quot;&gt;www.id.ee&lt;/a&gt; või ID-abiliini telefonil 1777 (vaid Eesti-siseselt), (+372) 6773377.</translation>
     </message>
 </context>
 <context>
@@ -898,10 +900,6 @@ Kontrollkood: %1</translation>
         <translation>Kasutajanimi</translation>
     </message>
     <message>
-        <source>If you change file format from .bdoc to .ddoc or vise versa, opened file will not change.</source>
-        <translation>Juba avatud ümbriku formaati pole võimalik muuta. See seade kehtib ainult uutele ümbrikutele.</translation>
-    </message>
-    <message>
         <source>Show certificate</source>
         <translation>Näita tõendit</translation>
     </message>
@@ -934,14 +932,6 @@ Kontrollkood: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Default file type BDOC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default file type DDOC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation>Eemalda</translation>
     </message>
@@ -964,10 +954,6 @@ Kontrollkood: %1</translation>
     <message>
         <source>Show encrypting intro</source>
         <translation>Näita krüpteerimisel sissejuhatust</translation>
-    </message>
-    <message>
-        <source>BDOC is new format for digital signatures, which may yet not be supported by all information systems and applications. Please note that the recipient might be not capable opening a document signed in this format. &lt;a href=&quot;http://www.id.ee/eng/bdoc&quot;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>BDOC on uus digitaalallkirja vorming, mida paljud infosüsteemid ei oska veel kasutada ega lugeda. Palun arvestage, et saajal võib puududa võimalus selles formaadis allkirjastatud dokumenti avada. &lt;a href=&quot;http://www.id.ee/bdoc&quot;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Select server access certificate</source>
@@ -1002,6 +988,38 @@ Kontrollkood: %1</translation>
 software (version 3.8 and earlier).</source>
         <translation>Soovin krüpteerida adressaatidele, kes kasutavad vanemat DigiDoc3 Krüpto
 tarkvara (versioon 3.8 ja varasemad).</translation>
+    </message>
+    <message>
+        <source>Signing</source>
+        <translation>Allkirjastamine</translation>
+    </message>
+    <message>
+        <source>Default file type BDOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default file type DDOC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you want to change the digital signature format then it should be done before adding signable files to the container. Otherwise the document will be created in the previous default format. When adding signatures, it is no longer possible to change the format of the document.</source>
+        <translation>Kui soovid vormingut muuta, siis tee seda enne, kui lisad ümbrikusse allkirjastatava faili. Vastasel juhul jääb kehtima varasem vaikevorming. Juba allkirjastatud dokumendile allkirja lisades dokumendi vormingut muuta ei saa, alati jääb kehtima algne vorming.</translation>
+    </message>
+    <message>
+        <source>Default file type ASiC-E</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>BDOC – default digital signature format in Estonia.</source>
+        <translation>BDOC – digitaalallkirja vaikimisi vorming Eestis.</translation>
+    </message>
+    <message>
+        <source>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</source>
+        <translation>ASiC-E – digitaalallkirja uus, rahvusvaheliselt kõige paremini ühilduv vorming, mida saab kasutada ka Eestis. Paljud infosüsteemid ei oska seda veel kasutada ega lugeda ja seetõttu võib saajal puududa võimalus selles vormingus dokumenti avada.</translation>
+    </message>
+    <message>
+        <source>DDOC – digital signature format used between 2002-2014. We do not recommend creating new documents in DDOC format.</source>
+        <translation>DDOC – digitaalallkirja vorming aastatel 2002–2014. Soovitame DDOC-vormingus uusi dokumente mitte luua.</translation>
     </message>
 </context>
 <context>

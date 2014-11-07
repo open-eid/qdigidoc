@@ -58,7 +58,6 @@ private Q_SLOTS:
 	void on_p12Remove_clicked();
 	void on_selectDefaultDir_clicked();
 	void on_showP12Cert_clicked();
-	void on_typeBDoc_clicked( bool checked );
 	void save();
 
 private:

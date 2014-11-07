@@ -23,6 +23,7 @@
 #include "FileDialog.h"
 #include "QSigner.h"
 
+#include <common/Settings.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
@@ -599,7 +600,6 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 	if( !checkDoc( b->dataFiles().size() == 0, tr("Cannot add signature to empty container") ) )
 		return false;
 
-	bool result = false;
 	try
 	{
 		qApp->signer()->setSignatureProductionPlace(
@@ -608,8 +608,8 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		if( !role.isEmpty() || !role2.isEmpty() )
 			roles.push_back( to((QStringList() << role << role2).join(" / ")) );
 		qApp->signer()->setSignerRoles( roles );
-		b->sign( qApp->signer() );
-		result = true;
+		b->sign( qApp->signer(), signatureFormat() == "LT" ? "time-stamp" : "time-mark" );
+		return true;
 	}
 	catch( const Exception &e )
 	{
@@ -626,7 +626,29 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		else
 			setLastError( tr("Failed to sign container"), e );
 	}
-	return result;
+	return false;
+}
+
+QString DigiDoc::signatureFormat() const
+{
+	QString def = Settings(qApp->applicationName()).value( "type", "bdoc" ).toString() == "asice" ? "LT" : "LT_TM";
+	switch(b->signatures().size())
+	{
+	case 0:
+		return def;
+	case 1:
+		return b->signatures()[0]->profile().find("time-stamp") != std::string::npos ? "LT" : "LT_TM";
+	default: break;
+	}
+	Signature *sig = nullptr;
+	for(Signature *s: b->signatures())
+	{
+		if(!sig)
+			sig = s;
+		else if(sig->profile() != s->profile())
+			return def;
+	}
+	return sig->profile().find("time-stamp") != std::string::npos ? "LT" : "LT_TM";
 }
 
 QList<DigiDocSignature> DigiDoc::signatures()

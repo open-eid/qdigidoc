@@ -53,14 +53,20 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 	setAttribute( Qt::WA_DeleteOnClose );
 	Common::setAccessibleName( d->p12Label );
 
+	Settings s2(qApp->applicationName());
 	Settings s;
+	d->showIntro->setChecked( s2.value( "ClientIntro", true ).toBool() );
 	d->showIntro2->setChecked( s.value( "Crypto/Intro", true ).toBool() );
-	d->cdocwithddoc->setChecked( s.value( "cdocwithddoc", false ).toBool() );
+	d->cdocwithddoc->setChecked( s2.value( "cdocwithddoc", false ).toBool() );
 	connect(d->cdocwithddoc, &QCheckBox::toggled, [](bool checked){
-		Settings().setValueEx( "cdocwithddoc", checked, false );
+		Settings(qApp->applicationName()).setValueEx( "cdocwithddoc", checked, false );
 	});
 	s.beginGroup( "Client" );
-	d->showIntro->setChecked( Settings(qApp->applicationName()).value( "Intro", true ).toBool() );
+	// Cleanup old keys
+	s.remove( "lastPath" );
+	s.remove( "type" );
+	s.remove( "Intro" );
+	s2.remove( "Intro" );
 	updateCert();
 #ifdef Q_OS_MAC
 	d->p12Label->setText( tr(
@@ -80,14 +86,24 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 #endif
 
 #ifndef INTERNATIONAL
-	const QString type = s.value( "type", "ddoc" ).toString();
-	d->typeBDoc->setChecked( type == "bdoc" );
-	d->typeDDoc->setChecked( type == "ddoc" );
+	d->tabSigningLayout->setAlignment( d->typeBDoc, Qt::AlignTop );
+	d->tabSigningLayout->setAlignment( d->typeDDoc, Qt::AlignTop );
+	d->tabSigningLayout->setAlignment( d->typeASIC, Qt::AlignTop );
+	QButtonGroup *type = new QButtonGroup( this );
+	QStringList list( {"bdoc", "ddoc", "asice"} );
+	type->addButton( d->typeBDoc, 0 );
+	type->addButton( d->typeDDoc, 1 );
+	type->addButton( d->typeASIC, 2 );
+	int pos = list.indexOf(s2.value( "type", "bdoc" ).toString());
+	if( pos != -1 )
+		type->button( pos )->setChecked( true );
+	connect( type, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), [=]( int index, bool toggled ) {
+		if( toggled )
+			Settings(qApp->applicationName()).setValueEx( "type", list.at( index ), "bdoc" );
+	});
 #else
 	d->typeLabel->hide();
-	d->typeBDoc->hide();
-	d->typeDDoc->hide();
-	d->typeInfo->hide();
+	d->type->hide();
 #endif
 
 	d->signRoleInput->setText( s.value( "Role" ).toString() );
@@ -196,34 +212,11 @@ void SettingsDialog::on_showP12Cert_clicked()
 		d->showP12Cert->property( "cert" ).value<QSslCertificate>() ).exec();
 }
 
-void SettingsDialog::on_typeBDoc_clicked( bool checked )
-{
-#ifndef INTERNATIONAL
-	if( !checked )
-		return;
-
-	QMessageBox b( QMessageBox::Information, windowTitle(), tr(
-		"BDOC is new format for digital signatures, which may yet not be supported "
-		"by all information systems and applications. Please note that the recipient "
-		"might be not capable opening a document signed in this format. "
-		"<a href=\"http://www.id.ee/eng/bdoc\">Additional information</a>."),
-		QMessageBox::NoButton, this );
-	if( QLabel *l = b.findChild<QLabel*>() )
-	{
-		l->setTextInteractionFlags( Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse );
-		Common::setAccessibleName( l );
-	}
-	b.exec();
-#else
-	Q_UNUSED(checked);
-#endif
-}
-
 void SettingsDialog::save()
 {
 	Settings s;
 	s.setValueEx( "Crypto/Intro", d->showIntro2->isChecked(), true );
-	Settings(qApp->applicationName()).setValue( "Intro", d->showIntro->isChecked() );
+	Settings(qApp->applicationName()).setValue( "ClientIntro", d->showIntro->isChecked() );
 	s.beginGroup( "Client" );
 	s.setValueEx( "Overwrite", d->signOverwrite->isChecked(), false );
 #ifndef Q_OS_MAC
@@ -233,9 +226,6 @@ void SettingsDialog::save()
 		d->defaultDir->clear();
 		s.remove( "DefaultDir" );
 	}
-#endif
-#ifndef INTERNATIONAL
-	s.setValueEx( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc", "ddoc" );
 #endif
 
 	Application::setConfValue( Application::ProxyHost, d->proxyHost->text() );

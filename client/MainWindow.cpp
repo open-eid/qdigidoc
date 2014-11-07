@@ -166,7 +166,7 @@ bool MainWindow::addFile( const QString &file )
 #ifdef INTERNATIONAL
 		QString ext = "bdoc";
 #else
-		QString ext = s.value( "type" ,"ddoc" ).toString();
+		QString ext = Settings(qApp->applicationName()).value( "type" ,"bdoc" ).toString();
 #endif
 		QString docname = QString( "%1/%2.%3" )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
@@ -698,7 +698,7 @@ void MainWindow::messageClicked( const QString &link )
 }
 
 void MainWindow::on_introCheck_stateChanged( int state )
-{ Settings(qApp->applicationName()).setValueEx( "Intro", state == Qt::Unchecked, true ); }
+{ Settings(qApp->applicationName()).setValueEx( "ClientIntro", state == Qt::Unchecked, true ); }
 
 void MainWindow::on_languages_activated( int index )
 { qApp->loadTranslation( lang[index] ); }
@@ -759,18 +759,24 @@ void MainWindow::save()
 
 QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 {
-	static const QString bdoc = tr("Documents (%1)").arg( "*.bdoc *.asice *.sce" );
+	static const QString bdoc = tr("Documents (%1)").arg( "*.bdoc" );
+	static const QString asic = tr("Documents (%1)").arg( "*.asice *.sce" );
 	static const QString ddoc = tr("Documents (%1)").arg( "*.ddoc" );
-	const QString ext = QFileInfo( filename ).suffix();
-	QStringList exts = QStringList() << ddoc << bdoc;
-	QString active = ext == "ddoc" ? ddoc : bdoc;
+	const QString ext = QFileInfo( filename ).suffix().toLower();
+	QStringList exts;
+	QString active;
 	if( fixedExt )
 	{
-		if( ext == "ddoc" )
-			exts.removeLast();
-		else
-			exts.removeFirst();
-		active.clear();
+		if( ext == "ddoc" ) exts << ddoc;
+		if( ext == "bdoc" ) exts << bdoc;
+		if( ext == "asic" || ext == "sce" ) exts << asic;
+	}
+	else
+	{
+		exts << ddoc << bdoc << asic;
+		if( ext == "ddoc" ) active = ddoc;
+		if( ext == "bdoc" ) active = bdoc;
+		if( ext == "asice" || ext == "sce" ) active = asic;
 	}
 #ifdef INTERNATIONAL
 	exts.removeFirst();
@@ -793,7 +799,7 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 	case Sign:
 	{
-		if( prev != Intro && Settings(qApp->applicationName()).value( "Intro", true ).toBool() )
+		if( prev != Intro && Settings(qApp->applicationName()).value( "ClientIntro", true ).toBool() )
 		{
 			prevpage = prev;
 			introCheck->setChecked( false );

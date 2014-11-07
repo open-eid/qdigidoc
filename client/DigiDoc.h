@@ -157,6 +157,7 @@ public:
 		const QString &country,
 		const QString &role,
 		const QString &role2 );
+	QString signatureFormat() const;
 	QList<DigiDocSignature> signatures();
 	DocumentType documentType() const;
 	QByteArray getFileDigest( unsigned int i ) const;

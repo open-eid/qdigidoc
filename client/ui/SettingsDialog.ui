@@ -22,6 +22,106 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <widget class="QWidget" name="tabSigning">
+      <attribute name="title">
+       <string>Signing</string>
+      </attribute>
+      <layout class="QGridLayout" name="tabSigningLayout" columnstretch="0,1">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="typeLabel">
+         <property name="text">
+          <string>Default file type:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QRadioButton" name="typeBDoc">
+         <property name="accessibleName">
+          <string>Default file type BDOC</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="typeBDocLabel">
+         <property name="text">
+          <string>BDOC – default digital signature format in Estonia.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="buddy">
+          <cstring>typeBDoc</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QRadioButton" name="typeDDoc">
+         <property name="accessibleName">
+          <string>Default file type DDOC</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QRadioButton" name="typeASIC">
+         <property name="accessibleName">
+          <string>Default file type ASiC-E</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="typeASICLabel">
+         <property name="text">
+          <string>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="buddy">
+          <cstring>typeASIC</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QLabel" name="typeInfo">
+         <property name="text">
+          <string>If you want to change the digital signature format then it should be done before adding signable files to the container. Otherwise the document will be created in the previous default format. When adding signatures, it is no longer possible to change the format of the document.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="typeDDocLabel">
+         <property name="text">
+          <string>DDOC – digital signature format used between 2002-2014. We do not recommend creating new documents in DDOC format.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="buddy">
+          <cstring>typeDDoc</cstring>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
        <string>General</string>
@@ -100,63 +200,6 @@
          <property name="text">
           <string>I would like to encrypt for recipients who are using an older DigiDoc3 Crypto
 software (version 3.8 and earlier).</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="typeLayout">
-         <item>
-          <widget class="QLabel" name="typeLabel">
-           <property name="text">
-            <string>Default file type:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="typeBDoc">
-           <property name="accessibleName">
-            <string>Default file type BDOC</string>
-           </property>
-           <property name="text">
-            <string notr="true">BDOC</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="typeDDoc">
-           <property name="accessibleName">
-            <string>Default file type DDOC</string>
-           </property>
-           <property name="text">
-            <string notr="true">DDOC</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="typeSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QLabel" name="typeInfo">
-         <property name="text">
-          <string>If you change file format from .bdoc to .ddoc or vise versa, opened file will not change.</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -624,38 +667,6 @@ software (version 3.8 and earlier).</string>
     <hint type="destinationlabel">
      <x>226</x>
      <y>207</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>typeBDoc</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>save()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>131</x>
-     <y>148</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>226</x>
-     <y>229</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>typeDDoc</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>save()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>194</x>
-     <y>148</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>226</x>
-     <y>229</y>
     </hint>
    </hints>
   </connection>
