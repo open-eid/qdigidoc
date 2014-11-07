@@ -524,7 +524,7 @@ void MainWindow::buttonClicked( int button )
 			signResolutionInput->text(), signCityInput->text(),
 			signStateInput->text(), signCountryInput->text(),
 			signZipInput->text() );
-		Settings().setValue( "Client/SignMethod", infoStack->currentIndex() );
+		Settings().setValueEx( "Client/SignMethod", infoStack->currentIndex(), 0 );
 		setCurrentPage( View );
 		QApplication::alert(this, 0);
 		break;
@@ -548,8 +548,8 @@ void MainWindow::closeDoc()
 void MainWindow::enableSign()
 {
 	Settings s;
-	s.setValue( "Client/MobileCode", infoMobileCode->text() );
-	s.setValue( "Client/MobileNumber", infoMobileCell->text() );
+	s.setValueEx( "Client/MobileCode", infoMobileCode->text(), QString() );
+	s.setValueEx( "Client/MobileNumber", infoMobileCell->text(), QString() );
 	QAbstractButton *button = buttonGroup->button( SignSign );
 	button->setToolTip( QString() );
 	TokenData t = qApp->signer()->tokensign();
@@ -698,7 +698,7 @@ void MainWindow::messageClicked( const QString &link )
 }
 
 void MainWindow::on_introCheck_stateChanged( int state )
-{ Settings(qApp->applicationName()).setValue( "Intro", state == Qt::Unchecked ); }
+{ Settings(qApp->applicationName()).setValueEx( "Intro", state == Qt::Unchecked, true ); }
 
 void MainWindow::on_languages_activated( int index )
 { qApp->loadTranslation( lang[index] ); }

@@ -179,7 +179,7 @@ void SettingsDialog::on_selectDefaultDir_clicked()
 	dir = FileDialog::getExistingDirectory( this, tr("Select folder"), dir );
 	if( !dir.isEmpty() )
 	{
-		Settings().setValue( "Client/DefaultDir", dir );
+		Settings().setValueEx( "Client/DefaultDir", dir, QString() );
 		d->defaultDir->setText( dir );
 	}
 	d->defaultSameDir->setChecked( d->defaultDir->text().isEmpty() );
@@ -218,12 +218,12 @@ void SettingsDialog::on_typeBDoc_clicked( bool checked )
 void SettingsDialog::save()
 {
 	Settings s;
-	s.setValue( "Crypto/Intro", d->showIntro2->isChecked() );
+	s.setValueEx( "Crypto/Intro", d->showIntro2->isChecked(), true );
 	Settings(qApp->applicationName()).setValue( "Intro", d->showIntro->isChecked() );
 	s.beginGroup( "Client" );
-	s.setValue( "Overwrite", d->signOverwrite->isChecked() );
+	s.setValueEx( "Overwrite", d->signOverwrite->isChecked(), false );
 #ifndef Q_OS_MAC
-	s.setValue( "AskSaveAs", d->askSaveAs->isChecked() );
+	s.setValueEx( "AskSaveAs", d->askSaveAs->isChecked(), true );
 	if( d->defaultSameDir->isChecked() )
 	{
 		d->defaultDir->clear();
@@ -231,7 +231,7 @@ void SettingsDialog::save()
 	}
 #endif
 #ifndef INTERNATIONAL
-	s.setValue( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc" );
+	s.setValueEx( "type", d->typeBDoc->isChecked() ? "bdoc" : "ddoc", "ddoc" );
 #endif
 
 	Application::setConfValue( Application::ProxyHost, d->proxyHost->text() );
@@ -263,12 +263,12 @@ void SettingsDialog::saveSignatureInfo(
 	s.beginGroup( "Client" );
 	if( force || s.value( "Overwrite", "false" ).toBool() )
 	{
-		s.setValue( "Role", role );
-		s.setValue( "Resolution", resolution );
-		s.setValue( "City", city );
-		s.setValue( "State", state ),
-		s.setValue( "Country", country );
-		s.setValue( "Zip", zip );
+		s.setValueEx( "Role", role, QString() );
+		s.setValueEx( "Resolution", resolution, QString() );
+		s.setValueEx( "City", city, QString() );
+		s.setValueEx( "State", state, QString() ),
+		s.setValueEx( "Country", country, QString() );
+		s.setValueEx( "Zip", zip, QString() );
 	}
 	s.endGroup();
 }

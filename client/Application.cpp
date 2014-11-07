@@ -76,17 +76,17 @@ public:
 	{ return QDesktopServices::storageLocation(QDesktopServices::DataLocation).toStdString(); }
 
 	void setProxyHost( const std::string &host )
-	{ s.setValue( "ProxyHost", QString::fromStdString( host ) ); }
+	{ s.setValueEx( "ProxyHost", QString::fromStdString( host ), QString() ); }
 	void setProxyPort( const std::string &port )
-	{ s.setValue( "ProxyPort", QString::fromStdString( port ) ); }
+	{ s.setValueEx( "ProxyPort", QString::fromStdString( port ), QString() ); }
 	void setProxyUser( const std::string &user )
-	{ s.setValue( "ProxyUser", QString::fromStdString( user ) ); }
+	{ s.setValueEx( "ProxyUser", QString::fromStdString( user ), QString() ); }
 	void setProxyPass( const std::string &pass )
-	{ s.setValue( "ProxyPass", QString::fromStdString( pass ) ); }
+	{ s.setValueEx( "ProxyPass", QString::fromStdString( pass ), QString() ); }
 	void setPKCS12Cert( const std::string & ) {}
 	void setPKCS12Pass( const std::string & ) {}
 	void setPKCS12Disable( bool disable )
-	{ s.setValue( "PKCS12Disable", disable ); }
+	{ s.setValueEx( "PKCS12Disable", disable, false ); }
 
 private:
 	Settings s;
