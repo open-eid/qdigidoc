@@ -75,7 +75,7 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 	d->askSaveAs->setChecked( s.value( "AskSaveAs", true ).toBool() );
 #endif
 
-	const QString type = s.value( "type", "ddoc" ).toString();
+	const QString type = s.value( "type", "bdoc" ).toString();
 	d->typeBDoc->setChecked( type == "bdoc" );
 	d->typeDDoc->setChecked( type == "ddoc" );
 

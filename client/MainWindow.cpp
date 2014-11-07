@@ -163,7 +163,7 @@ bool MainWindow::addFile( const QString &file )
 		Settings s;
 		s.beginGroup( "Client" );
 
-		QString ext = s.value( "type", "ddoc" ).toString();
+		QString ext = s.value( "type", "bdoc" ).toString();
 		QString docname = QString( "%1/%2.%3" )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
 			.arg( ext == fileinfo.suffix().toLower() ? fileinfo.fileName() : fileinfo.completeBaseName() )
