@@ -997,6 +997,10 @@ Kонтрольны код: %1</translation>
         <source>Enter server access certificate password.</source>
         <translation>Введите пароль справки доступа.</translation>
     </message>
+    <message>
+        <source>Use always DDOC container on encrypting</source>
+        <translation>Всегда использовать DDOC контейнер при шифровании</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

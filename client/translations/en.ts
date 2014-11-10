@@ -993,6 +993,10 @@ Control code: %1</translation>
         <source>Enter server access certificate password.</source>
         <translation>Enter server access certificate password.</translation>
     </message>
+    <message>
+        <source>Use always DDOC container on encrypting</source>
+        <translation>Use always DDOC container on encrypting</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

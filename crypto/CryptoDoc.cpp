@@ -20,9 +20,10 @@
 #include "CryptoDoc.h"
 
 #include "client/Application.h"
+#include "client/FileDialog.h"
 #include "client/QSigner.h"
 
-#include <client/FileDialog.h>
+#include <common/Settings.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
@@ -137,7 +138,7 @@ void CryptoDocPrivate::run()
 		data.open(QBuffer::WriteOnly);
 
 		QString mime, name;
-		if(files.size() > 1)
+		if(files.size() > 1 || Settings().value("cdocwithddoc", false).toBool())
 		{
 			writeDDoc(&data);
 			mime = MIME_DDOC;

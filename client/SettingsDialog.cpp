@@ -55,6 +55,10 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 
 	Settings s;
 	d->showIntro2->setChecked( s.value( "Crypto/Intro", true ).toBool() );
+	d->cdocwithddoc->setChecked( s.value( "cdocwithddoc", false ).toBool() );
+	connect(d->cdocwithddoc, &QCheckBox::toggled, [](bool checked){
+		Settings().setValueEx( "cdocwithddoc", checked, false );
+	});
 	s.beginGroup( "Client" );
 	d->showIntro->setChecked( Settings(qApp->applicationName()).value( "Intro", true ).toBool() );
 	updateCert();

@@ -96,6 +96,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="cdocwithddoc">
+         <property name="text">
+          <string>Use always DDOC container on encrypting</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="typeLayout">
          <item>
           <widget class="QLabel" name="typeLabel">

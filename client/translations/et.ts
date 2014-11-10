@@ -993,6 +993,10 @@ Kontrollkood: %1</translation>
         <source>Enter server access certificate password.</source>
         <translation>Sisestage juurdepääsutõendi parool.</translation>
     </message>
+    <message>
+        <source>Use always DDOC container on encrypting</source>
+        <translation>Krüpteerimisel kasuta alati DDOC konteinerit</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>
