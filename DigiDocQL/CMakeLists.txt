@@ -21,6 +21,3 @@ set_target_properties( DigiDocQL PROPERTIES
 	LINK_FLAGS "-F/Library/Frameworks -fobjc-arc -Wl,-rpath,@loader_path/../../../../../Frameworks"
 	INSTALL_RPATH "@loader_path/../../../../../Frameworks"
 )
-install( DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/DigiDocQL.qlgenerator
-	DESTINATION ${CMAKE_INSTALL_BINDIR}/qdigidocclient.app/Contents/Library/QuickLook
-)

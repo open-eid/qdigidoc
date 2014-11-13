@@ -58,8 +58,58 @@ if( APPLE )
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake
 		INSTALL_RPATH "@loader_path/../Frameworks"
 	)
-	add_custom_command(TARGET ${PROGNAME} POST_BUILD
-		COMMAND ln "-fs" ${PKCS11_MODULE} $<TARGET_FILE_DIR:${PROGNAME}>)
+	add_custom_command( TARGET ${PROGNAME} POST_BUILD
+		COMMAND ln "-fs" ${PKCS11_MODULE} $<TARGET_FILE_DIR:${PROGNAME}> )
+	add_custom_command( TARGET ${PROGNAME} POST_BUILD
+		COMMAND mkdir -p $<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook
+		COMMAND cp -a $<TARGET_FILE_DIR:DigiDocQL>/../../../DigiDocQL.qlgenerator
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook )
+	get_filename_component( PKCS11_NAME ${PKCS11_MODULE} NAME )
+	add_custom_target( macdeployqt DEPENDS ${PROGNAME}
+		COMMAND ${_qt5Core_install_prefix}/bin/macdeployqt ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app
+		COMMAND rm -rf $<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/imageformats
+		COMMAND cp -a /Library/Frameworks/digidocpp.framework $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks
+		COMMAND cp -a /Library/Frameworks/libdigidoc.framework $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks
+		COMMAND find $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks -name Headers | xargs rm -rf
+		COMMAND find $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks -name 'TEST*.crt' -delete
+		COMMAND rm $<TARGET_FILE_DIR:${PROGNAME}>/${PKCS11_NAME}
+		COMMAND cp -r ${PKCS11_MODULE} $<TARGET_FILE_DIR:${PROGNAME}>
+		COMMAND for f in $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/Qt*\; do
+				name=$$\(basename $$f .framework\)\;
+				mv $$f/Resources $$f/Versions/5\;
+				ln -s Versions/Current/Resources $$f/Resources\;
+				ln -s 5 $$f/Versions/Current\;
+				ln -s Versions/Current/$$name $$f/$$name\;
+				cp ${_qt5Core_install_prefix}/lib/$$name.framework/Contents/Info.plist $$f/Resources\;
+				defaults write $$f/Resources/Info.plist CFBundleExecutable $$name\;
+			done
+		COMMAND install_name_tool -rpath /Library/Frameworks "@loader_path/../Frameworks" $<TARGET_FILE:${PROGNAME}>
+	)
+	add_custom_target( codesign DEPENDS ${PROGNAME}
+		COMMAND for f in
+			$<TARGET_FILE_DIR:${PROGNAME}>/*.*
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/digidocpp.framework/Libraries/*
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/digidocpp.framework/Resources/digidoc-tool
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/libdigidoc.framework/Resources/cdigidoc
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/*
+			$<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/*/*
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook/DigiDocQL.qlgenerator\; do
+				codesign -f -s \"$$SIGNCERT\" $$f\;
+			done
+		COMMAND codesign -f -s \"$$SIGNCERT\" $<TARGET_FILE_DIR:${PROGNAME}>/../..
+			--entitlements ${CMAKE_SOURCE_DIR}/client/${PROGNAME}.entitlements
+	)
+	add_custom_target( productbuild DEPENDS codesign
+		COMMAND productbuild --component ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app /Applications
+			--sign \"$$INSTCERT\" ${CMAKE_BINARY_DIR}/qdigidoc-store_${VERSION}$ENV{VER_SUFFIX}.pkg
+	)
+	add_custom_target( zip DEPENDS codesign
+		COMMAND zip --symlinks -r -D ${CMAKE_BINARY_DIR}/qdigidoc_${VERSION}$ENV{VER_SUFFIX}.zip ${PROGNAME}.app
+	)
+	add_custom_target( zipdebug DEPENDS ${PROGNAME}
+		COMMAND dsymutil -o ${PROGNAME}.dSYM $<TARGET_FILE:${PROGNAME}>
+		COMMAND zip -r ${CMAKE_BINARY_DIR}/qdigidoc-dbg_${VERSION}$ENV{VER_SUFFIX}.zip ${PROGNAME}.dSYM
+	)
 endif()
 
 if( Qt5Widgets_FOUND )
