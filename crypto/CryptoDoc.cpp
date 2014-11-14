@@ -170,10 +170,11 @@ void CryptoDocPrivate::run()
 		EVP_BytesToKey(EVP_aes_128_cbc(), EVP_md5(), salt, indata, sizeof(indata),
 			1, (unsigned char*)key.data(), (unsigned char*)iv.data());
 		QByteArray result = crypto(iv, key, data.data(), Encrypt);
+		result.prepend(iv);
 
 		QFile cdoc(fileName);
 		cdoc.open(QFile::WriteOnly);
-		writeCDoc(&cdoc, key, iv + result, name, "1.0", mime);
+		writeCDoc(&cdoc, key, result, name, "1.0", mime);
 		cdoc.close();
 
 		delete ddoc;
@@ -274,7 +275,29 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 			else if(xml.name() == "CipherValue")
 			{
 				xml.readNext();
-				return QByteArray::fromBase64( xml.text().toUtf8() );
+				QStringRef ref = xml.text();
+				QByteArray result(ref.size(), Qt::Uninitialized);
+				QString buf(64, Qt::Uninitialized);
+				int offsetResult = 0, offsetBuf = 0;
+				for(int i = 0; i < ref.size(); ++i)
+				{
+					QChar c = ref.data()[i];
+					if(c.isLetterOrNumber() || c == '+' || c == '/' || c == '=')
+						buf[offsetBuf++] = c;
+					if(offsetBuf == 64)
+					{
+						QByteArray b64 = QByteArray::fromBase64(buf.toAscii());
+						for(int j = 0; j < b64.size(); j++)
+							result[offsetResult++] = b64[j];
+						offsetBuf = 0;
+					}
+				}
+				buf.truncate(offsetBuf);
+				QByteArray b64 = QByteArray::fromBase64(buf.toAscii());
+				for(int j = 0; j < b64.size(); j++)
+					result[offsetResult++] = b64[j];
+				result.truncate(offsetResult);
+				return result;
 			}
 			continue;
 		}
