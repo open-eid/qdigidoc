@@ -1,0 +1,40 @@
+Source: qdigidoc
+Section: utils
+Priority: extra
+Maintainer: RIA <info@ria.ee>
+Build-Depends:
+ cdbs,
+ cmake,
+ libdigidocpp-dev (>=3.0),
+ libldap2-dev,
+ qtbase5-dev|libqt4-dev
+Standards-Version: 3.9.5
+Homepage: https://github.com/open-eid/qdigidoc
+
+Package: qdigidoc
+Architecture: any
+Depends:
+ opensc,
+ fonts-liberation,
+ ${shlibs:Depends} ${misc:Depends}
+Conflicts:
+ libdigidocpp0 (<3.0)
+Description: Estonian ID card digital signature desktop tools
+ DigiDoc3 Client is a part of Estonian national ID-card software developed by
+ Sertifitseerimiskeskus on behalf of governmental institution - Estonian
+ Information System’s Authority.
+ .
+ DigiDoc3 Client is a programme that can be used to sign digitally with ID-card
+ and Mobile-ID, check the validity of digital signatures and open and save
+ documents inside the signature container. Digitally signed containers are
+ files with .bdoc or .ddoc extensions.
+
+Package: qdigidoc-dbg
+Architecture: any
+Section: debug
+Depends:
+ libdigidocpp-dbg ${misc:Depends},
+ qdigidoc (=${binary:Version})
+Description: Debugging symbols for qdigidoc
+ This package contains the debugging symbols for Estonian ID card digital
+ signature desktop tools.
