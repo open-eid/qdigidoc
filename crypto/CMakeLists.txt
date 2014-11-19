@@ -17,6 +17,7 @@ else()
 	qt5_add_translation( QM_FILES ${TS_FILES} )
 	qt5_add_resources( RC_SOURCES ${RC_FILES} )
 	qt5_wrap_ui( UI_HEADERS ${UI_FILES} )
+	list( APPEND QT_LIBRARIES Qt5::Widgets Qt5::Network )
 endif()
 
 include_directories(
@@ -44,14 +45,9 @@ endif()
 if( WIN32 )
 	set( LDAP_LIBRARIES Wldap32 )
 endif()
-if( Qt5Widgets_FOUND )
-	qt5_use_modules( ${PROGNAME} Widgets Network )
-endif()
 
 target_link_libraries( ${PROGNAME}
 	qdigidoccommon
-	${QT_QTMAIN_LIBRARY}
-	${Qt5Core_QTMAIN_LIBRARIES}
 	${QT_LIBRARIES}
 	${LDAP_LIBRARIES}
 )

@@ -22,6 +22,11 @@ else()
 	qt5_add_translation( SOURCES ${TS_FILES} )
 	qt5_add_resources( SOURCES ${RC_FILES} )
 	qt5_wrap_ui( SOURCES ${UI_FILES} )
+	list( APPEND QT_LIBRARIES Qt5::PrintSupport )
+	if( WIN32 )
+		find_package( Qt5WinExtras HINTS ${QTSDK} )
+		list( APPEND QT_LIBRARIES Qt5::WinExtras )
+	endif()
 endif()
 
 if( APPLE )
@@ -112,20 +117,11 @@ if( APPLE )
 	)
 endif()
 
-if( Qt5Widgets_FOUND )
-	qt5_use_modules( ${PROGNAME} Widgets Network PrintSupport )
-	if( WIN32 )
-		qt5_use_modules( ${PROGNAME} WinExtras )
-	endif()
-endif()
-
 target_link_libraries( ${PROGNAME}
 	qdigidoccommon
 	qdigidoccrypto
-	${QT_QTMAIN_LIBRARY}
 	${QT_LIBRARIES}
 	${LIBDIGIDOCPP_LIBRARY}
-	${LDAP_LIBRARIES}
 	${ADDITIONAL_LIBRARIES}
 )
 add_manifest( ${PROGNAME} )

@@ -1,4 +1,5 @@
 cmake_minimum_required( VERSION 2.8 )
+cmake_policy(SET CMP0020 NEW)
 project( qdigidoc )
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -15,6 +16,8 @@ include_directories( ${LIBDIGIDOCPP_INCLUDE_DIR} )
 
 find_package( Qt5Widgets QUIET HINTS ${QTSDK} )
 if( Qt5Widgets_FOUND )
+	find_package( Qt5Network HINTS ${QTSDK} )
+	find_package( Qt5PrintSupport HINTS ${QTSDK} )
 	find_package( Qt5LinguistTools HINTS ${QTSDK} )
 	add_definitions( -DQT_DISABLE_DEPRECATED_BEFORE=0x040800 )
 else()
