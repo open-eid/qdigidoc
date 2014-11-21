@@ -607,9 +607,9 @@ QString CDocumentModel::mkpath( const QModelIndex &index, const QString &path ) 
 #if defined(Q_OS_WIN)
 	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
 #elif defined(Q_OS_MAC)
-	filename.replace( QRegExp( "[\\\\:]"), "_" );
+	filename.replace( QRegExp( "[\\\\/:]"), "_" );
 #else
-	filename.replace( QRegExp( "[\\\\]"), "_" );
+	filename.replace( QRegExp( "[\\\\/]"), "_" );
 #endif
 	return path.isEmpty() ? filename : path + "/" + filename;
 }
