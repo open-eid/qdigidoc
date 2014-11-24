@@ -176,7 +176,15 @@ Application::Application( int &argc, char **argv )
 	{
 #ifdef Q_OS_MAC
 		digidoc::Conf::init( new DigidocConf );
+#else
+		digidoc::Conf::init( new digidoc::XmlConfV2 );
 #endif
+		QString cache = confValue(TSLCache).toString();
+		for(const QString &file: QDir(":/TSL/").entryList())
+		{
+			if(!QFile::exists(cache + "/" + file))
+				QFile::copy(":/TSL/" + file, cache + "/" + file);
+		}
 		digidoc::initialize( QString( "%1/%2 (%3)" )
 			.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData() );
 	}
@@ -275,6 +283,7 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	case PKCS12Pass: r = i->PKCS12Pass().c_str(); break;
 	case PKCS12Disable: return i->PKCS12Disable();
 	case TSLUrl: r = i->TSLUrl().c_str(); break;
+	case TSLCache: r = i->TSLCache().c_str(); break;
 	case TSLCert: return QVariant::fromValue(SslCertificate::fromX509(i->TSLCert().handle()));
 	default: break;
 	}

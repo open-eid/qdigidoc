@@ -1,5 +1,14 @@
 set_app_name( PROGNAME qdigidocclient )
 
+add_executable( TSLDownload TSLDownload.cpp )
+target_link_libraries( TSLDownload Qt5::Network )
+add_custom_command(
+	OUTPUT TSL.qrc tl-mp.xml EE.xml
+	DEPENDS TSLDownload
+	COMMAND $<TARGET_FILE:TSLDownload> "${CMAKE_CURRENT_BINARY_DIR}" EE
+	WORKING_DIRECTORY ${_qt5Core_install_prefix}/bin
+)
+
 add_definitions( -DPKCS11_MODULE="${PKCS11_MODULE}" )
 include_directories( ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/common ${OPENSSL_INCLUDE_DIR} )
 
@@ -11,7 +20,7 @@ set( UI_FILES
 )
 
 configure_file( translations/tr.qrc tr.qrc COPYONLY )
-set( RC_FILES images/images.qrc certs/certs.qrc ${CMAKE_CURRENT_BINARY_DIR}/tr.qrc )
+set( RC_FILES images/images.qrc certs/certs.qrc ${CMAKE_CURRENT_BINARY_DIR}/tr.qrc ${CMAKE_CURRENT_BINARY_DIR}/TSL.qrc )
 set( TS_FILES translations/en.ts translations/et.ts translations/ru.ts )
 
 if( NOT Qt5Widgets_FOUND )

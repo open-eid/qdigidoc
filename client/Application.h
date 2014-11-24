@@ -48,7 +48,8 @@ public:
 		PKCS12Pass,
 		PKCS12Disable,
 		TSLUrl,
-		TSLCert
+		TSLCert,
+		TSLCache
 	};
 
 	explicit Application( int &argc, char **argv );
