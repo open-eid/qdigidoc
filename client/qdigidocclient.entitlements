@@ -13,8 +13,11 @@
         <true/>
         <key>com.apple.security.temporary-exception.files.absolute-path.read-only</key>
         <string>/private/var/run/pcscd.pub</string>
-        <key>com.apple.security.temporary-exception.apple-events:before:10.8</key>
-        <string>com.apple.mail</string>
+        <key>com.apple.security.temporary-exception.apple-events</key>
+        <array>
+            <string>com.apple.mail</string>
+            <string>com.microsoft.outlook</string>
+        </array>
         <key>com.apple.security.scripting-targets</key>
         <dict>
             <key>com.apple.mail</key>
