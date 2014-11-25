@@ -160,7 +160,7 @@ void MobileDialog::finished( QNetworkReply *reply )
 		else if( xml.name() == "ChallengeID" )
 		{
 			code->setText( tr("Make sure control code matches with one in phone screen\n"
-				"and enter Mobile-ID PIN.\nControl code: %1").arg( xml.readElementText() ) );
+				"and enter Mobile-ID PIN2-code.\nControl code: %1").arg( xml.readElementText() ) );
 			code->setAccessibleName( code->text() );
 		}
 		else if( xml.name() == "Sesscode" )

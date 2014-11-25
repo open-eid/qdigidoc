@@ -619,11 +619,11 @@ Check if the ID-card is inserted correctly to the reader.</source>
     </message>
     <message>
         <source>Make sure control code matches with one in phone screen
-and enter Mobile-ID PIN.
+and enter Mobile-ID PIN2-code.
 Control code: %1</source>
-        <translation>Убедитесь в правильности контрольного кода
-и введите PIN для Mobiil-ID.
-Контрольный код: %1</translation>
+        <translation>Убедитесь в правильности контрольного кодa
+и введите PIN2-код для Mobiil-ID.
+Kонтрольны код: %1</translation>
     </message>
     <message>
         <source>Not allowed to use OCSP service!&lt;br/&gt;Please check your server access sertificate.</source>

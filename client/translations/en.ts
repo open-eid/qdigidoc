@@ -615,10 +615,10 @@ Check if the ID-card is inserted correctly to the reader.</translation>
     </message>
     <message>
         <source>Make sure control code matches with one in phone screen
-and enter Mobile-ID PIN.
+and enter Mobile-ID PIN2-code.
 Control code: %1</source>
         <translation>Make sure control code matches with one in phone screen
-and enter Mobile-ID PIN.
+and enter Mobile-ID PIN2-code.
 Control code: %1</translation>
     </message>
     <message>
