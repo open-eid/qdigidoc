@@ -118,9 +118,12 @@ void AccessCert::increment()
 
 bool AccessCert::isDefaultCert(const QSslCertificate &cert) const
 {
-	// CN = Sertifitseerimiskeskus AS, SN = 0e:eb:07
-	return cert.digest(QCryptographicHash::Sha1) ==
-		QByteArray("\x8c\xb7\xb0\xf9\xaa\x8c\x12\x70\x42\x2c\x6c\xf8\x5d\x25\x13\x4a\x47\x27\x37\x58");
+	return QList<QByteArray>({
+		// CN = Sertifitseerimiskeskus AS, SN = 0E:EB:07
+		QByteArray::fromHex("8cb7b0f9aa8c1270422c6cf85d25134a47273758"),
+		// CN = Sertifitseerimiskeskus AS, SN = 10:CC:4F
+		QByteArray::fromHex("ab1cc8221912648e0780d48fba4e10ae71e1635e")
+	}).contains(cert.digest(QCryptographicHash::Sha1));
 }
 
 bool AccessCert::installCert( const QByteArray &data, const QString &password )
