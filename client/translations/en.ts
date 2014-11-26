@@ -60,6 +60,10 @@
         <source>New Crypto window</source>
         <translation>New Crypto window</translation>
     </message>
+    <message>
+        <source>Loading DigiDoc3 Client</source>
+        <translation>Loading DigiDoc3 Client</translation>
+    </message>
 </context>
 <context>
     <name>CheckConnection</name>

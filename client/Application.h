@@ -69,7 +69,7 @@ public Q_SLOTS:
 	void showClient( const QStringList &params = QStringList() );
 	void showCrypto( const QStringList &params = QStringList() );
 	void showSettings( int page = 0, const QString &path = QString() );
-	void showWarning( const QString &msg );
+	void showWarning(const QString &msg , const QString &details = QString() );
 
 private Q_SLOTS:
 	void closeWindow();

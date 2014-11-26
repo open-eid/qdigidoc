@@ -46,11 +46,14 @@
 #include <QtGui/QDesktopServices>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QMessageBox>
+#include <QtWidgets/QProgressBar>
 #else
 #include <QtGui/QMessageBox>
 #endif
 #include <QtGui/QFileOpenEvent>
 #include <QtNetwork/QSslConfiguration>
+
+#include <future>
 
 #if defined(Q_OS_MAC)
 #include <common/MacMenuBar.h>
@@ -138,6 +141,57 @@ Application::Application( int &argc, char **argv )
 	setWindowIcon( QIcon( ":/images/digidoc_icon_128x128.png" ) );
 	detectPlugins();
 
+	QProgressBar bar;
+	bar.setMinimumWidth( 300 );
+	bar.setWindowTitle( tr("Loading DigiDoc3 Client") );
+	bar.show();
+	bar.setRange( 0, 100 );
+	QTimer t;
+	connect( &t, &QTimer::timeout, [&](){
+		bar.setValue( bar.value() + 1 );
+		if( bar.value() == bar.maximum() )
+			bar.reset();
+		t.start( 100 );
+	});
+	t.start( 100 );
+	QEventLoop e;
+	std::future<bool> load(std::async([&](){
+		try
+		{
+#ifdef Q_OS_MAC
+			digidoc::Conf::init( new DigidocConf );
+#else
+			digidoc::Conf::init( new digidoc::XmlConfV2 );
+#endif
+			QString cache = confValue(TSLCache).toString();
+			for(const QString &file: QDir(":/TSL/").entryList())
+			{
+				if(!QFile::exists(cache + "/" + file))
+					QFile::copy(":/TSL/" + file, cache + "/" + file);
+			}
+			digidoc::initialize( QString( "%1/%2 (%3)" )
+				.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData() );
+			e.exit(1);
+			return true;
+		}
+		catch( const digidoc::Exception &e )
+		{
+			QStringList causes;
+			digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
+			int ddocError = -1;
+			DigiDoc::parseException( e, causes, code, ddocError );
+			QMetaObject::invokeMethod( this, "showWarning",
+				Q_ARG(QString,tr("Failed to initalize.")), Q_ARG(QString,causes.join("\n")) );
+		}
+		e.exit(0);
+		return false;
+	}));
+	if(e.exec() == 0)
+	{
+		setQuitOnLastWindowClosed( true );
+		return;
+	}
+
 	// Actions
 	d->closeAction = new QAction( this );
 	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
@@ -171,31 +225,6 @@ Application::Application( int &argc, char **argv )
 	installTranslator( &d->cryptoTranslator );
 	installTranslator( &d->qtTranslator );
 	loadTranslation( Settings::language() );
-
-	try
-	{
-#ifdef Q_OS_MAC
-		digidoc::Conf::init( new DigidocConf );
-#else
-		digidoc::Conf::init( new digidoc::XmlConfV2 );
-#endif
-		QString cache = confValue(TSLCache).toString();
-		for(const QString &file: QDir(":/TSL/").entryList())
-		{
-			if(!QFile::exists(cache + "/" + file))
-				QFile::copy(":/TSL/" + file, cache + "/" + file);
-		}
-		digidoc::initialize( QString( "%1/%2 (%3)" )
-			.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData() );
-	}
-	catch( const digidoc::Exception &e )
-	{
-		QStringList causes;
-		digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
-		int ddocError = -1;
-		DigiDoc::parseException( e, causes, code, ddocError );
-		showWarning( tr("Failed to initalize."), ddocError, causes.join("\n") );
-	}
 
 	QSigner::ApiType api = QSigner::PKCS11;
 #ifdef Q_OS_WIN
@@ -473,9 +502,9 @@ void Application::showSettings( int page, const QString &path )
 		s->activateAccessCert( path );
 }
 
-void Application::showWarning( const QString &msg )
+void Application::showWarning( const QString &msg, const QString &details )
 {
-    showWarning( msg, -1 );
+	showWarning( msg, -1, details );
 }
 
 void Application::showWarning( const QString &msg, int err, const QString &details, const QString &search )
