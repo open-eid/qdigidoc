@@ -155,12 +155,6 @@
         <translation>Ümbriku allkirjastamine ebaõnnestus</translation>
     </message>
     <message>
-        <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
-This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
-        <translation>Allkiri ei ole Eesti seadusandluse mõistes võrdväärne käsitsi antud allkirjaga.
-Antud allkiri on loodud nn. BES vormingus ehk sertifikaadi väljaandja tõendusmaterjalita ja sõltumatu osapoole ajakinnituseta.</translation>
-    </message>
-    <message>
         <source>You have not granted IP-based access. Check the settings of your server access certificate.</source>
         <translation>Puudub IP-põhine ligipääs, kontrolli juurdepääsutõendi seadeid.</translation>
     </message>
@@ -564,6 +558,10 @@ Vastavalt &lt;a href=&quot;https://sk.ee/teenused/kehtivuskinnituse-teenus/kehti
         <source>Remember me</source>
         <translation>Pea mind meeles</translation>
     </message>
+    <message>
+        <source>Documents (%1%2)</source>
+        <translation>Dokumendid (%1%2)</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -662,6 +660,10 @@ Kontrollkood: %1</translation>
     <message>
         <source>Invalid phone number! Please include correct country code.</source>
         <translation>Viga! Telefoninumber peab sisaldama riigikoodi.</translation>
+    </message>
+    <message>
+        <source>Invalid content</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1189,10 +1191,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>Allkirja ajatempel</translation>
     </message>
     <message>
-        <source>TSL URL</source>
-        <translation>TSL URL</translation>
-    </message>
-    <message>
         <source>Signer&apos;s Certificate issuer</source>
         <translation>Allkirjastaja sertifikaadi väljaandja</translation>
     </message>
@@ -1223,6 +1221,10 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     <message>
         <source>Archive TS Certificate</source>
         <translation>Arhiivi ajatempli sertifikaat</translation>
+    </message>
+    <message>
+        <source>The current file uses pilot webservice to validate signatures and does not ....</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

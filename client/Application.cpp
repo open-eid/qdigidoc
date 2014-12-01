@@ -155,8 +155,9 @@ public:
 	{ s2.setValueEx( "TSLOnlineDigest", enable, digidoc::XmlConf::TSLOnlineDigest() ); }
 #endif
 
-	std::string TSUrl() const override { return obj.value("TSA-URL").toString(QString::fromStdString(XmlConf::TSUrl())).toStdString(); }
-	std::string TSLUrl() const override { return obj.value("TSL-URL").toString(QString::fromStdString(XmlConf::TSLUrl())).toStdString(); }
+	std::string TSUrl() const override { return value("TSA-URL", XmlConf::TSUrl()); }
+	std::string TSLUrl() const override { return value("TSL-URL", XmlConf::TSLUrl()); }
+	std::string verifyServiceUri() const override { return value("PDF-URL", XmlConf::verifyServiceUri()); }
 	std::vector<digidoc::X509Cert> TSLCerts() const override
 	{
 		std::vector<digidoc::X509Cert> tslcerts;
@@ -213,6 +214,11 @@ private:
 				return proxy;
 		}
 		return QNetworkProxy();
+	}
+
+	std::string value(const QString &key, const std::string &defaultValue) const
+	{
+		return obj.value(key).toString(QString::fromStdString(defaultValue)).toStdString();
 	}
 
 	Settings s;
@@ -433,6 +439,7 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	case LDAP_HOST: return i->obj.value("LDAP-HOST").toString("ldap.sk.ee:389");
 	case MobileID_URL: return i->obj.value("MID-SIGN-URL").toString("https://digidocservice.sk.ee");
 	case MobileID_TEST_URL: return i->obj.value("MID-SIGN-TEST-URL").toString("https://tsp.demo.sk.ee");
+	case PDFUrl: r = i->verifyServiceUri().c_str(); break;
 	case PKCS11Module: r = i->PKCS11Driver().c_str(); break;
 	case ProxyHost: r = i->proxyHost().c_str(); break;
 	case ProxyPort: r = i->proxyPort().c_str(); break;
@@ -702,6 +709,7 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 		case LDAP_HOST:
 		case MobileID_URL:
 		case MobileID_TEST_URL:
+		case PDFUrl:
 		case TSLCerts:
 		case TSLUrl:
 		case TSLCache:

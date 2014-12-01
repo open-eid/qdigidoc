@@ -156,12 +156,6 @@
         <translation>Не удается подписать конверт</translation>
     </message>
     <message>
-        <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
-This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
-        <translation>В понимании эстонского законодательства подпись не равноценна собственноручно данной подписи.
-Данная подпись создана в т.н. формате BES, то есть без подтверждения ее действительности организацией, выдавшей сертификат, и без временного штампа.</translation>
-    </message>
-    <message>
         <source>You have not granted IP-based access. Check the settings of your server access certificate.</source>
         <translation>Отсутствует IP-основанный доступ. Проверьте настройки справки доступа.</translation>
     </message>
@@ -568,6 +562,10 @@ According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-ser
         <source>Remember me</source>
         <translation>Запомнить меня</translation>
     </message>
+    <message>
+        <source>Documents (%1%2)</source>
+        <translation>Документы (%1%2)</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -666,6 +664,10 @@ Kонтрольны код: %1</translation>
     <message>
         <source>Invalid phone number! Please include correct country code.</source>
         <translation>Ошибка! Номер телефона должен содержать код страны.</translation>
+    </message>
+    <message>
+        <source>Invalid content</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1193,10 +1195,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <translation>Временной штамп подписи</translation>
     </message>
     <message>
-        <source>TSL URL</source>
-        <translation>TSL URL</translation>
-    </message>
-    <message>
         <source>Signer&apos;s Certificate issuer</source>
         <translation>Организация, выдавшая сертификат подписавшего</translation>
     </message>
@@ -1227,6 +1225,10 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <message>
         <source>Archive TS Certificate</source>
         <translation>Сертификат временного штампа архива</translation>
+    </message>
+    <message>
+        <source>The current file uses pilot webservice to validate signatures and does not ....</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

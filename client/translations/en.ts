@@ -155,12 +155,6 @@
         <translation>Failed to sign container</translation>
     </message>
     <message>
-        <source>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
-This signature is created in the BES format, using no certificate validity confimation nor timestamp.</source>
-        <translation>In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.
-This signature is created in the BES format, using no certificate validity confimation nor timestamp.</translation>
-    </message>
-    <message>
         <source>You have not granted IP-based access. Check the settings of your server access certificate.</source>
         <translation>You have not granted IP-based access. Check the settings of your server access certificate.</translation>
     </message>
@@ -564,6 +558,10 @@ According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-ser
         <source>Remember me</source>
         <translation>Remember me</translation>
     </message>
+    <message>
+        <source>Documents (%1%2)</source>
+        <translation>Documents (%1%2)</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
@@ -662,6 +660,10 @@ Control code: %1</translation>
     <message>
         <source>Invalid phone number! Please include correct country code.</source>
         <translation>Invalid phone number! Please include correct country code.</translation>
+    </message>
+    <message>
+        <source>Invalid content</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1189,10 +1191,6 @@ software (version 3.8 and earlier).</translation>
         <translation>Signature Timestamp</translation>
     </message>
     <message>
-        <source>TSL URL</source>
-        <translation>TSL URL</translation>
-    </message>
-    <message>
         <source>Signer&apos;s Certificate issuer</source>
         <translation>Signer&apos;s Certificate issuer</translation>
     </message>
@@ -1223,6 +1221,10 @@ software (version 3.8 and earlier).</translation>
     <message>
         <source>Archive TS Certificate</source>
         <translation>Archive TS Certificate</translation>
+    </message>
+    <message>
+        <source>The current file uses pilot webservice to validate signatures and does not ....</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

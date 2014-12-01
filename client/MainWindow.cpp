@@ -275,7 +275,8 @@ void MainWindow::buttonClicked( int button )
 	case HomeView:
 	{
 		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
-			tr("Documents (%1)").arg( "*.bdoc *.ddoc *.asice *.sce" ) );
+			tr("Documents (%1%2)").arg( "*.bdoc *.ddoc *.asice *.sce")
+				.arg(qApp->confValue(Application::PDFUrl).toString().isEmpty() ? "" : " *.pdf") );
 		if( !file.isEmpty() && doc->open( file ) )
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 		break;
@@ -559,6 +560,12 @@ void MainWindow::enableSign()
 
 	if( doc->isNull() )
 		button->setToolTip( tr("Container is not open") );
+	else if( doc->isExperimental() )
+	{
+		showWarning( SignatureDialog::tr(
+			"The current file uses pilot webservice to validate signatures and does not ....") );
+		button->setToolTip( tr("Signing not allowed.") );
+	}
 	else if( !doc->isSupported() )
 	{
 		showWarning( SignatureDialog::tr(

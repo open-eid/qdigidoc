@@ -243,14 +243,12 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
 	t->header()->setResizeMode( 0, QHeaderView::ResizeToContents );
-	if( s.type() != DigiDocSignature::DDocType )
-		addItem( t, tr("TSL URL"), qApp->confValue( Application::TSLUrl ).toUrl() );
 
 	addItem( t, tr("Signer's Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	addItem( t, tr("Signer's Certificate"), c );
 	addItem( t, tr("Signature method"), QUrl( s.signatureMethod() ) );
 	addItem( t, tr("Container format"), s.parent()->mediaType() );
-	if( s.type() != DigiDocSignature::DDocType )
+	if( !s.profile().isEmpty() )
 		addItem( t, tr("Signature format"), s.profile() );
 	if( !s.policy().isEmpty() )
 	{
@@ -265,37 +263,32 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	if( !s.spuri().isEmpty() )
 		addItem( t, "SPUri", QUrl( s.spuri() ) );
 
-	// OCSP info
-	switch( s.type() )
+	if(!s.tsaTime().isNull())
 	{
-	case DigiDocSignature::TSAType:
-	{
+		SslCertificate tsa = s.tsaCert();
 		addItem( t, tr("Archive Timestamp"), DateTime( s.tsaTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ));
 		addItem( t, tr("Archive Timestamp") + " (UTC)", DateTime( s.tsaTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( t, tr("Archive TS Certificate issuer"), SslCertificate(s.tsaCert()).issuerInfo(QSslCertificate::CommonName) );
-		addItem( t, tr("Archive TS Certificate"), s.tsaCert() );
-	} //Fall through to TS info
-	case DigiDocSignature::TSType:
+		addItem( t, tr("Archive TS Certificate issuer"), tsa.issuerInfo(QSslCertificate::CommonName) );
+		addItem( t, tr("Archive TS Certificate"), tsa );
+	}
+	if(!s.tsTime().isNull())
 	{
+		SslCertificate ts = s.tsCert();
 		addItem( t, tr("Signature Timestamp"), DateTime( s.tsTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ));
 		addItem( t, tr("Signature Timestamp") + " (UTC)", DateTime( s.tsTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( t, tr("TS Certificate issuer"), SslCertificate(s.tsCert()).issuerInfo(QSslCertificate::CommonName) );
-		addItem( t, tr("TS Certificate"), s.tsCert() );
-	} //Fall through to OCSP info
-	case DigiDocSignature::DDocType:
-	case DigiDocSignature::TMType:
+		addItem( t, tr("TS Certificate issuer"), ts.issuerInfo(QSslCertificate::CommonName) );
+		addItem( t, tr("TS Certificate"), ts );
+	}
+	if(!s.ocspTime().isNull())
 	{
 		SslCertificate ocsp = s.ocspCert();
-		addItem( t, tr("OCSP Certificate issuer"), SslCertificate(ocsp).issuerInfo(QSslCertificate::CommonName) );
+		addItem( t, tr("OCSP Certificate issuer"), ocsp.issuerInfo(QSslCertificate::CommonName) );
 		addItem( t, tr("OCSP Certificate"), ocsp );
 		addItem( t, tr("Hash value of signature"), SslCertificate::toHex( s.ocspNonce() ) );
 		addItem( t, tr("OCSP time"), DateTime( s.ocspTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( t, tr("OCSP time") + " (UTC)", DateTime( s.ocspTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	}
-	default:
-		addItem( t, tr("Signer's computer time (UTC)"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		break;
-	}
+	addItem( t, tr("Signer's computer time (UTC)"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 }
 
 SignatureDialog::~SignatureDialog() { delete d; }

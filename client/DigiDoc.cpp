@@ -391,25 +391,6 @@ QDateTime DigiDocSignature::tsaTime() const
 	return date;
 }
 
-DigiDocSignature::SignatureType DigiDocSignature::type() const
-{
-	const std::string ver = s->profile();
-	if( ver == "TMA" || ver.find("time-mark-archive") != std::string::npos )
-		return TMAType;
-	if( ver == "TSA" || ver.find("time-stamp-archive") != std::string::npos )
-		return TSAType;
-	if( ver == "TM" || ver.find("time-mark") != std::string::npos )
-		return TMType;
-	if( ver == "TS" || ver.find("time-stamp") != std::string::npos )
-		return TSType;
-	if( ver.find("BES") != std::string::npos || ver.find("EPES") != std::string::npos )
-		return BESType;
-	if( ver.compare( 0, 11, "DIGIDOC-XML" ) == 0 ||
-		ver.compare( 0, 6, "SK-XML" ) == 0 )
-		return DDocType;
-	return UnknownType;
-}
-
 DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 {
 	DigiDocSignature::SignatureStatus result = Valid;
@@ -418,12 +399,6 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 	{
 		qApp->waitForTSL( m_parent->fileName() );
 		s->validate();
-		if( type() == BESType )
-		{
-			m_lastError = DigiDoc::tr("In the meaning of Estonian legislation this signature is not equivalent to handwritten signature.\n"
-				"This signature is created in the BES format, using no certificate validity confimation nor timestamp.");
-			return Invalid;
-		}
 	}
 	catch( const Exception &e )
 	{
@@ -512,6 +487,10 @@ void DigiDoc::create( const QString &file )
 DocumentModel* DigiDoc::documentModel() const { return m_documentModel; }
 
 QString DigiDoc::fileName() const { return m_fileName; }
+bool DigiDoc::isExperimental() const
+{
+	return b->mediaType() == "application/pdf";
+}
 bool DigiDoc::isNull() const { return b == nullptr; }
 bool DigiDoc::isSupported() const
 {
@@ -538,9 +517,15 @@ bool DigiDoc::open( const QString &file )
 	try
 	{
 		b = Container::open( to(file) );
-		if( !isSupported() )
+		QWidget *w = qobject_cast<QWidget*>(parent());
+		if( isExperimental() )
 		{
-			QWidget *w = qobject_cast<QWidget*>(parent());
+			QMessageBox::warning( w, w ? w->windowTitle() : 0,
+				QCoreApplication::translate("SignatureDialog",
+					"The current file uses pilot webservice to validate signatures and does not ...."), QMessageBox::Ok );
+		}
+		else if( !isSupported() )
+		{
 			QMessageBox::warning( w, w ? w->windowTitle() : 0,
 				QCoreApplication::translate("SignatureDialog",
 					"The current file is a DigiDoc container that is not supported officially any longer. "

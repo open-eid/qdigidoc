@@ -43,6 +43,7 @@ public:
 		LDAP_HOST,
 		MobileID_URL,
 		MobileID_TEST_URL,
+		PDFUrl,
 		PKCS11Module,
 		ProxyHost,
 		ProxyPort,

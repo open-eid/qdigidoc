@@ -83,16 +83,6 @@ public:
 		WrongNameSpace = 1 << 1,
 		DigestWeak = 1 << 2
 	};
-	enum SignatureType
-	{
-		BESType,
-		TMType,
-		TMAType,
-		TSType,
-		TSAType,
-		DDocType,
-		UnknownType
-	};
 	DigiDocSignature( const digidoc::Signature *signature, DigiDoc *parent );
 
 	QSslCertificate	cert() const;
@@ -112,7 +102,6 @@ public:
 	QString		signatureMethod() const;
 	QDateTime	signTime() const;
 	QString		spuri() const;
-	SignatureType type() const;
 	QSslCertificate tsCert() const;
 	QDateTime	tsTime() const;
 	QSslCertificate tsaCert() const;
@@ -151,6 +140,7 @@ public:
 	DocumentModel *documentModel() const;
 	QString fileName() const;
 	bool isNull() const;
+	bool isExperimental() const;
 	bool isSupported() const;
 	QString mediaType() const;
 	QString newSignatureID() const;
