@@ -112,18 +112,16 @@ Tüüp: %3</translatorcomment>
         <translation>Eemalda</translation>
     </message>
     <message>
-        <source>Person or company does not own a valid certificate.
-It is necessary to have a valid certificate for encryption.</source>
-        <translation>Isikul või asutusel puudub kehtiv sertifikaat.
-Krüpteerimiseks on vajalik kehtiv sertifikaat.</translation>
-    </message>
-    <message>
         <source>Select</source>
         <translation>Vali</translation>
     </message>
     <message>
         <source>Company reg no:</source>
         <translation>Registrikood:</translation>
+    </message>
+    <message>
+        <source>Person or company does not own a valid certificate.&lt;br /&gt;It is necessary to have a valid certificate for encryption.&lt;br /&gt;Contact for assistance by email &lt;a href=&quot;mailto:abi@id.ee&quot;&gt;abi@id.ee&lt;/a&gt; or call 1777 (only from Estonia), (+372) 677 3377 when calling from abroad.</source>
+        <translation>Isikul või asutusel puudub kehtiv sertifikaat.&lt;br /&gt;Krüpteerimiseks on vaja kehtivat sertifikaati.&lt;br /&gt;Küsimustega pöördu ID-abiliini poole e-postiaadressil &lt;a href=&quot;mailto:abi@id.ee&quot;&gt;abi@id.ee&lt;/a&gt; või helista Eesti piires lühinumbril 1777 ja välismaalt (+372) 677 3377.</translation>
     </message>
 </context>
 <context>
