@@ -105,6 +105,10 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 	d->typeLabel->hide();
 	d->type->hide();
 #endif
+	d->TSLOnlineDigest->setChecked( qApp->confValue( Application::TSLOnlineDigest ).toBool() );
+	connect( d->TSLOnlineDigest, &QCheckBox::toggled, []( bool checked ) {
+		qApp->setConfValue( Application::TSLOnlineDigest, checked );
+	});
 
 	d->signRoleInput->setText( s.value( "Role" ).toString() );
 	d->signResolutionInput->setText( s.value( "Resolution" ).toString() );

@@ -49,7 +49,8 @@ public:
 		PKCS12Disable,
 		TSLUrl,
 		TSLCert,
-		TSLCache
+		TSLCache,
+		TSLOnlineDigest
 	};
 
 	explicit Application( int &argc, char **argv );

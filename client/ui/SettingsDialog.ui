@@ -196,6 +196,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="TSLOnlineDigest">
+         <property name="text">
+          <string>Online TSL digest check</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="cdocwithddoc">
          <property name="text">
           <string>I would like to encrypt for recipients who are using an older DigiDoc3 Crypto

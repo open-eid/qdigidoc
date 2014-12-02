@@ -58,25 +58,27 @@
 #if defined(Q_OS_MAC)
 #include <common/MacMenuBar.h>
 
-class DigidocConf: public digidoc::XmlConfV2
+class DigidocConf: public digidoc::XmlConfV3
 {
 public:
-	DigidocConf(): digidoc::XmlConfV2() { s.beginGroup( "Client" ); }
+	DigidocConf(): digidoc::XmlConfV3(), s2(qApp->applicationName()) { s.beginGroup( "Client" ); }
 
 	std::string proxyHost() const
-	{ return s.value( "ProxyHost", QString::fromStdString(digidoc::XmlConfV2::proxyHost()) ).toString().toStdString(); }
+	{ return s.value( "ProxyHost", QString::fromStdString(digidoc::XmlConfV3::proxyHost()) ).toString().toStdString(); }
 	std::string proxyPort() const
-	{ return s.value( "ProxyPort", QString::fromStdString(digidoc::XmlConfV2::proxyPort()) ).toString().toStdString(); }
+	{ return s.value( "ProxyPort", QString::fromStdString(digidoc::XmlConfV3::proxyPort()) ).toString().toStdString(); }
 	std::string proxyUser() const
-	{ return s.value( "ProxyUser", QString::fromStdString(digidoc::XmlConfV2::proxyUser()) ).toString().toStdString(); }
+	{ return s.value( "ProxyUser", QString::fromStdString(digidoc::XmlConfV3::proxyUser()) ).toString().toStdString(); }
 	std::string proxyPass() const
-	{ return s.value( "ProxyPass", QString::fromStdString(digidoc::XmlConfV2::proxyPass()) ).toString().toStdString(); }
+	{ return s.value( "ProxyPass", QString::fromStdString(digidoc::XmlConfV3::proxyPass()) ).toString().toStdString(); }
 	bool PKCS12Disable() const
-	{ return s.value( "PKCS12Disable", digidoc::XmlConfV2::PKCS12Disable() ).toBool(); }
+	{ return s.value( "PKCS12Disable", digidoc::XmlConfV3::PKCS12Disable() ).toBool(); }
 	std::string PKCS11Driver() const
 	{ return QString( qApp->applicationDirPath() + "/" + QFileInfo( PKCS11_MODULE ).fileName() ).toStdString(); }
 	std::string TSLCache() const
 	{ return QDesktopServices::storageLocation(QDesktopServices::DataLocation).toStdString(); }
+	bool TSLOnlineDigest() const
+	{ return s2.value( "TSLOnlineDigest", digidoc::XmlConfV3::TSLOnlineDigest() ).toBool(); }
 
 	void setProxyHost( const std::string &host )
 	{ s.setValueEx( "ProxyHost", QString::fromStdString( host ), QString() ); }
@@ -89,10 +91,13 @@ public:
 	void setPKCS12Cert( const std::string & ) {}
 	void setPKCS12Pass( const std::string & ) {}
 	void setPKCS12Disable( bool disable )
-	{ s.setValueEx( "PKCS12Disable", disable, false ); }
+	{ s.setValueEx( "PKCS12Disable", disable, digidoc::XmlConfV3::PKCS12Disable() ); }
+	void setTSLOnlineDigest( bool enable )
+	{ s2.setValueEx( "TSLOnlineDigest", enable, digidoc::XmlConfV3::TSLOnlineDigest() ); }
 
 private:
 	Settings s;
+	Settings s2;
 };
 #else
 class MacMenuBar;
@@ -161,7 +166,7 @@ Application::Application( int &argc, char **argv )
 #ifdef Q_OS_MAC
 			digidoc::Conf::init( new DigidocConf );
 #else
-			digidoc::Conf::init( new digidoc::XmlConfV2 );
+			digidoc::Conf::init( new digidoc::XmlConfV3 );
 #endif
 			QString cache = confValue(TSLCache).toString();
 			for(const QString &file: QDir(":/TSL/").entryList())
@@ -296,8 +301,8 @@ void Application::closeWindow()
 
 QVariant Application::confValue( ConfParameter parameter, const QVariant &value )
 {
-	digidoc::ConfV2 *i = 0;
-	try { i = digidoc::ConfV2::instance(); }
+	digidoc::ConfV3 *i = 0;
+	try { i = digidoc::ConfV3::instance(); }
 	catch( const digidoc::Exception & ) { return value; }
 
 	QByteArray r;
@@ -314,7 +319,7 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	case TSLUrl: r = i->TSLUrl().c_str(); break;
 	case TSLCache: r = i->TSLCache().c_str(); break;
 	case TSLCert: return QVariant::fromValue(SslCertificate::fromX509(i->TSLCert().handle()));
-	default: break;
+	case TSLOnlineDigest: return i->TSLOnlineDigest();
 	}
 	return r.isEmpty() ? value.toString() : QString::fromUtf8( r );
 }
@@ -422,7 +427,7 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 {
 	try
 	{
-		digidoc::XmlConfV2 *i = dynamic_cast<digidoc::XmlConfV2*>(digidoc::Conf::instance());
+		digidoc::XmlConfV3 *i = dynamic_cast<digidoc::XmlConfV3*>(digidoc::Conf::instance());
 		if(!i)
 			return;
 		QByteArray v = value.toString().toUtf8();
@@ -435,7 +440,11 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 		case PKCS12Cert: i->setPKCS12Cert( v.isEmpty()? std::string() : v.constData() ); break;
 		case PKCS12Pass: i->setPKCS12Pass( v.isEmpty()? std::string() : v.constData() ); break;
 		case PKCS12Disable: i->setPKCS12Disable( value.toBool() ); break;
-		default: break;
+		case TSLOnlineDigest: i->setTSLOnlineDigest( value.toBool() ); break;
+		case TSLCert:
+		case TSLUrl:
+		case TSLCache:
+		case PKCS11Module: break;
 		}
 	}
 	catch( const digidoc::Exception &e )

@@ -1021,6 +1021,10 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <source>DDOC – digital signature format used between 2002-2014. We do not recommend creating new documents in DDOC format.</source>
         <translation>DDOC – digitaalallkirja vorming aastatel 2002–2014. Soovitame DDOC-vormingus uusi dokumente mitte luua.</translation>
     </message>
+    <message>
+        <source>Online TSL digest check</source>
+        <translation>Kontrolli TSL värskendust</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

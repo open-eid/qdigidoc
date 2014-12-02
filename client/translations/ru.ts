@@ -1025,6 +1025,10 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <source>DDOC – digital signature format used between 2002-2014. We do not recommend creating new documents in DDOC format.</source>
         <translation>DDOC – формат цифровой подписи, использовавшийся в период 2002–2014. Рекомендуется не подписывать новые документы в формате DDOC.</translation>
     </message>
+    <message>
+        <source>Online TSL digest check</source>
+        <translation>Проверка обновлений TSL</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>
