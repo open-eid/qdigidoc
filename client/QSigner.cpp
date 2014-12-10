@@ -207,19 +207,26 @@ void QSigner::run()
 #endif
 
 	QString driver = qApp->confValue( Application::PKCS11Module ).toString();
+#ifdef Q_OS_MAC
+	if(QSysInfo::macVersion() <= QSysInfo::MV_10_9)
+		driver = qApp->applicationDirPath() + "/esteid-pkcs11_old.so";
+#endif
 	while( !d->terminate )
 	{
 #ifdef Q_OS_MAC
 		if(!f.isOpen())
 			f.open(QFile::ReadOnly);
-		else
-			f.seek(0);
 #endif
 
 		if( d->pkcs11 && !d->pkcs11->isLoaded() &&
 #ifdef Q_OS_MAC
+			/* OSX <= 10.9 corrupts sometimes memory (eg. file read/write operations
+			 * failing) when calling SCardEstablishContext and there is no smartcard
+			 * reader connected. Reading 20 bytes from /private/var/run/pcscd.pub to
+			 * detect if no reader is connected and block SCard API usage.
+			 */
 			(QSysInfo::macVersion() > QSysInfo::MV_10_9 ||
-			 (f.isOpen() && f.read(20) != QByteArray(20, 0))) &&
+			 (f.isOpen() && f.peek(20) != QByteArray(20, 0))) &&
 #endif
 			!d->pkcs11->loadDriver( driver ) )
 		{
