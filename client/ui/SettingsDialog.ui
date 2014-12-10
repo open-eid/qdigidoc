@@ -98,7 +98,8 @@
        <item>
         <widget class="QCheckBox" name="cdocwithddoc">
          <property name="text">
-          <string>Use always DDOC container on encrypting</string>
+          <string>I would like to encrypt for recipients who are using an older DigiDoc3 Crypto
+software (version 3.8 and earlier).</string>
          </property>
         </widget>
        </item>

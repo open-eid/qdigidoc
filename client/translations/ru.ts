@@ -1002,8 +1002,10 @@ Kонтрольны код: %1</translation>
         <translation>Введите пароль справки доступа.</translation>
     </message>
     <message>
-        <source>Use always DDOC container on encrypting</source>
-        <translation>Всегда использовать DDOC контейнер при шифровании</translation>
+        <source>I would like to encrypt for recipients who are using an older DigiDoc3 Crypto
+software (version 3.8 and earlier).</source>
+        <translation>Шифровать документы для получателей использующих старые версии
+DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     </message>
 </context>
 <context>

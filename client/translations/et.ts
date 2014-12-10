@@ -998,8 +998,10 @@ Kontrollkood: %1</translation>
         <translation>Sisestage juurdepääsutõendi parool.</translation>
     </message>
     <message>
-        <source>Use always DDOC container on encrypting</source>
-        <translation>Krüpteerimisel kasuta alati DDOC konteinerit</translation>
+        <source>I would like to encrypt for recipients who are using an older DigiDoc3 Crypto
+software (version 3.8 and earlier).</source>
+        <translation>Soovin krüpteerida adressaatidele, kes kasutavad vanemat DigiDoc3 Krüpto
+tarkvara (versioon 3.8 ja varasemad).</translation>
     </message>
 </context>
 <context>

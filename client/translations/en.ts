@@ -998,8 +998,10 @@ Control code: %1</translation>
         <translation>Enter server access certificate password.</translation>
     </message>
     <message>
-        <source>Use always DDOC container on encrypting</source>
-        <translation>Use always DDOC container on encrypting</translation>
+        <source>I would like to encrypt for recipients who are using an older DigiDoc3 Crypto
+software (version 3.8 and earlier).</source>
+        <translation>I would like to encrypt for recipients who are using an older DigiDoc3 Crypto
+software (version 3.8 and earlier).</translation>
     </message>
 </context>
 <context>
