@@ -76,6 +76,7 @@ private Q_SLOTS:
 	void closeWindow();
 	void parseArgs( const QString &msg = QString() );
 	void parseArgs( const QStringList &args );
+	void showTSLWarning( QEventLoop *e );
 
 private:
 	void activate( QWidget *w );

@@ -64,6 +64,14 @@
         <source>Loading DigiDoc3 Client</source>
         <translation>Loading DigiDoc3 Client</translation>
     </message>
+    <message>
+        <source>DigiDoc3 Client</source>
+        <translation>DigiDoc3 client</translation>
+    </message>
+    <message>
+        <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
+        <translation>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</translation>
+    </message>
 </context>
 <context>
     <name>CheckConnection</name>
@@ -1097,14 +1105,6 @@ software (version 3.8 and earlier).</translation>
         <translation>Signature method</translation>
     </message>
     <message>
-        <source>Show OCSP certificate</source>
-        <translation>Show OCSP certificate</translation>
-    </message>
-    <message>
-        <source>Show signer&apos;s certificate</source>
-        <translation>Show signer&apos;s certificate</translation>
-    </message>
-    <message>
         <source>Hash value of signature</source>
         <translation>Hash value of signature</translation>
     </message>
@@ -1123,10 +1123,6 @@ software (version 3.8 and earlier).</translation>
     <message>
         <source>Signer&apos;s computer time (UTC)</source>
         <translation>Signer&apos;s computer time (UTC)</translation>
-    </message>
-    <message>
-        <source>Signer Certificate issuer</source>
-        <translation>Signer Certificate issuer</translation>
     </message>
     <message>
         <source>OCSP Certificate issuer</source>
@@ -1169,14 +1165,6 @@ software (version 3.8 and earlier).</translation>
         <translation>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>Show TSA certificate</source>
-        <translation>Show TSA certificate</translation>
-    </message>
-    <message>
-        <source>TSA Certificate issuer</source>
-        <translation>TSA Certificate issuer</translation>
-    </message>
-    <message>
         <source>Warnings</source>
         <translation>Warnings</translation>
     </message>
@@ -1185,12 +1173,32 @@ software (version 3.8 and earlier).</translation>
         <translation>Signature Timestamp</translation>
     </message>
     <message>
-        <source>Show TSL certificate</source>
-        <translation>Show TSL certificate</translation>
-    </message>
-    <message>
         <source>TSL URL</source>
         <translation>TSL URL</translation>
+    </message>
+    <message>
+        <source>TSL Cert</source>
+        <translation>TSL Certificate</translation>
+    </message>
+    <message>
+        <source>Signer&apos;s Certificate issuer</source>
+        <translation>Signe&apos;r Certificate issuer</translation>
+    </message>
+    <message>
+        <source>Signer&apos;s Certificate</source>
+        <translation>Signer&apos;s Certificate</translation>
+    </message>
+    <message>
+        <source>TS Certificate issuer</source>
+        <translation>TS Certificate issuer</translation>
+    </message>
+    <message>
+        <source>TS Certificate</source>
+        <translation>TS Certificate</translation>
+    </message>
+    <message>
+        <source>OCSP Certificate</source>
+        <translation>OCSP Certificate</translation>
     </message>
 </context>
 <context>

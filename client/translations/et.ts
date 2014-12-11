@@ -64,6 +64,14 @@
         <source>Loading DigiDoc3 Client</source>
         <translation>DigiDoc3 Klient laadimine</translation>
     </message>
+    <message>
+        <source>DigiDoc3 Client</source>
+        <translation>DigiDoc3 klient</translation>
+    </message>
+    <message>
+        <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
+        <translation>Digiallkirjade kehtivuse kontrollimiseks kasutatava sertifikaatide usaldusnimekirja uuendamine ebaõnnestus. Palun kontrolli oma arvuti internetiühendust ja seda, kas arvutis on kõige uuem ID-tarkvara versioon. Kas soovid allkirjade verifitseerimiseks kasutada aegunud usaldusnimekirja? &lt;a href=&quot;http://www.id.ee/?id=37011&quot;&gt;Lisainfo&lt;/a&gt;</translation>
+    </message>
 </context>
 <context>
     <name>CheckConnection</name>
@@ -1097,14 +1105,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>Allkirja meetod</translation>
     </message>
     <message>
-        <source>Show OCSP certificate</source>
-        <translation>Näita kehtivuskinnituse sertifikaati</translation>
-    </message>
-    <message>
-        <source>Show signer&apos;s certificate</source>
-        <translation>Näita allkirjastaja sertifikaati</translation>
-    </message>
-    <message>
         <source>Hash value of signature</source>
         <translation>Allkirja sõnumilühend</translation>
     </message>
@@ -1123,10 +1123,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     <message>
         <source>Signer&apos;s computer time (UTC)</source>
         <translation>Allkirjastaja arvuti aeg (UTC)</translation>
-    </message>
-    <message>
-        <source>Signer Certificate issuer</source>
-        <translation>Allkirjastaja sertifikaadi väljaandja</translation>
     </message>
     <message>
         <source>OCSP Certificate issuer</source>
@@ -1169,14 +1165,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36510&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>Show TSA certificate</source>
-        <translation>Näita ajatempliteenuse sertifikaati</translation>
-    </message>
-    <message>
-        <source>TSA Certificate issuer</source>
-        <translation>Ajatempliteenuse sertifikaadi väljaandja</translation>
-    </message>
-    <message>
         <source>Warnings</source>
         <translation>hoiatusega</translation>
     </message>
@@ -1185,12 +1173,32 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>Allkirja ajatempel</translation>
     </message>
     <message>
-        <source>Show TSL certificate</source>
-        <translation>Näita TSL sertifikaati</translation>
-    </message>
-    <message>
         <source>TSL URL</source>
         <translation>TSL URL</translation>
+    </message>
+    <message>
+        <source>TSL Cert</source>
+        <translation>TSL sertifikaat</translation>
+    </message>
+    <message>
+        <source>Signer&apos;s Certificate issuer</source>
+        <translation>Allkirjastaja sertifikaadi väljaandja</translation>
+    </message>
+    <message>
+        <source>Signer&apos;s Certificate</source>
+        <translation>Allkirjastaja sertifikaat</translation>
+    </message>
+    <message>
+        <source>TS Certificate issuer</source>
+        <translation>Ajatempliteenuse sertifikaadi väljaandja</translation>
+    </message>
+    <message>
+        <source>TS Certificate</source>
+        <translation>Ajatempliteenuse sertifikaati</translation>
+    </message>
+    <message>
+        <source>OCSP Certificate</source>
+        <translation>Kehtivuskinnituse sertifikaat</translation>
     </message>
 </context>
 <context>

@@ -57,9 +57,16 @@
 
 #if defined(Q_OS_MAC)
 #include <common/MacMenuBar.h>
+#else
+class MacMenuBar;
+#endif
 
 class DigidocConf: public digidoc::XmlConfV3
 {
+#ifdef Q_OS_MAC
+	Settings s;
+	Settings s2;
+
 public:
 	DigidocConf(): digidoc::XmlConfV3(), s2(qApp->applicationName()) { s.beginGroup( "Client" ); }
 
@@ -94,14 +101,15 @@ public:
 	{ s.setValueEx( "PKCS12Disable", disable, digidoc::XmlConfV3::PKCS12Disable() ); }
 	void setTSLOnlineDigest( bool enable )
 	{ s2.setValueEx( "TSLOnlineDigest", enable, digidoc::XmlConfV3::TSLOnlineDigest() ); }
-
-private:
-	Settings s;
-	Settings s2;
-};
-#else
-class MacMenuBar;
 #endif
+public:
+	bool TSLAllowExpired() const
+	{
+		QEventLoop e;
+		QMetaObject::invokeMethod( qApp, "showTSLWarning", Q_ARG(QEventLoop*,&e) );
+		return e.exec();
+	}
+};
 
 class ApplicationPrivate
 {
@@ -165,15 +173,12 @@ Application::Application( int &argc, char **argv )
 		t.start( 100 );
 	});
 	t.start( 100 );
+	qRegisterMetaType<QEventLoop*>("QEventLoop*");
 	QEventLoop e;
 	std::future<bool> load(std::async([&](){
 		try
 		{
-#ifdef Q_OS_MAC
 			digidoc::Conf::init( new DigidocConf );
-#else
-			digidoc::Conf::init( new digidoc::XmlConfV3 );
-#endif
 			QString cache = confValue(TSLCache).toString();
 			for(const QString &file: QDir(":/TSL/").entryList())
 			{
@@ -509,6 +514,16 @@ void Application::showSettings( int page, const QString &path )
 	s->open();
 	if( !path.isEmpty() )
 		s->activateAccessCert( path );
+}
+
+void Application::showTSLWarning(QEventLoop *e)
+{
+	e->exit( QMessageBox::Yes == QMessageBox::question(
+		qApp->activeWindow(), Application::tr("DigiDoc3 Client"), Application::tr(
+		"The renewal of Trust Service status List, used for digital signature validation, has failed. "
+		"Please check your internet connection and make sure you have the latest ID-software version "
+		"installed. Do you want to use the expired Trust Service List (TSL) for signature validation? "
+		"<a href=\"http://www.id.ee/?id=37012\">Additional information</a>") ) );
 }
 
 void Application::showWarning( const QString &msg, const QString &details )

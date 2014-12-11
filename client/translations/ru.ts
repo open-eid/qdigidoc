@@ -65,6 +65,14 @@
         <source>Loading DigiDoc3 Client</source>
         <translation>DigiDoc3 загружается</translation>
     </message>
+    <message>
+        <source>DigiDoc3 Client</source>
+        <translation>DigiDoc3 клиент</translation>
+    </message>
+    <message>
+        <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
+        <translation>Не удалось обновить список доверенных сертификатов, используемый для проверки действительности цифровых подписей. Пожалуйста, проверьте ваше интернет-соединение и убедитесь в том, что на компьютере установлена последняя версия программного обеспечения ID-карты. Вы желаете использовать для верификации подписей устаревший список доверенных сертификатов? &lt;a href=&quot;http://www.id.ee/?id=37013&quot;&gt;Дополнительная информация&lt;/a&gt;</translation>
+    </message>
 </context>
 <context>
     <name>CheckConnection</name>
@@ -1101,14 +1109,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <translation>Метод подписи</translation>
     </message>
     <message>
-        <source>Show OCSP certificate</source>
-        <translation>Сертификат OCSP</translation>
-    </message>
-    <message>
-        <source>Show signer&apos;s certificate</source>
-        <translation>Сертификат пользователя</translation>
-    </message>
-    <message>
         <source>Hash value of signature</source>
         <translation>Хэш значение подтверждения подлинности подписи</translation>
     </message>
@@ -1127,10 +1127,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <message>
         <source>Signer&apos;s computer time (UTC)</source>
         <translation>Время на компьютере подписывающего (UTC)</translation>
-    </message>
-    <message>
-        <source>Signer Certificate issuer</source>
-        <translation>Организация, выдавшая сертификат подписавшего</translation>
     </message>
     <message>
         <source>OCSP Certificate issuer</source>
@@ -1173,14 +1169,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36512&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
     <message>
-        <source>Show TSA certificate</source>
-        <translation>Сертификат службы штампов времени</translation>
-    </message>
-    <message>
-        <source>TSA Certificate issuer</source>
-        <translation>Сертификат службы штампов времени</translation>
-    </message>
-    <message>
         <source>Warnings</source>
         <translation>предупреждения</translation>
     </message>
@@ -1189,12 +1177,32 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <translation>Штамп времени подписи</translation>
     </message>
     <message>
-        <source>Show TSL certificate</source>
+        <source>TSL URL</source>
+        <translation>TSL URL</translation>
+    </message>
+    <message>
+        <source>TSL Cert</source>
         <translation>TSL сертификат</translation>
     </message>
     <message>
-        <source>TSL URL</source>
-        <translation>TSL URL</translation>
+        <source>Signer&apos;s Certificate issuer</source>
+        <translation>Организация, выдавшая сертификат подписавшего</translation>
+    </message>
+    <message>
+        <source>Signer&apos;s Certificate</source>
+        <translation>Сертификат пользователя</translation>
+    </message>
+    <message>
+        <source>TS Certificate issuer</source>
+        <translation>Сертификат службы штампов времени</translation>
+    </message>
+    <message>
+        <source>TS Certificate</source>
+        <translation>Сертификат службы штампов времени</translation>
+    </message>
+    <message>
+        <source>OCSP Certificate</source>
+        <translation>Сертификат OCSP</translation>
     </message>
 </context>
 <context>
