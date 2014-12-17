@@ -146,6 +146,12 @@ Application::Application( int &argc, char **argv )
 	setWindowIcon( QIcon( ":/images/digidoc_icon_128x128.png" ) );
 	detectPlugins();
 
+	installTranslator( &d->appTranslator );
+	installTranslator( &d->commonTranslator );
+	installTranslator( &d->cryptoTranslator );
+	installTranslator( &d->qtTranslator );
+	loadTranslation( Settings::language() );
+
 	QProgressBar bar;
 	bar.setMinimumWidth( 300 );
 	bar.setWindowTitle( tr("Loading DigiDoc3 Client") );
@@ -224,12 +230,6 @@ Application::Application( int &argc, char **argv )
 	d->bar->dockMenu()->addAction( d->newClientAction );
 	d->bar->dockMenu()->addAction( d->newCryptoAction );
 #endif
-
-	installTranslator( &d->appTranslator );
-	installTranslator( &d->commonTranslator );
-	installTranslator( &d->cryptoTranslator );
-	installTranslator( &d->qtTranslator );
-	loadTranslation( Settings::language() );
 
 	QSigner::ApiType api = QSigner::PKCS11;
 #ifdef Q_OS_WIN
@@ -353,9 +353,9 @@ void Application::loadTranslation( const QString &lang )
 	d->commonTranslator.load( ":/translations/common_" + lang );
 	d->cryptoTranslator.load( ":/translations/crypto_" + lang );
 	d->qtTranslator.load( ":/translations/qt_" + lang );
-	d->closeAction->setText( tr("Close window") );
-	d->newClientAction->setText( tr("New Client window") );
-	d->newCryptoAction->setText( tr("New Crypto window") );
+	if( d->closeAction ) d->closeAction->setText( tr("Close window") );
+	if( d->newClientAction ) d->newClientAction->setText( tr("New Client window") );
+	if( d->newCryptoAction ) d->newCryptoAction->setText( tr("New Crypto window") );
 }
 
 bool Application::notify( QObject *o, QEvent *e )
