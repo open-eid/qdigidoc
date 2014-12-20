@@ -26,7 +26,7 @@ else()
 endif()
 
 if( APPLE )
-	add_subdirectory( DigiDocQL )
+	add_subdirectory( extensions/DigiDocQL )
 endif()
 include( common/BreakPad.cmake )
 add_subdirectory( common )
