@@ -7,7 +7,11 @@ Build-Depends:
  cmake,
  libdigidocpp-dev (>=3.0),
  libldap2-dev,
- qtbase5-dev|libqt4-dev
+ libpcsclite-dev,
+ libssl-dev,
+ qtbase5-dev,
+ qttools5-dev,
+ qttools5-dev-tools
 Standards-Version: 3.9.5
 Homepage: https://github.com/open-eid/qdigidoc
 
