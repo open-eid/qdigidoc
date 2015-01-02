@@ -32,11 +32,6 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
     <UIRef Id="WixUI_Minimal" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
-<?ifdef env.VS120COMNTOOLS ?>
-      <Merge Id='CRT' Language='0' SourceFile='C:\Program Files (x86)\Common Files\Merge Modules\Microsoft_VC120_CRT_x86.msm' DiskId='1'/>
-<?else?>
-      <Merge Id='CRT' Language='0' SourceFile='C:\Program Files (x86)\Common Files\Merge Modules\Microsoft_VC110_CRT_x86.msm' DiskId='1'/>
-<?endif?>
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ProgramMenuDir" Name="Digidoc3 Client">
           <Component Id="ProgramMenuDir" Guid="f16899e5-b0d9-4902-b0e0-350ac5ac6c2d">
@@ -48,6 +43,9 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
       <Directory Id='ProgramFilesFolder'>
         <Directory Id="APPLICATIONFOLDER" Name="DigiDoc3 Client">
           <Component Id="Application" Guid="810cbd57-b24d-49ee-939a-a1fc38dda46f">
+            <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.CRT\msvcp120.dll"/>
+            <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.CRT\msvcr120.dll"/>
+            <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.CRT\vccorlib120.dll"/>
             <File Source="$(var.libs_path)\libeay32.dll"/>
             <File Source="$(var.libs_path)\ssleay32.dll"/>
             <File Source="$(var.libs_path)\zlib1.dll"/>
@@ -167,7 +165,6 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
 <?endif?>
 
     <Feature Id="InstallDigidoc" Level="1" Title="Digidoc3 Client" Display="expand" ConfigurableDirectory="APPLICATIONFOLDER">
-      <MergeRef Id="CRT"/>
       <ComponentRef Id='ProgramMenuDir' />
       <ComponentRef Id="Application"/>
       <ComponentRef Id="qwindows.dll" />
