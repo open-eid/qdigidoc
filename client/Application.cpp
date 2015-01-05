@@ -175,7 +175,7 @@ Application::Application( int &argc, char **argv )
 	t.start( 100 );
 	qRegisterMetaType<QEventLoop*>("QEventLoop*");
 	QEventLoop e;
-	std::future<bool> load(std::async([&](){
+	std::future<bool> load(std::async(std::launch::async, [&](){
 		try
 		{
 			digidoc::Conf::init( new DigidocConf );
