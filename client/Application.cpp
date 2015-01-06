@@ -105,9 +105,18 @@ public:
 public:
 	bool TSLAllowExpired() const
 	{
-		QEventLoop e;
-		QMetaObject::invokeMethod( qApp, "showTSLWarning", Q_ARG(QEventLoop*,&e) );
-		return e.exec();
+		static enum {
+			Undefined,
+			Approved,
+			Rejected
+		} status = Undefined;
+		if(status == Undefined)
+		{
+			QEventLoop e;
+			QMetaObject::invokeMethod( qApp, "showTSLWarning", Q_ARG(QEventLoop*,&e) );
+			status = e.exec() ? Approved : Rejected;
+		}
+		return status == Approved;
 	}
 };
 
