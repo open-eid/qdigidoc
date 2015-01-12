@@ -101,9 +101,6 @@ MobileDialog::MobileDialog( QWidget *parent )
 	{
 		QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
 		ssl.setCaCertificates( ssl.caCertificates()
-#ifdef Q_OS_LINUX
-			<< QSslCertificate::fromPath( "/usr/share/esteid/certs/*.crt", QSsl::Pem, QRegExp::Wildcard )
-#endif
 			<< QSslCertificate::fromPath( ":/certs/*.crt", QSsl::Pem, QRegExp::Wildcard ) );
 		ssl.setPrivateKey( AccessCert::key() );
 		ssl.setLocalCertificate( AccessCert::cert() );
