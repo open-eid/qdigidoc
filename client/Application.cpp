@@ -192,7 +192,10 @@ Application::Application( int &argc, char **argv )
 			for(const QString &file: QDir(":/TSL/").entryList())
 			{
 				if(!QFile::exists(cache + "/" + file))
+				{
 					QFile::copy(":/TSL/" + file, cache + "/" + file);
+					QFile::setPermissions(cache + "/" + file, QFile::Permissions(0x6444));
+				}
 			}
 			digidoc::initialize( QString( "%1/%2 (%3)" )
 				.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData() );
