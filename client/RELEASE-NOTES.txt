@@ -1,3 +1,29 @@
+DigiDoc3 Client version 3.10 release notes
+--------------------------------------
+Changes compared to ver 3.9.1
+
+- Started using BDOC as the default digital signature container format instead of DIGIDOC-XML 1.3. 
+- Added explanatory information about BDOC format to the signing introduction view. 
+- Added support for creating ASiC-E signatures (BDOC with time-stamps).
+- Updated options for selecting the default digital signature container format in the "Settings" menu's "Signing" tab. Added option for ASiC-E format.
+- Implemented functionality of using the appropriate signature format in case of adding signatures to existing BDOC and ASiC-E containers. By default, the format of the existing signature is used for new signatures.  
+- Implemented TSL Trust service Status list functionality for checking the trustworthiness of trust-services (CA, OCSP, time-stamping services) during signature creation and validation. The European Commission's (EC) TSL list (https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-mp.xml) is used for finding the trusted national TSL lists.
+	- Certificates of all the EU member states' trust services that are registered in national TSL lists are supported.
+	- By default, the Estonian national TSL list (http://sr.riik.ee/tsl/estonian-tsl.xml) is used.
+	- Added the European Commission's TSL URL value to the signature details view.
+	- Implemented TSL progress bar that indicates the progress of loading the TSL data during the application's startup.
+	- Implemented automatic checking for new TSL versions. Added possibility to deactivate the automatic version check with the "Online TSL digest check" checkbox under "Settings" menu's "General" tab. 
+	- Added pop-up notification to the user if the TSL version check was unsucessful.
+- Started using older version of esteid-pkcs11 driver in case of OSX 10.9 and earlier OSX versions.
+- Fixed problem with "Send container to email" functionality with Thunderbird e-mail client. Added identification of the user's default e-mail client and implemented Thunderbird workaround for attachments
+- Fixed problem with "Send container to email" functionality that appeared in OSX in case of Outlook e-mail client. Added Outlook to sandbox exception list.
+- Development of the software can now be monitored in GitHub environment: https://github.com/open-eid/qdigidoc
+
+Known issues:
+- With OSX and Outlook 2014, "Send container to email" functionality in DigiDoc3 Client does not work from any other folder than the Documents folder.
+
+
+
 DigiDoc3 Client version 3.9.1 release notes
 --------------------------------------
 Changes compared to ver 3.9
