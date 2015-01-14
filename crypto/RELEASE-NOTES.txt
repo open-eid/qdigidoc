@@ -1,3 +1,21 @@
+DigiDoc3 Crypto version 3.10 release notes
+--------------------------------------
+Changes compared to ver 3.9.1
+
+- Changed the usage of intermediate DDOC containers during encryption
+	- By default, intermediate DDOC container is not used when encrypting a single data file. Note that such encrypted document cannot be decrypted with DigiDoc3 Crypto versions 3.8 and earlier.
+	- Added checkbox to "Settings" menu's "General" view that enables to always use intermediate DDOC containers for interoperability with DigiDoc3 Crypto versions 3.8 and earlier.
+- Fixed format error in the intermediate DDOC container's <DataFile> element's Size attribute. The value is now generated in bytes with no suffix.
+- Improved memory usage with large files
+- Added functionality to display information of the new E-resident Digi-ID certificate in the main window's "Keys" section
+- Improved displaying of the encrypted document's name in the container content view. Previously the encrypted document's name was not displayed in case of minor format errors (e.g. in case of encrypted penalty documents).
+- Improved handling of non latin1 characters in CDOC documents
+- Improved handling of data files to avoid reading an incorrect file from the user's file system when the file name contains slash characters. 
+- Fixed the translation of some buttons that in case of OSX platform appeared in English even if the chosen language was Russian or Estonian.
+- Development of the software can now be monitored in GitHub environment: https://github.com/open-eid/qdigidoc
+
+
+
 DigiDoc3 Crypto version 3.9.1 release notes
 --------------------------------------
 Changes compared to ver 3.9
