@@ -111,6 +111,11 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
                 <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
               </Extension>
             </ProgId>
+            <ProgId Id="qdigidocclient.ddoc" Description="DigiDoc signed document" Icon="qdigidocclient.exe" IconIndex="1">
+              <Extension Id="ddoc" ContentType="application/x-ddoc">
+                <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
+              </Extension>
+            </ProgId>
             <ProgId Id="qdigidocclient.p12d" Description="DigiDoc PKCS#12 certificate" Icon="qdigidocclient.exe" IconIndex="1">
               <Extension Id="p12d" ContentType="application/x-p12d">
                 <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
