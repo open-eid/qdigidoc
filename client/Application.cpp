@@ -123,19 +123,14 @@ public:
 class ApplicationPrivate
 {
 public:
-	ApplicationPrivate()
-		: closeAction(0)
-		, newClientAction(0)
-		, newCryptoAction(0)
-		, bar(0)
-		, signer(0) {}
-
-	QAction		*closeAction, *newClientAction, *newCryptoAction;
-	MacMenuBar	*bar;
-	QSigner		*signer;
+	QAction		*closeAction = nullptr, *newClientAction = nullptr, *newCryptoAction = nullptr;
+	MacMenuBar	*bar = nullptr;
+	QSigner		*signer = nullptr;
 	QTranslator	appTranslator, commonTranslator, cryptoTranslator, qtTranslator;
 	QString		lang;
 	QTimer		lastWindowTimer;
+	std::future<bool> loading;
+	bool		ready = false;
 };
 
 Application::Application( int &argc, char **argv )
@@ -168,57 +163,6 @@ Application::Application( int &argc, char **argv )
 	installTranslator( &d->cryptoTranslator );
 	installTranslator( &d->qtTranslator );
 	loadTranslation( Settings::language() );
-
-	QProgressBar bar;
-	bar.setMinimumWidth( 300 );
-	bar.setWindowTitle( tr("Loading DigiDoc3 Client") );
-	bar.show();
-	bar.setRange( 0, 100 );
-	QTimer t;
-	connect( &t, &QTimer::timeout, [&](){
-		bar.setValue( bar.value() + 1 );
-		if( bar.value() == bar.maximum() )
-			bar.reset();
-		t.start( 100 );
-	});
-	t.start( 100 );
-	qRegisterMetaType<QEventLoop*>("QEventLoop*");
-	QEventLoop e;
-	std::future<bool> load(std::async(std::launch::async, [&](){
-		try
-		{
-			digidoc::Conf::init( new DigidocConf );
-			QString cache = confValue(TSLCache).toString();
-			for(const QString &file: QDir(":/TSL/").entryList())
-			{
-				if(!QFile::exists(cache + "/" + file))
-				{
-					QFile::copy(":/TSL/" + file, cache + "/" + file);
-					QFile::setPermissions(cache + "/" + file, QFile::Permissions(0x6444));
-				}
-			}
-			digidoc::initialize( QString( "%1/%2 (%3)" )
-				.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData() );
-			e.exit(1);
-			return true;
-		}
-		catch( const digidoc::Exception &e )
-		{
-			QStringList causes;
-			digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
-			int ddocError = -1;
-			DigiDoc::parseException( e, causes, code, ddocError );
-			QMetaObject::invokeMethod( this, "showWarning",
-				Q_ARG(QString,tr("Failed to initalize.")), Q_ARG(QString,causes.join("\n")) );
-		}
-		e.exit(0);
-		return false;
-	}));
-	if(e.exec() == 0)
-	{
-		setQuitOnLastWindowClosed( true );
-		return;
-	}
 
 	// Actions
 	d->closeAction = new QAction( this );
@@ -270,8 +214,71 @@ Application::Application( int &argc, char **argv )
 		api = QSigner::CNG;
 #endif
 	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;
-	d->signer = new QSigner( api, this );
-	parseArgs( args );
+
+	try
+	{
+		digidoc::Conf::init( new DigidocConf );
+		d->signer = new QSigner( api, this );
+	}
+	catch( const digidoc::Exception &e )
+	{
+		QStringList causes;
+		digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
+		int ddocError = -1;
+		DigiDoc::parseException( e, causes, code, ddocError );
+		QMetaObject::invokeMethod( this, "showWarning",
+			Q_ARG(QString,tr("Failed to initalize.")), Q_ARG(QString,causes.join("\n")) );
+		return;
+	}
+
+	QProgressBar bar;
+	bar.setMinimumWidth( 300 );
+	bar.setWindowTitle( tr("Loading DigiDoc3 Client") );
+	bar.show();
+	bar.setRange( 0, 100 );
+	QTimer t;
+	connect( &t, &QTimer::timeout, [&](){
+		bar.setValue( bar.value() + 1 );
+		if( bar.value() == bar.maximum() )
+			bar.reset();
+		t.start( 100 );
+	});
+	t.start( 100 );
+	qRegisterMetaType<QEventLoop*>("QEventLoop*");
+	QEventLoop e;
+	d->loading = std::async(std::launch::async, [&](){
+		try
+		{
+			QString cache = confValue(TSLCache).toString();
+			for(const QString &file: QDir(":/TSL/").entryList())
+			{
+				if(!QFile::exists(cache + "/" + file))
+				{
+					QFile::copy(":/TSL/" + file, cache + "/" + file);
+					QFile::setPermissions(cache + "/" + file, QFile::Permissions(0x6444));
+				}
+			}
+			digidoc::initialize( QString( "%1/%2 (%3)" )
+				.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData() );
+			e.exit(1);
+			return (d->ready = true);
+		}
+		catch( const digidoc::Exception &e )
+		{
+			QStringList causes;
+			digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
+			int ddocError = -1;
+			DigiDoc::parseException( e, causes, code, ddocError );
+			QMetaObject::invokeMethod( this, "showWarning",
+				Q_ARG(QString,tr("Failed to initalize.")), Q_ARG(QString,causes.join("\n")) );
+		}
+		e.exit(0);
+		return (d->ready = false);
+	});
+	if( e.exec() == 0 )
+		setQuitOnLastWindowClosed( true );
+	else
+		parseArgs( args );
 }
 
 Application::~Application()
@@ -427,7 +434,7 @@ void Application::parseArgs( const QStringList &args )
 		showSettings( SettingsDialog::AccessCertSettings, params[0] );
 	else if( crypto || (QStringList() << "cdoc").contains( suffix, Qt::CaseInsensitive ) )
 		showCrypto( params );
-	else
+	else if( topLevelWindows().isEmpty() || !params.isEmpty() )
 		showClient( params );
 }
 
@@ -483,6 +490,9 @@ void Application::showAbout()
 
 void Application::showClient( const QStringList &params )
 {
+	d->loading.wait();
+	if( !d->ready )
+		return;
 	QWidget *w = 0;
 	foreach( QWidget *m, qApp->topLevelWidgets() )
 	{
@@ -502,6 +512,9 @@ void Application::showClient( const QStringList &params )
 
 void Application::showCrypto( const QStringList &params )
 {
+	d->loading.wait();
+	if( !d->ready )
+		return;
 	QWidget *w = 0;
 	foreach( QWidget *m, qApp->topLevelWidgets() )
 	{
