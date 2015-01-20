@@ -7,7 +7,7 @@ Changes compared to ver 3.9.1
 - Added support for creating ASiC-E signatures (BDOC with time-stamps).
 - Updated options for selecting the default digital signature container format in the "Settings" menu's "Signing" tab. Added option for ASiC-E format.
 - Implemented functionality of using the appropriate signature format in case of adding signatures to existing BDOC and ASiC-E containers. By default, the format of the existing signature is used for new signatures.  
-- Implemented TSL Trust service Status list functionality for checking the trustworthiness of trust-services (CA, OCSP, time-stamping services) during signature creation and validation. The European Commission's (EC) TSL list (https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-mp.xml) is used for finding the trusted national TSL lists.
+- Implemented TSL Trust service Status list functionality for BDOC and ASiC-E formats. TSL is used for checking the trustworthiness of trust-services (CA, OCSP, time-stamping services) during signature creation and validation.  The European Commission's (EC) TSL list (https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-mp.xml) is used for finding the trusted national TSL lists.
 	- Certificates of all the EU member states' trust services that are registered in national TSL lists are supported.
 	- By default, the Estonian national TSL list (http://sr.riik.ee/tsl/estonian-tsl.xml) is used.
 	- Added the European Commission's TSL URL value to the signature details view.
