@@ -550,13 +550,13 @@ Kontrolli, kas ID-kaart on õiget pidi lugejas.</translation>
         <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
-BDOC is a digital signature format used for digital signing since 2015.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;NB! Important! From the 2015 onwards, the default digital signature format is BDOC.&lt;/font&gt;&lt;/b&gt; &lt;a href=&quot;http://www.ria.ee/bdoc-en&quot;&gt;More info&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
 Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
 According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
         <translation>Dokumendi allkirjastamine.&lt;br /&gt;&lt;br /&gt;
 Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.&lt;br /&gt;&lt;br /&gt;
 Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
-Digitaalallkirjastatud dokumendi loomisel on alates 2015. aastast vaikimisi vorminguks BDOC.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;NB! Tähelepanu! Alates 2015. aastast on digitaalallkirja vaikimisi vorming BDOC.&lt;/font&gt;&lt;/b&gt; &lt;a href=&quot;http://www.ria.ee/bdoc&quot;&gt;Lisainfo&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
 Digitaalallkirja andmiseks on vajalik internetiühendus.&lt;br /&gt;&lt;br /&gt;
 Vastavalt &lt;a href=&quot;https://sk.ee/teenused/kehtivuskinnituse-teenus/kehtivuskinnituse-teenuse-kasutamise-tavatingimused/&quot;&gt;kehtivuskinnitusteenuse kasutamise tavatingimustele&lt;/a&gt; on lubatud allkirjastamise teenust tasuta kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-meeskonna poole või sõlmige teenuse kasutamiseks leping. Lisainfo: &lt;a href=&quot;www.id.ee/?lang=et&quot;&gt;www.id.ee&lt;/a&gt; või ID-abiliini telefonil 1777 (vaid Eesti-siseselt), (+372) 6773377.</translation>
     </message>

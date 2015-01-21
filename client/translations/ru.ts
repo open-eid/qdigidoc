@@ -554,13 +554,13 @@ Check if the ID-card is inserted correctly to the reader.</source>
         <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
-BDOC is a digital signature format used for digital signing since 2015.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;NB! Important! From the 2015 onwards, the default digital signature format is BDOC.&lt;/font&gt;&lt;/b&gt; &lt;a href=&quot;http://www.ria.ee/bdoc-en&quot;&gt;More info&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
 Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
 According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
         <translation>Подписывание документов.&lt;br /&gt;&lt;br /&gt;
 Цифровая подпись аналогична физической подписи. Для цифровой подписи нужна ID-карта, которая имеет действующие сертификаты.&lt;br /&gt;&lt;br /&gt;
 При подписывании документов нужен PIN2 код.&lt;br /&gt;&lt;br /&gt;
-Начиная с 2015 года BDOC является форматом подписи по умолчанию.&lt;br /&gt;&lt;br /&gt;
+&lt;b&gt;&lt;font color=&quot;red&quot;&gt;NB! С 2015 года форматом цифровой подписи по умолчанию стал BDOC.&lt;/font&gt;&lt;/b&gt; &lt;a href=&quot;http://www.ria.ee/bdoc-ru&quot;&gt;Дополнительная информация&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
 Для цифровой подписи необходимо подключение к интернету.&lt;br /&gt;&lt;br /&gt;
 Согласно &lt;a href=&quot;https://sk.ee/en/services/validity-confirmation-services/standard-conditions-of-validation-certification-service/&quot;&gt;условиям использования услуги подтверждения действительности&lt;/a&gt; Вы можете поставить максимум 10 бесплатных подписей в течение месяца. Если Вам необходимо использовать услугу подтверждения действительности в большем объеме или в служебных целях, обратитесь в ИТ-отдел Вашей организации или заключите договор на использование услуги. Дополнительная информация: &lt;a href=&quot;www.id.ee/?lang=ru&quot;&gt;www.id.ee&lt;/a&gt; или телефон линии помощи ID-карты 1777 (только в пределах Эстонии), (+372) 6773377.</translation>
     </message>
