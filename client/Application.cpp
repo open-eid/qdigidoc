@@ -250,6 +250,7 @@ Application::Application( int &argc, char **argv )
 		try
 		{
 			QString cache = confValue(TSLCache).toString();
+			QDir().mkpath( cache );
 			for(const QString &file: QDir(":/TSL/").entryList())
 			{
 				if(!QFile::exists(cache + "/" + file))
