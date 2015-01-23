@@ -231,16 +231,16 @@ Application::Application( int &argc, char **argv )
 		return;
 	}
 
-	QProgressBar bar;
-	bar.setMinimumWidth( 300 );
-	bar.setWindowTitle( tr("Loading DigiDoc3 Client") );
-	bar.show();
-	bar.setRange( 0, 100 );
+	QProgressBar *bar = new QProgressBar;
+	bar->setMinimumWidth( 300 );
+	bar->setWindowTitle( tr("Loading DigiDoc3 Client") );
+	bar->show();
+	bar->setRange( 0, 100 );
 	QTimer t;
 	connect( &t, &QTimer::timeout, [&](){
-		bar.setValue( bar.value() + 1 );
-		if( bar.value() == bar.maximum() )
-			bar.reset();
+		bar->setValue( bar->value() + 1 );
+		if( bar->value() == bar->maximum() )
+			bar->reset();
 		t.start( 100 );
 	});
 	t.start( 100 );
@@ -277,8 +277,13 @@ Application::Application( int &argc, char **argv )
 		return (d->ready = false);
 	});
 	if( e.exec() == 0 )
+	{
 		setQuitOnLastWindowClosed( true );
-	else
+		return;
+	}
+
+	delete bar;
+	if( !args.isEmpty() || topLevelWindows().isEmpty() )
 		parseArgs( args );
 }
 
@@ -435,7 +440,7 @@ void Application::parseArgs( const QStringList &args )
 		showSettings( SettingsDialog::AccessCertSettings, params[0] );
 	else if( crypto || (QStringList() << "cdoc").contains( suffix, Qt::CaseInsensitive ) )
 		showCrypto( params );
-	else if( topLevelWindows().isEmpty() || !params.isEmpty() )
+	else
 		showClient( params );
 }
 
