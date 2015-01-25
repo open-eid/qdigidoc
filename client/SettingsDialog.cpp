@@ -132,7 +132,7 @@ SettingsDialog::~SettingsDialog() { delete d; }
 
 void SettingsDialog::activateAccessCert( const QString &certpath )
 {
-	d->tabWidget->setCurrentIndex( 1 );
+	d->tabWidget->setCurrentIndex( AccessCertSettings );
 	QFile file( FileDialog::getOpenFileName( this, tr("Select server access certificate"),
 		certpath, tr("Server access certificates (*.p12 *.p12d *.pfx)") ) );
 	if(!file.exists())

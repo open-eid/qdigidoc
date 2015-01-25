@@ -34,9 +34,9 @@ class SettingsDialog: public QDialog
 
 public:
 	enum {
-		GeneralSettings = 0,
-		AccessCertSettings = 1,
-		NetworkSettings = 2
+		GeneralSettings = 1,
+		AccessCertSettings = 2,
+		NetworkSettings = 3
 	};
 
 	explicit SettingsDialog( int page = GeneralSettings, QWidget *parent = 0 );

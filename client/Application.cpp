@@ -282,6 +282,7 @@ Application::Application( int &argc, char **argv )
 		return;
 	}
 
+	t.stop();
 	delete bar;
 	if( !args.isEmpty() || topLevelWindows().isEmpty() )
 		parseArgs( args );
