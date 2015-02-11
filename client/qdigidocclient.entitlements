@@ -15,7 +15,6 @@
         <string>/private/var/run/pcscd.pub</string>
         <key>com.apple.security.temporary-exception.apple-events</key>
         <array>
-            <string>com.apple.mail</string>
             <string>com.microsoft.outlook</string>
         </array>
         <key>com.apple.security.scripting-targets</key>
