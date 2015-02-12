@@ -169,10 +169,10 @@ Application::Application( int &argc, char **argv )
 	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
 
-	d->newClientAction = new QAction( this );
+	d->newClientAction = new QAction( tr("New Client window"), this );
 	d->newClientAction->setShortcut( Qt::CTRL + Qt::Key_N );
 	connect( d->newClientAction, SIGNAL(triggered()), SLOT(showClient()) );
-	d->newCryptoAction = new QAction( this );
+	d->newCryptoAction = new QAction( tr("New Crypto window"), this );
 	d->newCryptoAction->setShortcut( Qt::CTRL + Qt::Key_C );
 	connect( d->newCryptoAction, SIGNAL(triggered()), SLOT(showCrypto()) );
 
