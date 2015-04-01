@@ -13,10 +13,11 @@ Changes compared to ver 3.9.1
 	- Added the European Commission's TSL URL value to the signature details view.
 	- Implemented TSL progress bar that indicates the progress of loading the TSL data during the application's startup.
 	- Implemented automatic checking for new TSL versions. Added possibility to deactivate the automatic version check with the "Online TSL digest check" checkbox under "Settings" menu's "General" tab. 
-	- Added pop-up notification to the user if the TSL version check was unsucessful.
+	- Added pop-up notification to the user if the TSL version check was unsuccessful.
 - Started using older version of esteid-pkcs11 driver in case of OSX 10.9 and earlier OSX versions.
 - Fixed problem with "Send container to email" functionality with Thunderbird e-mail client. Added identification of the user's default e-mail client and implemented Thunderbird workaround for attachments
 - Fixed problem with "Send container to email" functionality that appeared in OSX in case of Outlook e-mail client. Added Outlook to sandbox exception list.
+- Implemented usage of the operating system's proxy settings via QT in case of Windows platform.
 - Development of the software can now be monitored in GitHub environment: https://github.com/open-eid/qdigidoc
 
 Known issues:
