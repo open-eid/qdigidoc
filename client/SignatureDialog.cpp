@@ -251,7 +251,6 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 
 	addItem( t, tr("Signer's Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	addItem( t, tr("Signer's Certificate"), c );
-	addItem( t, tr("Signer's computer time (UTC)"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 	addItem( t, tr("Signature method"), s.signatureMethod() );
 	addItem( t, tr("Container format"), s.parent()->mediaType() );
 	if( s.type() != DigiDocSignature::DDocType )
@@ -285,12 +284,13 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		SslCertificate ocsp = s.ocspCert();
 		addItem( t, tr("OCSP Certificate issuer"), SslCertificate(ocsp).issuerInfo(QSslCertificate::CommonName) );
 		addItem( t, tr("OCSP Certificate"), ocsp );
+		addItem( t, tr("Hash value of signature"), SslCertificate::toHex( s.ocspNonce() ) );
 		addItem( t, tr("OCSP time"), DateTime( s.ocspTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
 		addItem( t, tr("OCSP time") + " (UTC)", DateTime( s.ocspTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( t, tr("Hash value of signature"), SslCertificate::toHex( s.ocspNonce() ) );
-		break;
 	}
-	default: break;
+	default:
+		addItem( t, tr("Signer's computer time (UTC)"), DateTime( s.signTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
+		break;
 	}
 }
 
