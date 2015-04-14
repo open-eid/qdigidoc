@@ -118,6 +118,8 @@ void TreeWidget::open( const QModelIndex &index )
 				"Are you sure you want to launch this file?"),
 			QMessageBox::Yes|QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
 		return;
+#else
+	QFile::setPermissions( f.absoluteFilePath(), QFile::Permissions(0x6000) );
 #endif
 	QDesktopServices::openUrl( QUrl::fromLocalFile( f.absoluteFilePath() ) );
 }
