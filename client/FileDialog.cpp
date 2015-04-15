@@ -30,7 +30,6 @@
 #include <QtGui/QMessageBox>
 #endif
 #ifdef Q_OS_WIN
-#include <QtCore/QLibrary>
 #include <Shobjidl.h>
 #include <Shlguid.h>
 #endif
@@ -76,8 +75,15 @@ QString FileDialog::fileSize( quint64 bytes )
 
 QString FileDialog::getDir( const QString &dir )
 {
+#ifdef Q_OS_OSX
+	Q_UNUSED(dir);
+	QString path = Settings(qApp->applicationName()).value("NSNavLastRootDirectory").toString();
+	path.replace("~", QDir::homePath());
+	return path;
+#else
 	return !dir.isEmpty() ? dir : Settings(qApp->applicationName()).value("lastPath",
 		QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString();
+#endif
 }
 
 QString FileDialog::getOpenFileName( QWidget *parent, const QString &caption,
@@ -104,66 +110,59 @@ QString FileDialog::getExistingDirectory( QWidget *parent, const QString &captio
 {
 	QString res;
 #ifdef Q_OS_WIN
-	if( QSysInfo::windowsVersion() >= QSysInfo::WV_VISTA )
+	//https://bugreports.qt-project.org/browse/QTBUG-12655
+	//https://bugreports.qt-project.org/browse/QTBUG-27359
+	IFileOpenDialog *pfd = 0;
+	CoCreateInstance( CLSID_FileOpenDialog, NULL, CLSCTX_INPROC, IID_PPV_ARGS(&pfd) );
+	pfd->SetOptions( FOS_PICKFOLDERS );
+	QString dest = QDir::toNativeSeparators( getDir( dir ) );
+	IShellItem *folder = 0;
+	if( !dest.isEmpty() && SUCCEEDED(SHCreateItemFromParsingName( LPCWSTR(dest.utf16()), 0, IID_PPV_ARGS(&folder) )) )
 	{
-		IFileOpenDialog *pfd = 0;
-		CoCreateInstance( CLSID_FileOpenDialog, NULL, CLSCTX_INPROC, IID_PPV_ARGS(&pfd) );
-		pfd->SetOptions( FOS_PICKFOLDERS );
-		QString dest = QDir::toNativeSeparators( getDir( dir ) );
-		if( !dest.isEmpty() )
-		{
-			typedef HRESULT (WINAPI *PtrParsingName)(PCWSTR pszPath, IBindCtx *pbc, REFIID riid, void **ppv);
-			QLibrary lib("shell32");
-			IShellItem *folder = 0;
-			PtrParsingName p = PtrParsingName(lib.resolve("SHCreateItemFromParsingName"));
-			if( p && SUCCEEDED(p( LPCWSTR(dest.utf16()), 0, IID_PPV_ARGS(&folder) )) )
-			{
-				pfd->SetFolder(folder);
-				folder->Release();
-			}
-		}
-		if( !caption.isEmpty() )
-			pfd->SetTitle( LPCWSTR(caption.utf16()) );
-		if( SUCCEEDED(pfd->Show( parent && parent->window() ? HWND(parent->window()->winId()) : 0 )) )
-		{
-			IShellItem *item = 0;
-			if( SUCCEEDED(pfd->GetResult( &item )) )
-			{
-				LPWSTR path = 0;
-				if( SUCCEEDED(item->GetDisplayName( SIGDN_FILESYSPATH, &path )) )
-				{
-					res = QString( (QChar*)path );
-					CoTaskMemFree( path );
-				}
-				else
-				{
-					// Case it is Libraries/Favorites
-					IEnumShellItems *items = 0;
-					if( SUCCEEDED(item->BindToHandler( 0, BHID_EnumItems, IID_PPV_ARGS(&items) )) )
-					{
-						IShellItem *list = 0;
-						if( items->Next( 1, &list, 0 ) == NOERROR )
-						{
-							LPWSTR path = 0;
-							if( SUCCEEDED(list->GetDisplayName( SIGDN_FILESYSPATH, &path )) )
-							{
-								res = QFileInfo( QString( (QChar*)path ) + "/.." ).absoluteFilePath();
-								CoTaskMemFree( path );
-							}
-							list->Release();
-						}
-						items->Release();
-					}
-				}
-			}
-			item->Release();
-		}
-		pfd->Release();
+		pfd->SetFolder(folder);
+		folder->Release();
 	}
-	else
-#endif
+	if( !caption.isEmpty() )
+		pfd->SetTitle( LPCWSTR(caption.utf16()) );
+	if( SUCCEEDED(pfd->Show( parent && parent->window() ? HWND(parent->window()->winId()) : 0 )) )
+	{
+		IShellItem *item = 0;
+		if( SUCCEEDED(pfd->GetResult( &item )) )
+		{
+			LPWSTR path = 0;
+			if( SUCCEEDED(item->GetDisplayName( SIGDN_FILESYSPATH, &path )) )
+			{
+				res = QString( (QChar*)path );
+				CoTaskMemFree( path );
+			}
+			else
+			{
+				// Case it is Libraries/Favorites
+				IEnumShellItems *items = 0;
+				if( SUCCEEDED(item->BindToHandler( 0, BHID_EnumItems, IID_PPV_ARGS(&items) )) )
+				{
+					IShellItem *list = 0;
+					if( items->Next( 1, &list, 0 ) == NOERROR )
+					{
+						LPWSTR path = 0;
+						if( SUCCEEDED(list->GetDisplayName( SIGDN_FILESYSPATH, &path )) )
+						{
+							res = QFileInfo( QString( (QChar*)path ) + "/.." ).absoluteFilePath();
+							CoTaskMemFree( path );
+						}
+						list->Release();
+					}
+					items->Release();
+				}
+			}
+		}
+		item->Release();
+	}
+	pfd->Release();
+#else
 	res = QFileDialog::getExistingDirectory( parent,
 		caption, getDir( dir ), ShowDirsOnly|options|addOptions() );
+#endif
 #ifdef Q_OS_WIN
 	if( !QTemporaryFile( res + "/.XXXXXX" ).open() )
 #else
@@ -185,7 +184,7 @@ QString FileDialog::getSaveFileName( QWidget *parent, const QString &caption,
 	while( true )
 	{
 		file =  QFileDialog::getSaveFileName( parent,
-			caption, getDir( dir ), filter, selectedFilter, options|addOptions() );
+			caption, dir, filter, selectedFilter, options|addOptions() );
 		if( !file.isEmpty() && !fileIsWritable( file ) )
 		{
 			QMessageBox::warning( parent, caption,
@@ -199,15 +198,19 @@ QString FileDialog::getSaveFileName( QWidget *parent, const QString &caption,
 
 QString FileDialog::result( const QString &str )
 {
+#ifndef Q_OS_OSX
 	if(!str.isEmpty())
 		Settings(qApp->applicationName()).setValue("lastPath", QFileInfo(str).absolutePath());
+#else
+	Settings(qApp->applicationName()).remove("lastPath");
+#endif
 	return str;
 }
 
 QStringList FileDialog::result( const QStringList &list )
 {
 	QStringList l;
-	Q_FOREACH( const QString &str, list )
+	for( const QString &str: list )
 		l << result( str );
 	return l;
 }
