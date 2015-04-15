@@ -273,6 +273,9 @@ void DigiDocSignature::parseException( DigiDocSignature::SignatureStatus &result
 			m_warning |= WrongNameSpace;
 			result = std::max( result, Warning );
 			break;
+		case Exception::ProducedATLateWarning:
+			result = std::max( result, Warning );
+			break;
 		case Exception::CertificateIssuerMissing:
 		case Exception::CertificateUnknown:
 		case Exception::OCSPResponderMissing:
