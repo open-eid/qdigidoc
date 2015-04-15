@@ -41,7 +41,16 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -129,7 +138,7 @@ color: #668696;
 padding-left: 10px;
 padding-right: 10px;
 }
-#infoFrame QLabel, #infoFrame QLineEdit
+#infoFrame QLabel, #infoFrame QLineEdit, #infoFrame QCheckBox
 {
 color: #668696;
 }
@@ -366,7 +375,16 @@ padding: 5px;
            </size>
           </property>
           <layout class="QVBoxLayout" name="infoFrameLayout">
-           <property name="margin">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
             <number>0</number>
            </property>
            <item>
@@ -436,7 +454,16 @@ padding: 5px;
                <property name="fieldGrowthPolicy">
                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item row="0" column="0">
@@ -476,6 +503,16 @@ padding: 5px;
                  </property>
                  <property name="placeholderText">
                   <string notr="true">47101010033</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QCheckBox" name="infoMobileSettings">
+                 <property name="text">
+                  <string>Remember me</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -625,7 +662,16 @@ padding: 5px;
         </widget>
         <widget class="QWidget" name="intro">
          <layout class="QVBoxLayout" name="introLayout">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -667,14 +713,23 @@ According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-ser
         </widget>
         <widget class="QWidget" name="sign">
          <layout class="QGridLayout" name="signLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <property name="horizontalSpacing">
            <number>10</number>
           </property>
           <property name="verticalSpacing">
            <number>4</number>
-          </property>
-          <property name="margin">
-           <number>0</number>
           </property>
           <item row="0" column="0">
            <widget class="QLabel" name="signContentLabel">
@@ -720,7 +775,16 @@ According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-ser
              <property name="spacing">
               <number>4</number>
              </property>
-             <property name="margin">
+             <property name="leftMargin">
+              <number>4</number>
+             </property>
+             <property name="topMargin">
+              <number>4</number>
+             </property>
+             <property name="rightMargin">
+              <number>4</number>
+             </property>
+             <property name="bottomMargin">
               <number>4</number>
              </property>
              <item>
@@ -779,7 +843,16 @@ According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-ser
              <property name="verticalSpacing">
               <number>4</number>
              </property>
-             <property name="margin">
+             <property name="leftMargin">
+              <number>4</number>
+             </property>
+             <property name="topMargin">
+              <number>4</number>
+             </property>
+             <property name="rightMargin">
+              <number>4</number>
+             </property>
+             <property name="bottomMargin">
               <number>4</number>
              </property>
              <item row="0" column="0" colspan="2">
@@ -929,14 +1002,23 @@ According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-ser
         </widget>
         <widget class="QWidget" name="view">
          <layout class="QGridLayout" name="viewLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <property name="horizontalSpacing">
            <number>10</number>
           </property>
           <property name="verticalSpacing">
            <number>4</number>
-          </property>
-          <property name="margin">
-           <number>0</number>
           </property>
           <item row="0" column="0" colspan="2">
            <layout class="QHBoxLayout" name="viewFileNameLayout">
@@ -1035,7 +1117,16 @@ color: red;</string>
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="viewContentFrameLayout">
-             <property name="margin">
+             <property name="leftMargin">
+              <number>4</number>
+             </property>
+             <property name="topMargin">
+              <number>4</number>
+             </property>
+             <property name="rightMargin">
+              <number>4</number>
+             </property>
+             <property name="bottomMargin">
               <number>4</number>
              </property>
              <item>
@@ -1106,7 +1197,16 @@ color: red;</string>
               <property name="spacing">
                <number>0</number>
               </property>
-              <property name="margin">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
                <number>0</number>
               </property>
               <item>

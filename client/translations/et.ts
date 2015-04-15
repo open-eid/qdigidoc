@@ -560,6 +560,10 @@ Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
 Digitaalallkirja andmiseks on vajalik internetiühendus.&lt;br /&gt;&lt;br /&gt;
 Vastavalt &lt;a href=&quot;https://sk.ee/teenused/kehtivuskinnituse-teenus/kehtivuskinnituse-teenuse-kasutamise-tavatingimused/&quot;&gt;kehtivuskinnitusteenuse kasutamise tavatingimustele&lt;/a&gt; on lubatud allkirjastamise teenust tasuta kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-meeskonna poole või sõlmige teenuse kasutamiseks leping. Lisainfo: &lt;a href=&quot;http://www.id.ee/?lang=et&quot;&gt;www.id.ee&lt;/a&gt; või ID-abiliini telefonil 1777 (vaid Eesti-siseselt), (+372) 6773377.</translation>
     </message>
+    <message>
+        <source>Remember me</source>
+        <translation>Pea mind meeles</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

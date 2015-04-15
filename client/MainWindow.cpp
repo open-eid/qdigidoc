@@ -84,9 +84,16 @@ MainWindow::MainWindow( QWidget *parent )
 	infoMobileCode->setText( s.value( "Client/MobileCode" ).toString() );
 	infoMobileCell->setValidator( new NumberValidator( infoMobileCell ) );
 	infoMobileCell->setText( s.value( "Client/MobileNumber" ).toString() );
+	infoMobileSettings->setChecked( Settings(qApp->applicationName()).value( "MobileSettings", true ).toBool() );
 	connect( infoMobileCode, SIGNAL(textEdited(QString)), SLOT(enableSign()) );
 	connect( infoMobileCell, SIGNAL(textEdited(QString)), SLOT(enableSign()) );
 	connect( infoTypeGroup, SIGNAL(buttonClicked(int)), SLOT(showCardStatus()) );
+	connect( infoMobileSettings, &QCheckBox::clicked, [=](bool checked) {
+		Settings s;
+		s.setValueEx("Client/MobileCode", checked ? infoMobileCode->text() : QString(), QString());
+		s.setValueEx("Client/MobileNumber", checked ? infoMobileCell->text() : QString(), QString());
+		Settings(qApp->applicationName()).setValueEx("MobileSettings", checked, true);
+	});
 
 	// Buttons
 	buttonGroup->setId( settings, HeadSettings );
@@ -547,9 +554,12 @@ void MainWindow::closeDoc()
 
 void MainWindow::enableSign()
 {
-	Settings s;
-	s.setValueEx( "Client/MobileCode", infoMobileCode->text(), QString() );
-	s.setValueEx( "Client/MobileNumber", infoMobileCell->text(), QString() );
+	if( infoMobileSettings->isChecked() )
+	{
+		Settings s;
+		s.setValueEx( "Client/MobileCode", infoMobileCode->text(), QString() );
+		s.setValueEx( "Client/MobileNumber", infoMobileCell->text(), QString() );
+	}
 	QAbstractButton *button = buttonGroup->button( SignSign );
 	button->setToolTip( QString() );
 	TokenData t = qApp->signer()->tokensign();

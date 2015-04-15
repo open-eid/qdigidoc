@@ -564,6 +564,10 @@ According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-ser
 Для цифровой подписи необходимо подключение к интернету.&lt;br /&gt;&lt;br /&gt;
 Согласно &lt;a href=&quot;https://sk.ee/en/services/validity-confirmation-services/standard-conditions-of-validation-certification-service/&quot;&gt;условиям использования услуги подтверждения действительности&lt;/a&gt; Вы можете поставить максимум 10 бесплатных подписей в течение месяца. Если Вам необходимо использовать услугу подтверждения действительности в большем объеме или в служебных целях, обратитесь в ИТ-отдел Вашей организации или заключите договор на использование услуги. Дополнительная информация: &lt;a href=&quot;http://www.id.ee/?lang=ru&quot;&gt;www.id.ee&lt;/a&gt; или телефон линии помощи ID-карты 1777 (только в пределах Эстонии), (+372) 6773377.</translation>
     </message>
+    <message>
+        <source>Remember me</source>
+        <translation>Запомнить меня</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>

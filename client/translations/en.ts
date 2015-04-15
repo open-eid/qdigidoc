@@ -560,6 +560,10 @@ Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
 Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
 According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;http://www.id.ee/?lang=en&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</translation>
     </message>
+    <message>
+        <source>Remember me</source>
+        <translation>Remember me</translation>
+    </message>
 </context>
 <context>
     <name>MobileDialog</name>
