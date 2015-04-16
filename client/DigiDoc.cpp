@@ -422,6 +422,7 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 	m_warning = 0;
 	try
 	{
+		qApp->waitForTSL( m_parent->fileName() );
 		s->validate();
 		if( type() == BESType )
 		{
@@ -543,6 +544,7 @@ QString DigiDoc::newSignatureID() const
 
 bool DigiDoc::open( const QString &file )
 {
+	qApp->waitForTSL( file );
 	clear();
 	try
 	{
@@ -657,6 +659,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		if( !role.isEmpty() || !role2.isEmpty() )
 			roles.push_back( to((QStringList() << role << role2).join(" / ")) );
 		qApp->signer()->setSignerRoles( roles );
+		qApp->waitForTSL( fileName() );
 		b->sign( qApp->signer(), signatureFormat() == "LT" ? "time-stamp" : "time-mark" );
 		return true;
 	}

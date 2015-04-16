@@ -47,13 +47,12 @@
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QProgressBar>
+#include <QtWidgets/QProgressDialog>
 #else
 #include <QtGui/QMessageBox>
 #endif
 #include <QtGui/QFileOpenEvent>
 #include <QtNetwork/QSslConfiguration>
-
-#include <future>
 
 #if defined(Q_OS_MAC)
 #include <common/MacMenuBar.h>
@@ -129,8 +128,7 @@ public:
 	QTranslator	appTranslator, commonTranslator, cryptoTranslator, qtTranslator;
 	QString		lang;
 	QTimer		lastWindowTimer;
-	std::future<bool> loading;
-	bool		ready = false;
+	volatile bool ready = false;
 };
 
 Application::Application( int &argc, char **argv )
@@ -170,12 +168,12 @@ Application::Application( int &argc, char **argv )
 	d->newCryptoAction->setShortcut( Qt::CTRL + Qt::Key_C );
 	connect( d->newCryptoAction, SIGNAL(triggered()), SLOT(showCrypto()) );
 
-#if defined(Q_OS_MAC)
 	setQuitOnLastWindowClosed( false );
 	d->lastWindowTimer.setSingleShot(true);
-	connect(&d->lastWindowTimer, &QTimer::timeout, [](){ if(allWindows().isEmpty()) quit(); });
+	connect(&d->lastWindowTimer, &QTimer::timeout, [](){ if(topLevelWindows().isEmpty()) quit(); });
 	connect(this, &Application::lastWindowClosed, [&](){ d->lastWindowTimer.start(10*1000); });
 
+#if defined(Q_OS_MAC)
 	d->bar = new MacMenuBar;
 	d->bar->addAction( MacMenuBar::AboutAction, this, SLOT(showAbout()) );
 	d->bar->addAction( MacMenuBar::PreferencesAction, this, SLOT(showSettings()) );
@@ -213,71 +211,43 @@ Application::Application( int &argc, char **argv )
 	{
 		digidoc::Conf::init( new DigidocConf );
 		d->signer = new QSigner( api, this );
+
+		QString cache = confValue(TSLCache).toString();
+		QDir().mkpath( cache );
+		for(const QString &file: QDir(":/TSL/").entryList())
+		{
+			if(!QFile::exists(cache + "/" + file))
+			{
+				QFile::copy(":/TSL/" + file, cache + "/" + file);
+				QFile::setPermissions(cache + "/" + file, QFile::Permissions(0x6444));
+			}
+		}
+
+		qRegisterMetaType<QEventLoop*>("QEventLoop*");
+		digidoc::initializeEx( QString( "%1/%2 (%3)" )
+			.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData(),
+			[](const digidoc::Exception *ex) {
+				qDebug() << "TSL loading finished";
+				if(ex) {
+					QStringList causes;
+					digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
+					int ddocError = -1;
+					DigiDoc::parseException( *ex, causes, code, ddocError );
+					QMetaObject::invokeMethod( qApp, "showWarning",
+						Q_ARG(QString,tr("Failed to initalize.")), Q_ARG(QString,causes.join("\n")) );
+				}
+				qApp->d->ready = true;
+				Q_EMIT qApp->TSLLoadingFinished();
+			}
+		);
 	}
 	catch( const digidoc::Exception &e )
 	{
-		QStringList causes;
-		digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
-		int ddocError = -1;
-		DigiDoc::parseException( e, causes, code, ddocError );
-		QMetaObject::invokeMethod( this, "showWarning",
-			Q_ARG(QString,tr("Failed to initalize.")), Q_ARG(QString,causes.join("\n")) );
-		return;
-	}
-
-	QProgressBar *bar = new QProgressBar;
-	bar->setMinimumWidth( 300 );
-	bar->setWindowTitle( tr("Loading DigiDoc3 Client") );
-	bar->show();
-	bar->setRange( 0, 100 );
-	QTimer t;
-	connect( &t, &QTimer::timeout, [&](){
-		bar->setValue( bar->value() + 1 );
-		if( bar->value() == bar->maximum() )
-			bar->reset();
-		t.start( 100 );
-	});
-	t.start( 100 );
-	qRegisterMetaType<QEventLoop*>("QEventLoop*");
-	QEventLoop e;
-	d->loading = std::async(std::launch::async, [&](){
-		try
-		{
-			QString cache = confValue(TSLCache).toString();
-			QDir().mkpath( cache );
-			for(const QString &file: QDir(":/TSL/").entryList())
-			{
-				if(!QFile::exists(cache + "/" + file))
-				{
-					QFile::copy(":/TSL/" + file, cache + "/" + file);
-					QFile::setPermissions(cache + "/" + file, QFile::Permissions(0x6444));
-				}
-			}
-			digidoc::initialize( QString( "%1/%2 (%3)" )
-				.arg( applicationName(), applicationVersion(), applicationOs() ).toUtf8().constData() );
-			e.exit(1);
-			return (d->ready = true);
-		}
-		catch( const digidoc::Exception &e )
-		{
-			QStringList causes;
-			digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
-			int ddocError = -1;
-			DigiDoc::parseException( e, causes, code, ddocError );
-			QMetaObject::invokeMethod( this, "showWarning",
-				Q_ARG(QString,tr("Failed to initalize.")), Q_ARG(QString,causes.join("\n")) );
-		}
-		e.exit(0);
-		return (d->ready = false);
-	});
-	if( e.exec() == 0 )
-	{
+		showWarning( tr("Failed to initalize."), e );
 		setQuitOnLastWindowClosed( true );
 		return;
 	}
 
-	t.stop();
-	delete bar;
 	if( !args.isEmpty() || topLevelWindows().isEmpty() )
 		parseArgs( args );
 }
@@ -285,16 +255,20 @@ Application::Application( int &argc, char **argv )
 Application::~Application()
 {
 #ifndef Q_OS_MAC
-	if( !isRunning() )
+	if( isRunning() )
 	{
-		if( QtLocalPeer *obj = findChild<QtLocalPeer*>() )
-			delete obj;
-		digidoc::terminate();
+		delete d;
+		return;
 	}
-#else
-	delete d->bar;
-	digidoc::terminate();
+	if( QtLocalPeer *obj = findChild<QtLocalPeer*>() )
+		delete obj;
 #endif
+	delete d->bar;
+	QEventLoop e;
+	connect(this, &Application::TSLLoadingFinished, &e, &QEventLoop::quit);
+	if( !d->ready )
+		e.exec();
+	digidoc::terminate();
 	delete d;
 }
 
@@ -391,11 +365,7 @@ bool Application::notify( QObject *o, QEvent *e )
 	}
 	catch( const digidoc::Exception &e )
 	{
-		QStringList causes;
-		digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
-		int ddocError = -1;
-		DigiDoc::parseException( e, causes, code, ddocError );
-		showWarning( tr("Caught exception!"), ddocError, causes.join("\n") );
+		showWarning( tr("Caught exception!"), e );
 	}
 	catch(...)
 	{
@@ -491,9 +461,6 @@ void Application::showAbout()
 
 void Application::showClient( const QStringList &params )
 {
-	d->loading.wait();
-	if( !d->ready )
-		return;
 	QWidget *w = 0;
 	foreach( QWidget *m, qApp->topLevelWidgets() )
 	{
@@ -513,9 +480,6 @@ void Application::showClient( const QStringList &params )
 
 void Application::showCrypto( const QStringList &params )
 {
-	d->loading.wait();
-	if( !d->ready )
-		return;
 	QWidget *w = 0;
 	foreach( QWidget *m, qApp->topLevelWidgets() )
 	{
@@ -552,6 +516,15 @@ void Application::showTSLWarning(QEventLoop *e)
 		"<a href=\"http://www.id.ee/?id=37012\">Additional information</a>") ) );
 }
 
+void Application::showWarning( const QString &msg, const digidoc::Exception &e )
+{
+	QStringList causes;
+	digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
+	int ddocError = -1;
+	DigiDoc::parseException( e, causes, code, ddocError );
+	showWarning( msg, causes.join("\n") );
+}
+
 void Application::showWarning( const QString &msg, const QString &details )
 {
 	showWarning( msg, -1, details );
@@ -577,4 +550,34 @@ QHash<QString,QString> Application::urls() const
 	QHash<QString,QString> u = Common::urls();
 	u["TSL"] = confValue(TSLUrl).toString();
 	return u;
+}
+
+void Application::waitForTSL( const QString &file )
+{
+	if( !QStringList({"asice", "sce", "bdoc"}).contains(QFileInfo(file).suffix(), Qt::CaseInsensitive) )
+		return;
+
+	if( d->ready )
+		return;
+
+	QProgressDialog p( tr("Loading TSL lists"), QString(), 0, 0, qApp->activeWindow() );
+	p.setWindowFlags( (p.windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowCloseButtonHint );
+	if( QProgressBar *bar = p.findChild<QProgressBar*>() )
+		bar->setTextVisible( false );
+	p.setMinimumWidth( 300 );
+	p.setRange( 0, 100 );
+	p.open();
+	QTimer t;
+	connect( &t, &QTimer::timeout, [&](){
+		p.setValue( p.value() + 1 );
+		if( p.value() == p.maximum() )
+			p.reset();
+		t.start( 100 );
+	});
+	t.start( 100 );
+	QEventLoop e;
+	connect(this, &Application::TSLLoadingFinished, &e, &QEventLoop::quit);
+	if( !d->ready )
+		e.exec();
+	t.stop();
 }

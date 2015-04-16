@@ -29,6 +29,7 @@
 #endif
 #define qApp (static_cast<Application*>(QCoreApplication::instance()))
 
+namespace digidoc { class Exception; }
 class QAction;
 class QSigner;
 class ApplicationPrivate;
@@ -60,6 +61,7 @@ public:
 	bool notify( QObject *o, QEvent *e );
 	QSigner* signer() const;
 	int run();
+	void waitForTSL( const QString &file );
 
 	static QVariant confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
@@ -70,7 +72,7 @@ public Q_SLOTS:
 	void showClient( const QStringList &params = QStringList() );
 	void showCrypto( const QStringList &params = QStringList() );
 	void showSettings( int page = 0, const QString &path = QString() );
-	void showWarning(const QString &msg , const QString &details = QString() );
+	void showWarning( const QString &msg, const QString &details = QString() );
 
 private Q_SLOTS:
 	void closeWindow();
@@ -78,9 +80,13 @@ private Q_SLOTS:
 	void parseArgs( const QStringList &args );
 	void showTSLWarning( QEventLoop *e );
 
+Q_SIGNALS:
+	void TSLLoadingFinished();
+
 private:
 	void activate( QWidget *w );
 	bool event( QEvent *e );
+	void showWarning( const QString &msg, const digidoc::Exception &e );
 
 	QHash<QString,QString> urls() const;
 
