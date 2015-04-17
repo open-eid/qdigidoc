@@ -133,8 +133,9 @@ SettingsDialog::~SettingsDialog() { delete d; }
 void SettingsDialog::activateAccessCert( const QString &certpath )
 {
 	d->tabWidget->setCurrentIndex( AccessCertSettings );
-	QFile file( FileDialog::getOpenFileName( this, tr("Select server access certificate"),
-		certpath, tr("Server access certificates (*.p12 *.p12d *.pfx)") ) );
+	QFile file( !certpath.isEmpty() ? certpath :
+		FileDialog::getOpenFileName( this, tr("Select server access certificate"),
+		QString(), tr("Server access certificates (*.p12 *.p12d *.pfx)") ) );
 	if(!file.exists())
 		return;
 	QString pass = QInputDialog::getText( this, tr("Password"),
