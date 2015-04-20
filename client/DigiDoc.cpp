@@ -638,6 +638,8 @@ QString DigiDoc::signatureFormat() const
 	switch(b->signatures().size())
 	{
 	case 0:
+		if( QStringList({"asice", "sce"}).contains(QFileInfo(m_fileName).suffix(), Qt::CaseInsensitive) )
+			return "LT";
 		return def;
 	case 1:
 		return b->signatures()[0]->profile().find("time-stamp") != std::string::npos ? "LT" : "LT_TM";
