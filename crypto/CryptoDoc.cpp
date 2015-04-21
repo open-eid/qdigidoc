@@ -107,6 +107,7 @@ public:
 	bool			hasSignature, encrypted;
 	CDocumentModel	*documents;
 	QTemporaryFile	*ddoc;
+	QStringList		tempFiles;
 };
 
 QByteArray CryptoDocPrivate::crypto(const QByteArray &iv, const QByteArray &key, const QByteArray &data, Operation op) const
@@ -645,6 +646,7 @@ void CDocumentModel::open( const QModelIndex &index )
 	QFileInfo f( copy( index, QDir::tempPath() ) );
 	if( !f.exists() )
 		return;
+	d->tempFiles << f.absoluteFilePath();
 #if defined(Q_OS_WIN)
 	QStringList exts = QProcessEnvironment::systemEnvironment().value( "PATHEXT" ).split(';');
 	exts << ".PIF" << ".SCR";
@@ -717,6 +719,9 @@ bool CryptoDoc::addKey( const CKey &key )
 void CryptoDoc::clear( const QString &file )
 {
 	delete d->ddoc;
+	for(const QString &file: d->tempFiles)
+		QFile::remove(file);
+	d->tempFiles.clear();
 	d->ddoc = nullptr;
 	d->hasSignature = false;
 	d->encrypted = false;

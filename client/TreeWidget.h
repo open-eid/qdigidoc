@@ -39,7 +39,6 @@ public:
 
 private Q_SLOTS:
 	void clicked( const QModelIndex &index );
-	void open( const QModelIndex &index );
 
 private:
 	void keyPressEvent( QKeyEvent *e );

@@ -55,6 +55,9 @@ public:
 
 	QString save( const QModelIndex &index, const QString &path ) const;
 
+public slots:
+	void open( const QModelIndex &index );
+
 private:
 	DocumentModel( DigiDoc *doc );
 	Q_DISABLE_COPY(DocumentModel)
@@ -172,6 +175,7 @@ private:
 	digidoc::Container *b;
 	QString			m_fileName;
 	DocumentModel	*m_documentModel;
+	QStringList		m_tempFiles;
 
 	friend class DocumentModel;
 };

@@ -23,7 +23,6 @@
 #include "DigiDoc.h"
 #include "FileDialog.h"
 
-#include <QtCore/QProcessEnvironment>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QKeyEvent>
@@ -94,34 +93,13 @@ void TreeWidget::keyPressEvent( QKeyEvent *e )
 			e->accept();
 			break;
 		case Qt::Key_Return:
-			open( i[0] );
+			qobject_cast<DocumentModel*>(model())->open( i[0] );
 			e->accept();
 			break;
 		default: break;
 		}
 	}
 	QTreeView::keyPressEvent( e );
-}
-
-void TreeWidget::open( const QModelIndex &index )
-{
-	QFileInfo f( m->save( index, QDir::tempPath() + "/" + index.data(Qt::UserRole).toString() ) );
-	if( !f.exists() )
-		return;
-#if defined(Q_OS_WIN)
-	QStringList exts = QProcessEnvironment::systemEnvironment().value( "PATHEXT" ).split( ';' );
-	exts << ".PIF" << ".SCR";
-	if( exts.contains( "." + f.suffix(), Qt::CaseInsensitive ) &&
-		QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
-			tr("This is an executable file! "
-				"Executable files may contain viruses or other malicious code that could harm your computer. "
-				"Are you sure you want to launch this file?"),
-			QMessageBox::Yes|QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
-		return;
-#else
-	QFile::setPermissions( f.absoluteFilePath(), QFile::Permissions(0x6000) );
-#endif
-	QDesktopServices::openUrl( QUrl::fromLocalFile( f.absoluteFilePath() ) );
 }
 
 void TreeWidget::setDocumentModel( DocumentModel *model )
@@ -132,7 +110,7 @@ void TreeWidget::setDocumentModel( DocumentModel *model )
 	header()->setResizeMode( DocumentModel::Name, QHeaderView::Stretch );
 	setColumnHidden( DocumentModel::Mime, true );
 	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
-	connect( this, SIGNAL(doubleClicked(QModelIndex)), SLOT(open(QModelIndex)) );
+	connect( this, SIGNAL(doubleClicked(QModelIndex)), model, SLOT(open(QModelIndex)) );
 }
 
 #ifndef Q_OS_MAC

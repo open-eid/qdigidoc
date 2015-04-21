@@ -35,6 +35,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMimeData>
+#include <QtCore/QProcessEnvironment>
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
@@ -163,6 +164,28 @@ QMimeData* DocumentModel::mimeData( const QModelIndexList &indexes ) const
 
 QStringList DocumentModel::mimeTypes() const
 { return QStringList() << "text/uri-list"; }
+
+void DocumentModel::open( const QModelIndex &index )
+{
+	QFileInfo f( save( index, QDir::tempPath() + "/" + index.data(Qt::UserRole).toString() ) );
+	if( !f.exists() )
+		return;
+	d->m_tempFiles << f.absoluteFilePath();
+#if defined(Q_OS_WIN)
+	QStringList exts = QProcessEnvironment::systemEnvironment().value( "PATHEXT" ).split( ';' );
+	exts << ".PIF" << ".SCR";
+	if( exts.contains( "." + f.suffix(), Qt::CaseInsensitive ) &&
+		QMessageBox::warning( qApp->activeWindow(), tr("DigiDoc3 client"),
+			tr("This is an executable file! "
+				"Executable files may contain viruses or other malicious code that could harm your computer. "
+				"Are you sure you want to launch this file?"),
+			QMessageBox::Yes|QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
+		return;
+#else
+	QFile::setPermissions( f.absoluteFilePath(), QFile::Permissions(0x6000) );
+#endif
+	QDesktopServices::openUrl( QUrl::fromLocalFile( f.absoluteFilePath() ) );
+}
 
 bool DocumentModel::removeRows( int row, int count, const QModelIndex &parent )
 {
@@ -458,6 +481,9 @@ void DigiDoc::clear()
 	b = nullptr;
 	m_fileName.clear();
 	m_documentModel->reset();
+	for(const QString &file: m_tempFiles)
+		QFile::remove(file);
+	m_tempFiles.clear();
 }
 
 void DigiDoc::create( const QString &file )
