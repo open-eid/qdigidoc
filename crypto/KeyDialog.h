@@ -153,7 +153,7 @@ private Q_SLOTS:
 	void on_remove_clicked();
 	void on_search_clicked();
 	void on_searchType_currentIndexChanged( int index );
-	void showError( const QString &msg );
+	void showError( const QString &msg , const QString &details = QString() );
 	void showResult( const QList<QSslCertificate> &result );
 
 private:

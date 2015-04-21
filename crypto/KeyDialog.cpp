@@ -367,12 +367,17 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 
 	connect( ldap, SIGNAL(searchResult(QList<QSslCertificate>)),
 		SLOT(showResult(QList<QSslCertificate>)) );
-	connect( ldap, SIGNAL(error(QString)), SLOT(showError(QString)) );
+	connect( ldap, SIGNAL(error(QString,QString)), SLOT(showError(QString,QString)) );
 
 	validator = new IKValidator( this );
 	on_searchType_currentIndexChanged( 0 );
 	add->setEnabled( false );
 	progress->setVisible( false );
+
+	search->setDisabled( searchContent->text().isEmpty() );
+	connect( searchContent, &QLineEdit::textChanged, [=](const QString &text){
+		search->setDisabled( text.isEmpty() );
+	});
 }
 
 void CertAddDialog::addCardCert()
@@ -547,10 +552,13 @@ void CertAddDialog::on_find_clicked()
 	on_search_clicked();
 }
 
-void CertAddDialog::showError( const QString &msg )
+void CertAddDialog::showError( const QString &msg, const QString &details )
 {
 	disableSearch( false );
-	QMessageBox::warning( this, windowTitle(), msg );
+	QMessageBox b( QMessageBox::Warning, windowTitle(), msg );
+	if( !details.isEmpty() )
+		b.setDetailedText( details );
+	b.exec();
 }
 
 void CertAddDialog::showResult( const QList<QSslCertificate> &result )

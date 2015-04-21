@@ -94,6 +94,7 @@ void LdapSearch::search( const QString &search )
 void LdapSearch::setLastError( const QString &msg, int err )
 {
 	QString res = msg;
+	QString details;
 	switch( err )
 	{
 	case -1:
@@ -103,11 +104,10 @@ void LdapSearch::setLastError( const QString &msg, int err )
 		res += tr("LDAP server is unavailable.");
 		break;
 	default:
-		res += "<br />";
-		res += tr( "Error Code: %1 (%2)" ).arg( err ).arg( ldap_err2string( err ) );
+		details = tr( "Error Code: %1 (%2)" ).arg( err ).arg( ldap_err2string( err ) );
 		break;
 	}
-	Q_EMIT error( res );
+	Q_EMIT error( res, details );
 }
 
 void LdapSearch::timerEvent( QTimerEvent *e )
