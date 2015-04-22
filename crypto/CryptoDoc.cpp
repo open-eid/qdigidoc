@@ -30,6 +30,7 @@
 #include <QtCore/QBuffer>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
+#include <QtCore/QLoggingCategory>
 #include <QtCore/QMimeData>
 #include <QtCore/QProcessEnvironment>
 #include <QtCore/QTemporaryFile>
@@ -45,6 +46,7 @@
 #include <QtGui/QMessageBox>
 #endif
 
+#include <openssl/err.h>
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/rsa.h>
@@ -54,14 +56,12 @@
 #define MIME_DDOC "http://www.sk.ee/DigiDoc/v1.3.0/digidoc.xsd"
 #define MIME_DDOC_OLD "http://www.sk.ee/DigiDoc/1.3.0/digidoc.xsd"
 
+Q_LOGGING_CATEGORY(CRYPTO,"CRYPTO")
+
 class CryptoDocPrivate: public QThread
 {
 	Q_OBJECT
 public:
-	enum Operation {
-		Decrypt = 0,
-		Encrypt = 1
-	};
 	struct File
 	{
 		QString name, id, mime, size;
@@ -70,8 +70,9 @@ public:
 
 	CryptoDocPrivate(): hasSignature(false), encrypted(false), documents(nullptr), ddoc(nullptr) {}
 
-	QByteArray crypto(const QByteArray &iv, const QByteArray &key, const QByteArray &data, Operation op) const;
+	QByteArray crypto(const QByteArray &iv, const QByteArray &key, const QByteArray &data, bool encrypt) const;
 	bool isEncryptedWarning();
+	static bool opensslError(bool err);
 	QByteArray readCDoc(QIODevice *cdoc, bool data);
 	void readDDoc(QIODevice *ddoc);
 	void run();
@@ -110,14 +111,25 @@ public:
 	QStringList		tempFiles;
 };
 
-QByteArray CryptoDocPrivate::crypto(const QByteArray &iv, const QByteArray &key, const QByteArray &data, Operation op) const
+QByteArray CryptoDocPrivate::crypto( const QByteArray &iv, const QByteArray &key, const QByteArray &data, bool encrypt ) const
 {
+	qCDebug(CRYPTO) << "Encrypt" << encrypt <<  "IV" << iv.toHex() << "KEY" << key.toHex();
+
 	int size = 0, size2 = 0;
 	EVP_CIPHER_CTX ctx;
-	int err = EVP_CipherInit(&ctx, EVP_aes_128_cbc(), (unsigned char*)key.constData(), (unsigned char*)iv.constData(), op);
-	QByteArray result(data.size() + EVP_CIPHER_CTX_block_size(&ctx), 0);
-	err = EVP_CipherUpdate(&ctx, (unsigned char*)result.data(), &size, (const unsigned char*)data.constData(), data.size());
-	err = EVP_CipherFinal(&ctx, (unsigned char*)result.data() + size, &size2);
+	int err = EVP_CipherInit(&ctx, EVP_aes_128_cbc(), (unsigned char*)key.constData(), (unsigned char*)iv.constData(), encrypt);
+	if(opensslError(err == 0))
+		return QByteArray();
+
+	QByteArray result(data.size() + EVP_CIPHER_CTX_block_size(&ctx), Qt::Uninitialized);
+	unsigned char *resultPointer = (unsigned char*)result.data(); //Detach only once
+	err = EVP_CipherUpdate(&ctx, resultPointer, &size, (const unsigned char*)data.constData(), data.size());
+	if(opensslError(err == 0))
+		return QByteArray();
+
+	err = EVP_CipherFinal(&ctx, resultPointer + size, &size2);
+	if(opensslError(err == 0))
+		return QByteArray();
 	result.resize(size + size2);
 	return result;
 }
@@ -131,22 +143,36 @@ bool CryptoDocPrivate::isEncryptedWarning()
 	return fileName.isEmpty() || encrypted;
 }
 
+bool CryptoDocPrivate::opensslError(bool err)
+{
+	if(err)
+	{
+		unsigned long errorCode;
+		while((errorCode =  ERR_get_error()) != 0)
+			qCWarning(CRYPTO) << ERR_error_string(errorCode, 0);
+	}
+	return err;
+}
+
 void CryptoDocPrivate::run()
 {
 	if( !encrypted )
 	{
+		qCDebug(CRYPTO) << "Encrypt" << fileName;
 		QBuffer data;
 		data.open(QBuffer::WriteOnly);
 
 		QString mime, name;
 		if(files.size() > 1 || Settings(qApp->applicationName()).value("cdocwithddoc", false).toBool())
 		{
+			qCDebug(CRYPTO) << "Creating DDoc container";
 			writeDDoc(&data);
 			mime = MIME_DDOC;
 			name = QFileInfo(fileName).completeBaseName() + ".ddoc";
 		}
 		else
 		{
+			qCDebug(CRYPTO) << "Adding raw file";
 			data.write(files[0].data);
 			mime = files[0].mime;
 			name = files[0].name;
@@ -154,6 +180,7 @@ void CryptoDocPrivate::run()
 
 		// add ANSIX923 padding
 		QByteArray ansix923(16 - (data.size() % 16), 0);
+		qCDebug(CRYPTO) << "Adding ANSIX923 padding size" << ansix923.size();
 		ansix923[ansix923.size() - 1] = ansix923.size();
 		data.write(ansix923);
 		data.close();
@@ -168,9 +195,11 @@ void CryptoDocPrivate::run()
 		RAND_bytes(indata, sizeof(indata));
 
 		QByteArray iv(EVP_MAX_IV_LENGTH, 0), key(16, 0);
-		EVP_BytesToKey(EVP_aes_128_cbc(), EVP_md5(), salt, indata, sizeof(indata),
+		int err = EVP_BytesToKey(EVP_aes_128_cbc(), EVP_md5(), salt, indata, sizeof(indata),
 			1, (unsigned char*)key.data(), (unsigned char*)iv.data());
-		QByteArray result = crypto(iv, key, data.data(), Encrypt);
+		if(opensslError(err == 0))
+			return;
+		QByteArray result = crypto(iv, key, data.data(), true);
 		result.prepend(iv);
 
 		QFile cdoc(fileName);
@@ -183,12 +212,13 @@ void CryptoDocPrivate::run()
 	}
 	else
 	{
+		qCDebug(CRYPTO) << "Decrypt" << fileName;
 		QFile cdoc(fileName);
 		cdoc.open(QFile::ReadOnly);
 		QByteArray result = readCDoc(&cdoc, true);
 		cdoc.close();
 
-		result = crypto(result.left(16), key, result.mid(16), Decrypt);
+		result = crypto(result.left(16), key, result.mid(16), false);
 
 		// remove ANSIX923 padding
 		if(result.size() > 0)
@@ -196,13 +226,17 @@ void CryptoDocPrivate::run()
 			QByteArray ansix923(result[result.size()-1], 0);
 			ansix923[ansix923.size()-1] = ansix923.size();
 			if(result.right(ansix923.size()) == ansix923)
+			{
+				qCDebug(CRYPTO) << "Removing ANSIX923 padding size:" << ansix923.size();
 				result.resize(result.size() - ansix923.size());
+			}
 		}
 
 		if(mime == MIME_ZLIB)
 		{
 			// Add size header for qUncompress compatibilty
 			unsigned int origsize = std::max<int>(properties["OriginalSize"].toUInt(), 1);
+			qCDebug(CRYPTO) << "Decompressing zlib content size" << origsize;
 			QByteArray size(4, 0);
 			size[0] = (origsize & 0xff000000) >> 24;
 			size[1] = (origsize & 0x00ff0000) >> 16;
@@ -214,6 +248,7 @@ void CryptoDocPrivate::run()
 
 		if(mime == MIME_DDOC || mime == MIME_DDOC_OLD)
 		{
+			qCDebug(CRYPTO) << "Contains DDoc content" << mime;
 			ddoc = new QTemporaryFile( QDir().tempPath() + "/XXXXXX" );
 			if( !ddoc->open() )
 			{
@@ -227,6 +262,7 @@ void CryptoDocPrivate::run()
 		}
 		else
 		{
+			qCDebug(CRYPTO) << "Contains raw file" << mime;
 			if(!files.isEmpty())
 				files[0].data = result;
 			else if(properties.contains("Filename"))
@@ -253,6 +289,7 @@ void CryptoDocPrivate::setLastError( const QString &err )
 
 QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 {
+	qCDebug(CRYPTO) << "Parsing CDOC file, reading data only" << data;
 	QXmlStreamReader xml(cdoc);
 
 	if(!data)
@@ -370,6 +407,7 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 
 void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const QByteArray &data, const QString &file, const QString &ver, const QString &mime)
 {
+	qCDebug(CRYPTO) << "Writing CDOC file, key" << key.toHex() << "ver" << ver << "mime" << mime;
 	QHash<QString,QString> props;
 	props["DocumentFormat"] = "ENCDOC-XML|" + ver;
 	props["LibraryVersion"] = qApp->applicationName() + "|" + qApp->applicationVersion();
@@ -415,7 +453,8 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const Q
 
 		RSA *rsa = (RSA*)k.cert.publicKey().handle();
 		QByteArray chipper(RSA_size(rsa), 0);
-		RSA_public_encrypt(key.size(), (unsigned char*)key.constData(), (unsigned char*)chipper.data(), rsa, RSA_PKCS1_PADDING);
+		int err = RSA_public_encrypt(key.size(), (unsigned char*)key.constData(), (unsigned char*)chipper.data(), rsa, RSA_PKCS1_PADDING);
+		opensslError(err != 1);
 		writeBase64(w, DENC, "CipherValue", chipper);
 		w.writeEndElement(); //CipherData
 		w.writeEndElement(); //EncryptedKey
@@ -448,6 +487,7 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &key, const Q
 
 void CryptoDocPrivate::readDDoc(QIODevice *ddoc)
 {
+	qCDebug(CRYPTO) << "Parsing DDOC container";
 	files.clear();
 	QXmlStreamReader x(ddoc);
 	while(!x.atEnd())
@@ -468,10 +508,12 @@ void CryptoDocPrivate::readDDoc(QIODevice *ddoc)
 		else if(x.name() == "Signature")
 			hasSignature = true;
 	}
+	qCDebug(CRYPTO) << "Container contains signature" << hasSignature;
 }
 
 void CryptoDocPrivate::writeDDoc(QIODevice *ddoc)
 {
+	qCDebug(CRYPTO) << "Creating DDOC container";
 	QXmlStreamWriter x(ddoc);
 	x.setAutoFormatting(true);
 	x.writeStartDocument();
@@ -504,6 +546,8 @@ CDocumentModel::CDocumentModel( CryptoDocPrivate *doc )
 :	QAbstractTableModel( doc )
 ,	d( doc )
 {
+	const_cast<QLoggingCategory&>(CRYPTO()).setEnabled( QtDebugMsg,
+		QFile::exists( QString("%1/%2.log").arg( QDir::tempPath(), qApp->applicationName() ) ) );
 	setSupportedDragActions( Qt::CopyAction );
 }
 

@@ -30,13 +30,7 @@ int main( int argc, char *argv[] )
 #ifdef BREAKPAD
 	if( QBreakPad::isCrashReport( argc, argv ) )
 	{
-		Common app( argc, argv );
-		app.setApplicationName( APP );
-		app.setApplicationVersion( QString( "%1.%2.%3.%4" )
-			.arg( MAJOR_VER ).arg( MINOR_VER ).arg( RELEASE_VER ).arg( BUILD_VER ) );
-		app.setOrganizationDomain( DOMAINURL );
-		app.setOrganizationName( ORG );
-		app.setWindowIcon( QIcon( ":/images/digidoc_icon_128x128.png" ) );
+		Common app( argc, argv, APP, ":/images/digidoc_icon_128x128.png" );
 
 		QBreakPadDialog d( app.applicationName() );
 		d.setProperty( "User-Agent", QString( "%1/%2 (%3)" )
