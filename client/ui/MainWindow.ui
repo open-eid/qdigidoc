@@ -625,6 +625,9 @@ padding: 5px;
               <property name="text">
                <string>View signed document content</string>
               </property>
+              <property name="shortcut">
+               <string>Ctrl+O</string>
+              </property>
               <attribute name="buttonGroup">
                <string notr="true">buttonGroup</string>
               </attribute>
@@ -1367,7 +1370,7 @@ color: red;</string>
   <slot>buttonClicked(int)</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="infoTypeGroup"/>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="infoTypeGroup"/>
  </buttongroups>
 </ui>

@@ -45,7 +45,16 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -438,6 +447,9 @@ color: #71889A;
               <property name="text">
                <string>View encrypted document content</string>
               </property>
+              <property name="shortcut">
+               <string>Ctrl+O</string>
+              </property>
              </widget>
             </item>
            </layout>
@@ -462,7 +474,16 @@ color: #71889A;
         </widget>
         <widget class="QWidget" name="intro">
          <layout class="QVBoxLayout" name="introLayout">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -501,14 +522,23 @@ The private key needed for decryption is stored only on the ID-card of the recip
         </widget>
         <widget class="QWidget" name="view">
          <layout class="QGridLayout" name="viewLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <property name="horizontalSpacing">
            <number>10</number>
           </property>
           <property name="verticalSpacing">
            <number>4</number>
-          </property>
-          <property name="margin">
-           <number>0</number>
           </property>
           <item row="0" column="0" colspan="2">
            <layout class="QHBoxLayout" name="viewFileNameLayout">
@@ -585,7 +615,16 @@ The private key needed for decryption is stored only on the ID-card of the recip
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QGridLayout" name="gridLayout">
-             <property name="margin">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
               <number>0</number>
              </property>
              <item row="0" column="0" colspan="3">
@@ -664,7 +703,16 @@ The private key needed for decryption is stored only on the ID-card of the recip
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_2">
-             <property name="margin">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
               <number>0</number>
              </property>
              <item>
@@ -688,7 +736,16 @@ The private key needed for decryption is stored only on the ID-card of the recip
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="viewKeysLayout">
-                 <property name="margin">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
                   <number>0</number>
                  </property>
                  <item>
