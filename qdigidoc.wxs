@@ -45,7 +45,6 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
           <Component Id="Application" Guid="810cbd57-b24d-49ee-939a-a1fc38dda46f">
             <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.CRT\msvcp120.dll"/>
             <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.CRT\msvcr120.dll"/>
-            <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.CRT\vccorlib120.dll"/>
             <File Source="$(var.libs_path)\libeay32.dll"/>
             <File Source="$(var.libs_path)\ssleay32.dll"/>
             <File Source="$(var.libs_path)\zlib1.dll"/>
@@ -72,17 +71,11 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
             <File Source="$(var.qt_path)\bin\Qt5WinExtras.dll"/>
             <File Source="$(var.qt_path)\bin\libEGL.dll"/>
             <File Source="$(var.qt_path)\bin\libGLESv2.dll"/>
-<?ifdef env.VS120COMNTOOLS ?>
-            <File Source="$(var.qt_path)\bin\icudt52.dll"/>
-            <File Source="$(var.qt_path)\bin\icuin52.dll"/>
-            <File Source="$(var.qt_path)\bin\icuuc52.dll"/>
+            <File Source="$(var.qt_path)\bin\icudt53.dll"/>
+            <File Source="$(var.qt_path)\bin\icuin53.dll"/>
+            <File Source="$(var.qt_path)\bin\icuuc53.dll"/>
             <File Source="$(var.qt_path)\bin\D3DCompiler_47.dll"/>
-<?else?>
-            <File Source="$(var.qt_path)\bin\icudt51.dll"/>
-            <File Source="$(var.qt_path)\bin\icuin51.dll"/>
-            <File Source="$(var.qt_path)\bin\icuuc51.dll"/>
-            <File Source="$(var.qt_path)\bin\D3DCompiler_46.dll"/>
-<?endif?>
+            <File Source="$(var.qt_path)\bin\opengl32sw.dll" />
             <File Source="opensc-pkcs11.dll"/>
 <?ifdef var.updater_path ?>
             <File Source="$(var.updater_path)" Id="id_updater.exe"/>
@@ -132,11 +125,6 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
               <File Name="qwindows.dll"/>
             </Component>
           </Directory>
-          <Directory Id="accessible" Name="accessible" FileSource="$(var.qt_path)\plugins\accessible">
-            <Component Id="qtaccessiblewidgets.dll">
-              <File Name="qtaccessiblewidgets.dll"/>
-            </Component>
-          </Directory>
           <Directory Id="printsupport" Name="printsupport" FileSource="$(var.qt_path)\plugins\printsupport">
             <Component Id="windowsprintersupport.dll">
               <File Name="windowsprintersupport.dll"/>
@@ -173,7 +161,6 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
       <ComponentRef Id='ProgramMenuDir' />
       <ComponentRef Id="Application"/>
       <ComponentRef Id="qwindows.dll" />
-      <ComponentRef Id="qtaccessiblewidgets.dll" />
       <ComponentRef Id="windowsprintersupport.dll" />
       <ComponentRef Id="Schemas"/>
 <?ifdef var.certsLocation ?>

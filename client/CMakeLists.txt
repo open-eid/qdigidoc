@@ -88,15 +88,6 @@ if( APPLE )
 		COMMAND find $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks -name 'TEST*.crt' -delete
 		COMMAND rm $<TARGET_FILE_DIR:${PROGNAME}>/${PKCS11_NAME}
 		COMMAND cp -r ${PKCS11_MODULE} $<TARGET_FILE_DIR:${PROGNAME}>
-		COMMAND for f in $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/Qt*\; do
-				name=$$\(basename $$f .framework\)\;
-				mv $$f/Resources $$f/Versions/5\;
-				ln -s Versions/Current/Resources $$f/Resources\;
-				ln -s 5 $$f/Versions/Current\;
-				ln -s Versions/Current/$$name $$f/$$name\;
-				cp ${_qt5Core_install_prefix}/lib/$$name.framework/Contents/Info.plist $$f/Resources\;
-				defaults write $$f/Resources/Info.plist CFBundleExecutable $$name\;
-			done
 		COMMAND install_name_tool -rpath /Library/Frameworks "@loader_path/../Frameworks" $<TARGET_FILE:${PROGNAME}>
 	)
 	add_custom_target( codesign DEPENDS ${PROGNAME}
