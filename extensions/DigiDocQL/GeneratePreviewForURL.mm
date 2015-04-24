@@ -21,6 +21,7 @@
 #include <digidocpp/DataFile.h>
 #include <digidocpp/Signature.h>
 #include <digidocpp/Exception.h>
+#include <digidocpp/XmlConf.h>
 #include <digidocpp/crypto/X509Cert.h>
 
 #include <Foundation/Foundation.h>
@@ -126,7 +127,19 @@ void CancelPreviewGeneration(void * /*thisInterface*/, QLPreviewRequestRef /*pre
 }
 @end
 
-
+class DigidocConf: public digidoc::XmlConfV3
+{
+public:
+	bool TSLAutoUpdate() const { return false; }
+	bool TSLOnlineDigest() const { return false; }
+	std::string TSLCache() const
+	{
+		std::string home = "~";
+		if(char *var = getenv("HOME"))
+			home = var;
+		return home + "/Library/Containers/ee.ria.qdigidocclient/Data/Library/Application Support/RIA/qdigidocclient/";
+	}
+};
 
 OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef preview,
 	CFURLRef url, CFStringRef /*contentTypeUTI*/, CFDictionaryRef /*options*/)
@@ -143,6 +156,7 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 	[h appendFormat:@"<h2>%@<hr size='1' /></h2>", [(__bridge NSURL*)url lastPathComponent]];
 	try
 	{
+		digidoc::Conf::init( new DigidocConf );
 		digidoc::initialize();
 		Exception::setWarningIgnoreList({
 			Exception::RefereneceDigestWeak,
