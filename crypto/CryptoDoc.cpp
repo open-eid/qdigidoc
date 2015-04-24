@@ -72,6 +72,7 @@ public:
 
 	QByteArray crypto(const QByteArray &iv, const QByteArray &key, const QByteArray &data, bool encrypt) const;
 	bool isEncryptedWarning();
+	QByteArray fromBase64(const QStringRef &data);
 	static bool opensslError(bool err);
 	QByteArray readCDoc(QIODevice *cdoc, bool data);
 	void readDDoc(QIODevice *ddoc);
@@ -131,6 +132,45 @@ QByteArray CryptoDocPrivate::crypto( const QByteArray &iv, const QByteArray &key
 	if(opensslError(err == 0))
 		return QByteArray();
 	result.resize(size + size2);
+	return result;
+}
+
+QByteArray CryptoDocPrivate::fromBase64( const QStringRef &data )
+{
+	unsigned int buf = 0;
+	int nbits = 0;
+	QByteArray result((data.size() * 3) / 4, Qt::Uninitialized);
+
+	int offset = 0;
+	for( int i = 0; i < data.size(); ++i )
+	{
+		int ch = data.at( i ).toAscii();
+		int d;
+
+		if (ch >= 'A' && ch <= 'Z')
+			d = ch - 'A';
+		else if (ch >= 'a' && ch <= 'z')
+			d = ch - 'a' + 26;
+		else if (ch >= '0' && ch <= '9')
+			d = ch - '0' + 52;
+		else if (ch == '+')
+			d = 62;
+		else if (ch == '/')
+			d = 63;
+		else
+			continue;
+
+		buf = (buf << 6) | d;
+		nbits += 6;
+		if(nbits >= 8)
+		{
+			nbits -= 8;
+			result[offset++] = buf >> nbits;
+			buf &= (1 << nbits) - 1;
+		}
+	}
+
+	result.truncate(offset);
 	return result;
 }
 
@@ -313,29 +353,7 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 			else if(xml.name() == "CipherValue")
 			{
 				xml.readNext();
-				QStringRef ref = xml.text();
-				QByteArray result(ref.size(), Qt::Uninitialized);
-				QString buf(64, Qt::Uninitialized);
-				int offsetResult = 0, offsetBuf = 0;
-				for(int i = 0; i < ref.size(); ++i)
-				{
-					QChar c = ref.data()[i];
-					if(c.isLetterOrNumber() || c == '+' || c == '/' || c == '=')
-						buf[offsetBuf++] = c;
-					if(offsetBuf == 64)
-					{
-						QByteArray b64 = QByteArray::fromBase64(buf.toAscii());
-						for(int j = 0; j < b64.size(); j++)
-							result[offsetResult++] = b64[j];
-						offsetBuf = 0;
-					}
-				}
-				buf.truncate(offsetBuf);
-				QByteArray b64 = QByteArray::fromBase64(buf.toAscii());
-				for(int j = 0; j < b64.size(); j++)
-					result[offsetResult++] = b64[j];
-				result.truncate(offsetResult);
-				return result;
+				return fromBase64(xml.text());
 			}
 			continue;
 		}
@@ -390,13 +408,13 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 				else if(xml.name() == "X509Certificate")
 				{
 					xml.readNext();
-					key.cert = QSslCertificate( QByteArray::fromBase64( xml.text().toUtf8() ), QSsl::Der );
+					key.cert = QSslCertificate( fromBase64( xml.text() ), QSsl::Der );
 				}
 				// EncryptedData/KeyInfo/EncryptedKey/KeyInfo/CipherData/CipherValue
 				else if(xml.name() == "CipherValue")
 				{
 					xml.readNext();
-					key.chipher = QByteArray::fromBase64( xml.text().toUtf8() );
+					key.chipher = fromBase64( xml.text() );
 				}
 			}
 			keys << key;
@@ -501,7 +519,7 @@ void CryptoDocPrivate::readDDoc(QIODevice *ddoc)
 			file.id = x.attributes().value("Id").toString().normalized(QString::NormalizationForm_C);
 			file.mime = x.attributes().value("MimeType").toString().normalized(QString::NormalizationForm_C);
 			x.readNext();
-			file.data = QByteArray::fromBase64( x.text().toUtf8() );
+			file.data = fromBase64( x.text() );
 			file.size = FileDialog::fileSize(file.data.size());
 			files << file;
 		}
