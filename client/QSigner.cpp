@@ -148,6 +148,7 @@ QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 #ifdef Q_OS_WIN
 	else if( d->csp )
 	{
+		d->csp->selectCert( d->auth.cert() );
 		out = d->csp->decrypt( in );
 		if( d->csp->lastError() == QCSP::PinCanceled )
 		{
@@ -248,8 +249,14 @@ void QSigner::run()
 			QCNG::Certs certs;
 			if( d->csp )
 			{
-				acards = d->csp->containers( SslCertificate::KeyEncipherment );
-				scards = d->csp->containers( SslCertificate::NonRepudiation );
+				certs = d->csp->certs();
+				for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
+				{
+					if( i.key().keyUsage().contains( SslCertificate::KeyEncipherment ) )
+						acards << i.value();
+					if( i.key().keyUsage().contains( SslCertificate::NonRepudiation ) )
+						scards << i.value();
+				}
 				readers << "blank";
 			}
 			if( d->cng )
@@ -311,9 +318,7 @@ void QSigner::run()
 			if( acards.contains( at.card() ) && at.cert().isNull() ) // read auth cert
 			{
 #ifdef Q_OS_WIN
-				if( d->csp )
-					at = d->csp->selectCert( at.card(), SslCertificate::KeyEncipherment );
-				else if( d->cng )
+				if( d->csp || d->cng )
 				{
 					for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
 					{
@@ -343,9 +348,7 @@ void QSigner::run()
 			if( scards.contains( st.card() ) && st.cert().isNull() ) // read sign cert
 			{
 #ifdef Q_OS_WIN
-				if( d->csp )
-					st = d->csp->selectCert( st.card(), SslCertificate::NonRepudiation );
-				else if( d->cng )
+				if( d->csp || d->cng )
 				{
 					for( QCNG::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i )
 					{
@@ -454,6 +457,7 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 #ifdef Q_OS_WIN
 	else if( d->csp )
 	{
+		d->csp->selectCert( d->sign.cert() );
 		sig = d->csp->sign( type, QByteArray( (const char*)&digest[0], int(digest.size()) ) );
 		if( d->csp->lastError() == QCSP::PinCanceled )
 		{

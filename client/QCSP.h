@@ -30,6 +30,7 @@ class QCSP: public QObject
 {
 	Q_OBJECT
 public:
+	typedef QHash<SslCertificate,QString> Certs;
 	enum PinStatus
 	{
 		PinOK,
@@ -40,14 +41,12 @@ public:
 	explicit QCSP( QObject *parent = 0 );
 	~QCSP();
 
-	QStringList containers( SslCertificate::KeyUsage usage );
+	Certs certs() const;
 	QByteArray decrypt( const QByteArray &data );
 	PinStatus lastError() const;
-	PinStatus login( const TokenData &t );
-	TokenData selectCert( const QString &cert, SslCertificate::KeyUsage usage );
+	TokenData selectCert( const SslCertificate &cert );
 	QByteArray sign( int method, const QByteArray &digest );
 
 private:
-	QByteArray reverse( const QByteArray &data ) const;
 	QCSPPrivate *d;
 };

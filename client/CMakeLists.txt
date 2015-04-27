@@ -43,7 +43,7 @@ if( APPLE )
 	set_source_files_properties( TreeWidgetMac.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
 elseif( WIN32 )
 	list( APPEND SOURCES QCSP.cpp QCNG.cpp )
-	list( APPEND ADDITIONAL_LIBRARIES NCrypt )
+	list( APPEND ADDITIONAL_LIBRARIES NCrypt Crypt32 )
 endif()
 
 add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
