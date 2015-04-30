@@ -809,7 +809,8 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 	case Sign:
 	{
-		if( prev != Intro && Settings(qApp->applicationName()).value( "ClientIntro", true ).toBool() )
+		if( (prev == Home || prev == View) &&
+			Settings(qApp->applicationName()).value( "ClientIntro", true ).toBool() )
 		{
 			prevpage = prev;
 			introCheck->setChecked( false );
