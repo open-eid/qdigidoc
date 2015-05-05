@@ -61,31 +61,31 @@
 class MacMenuBar;
 #endif
 
-class DigidocConf: public digidoc::XmlConfV3
+class DigidocConf: public digidoc::XmlConfV4
 {
 #ifdef Q_OS_MAC
 	Settings s;
 	Settings s2;
 
 public:
-	DigidocConf(): digidoc::XmlConfV3(), s2(qApp->applicationName()) { s.beginGroup( "Client" ); }
+	DigidocConf(): digidoc::XmlConfV4(), s2(qApp->applicationName()) { s.beginGroup( "Client" ); }
 
 	std::string proxyHost() const
-	{ return s.value( "ProxyHost", QString::fromStdString(digidoc::XmlConfV3::proxyHost()) ).toString().toStdString(); }
+	{ return s.value( "ProxyHost", QString::fromStdString(digidoc::XmlConfV4::proxyHost()) ).toString().toStdString(); }
 	std::string proxyPort() const
-	{ return s.value( "ProxyPort", QString::fromStdString(digidoc::XmlConfV3::proxyPort()) ).toString().toStdString(); }
+	{ return s.value( "ProxyPort", QString::fromStdString(digidoc::XmlConfV4::proxyPort()) ).toString().toStdString(); }
 	std::string proxyUser() const
-	{ return s.value( "ProxyUser", QString::fromStdString(digidoc::XmlConfV3::proxyUser()) ).toString().toStdString(); }
+	{ return s.value( "ProxyUser", QString::fromStdString(digidoc::XmlConfV4::proxyUser()) ).toString().toStdString(); }
 	std::string proxyPass() const
-	{ return s.value( "ProxyPass", QString::fromStdString(digidoc::XmlConfV3::proxyPass()) ).toString().toStdString(); }
+	{ return s.value( "ProxyPass", QString::fromStdString(digidoc::XmlConfV4::proxyPass()) ).toString().toStdString(); }
 	bool PKCS12Disable() const
-	{ return s.value( "PKCS12Disable", digidoc::XmlConfV3::PKCS12Disable() ).toBool(); }
+	{ return s.value( "PKCS12Disable", digidoc::XmlConfV4::PKCS12Disable() ).toBool(); }
 	std::string PKCS11Driver() const
 	{ return QString( qApp->applicationDirPath() + "/" + QFileInfo( PKCS11_MODULE ).fileName() ).toStdString(); }
 	std::string TSLCache() const
 	{ return QDesktopServices::storageLocation(QDesktopServices::DataLocation).toStdString(); }
 	bool TSLOnlineDigest() const
-	{ return s2.value( "TSLOnlineDigest", digidoc::XmlConfV3::TSLOnlineDigest() ).toBool(); }
+	{ return s2.value( "TSLOnlineDigest", digidoc::XmlConfV4::TSLOnlineDigest() ).toBool(); }
 
 	void setProxyHost( const std::string &host )
 	{ s.setValueEx( "ProxyHost", QString::fromStdString( host ), QString() ); }
@@ -98,9 +98,9 @@ public:
 	void setPKCS12Cert( const std::string & ) {}
 	void setPKCS12Pass( const std::string & ) {}
 	void setPKCS12Disable( bool disable )
-	{ s.setValueEx( "PKCS12Disable", disable, digidoc::XmlConfV3::PKCS12Disable() ); }
+	{ s.setValueEx( "PKCS12Disable", disable, digidoc::XmlConfV4::PKCS12Disable() ); }
 	void setTSLOnlineDigest( bool enable )
-	{ s2.setValueEx( "TSLOnlineDigest", enable, digidoc::XmlConfV3::TSLOnlineDigest() ); }
+	{ s2.setValueEx( "TSLOnlineDigest", enable, digidoc::XmlConfV4::TSLOnlineDigest() ); }
 #endif
 public:
 	bool TSLAllowExpired() const
@@ -452,7 +452,7 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 {
 	try
 	{
-		digidoc::XmlConfV3 *i = dynamic_cast<digidoc::XmlConfV3*>(digidoc::Conf::instance());
+		digidoc::XmlConfV4 *i = dynamic_cast<digidoc::XmlConfV4*>(digidoc::Conf::instance());
 		if(!i)
 			return;
 		QByteArray v = value.toString().toUtf8();

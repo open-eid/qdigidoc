@@ -127,7 +127,7 @@ void CancelPreviewGeneration(void * /*thisInterface*/, QLPreviewRequestRef /*pre
 }
 @end
 
-class DigidocConf: public digidoc::XmlConfV3
+class DigidocConf: public digidoc::XmlConfV4
 {
 public:
 	bool TSLAutoUpdate() const { return false; }
