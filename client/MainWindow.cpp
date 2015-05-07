@@ -475,16 +475,6 @@ void MainWindow::buttonClicked( int button )
 		buttonGroup->button( SignSign )->setEnabled( false );
 		buttonGroup->button( SignSign )->setToolTip( tr("Signing in process") );
 		CheckConnection connection;
-		if( !qApp->confValue( Application::ProxyHost ).toString().isEmpty() )
-		{
-			connection.setProxy( QNetworkProxy(
-				QNetworkProxy::HttpProxy,
-				qApp->confValue( Application::ProxyHost ).toString(),
-				qApp->confValue( Application::ProxyPort ).toUInt(),
-				qApp->confValue( Application::ProxyUser ).toString(),
-				qApp->confValue( Application::ProxyPass ).toString() ) );
-		}
-
 		if( !connection.check( "http://ocsp.sk.ee" ) )
 		{
 			qApp->showWarning( connection.errorString(), -1, connection.errorDetails(), "Check connection" );

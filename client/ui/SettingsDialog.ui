@@ -419,7 +419,7 @@ software (version 3.8 and earlier).</string>
        <property name="fieldGrowthPolicy">
         <enum>QFormLayout::ExpandingFieldsGrow</enum>
        </property>
-       <item row="0" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="proxyHostLabel">
          <property name="text">
           <string>Host</string>
@@ -429,10 +429,14 @@ software (version 3.8 and earlier).</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="proxyHost"/>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="proxyHost">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
-       <item row="1" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="proxyPortLabel">
          <property name="text">
           <string>Port</string>
@@ -442,10 +446,14 @@ software (version 3.8 and earlier).</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="proxyPort"/>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="proxyPort">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
-       <item row="2" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="proxyUserLabel">
          <property name="text">
           <string>Username</string>
@@ -455,10 +463,14 @@ software (version 3.8 and earlier).</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="proxyUser"/>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="proxyUser">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
-       <item row="3" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="proxyPassLabel">
          <property name="text">
           <string>Password</string>
@@ -468,11 +480,47 @@ software (version 3.8 and earlier).</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="6" column="1">
         <widget class="QLineEdit" name="proxyPass">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="echoMode">
           <enum>QLineEdit::Password</enum>
          </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QRadioButton" name="proxyDisabled">
+         <property name="text">
+          <string>No proxy</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">proxyConfig</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QRadioButton" name="proxyAuto">
+         <property name="text">
+          <string>Use system proxy settings</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">proxyConfig</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QRadioButton" name="proxyManual">
+         <property name="text">
+          <string>Manual proxy configuration</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">proxyConfig</string>
+         </attribute>
         </widget>
        </item>
       </layout>
@@ -773,9 +821,28 @@ software (version 3.8 and earlier).</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>proxyConfig</sender>
+   <signal>buttonClicked(QAbstractButton*)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
   <slot>validateP12Cert()</slot>
  </slots>
+ <buttongroups>
+  <buttongroup name="proxyConfig"/>
+ </buttongroups>
 </ui>

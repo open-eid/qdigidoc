@@ -29,10 +29,13 @@
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
 
+#include <digidocpp/Conf.h>
+
 #include <QtCore/QDateTime>
 #include <QtCore/QUrl>
 #include <QtGui/QDropEvent>
 #include <QtGui/QDesktopServices>
+#include <QtNetwork/QNetworkProxy>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QInputDialog>
@@ -118,11 +121,12 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 	d->signZipInput->setText( s.value( "Zip" ).toString() );
 
 	d->signOverwrite->setChecked( s.value( "Overwrite", false ).toBool() );
-
-	d->proxyHost->setText( Application::confValue( Application::ProxyHost ).toString() );
-	d->proxyPort->setText( Application::confValue( Application::ProxyPort ).toString() );
-	d->proxyUser->setText( Application::confValue( Application::ProxyUser ).toString() );
-	d->proxyPass->setText( Application::confValue( Application::ProxyPass ).toString() );
+	d->proxyConfig->setId(d->proxyDisabled, 0);
+	d->proxyConfig->setId(d->proxyAuto, 1);
+	d->proxyConfig->setId(d->proxyManual, 2);
+	if( QAbstractButton *b = d->proxyConfig->button( s2.value("proxyConfig", 0 ).toInt() ) )
+		b->setChecked( true );
+	updateProxy();
 	d->p12Ignore->setChecked( Application::confValue( Application::PKCS12Disable, false ).toBool() );
 
 	s.endGroup();
@@ -159,31 +163,35 @@ void SettingsDialog::activateAccessCert( const QString &certpath )
 		return;
 	}
 
-#ifdef Q_OS_MAC
-	file.reset();
-	AccessCert().installCert( file.readAll(), pass );
-#else
+#ifndef Q_OS_MAC
 	if( file.fileName() == QDir::fromNativeSeparators( Application::confValue( Application::PKCS12Cert ).toString() ) )
 		return;
-
-	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
-	QDir().mkpath( path );
-	QString dest = QString( "%1/%2" ).arg( path, QFileInfo( file ).fileName() );
-	if( file.fileName() != dest )
-	{
-		if( QFile::exists( dest ) )
-			QFile::remove( dest );
-		if( !file.copy( dest ) )
-		{
-			QMessageBox::warning( this, windowTitle(), tr("Failed to copy file") );
-			return;
-		}
-	}
-
-	Application::setConfValue( Application::PKCS12Cert, dest );
-	Application::setConfValue( Application::PKCS12Pass, pass );
 #endif
+	file.reset();
+	AccessCert().installCert( file.readAll(), pass );
 	updateCert();
+}
+
+void SettingsDialog::loadProxy( const digidoc::Conf *conf )
+{
+	switch(Settings(qApp->applicationName()).value("proxyConfig", 0).toUInt())
+	{
+	case 0:
+		QNetworkProxyFactory::setUseSystemConfiguration(false);
+		QNetworkProxy::setApplicationProxy(QNetworkProxy());
+		break;
+	case 1:
+		QNetworkProxyFactory::setUseSystemConfiguration(true);
+		break;
+	default:
+		QNetworkProxyFactory::setUseSystemConfiguration(false);
+		QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy,
+			QString::fromStdString(conf->proxyHost()),
+			QString::fromStdString(conf->proxyPort()).toUInt(),
+			QString::fromStdString(conf->proxyUser()),
+			QString::fromStdString(conf->proxyPass())));
+		break;
+	}
 }
 
 void SettingsDialog::on_p12Install_clicked()
@@ -232,12 +240,14 @@ void SettingsDialog::save()
 		s.remove( "DefaultDir" );
 	}
 #endif
-
+	Settings(qApp->applicationName()).setValueEx("proxyConfig", d->proxyConfig->checkedId(), 0);
 	Application::setConfValue( Application::ProxyHost, d->proxyHost->text() );
 	Application::setConfValue( Application::ProxyPort, d->proxyPort->text() );
 	Application::setConfValue( Application::ProxyUser, d->proxyUser->text() );
 	Application::setConfValue( Application::ProxyPass, d->proxyPass->text() );
 	Application::setConfValue( Application::PKCS12Disable, d->p12Ignore->isChecked() );
+	loadProxy(digidoc::Conf::instance());
+	updateProxy();
 
 	saveSignatureInfo(
 		d->signRoleInput->text(),
@@ -284,4 +294,16 @@ void SettingsDialog::updateCert()
 		d->p12Error->setText( "<b>" + tr("Server access certificate is not installed.") + "</b>" );
 	d->showP12Cert->setEnabled( !c.isNull() );
 	d->showP12Cert->setProperty( "cert", QVariant::fromValue( c ) );
+}
+
+void SettingsDialog::updateProxy()
+{
+	d->proxyHost->setEnabled(d->proxyConfig->checkedId() == 2);
+	d->proxyPort->setEnabled(d->proxyConfig->checkedId() == 2);
+	d->proxyUser->setEnabled(d->proxyConfig->checkedId() == 2);
+	d->proxyPass->setEnabled(d->proxyConfig->checkedId() == 2);
+	d->proxyHost->setText(Application::confValue( Application::ProxyHost ).toString());
+	d->proxyPort->setText(Application::confValue( Application::ProxyPort ).toString());
+	d->proxyUser->setText(Application::confValue( Application::ProxyUser ).toString());
+	d->proxyPass->setText(Application::confValue( Application::ProxyPass ).toString());
 }

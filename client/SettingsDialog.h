@@ -26,6 +26,7 @@
 #include <QtGui/QDialog>
 #endif
 
+namespace digidoc { class Conf; }
 namespace Ui { class SettingsDialog; }
 
 class SettingsDialog: public QDialog
@@ -36,14 +37,14 @@ public:
 	enum {
 		GeneralSettings = 1,
 		AccessCertSettings = 2,
-		NetworkSettings = 3
+		NetworkSettings = 4
 	};
 
 	explicit SettingsDialog( int page = GeneralSettings, QWidget *parent = 0 );
 	~SettingsDialog();
 
 	void activateAccessCert( const QString &path = QString() );
-
+	static void loadProxy(const digidoc::Conf *conf);
 	static void saveSignatureInfo(
 		const QString &role,
 		const QString &resolution,
@@ -62,6 +63,7 @@ private Q_SLOTS:
 
 private:
 	void updateCert();
+	void updateProxy();
 
 	Ui::SettingsDialog *d;
 };

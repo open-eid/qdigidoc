@@ -87,16 +87,6 @@ MobileDialog::MobileDialog( QWidget *parent )
 	connect( manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
 		SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
 
-	if( !Application::confValue( Application::ProxyHost ).toString().isEmpty() )
-	{
-		manager->setProxy( QNetworkProxy(
-			QNetworkProxy::HttpProxy,
-			Application::confValue( Application::ProxyHost ).toString(),
-			Application::confValue( Application::ProxyPort ).toUInt(),
-			Application::confValue( Application::ProxyUser ).toString(),
-			Application::confValue( Application::ProxyPass ).toString() ) );
-	}
-
 	if( !Application::confValue( Application::PKCS12Disable ).toBool() )
 	{
 		QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();

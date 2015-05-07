@@ -52,6 +52,7 @@
 #include <QtGui/QMessageBox>
 #endif
 #include <QtGui/QFileOpenEvent>
+#include <QtNetwork/QNetworkProxy>
 #include <QtNetwork/QSslConfiguration>
 
 #if defined(Q_OS_MAC)
@@ -62,21 +63,56 @@ class MacMenuBar;
 
 class DigidocConf: public digidoc::XmlConfV4
 {
-#ifdef Q_OS_MAC
-	Settings s;
-	Settings s2;
-
 public:
-	DigidocConf(): digidoc::XmlConfV4(), s2(qApp->applicationName()) { s.beginGroup( "Client" ); }
+	DigidocConf()
+		: digidoc::XmlConfV4()
+		, s2(qApp->applicationName())
+	{
+		s.beginGroup( "Client" );
+		SettingsDialog::loadProxy(this);
+	}
 
 	std::string proxyHost() const
-	{ return s.value( "ProxyHost", QString::fromStdString(digidoc::XmlConfV4::proxyHost()) ).toString().toStdString(); }
+	{
+		switch(s2.value("proxyConfig").toUInt())
+		{
+		case 0: return std::string();
+		case 1: return systemProxy().hostName().toStdString();
+		default: return s.value( "ProxyHost", QString::fromStdString(digidoc::XmlConfV4::proxyHost()) ).toString().toStdString();
+		}
+	}
+
 	std::string proxyPort() const
-	{ return s.value( "ProxyPort", QString::fromStdString(digidoc::XmlConfV4::proxyPort()) ).toString().toStdString(); }
+	{
+		switch(s2.value("proxyConfig").toUInt())
+		{
+		case 0: return std::string();
+		case 1: return QString::number(systemProxy().port()).toStdString();
+		default: return s.value( "ProxyPort", QString::fromStdString(digidoc::XmlConfV4::proxyPort()) ).toString().toStdString();
+		}
+	}
+
 	std::string proxyUser() const
-	{ return s.value( "ProxyUser", QString::fromStdString(digidoc::XmlConfV4::proxyUser()) ).toString().toStdString(); }
+	{
+		switch(s2.value("proxyConfig").toUInt())
+		{
+		case 0: return std::string();
+		case 1: return systemProxy().user().toStdString();
+		default: return s.value( "ProxyUser", QString::fromStdString(digidoc::XmlConfV4::proxyUser()) ).toString().toStdString();
+		}
+	}
+
 	std::string proxyPass() const
-	{ return s.value( "ProxyPass", QString::fromStdString(digidoc::XmlConfV4::proxyPass()) ).toString().toStdString(); }
+	{
+		switch(s2.value("proxyConfig").toUInt())
+		{
+		case 0: return std::string();
+		case 1: return systemProxy().password().toStdString();
+		default: return s.value( "ProxyPass", QString::fromStdString(digidoc::XmlConfV4::proxyPass()) ).toString().toStdString();
+		}
+	}
+
+#ifdef Q_OS_MAC
 	bool PKCS12Disable() const
 	{ return s.value( "PKCS12Disable", digidoc::XmlConfV4::PKCS12Disable() ).toBool(); }
 	std::string PKCS11Driver() const
@@ -101,7 +137,7 @@ public:
 	void setTSLOnlineDigest( bool enable )
 	{ s2.setValueEx( "TSLOnlineDigest", enable, digidoc::XmlConfV4::TSLOnlineDigest() ); }
 #endif
-public:
+
 	bool TSLAllowExpired() const
 	{
 		static enum {
@@ -116,6 +152,20 @@ public:
 			status = e.exec() ? Approved : Rejected;
 		}
 		return status == Approved;
+	}
+
+private:
+	Settings s;
+	Settings s2;
+
+	QNetworkProxy systemProxy() const
+	{
+		for(const QNetworkProxy &proxy: QNetworkProxyFactory::systemProxyForQuery())
+		{
+			if(proxy.type() == QNetworkProxy::HttpProxy)
+				return proxy;
+		}
+		return QNetworkProxy();
 	}
 };
 
@@ -300,8 +350,8 @@ void Application::closeWindow()
 
 QVariant Application::confValue( ConfParameter parameter, const QVariant &value )
 {
-	digidoc::ConfV3 *i = 0;
-	try { i = digidoc::ConfV3::instance(); }
+	digidoc::ConfV4 *i = 0;
+	try { i = digidoc::ConfV4::instance(); }
 	catch( const digidoc::Exception & ) { return value; }
 
 	QByteArray r;
