@@ -53,9 +53,6 @@ MainWindow::MainWindow( QWidget *parent )
 	, message( 0 )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
-#ifdef TESTING
-	if( !qApp->arguments().contains( "-crash" ) )
-#endif
 	setupUi( this );
 	setFixedSize( geometry().size() );
 	message = new QLabel( stack->widget( Sign ) );

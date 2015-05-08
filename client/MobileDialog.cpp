@@ -87,15 +87,13 @@ MobileDialog::MobileDialog( QWidget *parent )
 	connect( manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
 		SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
 
+	QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
 	if( !Application::confValue( Application::PKCS12Disable ).toBool() )
 	{
-		QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
-		ssl.setCaCertificates( ssl.caCertificates()
-			<< QSslCertificate::fromPath( ":/certs/*.crt", QSsl::Pem, QRegExp::Wildcard ) );
 		ssl.setPrivateKey( AccessCert::key() );
 		ssl.setLocalCertificate( AccessCert::cert() );
-		request.setSslConfiguration( ssl );
 	}
+	request.setSslConfiguration( ssl );
 
 	request.setHeader( QNetworkRequest::ContentTypeHeader, "text/xml" );
 	request.setRawHeader( "User-Agent", QString( "%1/%2 (%3)")
@@ -113,6 +111,13 @@ void MobileDialog::finished( QNetworkReply *reply )
 	switch( reply->error() )
 	{
 	case QNetworkReply::NoError:
+		if(!reply->header(QNetworkRequest::ContentTypeHeader).toByteArray().contains("text/xml"))
+		{
+			labelError->setText( tr("Invalid content") );
+			stop();
+			reply->deleteLater();
+			return;
+		}
 	case QNetworkReply::UnknownContentError:
 #if QT_VERSION >= QT_VERSION_CHECK(5,3,0)
 	case QNetworkReply::InternalServerError:
@@ -271,8 +276,7 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 	r.writeParameter( "AsyncConfiguration", 0 );
 	r.writeEndDocument();
 
-	QString url = isTest( ssid, cell ) ?
-		"https://tsp.demo.sk.ee" : "https://digidocservice.sk.ee";
+	QString url = qApp->confValue(isTest( ssid, cell ) ? Application::MobileID_TEST_URL : Application::MobileID_URL).toString();
 	request.setUrl( Settings().value( ddoc ? "Client/ddocurl" : "Client/bdocurl", url ).toUrl() );
 	statusTimer->start();
 #ifdef Q_OS_WIN

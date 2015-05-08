@@ -19,28 +19,7 @@
 
 #include "Application.h"
 
-#ifdef BREAKPAD
-#include <common/QBreakPad.h>
-#include <QtCore/QVariant>
-#include <QtGui/QIcon>
-#endif
-
 int main( int argc, char *argv[] )
 {
-#ifdef BREAKPAD
-	if( QBreakPad::isCrashReport( argc, argv ) )
-	{
-		Common app( argc, argv, APP, ":/images/digidoc_icon_128x128.png" );
-
-		QBreakPadDialog d( app.applicationName() );
-		d.setProperty( "User-Agent", QString( "%1/%2 (%3)" )
-			.arg( app.applicationName(), app.applicationVersion(), app.applicationOs() ).toUtf8() );
-		d.show();
-		return app.exec();
-	}
-	QBreakPad breakpad;
-#endif
-
-	Application a( argc, argv );
-	return a.run();
+	return Application( argc, argv ).run();
 }

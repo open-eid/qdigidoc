@@ -29,6 +29,7 @@
 #include "crypto/MainWindow.h"
 
 #include <common/AboutDialog.h>
+#include <common/Configuration.h>
 #include <common/Settings.h>
 #include <common/SslCertificate.h>
 
@@ -40,21 +41,20 @@
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QProcess>
+#include <QtCore/QJsonArray>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 #include <QtCore/QSysInfo>
 #include <QtCore/QTimer>
 #include <QtCore/QTranslator>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QMessageBox>
-#include <QtWidgets/QProgressBar>
-#include <QtWidgets/QProgressDialog>
-#else
-#include <QtGui/QMessageBox>
-#endif
 #include <QtGui/QFileOpenEvent>
 #include <QtNetwork/QNetworkProxy>
 #include <QtNetwork/QSslConfiguration>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QProgressBar>
+#include <QtWidgets/QProgressDialog>
 
 #if defined(Q_OS_MAC)
 #include <common/MacMenuBar.h>
@@ -75,6 +75,12 @@ public:
 		: digidoc::XmlConf()
 		, s2(qApp->applicationName())
 	{
+		reload();
+		Configuration::instance().checkVersion("QDIGIDOC");
+		Configuration::connect(&Configuration::instance(), &Configuration::finished, [&](bool changed, const QString &){
+			if(changed)
+				reload();
+		});
 		s.beginGroup( "Client" );
 		SettingsDialog::loadProxy(this);
 	}
@@ -149,6 +155,29 @@ public:
 	{ s2.setValueEx( "TSLOnlineDigest", enable, digidoc::XmlConf::TSLOnlineDigest() ); }
 #endif
 
+	std::string TSUrl() const override { return obj.value("TSA-URL").toString(QString::fromStdString(XmlConf::TSUrl())).toStdString(); }
+	std::string TSLUrl() const override { return obj.value("TSL-URL").toString(QString::fromStdString(XmlConf::TSLUrl())).toStdString(); }
+	std::vector<digidoc::X509Cert> TSLCerts() const override
+	{
+		std::vector<digidoc::X509Cert> tslcerts;
+		for(const QJsonValue &val: obj.value("TSL-CERTS").toArray())
+		{
+			QByteArray cert = QByteArray::fromBase64(val.toString().toLatin1());
+			tslcerts.push_back(digidoc::X509Cert((const unsigned char*)cert.constData(), cert.size()));
+		}
+		return tslcerts.empty() ? XmlConf::TSLCerts() : tslcerts;
+	}
+	std::string ocsp(const std::string &issuer) const override
+	{
+		QJsonObject ocspissuer = obj.value("OCSP-URL-ISSUER").toObject();
+		for(QJsonObject::const_iterator i = ocspissuer.constBegin(); i != ocspissuer.constEnd(); ++i)
+		{
+			if(issuer == i.key().toStdString())
+				return i.value().toString().toStdString();
+		}
+		return obj.value("OCSP-URL").toString(QString::fromStdString(XmlConf::ocsp(issuer))).toStdString();
+	}
+
 	bool TSLAllowExpired() const override
 	{
 		static enum {
@@ -166,8 +195,14 @@ public:
 	}
 
 private:
-	Settings s;
-	Settings s2;
+	void reload()
+	{
+		obj = Configuration::instance().object();
+		QList<QSslCertificate> list;
+		for(const QJsonValue &cert: obj.value("CERT-BUNDLE").toArray())
+			list << QSslCertificate(QByteArray::fromBase64(cert.toString().toLatin1()), QSsl::Der);
+		QSslSocket::setDefaultCaCertificates(list);
+	}
 
 	QNetworkProxy systemProxy() const
 	{
@@ -178,6 +213,11 @@ private:
 		}
 		return QNetworkProxy();
 	}
+
+	Settings s;
+	Settings s2;
+public:
+	QJsonObject obj;
 };
 
 class ApplicationPrivate
@@ -199,6 +239,10 @@ Application::Application( int &argc, char **argv )
 {
 	Q_INIT_RESOURCE(crypto_images);
 	Q_INIT_RESOURCE(crypto_tr);
+
+	if(isCrashReport())
+		return;
+
 	QStringList args = arguments();
 	args.removeFirst();
 #ifndef Q_OS_MAC
@@ -379,13 +423,16 @@ void Application::closeWindow()
 
 QVariant Application::confValue( ConfParameter parameter, const QVariant &value )
 {
-	digidoc::Conf *i = 0;
-	try { i = digidoc::Conf::instance(); }
+	DigidocConf *i = 0;
+	try { i = static_cast<DigidocConf*>(digidoc::Conf::instance()); }
 	catch( const digidoc::Exception & ) { return value; }
 
 	QByteArray r;
 	switch( parameter )
 	{
+	case LDAP_HOST: return i->obj.value("LDAP-HOST").toString("ldap.sk.ee:389");
+	case MobileID_URL: return i->obj.value("MID-SIGN-URL").toString("https://digidocservice.sk.ee");
+	case MobileID_TEST_URL: return i->obj.value("MID-SIGN-TEST-URL").toString("https://tsp.demo.sk.ee");
 	case PKCS11Module: r = i->PKCS11Driver().c_str(); break;
 	case ProxyHost: r = i->proxyHost().c_str(); break;
 	case ProxyPort: r = i->proxyPort().c_str(); break;
@@ -622,7 +669,6 @@ int Application::run()
 #ifndef Q_OS_MAC
 	if( isRunning() ) return 0;
 #endif
-	validate();
 	return exec();
 }
 
@@ -645,6 +691,9 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 		case PKCS12Pass: i->setPKCS12Pass( v.isEmpty()? std::string() : v.constData() ); break;
 		case PKCS12Disable: i->setPKCS12Disable( value.toBool() ); break;
 		case TSLOnlineDigest: i->setTSLOnlineDigest( value.toBool() ); break;
+		case LDAP_HOST:
+		case MobileID_URL:
+		case MobileID_TEST_URL:
 		case TSLCerts:
 		case TSLUrl:
 		case TSLCache:

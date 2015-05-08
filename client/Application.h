@@ -40,6 +40,9 @@ class Application: public Common
 public:
 	enum ConfParameter
 	{
+		LDAP_HOST,
+		MobileID_URL,
+		MobileID_TEST_URL,
 		PKCS11Module,
 		ProxyHost,
 		ProxyPort,

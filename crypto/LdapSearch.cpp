@@ -19,6 +19,8 @@
 
 #include "LdapSearch.h"
 
+#include <client/Application.h>
+
 #include <QtCore/QTimerEvent>
 #include <QtNetwork/QSslCertificate>
 
@@ -61,7 +63,8 @@ bool LdapSearch::init()
 	if( d->ldap )
 		return true;
 
-	if( !(d->ldap = ldap_init( "ldap.sk.ee", 389 )) )
+	QByteArray host = qApp->confValue(Application::LDAP_HOST).toByteArray();
+	if( !(d->ldap = ldap_init((char*)host.constData(), 389)) )
 	{
 		setLastError( tr("Failed to init ldap"), -1 );
 		return false;
