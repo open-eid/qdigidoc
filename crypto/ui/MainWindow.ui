@@ -177,7 +177,10 @@ padding: 5px;
 {
 background-color: transparent;
 color: #71889A;
-}</string>
+}
+
+#version
+{ color: #668696; }</string>
      </property>
      <layout class="QVBoxLayout" name="backgroundLayout">
       <property name="spacing">
@@ -193,7 +196,7 @@ color: #71889A;
        <number>20</number>
       </property>
       <property name="bottomMargin">
-       <number>20</number>
+       <number>0</number>
       </property>
       <item>
        <layout class="QHBoxLayout" name="headerLayout">
@@ -807,6 +810,25 @@ The private key needed for decryption is stored only on the ID-card of the recip
           </item>
          </layout>
         </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="version">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
        </widget>
       </item>
      </layout>

@@ -485,6 +485,7 @@ void MainWindow::retranslate()
 	retranslateUi( this );
 	languages->setCurrentIndex( lang.indexOf( Settings::language() ) );
 	buttonGroup->button( IntroAgree )->setText( tr("I agree") );
+	version->setText( windowTitle() + " " + qApp->applicationVersion() );
 	showCardStatus();
 	updateView();
 }

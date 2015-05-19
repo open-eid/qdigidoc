@@ -745,6 +745,7 @@ void MainWindow::retranslate()
 	buttonGroup->button( IntroAgree )->setText( tr("I agree") );
 	buttonGroup->button( SignSign )->setText( tr("Sign") );
 	buttonGroup->button( ViewAddSignature )->setText( tr("Add signature") );
+	version->setText( windowTitle() + " " + qApp->applicationVersion() );
 	showCardStatus();
 	setCurrentPage( (Pages)stack->currentIndex() );
 }

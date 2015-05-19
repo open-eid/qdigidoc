@@ -188,7 +188,10 @@ padding: 5px;
 background-color: rgba( 255, 255, 255, 200 );
 border: 1px solid gray;
 padding: 5px;
-}</string>
+}
+
+#version
+{ color: #668696; }</string>
      </property>
      <layout class="QVBoxLayout" name="backgroundLayout">
       <property name="spacing">
@@ -204,7 +207,7 @@ padding: 5px;
        <number>20</number>
       </property>
       <property name="bottomMargin">
-       <number>20</number>
+       <number>0</number>
       </property>
       <item>
        <layout class="QHBoxLayout" name="headerLayout">
@@ -1293,6 +1296,25 @@ color: red;</string>
           </item>
          </layout>
         </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="version">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
        </widget>
       </item>
      </layout>
