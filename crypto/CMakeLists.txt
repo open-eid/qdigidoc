@@ -54,6 +54,7 @@ target_link_libraries( ${PROGNAME}
 
 if(UNIX AND NOT APPLE)
 	install( FILES qdigidoc-crypto.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
+	install( FILES qdigidoc-cypto.appdata.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata )	
 	install( FILES qdigidoc-crypto.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages )
 	foreach(RES 16 22 32 48 128)
 		install(

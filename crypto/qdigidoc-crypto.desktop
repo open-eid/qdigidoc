@@ -9,5 +9,8 @@ Name=DigiDoc Crypto
 Name[et]=DigiDoc krüpto
 Name[ru]=DigiDoc Crypto
 
+Keywords=Crypto;Digital;Signature;
+Keywords[et_EE]=Krüpto;Digitaalne;Allkiri;
+
 Categories=Qt;Office;
 MimeType=application/x-cdoc;

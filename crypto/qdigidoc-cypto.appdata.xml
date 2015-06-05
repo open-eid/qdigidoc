@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2015 Mihkel Vain <mihkel@fedoraproject.org> -->
+<component type="desktop">
+  <metadata_license>CC0-1.0</metadata_license>
+  <id>qdigidoc-crypto.desktop</id>
+  <metadata>
+    <value key="X-Merge-With-Parent">qdigidoc-client.desktop</value>
+  </metadata>
+</component>
