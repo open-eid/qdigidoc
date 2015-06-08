@@ -233,7 +233,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	d->signerZip->setText( l.value( 2 ) );
 	d->signerCountry->setText( l.value( 3 ) );
 
-	Q_FOREACH( const QString &role, s.roles() )
+	for( const QString &role: s.roles() )
 	{
 		QLineEdit *line = new QLineEdit( role, d->signerRoleGroup );
 		line->setReadOnly( true );
@@ -245,13 +245,13 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	t->header()->setResizeMode( 0, QHeaderView::ResizeToContents );
 	if( s.type() != DigiDocSignature::DDocType )
 	{
-		addItem( t, tr("TSL URL"), qApp->confValue( Application::TSLUrl ).toString() );
+		addItem( t, tr("TSL URL"), qApp->confValue( Application::TSLUrl ).toUrl() );
 		addItem( t, tr("TSL Cert"), qApp->confValue( Application::TSLCert ).value<QSslCertificate>() );
 	}
 
 	addItem( t, tr("Signer's Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	addItem( t, tr("Signer's Certificate"), c );
-	addItem( t, tr("Signature method"), s.signatureMethod() );
+	addItem( t, tr("Signature method"), QUrl( s.signatureMethod() ) );
 	addItem( t, tr("Container format"), s.parent()->mediaType() );
 	if( s.type() != DigiDocSignature::DDocType )
 		addItem( t, tr("Signature format"), s.profile() );
@@ -266,7 +266,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	}
 	addItem( t, tr("Signed file count"), QString::number( s.parent()->documentModel()->rowCount() ) );
 	if( !s.spuri().isEmpty() )
-		addItem( t, "SPUri", s.spuri() );
+		addItem( t, "SPUri", QUrl( s.spuri() ) );
 
 	// OCSP info
 	switch( s.type() )
@@ -322,6 +322,17 @@ void SignatureDialog::addItem( QTreeWidget *view, const QString &variable, const
 	view->addTopLevelItem( i );
 }
 
+void SignatureDialog::addItem( QTreeWidget *view, const QString &variable, const QUrl &value )
+{
+	QTreeWidgetItem *i = new QTreeWidgetItem( view );
+	i->setText( 0, variable );
+	QLabel *b = new QLabel( "<a href='url'>" + value.toString() + "</a>", view );
+	b->setStyleSheet("margin-left: 2px");
+	connect( b, &QLabel::linkActivated, [=](){ QDesktopServices::openUrl( value ); });
+	view->setItemWidget( i, 1, b );
+	view->addTopLevelItem( i );
+}
+
 void SignatureDialog::buttonClicked( QAbstractButton *button )
 {
 	if( button == d->buttonBox->button( QDialogButtonBox::Help ) )
@@ -333,10 +344,4 @@ void SignatureDialog::buttonClicked( QAbstractButton *button )
 void SignatureDialog::on_more_linkActivated( const QString & )
 {
 	d->error->setVisible( !d->error->isVisible() );
-}
-
-void SignatureDialog::on_signatureView_doubleClicked( const QModelIndex &index )
-{
-	if( index.row() == 8 && index.column() == 1 )
-		QDesktopServices::openUrl( index.data().toUrl() );
 }

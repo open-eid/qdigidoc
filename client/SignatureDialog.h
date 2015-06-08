@@ -63,13 +63,13 @@ public:
 	~SignatureDialog();
 
 private Q_SLOTS:
-	void on_signatureView_doubleClicked( const QModelIndex &index );
 	void buttonClicked( QAbstractButton *button );
 	void on_more_linkActivated( const QString &link );
 
 private:
 	void addItem( QTreeWidget *view, const QString &variable, const QString &value );
 	void addItem( QTreeWidget *view, const QString &variable, const QSslCertificate &cert );
+	void addItem( QTreeWidget *view, const QString &variable, const QUrl &url );
 
 	DigiDocSignature s;
 	SignatureDialogPrivate *d;
