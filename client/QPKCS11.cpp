@@ -36,16 +36,7 @@
 
 #define toQByteArray(X) QByteArray((const char*)X, sizeof(X)).toUpper()
 
-QPKCS11Private::QPKCS11Private()
-: QThread()
-, f(0)
-, session(0)
-, certIndex(0)
-, result(CKR_OK)
-{
-}
-
-QByteArray QPKCS11Private::attribute( CK_OBJECT_HANDLE obj, CK_ATTRIBUTE_TYPE type ) const
+QByteArray QPKCS11Private::attribute( CK_SESSION_HANDLE session, CK_OBJECT_HANDLE obj, CK_ATTRIBUTE_TYPE type ) const
 {
 	if(!f)
 		return QByteArray();
@@ -59,7 +50,7 @@ QByteArray QPKCS11Private::attribute( CK_OBJECT_HANDLE obj, CK_ATTRIBUTE_TYPE ty
 	return data;
 }
 
-QVector<CK_OBJECT_HANDLE> QPKCS11Private::findObject( CK_OBJECT_CLASS cls ) const
+QVector<CK_OBJECT_HANDLE> QPKCS11Private::findObject( CK_SESSION_HANDLE session, CK_OBJECT_CLASS cls ) const
 {
 	if(!f)
 		return QVector<CK_OBJECT_HANDLE>();
@@ -146,7 +137,7 @@ QPKCS11::~QPKCS11()
 
 QByteArray QPKCS11::encrypt( const QByteArray &data ) const
 {
-	QVector<CK_OBJECT_HANDLE> key = d->findObject( CKO_PRIVATE_KEY );
+	QVector<CK_OBJECT_HANDLE> key = d->findObject( d->session, CKO_PRIVATE_KEY );
 	if( key.isEmpty() )
 		return QByteArray();
 
@@ -180,7 +171,7 @@ QString QPKCS11::errorString( PinStatus error )
 
 QByteArray QPKCS11::decrypt( const QByteArray &data ) const
 {
-	QVector<CK_OBJECT_HANDLE> key = d->findObject( CKO_PRIVATE_KEY );
+	QVector<CK_OBJECT_HANDLE> key = d->findObject( d->session, CKO_PRIVATE_KEY );
 	if( key.isEmpty() )
 		return QByteArray();
 
@@ -255,9 +246,9 @@ QPKCS11::PinStatus QPKCS11::login( const TokenData &_t )
 			continue;
 
 		CK_ULONG i = 0;
-		foreach( CK_OBJECT_HANDLE obj, d->findObject( CKO_CERTIFICATE ) )
+		for( CK_OBJECT_HANDLE obj: d->findObject( d->session, CKO_CERTIFICATE ) )
 		{
-			if( _t.cert() == QSslCertificate( d->attribute( obj, CKA_VALUE ), QSsl::Der ) )
+			if( _t.cert() == QSslCertificate( d->attribute( d->session, obj, CKA_VALUE ), QSsl::Der ) )
 			{
 				d->certIndex = new CK_ULONG(i);
 				break;
@@ -289,11 +280,11 @@ QPKCS11::PinStatus QPKCS11::login( const TokenData &_t )
 	if( token.flags & CKF_PROTECTED_AUTHENTICATION_PATH )
 	{
 		PinDialog p( pin2 ? PinDialog::Pin2PinpadType : PinDialog::Pin1PinpadType, t, qApp->activeWindow() );
-		connect( d, SIGNAL(started()), &p, SIGNAL(startTimer()) );
+		connect( d, &QPKCS11Private::started, &p, &PinDialog::startTimer );
 		p.open();
 
 		QEventLoop e;
-		connect( d, SIGNAL(finished()), &e, SLOT(quit()) );
+		connect( d, &QPKCS11Private::finished, &e, &QEventLoop::quit );
 		d->start();
 		e.exec();
 		err = d->result;
@@ -330,7 +321,10 @@ void QPKCS11::logout()
 	delete d->certIndex;
 	d->certIndex = nullptr;
 	if( d->f && d->session )
+	{
 		d->f->C_Logout( d->session );
+		d->f->C_CloseSession( d->session );
+	}
 	d->session = 0;
 }
 
@@ -362,15 +356,13 @@ QList<TokenData> QPKCS11::tokens() const
 
 		QString card = toQByteArray( token.serialNumber ).trimmed();
 
-		if( d->session )
-			d->f->C_CloseSession( d->session );
-		d->session = 0;
-		if( d->f->C_OpenSession( slot, CKF_SERIAL_SESSION, 0, 0, &d->session ) != CKR_OK )
+		CK_SESSION_HANDLE session = 0;
+		if( d->f->C_OpenSession( slot, CKF_SERIAL_SESSION, 0, 0, &session ) != CKR_OK )
 			continue;
 
-		foreach( CK_OBJECT_HANDLE obj, d->findObject( CKO_CERTIFICATE ) )
+		for( CK_OBJECT_HANDLE obj: d->findObject( session, CKO_CERTIFICATE ) )
 		{
-			SslCertificate cert( d->attribute( obj, CKA_VALUE ), QSsl::Der );
+			SslCertificate cert( d->attribute( session, obj, CKA_VALUE ), QSsl::Der );
 			if( cert.isCA() )
 				continue;
 			TokenData t;
@@ -379,6 +371,7 @@ QList<TokenData> QPKCS11::tokens() const
 			d->updateTokenFlags( t, token.flags );
 			list << t;
 		}
+		d->f->C_CloseSession( session );
 	}
 	return list;
 }
@@ -397,7 +390,7 @@ QByteArray QPKCS11::sign( int type, const QByteArray &digest ) const
 	}
 	data.append( digest );
 
-	QVector<CK_OBJECT_HANDLE> key = d->findObject( CKO_PRIVATE_KEY );
+	QVector<CK_OBJECT_HANDLE> key = d->findObject( d->session, CKO_PRIVATE_KEY );
 	if( key.isEmpty() )
 		return QByteArray();
 
@@ -419,7 +412,7 @@ QByteArray QPKCS11::sign( int type, const QByteArray &digest ) const
 
 bool QPKCS11::verify( const QByteArray &data, const QByteArray &signature ) const
 {
-	QVector<CK_OBJECT_HANDLE> key = d->findObject( CKO_PRIVATE_KEY );
+	QVector<CK_OBJECT_HANDLE> key = d->findObject( d->session, CKO_PRIVATE_KEY );
 	if( key.isEmpty() )
 		return false;
 

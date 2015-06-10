@@ -30,10 +30,8 @@ class QPKCS11Private: public QThread
 {
 	Q_OBJECT
 public:
-	QPKCS11Private();
-
-	QByteArray attribute( CK_OBJECT_HANDLE obj, CK_ATTRIBUTE_TYPE type ) const;
-	QVector<CK_OBJECT_HANDLE> findObject( CK_OBJECT_CLASS cls ) const;
+	QByteArray attribute( CK_SESSION_HANDLE session, CK_OBJECT_HANDLE obj, CK_ATTRIBUTE_TYPE type ) const;
+	QVector<CK_OBJECT_HANDLE> findObject( CK_SESSION_HANDLE session, CK_OBJECT_CLASS cls ) const;
 	QVector<CK_SLOT_ID> slotIds( bool token_present ) const;
 	void updateTokenFlags( TokenData &t, CK_ULONG f ) const;
 
@@ -43,10 +41,10 @@ public:
 	static CK_RV unlockMutex( CK_VOID_PTR mutex );
 
 	QLibrary		lib;
-	CK_FUNCTION_LIST_PTR f;
-	CK_SESSION_HANDLE session;
-	CK_ULONG_PTR	certIndex;
+	CK_FUNCTION_LIST_PTR f = nullptr;
+	CK_SESSION_HANDLE session = 0;
+	CK_ULONG_PTR	certIndex = nullptr;
 
 	void run();
-	CK_RV result;
+	CK_RV result = CKR_OK;
 };
