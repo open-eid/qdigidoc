@@ -207,10 +207,9 @@ Application::Application( int &argc, char **argv )
 	loadTranslation( Settings::language() );
 
 	// Actions
-	d->closeAction = new QAction( this );
+	d->closeAction = new QAction( tr("Close window"), this );
 	d->closeAction->setShortcut( Qt::CTRL + Qt::Key_W );
 	connect( d->closeAction, SIGNAL(triggered()), SLOT(closeWindow()) );
-
 	d->newClientAction = new QAction( tr("New Client window"), this );
 	d->newClientAction->setShortcut( Qt::CTRL + Qt::Key_N );
 	connect( d->newClientAction, SIGNAL(triggered()), SLOT(showClient()) );

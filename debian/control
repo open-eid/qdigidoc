@@ -22,13 +22,13 @@ Depends:
  fonts-liberation,
  ${shlibs:Depends} ${misc:Depends}
 Conflicts:
- libdigidocpp0 (<3.0)
+ libdigidocpp0 (<<3.0)
 Description: Estonian ID card digital signature desktop tools
  DigiDoc3 Client is a part of Estonian national ID-card software developed by
  Sertifitseerimiskeskus on behalf of governmental institution - Estonian
  Information System’s Authority.
  .
- DigiDoc3 Client is a programme that can be used to sign digitally with ID-card
+ DigiDoc3 Client is a program that can be used to sign digitally with ID-card
  and Mobile-ID, check the validity of digital signatures and open and save
  documents inside the signature container. Digitally signed containers are
  files with .bdoc or .ddoc extensions.
