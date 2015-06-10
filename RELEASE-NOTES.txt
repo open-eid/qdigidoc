@@ -2,18 +2,26 @@ DigiDoc3 version 3.11 release notes
 --------------------------------------
 Changes compared to ver 3.10
 
-- Remove opened temp files when document is closed
-- Unix: Temp files are created with permission 0600
+- Improved handling of temporary files, the files are now removed when the document is closed.
+- Fixed setting file permissions when creating temporary files in Unix, the files are now created with permission 0600 instead of 0644
 - Windows: Use cert store to poll CAPI drivers
-- Windows 8: Fix email attachments
-- Windows: Fix email attachments with space in files
-- Load TSL lists in background and keeps program running additional 10 seconds to speed up next document open
+- Fixed problem with "Send container to email" functionality in Windows 8 that occasionally caused errors when adding email attachments
+- Windows: Fix email attachments with special characters in file name
+- Optimized loading of TSL and other configuration settings. 
+	- TSL list is now loaded in background and loaded only when opening BDOC and ASiC-e documents. 
+	- The program is kept running for additional 10 seconds after closing to enable re-using existing configuration and speed up opening multiple documents in a row. 
+- Improved PKCS#11 module polling in OSX, fixed occasional decryption errors  
 
 Client:
-- Handle signature late warning
-- Option to remember/not to remember MID settings
-- Case when file extension is asice, sce, selected signature profile option is ignored in settings page
-- Show TimeStampArchive properties
+- Fixed ASiC-E document validation warning, the warning is returned when the OCSP confirmation has been issued with a delay, i.e. more than 15 minutes and less than 24 hours after the signature time-stamp issuance time. 
+- Added option to choose whether the mobile number and personal code values that have been entered by the user when signing with Mobile-ID are remembered by the application. 
+- Improved BDOC and ASiC-E format selection according to file name extension. When setting the name of the signed output file then the format of the signature that is created is chosen according to the file extension (".bdoc" for BDOC format; ".asice" and ".sce" for ASiC-E format). The default format that has been set in the settings view is ignored.
+- Added ASiC-E with archive time-stamp validation support. 
+	- Value "BES/time-stamp-archive" is used in "Signature format" field in signature details view. 
+	- Added fields "Archive Timestamp", "Archive Timestamp (UTC)", "Archive TSA Certificate issuer" and "Archive TSA Certificate" to the signature details view. 
+- Improved proxy usage when sending OCSP requests in Windows, the operating system's proxy setting are now used.
+
+List of known issues: https://github.com/open-eid/qdigidoc/wiki/Known-issues
 
 
 
