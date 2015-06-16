@@ -629,7 +629,7 @@ padding: 5px;
                <string>View signed document content</string>
               </property>
               <property name="shortcut">
-               <string>Ctrl+O</string>
+               <string notr="true">Ctrl+O</string>
               </property>
               <attribute name="buttonGroup">
                <string notr="true">buttonGroup</string>

@@ -62,16 +62,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Loading DigiDoc3 Client</source>
-        <translation>DigiDoc3 загружается</translation>
-    </message>
-    <message>
         <source>DigiDoc3 Client</source>
         <translation>DigiDoc3 клиент</translation>
     </message>
     <message>
         <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
         <translation>Не удалось обновить список доверенных сертификатов, используемый для проверки действительности цифровых подписей. Пожалуйста, проверьте ваше интернет-соединение и убедитесь в том, что на компьютере установлена последняя версия программного обеспечения ID-карты. Вы желаете использовать для верификации подписей устаревший список доверенных сертификатов? &lt;a href=&quot;http://www.id.ee/?id=37013&quot;&gt;Дополнительная информация&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Loading TSL lists</source>
+        <translation>Загружаем список TSL</translation>
     </message>
 </context>
 <context>
@@ -187,6 +187,14 @@ Media type: %3</source>
         <translation>Имя файла: %1
 Размер: %2
 Тип: %3</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 клиент</translation>
+    </message>
+    <message>
+        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
+        <translation>Это выполняемый файл! Выполняемый файл может содержать вирусы или другой вредоносный код которые могут повредить ваш компьютер. Вы уверены что хотите запустить?</translation>
     </message>
 </context>
 <context>
@@ -988,10 +996,6 @@ Kонтрольны код: %1</translation>
         <translation>Ошибка справки доступа: %1</translation>
     </message>
     <message>
-        <source>Failed to copy file</source>
-        <translation>Копирование файла неуспешно</translation>
-    </message>
-    <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777 (only from Estonia), (+372) 6773377</source>
         <translation>Согласно условиям пользования услугой подтверждения действительности Вы можете пользоваться услугой в объеме не более 10 цифровых подписей в месяц. За дополнительной информацией обращайтесь по адресу &lt;a href=&quot;http://www.id.ee/rus/access&quot;&gt;http://www.id.ee/rus/access&lt;/a&gt;, по электронной почте sales@sk.ee или по телефону 1777 (только в пределах Эстонии), (+372) 6773377</translation>
     </message>
@@ -1040,6 +1044,18 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <message>
         <source>Online TSL digest check</source>
         <translation>Проверка обновлений TSL</translation>
+    </message>
+    <message>
+        <source>No proxy</source>
+        <translation>Прокси не используется</translation>
+    </message>
+    <message>
+        <source>Use system proxy settings</source>
+        <translation>Использовать системные настройки прокси</translation>
+    </message>
+    <message>
+        <source>Manual proxy configuration</source>
+        <translation>Настроить прокси вручную</translation>
     </message>
 </context>
 <context>
@@ -1178,7 +1194,7 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     </message>
     <message>
         <source>Signature Timestamp</source>
-        <translation>Штамп времени подписи</translation>
+        <translation>Временной штамп подписи</translation>
     </message>
     <message>
         <source>TSL URL</source>
@@ -1198,15 +1214,27 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     </message>
     <message>
         <source>TS Certificate issuer</source>
-        <translation>Сертификат службы штампов времени</translation>
+        <translation>Издатель сертификата временного штампа</translation>
     </message>
     <message>
         <source>TS Certificate</source>
-        <translation>Сертификат службы штампов времени</translation>
+        <translation>Сертификат временного штампа</translation>
     </message>
     <message>
         <source>OCSP Certificate</source>
         <translation>Сертификат OCSP</translation>
+    </message>
+    <message>
+        <source>Archive Timestamp</source>
+        <translation>Временной штамп архива</translation>
+    </message>
+    <message>
+        <source>Archive TS Certificate issuer</source>
+        <translation>Издатель сертификата временного штампа архива</translation>
+    </message>
+    <message>
+        <source>Archive TS Certificate</source>
+        <translation>Сертификат временного штампа архива</translation>
     </message>
 </context>
 <context>
@@ -1273,14 +1301,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <message>
         <source>Save file</source>
         <translation>Сохранить файл</translation>
-    </message>
-    <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 клиент</translation>
-    </message>
-    <message>
-        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
-        <translation>Это выполняемый файл! Выполняемый файл может содержать вирусы или другой вредоносный код которые могут повредить ваш компьютер. Вы уверены что хотите запустить?</translation>
     </message>
 </context>
 </TS>

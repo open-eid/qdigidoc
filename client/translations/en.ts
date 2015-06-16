@@ -61,16 +61,16 @@
         <translation>New Crypto window</translation>
     </message>
     <message>
-        <source>Loading DigiDoc3 Client</source>
-        <translation>Loading DigiDoc3 Client</translation>
-    </message>
-    <message>
         <source>DigiDoc3 Client</source>
         <translation>DigiDoc3 client</translation>
     </message>
     <message>
         <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
         <translation>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Loading TSL lists</source>
+        <translation>Loading TSL lists</translation>
     </message>
 </context>
 <context>
@@ -186,6 +186,14 @@ Media type: %3</source>
         <translation>Filename: %1
 Filesize: %2
 Media type: %3</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 client</translation>
+    </message>
+    <message>
+        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
+        <translation>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</translation>
     </message>
 </context>
 <context>
@@ -984,10 +992,6 @@ Control code: %1</translation>
         <translation>Server access certificate error: %1</translation>
     </message>
     <message>
-        <source>Failed to copy file</source>
-        <translation>Failed to copy file</translation>
-    </message>
-    <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777 (only from Estonia), (+372) 6773377</source>
         <translation>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. Additional information is available from &lt;a href=&quot;http://www.id.ee/eng/access&quot;&gt;http://www.id.ee/eng/access&lt;/a&gt; or phone 1777 (only from Estonia), (+372) 6773377</translation>
     </message>
@@ -1036,6 +1040,18 @@ software (version 3.8 and earlier).</translation>
     <message>
         <source>Online TSL digest check</source>
         <translation>Online TSL digest check</translation>
+    </message>
+    <message>
+        <source>No proxy</source>
+        <translation>No proxy</translation>
+    </message>
+    <message>
+        <source>Use system proxy settings</source>
+        <translation>Use system proxy settings</translation>
+    </message>
+    <message>
+        <source>Manual proxy configuration</source>
+        <translation>Manual proxy configuration</translation>
     </message>
 </context>
 <context>
@@ -1204,6 +1220,18 @@ software (version 3.8 and earlier).</translation>
         <source>OCSP Certificate</source>
         <translation>OCSP Certificate</translation>
     </message>
+    <message>
+        <source>Archive Timestamp</source>
+        <translation>Archive Timestamp</translation>
+    </message>
+    <message>
+        <source>Archive TS Certificate issuer</source>
+        <translation>Archive TS Certificate issuer</translation>
+    </message>
+    <message>
+        <source>Archive TS Certificate</source>
+        <translation>Archive TS Certificate</translation>
+    </message>
 </context>
 <context>
     <name>SignatureWidget</name>
@@ -1269,14 +1297,6 @@ software (version 3.8 and earlier).</translation>
     <message>
         <source>Save file</source>
         <translation>Save file</translation>
-    </message>
-    <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 client</translation>
-    </message>
-    <message>
-        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
-        <translation>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</translation>
     </message>
 </context>
 </TS>

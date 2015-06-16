@@ -451,7 +451,7 @@ color: #71889A;
                <string>View encrypted document content</string>
               </property>
               <property name="shortcut">
-               <string>Ctrl+O</string>
+               <string notr="true">Ctrl+O</string>
               </property>
              </widget>
             </item>

@@ -61,16 +61,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Loading DigiDoc3 Client</source>
-        <translation>DigiDoc3 Klient laadimine</translation>
-    </message>
-    <message>
         <source>DigiDoc3 Client</source>
         <translation>DigiDoc3 klient</translation>
     </message>
     <message>
         <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
         <translation>Digiallkirjade kehtivuse kontrollimiseks kasutatava sertifikaatide usaldusnimekirja uuendamine ebaõnnestus. Palun kontrolli oma arvuti internetiühendust ja seda, kas arvutis on kõige uuem ID-tarkvara versioon. Kas soovid allkirjade verifitseerimiseks kasutada aegunud usaldusnimekirja? &lt;a href=&quot;http://www.id.ee/?id=37011&quot;&gt;Lisainfo&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Loading TSL lists</source>
+        <translation>Laen TSL nimekirja</translation>
     </message>
 </context>
 <context>
@@ -186,6 +186,14 @@ Media type: %3</source>
         <translation>Nimetus: %1
 Suurus: %2
 Tüüp: %3</translation>
+    </message>
+    <message>
+        <source>DigiDoc3 client</source>
+        <translation>DigiDoc3 klient</translation>
+    </message>
+    <message>
+        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
+        <translation>See on käivitatav fail! Käivitatavad failid võivad sisaldada viirusi või muud pahatahtlikku koodi, mis võib kahjustada sinu arvutit. Kas oled kindel, et tahad seda faili käivitada?</translation>
     </message>
 </context>
 <context>
@@ -984,10 +992,6 @@ Kontrollkood: %1</translation>
         <translation>Juurdepääsutõendi viga: %1</translation>
     </message>
     <message>
-        <source>Failed to copy file</source>
-        <translation>Faili kopeerimine ebaõnnestus</translation>
-    </message>
-    <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777 (only from Estonia), (+372) 6773377</source>
         <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Täiendav informatsioon &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777 (vaid Eesti-siseselt), (+372) 6773377</translation>
     </message>
@@ -1036,6 +1040,18 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     <message>
         <source>Online TSL digest check</source>
         <translation>Kontrolli TSL värskendust</translation>
+    </message>
+    <message>
+        <source>No proxy</source>
+        <translation>Ei kasuta proksit</translation>
+    </message>
+    <message>
+        <source>Use system proxy settings</source>
+        <translation>Kasuta süsteemseid proksi seadeid</translation>
+    </message>
+    <message>
+        <source>Manual proxy configuration</source>
+        <translation>Proksi seaded määratakse käsitsi</translation>
     </message>
 </context>
 <context>
@@ -1198,11 +1214,23 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     </message>
     <message>
         <source>TS Certificate</source>
-        <translation>Ajatempliteenuse sertifikaati</translation>
+        <translation>Ajatempliteenuse sertifikaat</translation>
     </message>
     <message>
         <source>OCSP Certificate</source>
         <translation>Kehtivuskinnituse sertifikaat</translation>
+    </message>
+    <message>
+        <source>Archive Timestamp</source>
+        <translation>Arhiivi ajatempel</translation>
+    </message>
+    <message>
+        <source>Archive TS Certificate issuer</source>
+        <translation>Arhiivi ajatempli sertifikaadi väljaandja</translation>
+    </message>
+    <message>
+        <source>Archive TS Certificate</source>
+        <translation>Arhiivi ajatempli sertifikaat</translation>
     </message>
 </context>
 <context>
@@ -1269,14 +1297,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     <message>
         <source>Save file</source>
         <translation>Salvesta fail</translation>
-    </message>
-    <message>
-        <source>DigiDoc3 client</source>
-        <translation>DigiDoc3 klient</translation>
-    </message>
-    <message>
-        <source>This is an executable file! Executable files may contain viruses or other malicious code that could harm your computer. Are you sure you want to launch this file?</source>
-        <translation>See on käivitatav fail! Käivitatavad failid võivad sisaldada viirusi või muud pahatahtlikku koodi, mis võib kahjustada sinu arvutit. Kas oled kindel, et tahad seda faili käivitada?</translation>
     </message>
 </context>
 </TS>

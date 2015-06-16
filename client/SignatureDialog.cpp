@@ -275,8 +275,8 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	{
 		addItem( t, tr("Archive Timestamp"), DateTime( s.tsaTime().toLocalTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ));
 		addItem( t, tr("Archive Timestamp") + " (UTC)", DateTime( s.tsaTime() ).toStringZ( "dd.MM.yyyy hh:mm:ss" ) );
-		addItem( t, tr("Archive TSA Certificate issuer"), SslCertificate(s.tsaCert()).issuerInfo(QSslCertificate::CommonName) );
-		addItem( t, tr("Archive TSA Certificate"), s.tsaCert() );
+		addItem( t, tr("Archive TS Certificate issuer"), SslCertificate(s.tsaCert()).issuerInfo(QSslCertificate::CommonName) );
+		addItem( t, tr("Archive TS Certificate"), s.tsaCert() );
 	} //Fall through to TS info
 	case DigiDocSignature::TSType:
 	{
