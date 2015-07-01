@@ -683,6 +683,9 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 
 QString DigiDoc::signatureFormat() const
 {
+	if(m_fileName.endsWith("ddoc", Qt::CaseInsensitive))
+		return "LT_TM";
+
 	QString def = Settings(qApp->applicationName()).value( "type", "bdoc" ).toString() == "asice" ? "LT" : "LT_TM";
 	switch(b->signatures().size())
 	{
