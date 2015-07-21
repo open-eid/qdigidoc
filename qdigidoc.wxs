@@ -4,23 +4,35 @@
 Depends package: Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi
 msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR=C:\target
 
-"\Program Files (x86)\WiX Toolset v3.8\bin\heat.exe dir "C:\target\Estonian ID Card Development\libdigidocpp\certs"
+"%WIX%\bin\heat.exe dir "C:\target\Estonian ID Card Development\libdigidocpp\certs"
  -cg Certs -gg -scom -sreg -sfrag -srd -dr CertsFolder -var var.certsLocation -out CertsFragment.wxs
 
-"\Program Files (x86)\WiX Toolset v3.8\bin\candle.exe" qdigidoc.wxs CertsFragment.wxs -dMSI_VERSION=3.9.5
+"%WIX%\bin\candle.exe" qdigidoc.wxs CertsFragment.wxs -dMSI_VERSION=3.9.5
  -dlibs_path="C:\target\Estonian ID Card Development\libdigidocpp\x86"
  -dcertsLocation="C:\target\Estonian ID Card Development\libdigidocpp\certs"
  -dqt_path=C:\Qt\5.3\msvc2013
  -dclient_path=client\qdigidocclient.exe
  -dupdater_path=updater.exe
 
-"\Program Files (x86)\WiX Toolset v3.8\bin\light.exe" -out qdigidoc.msi qdigidoc.wixobj CertsFragment.wixobj -v -ext WixUIExtension
+"%WIX%\bin\light.exe" -out qdigidoc.msi qdigidoc.wixobj CertsFragment.wixobj -v -ext WixUIExtension
 -->
+
+<?ifndef Platform ?>
+<?define Platform="x86" ?>
+<?endif ?>
+
+<?if $(var.Platform) = x64 ?>
+  <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+  <?define Win64 = "yes" ?>
+<?else ?>
+  <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?define Win64 = "no" ?>
+<?endif ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Name="DigiDoc3 Client" UpgradeCode="67932072-aa9e-45e3-b697-d825349f273d"
       Id="*" Language="1033" Version="$(var.MSI_VERSION)" Codepage="1251" Manufacturer="RIA">
-    <Package Keywords="Installer" InstallerVersion="405" Compressed="yes"/>
+    <Package Platform="$(var.Platform)" Keywords="Installer" InstallerVersion="405" Compressed="yes"/>
     <MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
     <Icon Id="qdigidocclient.exe" SourceFile="$(var.client_path)"/>
     <Property Id="ARPPRODUCTICON" Value="qdigidocclient.exe"/>
@@ -40,11 +52,11 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
           </Component>
         </Directory>
       </Directory>
-      <Directory Id='ProgramFilesFolder'>
+      <Directory Id='$(var.PlatformProgramFilesFolder)'>
         <Directory Id="APPLICATIONFOLDER" Name="DigiDoc3 Client">
-          <Component Id="Application" Guid="810cbd57-b24d-49ee-939a-a1fc38dda46f">
-            <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.CRT\msvcp120.dll"/>
-            <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.CRT\msvcr120.dll"/>
+          <Component Id="Application" Guid="810cbd57-b24d-49ee-939a-a1fc38dda46f" Win64="$(var.Win64)">
+            <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcp120.dll"/>
+            <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcr120.dll"/>
             <File Source="$(var.libs_path)\libeay32.dll"/>
             <File Source="$(var.libs_path)\ssleay32.dll"/>
             <File Source="$(var.libs_path)\zlib1.dll"/>
@@ -119,17 +131,17 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
             </ProgId>
           </Component>
           <Directory Id="platforms" Name="platforms" FileSource="$(var.qt_path)\plugins\platforms">
-            <Component Id="qwindows.dll">
+            <Component Id="qwindows.dll" Win64="$(var.Win64)">
               <File Name="qwindows.dll"/>
             </Component>
           </Directory>
           <Directory Id="printsupport" Name="printsupport" FileSource="$(var.qt_path)\plugins\printsupport">
-            <Component Id="windowsprintersupport.dll">
+            <Component Id="windowsprintersupport.dll" Win64="$(var.Win64)">
               <File Name="windowsprintersupport.dll"/>
             </Component>
           </Directory>
           <Directory Id="SchemaFolder" Name="schema" FileSource="$(var.libs_path)\schema">
-            <Component Id="Schemas" Guid="6ab1d3ab-bbb8-42a0-8cf9-5ece75b13079">
+            <Component Id="Schemas" Guid="6ab1d3ab-bbb8-42a0-8cf9-5ece75b13079" Win64="$(var.Win64)">
               <File Name="conf.xsd"/>
               <File Name="OpenDocument_manifest.xsd"/>
               <File Name="xmldsig-core-schema.xsd"/>
