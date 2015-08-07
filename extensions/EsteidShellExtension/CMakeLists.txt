@@ -1,6 +1,3 @@
-cmake_minimum_required(VERSION 2.6)
-project(EsteidShellExtension)
-
 add_definitions(
     -D_UNICODE
     -DUNICODE
@@ -9,18 +6,6 @@ add_definitions(
 )
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-
-set(SOURCES 
-    ${CMAKE_CURRENT_BINARY_DIR}/EsteidShellExtension_i.c
-    dllmain.cpp
-    EsteidShellExtension.cpp
-    EsteidShellExtension.def
-    EsteidShlExt.cpp
-    stdafx.cpp
-    EsteidShellExtension.rc
-    EsteidShellExtension.rgs
-    EsteidShlExt.rgs
-)
 
 if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     set(MIDL_TARGET "x64")
@@ -32,20 +17,26 @@ add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/EsteidShellExtension_i.h
            ${CMAKE_CURRENT_BINARY_DIR}/EsteidShellExtension_i.c
            ${CMAKE_CURRENT_BINARY_DIR}/EsteidShellExtension_p.c
-    COMMAND Midl.Exe EsteidShellExtension.idl
-                     /nologo
-                     /I ${CMAKE_SOURCE_DIR}
-                     /char signed
-                     /env ${MIDL_TARGET}
-                     /Oicf
+    COMMAND Midl.Exe ${CMAKE_CURRENT_SOURCE_DIR}/EsteidShellExtension.idl
+                     /nologo /no_robust /char signed /Oicf /env ${MIDL_TARGET}
+                     /I ${CMAKE_CURRENT_SOURCE_DIR}
                      /tlb EsteidShellExtension.tlb
                      /h EsteidShellExtension_i.h
                      /iid EsteidShellExtension_i.c
                      /proxy EsteidShellExtension_p.c
-                     /no_robust
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     VERBATIM
 )
 
-add_library(EsteidShellExtension SHARED ${SOURCES})
-install(TARGETS EsteidShellExtension DESTINATION lib)
+add_library(EsteidShellExtension SHARED
+	${CMAKE_CURRENT_BINARY_DIR}/EsteidShellExtension_i.c
+	dllmain.cpp
+	EsteidShellExtension.cpp
+	EsteidShellExtension.def
+	EsteidShlExt.cpp
+	stdafx.cpp
+	EsteidShellExtension.rc
+	EsteidShellExtension.rgs
+	EsteidShlExt.rgs
+)
+install(TARGETS EsteidShellExtension DESTINATION ${CMAKE_INSTALL_BINDIR})
