@@ -63,6 +63,7 @@ public:
 	int run();
 	void waitForTSL( const QString &file );
 
+	static void addRecent( const QString &file );
 	static QVariant confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
 	static void showWarning( const QString &msg, int err, const QString &details = QString(), const QString &search = QString() );
@@ -75,7 +76,9 @@ public Q_SLOTS:
 	void showWarning( const QString &msg, const QString &details = QString() );
 
 private Q_SLOTS:
+	void browse( const QUrl &url );
 	void closeWindow();
+	void mailTo( const QUrl &url );
 	void parseArgs( const QString &msg = QString() );
 	void parseArgs( const QStringList &args );
 	void showTSLWarning( QEventLoop *e );
@@ -90,5 +93,17 @@ private:
 
 	QHash<QString,QString> urls() const;
 
+#if defined(Q_OS_MAC)
+	void initMacEvents();
+	void deinitMacEvents();
+#endif
+
 	ApplicationPrivate *d;
+};
+
+class REOpenEvent: public QEvent
+{
+public:
+	enum { Type = QEvent::User + 1 };
+	REOpenEvent(): QEvent( QEvent::Type(Type) ) {}
 };

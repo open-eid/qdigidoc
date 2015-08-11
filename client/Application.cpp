@@ -39,6 +39,7 @@
 #include "qtsingleapplication/src/qtlocalpeer.h"
 
 #include <QtCore/QFileInfo>
+#include <QtCore/QProcess>
 #include <QtCore/QSysInfo>
 #include <QtCore/QTimer>
 #include <QtCore/QTranslator>
@@ -59,6 +60,12 @@
 #include <common/MacMenuBar.h>
 #else
 class MacMenuBar;
+#endif
+
+#ifdef Q_OS_WIN32
+#include <QtCore/QLibrary>
+#include <qt_windows.h>
+#include <mapi.h>
 #endif
 
 class DigidocConf: public digidoc::XmlConfV4
@@ -179,6 +186,7 @@ public:
 	QString		lang;
 	QTimer		lastWindowTimer;
 	volatile bool ready = false;
+	bool		macEvents = false;
 };
 
 Application::Application( int &argc, char **argv )
@@ -199,6 +207,8 @@ Application::Application( int &argc, char **argv )
 #endif
 
 	detectPlugins();
+	QDesktopServices::setUrlHandler( "browse", this, "browse" );
+	QDesktopServices::setUrlHandler( "mailto", this, "mailTo" );
 
 	installTranslator( &d->appTranslator );
 	installTranslator( &d->commonTranslator );
@@ -311,6 +321,8 @@ Application::~Application()
 	}
 	if( QtLocalPeer *obj = findChild<QtLocalPeer*>() )
 		delete obj;
+#else
+	deinitMacEvents();
 #endif
 	delete d->bar;
 	QEventLoop e;
@@ -321,6 +333,10 @@ Application::~Application()
 	delete d;
 }
 
+#ifndef Q_OS_MAC
+void Application::addRecent( const QString & ) {}
+#endif
+
 void Application::activate( QWidget *w )
 {
 #ifdef Q_OS_MAC
@@ -330,6 +346,21 @@ void Application::activate( QWidget *w )
 	w->activateWindow();
 	w->show();
 	w->raise();
+}
+
+void Application::browse( const QUrl &url )
+{
+	QUrl u = url;
+	u.setScheme( "file" );
+#if defined(Q_OS_WIN)
+	if( QProcess::startDetached( "explorer", QStringList() << "/select," <<
+		QDir::toNativeSeparators( u.toLocalFile() ) ) )
+		return;
+#elif defined(Q_OS_MAC)
+	if( QProcess::startDetached( "open", QStringList() << "-R" << u.toLocalFile() ) )
+		return;
+#endif
+	QDesktopServices::openUrl( QUrl::fromLocalFile( QFileInfo( u.toLocalFile() ).absolutePath() ) );
 }
 
 void Application::closeWindow()
@@ -383,6 +414,16 @@ bool Application::event( QEvent *e )
 	case QEvent::FileOpen:
 		parseArgs( QStringList() << static_cast<QFileOpenEvent*>(e)->file() );
 		return true;
+#ifdef Q_OS_MAC
+	// Load here because cocoa NSApplication overides events
+	case QEvent::ApplicationActivate:
+		if(!d->macEvents)
+		{
+			initMacEvents();
+			d->macEvents = true;
+		}
+		return Common::event( e );
+#endif
 	default: return Common::event( e );
 	}
 }
@@ -405,6 +446,114 @@ void Application::loadTranslation( const QString &lang )
 	if( d->newClientAction ) d->newClientAction->setText( tr("New Client window") );
 	if( d->newCryptoAction ) d->newCryptoAction->setText( tr("New Crypto window") );
 }
+
+#ifndef Q_OS_MAC
+void Application::mailTo( const QUrl &url )
+{
+#if defined(Q_OS_WIN)
+	QUrlQuery q(url);
+	QString file = q.queryItemValue( "attachment", QUrl::FullyDecoded );
+	QLibrary lib("mapi32");
+	if( LPMAPISENDMAILW mapi = LPMAPISENDMAILW(lib.resolve("MAPISendMailW")) )
+	{
+		QString filePath = QDir::toNativeSeparators( file );
+		QString fileName = QFileInfo( file ).fileName();
+		QString subject = q.queryItemValue( "subject", QUrl::FullyDecoded );
+		MapiFileDescW doc = { 0, 0, 0, 0, 0, 0 };
+		doc.nPosition = -1;
+		doc.lpszPathName = PWSTR(filePath.utf16());
+		doc.lpszFileName = PWSTR(fileName.utf16());
+		MapiMessageW message = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		message.lpszSubject = PWSTR(subject.utf16());
+		message.lpszNoteText = L"";
+		message.nFileCount = 1;
+		message.lpFiles = lpMapiFileDescW(&doc);
+		switch( mapi( NULL, 0, &message, MAPI_LOGON_UI|MAPI_DIALOG, 0 ) )
+		{
+		case SUCCESS_SUCCESS:
+		case MAPI_E_USER_ABORT:
+		case MAPI_E_LOGIN_FAILURE:
+			return;
+		default: break;
+		}
+	}
+	else if( LPMAPISENDMAIL mapi = LPMAPISENDMAIL(lib.resolve("MAPISendMail")) )
+	{
+		QByteArray filePath = QDir::toNativeSeparators( file ).toLocal8Bit();
+		QByteArray fileName = QFileInfo( file ).fileName().toLocal8Bit();
+		QByteArray subject = q.queryItemValue( "subject", QUrl::FullyDecoded ).toLocal8Bit();
+		MapiFileDesc doc = { 0, 0, 0, 0, 0, 0 };
+		doc.nPosition = -1;
+		doc.lpszPathName = LPSTR(filePath.constData());
+		doc.lpszFileName = LPSTR(fileName.constData());
+		MapiMessage message = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		message.lpszSubject = LPSTR(subject.constData());
+		message.lpszNoteText = "";
+		message.nFileCount = 1;
+		message.lpFiles = lpMapiFileDesc(&doc);
+		switch( mapi( NULL, 0, &message, MAPI_LOGON_UI|MAPI_DIALOG, 0 ) )
+		{
+		case SUCCESS_SUCCESS:
+		case MAPI_E_USER_ABORT:
+		case MAPI_E_LOGIN_FAILURE:
+			return;
+		default: break;
+		}
+	}
+#elif defined(Q_OS_LINUX)
+	QByteArray thunderbird;
+	QProcess p;
+	QStringList env = QProcess::systemEnvironment();
+	if( env.indexOf( QRegExp("KDE_FULL_SESSION.*") ) != -1 )
+	{
+		p.start( "kreadconfig", QStringList()
+			<< "--file" << "emaildefaults"
+			<< "--group" << "PROFILE_Default"
+			<< "--key" << "EmailClient" );
+		p.waitForFinished();
+		QByteArray data = p.readAllStandardOutput().trimmed();
+		if( data.contains("thunderbird") )
+			thunderbird = data;
+	}
+	else if( env.indexOf( QRegExp("GNOME_DESKTOP_SESSION_ID.*") ) != -1 )
+	{
+		if(QSettings(QDir::homePath() + "/.local/share/applications/mimeapps.list", QSettings::IniFormat)
+				.value("Default Applications/x-scheme-handler/mailto").toString().contains("thunderbird"))
+			thunderbird = "/usr/bin/thunderbird";
+		else
+		{
+			for(const QString &path: QProcessEnvironment::systemEnvironment().value("XDG_DATA_DIRS").split(":"))
+			{
+				if(QSettings(path + "/applications/defaults.list", QSettings::IniFormat)
+						.value("Default Applications/x-scheme-handler/mailto").toString().contains("thunderbird"))
+				{
+					thunderbird = "/usr/bin/thunderbird";
+					break;
+				}
+			}
+		}
+	}
+
+	bool status = false;
+	if( !thunderbird.isEmpty() )
+	{
+		status = p.startDetached( thunderbird, QStringList() << "-compose"
+			<< QString( "subject='%1',attachment='%2'" )
+				.arg( url.queryItemValue( "subject" ) )
+				.arg( QUrl::fromLocalFile( url.queryItemValue( "attachment" ) ).toString() ) );
+	}
+	else
+	{
+		status = p.startDetached( "xdg-email", QStringList()
+			<< "--subject" << url.queryItemValue( "subject" )
+			<< "--attach" << url.queryItemValue( "attachment" ) );
+	}
+	if( status )
+		return;
+#endif
+	QDesktopServices::openUrl( url );
+}
+#endif
 
 bool Application::notify( QObject *o, QEvent *e )
 {
