@@ -44,13 +44,11 @@ class QCNG;
 class QSignerPrivate
 {
 public:
-	QSignerPrivate(): csp(0), cng(0), pkcs11(0), terminate(false) {}
-
-	QCSP			*csp;
-	QCNG			*cng;
-	QPKCS11			*pkcs11;
+	QCSP			*csp = nullptr;
+	QCNG			*cng = nullptr;
+	QPKCS11			*pkcs11 = nullptr;
 	TokenData		auth, sign;
-	volatile bool	terminate;
+	volatile bool	terminate = false;
 	QAtomicInt		count;
 };
 
@@ -289,8 +287,8 @@ void QSigner::run()
 				readers = d->pkcs11->readers();
 			}
 
-			std::sort( acards.begin(), acards.end(), Common::cardsOrder );
-			std::sort( scards.begin(), scards.end(), Common::cardsOrder );
+			std::sort( acards.begin(), acards.end(), TokenData::cardsOrder );
+			std::sort( scards.begin(), scards.end(), TokenData::cardsOrder );
 			std::sort( readers.begin(), readers.end() );
 			at.setCards( acards );
 			at.setReaders( readers );
