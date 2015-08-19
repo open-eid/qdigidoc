@@ -69,6 +69,7 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
 <?ifdef var.certsLocation ?>
             <File Source="$(var.libs_path)\libxml2.dll"/>
             <File Source="$(var.libs_path)\digidoc.dll"/>
+            <File Source="$(var.libs_path)\cdigidoc.exe"/>
             <File Source="$(var.libs_path)\digidoc.ini"/>
             <IniFile Id="setCaCertPathX86" Action="addLine" Directory="APPLICATIONFOLDER" Section="ca"
               Name="digidoc.ini" Key="CA_CERT_PATH" Value="[APPLICATIONFOLDER]certs"/>
