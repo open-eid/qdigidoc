@@ -115,7 +115,7 @@ void Application::mailTo( const QUrl &url )
 		else if( [appPath rangeOfString:@"Outlook"].location != NSNotFound )
 		{
 			s << "on run" << endl
-			<< "set vattachment to \"" << url.queryItemValue("attachment") << "\"" << endl
+			<< "set vattachment to \"" << url.queryItemValue("attachment") << "\" as POSIX file" << endl
 			<< "set vsubject to \"" << url.queryItemValue("subject") << "\"" << endl
 			<< "tell application \"Microsoft Outlook\"" << endl
 			<< "activate" << endl
