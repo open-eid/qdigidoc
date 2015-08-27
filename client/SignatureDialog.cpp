@@ -244,10 +244,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	QTreeWidget *t = d->signatureView;
 	t->header()->setResizeMode( 0, QHeaderView::ResizeToContents );
 	if( s.type() != DigiDocSignature::DDocType )
-	{
 		addItem( t, tr("TSL URL"), qApp->confValue( Application::TSLUrl ).toUrl() );
-		addItem( t, tr("TSL Cert"), qApp->confValue( Application::TSLCert ).value<QSslCertificate>() );
-	}
 
 	addItem( t, tr("Signer's Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	addItem( t, tr("Signer's Certificate"), c );

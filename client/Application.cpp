@@ -397,7 +397,17 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	case PKCS12Disable: return i->PKCS12Disable();
 	case TSLUrl: r = i->TSLUrl().c_str(); break;
 	case TSLCache: r = i->TSLCache().c_str(); break;
-	case TSLCert: return QVariant::fromValue(SslCertificate::fromX509(i->TSLCert().handle()));
+	case TSLCerts:
+	{
+		QList<QSslCertificate> list;
+		for(const digidoc::X509Cert &cert: i->TSLCerts())
+		{
+			std::vector<unsigned char> v = cert;
+			if(!v.empty())
+				list << QSslCertificate(QByteArray((const char*)&v[0], int(v.size())), QSsl::Der);
+		}
+		return QVariant::fromValue(list);
+	}
 	case TSLOnlineDigest: return i->TSLOnlineDigest();
 	}
 	return r.isEmpty() ? value.toString() : QString::fromUtf8( r );
@@ -634,7 +644,7 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 		case PKCS12Pass: i->setPKCS12Pass( v.isEmpty()? std::string() : v.constData() ); break;
 		case PKCS12Disable: i->setPKCS12Disable( value.toBool() ); break;
 		case TSLOnlineDigest: i->setTSLOnlineDigest( value.toBool() ); break;
-		case TSLCert:
+		case TSLCerts:
 		case TSLUrl:
 		case TSLCache:
 		case PKCS11Module: break;
@@ -747,6 +757,9 @@ QHash<QString,QString> Application::urls() const
 {
 	QHash<QString,QString> u = Common::urls();
 	u["TSL"] = confValue(TSLUrl).toString();
+	int i = 0;
+	for(const QSslCertificate &cert: confValue(TSLCerts).value<QList<QSslCertificate>>())
+		u[QString("TSL_CERT%1").arg(++i)] = cert.subjectInfo("CN").value(0);
 	return u;
 }
 

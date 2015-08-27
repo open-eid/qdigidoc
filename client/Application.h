@@ -49,7 +49,7 @@ public:
 		PKCS12Pass,
 		PKCS12Disable,
 		TSLUrl,
-		TSLCert,
+		TSLCerts,
 		TSLCache,
 		TSLOnlineDigest
 	};
