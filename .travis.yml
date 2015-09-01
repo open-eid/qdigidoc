@@ -1,22 +1,15 @@
+sudo: required
+services:
+ - docker
 before_install:
 - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
     brew update;
     brew install qt5;
   else
-    sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test;
-    sudo add-apt-repository -y ppa:beineri/opt-qt521;
-    sudo add-apt-repository -y ppa:ria-id/travis;
+    curl https://installer.id.ee/media/sources/public.key | sudo apt-key add -;
+    sudo apt-add-repository 'deb http://installer.id.ee/media/ubuntu/ trusty main';
     sudo apt-get update -qq;
-    sudo apt-get install -y gcc-4.8 g++-4.8 qt52base qt52tools libpcsclite-dev libxml-security-c-dev libssl-dev libc6-i386;
-    sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90;
-    source /opt/qt52/bin/qt52-env.sh;
-    wget http://ftp.id.eesti.ee/pub/id/libdigidocpp/libdigidocpp-common_3.10.0.4114.BETA-1410_all.deb;
-    wget http://ftp.id.eesti.ee/pub/id/libdigidocpp/libdigidocpp-dev_3.10.0.4114.BETA-1410_amd64.deb;
-    wget http://ftp.id.eesti.ee/pub/id/libdigidocpp/libdigidocpp0_3.10.0.4114.BETA-1410_amd64.deb;
-    sudo dpkg -i libdigidocpp-common_3.10.0.4114.BETA-1410_all.deb libdigidocpp0_3.10.0.4114.BETA-1410_amd64.deb libdigidocpp-dev_3.10.0.4114.BETA-1410_amd64.deb;
-    wget http://www.cmake.org/files/v3.0/cmake-3.0.2-Linux-i386.tar.gz;
-    tar -xzf cmake-3.0.2-Linux-i386.tar.gz;
-    sudo cp -fR cmake-3.0.2-Linux-i386/* /usr;
+    sudo apt-get install -y libdigidocpp-dev libldap2-dev libpcsclite-dev libssl-dev qtbase5-dev qttools5-dev qttools5-dev-tools gettext;
   fi
 script:
 - mkdir build
@@ -26,7 +19,6 @@ script:
 
 os:
  - linux
- - osx
 
 env:
   global:
