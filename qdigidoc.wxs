@@ -82,9 +82,9 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
             <File Source="$(var.qt_path)\bin\Qt5WinExtras.dll"/>
             <File Source="$(var.qt_path)\bin\libEGL.dll"/>
             <File Source="$(var.qt_path)\bin\libGLESv2.dll"/>
-            <File Source="$(var.qt_path)\bin\icudt53.dll"/>
-            <File Source="$(var.qt_path)\bin\icuin53.dll"/>
-            <File Source="$(var.qt_path)\bin\icuuc53.dll"/>
+            <File Source="$(var.qt_path)\bin\icudt54.dll"/>
+            <File Source="$(var.qt_path)\bin\icuin54.dll"/>
+            <File Source="$(var.qt_path)\bin\icuuc54.dll"/>
             <File Source="$(var.qt_path)\bin\D3DCompiler_47.dll"/>
             <File Source="$(var.qt_path)\bin\opengl32sw.dll" />
             <File Source="opensc-pkcs11.dll"/>
