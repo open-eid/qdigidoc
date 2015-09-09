@@ -1,3 +1,14 @@
+DigiDoc3 version 3.11.1 release notes
+--------------------------------------
+Changes compared to ver 3.11
+
+- Update translations
+- Updated the default European Commission's master TSL list to version 119
+
+List of known issues: https://github.com/open-eid/qdigidoc/wiki/Known-issues
+
+
+
 DigiDoc3 version 3.11 release notes
 --------------------------------------
 Changes compared to ver 3.10
@@ -20,8 +31,6 @@ Client:
 	- Value "BES/time-stamp-archive" is used in "Signature format" field in signature details view. 
 	- Added fields "Archive Timestamp", "Archive Timestamp (UTC)", "Archive TSA Certificate issuer" and "Archive TSA Certificate" to the signature details view. 
 - Improved proxy usage when sending OCSP requests in Windows, the operating system's proxy setting are now used.
-
-List of known issues: https://github.com/open-eid/qdigidoc/wiki/Known-issues
 
 
 
