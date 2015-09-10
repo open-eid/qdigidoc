@@ -127,7 +127,7 @@ void CancelPreviewGeneration(void * /*thisInterface*/, QLPreviewRequestRef /*pre
 }
 @end
 
-class DigidocConf: public digidoc::XmlConfV4
+class DigidocConf: public digidoc::XmlConf
 {
 public:
 	bool TSLAutoUpdate() const { return false; }
@@ -159,21 +159,21 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 		digidoc::Conf::init( new DigidocConf );
 		digidoc::initialize();
 		Exception::setWarningIgnoreList({
-			Exception::RefereneceDigestWeak,
+			Exception::ReferenceDigestWeak,
 			Exception::SignatureDigestWeak,
 			Exception::DataFileNameSpaceWarning,
 			Exception::IssuerNameSpaceWarning,
 			Exception::ProducedATLateWarning});
-		Container d( [[(__bridge NSURL*)url path] UTF8String] );
+		std::unique_ptr<Container> d(Container::open([[(__bridge NSURL*)url path] UTF8String]));
 
 		[h appendString:@"<font>Files</font><ol>"];
-		for (const DataFile &doc : d.dataFiles()) {
-			[h appendFormat:@"<li>%@</li>", [NSString stdstring:doc.fileName()]];
+		for (const DataFile *doc : d->dataFiles()) {
+			[h appendFormat:@"<li>%@</li>", [NSString stdstring:doc->fileName()]];
 		}
 		[h appendString:@"</ol>"];
 
 		[h appendString:@"<font>Signatures</font>"];
-		for (const Signature *s : d.signatures()) {
+		for (const Signature *s : d->signatures()) {
 			X509Cert cert = s->signingCertificate();
 			X509Cert ocsp = s->OCSPCertificate();
 			Type t = type(cert, false);
@@ -189,10 +189,7 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 			}
 			[h appendFormat:@"<dl><dt>Signer</dt><dd>%@</dd>", [NSString stdstring:name]];
 
-			NSString *date = [NSString stdstring:s->producedAt()];
-			if ([date length] == 0) {
-				date = [NSString stdstring:s->signingTime()];
-			}
+			NSString *date = [NSString stdstring:s->trustedSigningTime()];
 			[date stringByReplacingOccurrencesOfString:@"Z" withString:@"-0000"];
 			NSDateFormatter *df = [[NSDateFormatter alloc] init];
 			[df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];

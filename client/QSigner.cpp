@@ -173,7 +173,7 @@ QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 	return !out.isEmpty() ? DecryptOK : DecryptFailed;
 }
 
-void QSigner::reloadauth()
+void QSigner::reloadauth() const
 {
 	QEventLoop e;
 	QObject::connect( this, SIGNAL(authDataChanged(TokenData)), &e, SLOT(quit()) );
@@ -183,7 +183,7 @@ void QSigner::reloadauth()
 	e.exec();
 }
 
-void QSigner::reloadsign()
+void QSigner::reloadsign() const
 {
 	QEventLoop e;
 	QObject::connect( this, SIGNAL(signDataChanged(TokenData)), &e, SLOT(quit()) );
@@ -404,8 +404,7 @@ void QSigner::selectSignCard( const QString &card )
 void QSigner::showWarning( const QString &msg )
 { qApp->showWarning( msg ); }
 
-void QSigner::sign(const std::string &method, const std::vector<unsigned char> &digest,
-	std::vector<unsigned char> &signature )
+std::vector<unsigned char> QSigner::sign(const std::string &method, const std::vector<unsigned char> &digest ) const
 {
 #if QT_VERSION >= 0x050000
 	if( d->count.loadAcquire() > 0 )
@@ -479,10 +478,10 @@ void QSigner::sign(const std::string &method, const std::vector<unsigned char> &
 	reloadsign();
 	if( sig.isEmpty() )
 		throwException( tr("Failed to sign document"), Exception::General, __LINE__ );
-	signature.assign( sig.constBegin(), sig.constEnd() );
+	return std::vector<unsigned char>( sig.constBegin(), sig.constEnd() );
 }
 
-void QSigner::throwException( const QString &msg, Exception::ExceptionCode code, int line )
+void QSigner::throwException( const QString &msg, Exception::ExceptionCode code, int line ) const
 {
 	QString t = msg;
 	Exception e( __FILE__, line, t.toUtf8().constData() );

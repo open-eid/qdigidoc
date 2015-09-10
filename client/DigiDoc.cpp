@@ -72,7 +72,7 @@ QString DocumentModel::save( const QModelIndex &index, const QString &path ) con
 	if( !hasIndex( index.row(), index.column() ) )
 		return QString();
 	QFile::remove( path );
-	d->b->dataFiles().at( index.row() ).saveAs( path.toUtf8().constData() );
+	d->b->dataFiles().at( index.row() )->saveAs( path.toUtf8().constData() );
 	return path;
 }
 
@@ -81,7 +81,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	if( !hasIndex( index.row(), index.column() ) )
 		return QVariant();
 
-	DataFile file = d->b->dataFiles().at( index.row() );
+	const DataFile *file = d->b->dataFiles().at( index.row() );
 	switch( role )
 	{
 	case Qt::ForegroundRole:
@@ -93,10 +93,10 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 	case Qt::DisplayRole:
 		switch( index.column() )
 		{
-		case Id: return QString::fromUtf8( file.id().c_str() );
-		case Name: return from( file.fileName() );
-		case Mime: return from( file.mediaType() );
-		case Size: return FileDialog::fileSize( file.fileSize() );
+		case Id: return QString::fromUtf8( file->id().c_str() );
+		case Name: return from( file->fileName() );
+		case Mime: return from( file->mediaType() );
+		case Size: return FileDialog::fileSize( file->fileSize() );
 		default: return QVariant();
 		}
 	case Qt::TextAlignmentRole:
@@ -113,9 +113,9 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		case Save: return tr("Save");
 		case Remove: return tr("Remove");
 		default: return tr("Filename: %1\nFilesize: %2\nMedia type: %3")
-			.arg( from( file.fileName() ) )
-			.arg( FileDialog::fileSize( file.fileSize() ) )
-			.arg( from( file.mediaType() ) );
+			.arg( from( file->fileName() ) )
+			.arg( FileDialog::fileSize( file->fileSize() ) )
+			.arg( from( file->mediaType() ) );
 		}
 	case Qt::DecorationRole:
 		switch( index.column() )
@@ -133,11 +133,11 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		}
 	case Qt::UserRole:
 #ifdef Q_OS_WIN
-		return from(file.fileName()).replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
+		return from(file->fileName()).replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
 #elif defined(Q_OS_MAC)
-		return from(file.fileName()).replace( QRegExp( "[\\\\:]"), "_" );
+		return from(file->fileName()).replace( QRegExp( "[\\\\:]"), "_" );
 #else
-		return from(file.fileName()).replace( QRegExp( "[\\\\]"), "_" );
+		return from(file->fileName()).replace( QRegExp( "[\\\\]"), "_" );
 #endif
 	default: return QVariant();
 	}
@@ -262,12 +262,12 @@ QSslCertificate DigiDocSignature::ocspCert() const
 
 QByteArray DigiDocSignature::ocspNonce() const
 {
-	return fromVector(s->nonce());
+	return fromVector(s->OCSPNonce());
 }
 
 QDateTime DigiDocSignature::ocspTime() const
 {
-	QString dateTime = from( s->producedAt() );
+	QString dateTime = from( s->OCSPProducedAt() );
 	if( dateTime.isEmpty() )
 		return QDateTime();
 	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
@@ -283,7 +283,7 @@ void DigiDocSignature::parseException( DigiDocSignature::SignatureStatus &result
 	{
 		switch( child.code() )
 		{
-		case Exception::RefereneceDigestWeak:
+		case Exception::ReferenceDigestWeak:
 		case Exception::SignatureDigestWeak:
 			m_warning |= DigestWeak;
 			result = std::max( result, Warning );
@@ -352,7 +352,7 @@ QString DigiDocSignature::signatureMethod() const
 
 QDateTime DigiDocSignature::signTime() const
 {
-	QString dateTime = from( s->signingTime() );
+	QString dateTime = from( s->claimedSigningTime() );
 	if( dateTime.isEmpty() )
 		return QDateTime();
 	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
@@ -368,12 +368,12 @@ QString DigiDocSignature::spuri() const
 QSslCertificate DigiDocSignature::tsCert() const
 {
 	return QSslCertificate(
-		fromVector(s->TSCertificate()), QSsl::Der );
+		fromVector(s->TimeStampCertificate()), QSsl::Der );
 }
 
 QDateTime DigiDocSignature::tsTime() const
 {
-	QString dateTime = from( s->TSTime() );
+	QString dateTime = from( s->TimeStampTime() );
 	if( dateTime.isEmpty() )
 		return QDateTime();
 	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
@@ -384,12 +384,12 @@ QDateTime DigiDocSignature::tsTime() const
 QSslCertificate DigiDocSignature::tsaCert() const
 {
 	return QSslCertificate(
-		fromVector(s->TSACertificate()), QSsl::Der );
+		fromVector(s->ArchiveTimeStampCertificate()), QSsl::Der );
 }
 
 QDateTime DigiDocSignature::tsaTime() const
 {
-	QString dateTime = from( s->TSATime() );
+	QString dateTime = from( s->ArchiveTimeStampTime() );
 	if( dateTime.isEmpty() )
 		return QDateTime();
 	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
@@ -480,7 +480,7 @@ bool DigiDoc::addSignature( const QByteArray &signature )
 	bool result = false;
 	try
 	{
-		b->addRawSignature( std::vector<unsigned char>( signature.constData(), signature.constData() + signature.size() ) );
+		b->addAdESSignature( std::vector<unsigned char>( signature.constData(), signature.constData() + signature.size() ) );
 		result = true;
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to sign container"), e ); }
@@ -510,8 +510,7 @@ void DigiDoc::clear()
 void DigiDoc::create( const QString &file )
 {
 	clear();
-	b = new Container( QFileInfo( file ).suffix().compare( "ddoc", Qt::CaseInsensitive ) == 0 ?
-		Container::DDocType : Container::AsicType );
+	b = Container::create( to( file ) );
 	m_fileName = file;
 	m_documentModel->reset();
 }
@@ -548,7 +547,7 @@ bool DigiDoc::open( const QString &file )
 	clear();
 	try
 	{
-		b = new Container( to(file) );
+		b = Container::open( to(file) );
 		if( !isSupported() )
 		{
 			QWidget *w = qobject_cast<QWidget*>(parent());
@@ -659,8 +658,9 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		if( !role.isEmpty() || !role2.isEmpty() )
 			roles.push_back( to((QStringList() << role << role2).join(" / ")) );
 		qApp->signer()->setSignerRoles( roles );
+		qApp->signer()->setProfile( signatureFormat() == "LT" ? "time-stamp" : "time-mark" );
 		qApp->waitForTSL( fileName() );
-		b->sign( qApp->signer(), signatureFormat() == "LT" ? "time-stamp" : "time-mark" );
+		b->sign( qApp->signer() );
 		return true;
 	}
 	catch( const Exception &e )
@@ -715,9 +715,8 @@ QList<DigiDocSignature> DigiDoc::signatures()
 		return list;
 	try
 	{
-		SignatureList signatures = b->signatures();
-		for( SignatureList::const_iterator i = signatures.begin(); i != signatures.end(); ++i )
-			list << DigiDocSignature( *i, this );
+		for(const Signature *signature: b->signatures())
+			list << DigiDocSignature(signature, this);
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to get signatures"), e ); }
 	return list;
@@ -740,8 +739,8 @@ QByteArray DigiDoc::getFileDigest( unsigned int i ) const
 
 	try
 	{
-		DataFile file = b->dataFiles().at( i );
-		return fromVector(file.calcDigest("http://www.w3.org/2001/04/xmlenc#sha256"));
+		const DataFile *file = b->dataFiles().at( i );
+		return fromVector(file->calcDigest("http://www.w3.org/2001/04/xmlenc#sha256"));
 	}
 	catch( const Exception & ) {}
 

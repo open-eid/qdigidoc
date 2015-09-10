@@ -49,10 +49,10 @@ public:
 	~QSigner();
 
 	ApiType apiType() const;
-	digidoc::X509Cert cert() const;
+	digidoc::X509Cert cert() const override;
 	ErrorCode decrypt( const QByteArray &in, QByteArray &out );
-	void sign( const std::string &method, const std::vector<unsigned char> &digest,
-		std::vector<unsigned char>& signature );
+	std::vector<unsigned char> sign( const std::string &method,
+		const std::vector<unsigned char> &digest ) const override;
 	TokenData tokenauth() const;
 	TokenData tokensign() const;
 
@@ -67,10 +67,10 @@ private Q_SLOTS:
 	void showWarning( const QString &msg );
 
 private:
-	void reloadauth();
-	void reloadsign();
-	void run();
-	void throwException( const QString &msg, digidoc::Exception::ExceptionCode code, int line );
+	void reloadauth() const;
+	void reloadsign() const;
+	void run() override;
+	void throwException( const QString &msg, digidoc::Exception::ExceptionCode code, int line ) const;
 
 	QSignerPrivate *d;
 };
