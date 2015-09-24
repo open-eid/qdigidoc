@@ -25,6 +25,7 @@
 
 class TokenData;
 class QPKCS11Private;
+class QPKCS11StackPrivate;
 
 class QPKCS11: public QObject
 {
@@ -47,7 +48,7 @@ public:
 	QByteArray encrypt( const QByteArray &data ) const;
 	QByteArray decrypt( const QByteArray &data ) const;
 	bool isLoaded() const;
-	bool loadDriver( const QString &driver );
+	bool load( const QString &driver );
 	PinStatus login( const TokenData &t );
 	void logout();
 	QStringList readers() const;
@@ -58,4 +59,28 @@ public:
 	static QString errorString( PinStatus error );
 private:
 	QPKCS11Private *d;
+};
+
+class QPKCS11Stack: public QObject
+{
+	Q_OBJECT
+public:
+	explicit QPKCS11Stack( QObject *parent = 0 );
+	~QPKCS11Stack();
+
+	QByteArray encrypt( const QByteArray &data ) const;
+	QByteArray decrypt( const QByteArray &data ) const;
+	bool isLoaded() const;
+	bool load( const QString &defaultDriver );
+	QPKCS11::PinStatus login( const TokenData &t );
+	void logout();
+	QStringList readers() const;
+	QByteArray sign( int type, const QByteArray &digest ) const;
+	QList<TokenData> tokens() const;
+	bool verify( const QByteArray &data, const QByteArray &signature ) const;
+
+private:
+	void updateDrivers() const;
+	void loadDriver( const QString &driver ) const;
+	QPKCS11StackPrivate *d;
 };

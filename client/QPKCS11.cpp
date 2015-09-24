@@ -20,9 +20,11 @@
 #include "QPKCS11_p.h"
 
 #include <common/PinDialog.h>
+#include <common/QPCSC.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QEventLoop>
+#include <QtCore/QFile>
 #include <QtCore/QHash>
 #include <QtCore/QMutex>
 #include <QtCore/QStringList>
@@ -194,7 +196,7 @@ bool QPKCS11::isLoaded() const
 	return d->f != 0;
 }
 
-bool QPKCS11::loadDriver( const QString &driver )
+bool QPKCS11::load( const QString &driver )
 {
 	qWarning() << "Loading:" << driver;
 	d->lib.setFileName( driver );
@@ -421,4 +423,131 @@ bool QPKCS11::verify( const QByteArray &data, const QByteArray &signature ) cons
 
 	return d->f->C_Verify( d->session, CK_CHAR_PTR(data.constData()),
 		data.size(), CK_CHAR_PTR(signature.data()), signature.size() ) == CKR_OK;
+}
+
+
+
+class QPKCS11StackPrivate
+{
+public:
+	QMultiHash<QString,QByteArray> drivers;
+	QPKCS11 *active = nullptr;
+	QString activeDriver;
+	QPCSC pcsc;
+};
+
+QPKCS11Stack::QPKCS11Stack( QObject *parent )
+:	QObject( parent )
+,	d( new QPKCS11StackPrivate )
+{
+}
+
+bool QPKCS11Stack::isLoaded() const
+{
+	return d->active && d->active->isLoaded();
+}
+
+QPKCS11Stack::~QPKCS11Stack()
+{
+	delete d->active;
+	delete d;
+}
+
+QByteArray QPKCS11Stack::encrypt(const QByteArray &data) const
+{
+	return d->active ? d->active->encrypt(data) : QByteArray();
+}
+
+QByteArray QPKCS11Stack::decrypt(const QByteArray &data) const
+{
+	return d->active ? d->active->decrypt(data) : QByteArray();
+}
+
+bool QPKCS11Stack::load(const QString &defaultDriver)
+{
+	d->drivers.insert(defaultDriver, QByteArray());
+#ifdef Q_OS_MAC
+	d->drivers.insert("/Library/latvia-eid/lib/otlv-pkcs11.so", "3BDD18008131FE45904C41545649412D65494490008C");
+	d->drivers.insert("/System/Library/Security/tokend/CCSuite.tokend/Contents/Frameworks/libccpkip11.dylib", "3BF81300008131FE45536D617274417070F8");
+	d->drivers.insert("/System/Library/Security/tokend/CCSuite.tokend/Contents/Frameworks/libccpkip11.dylib", "3B7D94000080318065B08311C0A983009000");
+	if(QFile::exists("/Library/mPolluxDigiSign/libcryptoki.dylib"))
+		d->drivers.insert("/Library/mPolluxDigiSign/libcryptoki.dylib", "3B7B940000806212515646696E454944");
+	else
+		d->drivers.insert("/Library/OpenSC/lib/opensc-pkcs11.so", "3B7B940000806212515646696E454944");
+#elif defined(Q_OS_WIN)
+	d->drivers.insert("OTLvP11.dll", "3BDD18008131FE45904C41545649412D65494490008C");
+	d->drivers.insert(qApp->applicationDirPath() + "/../CryptoTech/CryptoCard/CCPkiP11.dll", "3BF81300008131FE45536D617274417070F8");
+	d->drivers.insert(qApp->applicationDirPath() + "/../CryptoTech/CryptoCard/CCPkiP11.dll", "3B7D94000080318065B08311C0A983009000");
+#else
+	d->drivers.insert("otlv-pkcs11.so", "3BDD18008131FE45904C41545649412D65494490008C");
+	d->drivers.insert("/usr/lib/ccs/libccpkip11.so", "3BF81300008131FE45536D617274417070F8");
+	d->drivers.insert("/usr/lib/ccs/libccpkip11.so", "3B7D94000080318065B08311C0A983009000");
+#endif
+	updateDrivers();
+	return isLoaded();
+}
+
+void QPKCS11Stack::loadDriver(const QString &driver) const
+{
+	if(!driver.isEmpty() && d->activeDriver == driver)
+		return;
+	if(driver.isEmpty() && d->activeDriver == d->drivers.key(""))
+		return;
+	delete d->active;
+	d->activeDriver = driver.isEmpty() ? d->drivers.key("") : driver;
+	d->active = new QPKCS11();
+	d->active->load( d->activeDriver );
+}
+
+QStringList QPKCS11Stack::readers() const
+{
+	return d->pcsc.readers();
+}
+
+QList<TokenData> QPKCS11Stack::tokens() const
+{
+	QList<TokenData> list;
+	updateDrivers();
+	if(d->active)
+		list << d->active->tokens();
+	return list;
+}
+
+QPKCS11::PinStatus QPKCS11Stack::login(const TokenData &t)
+{
+	return d->active ? d->active->login(t) : QPKCS11::UnknownError;
+}
+
+void QPKCS11Stack::logout()
+{
+	if( d->active )
+		d->active->logout();
+}
+
+QByteArray QPKCS11Stack::sign(int type, const QByteArray &digest) const
+{
+	return d->active ? d->active->sign(type, digest) : QByteArray();
+}
+
+void QPKCS11Stack::updateDrivers() const
+{
+	QList<QByteArray> atrs;
+	for(const QString &reader: d->pcsc.readers())
+	{
+		QPCSCReader r(reader, &d->pcsc);
+		if(r.isPresent())
+			atrs << r.atr();
+	}
+	for(const QByteArray &atr: atrs)
+	{
+		QString driver = d->drivers.key(atr);
+		if(!driver.isEmpty())
+			return loadDriver(driver);
+	}
+	loadDriver(QString());
+}
+
+bool QPKCS11Stack::verify(const QByteArray &data, const QByteArray &signature) const
+{
+	return d->active ? d->active->verify(data, signature) : false;
 }

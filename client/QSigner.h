@@ -48,7 +48,6 @@ public:
 	explicit QSigner( ApiType api, QObject *parent = 0 );
 	~QSigner();
 
-	ApiType apiType() const;
 	digidoc::X509Cert cert() const override;
 	ErrorCode decrypt( const QByteArray &in, QByteArray &out );
 	std::vector<unsigned char> sign( const std::string &method,

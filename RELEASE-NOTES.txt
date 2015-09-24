@@ -9,6 +9,7 @@ Changes compared to ver 3.11.1
 - Disabled DDoc container signing and creation
 - OSX: increased minimum target to 10.8
 - Option to use alternative background picture
+- Loads correct PKCS11 driver runntime by ATR (supports, EE, LT, LV, FI cards)
 
 List of known issues: https://github.com/open-eid/qdigidoc/wiki/Known-issues
 

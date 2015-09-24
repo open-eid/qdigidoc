@@ -44,9 +44,10 @@ class QCNG;
 class QSignerPrivate
 {
 public:
+	QSigner::ApiType api = QSigner::PKCS11;
 	QCSP			*csp = nullptr;
 	QCNG			*cng = nullptr;
-	QPKCS11			*pkcs11 = nullptr;
+	QPKCS11Stack	*pkcs11 = nullptr;
 	TokenData		auth, sign;
 	volatile bool	terminate = false;
 	QAtomicInt		count;
@@ -58,14 +59,7 @@ QSigner::QSigner( ApiType api, QObject *parent )
 :	QThread( parent )
 ,	d( new QSignerPrivate )
 {
-	switch( api )
-	{
-#ifdef Q_OS_WIN
-	case CAPI: d->csp = new QCSP( this ); break;
-	case CNG: d->cng = new QCNG( this ); break;
-#endif
-	default: d->pkcs11 = new QPKCS11( this ); break;
-	}
+	d->api = api;
 	d->auth.setCard( "loading" );
 	d->sign.setCard( "loading" );
 	connect( this, SIGNAL(error(QString)), SLOT(showWarning(QString)) );
@@ -77,13 +71,6 @@ QSigner::~QSigner()
 	d->terminate = true;
 	wait();
 	delete d;
-}
-
-QSigner::ApiType QSigner::apiType() const
-{
-	if( d->csp ) return CAPI;
-	if( d->cng ) return CNG;
-	return PKCS11;
 }
 
 X509Cert QSigner::cert() const
@@ -201,15 +188,23 @@ void QSigner::run()
 	d->sign.clear();
 	d->sign.setCard( "loading" );
 
-#ifdef Q_OS_MAC
-	QFile f("/private/var/run/pcscd.pub");
+	switch( d->api )
+	{
+#ifdef Q_OS_WIN
+	case CAPI: d->csp = new QCSP( this ); break;
+	case CNG: d->cng = new QCNG( this ); break;
 #endif
+	default: d->pkcs11 = new QPKCS11Stack( this ); break;
+	}
+
 
 	QString driver = qApp->confValue( Application::PKCS11Module ).toString();
 #ifdef Q_OS_MAC
+	QFile f("/private/var/run/pcscd.pub");
 	if(QSysInfo::macVersion() <= QSysInfo::MV_10_9)
 		driver = qApp->applicationDirPath() + "/esteid-pkcs11_old.so";
 #endif
+
 	while( !d->terminate )
 	{
 #ifdef Q_OS_MAC
@@ -227,7 +222,7 @@ void QSigner::run()
 			(QSysInfo::macVersion() > QSysInfo::MV_10_9 ||
 			 (f.isOpen() && f.peek(20) != QByteArray(20, 0))) &&
 #endif
-			!d->pkcs11->loadDriver( driver ) )
+			!d->pkcs11->load( driver ) )
 		{
 			Q_EMIT error( tr("Failed to load PKCS#11 module") + "\n" + driver );
 			return;
