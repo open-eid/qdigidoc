@@ -40,8 +40,6 @@
 #ifdef Q_OS_MAC
 #include <Security/Security.h>
 #include <Security/SecItem.h>
-extern const CFTypeRef kSecAttrIsPermanent;
-extern const CFTypeRef kSecAttrIsExtractable;
 #endif
 
 class AccessCertPrivate
