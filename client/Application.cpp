@@ -79,7 +79,7 @@ public:
 		SettingsDialog::loadProxy(this);
 	}
 
-	std::string proxyHost() const
+	std::string proxyHost() const override
 	{
 		switch(s2.value("proxyConfig").toUInt())
 		{
@@ -89,7 +89,7 @@ public:
 		}
 	}
 
-	std::string proxyPort() const
+	std::string proxyPort() const override
 	{
 		switch(s2.value("proxyConfig").toUInt())
 		{
@@ -99,7 +99,7 @@ public:
 		}
 	}
 
-	std::string proxyUser() const
+	std::string proxyUser() const override
 	{
 		switch(s2.value("proxyConfig").toUInt())
 		{
@@ -109,7 +109,7 @@ public:
 		}
 	}
 
-	std::string proxyPass() const
+	std::string proxyPass() const override
 	{
 		switch(s2.value("proxyConfig").toUInt())
 		{
@@ -120,32 +120,36 @@ public:
 	}
 
 #ifdef Q_OS_MAC
-	bool PKCS12Disable() const
+	bool proxyTunnelSSL() const override
+	{ return s.value( "ProxyTunnelSSL", digidoc::XmlConfV4::proxyTunnelSSL() ).toBool(); }
+	bool PKCS12Disable() const override
 	{ return s.value( "PKCS12Disable", digidoc::XmlConfV4::PKCS12Disable() ).toBool(); }
-	std::string PKCS11Driver() const
+	std::string PKCS11Driver() const override
 	{ return QString( qApp->applicationDirPath() + "/" + QFileInfo( PKCS11_MODULE ).fileName() ).toStdString(); }
-	std::string TSLCache() const
+	std::string TSLCache() const override
 	{ return QDesktopServices::storageLocation(QDesktopServices::DataLocation).toStdString(); }
-	bool TSLOnlineDigest() const
+	bool TSLOnlineDigest() const override
 	{ return s2.value( "TSLOnlineDigest", digidoc::XmlConfV4::TSLOnlineDigest() ).toBool(); }
 
-	void setProxyHost( const std::string &host )
+	void setProxyHost( const std::string &host ) override
 	{ s.setValueEx( "ProxyHost", QString::fromStdString( host ), QString() ); }
-	void setProxyPort( const std::string &port )
+	void setProxyPort( const std::string &port ) override
 	{ s.setValueEx( "ProxyPort", QString::fromStdString( port ), QString() ); }
-	void setProxyUser( const std::string &user )
+	void setProxyUser( const std::string &user ) override
 	{ s.setValueEx( "ProxyUser", QString::fromStdString( user ), QString() ); }
-	void setProxyPass( const std::string &pass )
+	void setProxyPass( const std::string &pass ) override
 	{ s.setValueEx( "ProxyPass", QString::fromStdString( pass ), QString() ); }
-	void setPKCS12Cert( const std::string & ) {}
-	void setPKCS12Pass( const std::string & ) {}
-	void setPKCS12Disable( bool disable )
+	void setProxyTunnelSSL( bool enable ) override
+	{ s.setValueEx( "ProxyTunnelSSL", enable, digidoc::XmlConfV4::proxyTunnelSSL() ); }
+	void setPKCS12Cert( const std::string & ) override {}
+	void setPKCS12Pass( const std::string & ) override {}
+	void setPKCS12Disable( bool disable ) override
 	{ s.setValueEx( "PKCS12Disable", disable, digidoc::XmlConfV4::PKCS12Disable() ); }
-	void setTSLOnlineDigest( bool enable )
+	void setTSLOnlineDigest( bool enable ) override
 	{ s2.setValueEx( "TSLOnlineDigest", enable, digidoc::XmlConfV4::TSLOnlineDigest() ); }
 #endif
 
-	bool TSLAllowExpired() const
+	bool TSLAllowExpired() const override
 	{
 		static enum {
 			Undefined,
@@ -392,6 +396,7 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	case ProxyPort: r = i->proxyPort().c_str(); break;
 	case ProxyUser: r = i->proxyUser().c_str(); break;
 	case ProxyPass: r = i->proxyPass().c_str(); break;
+	case ProxySSL: return i->proxyTunnelSSL(); break;
 	case PKCS12Cert: r = i->PKCS12Cert().c_str(); break;
 	case PKCS12Pass: r = i->PKCS12Pass().c_str(); break;
 	case PKCS12Disable: return i->PKCS12Disable();
@@ -640,6 +645,7 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 		case ProxyPort: i->setProxyPort( v.isEmpty()? std::string() : v.constData() ); break;
 		case ProxyUser: i->setProxyUser( v.isEmpty()? std::string() : v.constData() ); break;
 		case ProxyPass: i->setProxyPass( v.isEmpty()? std::string() : v.constData() ); break;
+		case ProxySSL: i->setProxyTunnelSSL( value.toBool() ); break;
 		case PKCS12Cert: i->setPKCS12Cert( v.isEmpty()? std::string() : v.constData() ); break;
 		case PKCS12Pass: i->setPKCS12Pass( v.isEmpty()? std::string() : v.constData() ); break;
 		case PKCS12Disable: i->setPKCS12Disable( value.toBool() ); break;

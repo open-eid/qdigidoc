@@ -523,6 +523,13 @@ software (version 3.8 and earlier).</string>
          </attribute>
         </widget>
        </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QCheckBox" name="proxySSL">
+         <property name="text">
+          <string>Enable proxy for SSL connections</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -830,6 +837,22 @@ software (version 3.8 and earlier).</string>
     <hint type="sourcelabel">
      <x>-1</x>
      <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxySSL</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>288</x>
+     <y>236</y>
     </hint>
     <hint type="destinationlabel">
      <x>284</x>

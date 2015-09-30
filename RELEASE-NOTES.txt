@@ -1,9 +1,20 @@
+DigiDoc3 version 3.12.0 release notes
+--------------------------------------
+Changes compared to ver 3.11.1
+
+- Add option to enable SSL proxy settings
+
+List of known issues: https://github.com/open-eid/qdigidoc/wiki/Known-issues
+
+
+
 DigiDoc3 version 3.11.1 release notes
 --------------------------------------
 Changes compared to ver 3.11
 
 - Update translations
 - Updated the default European Commission's master TSL list to version 119
+- Select correct profile when signing DDOC with M-ID
 
 List of known issues: https://github.com/open-eid/qdigidoc/wiki/Known-issues
 
@@ -26,7 +37,7 @@ Changes compared to ver 3.10
 Client:
 - Fixed ASiC-E document validation warning, the warning is returned when the OCSP confirmation has been issued with a delay, i.e. more than 15 minutes and less than 24 hours after the signature time-stamp issuance time. 
 - Added option to choose whether the mobile number and personal code values that have been entered by the user when signing with Mobile-ID are remembered by the application. 
-- Improved BDOC and ASiC-E format selection according to file name extension. When setting the name of the signed output file then the format of the signature that is created is chosen according to the file extension (".bdoc" for BDOC format; ".asice" and ".sce" for ASiC-E format). The default format that has been set in the settings view is ignored.
+- Improved ASiC-E format selection according to file name extension. When setting the name of the signed output file and choosing ".asice" or ".sce" file extension then the signature is created in ASiC-E format (i.e. BES/time-stamp signature). The default format that has been set in the settings view is ignored.
 - Added ASiC-E with archive time-stamp validation support. 
 	- Value "BES/time-stamp-archive" is used in "Signature format" field in signature details view. 
 	- Added fields "Archive Timestamp", "Archive Timestamp (UTC)", "Archive TSA Certificate issuer" and "Archive TSA Certificate" to the signature details view. 

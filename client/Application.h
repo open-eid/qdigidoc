@@ -45,6 +45,7 @@ public:
 		ProxyPort,
 		ProxyUser,
 		ProxyPass,
+		ProxySSL,
 		PKCS12Cert,
 		PKCS12Pass,
 		PKCS12Disable,

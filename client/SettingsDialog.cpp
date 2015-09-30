@@ -245,6 +245,7 @@ void SettingsDialog::save()
 	Application::setConfValue( Application::ProxyPort, d->proxyPort->text() );
 	Application::setConfValue( Application::ProxyUser, d->proxyUser->text() );
 	Application::setConfValue( Application::ProxyPass, d->proxyPass->text() );
+	Application::setConfValue( Application::ProxySSL, d->proxySSL->isChecked() );
 	Application::setConfValue( Application::PKCS12Disable, d->p12Ignore->isChecked() );
 	loadProxy(digidoc::Conf::instance());
 	updateProxy();
@@ -306,4 +307,5 @@ void SettingsDialog::updateProxy()
 	d->proxyPort->setText(Application::confValue( Application::ProxyPort ).toString());
 	d->proxyUser->setText(Application::confValue( Application::ProxyUser ).toString());
 	d->proxyPass->setText(Application::confValue( Application::ProxyPass ).toString());
+	d->proxySSL->setChecked(Application::confValue( Application::ProxySSL ).toBool());
 }
