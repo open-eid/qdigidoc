@@ -128,31 +128,11 @@ STDMETHODIMP CEsteidShlExt::ExecuteDigidocclient(LPCMINVOKECOMMANDINFO pCmdInfo)
 	tstring parameters;
 
 	// Registry reading
-	HKEY hkey;
-	DWORD dwRet;
-	DWORD dwSize = MAX_PATH * sizeof(TCHAR);
 	TCHAR szInstalldir[MAX_PATH];
-
-	dwRet = RegOpenKeyEx(HKEY_LOCAL_MACHINE, IDCARD_REGKEY, 0, KEY_QUERY_VALUE, &hkey);
-
-	if (dwRet == ERROR_SUCCESS) {
-		dwRet = RegQueryValueEx(hkey, IDCARD_REGVALUE, NULL, NULL, (LPBYTE)szInstalldir, &dwSize);
-		RegCloseKey(hkey);
-	} else {
-		tstring title = _T("Error reading registry");
-		tstring mess = _T("Failed to read registry value:\n");
-		mess += _T("HKLM");
-		mess += _T("\\");
-		mess += IDCARD_REGKEY;
-		mess += _T("\\");
-		mess += IDCARD_REGVALUE;
-
-		MessageBox(pCmdInfo->hwnd, mess.c_str(), title.c_str(),
-		           MB_ICONERROR);
-
-		return E_INVALIDARG;
-	}
-
+    GetModuleFileName(_AtlBaseModule.m_hInst, szInstalldir, MAX_PATH);
+    TCHAR* pDest = StrRChr(szInstalldir, NULL, TEXT('\\'));
+    pDest++;
+    pDest[0] = 0;
 
 	command = tstring(szInstalldir);
 	command += _T("qdigidocclient.exe");

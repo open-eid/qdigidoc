@@ -12,7 +12,6 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
  -dcertsLocation="C:\target\Estonian ID Card Development\libdigidocpp\certs"
  -dqt_path=C:\Qt\5.3\msvc2013
  -dclient_path=client\qdigidocclient.exe
- -dupdater_path=updater.exe
 
 "%WIX%\bin\light.exe" -out qdigidoc.msi qdigidoc.wixobj CertsFragment.wixobj -v -ext WixUIExtension
 -->
@@ -20,23 +19,22 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
 <?ifndef Platform ?>
 <?define Platform="x86" ?>
 <?endif ?>
+<?define ShellExtId = "{310AAB39-76FE-401B-8A7F-0F578C5F6AB5}" ?>
 
 <?if $(var.Platform) = x64 ?>
   <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
-  <?define Win64 = "yes" ?>
 <?else ?>
   <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
-  <?define Win64 = "no" ?>
 <?endif ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Name="DigiDoc3 Client" UpgradeCode="67932072-aa9e-45e3-b697-d825349f273d"
       Id="*" Language="1033" Version="$(var.MSI_VERSION)" Codepage="1251" Manufacturer="RIA">
-    <Package Platform="$(var.Platform)" Keywords="Installer" InstallerVersion="405" Compressed="yes"/>
+    <Package Platform="$(var.Platform)" Keywords="Installer" InstallerVersion="405" Compressed="yes" InstallScope="perMachine"/>
     <MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
     <Icon Id="qdigidocclient.exe" SourceFile="$(var.client_path)"/>
     <Property Id="ARPPRODUCTICON" Value="qdigidocclient.exe"/>
-    <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage=
+    <MajorUpgrade AllowSameVersionUpgrades="yes" Schedule="afterInstallInitialize" DowngradeErrorMessage=
       "A newer version of [ProductName] is already installed. If you are trying to downgrade, please uninstall the newer version first."/>
     <Condition Message="[ProductName] requires Windows 7 or higher.">
       <![CDATA[Installed OR (VersionNT >= 601)]]>
@@ -44,62 +42,37 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
     <UIRef Id="WixUI_Minimal" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
+      <!-- Program Menu shortcut -->
       <Directory Id="ProgramMenuFolder">
-        <Directory Id="ProgramMenuDir" Name="Digidoc3 Client">
-          <Component Id="ProgramMenuDir" Guid="f16899e5-b0d9-4902-b0e0-350ac5ac6c2d">
+        <Directory Id="ProgramMenuDir" Name="!(loc.idcardLabel)">
+          <Component Id="ProgramMenuDir" Guid="5d26b9c2-cc87-452e-8132-76f0fc8f3e2c">
             <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
-            <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
+            <RegistryValue Root='HKMU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
           </Component>
         </Directory>
       </Directory>
+
+      <!-- Desktop shortcut -->
+      <Directory Id="DesktopFolder">
+        <Component Id="DesktopShortcut" Guid="412b4616-001f-49ec-a9be-c942eb165e31">
+          <Condition>DESKTOP_SHORTCUT = 1</Condition>
+          <Shortcut Id="ClientDesktopShortcut" Name="!(loc.qdigidocclientLabel)"
+                    Target="[!qdigidocclient.exe]" WorkingDirectory="APPLICATIONFOLDER"/>
+          <Shortcut Id="CryptoDesktopShortcut" Name="!(loc.qdigidoccryptoLabel)" Icon="qdigidocclient.exe" IconIndex="2"
+                    Target="[!qdigidocclient.exe]" WorkingDirectory="APPLICATIONFOLDER" Arguments="-crypto"/>
+          <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="DesktopShortcut" Value="1" Type="integer" KeyPath="yes"/>
+        </Component>
+      </Directory>
+
       <Directory Id='$(var.PlatformProgramFilesFolder)'>
         <Directory Id="APPLICATIONFOLDER" Name="DigiDoc3 Client">
-          <Component Id="Application" Guid="810cbd57-b24d-49ee-939a-a1fc38dda46f" Win64="$(var.Win64)">
-            <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcp120.dll"/>
-            <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcr120.dll"/>
-            <File Source="$(var.libs_path)\libeay32.dll"/>
-            <File Source="$(var.libs_path)\ssleay32.dll"/>
-            <File Source="$(var.libs_path)\zlib1.dll"/>
-            <File Source="$(var.libs_path)\xerces-c_3_1.dll"/>
-            <File Source="$(var.libs_path)\xsec_1_7.dll"/>
-            <File Source="$(var.libs_path)\digidocpp.dll"/>
-            <File Source="$(var.libs_path)\digidoc-tool.exe"/>
-            <File Source="$(var.libs_path)\digidocpp.conf"/>
-            <File Source="$(var.libs_path)\878252.p12"/>
-<?ifdef var.certsLocation ?>
-            <File Source="$(var.libs_path)\libxml2.dll"/>
-            <File Source="$(var.libs_path)\digidoc.dll"/>
-            <File Source="$(var.libs_path)\cdigidoc.exe"/>
-            <File Source="$(var.libs_path)\digidoc.ini"/>
-            <IniFile Id="setCaCertPathX86" Action="addLine" Directory="APPLICATIONFOLDER" Section="ca"
-              Name="digidoc.ini" Key="CA_CERT_PATH" Value="[APPLICATIONFOLDER]certs"/>
-<?endif?>
-            <File Source="$(var.qt_path)\bin\Qt5Core.dll"/>
-            <File Source="$(var.qt_path)\bin\Qt5Gui.dll"/>
-            <File Source="$(var.qt_path)\bin\Qt5Network.dll"/>
-            <File Source="$(var.qt_path)\bin\Qt5PrintSupport.dll"/>
-            <File Source="$(var.qt_path)\bin\Qt5Widgets.dll"/>
-            <File Source="$(var.qt_path)\bin\Qt5WinExtras.dll"/>
-            <File Source="$(var.qt_path)\bin\libEGL.dll"/>
-            <File Source="$(var.qt_path)\bin\libGLESv2.dll"/>
-            <File Source="$(var.qt_path)\bin\icudt54.dll"/>
-            <File Source="$(var.qt_path)\bin\icuin54.dll"/>
-            <File Source="$(var.qt_path)\bin\icuuc54.dll"/>
-            <File Source="$(var.qt_path)\bin\D3DCompiler_47.dll"/>
-            <File Source="$(var.qt_path)\bin\opengl32sw.dll" />
-            <File Source="opensc-pkcs11.dll"/>
-<?ifdef var.updater_path ?>
-            <File Source="$(var.updater_path)" Id="id_updater.exe"/>
-<?endif?>
+          <Component Id="Application" Guid="810cbd57-b24d-49ee-939a-a1fc38dda46f">
             <File Source="$(var.client_path)" KeyPath='yes'>
-              <Shortcut Id="ClientStartMenu" Advertise="yes" Name="DigiDoc3 Client" Icon="qdigidocclient.exe"
+              <Shortcut Id="ClientStartMenu" Advertise="yes" Name="!(loc.qdigidocclientLabel)" Icon="qdigidocclient.exe"
                 Directory="ProgramMenuDir" WorkingDirectory="APPLICATIONFOLDER"/>
-              <Shortcut Id="CryptoStartMenu" Advertise="yes" Name="DigiDoc3 Crypto" Icon="qdigidocclient.exe" IconIndex="2"
+              <Shortcut Id="CryptoStartMenu" Advertise="yes" Name="!(loc.qdigidoccryptoLabel)" Icon="qdigidocclient.exe" IconIndex="2"
                 Directory="ProgramMenuDir" WorkingDirectory="APPLICATIONFOLDER" Arguments="-crypto"/>
             </File>
-            <RegistryValue Root='HKCR' Key='*\shell\[ProductName]' Type='string' Value='Sign with [ProductName]' />
-            <RegistryValue Root='HKCR' Key='*\shell\[ProductName]' Name="Icon" Type='string' Value='"[APPLICATIONFOLDER]qdigidocclient.exe",0' />
-            <RegistryValue Root='HKCR' Key='*\shell\[ProductName]\command' Type='string' Value='"[APPLICATIONFOLDER]qdigidocclient.exe" "%1"' />
             <ProgId Id="qdigidocclient.bdoc" Description="DigiDoc signed document" Icon="qdigidocclient.exe" IconIndex="1">
               <Extension Id="bdoc" ContentType="application/vnd.etsi.asic-e+zip">
                 <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
@@ -130,19 +103,58 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
                 <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='-crypto "%1"' />
               </Extension>
             </ProgId>
+            <File Source="$(var.libs_path)\libeay32.dll"/>
+            <File Source="$(var.libs_path)\ssleay32.dll"/>
+            <File Source="$(var.libs_path)\zlib1.dll"/>
+            <File Source="$(var.libs_path)\xerces-c_3_1.dll"/>
+            <File Source="$(var.libs_path)\xsec_1_7.dll"/>
+            <File Source="$(var.libs_path)\digidocpp.dll"/>
+            <File Source="$(var.libs_path)\digidoc-tool.exe"/>
+            <File Source="$(var.libs_path)\digidocpp.conf"/>
+            <File Source="$(var.libs_path)\878252.p12"/>
+<?ifdef var.certsLocation ?>
+            <File Source="$(var.libs_path)\libxml2.dll"/>
+            <File Source="$(var.libs_path)\digidoc.dll"/>
+            <File Source="$(var.libs_path)\cdigidoc.exe"/>
+            <File Source="$(var.libs_path)\digidoc.ini"/>
+            <IniFile Id="setCaCertPathX86" Action="addLine" Directory="APPLICATIONFOLDER" Section="ca"
+              Name="digidoc.ini" Key="CA_CERT_PATH" Value="[APPLICATIONFOLDER]certs"/>
+<?endif?>
+<?ifdef var.qt_path ?>
+            <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcp120.dll"/>
+            <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcr120.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5Core.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5Gui.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5Network.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5PrintSupport.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5Widgets.dll"/>
+            <File Source="$(var.qt_path)\bin\Qt5WinExtras.dll"/>
+            <File Source="$(var.qt_path)\bin\libEGL.dll"/>
+            <File Source="$(var.qt_path)\bin\libGLESv2.dll"/>
+            <File Source="$(var.qt_path)\bin\icudt54.dll"/>
+            <File Source="$(var.qt_path)\bin\icuin54.dll"/>
+            <File Source="$(var.qt_path)\bin\icuuc54.dll"/>
+            <File Source="$(var.qt_path)\bin\D3DCompiler_47.dll"/>
+            <File Source="$(var.qt_path)\bin\opengl32sw.dll" />
+<?endif?>
+<?ifdef var.ShellExt ?>
+            <!--Does not work with multiple files -->
+            <!--RegistryValue Root='HKCR' Key='*\shell\[ProductName]' Type='string' Value='Sign with [ProductName]' />
+            <RegistryValue Root='HKCR' Key='*\shell\[ProductName]' Name="Icon" Type='string' Value='"[APPLICATIONFOLDER]qdigidocclient.exe",0' />
+            <RegistryValue Root='HKCR' Key='*\shell\[ProductName]\command' Type='string' Value='"[APPLICATIONFOLDER]qdigidocclient.exe" "%1"' /-->
+            <File Source="$(var.ShellExt)"/>
+            <RegistryKey Root="HKCR" Key="CLSID\$(var.ShellExtId)\InprocServer32">
+              <RegistryValue Type="string" Value="[APPLICATIONFOLDER]EsteidShellExtension.dll"/>
+              <RegistryValue Type="string" Name="ThreadingModel" Value="Apartment" />
+            </RegistryKey>
+            <RegistryValue Root="HKCR" Key="*\shellex\ContextMenuHandlers\DigiDoc3ShellExtension"
+                           Value="$(var.ShellExtId)" Type="string" />
+            <RegistryValue Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved"
+                           Name="$(var.ShellExtId)" Value="DigiDoc3 Shell Extension" Type="string" />
+<?endif?>
           </Component>
-          <Directory Id="platforms" Name="platforms" FileSource="$(var.qt_path)\plugins\platforms">
-            <Component Id="qwindows.dll" Win64="$(var.Win64)">
-              <File Name="qwindows.dll"/>
-            </Component>
-          </Directory>
-          <Directory Id="printsupport" Name="printsupport" FileSource="$(var.qt_path)\plugins\printsupport">
-            <Component Id="windowsprintersupport.dll" Win64="$(var.Win64)">
-              <File Name="windowsprintersupport.dll"/>
-            </Component>
-          </Directory>
           <Directory Id="SchemaFolder" Name="schema" FileSource="$(var.libs_path)\schema">
-            <Component Id="Schemas" Guid="6ab1d3ab-bbb8-42a0-8cf9-5ece75b13079" Win64="$(var.Win64)">
+            <Component Id="Schemas" Guid="6ab1d3ab-bbb8-42a0-8cf9-5ece75b13079">
               <File Name="conf.xsd"/>
               <File Name="OpenDocument_manifest.xsd"/>
               <File Name="xmldsig-core-schema.xsd"/>
@@ -153,29 +165,33 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
             </Component>
           </Directory>
           <Directory Id="CertsFolder" Name="certs"/>
+<?ifdef var.qt_path ?>
+          <Directory Id="platforms" Name="platforms" FileSource="$(var.qt_path)\plugins\platforms">
+            <Component Id="qwindows.dll">
+              <File Name="qwindows.dll"/>
+            </Component>
+          </Directory>
+          <Directory Id="printsupport" Name="printsupport" FileSource="$(var.qt_path)\plugins\printsupport">
+            <Component Id="windowsprintersupport.dll">
+              <File Name="windowsprintersupport.dll"/>
+            </Component>
+          </Directory>
+<?endif?>
         </Directory>
       </Directory>
     </Directory>
 
-<?ifdef var.updater_path ?>
-    <CustomAction Id="ScheduleUpdater" FileKey="id_updater.exe" Impersonate="no" Execute="deferred"
-        ExeCommand="-weekly" Return="ignore"/>
-    <CustomAction Id="UnScheduleUpdater" Directory="APPLICATIONFOLDER" Impersonate="no" Execute="deferred"
-        ExeCommand="id-updater.exe -remove" Return="ignore"/>
-    <InstallExecuteSequence>
-      <Custom Action="ScheduleUpdater" Before="InstallFinalize">NOT Installed</Custom>
-      <Custom Action="UnScheduleUpdater" After="InstallInitialize">REMOVE="ALL"</Custom>
-    </InstallExecuteSequence>
-<?endif?>
-
     <Feature Id="InstallDigidoc" Level="1" Title="Digidoc3 Client" Display="expand" ConfigurableDirectory="APPLICATIONFOLDER">
       <ComponentRef Id='ProgramMenuDir' />
+      <ComponentRef Id="DesktopShortcut" />
       <ComponentRef Id="Application"/>
-      <ComponentRef Id="qwindows.dll" />
-      <ComponentRef Id="windowsprintersupport.dll" />
       <ComponentRef Id="Schemas"/>
 <?ifdef var.certsLocation ?>
       <ComponentGroupRef Id="Certs"/>
+<?endif?>
+<?ifdef var.qt_path ?>
+      <ComponentRef Id="qwindows.dll" />
+      <ComponentRef Id="windowsprintersupport.dll" />
 <?endif?>
     </Feature>
   </Product>
