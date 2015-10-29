@@ -113,6 +113,21 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 		qApp->setConfValue( Application::TSLOnlineDigest, checked );
 	});
 
+	d->tokenRestart->hide();
+#ifdef Q_OS_WIN
+	connect( d->tokenRestart, &QPushButton::clicked, []{
+		qApp->setProperty("restart", true);
+		qApp->quit();
+	});
+	d->tokenBackend->setChecked(Settings(qApp->applicationName()).value("tokenBackend").toUInt());
+	connect( d->tokenBackend, &QCheckBox::toggled, [=](bool checked){
+		Settings(qApp->applicationName()).setValueEx("tokenBackend", int(checked), 0);
+		d->tokenRestart->show();
+	});
+#else
+	d->tokenBackend->hide();
+#endif
+
 	d->signRoleInput->setText( s.value( "Role" ).toString() );
 	d->signResolutionInput->setText( s.value( "Resolution" ).toString() );
 	d->signCityInput->setText( s.value( "City" ).toString() );

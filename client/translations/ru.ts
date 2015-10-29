@@ -1057,6 +1057,14 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <source>Manual proxy configuration</source>
         <translation>Настроить прокси вручную</translation>
     </message>
+    <message>
+        <source>I would like to sign with Lithuanian, Latvian, Finnish ID-card</source>
+        <translation>Желаю подписывать ИД-картами Латвии, Литвы и Финляндии</translation>
+    </message>
+    <message>
+        <source>Restart now</source>
+        <translation>Начать заново</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

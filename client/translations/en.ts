@@ -1053,6 +1053,14 @@ software (version 3.8 and earlier).</translation>
         <source>Manual proxy configuration</source>
         <translation>Manual proxy configuration</translation>
     </message>
+    <message>
+        <source>I would like to sign with Lithuanian, Latvian, Finnish ID-card</source>
+        <translation>I would like to sign with Lithuanian, Latvian, Finnish ID-card</translation>
+    </message>
+    <message>
+        <source>Restart now</source>
+        <translation>Restart now</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

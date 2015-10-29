@@ -249,26 +249,14 @@ Application::Application( int &argc, char **argv )
 
 	QSigner::ApiType api = QSigner::PKCS11;
 #ifdef Q_OS_WIN
-	QString provider;
-	QSettings reg( "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards", QSettings::NativeFormat );
-	Q_FOREACH( const QString &group, reg.childGroups() )
-	{
-		if( group.contains( "esteid", Qt::CaseInsensitive ) )
-		{
-			provider = reg.value( group + "/" + "Crypto Provider" ).toString();
-			break;
-		}
-	}
-#ifndef INTERNATIONAL
-	if( provider != "EstEID Card CSP" )
-		api = QSigner::CNG;
-#endif
-	if( args.contains("-capi") )
-		api = QSigner::CAPI;
+	api = QSigner::ApiType(Settings(applicationName()).value("tokenBackend", QSigner::CNG).toUInt());
 	if( args.contains("-cng") )
 		api = QSigner::CNG;
+	if( args.contains("-capi") )
+		api = QSigner::CAPI;
+	if( args.contains("-pkcs11") )
+		api = QSigner::PKCS11;
 #endif
-	if( args.contains("-pkcs11") ) api = QSigner::PKCS11;
 
 	try
 	{
@@ -335,6 +323,13 @@ Application::~Application()
 		e.exec();
 	digidoc::terminate();
 	delete d;
+
+	if(property("restart").toBool())
+	{
+		QStringList args = arguments();
+		args.removeFirst();
+		QProcess::startDetached(applicationFilePath(), args);
+	}
 }
 
 #ifndef Q_OS_MAC

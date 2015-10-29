@@ -211,6 +211,24 @@ software (version 3.8 and earlier).</string>
         </widget>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="tokenBackendLayout" stretch="1,0">
+         <item>
+          <widget class="QCheckBox" name="tokenBackend">
+           <property name="text">
+            <string>I would like to sign with Lithuanian, Latvian, Finnish ID-card</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="tokenRestart">
+           <property name="text">
+            <string>Restart now</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <spacer name="tabGeneralSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

@@ -1053,6 +1053,14 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <source>Manual proxy configuration</source>
         <translation>Proksi seaded määratakse käsitsi</translation>
     </message>
+    <message>
+        <source>I would like to sign with Lithuanian, Latvian, Finnish ID-card</source>
+        <translation>Soovin allkirjastada Leedu, Läti, Soome ID-kaardiga</translation>
+    </message>
+    <message>
+        <source>Restart now</source>
+        <translation>Taaskäivita rakendus</translation>
+    </message>
 </context>
 <context>
     <name>SignatureDialog</name>

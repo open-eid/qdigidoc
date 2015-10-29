@@ -33,9 +33,9 @@ class QSigner: public QThread, public digidoc::Signer
 public:
 	enum ApiType
 	{
-		PKCS11,
+		CNG,
 		CAPI,
-		CNG
+		PKCS11
 	};
 	enum ErrorCode
 	{
