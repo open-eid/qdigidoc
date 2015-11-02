@@ -66,8 +66,8 @@
         <translation>DigiDoc3 клиент</translation>
     </message>
     <message>
-        <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
-        <translation>Не удалось обновить список доверенных сертификатов, используемый для проверки действительности цифровых подписей. Пожалуйста, проверьте ваше интернет-соединение и убедитесь в том, что на компьютере установлена последняя версия программного обеспечения ID-карты. Вы желаете использовать для верификации подписей устаревший список доверенных сертификатов? &lt;a href=&quot;http://www.id.ee/?id=37013&quot;&gt;Дополнительная информация&lt;/a&gt;</translation>
+        <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. An expired Trust Service List (TSL) will be used for signature validation. &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
+        <translation>Не удалось обновить список доверенных сертификатов, используемый для проверки действительности цифровых подписей. Пожалуйста, проверьте ваше интернет-соединение и убедитесь в том, что на компьютере установлена последняя версия программного обеспечения ID-карты. Для верификации подписей будет использован устаревший список доверенных сертификатов. &lt;a href=&quot;http://www.id.ee/?id=37013&quot;&gt;Дополнительная информация&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Loading TSL lists</source>

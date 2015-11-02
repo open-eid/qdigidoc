@@ -65,12 +65,12 @@
         <translation>DigiDoc3 klient</translation>
     </message>
     <message>
-        <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
-        <translation>Digiallkirjade kehtivuse kontrollimiseks kasutatava sertifikaatide usaldusnimekirja uuendamine ebaõnnestus. Palun kontrolli oma arvuti internetiühendust ja seda, kas arvutis on kõige uuem ID-tarkvara versioon. Kas soovid allkirjade verifitseerimiseks kasutada aegunud usaldusnimekirja? &lt;a href=&quot;http://www.id.ee/?id=37011&quot;&gt;Lisainfo&lt;/a&gt;</translation>
+        <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. An expired Trust Service List (TSL) will be used for signature validation. &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
+        <translation>Digiallkirjade kehtivuse kontrollimiseks kasutatava sertifikaatide usaldusnimekirja uuendamine ebaõnnestus. Palun kontrolli oma arvuti internetiühendust ja seda, kas arvutis on kõige uuem ID-tarkvara versioon. Allkirjade verifitseerimiseks kasutatakse aegunud nimekirja. &lt;a href=&quot;http://www.id.ee/?id=37011&quot;&gt;Lisainfo&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Loading TSL lists</source>
-        <translation>Laen TSL nimekirja</translation>
+        <translation>Laadin TSL-nimekirja</translation>
     </message>
     <message>
         <source>TSL signing certs</source>
@@ -921,11 +921,11 @@ Kontrollkood: %1</translation>
     </message>
     <message>
         <source>Ignore server access certificate (IP based access)</source>
-        <translation>Ignoreeri juurdepääsutõendit (IP põhine ligipääs)</translation>
+        <translation>Ignoreeri juurdepääsutõendit (IP-põhine ligipääs)</translation>
     </message>
     <message>
         <source>Regarding to terms and conditions of validity confirmation service you&apos;re allowed to use the service in extent of 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please refer to IT support of your company. Additional information is available from &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; or phone 1777 (only from Estonia), (+372) 6773377</source>
-        <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777 (vaid Eesti-siseselt), (+372) 6773377</translation>
+        <translation>Vastavalt kehtivuskinnitusteenuse kasutamise tavatingimustele on lubatud allkirjastamise teenust kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-toe poole. Täiendav informatsioon &lt;a href=&quot;http://www.id.ee/kehtivuskinnitus&quot;&gt;http://www.id.ee/kehtivuskinnitus&lt;/a&gt; või ID-abiliini telefonil 1777 (vaid Eesti-siseselt), (+372) 6773377</translation>
     </message>
     <message>
         <source>Always save the last used role, resolution and location</source>

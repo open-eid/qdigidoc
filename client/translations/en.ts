@@ -65,8 +65,8 @@
         <translation>DigiDoc3 client</translation>
     </message>
     <message>
-        <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
-        <translation>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. Do you want to use the expired Trust Service List (TSL) for signature validation? &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</translation>
+        <source>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. An expired Trust Service List (TSL) will be used for signature validation. &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</source>
+        <translation>The renewal of Trust Service status List, used for digital signature validation, has failed. Please check your internet connection and make sure you have the latest ID-software version installed. An expired Trust Service List (TSL) will be used for signature validation. &lt;a href=&quot;http://www.id.ee/?id=37012&quot;&gt;Additional information&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Loading TSL lists</source>
@@ -1194,7 +1194,7 @@ software (version 3.8 and earlier).</translation>
     </message>
     <message>
         <source>Signer&apos;s Certificate issuer</source>
-        <translation>Signe&apos;r Certificate issuer</translation>
+        <translation>Signer&apos;s Certificate issuer</translation>
     </message>
     <message>
         <source>Signer&apos;s Certificate</source>

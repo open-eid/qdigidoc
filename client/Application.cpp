@@ -189,7 +189,8 @@ public:
 		{
 			QEventLoop e;
 			QMetaObject::invokeMethod( qApp, "showTSLWarning", Q_ARG(QEventLoop*,&e) );
-			status = e.exec() ? Approved : Rejected;
+			e.exec();
+			status = Approved;
 		}
 		return status == Approved;
 	}
@@ -774,11 +775,11 @@ void Application::showSettings( int page, const QString &path )
 
 void Application::showTSLWarning(QEventLoop *e)
 {
-	e->exit( QMessageBox::Yes == QMessageBox::question(
+	e->exit( QMessageBox::information(
 		qApp->activeWindow(), Application::tr("DigiDoc3 Client"), Application::tr(
 		"The renewal of Trust Service status List, used for digital signature validation, has failed. "
 		"Please check your internet connection and make sure you have the latest ID-software version "
-		"installed. Do you want to use the expired Trust Service List (TSL) for signature validation? "
+		"installed. An expired Trust Service List (TSL) will be used for signature validation. "
 		"<a href=\"http://www.id.ee/?id=37012\">Additional information</a>") ) );
 }
 
