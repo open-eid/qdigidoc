@@ -387,10 +387,7 @@ void MainWindow::buttonClicked( int button )
 		for( int i = 0; i < m->rowCount(); ++i )
 		{
 			QModelIndex index = m->index( i, CDocumentModel::Name );
-			QString source = index.data( Qt::UserRole ).toString();
-			QString dest = m->mkpath( index, dir );
-			if( source == dest )
-				continue;
+			QString dest = dir + "/" + index.data(Qt::UserRole).toString();
 			if( QFile::exists( dest ) )
 			{
 				QMessageBox::StandardButton b = QMessageBox::warning( this, windowTitle(),
@@ -405,7 +402,7 @@ void MainWindow::buttonClicked( int button )
 				else
 					QFile::remove( dest );
 			}
-			m->copy( index, dir );
+			m->copy( index, dest );
 		}
 		break;
 	}

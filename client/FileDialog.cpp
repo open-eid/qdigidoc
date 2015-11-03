@@ -214,3 +214,28 @@ QStringList FileDialog::result( const QStringList &list )
 		l << result( str );
 	return l;
 }
+
+QString FileDialog::tempPath(const QString &file)
+{
+	QDir tmp = QDir::temp();
+	if(!tmp.exists(file))
+		return tmp.path() + "/" + file;
+	QFileInfo info(file);
+	int i = 0;
+	while(tmp.exists(QString("%1_%2.%3").arg(info.baseName()).arg(i).arg(info.suffix())))
+		++i;
+	return QString("%1/%2_%3.%4").arg(tmp.path()).arg(info.baseName()).arg(i).arg(info.suffix());
+}
+
+QString FileDialog::safeName(const QString &file)
+{
+	QString filename = file;
+#if defined(Q_OS_WIN)
+	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
+#elif defined(Q_OS_MAC)
+	filename.replace( QRegExp( "[\\\\/:]"), "_" );
+#else
+	filename.replace( QRegExp( "[\\\\/]"), "_" );
+#endif
+	return filename;
+}

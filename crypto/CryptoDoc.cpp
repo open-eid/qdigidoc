@@ -590,12 +590,9 @@ void CDocumentModel::addFile( const QString &file, const QString &mime )
 int CDocumentModel::columnCount( const QModelIndex &parent ) const
 { return parent.isValid() ? 0 : NColumns; }
 
-QString CDocumentModel::copy( const QModelIndex &index, const QString &path ) const
+QString CDocumentModel::copy( const QModelIndex &index, const QString &dst ) const
 {
 	const CryptoDocPrivate::File &row = d->files.value( index.row() );
-	if( row.name.isEmpty() )
-		return QString();
-	QString dst = QFileInfo( path ).isDir() ? mkpath( index, path ) : path;
 	if( QFile::exists( dst ) )
 		QFile::remove( dst );
 
@@ -659,7 +656,7 @@ QVariant CDocumentModel::data( const QModelIndex &index, int role ) const
 		case Remove: return QSize( 20, 20 );
 		default: return QVariant();
 		}
-	case Qt::UserRole: return f.id;
+	case Qt::UserRole: return FileDialog::safeName(f.name);
 	default: return QVariant();
 	}
 }
@@ -676,7 +673,7 @@ QMimeData* CDocumentModel::mimeData( const QModelIndexList &indexes ) const
 	{
 		if( index.column() != Name )
 			continue;
-		QString path = copy( index, QDir::tempPath() );
+		QString path = copy( index, FileDialog::tempPath(index.data(Qt::UserRole).toString()) );
 		if( !path.isEmpty() )
 			list << QUrl::fromLocalFile( QFileInfo( path ).absoluteFilePath() );
 	}
@@ -688,24 +685,11 @@ QMimeData* CDocumentModel::mimeData( const QModelIndexList &indexes ) const
 QStringList CDocumentModel::mimeTypes() const
 { return QStringList() << "text/uri-list"; }
 
-QString CDocumentModel::mkpath( const QModelIndex &index, const QString &path ) const
-{
-	QString filename = d->files.value( index.row() ).name;
-#if defined(Q_OS_WIN)
-	filename.replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
-#elif defined(Q_OS_MAC)
-	filename.replace( QRegExp( "[\\\\/:]"), "_" );
-#else
-	filename.replace( QRegExp( "[\\\\/]"), "_" );
-#endif
-	return path.isEmpty() ? filename : path + "/" + filename;
-}
-
 void CDocumentModel::open( const QModelIndex &index )
 {
 	if(d->encrypted)
 		return;
-	QFileInfo f( copy( index, QDir::tempPath() ) );
+	QFileInfo f( copy( index, FileDialog::tempPath(index.data(Qt::UserRole).toString()) ) );
 	if( !f.exists() )
 		return;
 	d->tempFiles << f.absoluteFilePath();

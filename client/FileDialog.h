@@ -34,6 +34,8 @@ public:
 
 	static bool fileIsWritable( const QString &filename );
 	static QString fileSize( quint64 bytes );
+	static QString safeName(const QString &file);
+	static QString tempPath(const QString &file);
 
 	static QString getOpenFileName( QWidget *parent = 0, const QString &caption = QString(),
 		const QString &dir = QString(), const QString &filter = QString(),

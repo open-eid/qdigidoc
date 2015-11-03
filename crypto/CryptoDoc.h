@@ -52,7 +52,6 @@ public:
 
 	void addFile( const QString &file, const QString &mime = "application/octet-stream" );
 	QString copy( const QModelIndex &index, const QString &path ) const;
-	QString mkpath( const QModelIndex &index, const QString &path ) const;
 
 public slots:
 	void open( const QModelIndex &index );

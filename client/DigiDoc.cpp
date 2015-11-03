@@ -132,13 +132,7 @@ QVariant DocumentModel::data( const QModelIndex &index, int role ) const
 		default: return QVariant();
 		}
 	case Qt::UserRole:
-#ifdef Q_OS_WIN
-		return from(file->fileName()).replace( QRegExp( "[\\\\/*:?\"<>|]" ), "_" );
-#elif defined(Q_OS_MAC)
-		return from(file->fileName()).replace( QRegExp( "[\\\\:]"), "_" );
-#else
-		return from(file->fileName()).replace( QRegExp( "[\\\\]"), "_" );
-#endif
+		return FileDialog::safeName(from(file->fileName()));
 	default: return QVariant();
 	}
 }
@@ -153,7 +147,7 @@ QMimeData* DocumentModel::mimeData( const QModelIndexList &indexes ) const
 	{
 		if( index.column() != 0 )
 			continue;
-		QString path = save( index, QDir::tempPath() + "/" + index.data(Qt::UserRole).toString() );
+		QString path = save( index, FileDialog::tempPath(index.data(Qt::UserRole).toString()) );
 		if( !path.isEmpty() )
 			list << QUrl::fromLocalFile( QFileInfo( path ).absoluteFilePath() );
 	}
@@ -167,7 +161,7 @@ QStringList DocumentModel::mimeTypes() const
 
 void DocumentModel::open( const QModelIndex &index )
 {
-	QFileInfo f( save( index, QDir::tempPath() + "/" + index.data(Qt::UserRole).toString() ) );
+	QFileInfo f( save( index, FileDialog::tempPath(index.data(Qt::UserRole).toString()) ) );
 	if( !f.exists() )
 		return;
 	d->m_tempFiles << f.absoluteFilePath();
