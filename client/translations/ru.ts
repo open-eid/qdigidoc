@@ -55,11 +55,11 @@
     </message>
     <message>
         <source>New Client window</source>
-        <translation type="unfinished"></translation>
+        <translation>Новое окно Клиента</translation>
     </message>
     <message>
         <source>New Crypto window</source>
-        <translation type="unfinished"></translation>
+        <translation>Новое окно Crypto</translation>
     </message>
     <message>
         <source>DigiDoc3 Client</source>

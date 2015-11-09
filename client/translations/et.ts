@@ -54,11 +54,11 @@
     </message>
     <message>
         <source>New Client window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ava uus Kliendi aken</translation>
     </message>
     <message>
         <source>New Crypto window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ava uus Krüpto aken</translation>
     </message>
     <message>
         <source>DigiDoc3 Client</source>
