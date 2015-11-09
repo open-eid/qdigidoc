@@ -22,6 +22,7 @@
 #include "ui_CertAddDialog.h"
 
 #include "CryptoDoc.h"
+#include <common/CertificateWidget.h>
 
 #include <QDialog>
 
@@ -29,6 +30,13 @@ class IKValidator;
 class LdapSearch;
 
 namespace Ui { class KeyDialog; }
+
+class CertificateDialogEx: public CertificateDialog
+{
+	Q_OBJECT
+public:
+	CertificateDialogEx(const QSslCertificate &cert, QWidget *parent = nullptr);
+};
 
 class KeyWidget: public QLabel
 {

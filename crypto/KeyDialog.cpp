@@ -21,11 +21,10 @@
 #include "ui_KeyDialog.h"
 
 #include "client/Application.h"
+#include "client/FileDialog.h"
 #include "client/QSigner.h"
 #include "LdapSearch.h"
 
-#include <client/FileDialog.h>
-#include <common/CertificateWidget.h>
 #include <common/IKValidator.h>
 #include <common/SslCertificate.h>
 #include <common/TokenData.h>
@@ -34,23 +33,51 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QSettings>
+#include <QtCore/QSortFilterProxyModel>
 #include <QtCore/QTextStream>
 #include <QtCore/QTimer>
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QMouseEvent>
-#if QT_VERSION >= 0x050000
+#include <QtNetwork/QSslSocket>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMessageBox>
-#include <QtCore/QSortFilterProxyModel>
-#else
-#include <QtGui/QHeaderView>
-#include <QtGui/QMessageBox>
-#include <QtGui/QSortFilterProxyModel>
 
-Q_DECLARE_METATYPE( QSslCertificate )
-#endif
+CertificateDialogEx::CertificateDialogEx(const QSslCertificate &cert, QWidget *parent)
+	: CertificateDialog(cert, parent, false)
+{
+	QTreeWidget *view = findChild<QTreeWidget*>("pathTree");
+	QTreeWidgetItem *t = new QTreeWidgetItem(view);
+	view->addTopLevelItem(t);
+
+	QList<QSslError> errors = QSslCertificate::verify(QList<QSslCertificate>() << cert);
+	errors.removeAll(QSslError(QSslError::CertificateExpired, cert));
+	if(errors.isEmpty())
+	{
+		QByteArray id = SslCertificate(cert).authorityKeyIdentifier();
+		Q_FOREACH(const QSslCertificate &ca, QSslSocket::defaultCaCertificates())
+		{
+			if(SslCertificate(ca).subjectKeyIdentifier() != id)
+				continue;
+			t->setText(0, tr("Central configuration"));
+			t = new QTreeWidgetItem(t);
+			t->setText(0, ca.subjectInfo("CN").join(", "));
+			t = new QTreeWidgetItem(t);
+			break;
+		}
+	}
+	t->setText(0, cert.subjectInfo("CN").join(", "));
+	if(!t->parent())
+	{
+		t->setIcon(0, style()->standardIcon(QStyle::SP_MessageBoxWarning, 0, this));
+		if(QLabel *msg = findChild<QLabel*>("pathMsg"))
+			msg->setText(tr("The issuer of this certificate could not be found."));
+	}
+	view->expandAll();
+}
+
+
 
 KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 :	QLabel( parent )
@@ -98,7 +125,7 @@ KeyDialog::KeyDialog( const CKey &key, QWidget *parent )
 	d->title->setText( k.recipient );
 
 	addItem( tr("Key"), k.recipient );
-	addItem( tr("Crypt method"), k.method );
+	addItem( tr("Crypto method"), k.method );
 	//addItem( tr("ID"), k.id );
 	addItem( tr("Expires"), key.cert.expiryDate().toLocalTime().toString("dd.MM.yyyy hh:mm:ss") );
 	addItem( tr("Issuer"), SslCertificate(key.cert).issuerInfo( QSslCertificate::CommonName ) );
@@ -119,7 +146,7 @@ void KeyDialog::addItem( const QString &parameter, const QString &value )
 }
 
 void KeyDialog::showCertificate()
-{ CertificateDialog( k.cert, this ).exec(); }
+{ CertificateDialogEx( k.cert, this ).exec(); }
 
 
 
@@ -421,7 +448,7 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 {
 	if( certs.isEmpty() )
 		return;
-	bool status = true;
+	bool status = false;
 	QAbstractItemModel *m = history;
 	Q_FOREACH( const QSslCertificate &c, certs )
 	{
@@ -433,7 +460,15 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 					.arg( cert.expiryDate().toString( "dd.MM.yyyy hh:mm:ss" ) ),
 				QMessageBox::Yes|QMessageBox::No, QMessageBox::No ) )
 			continue;
-		status = std::min( status, doc->addKey( cert ) );
+		QList<QSslError> errors = QSslCertificate::verify(QList<QSslCertificate>() << c);
+		errors.removeAll(QSslError(QSslError::CertificateExpired, c));
+		if(!errors.isEmpty() &&
+			QMessageBox::No == QMessageBox::warning(this, windowTitle(),
+				tr("Recipient’s certification chain contains certificates that are not trusted. Continue with encryption?"),
+				QMessageBox::Yes|QMessageBox::No, QMessageBox::No))
+			continue;
+
+		status = std::max( status, doc->addKey( cert ) );
 
 		HistoryModel::KeyType type = HistoryModel::IDCard;
 		switch( cert.type() )

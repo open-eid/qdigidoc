@@ -122,6 +122,10 @@ Media type: %3</source>
         <source>Person or company does not own a valid certificate.&lt;br /&gt;It is necessary to have a valid certificate for encryption.&lt;br /&gt;Contact for assistance by email &lt;a href=&quot;mailto:abi@id.ee&quot;&gt;abi@id.ee&lt;/a&gt; or call 1777 (only from Estonia), (+372) 677 3377 when calling from abroad.</source>
         <translation>У лица или учреждения отсутствует действительный сертификат.&lt;br /&gt;Для шифрования необходим действительный сертификат.&lt;br /&gt;В случае проблем обращайтесь по адресу электронной почты &lt;a href=&quot;mailto:abi@id.ee&quot;&gt;abi@id.ee&lt;/a&gt; или звоните в пределах Эстонии на короткий номер ID-помощи 1777 или из-за границы на номер (+372) 677 3377.</translation>
     </message>
+    <message>
+        <source>Recipient’s certification chain contains certificates that are not trusted. Continue with encryption?</source>
+        <translation>Цепочка сертификатов адресата содержит недоверенные сертификаты. Продолжить шифрование?</translation>
+    </message>
 </context>
 <context>
     <name>CertModel</name>
@@ -136,6 +140,17 @@ Media type: %3</source>
     <message>
         <source>Expiry date</source>
         <translation>Дата окончания</translation>
+    </message>
+</context>
+<context>
+    <name>CertificateDialogEx</name>
+    <message>
+        <source>Central configuration</source>
+        <translation>Центральная конфигурация</translation>
+    </message>
+    <message>
+        <source>The issuer of this certificate could not be found.</source>
+        <translation>Не удалось обнаружить организацию, выпустившую данный сертификат.</translation>
     </message>
 </context>
 <context>
@@ -440,10 +455,6 @@ Check if the ID-card is inserted correctly to the reader.</source>
 <context>
     <name>KeyDialog</name>
     <message>
-        <source>Crypt method</source>
-        <translation>Метод шифровки</translation>
-    </message>
-    <message>
         <source>Expires</source>
         <translation>Истекает</translation>
     </message>
@@ -470,6 +481,10 @@ Check if the ID-card is inserted correctly to the reader.</source>
     <message>
         <source>Key</source>
         <translation>Ключ</translation>
+    </message>
+    <message>
+        <source>Crypto method</source>
+        <translation>Метод шифровки</translation>
     </message>
 </context>
 <context>

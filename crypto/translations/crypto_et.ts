@@ -123,6 +123,10 @@ Tüüp: %3</translatorcomment>
         <source>Person or company does not own a valid certificate.&lt;br /&gt;It is necessary to have a valid certificate for encryption.&lt;br /&gt;Contact for assistance by email &lt;a href=&quot;mailto:abi@id.ee&quot;&gt;abi@id.ee&lt;/a&gt; or call 1777 (only from Estonia), (+372) 677 3377 when calling from abroad.</source>
         <translation>Isikul või asutusel puudub kehtiv sertifikaat.&lt;br /&gt;Krüpteerimiseks on vaja kehtivat sertifikaati.&lt;br /&gt;Küsimustega pöördu ID-abiliini poole e-postiaadressil &lt;a href=&quot;mailto:abi@id.ee&quot;&gt;abi@id.ee&lt;/a&gt; või helista Eesti piires lühinumbril 1777 ja välismaalt (+372) 677 3377.</translation>
     </message>
+    <message>
+        <source>Recipient’s certification chain contains certificates that are not trusted. Continue with encryption?</source>
+        <translation>Adressaadi sertifitseerimisahelas on mitteusaldatud sertifikaate. Jätkame krüpteerimist?</translation>
+    </message>
 </context>
 <context>
     <name>CertModel</name>
@@ -137,6 +141,17 @@ Tüüp: %3</translatorcomment>
     <message>
         <source>Expiry date</source>
         <translation>Aegumiskuupäev</translation>
+    </message>
+</context>
+<context>
+    <name>CertificateDialogEx</name>
+    <message>
+        <source>Central configuration</source>
+        <translation>Keskne konfiguratsioon</translation>
+    </message>
+    <message>
+        <source>The issuer of this certificate could not be found.</source>
+        <translation>Selle sertifikaadi väljaandjat ei suudetud tuvastada.</translation>
     </message>
 </context>
 <context>
@@ -441,10 +456,6 @@ Kontrolli, kas ID-kaart on õiget pidi lugejas.</translation>
 <context>
     <name>KeyDialog</name>
     <message>
-        <source>Crypt method</source>
-        <translation>Krüpteerimismeetod</translation>
-    </message>
-    <message>
         <source>Expires</source>
         <translation>Aegub</translation>
     </message>
@@ -471,6 +482,10 @@ Kontrolli, kas ID-kaart on õiget pidi lugejas.</translation>
     <message>
         <source>Key</source>
         <translation>Adressaat</translation>
+    </message>
+    <message>
+        <source>Crypto method</source>
+        <translation>Krüpteerimismeetod</translation>
     </message>
 </context>
 <context>
