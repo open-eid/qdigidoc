@@ -521,11 +521,7 @@ QString DigiDoc::fileName() const { return m_fileName; }
 bool DigiDoc::isNull() const { return b == nullptr; }
 bool DigiDoc::isSupported() const
 {
-	std::string ver = b->mediaType();
-	return ver.compare( 0, 6, "SK-XML" ) &&
-		ver.compare( 0, 15, "DIGIDOC-XML/1.1" ) &&
-		ver.compare( 0, 15, "DIGIDOC-XML/1.2" ) &&
-		ver != "application/vnd.bdoc-1.0";
+	return b->mediaType() == "application/vnd.etsi.asic-e+zip";
 }
 
 QString DigiDoc::mediaType() const

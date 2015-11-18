@@ -543,18 +543,6 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>NB! Staatus teadmata</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation>Sulge</translation>
-    </message>
-    <message>
-        <source>No card in reader
-
-Check if the ID-card is inserted correctly to the reader.</source>
-        <translation>Ei leitud ühtegi ID-kaarti
-
-Kontrolli, kas ID-kaart on õiget pidi lugejas.</translation>
-    </message>
-    <message>
         <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
@@ -1014,10 +1002,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Default file type DDOC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>If you want to change the digital signature format then it should be done before adding signable files to the container. Otherwise the document will be created in the previous default format. When adding signatures, it is no longer possible to change the format of the document.</source>
         <translation>Kui soovid vormingut muuta, siis tee seda enne, kui lisad ümbrikusse allkirjastatava faili. Vastasel juhul jääb kehtima varasem vaikevorming. Juba allkirjastatud dokumendile allkirja lisades dokumendi vormingut muuta ei saa, alati jääb kehtima algne vorming.</translation>
     </message>
@@ -1032,10 +1016,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     <message>
         <source>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</source>
         <translation>ASiC-E – digitaalallkirja uus, rahvusvaheliselt kõige paremini ühilduv vorming, mida saab kasutada ka Eestis. Paljud infosüsteemid ei oska seda veel kasutada ega lugeda ja seetõttu võib saajal puududa võimalus selles vormingus dokumenti avada.</translation>
-    </message>
-    <message>
-        <source>DDOC – digital signature format used between 2002-2014. We do not recommend creating new documents in DDOC format.</source>
-        <translation>DDOC – digitaalallkirja vorming aastatel 2002–2014. Soovitame DDOC-vormingus uusi dokumente mitte luua.</translation>
     </message>
     <message>
         <source>Online TSL digest check</source>
@@ -1060,6 +1040,10 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     <message>
         <source>Restart now</source>
         <translation>Taaskäivita rakendus</translation>
+    </message>
+    <message>
+        <source>Enable proxy for SSL connections</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -58,20 +58,13 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QRadioButton" name="typeDDoc">
-         <property name="accessibleName">
-          <string>Default file type DDOC</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
         <widget class="QRadioButton" name="typeASIC">
          <property name="accessibleName">
           <string>Default file type ASiC-E</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="2" column="1">
         <widget class="QLabel" name="typeASICLabel">
          <property name="text">
           <string>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</string>
@@ -84,7 +77,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="3" column="0" colspan="2">
         <widget class="QLabel" name="typeInfo">
          <property name="text">
           <string>If you want to change the digital signature format then it should be done before adding signable files to the container. Otherwise the document will be created in the previous default format. When adding signatures, it is no longer possible to change the format of the document.</string>
@@ -94,7 +87,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
+       <item row="4" column="0" colspan="2">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -106,19 +99,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="typeDDocLabel">
-         <property name="text">
-          <string>DDOC – digital signature format used between 2002-2014. We do not recommend creating new documents in DDOC format.</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-         <property name="buddy">
-          <cstring>typeDDoc</cstring>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>

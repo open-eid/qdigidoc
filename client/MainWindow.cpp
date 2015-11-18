@@ -39,18 +39,11 @@
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDragEnterEvent>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QMessageBox>
+#include <QtNetwork/QNetworkProxy>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrinterInfo>
 #include <QtPrintSupport/QPrintPreviewDialog>
-#else
-#include <QtGui/QMessageBox>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrinterInfo>
-#include <QtGui/QPrintPreviewDialog>
-#endif
-#include <QtNetwork/QNetworkProxy>
+#include <QtWidgets/QMessageBox>
 
 MainWindow::MainWindow( QWidget *parent )
 	: QWidget( parent )
@@ -79,12 +72,13 @@ MainWindow::MainWindow( QWidget *parent )
 	cards->hide();
 
 	Settings s;
+	Settings s2(qApp->applicationName());
 	// Mobile
 	infoMobileCode->setValidator( new IKValidator( infoMobileCode ) );
 	infoMobileCode->setText( s.value( "Client/MobileCode" ).toString() );
 	infoMobileCell->setValidator( new NumberValidator( infoMobileCell ) );
 	infoMobileCell->setText( s.value( "Client/MobileNumber" ).toString() );
-	infoMobileSettings->setChecked( Settings(qApp->applicationName()).value( "MobileSettings", true ).toBool() );
+	infoMobileSettings->setChecked( s2.value( "MobileSettings", true ).toBool() );
 	connect( infoMobileCode, SIGNAL(textEdited(QString)), SLOT(enableSign()) );
 	connect( infoMobileCell, SIGNAL(textEdited(QString)), SLOT(enableSign()) );
 	connect( infoTypeGroup, SIGNAL(buttonClicked(int)), SLOT(showCardStatus()) );
@@ -94,6 +88,8 @@ MainWindow::MainWindow( QWidget *parent )
 		s.setValueEx("Client/MobileNumber", checked ? infoMobileCell->text() : QString(), QString());
 		Settings(qApp->applicationName()).setValueEx("MobileSettings", checked, true);
 	});
+	if(s2.value("type").toString() == "ddoc")
+		s2.remove("type");
 
 	// Buttons
 	buttonGroup->setId( settings, HeadSettings );
@@ -170,11 +166,7 @@ bool MainWindow::addFile( const QString &file )
 		Settings s;
 		s.beginGroup( "Client" );
 
-#ifdef INTERNATIONAL
-		QString ext = "bdoc";
-#else
 		QString ext = Settings(qApp->applicationName()).value( "type" ,"bdoc" ).toString();
-#endif
 		QString docname = QString( "%1/%2.%3" )
 			.arg( s.value( "DefaultDir", fileinfo.absolutePath() ).toString() )
 			.arg( ext == fileinfo.suffix().toLower() ? fileinfo.fileName() : fileinfo.completeBaseName() )
@@ -273,11 +265,7 @@ void MainWindow::buttonClicked( int button )
 	case HomeView:
 	{
 		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
-#ifdef INTERNATIONAL
-			tr("Documents (%1)").arg( "*.bdoc *.asice *.sce" ) );
-#else
 			tr("Documents (%1)").arg( "*.bdoc *.ddoc *.asice *.sce" ) );
-#endif
 		if( !file.isEmpty() && doc->open( file ) )
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 		break;
@@ -297,11 +285,7 @@ void MainWindow::buttonClicked( int button )
 				const QFileInfo f( param );
 				if( !f.isFile() )
 					continue;
-#ifdef INTERNATIONAL
-				QStringList exts = QStringList() << "bdoc" << "asice" << "sce";
-#else
 				QStringList exts = QStringList() << "bdoc" << "ddoc" << "asice" << "sce";
-#endif
 				if( doc->isNull() && exts.contains( f.suffix(), Qt::CaseInsensitive ) )
 				{
 					if( doc->open( f.absoluteFilePath() ) )
@@ -573,23 +557,11 @@ void MainWindow::enableSign()
 			"<a href='http://www.id.ee/?id=36161'>Additional info</a>.") );
 		button->setToolTip( tr("Signing not allowed.") );
 	}
-	else if( warning )
+	else if( warning & DigiDocSignature::DigestWeak )
 	{
-		if( warning & DigiDocSignature::WrongNameSpace )
-		{
-			showWarning( QString("%1<br /><br /><a href='close'>%2</a>")
-				.arg( SignatureDialog::tr(
-				"This Digidoc document has not been created according to specification, "
-				"but the digital signature is legally valid. Please inform the document creator "
-				"of this issue. <a href='http://www.id.ee/?id=36511'>Additional information</a>.") )
-				.arg( tr("Close") ) );
-		}
-		if( warning & DigiDocSignature::DigestWeak )
-		{
-			showWarning( SignatureDialog::tr(
-				"The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
-			button->setToolTip( tr("Signing not allowed.") );
-		}
+		showWarning( SignatureDialog::tr(
+			"The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
+		button->setToolTip( tr("Signing not allowed.") );
 	}
 	else if( signContentView->model()->rowCount() == 0 )
 		button->setToolTip( tr("Empty container") );
@@ -762,27 +734,20 @@ QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 {
 	static const QString bdoc = tr("Documents (%1)").arg( "*.bdoc" );
 	static const QString asic = tr("Documents (%1)").arg( "*.asice *.sce" );
-	static const QString ddoc = tr("Documents (%1)").arg( "*.ddoc" );
 	const QString ext = QFileInfo( filename ).suffix().toLower();
 	QStringList exts;
 	QString active;
 	if( fixedExt )
 	{
-		if( ext == "ddoc" ) exts << ddoc;
 		if( ext == "bdoc" ) exts << bdoc;
 		if( ext == "asic" || ext == "sce" ) exts << asic;
 	}
 	else
 	{
-		exts << ddoc << bdoc << asic;
-		if( ext == "ddoc" ) active = ddoc;
+		exts << bdoc << asic;
 		if( ext == "bdoc" ) active = bdoc;
 		if( ext == "asice" || ext == "sce" ) active = asic;
 	}
-#ifdef INTERNATIONAL
-	exts.removeFirst();
-	active.clear();
-#endif
 
 	return FileDialog::getSaveFileName( this, tr("Save file"), filename, exts.join(";;"), &active );
 }
@@ -871,14 +836,9 @@ void MainWindow::showCardStatus()
 	}
 	else if( t.card().isEmpty() && !t.readers().isEmpty() )
 	{
-#ifndef INTERNATIONAL
 		QString text = tr("No card in reader\n\n"
 			"Check if the ID-card is inserted correctly to the reader.\n"
 			"New ID-cards have chip on the back side of the card.");
-#else
-		QString text = tr("No card in reader\n\n"
-			"Check if the ID-card is inserted correctly to the reader.");
-#endif
 		infoCard->setText( text );
 		infoCard->setAccessibleDescription( text );
 	}

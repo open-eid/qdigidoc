@@ -547,18 +547,6 @@ New ID-cards have chip on the back side of the card.</source>
         <translation>NB! Статус неизвестен</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation>Закрыть</translation>
-    </message>
-    <message>
-        <source>No card in reader
-
-Check if the ID-card is inserted correctly to the reader.</source>
-        <translation>Не найдена ID-карта
-
-Проверьте, правильно ли вставлена ID-карта в считыватель.</translation>
-    </message>
-    <message>
         <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
 Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
 Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
@@ -1018,10 +1006,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Default file type DDOC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>If you want to change the digital signature format then it should be done before adding signable files to the container. Otherwise the document will be created in the previous default format. When adding signatures, it is no longer possible to change the format of the document.</source>
         <translation>Если Вы желаете изменить формат цифровой подписи, это нужно сделать до того, как Вы добавите в конверт подписываемый файл. В противном случае будет действовать формат подписи по умолчанию. Если документ уже подписан, то при добавлении к нему второй подписи формат подписи изменить невозможно.</translation>
     </message>
@@ -1036,10 +1020,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <message>
         <source>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</source>
         <translation>ASiC-E – новый, международный формат цифровой подписи, который можно также использовать в Эстонии. Однако, многие инфосистемы еще не умеют распознавать этот формат, поэтому получатель такого документа может не суметь открыть его.</translation>
-    </message>
-    <message>
-        <source>DDOC – digital signature format used between 2002-2014. We do not recommend creating new documents in DDOC format.</source>
-        <translation>DDOC – формат цифровой подписи, использовавшийся в период 2002–2014. Рекомендуется не подписывать новые документы в формате DDOC.</translation>
     </message>
     <message>
         <source>Online TSL digest check</source>
@@ -1064,6 +1044,10 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <message>
         <source>Restart now</source>
         <translation>Начать заново</translation>
+    </message>
+    <message>
+        <source>Enable proxy for SSL connections</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

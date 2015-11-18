@@ -88,15 +88,12 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 	d->askSaveAs->setChecked( s.value( "AskSaveAs", true ).toBool() );
 #endif
 
-#ifndef INTERNATIONAL
 	d->tabSigningLayout->setAlignment( d->typeBDoc, Qt::AlignTop );
-	d->tabSigningLayout->setAlignment( d->typeDDoc, Qt::AlignTop );
 	d->tabSigningLayout->setAlignment( d->typeASIC, Qt::AlignTop );
 	QButtonGroup *type = new QButtonGroup( this );
-	QStringList list( {"bdoc", "ddoc", "asice"} );
+	QStringList list( {"bdoc", "asice"} );
 	type->addButton( d->typeBDoc, 0 );
-	type->addButton( d->typeDDoc, 1 );
-	type->addButton( d->typeASIC, 2 );
+	type->addButton( d->typeASIC, 1 );
 	int pos = list.indexOf(s2.value( "type", "bdoc" ).toString());
 	if( pos != -1 )
 		type->button( pos )->setChecked( true );
@@ -104,10 +101,7 @@ SettingsDialog::SettingsDialog( int page, QWidget *parent )
 		if( toggled )
 			Settings(qApp->applicationName()).setValueEx( "type", list.at( index ), "bdoc" );
 	});
-#else
-	d->typeLabel->hide();
-	d->type->hide();
-#endif
+
 	d->TSLOnlineDigest->setChecked( qApp->confValue( Application::TSLOnlineDigest ).toBool() );
 	connect( d->TSLOnlineDigest, &QCheckBox::toggled, []( bool checked ) {
 		qApp->setConfValue( Application::TSLOnlineDigest, checked );
