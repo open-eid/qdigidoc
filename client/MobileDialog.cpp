@@ -272,7 +272,7 @@ void MobileDialog::sign( const DigiDoc *doc, const QString &ssid, const QString 
 	r.writeEndDocument();
 
 	QString url = isTest( ssid, cell ) ?
-		"https://www.openxades.org:9443" : "https://digidocservice.sk.ee";
+		"https://tsp.demo.sk.ee" : "https://digidocservice.sk.ee";
 	request.setUrl( Settings().value( ddoc ? "Client/ddocurl" : "Client/bdocurl", url ).toUrl() );
 	statusTimer->start();
 #ifdef Q_OS_WIN
