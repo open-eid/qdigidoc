@@ -420,7 +420,7 @@ std::vector<unsigned char> QSigner::sign(const std::string &method, const std::v
 		throwException( tr("Signing certificate is not selected."), Exception::General, __LINE__ );
 	}
 
-	int type = NID_sha1;
+	int type = NID_sha256;
 	if( method == "http://www.w3.org/2001/04/xmldsig-more#rsa-sha224" ) type = NID_sha224;
 	if( method == "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" ) type = NID_sha256;
 	if( method == "http://www.w3.org/2001/04/xmldsig-more#rsa-sha384" ) type = NID_sha384;

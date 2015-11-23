@@ -210,11 +210,9 @@ TokenData QCNG::selectCert( const SslCertificate &cert )
 QByteArray QCNG::sign( int method, const QByteArray &digest ) const
 {
 	d->err = PinUnknown;
-	BCRYPT_PKCS1_PADDING_INFO padInfo;
-	padInfo.pszAlgId = 0;
+	BCRYPT_PKCS1_PADDING_INFO padInfo = { NCRYPT_SHA256_ALGORITHM };
 	switch( method )
 	{
-	case NID_sha1: padInfo.pszAlgId = NCRYPT_SHA1_ALGORITHM; break;
 	case NID_sha224: padInfo.pszAlgId = L"SHA224"; break;
 	case NID_sha256: padInfo.pszAlgId = NCRYPT_SHA256_ALGORITHM; break;
 	case NID_sha384: padInfo.pszAlgId = NCRYPT_SHA384_ALGORITHM; break;

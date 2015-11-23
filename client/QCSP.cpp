@@ -175,13 +175,12 @@ QByteArray QCSP::sign(int method, const QByteArray &digest)
 	if(!d->cert)
 		return QByteArray();
 
-	BCRYPT_PKCS1_PADDING_INFO padInfo = { nullptr };
-	ALG_ID alg = 0;
+	BCRYPT_PKCS1_PADDING_INFO padInfo = { NCRYPT_SHA256_ALGORITHM };
+	ALG_ID alg = CALG_SHA_256;
 	switch(method)
 	{
-	case NID_sha1:
-		padInfo.pszAlgId = NCRYPT_SHA1_ALGORITHM;
-		alg = CALG_SHA1;
+	case NID_sha224:
+		padInfo.pszAlgId = L"SHA224";
 		break;
 	case NID_sha256:
 		padInfo.pszAlgId = NCRYPT_SHA256_ALGORITHM;
@@ -194,9 +193,6 @@ QByteArray QCSP::sign(int method, const QByteArray &digest)
 	case NID_sha512:
 		padInfo.pszAlgId = NCRYPT_SHA512_ALGORITHM;
 		alg = CALG_SHA_512;
-		break;
-	case NID_sha224:
-		padInfo.pszAlgId = L"SHA224";
 		break;
 	default:
 		return QByteArray();

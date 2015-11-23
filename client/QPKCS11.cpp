@@ -381,7 +381,6 @@ QByteArray QPKCS11::sign( int type, const QByteArray &digest ) const
 	QByteArray data;
 	switch( type )
 	{
-	case NID_sha1: data += QByteArray::fromHex("3021300906052b0e03021a05000414"); break;
 	case NID_sha224: data += QByteArray::fromHex("302d300d06096086480165030402040500041c"); break;
 	case NID_sha256: data += QByteArray::fromHex("3031300d060960864801650304020105000420"); break;
 	case NID_sha384: data += QByteArray::fromHex("3041300d060960864801650304020205000430"); break;
