@@ -129,6 +129,7 @@ add_manifest( ${PROGNAME} )
 install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
 
 if(UNIX AND NOT APPLE)
+	set_target_properties( ${PROGNAME} PROPERTIES COMPILE_DEFINITIONS "DATADIR=\"${CMAKE_INSTALL_FULL_DATADIR}\"" )
 	configure_file( qdigidocclient.1.cmake qdigidocclient.1 )
 	install( FILES ${CMAKE_CURRENT_BINARY_DIR}/qdigidocclient.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
 	install( FILES qdigidoc-client.appdata.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata )

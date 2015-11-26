@@ -7,6 +7,8 @@ Changes compared to ver 3.11.1
 - Windows: Option to select CAPI backend
 - Disabled SHA1 signing support
 - Disabled DDoc container signing and creation
+- OSX: increased minimum target to 10.8
+- Option to use alternative background picture
 
 List of known issues: https://github.com/open-eid/qdigidoc/wiki/Known-issues
 

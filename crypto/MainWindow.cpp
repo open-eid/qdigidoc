@@ -58,6 +58,19 @@ MainWindow::MainWindow( QWidget *parent )
 	setFixedSize( geometry().size() );
 	Common::setAccessibleName( introContent );
 
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+	QString background = qApp->applicationDirPath() + "/qdigidoccrypto.png";
+#else
+	QString background = DATADIR "/qdigidoc/qdigidoccrypto.png";
+#endif
+	if(QFile::exists(background))
+	{
+		label->setPixmap(QPixmap());
+		setStyleSheet(QString("#background { background-image: url(\"%1\"); }").arg(background));
+		style()->unpolish(this);
+		style()->polish(this);
+	}
+
 	cards->hide();
 
 	// Buttons

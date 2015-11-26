@@ -103,7 +103,7 @@ min-width: 0px;
 
 #cards, #languages
 {
-background-color: #00355F;
+background-color: transparent;
 border: 0px;
 margin-right: 0px;
 color: white;
@@ -124,7 +124,7 @@ color: #355670;
 
 #settings, #help, #about
 {
-background-color: #00355F;
+background-color: transparent;
 color: #afc6d1;
 font: bold;
 min-width: 0px;

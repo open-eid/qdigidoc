@@ -66,6 +66,19 @@ MainWindow::MainWindow( QWidget *parent )
 	connect( message, SIGNAL(linkActivated(QString)), this, SLOT(messageClicked(QString)) );
 	message->hide();
 
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+	QString background = qApp->applicationDirPath() + "/qdigidocclient.png";
+#else
+	QString background = DATADIR "/qdigidoc/qdigidocclient.png";
+#endif
+	if(QFile::exists(background))
+	{
+		label->setPixmap(QPixmap());
+		setStyleSheet(QString("#background { background-image: url(\"%1\"); }").arg(background));
+		style()->unpolish(this);
+		style()->polish(this);
+	}
+
 	infoTypeGroup->setId( infoSignCard, 0 );
 	infoTypeGroup->setId( infoSignMobile, 1 );
 
