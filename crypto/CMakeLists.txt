@@ -40,7 +40,7 @@ add_library( ${PROGNAME} STATIC
 
 if( APPLE )
 	set( LDAP_LIBRARIES "-framework LDAP" )
-	set_source_files_properties( CryptoDoc.cpp PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations" )
+	set_source_files_properties( CryptoDoc.cpp LdapSearch.cpp PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations" )
 endif()
 if( WIN32 )
 	set( LDAP_LIBRARIES Wldap32 )
