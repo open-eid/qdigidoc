@@ -448,14 +448,14 @@ std::vector<unsigned char> QSigner::sign(const std::string &method, const std::v
 			throwException( tr("Failed to login token") + " " + QPKCS11::errorString( status ), Exception::General, __LINE__ );
 		}
 
-		sig = d->pkcs11->sign( type, QByteArray( (const char*)&digest[0], int(digest.size()) ) );
+		sig = d->pkcs11->sign( type, QByteArray::fromRawData( (const char*)&digest[0], int(digest.size()) ) );
 		d->pkcs11->logout();
 	}
 #ifdef Q_OS_WIN
 	else if( d->csp )
 	{
 		d->csp->selectCert( d->sign.cert() );
-		sig = d->csp->sign( type, QByteArray( (const char*)&digest[0], int(digest.size()) ) );
+		sig = d->csp->sign( type, QByteArray::fromRawData( (const char*)&digest[0], int(digest.size()) ) );
 		if( d->csp->lastError() == QCSP::PinCanceled )
 		{
 			d->count.deref();
@@ -465,7 +465,7 @@ std::vector<unsigned char> QSigner::sign(const std::string &method, const std::v
 	else if( d->cng )
 	{
 		d->cng->selectCert( d->sign.cert() );
-		sig = d->cng->sign( type, QByteArray( (const char*)&digest[0], int(digest.size()) ) );
+		sig = d->cng->sign( type, QByteArray::fromRawData( (const char*)&digest[0], int(digest.size()) ) );
 		if( d->cng->lastError() == QCNG::PinCanceled )
 		{
 			d->count.deref();
