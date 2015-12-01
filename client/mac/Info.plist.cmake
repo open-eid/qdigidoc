@@ -31,7 +31,7 @@
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.7</string>
+	<string>10.8</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
