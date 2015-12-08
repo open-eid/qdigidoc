@@ -72,6 +72,10 @@
         <source>Loading TSL lists</source>
         <translation>Loading TSL lists</translation>
     </message>
+    <message>
+        <source>TSL signing certs</source>
+        <translation>TSL signing certs</translation>
+    </message>
 </context>
 <context>
     <name>CheckConnection</name>
@@ -1187,10 +1191,6 @@ software (version 3.8 and earlier).</translation>
     <message>
         <source>TSL URL</source>
         <translation>TSL URL</translation>
-    </message>
-    <message>
-        <source>TSL Cert</source>
-        <translation>TSL Certificate</translation>
     </message>
     <message>
         <source>Signer&apos;s Certificate issuer</source>

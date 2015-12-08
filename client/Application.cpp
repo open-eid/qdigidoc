@@ -460,6 +460,14 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	return r.isEmpty() ? value.toString() : QString::fromUtf8( r );
 }
 
+void Application::diagnostics(QTextStream &s)
+{
+	s << "<br />TSL_URL: " << confValue(TSLUrl).toString();
+	s << "<br /><br /><b>" << tr("TSL signing certs") << ":</b>";
+	for(const QSslCertificate &cert: confValue(TSLCerts).value<QList<QSslCertificate>>())
+		s << "<br />" << cert.subjectInfo("CN").value(0);
+}
+
 bool Application::event( QEvent *e )
 {
 	switch( int(e->type()) )
@@ -802,16 +810,6 @@ void Application::showWarning( const QString &msg, int err, const QString &detai
 }
 
 QSigner* Application::signer() const { return d->signer; }
-
-QHash<QString,QString> Application::urls() const
-{
-	QHash<QString,QString> u = Common::urls();
-	u["TSL"] = confValue(TSLUrl).toString();
-	int i = 0;
-	for(const QSslCertificate &cert: confValue(TSLCerts).value<QList<QSslCertificate>>())
-		u[QString("TSL_CERT%1").arg(++i)] = cert.subjectInfo("CN").value(0);
-	return u;
-}
 
 void Application::waitForTSL( const QString &file )
 {

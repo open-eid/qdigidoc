@@ -72,6 +72,10 @@
         <source>Loading TSL lists</source>
         <translation>Laen TSL nimekirja</translation>
     </message>
+    <message>
+        <source>TSL signing certs</source>
+        <translation>TSL signeerimise sertifikaadid</translation>
+    </message>
 </context>
 <context>
     <name>CheckConnection</name>
@@ -1187,10 +1191,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     <message>
         <source>TSL URL</source>
         <translation>TSL URL</translation>
-    </message>
-    <message>
-        <source>TSL Cert</source>
-        <translation>TSL sertifikaat</translation>
     </message>
     <message>
         <source>Signer&apos;s Certificate issuer</source>

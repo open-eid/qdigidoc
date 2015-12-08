@@ -62,7 +62,7 @@ public:
 	~Application();
 
 	void loadTranslation( const QString &lang );
-	bool notify( QObject *o, QEvent *e );
+	bool notify( QObject *o, QEvent *e ) override;
 	QSigner* signer() const;
 	int run();
 	void waitForTSL( const QString &file );
@@ -92,10 +92,9 @@ Q_SIGNALS:
 
 private:
 	void activate( QWidget *w );
-	bool event( QEvent *e );
+	void diagnostics(QTextStream &s) override;
+	bool event( QEvent *e ) override;
 	void showWarning( const QString &msg, const digidoc::Exception &e );
-
-	QHash<QString,QString> urls() const;
 
 #if defined(Q_OS_MAC)
 	void initMacEvents();

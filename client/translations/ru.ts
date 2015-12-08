@@ -73,6 +73,10 @@
         <source>Loading TSL lists</source>
         <translation>Загружаем список TSL</translation>
     </message>
+    <message>
+        <source>TSL signing certs</source>
+        <translation>Сертификаты подписывания TSL</translation>
+    </message>
 </context>
 <context>
     <name>CheckConnection</name>
@@ -1191,10 +1195,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <message>
         <source>TSL URL</source>
         <translation>TSL URL</translation>
-    </message>
-    <message>
-        <source>TSL Cert</source>
-        <translation>TSL сертификат</translation>
     </message>
     <message>
         <source>Signer&apos;s Certificate issuer</source>
