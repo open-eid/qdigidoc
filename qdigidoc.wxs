@@ -54,7 +54,7 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
 
       <!-- Desktop shortcut -->
       <Directory Id="DesktopFolder">
-        <Component Id="DesktopShortcut" Guid="412b4616-001f-49ec-a9be-c942eb165e31">
+        <Component Id="DesktopShortcut" Guid="412b4616-001f-49ec-a9be-c942eb165e31" Transitive="yes">
           <Condition>DESKTOP_SHORTCUT = 1</Condition>
           <Shortcut Id="ClientDesktopShortcut" Name="!(loc.qdigidocclientLabel)"
                     Target="[!qdigidocclient.exe]" WorkingDirectory="APPLICATIONFOLDER"/>
