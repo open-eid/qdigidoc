@@ -255,7 +255,6 @@ Application::Application( int &argc, char **argv )
 	connect( this, SIGNAL(messageReceived(QString)), SLOT(parseArgs(QString)) );
 #endif
 
-	detectPlugins();
 	QDesktopServices::setUrlHandler( "browse", this, "browse" );
 	QDesktopServices::setUrlHandler( "mailto", this, "mailTo" );
 
