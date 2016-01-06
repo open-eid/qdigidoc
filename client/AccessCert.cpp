@@ -122,7 +122,9 @@ bool AccessCert::isDefaultCert(const QSslCertificate &cert) const
 		// CN = Sertifitseerimiskeskus AS, SN = 10:CC:4F
 		QByteArray::fromHex("ab1cc8221912648e0780d48fba4e10ae71e1635e"),
 		// CN = DigiDoc3 Client ver 3.11, SN = 11:9E:E0
-		QByteArray::fromHex("97dfcf8894c908031694345a1452a9b5efce537d")
+		QByteArray::fromHex("97dfcf8894c908031694345a1452a9b5efce537d"),
+		// CN = DigiDoc3 Client ver 3.12, SN = 12:05:79
+		QByteArray::fromHex("2a704f8a69b1837426a3498008600512e78f84d6")
 	}).contains(cert.digest(QCryptographicHash::Sha1));
 }
 
