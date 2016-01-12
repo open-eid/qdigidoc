@@ -541,26 +541,28 @@ New ID-cards have chip on the back side of the card.</translation>
         <translation>NB! Status unknown</translation>
     </message>
     <message>
-        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;&lt;font color=&quot;red&quot;&gt;NB! Important! From the 2015 onwards, the default digital signature format is BDOC.&lt;/font&gt;&lt;/b&gt; &lt;a href=&quot;http://www.ria.ee/bdoc-en&quot;&gt;More info&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;http://www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
-        <translation>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;&lt;font color=&quot;red&quot;&gt;NB! Important! From the 2015 onwards, the default digital signature format is BDOC.&lt;/font&gt;&lt;/b&gt; &lt;a href=&quot;http://www.ria.ee/bdoc-en&quot;&gt;More info&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;http://www.id.ee/?lang=en&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</translation>
-    </message>
-    <message>
         <source>Remember me</source>
         <translation>Remember me</translation>
     </message>
     <message>
         <source>Documents (%1%2)</source>
         <translation>Documents (%1%2)</translation>
+    </message>
+    <message>
+        <source>Welcome to use digital signature software!&lt;br /&gt;&lt;br /&gt;
+Note that, according to Estonian legislation, digital signatures are equivalent to handwritten signatures. To digitally sign a document, you need to have an eID document (ID-card, Mobile-ID, digi-ID, e-Resident digi-ID, digital stamp etc.) with valid certificates and connection to the internet.&lt;br /&gt;&lt;br /&gt;
+For digital authentication use your PIN1 code, and for digital signing - your PIN2 code.&lt;br /&gt;&lt;br /&gt;
+BDOC is the default digital signature format in Estonia. &lt;a href=&quot;https://www.ria.ee/en/bdoc-en.html&quot;&gt;Additional information&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;
+DDOC is the old digital signature format. Nowadays you can view and verify documents signed in the DDOC format, however, you cannot create new signatures in this format.&lt;br /&gt;&lt;br /&gt;
+ASiC-E is an international digital signature format that will be used across European countries.&lt;br /&gt;&lt;br /&gt;
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;http://www.id.ee/?lang=en&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
+        <translation>Welcome to use digital signature software!&lt;br /&gt;&lt;br /&gt;
+Note that, according to Estonian legislation, digital signatures are equivalent to handwritten signatures. To digitally sign a document, you need to have an eID document (ID-card, Mobile-ID, digi-ID, e-Resident digi-ID, digital stamp etc.) with valid certificates and connection to the internet.&lt;br /&gt;&lt;br /&gt;
+For digital authentication use your PIN1 code, and for digital signing - your PIN2 code.&lt;br /&gt;&lt;br /&gt;
+BDOC is the default digital signature format in Estonia. &lt;a href=&quot;https://www.ria.ee/en/bdoc-en.html&quot;&gt;Additional information&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;
+DDOC is the old digital signature format. Nowadays you can view and verify documents signed in the DDOC format, however, you cannot create new signatures in this format.&lt;br /&gt;&lt;br /&gt;
+ASiC-E is an international digital signature format that will be used across European countries.&lt;br /&gt;&lt;br /&gt;
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;http://www.id.ee/?lang=en&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</translation>
     </message>
 </context>
 <context>
@@ -1020,10 +1022,6 @@ software (version 3.8 and earlier).</translation>
         <translation>BDOC – default digital signature format in Estonia.</translation>
     </message>
     <message>
-        <source>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</source>
-        <translation>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</translation>
-    </message>
-    <message>
         <source>Online TSL digest check</source>
         <translation>Online TSL digest check</translation>
     </message>
@@ -1049,7 +1047,11 @@ software (version 3.8 and earlier).</translation>
     </message>
     <message>
         <source>Enable proxy for SSL connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Enable proxy for SSL connections</translation>
+    </message>
+    <message>
+        <source>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</source>
+        <translation>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</translation>
     </message>
 </context>
 <context>
@@ -1223,8 +1225,8 @@ software (version 3.8 and earlier).</translation>
         <translation>Archive TS Certificate</translation>
     </message>
     <message>
-        <source>The current file uses pilot webservice to validate signatures and does not ....</source>
-        <translation type="unfinished"></translation>
+        <source>To validate digitally signed PDf files, the pilot service is being used. For that reason, the displayed signature validity information for PDF files has no evidentiary value.</source>
+        <translation>To validate digitally signed PDf files, the pilot service is being used. For that reason, the displayed signature validity information for PDF files has no evidentiary value.</translation>
     </message>
 </context>
 <context>

@@ -541,26 +541,29 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
         <translation>NB! Staatus teadmata</translation>
     </message>
     <message>
-        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;&lt;font color=&quot;red&quot;&gt;NB! Important! From the 2015 onwards, the default digital signature format is BDOC.&lt;/font&gt;&lt;/b&gt; &lt;a href=&quot;http://www.ria.ee/bdoc-en&quot;&gt;More info&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;http://www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
-        <translation>Dokumendi allkirjastamine.&lt;br /&gt;&lt;br /&gt;
-Digitaalallkiri on samaväärne füüsilise allkirjaga. Digitaalallkirja andmiseks on vajalik ID-kaart või Mobiil-ID, millel on kehtiv ja kasutatav allkirjastamise sertifikaat.&lt;br /&gt;&lt;br /&gt;
-Dokumendi allkirjastamisel on vajalik PIN2 kood.&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;&lt;font color=&quot;red&quot;&gt;NB! Tähelepanu! Alates 2015. aastast on digitaalallkirja vaikimisi vorming BDOC.&lt;/font&gt;&lt;/b&gt; &lt;a href=&quot;http://www.ria.ee/bdoc&quot;&gt;Lisainfo&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
-Digitaalallkirja andmiseks on vajalik internetiühendus.&lt;br /&gt;&lt;br /&gt;
-Vastavalt &lt;a href=&quot;https://sk.ee/teenused/kehtivuskinnituse-teenus/kehtivuskinnituse-teenuse-kasutamise-tavatingimused/&quot;&gt;kehtivuskinnitusteenuse kasutamise tavatingimustele&lt;/a&gt; on lubatud allkirjastamise teenust tasuta kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-meeskonna poole või sõlmige teenuse kasutamiseks leping. Lisainfo: &lt;a href=&quot;http://www.id.ee/?lang=et&quot;&gt;www.id.ee&lt;/a&gt; või ID-abiliini telefonil 1777 (vaid Eesti-siseselt), (+372) 6773377.</translation>
-    </message>
-    <message>
         <source>Remember me</source>
         <translation>Pea mind meeles</translation>
     </message>
     <message>
         <source>Documents (%1%2)</source>
         <translation>Dokumendid (%1%2)</translation>
+    </message>
+    <message>
+        <source>Welcome to use digital signature software!&lt;br /&gt;&lt;br /&gt;
+Note that, according to Estonian legislation, digital signatures are equivalent to handwritten signatures. To digitally sign a document, you need to have an eID document (ID-card, Mobile-ID, digi-ID, e-Resident digi-ID, digital stamp etc.) with valid certificates and connection to the internet.&lt;br /&gt;&lt;br /&gt;
+For digital authentication use your PIN1 code, and for digital signing - your PIN2 code.&lt;br /&gt;&lt;br /&gt;
+BDOC is the default digital signature format in Estonia. &lt;a href=&quot;https://www.ria.ee/en/bdoc-en.html&quot;&gt;Additional information&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;
+DDOC is the old digital signature format. Nowadays you can view and verify documents signed in the DDOC format, however, you cannot create new signatures in this format.&lt;br /&gt;&lt;br /&gt;
+ASiC-E is an international digital signature format that will be used across European countries.&lt;br /&gt;&lt;br /&gt;
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;http://www.id.ee/?lang=en&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
+        <translation>Tere tulemast kasutama digitaalallkirjastamise tarkvara.&lt;br /&gt;&lt;br /&gt;
+Pea meeles, et digitaalne allkiri on Eesti seaduste kohaselt võrdne omakäelise allkirjaga. Digitaalseks allkirjastamiseks vajad kehtivate sertifikaatidega eID dokumenti (ID-kaart, Mobiil-ID, digi-ID, e-Residendi digi-ID, digitempel vms) ja toimivat internetiühendust.&lt;br /&gt;&lt;br /&gt;
+Enda tuvastamiseks kasuta koodi PIN1 ja allkirjastamiseks PIN2.&lt;br /&gt;&lt;br /&gt;
+BDOC – digitaalallkirja vaikimisi vorming Eestis. &lt;a href=&quot;https://www.ria.ee/ee/bdoc.html&quot;&gt;Lisainfo&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;
+DDOC – digitaalallkirja eelmine vorming. Täna saab DDOC allkirju vaadata ja kontrollida, kuid mitte enam juurde luua.&lt;br /&gt;&lt;br /&gt;
+ASiC-E – rahvusvahelisele, Euroopa ülesele ühilduvusele suunatud tulevikuvorming.&lt;br /&gt;&lt;br /&gt;
+Vastavalt &lt;a href=&quot;https://sk.ee/teenused/kehtivuskinnituse-teenus/kehtivuskinnituse-teenuse-kasutamise-tavatingimused/&quot;&gt;kehtivuskinnitusteenuse kasutamise tavatingimustele&lt;/a&gt; on lubatud allkirjastamise teenust tasuta kasutada mahus kuni 10 allkirja kuus. Teenuse kasutamiseks suuremas mahus või kommertseesmärkidel pöörduge palun oma asutuse IT-meeskonna poole või sõlmige teenuse kasutamiseks leping. Lisainfo: &lt;a href=&quot;http://www.id.ee/?lang=et&quot;&gt;www.id.ee&lt;/a&gt; või ID-abiliini telefonil 1777 (vaid Eesti-siseselt), (+372) 6773377.
+</translation>
     </message>
 </context>
 <context>
@@ -1020,10 +1023,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>BDOC – digitaalallkirja vaikimisi vorming Eestis.</translation>
     </message>
     <message>
-        <source>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</source>
-        <translation>ASiC-E – digitaalallkirja uus, rahvusvaheliselt kõige paremini ühilduv vorming, mida saab kasutada ka Eestis. Paljud infosüsteemid ei oska seda veel kasutada ega lugeda ja seetõttu võib saajal puududa võimalus selles vormingus dokumenti avada.</translation>
-    </message>
-    <message>
         <source>Online TSL digest check</source>
         <translation>Kontrolli TSL värskendust</translation>
     </message>
@@ -1049,7 +1048,11 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     </message>
     <message>
         <source>Enable proxy for SSL connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Luba proksi kasutamine SSL-ühenduste jaoks</translation>
+    </message>
+    <message>
+        <source>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</source>
+        <translation>ASiC-E – rahvusvahelisele, Euroopa ülesele ühilduvusele suunatud tulevikuvorming. Paljud süsteemid Eestis seda vormingut veel ei toeta ning saajal võib puududa võimalus seda avada.</translation>
     </message>
 </context>
 <context>
@@ -1223,8 +1226,8 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>Arhiivi ajatempli sertifikaat</translation>
     </message>
     <message>
-        <source>The current file uses pilot webservice to validate signatures and does not ....</source>
-        <translation type="unfinished"></translation>
+        <source>To validate digitally signed PDf files, the pilot service is being used. For that reason, the displayed signature validity information for PDF files has no evidentiary value.</source>
+        <translation>PDF failis olevate allkirjade valideerimiseks kasutatakse pilootteenust, mistõttu PDF allkirjade puhul kuvatav kehtivusinfo ei oma tõestusväärtust.</translation>
     </message>
 </context>
 <context>

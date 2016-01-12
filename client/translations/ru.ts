@@ -545,26 +545,28 @@ New ID-cards have chip on the back side of the card.</source>
         <translation>NB! Статус неизвестен</translation>
     </message>
     <message>
-        <source>Digital signing.&lt;br /&gt;&lt;br /&gt;
-Digital signing is equal to physical signing. To sign a document you need an ID-card with a valid and usable signature certificate.&lt;br /&gt;&lt;br /&gt;
-Signing is done via PIN2 code.&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;&lt;font color=&quot;red&quot;&gt;NB! Important! From the 2015 onwards, the default digital signature format is BDOC.&lt;/font&gt;&lt;/b&gt; &lt;a href=&quot;http://www.ria.ee/bdoc-en&quot;&gt;More info&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
-Also an active internet connection is needed.&lt;br /&gt;&lt;br /&gt;
-According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;http://www.id.ee&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
-        <translation>Подписывание документов.&lt;br /&gt;&lt;br /&gt;
-Цифровая подпись аналогична физической подписи. Для цифровой подписи нужна ID-карта, которая имеет действующие сертификаты.&lt;br /&gt;&lt;br /&gt;
-При подписывании документов нужен PIN2 код.&lt;br /&gt;&lt;br /&gt;
-&lt;b&gt;&lt;font color=&quot;red&quot;&gt;NB! С 2015 года форматом цифровой подписи по умолчанию стал BDOC.&lt;/font&gt;&lt;/b&gt; &lt;a href=&quot;http://www.ria.ee/bdoc-ru&quot;&gt;Дополнительная информация&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
-Для цифровой подписи необходимо подключение к интернету.&lt;br /&gt;&lt;br /&gt;
-Согласно &lt;a href=&quot;https://sk.ee/en/services/validity-confirmation-services/standard-conditions-of-validation-certification-service/&quot;&gt;условиям использования услуги подтверждения действительности&lt;/a&gt; Вы можете поставить максимум 10 бесплатных подписей в течение месяца. Если Вам необходимо использовать услугу подтверждения действительности в большем объеме или в служебных целях, обратитесь в ИТ-отдел Вашей организации или заключите договор на использование услуги. Дополнительная информация: &lt;a href=&quot;http://www.id.ee/?lang=ru&quot;&gt;www.id.ee&lt;/a&gt; или телефон линии помощи ID-карты 1777 (только в пределах Эстонии), (+372) 6773377.</translation>
-    </message>
-    <message>
         <source>Remember me</source>
         <translation>Запомнить меня</translation>
     </message>
     <message>
         <source>Documents (%1%2)</source>
         <translation>Документы (%1%2)</translation>
+    </message>
+    <message>
+        <source>Welcome to use digital signature software!&lt;br /&gt;&lt;br /&gt;
+Note that, according to Estonian legislation, digital signatures are equivalent to handwritten signatures. To digitally sign a document, you need to have an eID document (ID-card, Mobile-ID, digi-ID, e-Resident digi-ID, digital stamp etc.) with valid certificates and connection to the internet.&lt;br /&gt;&lt;br /&gt;
+For digital authentication use your PIN1 code, and for digital signing - your PIN2 code.&lt;br /&gt;&lt;br /&gt;
+BDOC is the default digital signature format in Estonia. &lt;a href=&quot;https://www.ria.ee/en/bdoc-en.html&quot;&gt;Additional information&lt;/a&gt;.&lt;br /&gt;&lt;br /&gt;
+DDOC is the old digital signature format. Nowadays you can view and verify documents signed in the DDOC format, however, you cannot create new signatures in this format.&lt;br /&gt;&lt;br /&gt;
+ASiC-E is an international digital signature format that will be used across European countries.&lt;br /&gt;&lt;br /&gt;
+According to &lt;a href=&quot;http://sk.ee/en/services/validity-confirmation-services&quot;&gt;validity confirmation service standard conditions&lt;/a&gt; the digital signing service is free for 10 signatures per month. If you are going to exceed the limit of 10 signatures per month or/and will use the service for commercial purposes, please contact to IT support team of your company or sign a contract to use the service. Additional information is available &lt;a href=&quot;http://www.id.ee/?lang=en&quot;&gt;www.id.ee&lt;/a&gt; or ID-helpline 1777 (only from Estonia), (+372) 6773377.</source>
+        <translation>Добро пожаловать в программу цифрового подписывания!&lt;br /&gt;&lt;br /&gt;
+Помните, что, согласно эстонскому законодательству, цифровая подпись равноценна собственноручной подписи. Чтобы поставить цифровую подпись, необходимо иметь eID документ (ID-карту, Mobiil-ID, digi-ID, карточку э-резидента, дигиштамп и т.д) с действительными сертификатами и интернет-соединение.&lt;br /&gt;
+Для аутентификации используйте код PIN1, а для цифрового подписывания - код PIN2.&lt;br /&gt;&lt;br /&gt;
+BDOC – это используемый в Эстонии формат по умолчанию цифровой подписи. &lt;a href=&quot;https://www.ria.ee/ee/bdoc-ru.html&quot;&gt;Доп. инфо&lt;/a&gt;.&lt;br /&gt;
+DDOC – это ранее использовавшийся формат цифровой подписи. На сегодняшний день можно просматривать и проверять действительность подписей в формате DDOC, но нельзя создавать новые подписи в этом формате.&lt;br /&gt;
+ASiC-E – это разрабатываемый международный формат цифровой подписи, который будет использоваться в европейских государствах.&lt;br /&gt;&lt;br /&gt;
+Согласно &lt;a href=&quot;https://sk.ee/en/services/validity-confirmation-services/standard-conditions-of-validation-certification-service/&quot;&gt;условиям использования услуги подтверждения действительности&lt;/a&gt; Вы можете поставить максимум 10 бесплатных подписей в течение месяца. Если Вам необходимо использовать услугу подтверждения действительности в большем объеме или в служебных целях, обратитесь в ИТ-отдел Вашей организации или заключите договор на использование услуги. Дополнительная информация: &lt;a href=&quot;http://www.id.ee/?lang=ru&quot;&gt;www.id.ee&lt;/a&gt; или телефон линии помощи ID-карты 1777 (только в пределах Эстонии), (+372) 6773377.</translation>
     </message>
 </context>
 <context>
@@ -1024,10 +1026,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <translation>BDOC – формат цифровой подписи по умолчанию, используемой в Эстонии на данный момент.</translation>
     </message>
     <message>
-        <source>ASiC-E – new internationally compatible digital signature format that can also be used in Estonia. Please note that this format is not yet supported by many information systems and the recipient of a document in this format may not be able to open it.</source>
-        <translation>ASiC-E – новый, международный формат цифровой подписи, который можно также использовать в Эстонии. Однако, многие инфосистемы еще не умеют распознавать этот формат, поэтому получатель такого документа может не суметь открыть его.</translation>
-    </message>
-    <message>
         <source>Online TSL digest check</source>
         <translation>Проверка обновлений TSL</translation>
     </message>
@@ -1053,7 +1051,11 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     </message>
     <message>
         <source>Enable proxy for SSL connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить прокси-сервер для подключения SSL</translation>
+    </message>
+    <message>
+        <source>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</source>
+        <translation>ASiC-E – это разрабатываемый международный формат цифровой подписи, который будет использоваться в европейских государствах. Большинство эстонских инфосистем пока что еще не поддерживают данный формат, поэтому высока вероятность, что получатель документа в формате ASiC-E не сможет открыть этот документ.</translation>
     </message>
 </context>
 <context>
@@ -1227,8 +1229,8 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <translation>Сертификат временного штампа архива</translation>
     </message>
     <message>
-        <source>The current file uses pilot webservice to validate signatures and does not ....</source>
-        <translation type="unfinished"></translation>
+        <source>To validate digitally signed PDf files, the pilot service is being used. For that reason, the displayed signature validity information for PDF files has no evidentiary value.</source>
+        <translation>Для валидации подписанных PDF файлов используется пилотный сервис, поэтому отображаемая информация о действительности подписанных PDF файлов не имеет доказательной силы.</translation>
     </message>
 </context>
 <context>

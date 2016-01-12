@@ -563,7 +563,8 @@ void MainWindow::enableSign()
 	else if( doc->isExperimental() )
 	{
 		showWarning( SignatureDialog::tr(
-			"The current file uses pilot webservice to validate signatures and does not ....") );
+			"To validate digitally signed PDf files, the pilot service is being used. "
+			"For that reason, the displayed signature validity information for PDF files has no evidentiary value.") );
 		button->setToolTip( tr("Signing not allowed.") );
 	}
 	else if( !doc->isSupported() )

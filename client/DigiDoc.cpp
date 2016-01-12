@@ -522,7 +522,8 @@ bool DigiDoc::open( const QString &file )
 		{
 			QMessageBox::warning( w, w ? w->windowTitle() : 0,
 				QCoreApplication::translate("SignatureDialog",
-					"The current file uses pilot webservice to validate signatures and does not ...."), QMessageBox::Ok );
+					"To validate digitally signed PDf files, the pilot service is being used. "
+					"For that reason, the displayed signature validity information for PDF files has no evidentiary value."), QMessageBox::Ok );
 		}
 		else if( !isSupported() )
 		{
