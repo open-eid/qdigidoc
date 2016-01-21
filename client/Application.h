@@ -70,6 +70,7 @@ public:
 
 	static void addRecent( const QString &file );
 	static QVariant confValue( ConfParameter parameter, const QVariant &value = QVariant() );
+	static void clearConfValue( ConfParameter parameter );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
 	static void showWarning( const QString &msg, int err, const QString &details = QString(), const QString &search = QString() );
 

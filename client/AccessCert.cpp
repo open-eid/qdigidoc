@@ -255,10 +255,10 @@ void AccessCert::remove()
 	CFRelease( certref );
 	CFRelease( keyref );
 #else
-	d->cert.clear();
-	d->pass.clear();
-	Application::setConfValue( Application::PKCS12Cert, QVariant() );
-	Application::setConfValue( Application::PKCS12Pass, QVariant() );
+	Application::clearConfValue( Application::PKCS12Cert );
+	Application::clearConfValue( Application::PKCS12Pass );
+	d->cert = Application::confValue( Application::PKCS12Cert ).toString();
+	d->pass = Application::confValue( Application::PKCS12Pass ).toString();
 #endif
 }
 

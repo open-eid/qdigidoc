@@ -412,6 +412,44 @@ void Application::browse( const QUrl &url )
 	QDesktopServices::openUrl( QUrl::fromLocalFile( QFileInfo( u.toLocalFile() ).absolutePath() ) );
 }
 
+void Application::clearConfValue( ConfParameter parameter )
+{
+	try
+	{
+		digidoc::XmlConf *i = dynamic_cast<digidoc::XmlConf*>(digidoc::Conf::instance());
+		if(!i)
+			return;
+		switch( parameter )
+		{
+		case PKCS12Cert: i->setPKCS12Cert( digidoc::Conf().PKCS12Cert() ); break;
+		case PKCS12Pass: i->setPKCS12Pass( digidoc::Conf().PKCS12Pass() ); break;
+		case ProxyHost:
+		case ProxyPort:
+		case ProxyUser:
+		case ProxyPass:
+		case ProxySSL:
+		case PKCS12Disable:
+		case TSLOnlineDigest:
+		case LDAP_HOST:
+		case MobileID_URL:
+		case MobileID_TEST_URL:
+		case PDFUrl:
+		case TSLCerts:
+		case TSLUrl:
+		case TSLCache:
+		case PKCS11Module: break;
+		}
+	}
+	catch( const digidoc::Exception &e )
+	{
+		QStringList causes;
+		digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
+		int ddocError = -1;
+		DigiDoc::parseException( e, causes, code, ddocError );
+		showWarning( tr("Caught exception!"), ddocError, causes.join("\n") );
+	}
+}
+
 void Application::closeWindow()
 {
 #ifndef Q_OS_MAC
