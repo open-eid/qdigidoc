@@ -40,3 +40,10 @@ add_library(EsteidShellExtension SHARED
 	EsteidShlExt.rgs
 )
 install(TARGETS EsteidShellExtension DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+if(SIGNCERT)
+	add_custom_command(TARGET EsteidShellExtension POST_BUILD
+		COMMAND signtool.exe sign /a /v /s MY /n "${SIGNCERT}" /fd SHA256 /du http://installer.id.ee
+                	/t http://timestamp.verisign.com/scripts/timstamp.dll $<TARGET_FILE:EsteidShellExtension>
+	)
+endif()
