@@ -1,6 +1,6 @@
 sudo: required
 services:
- - docker
+- docker
 before_install:
 - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
     brew update;
@@ -16,20 +16,36 @@ script:
 - cd build
 - cmake -DBREAKPAD="" ..
 - make
+- cd ..
 
 os:
- - linux
+- linux
 
 env:
   global:
-   - secure: "vX847To3osqI7JytpiH5r6xlXS9r8KCNCPP3pu2yvGxAgmz917xG1lrqRGOReoCe/08hkh+gMA9vLjIyUwDlUvZuKJr5g5iPfa85/m9iPe24DLOlf9zLI5It0MFNTLYFQ5DXFmX77+/lcB9ypDQtE5w9XK+xZjyC9xr9viye77E="
-
+  - secure: vX847To3osqI7JytpiH5r6xlXS9r8KCNCPP3pu2yvGxAgmz917xG1lrqRGOReoCe/08hkh+gMA9vLjIyUwDlUvZuKJr5g5iPfa85/m9iPe24DLOlf9zLI5It0MFNTLYFQ5DXFmX77+/lcB9ypDQtE5w9XK+xZjyC9xr9viye77E=
 addons:
   coverity_scan:
     project:
-      name: "open-eid/qdigidoc"
-      description: "Build submitted via Travis CI"
+      name: open-eid/qdigidoc
+      description: Build submitted via Travis CI
     notification_email: raul@metsma.ee
-    build_command_prepend: "mkdir coverity; cd coverity; cmake -DBREAKPAD='' .."
+    build_command_prepend: mkdir coverity; cd coverity; cmake -DBREAKPAD='' ..
     build_command: make
     branch_pattern: coverity_scan
+
+before_deploy:
+- export VERSION=${TRAVIS_TAG:1}
+- rm -rf build
+- cd ..
+- mv qdigidoc qdigidoc-${VERSION}
+- tar czf qdigidoc-${VERSION}.tar.gz --exclude-vcs qdigidoc-${VERSION}
+deploy:
+  provider: releases
+  api_key:
+    secure: LS4Q49BiN1OCs0LMFf8jACtFWnqHEgIP2k+Y7/YWhzp/KBZ8U+45z2EA37NbmYM2GFYCcXLApyKZYWCHq42vz5LQYKLk9/08RU60Xo6jnNUwBhnc0MTj1JzSfMITaWqwJ7LCvJZa1QJnA2/rQuYtVxakzQF9OGxHEmZH0Nujce4=
+  file: qdigidoc-${VERSION}.tar.gz
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: "$TRAVIS_OS_NAME = linux"
