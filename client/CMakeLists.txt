@@ -42,6 +42,7 @@ if( APPLE )
 	list( APPEND SOURCES Application_mac.mm TreeWidgetMac.mm )
 	set_source_files_properties( TreeWidgetMac.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
 	set_source_files_properties( Application_mac.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc -Wno-deprecated-declarations" )
+	list( APPEND ADDITIONAL_LIBRARIES "-framework Security" "-framework Quartz" )
 elseif( WIN32 )
 	list( APPEND SOURCES QCSP.cpp QCNG.cpp )
 	list( APPEND ADDITIONAL_LIBRARIES NCrypt Crypt32 )
@@ -66,10 +67,17 @@ add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	SignatureDialog.cpp
 	TreeWidget.cpp
 )
+add_manifest( ${PROGNAME} )
+target_link_libraries( ${PROGNAME}
+	qdigidoccommon
+	qdigidoccrypto
+	${QT_LIBRARIES}
+	${LIBDIGIDOCPP_LIBRARY}
+	${ADDITIONAL_LIBRARIES}
+)
 
 if( APPLE )
 	set_target_properties( ${PROGNAME} PROPERTIES
-		LINK_LIBRARIES "-framework Security;-framework Quartz"
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake
 		INSTALL_RPATH "@loader_path/../Frameworks"
 	)
@@ -85,6 +93,8 @@ if( APPLE )
 		COMMAND rm -rf $<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/imageformats
 		COMMAND cp -a /Library/Frameworks/digidocpp.framework $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks
 		COMMAND cp -a /Library/Frameworks/libdigidoc.framework $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks
+		COMMAND rm $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/digidocpp.framework/Resources/digidoc-tool
+		COMMAND rm $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/libdigidoc.framework/Resources/cdigidoc
 		COMMAND find $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks -name Headers | xargs rm -rf
 		COMMAND find $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks -name 'TEST*.crt' -delete
 		COMMAND rm $<TARGET_FILE_DIR:${PROGNAME}>/${PKCS11_NAME}
@@ -95,8 +105,6 @@ if( APPLE )
 		COMMAND for f in
 			$<TARGET_FILE_DIR:${PROGNAME}>/*.*
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/digidocpp.framework/Libraries/*
-			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/digidocpp.framework/Resources/digidoc-tool
-			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/libdigidoc.framework/Resources/cdigidoc
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/*
 			$<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/*/*
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook/DigiDocQL.qlgenerator\; do
@@ -105,53 +113,18 @@ if( APPLE )
 		COMMAND codesign -f -s \"$$SIGNCERT\" $<TARGET_FILE_DIR:${PROGNAME}>/../..
 			--entitlements ${CMAKE_SOURCE_DIR}/client/${PROGNAME}.entitlements
 	)
-	add_custom_target( productbuild DEPENDS codesign
+	add_custom_target( productbuild DEPENDS ${PROGNAME}
 		COMMAND productbuild --component ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app /Applications
 			--sign \"$$INSTCERT\" ${CMAKE_BINARY_DIR}/qdigidoc-store_${VERSION}$ENV{VER_SUFFIX}.pkg
 	)
-	add_custom_target( zip DEPENDS codesign
+	add_custom_target( zip DEPENDS ${PROGNAME}
 		COMMAND zip --symlinks -r -D ${CMAKE_BINARY_DIR}/qdigidoc_${VERSION}$ENV{VER_SUFFIX}.zip ${PROGNAME}.app
 	)
 	add_custom_target( zipdebug DEPENDS ${PROGNAME}
 		COMMAND dsymutil -o ${PROGNAME}.dSYM $<TARGET_FILE:${PROGNAME}>
 		COMMAND zip -r ${CMAKE_BINARY_DIR}/qdigidoc-dbg_${VERSION}$ENV{VER_SUFFIX}.zip ${PROGNAME}.dSYM
 	)
-endif()
-
-target_link_libraries( ${PROGNAME}
-	qdigidoccommon
-	qdigidoccrypto
-	${QT_LIBRARIES}
-	${LIBDIGIDOCPP_LIBRARY}
-	${ADDITIONAL_LIBRARIES}
-)
-add_manifest( ${PROGNAME} )
-install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
-
-if(UNIX AND NOT APPLE)
-	set_target_properties( ${PROGNAME} PROPERTIES COMPILE_DEFINITIONS "DATADIR=\"${CMAKE_INSTALL_FULL_DATADIR}\"" )
-	configure_file( qdigidocclient.1.cmake qdigidocclient.1 )
-	install( FILES ${CMAKE_CURRENT_BINARY_DIR}/qdigidocclient.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
-	install( FILES qdigidoc-client.appdata.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata )
-	install( FILES qdigidoc-client.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
-	install( FILES qdigidoc-client.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages )
-	foreach(RES 16 22 32 48 128)
-		foreach(TGT application-vnd.bdoc-1.0.png application-vnd.etsi.asic-e+zip.png application-x-ddoc.png application-x-p12d.png)
-			install(
-				FILES images/qdigidoc_client_document_${RES}x${RES}.png
-				DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/mimetypes/
-				RENAME ${TGT}
-			)
-		endforeach()
-		install(
-			FILES images/digidoc_icon_${RES}x${RES}.png
-			DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/apps/
-			RENAME qdigidoc-client.png
-		)
-	endforeach()
-endif()
-
-if(WIN32)
+elseif(WIN32)
 	get_filename_component(LIBS_PATH ${LIBDIGIDOCPP_LIBRARIES} DIRECTORY)
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 		set(PLATFORM x64)
@@ -194,4 +167,26 @@ if(WIN32)
 			WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 		)
 	endif()
+else()
+	install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
+	set_target_properties( ${PROGNAME} PROPERTIES COMPILE_DEFINITIONS "DATADIR=\"${CMAKE_INSTALL_FULL_DATADIR}\"" )
+	configure_file( qdigidocclient.1.cmake qdigidocclient.1 )
+	install( FILES ${CMAKE_CURRENT_BINARY_DIR}/qdigidocclient.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
+	install( FILES qdigidoc-client.appdata.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata )
+	install( FILES qdigidoc-client.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
+	install( FILES qdigidoc-client.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages )
+	foreach(RES 16 22 32 48 128)
+		foreach(TGT application-vnd.bdoc-1.0.png application-vnd.etsi.asic-e+zip.png application-x-ddoc.png application-x-p12d.png)
+			install(
+				FILES images/qdigidoc_client_document_${RES}x${RES}.png
+				DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/mimetypes/
+				RENAME ${TGT}
+			)
+		endforeach()
+		install(
+			FILES images/digidoc_icon_${RES}x${RES}.png
+			DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/apps/
+			RENAME qdigidoc-client.png
+		)
+	endforeach()
 endif()
