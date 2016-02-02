@@ -239,7 +239,10 @@ QPKCS11::PinStatus QPKCS11::login( const TokenData &_t )
 {
 	logout();
 
-	for( CK_SLOT_ID slot: d->slotIds( true ) )
+	QVector<CK_SLOT_ID> list = d->slotIds( true );
+	// Hack: Workaround broken FIN pkcs11 drivers exposing Signing certificate in slot 1
+	std::reverse(list.begin(), list.end());
+	for( CK_SLOT_ID slot: list )
 	{
 		if( d->session )
 			d->f->C_CloseSession( d->session );
@@ -392,7 +395,7 @@ QByteArray QPKCS11::sign( int type, const QByteArray &digest ) const
 	data.append( digest );
 
 	QVector<CK_OBJECT_HANDLE> key = d->findObject( d->session, CKO_PRIVATE_KEY );
-	if( key.isEmpty() )
+	if( key.isEmpty() || !key.value(*d->certIndex) )
 		return QByteArray();
 
 	CK_MECHANISM mech = { CKM_RSA_PKCS, 0, 0 };
