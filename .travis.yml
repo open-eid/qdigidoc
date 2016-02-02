@@ -6,6 +6,7 @@ before_install:
     brew update;
     brew install qt5;
   else
+    git submodule update --init --recursive;
     curl https://installer.id.ee/media/sources/public.key | sudo apt-key add -;
     sudo apt-add-repository 'deb http://installer.id.ee/media/ubuntu/ trusty main';
     sudo apt-get update -qq;
