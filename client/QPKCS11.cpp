@@ -436,7 +436,6 @@ public:
 	QMultiHash<QString,QByteArray> drivers;
 	QPKCS11 *active = nullptr;
 	QString activeDriver;
-	QPCSC pcsc;
 };
 
 QPKCS11Stack::QPKCS11Stack( QObject *parent )
@@ -504,7 +503,7 @@ void QPKCS11Stack::loadDriver(const QString &driver) const
 
 QStringList QPKCS11Stack::readers() const
 {
-	return d->pcsc.readers();
+	return QPCSC::instance().readers();
 }
 
 QList<TokenData> QPKCS11Stack::tokens() const
@@ -535,9 +534,9 @@ QByteArray QPKCS11Stack::sign(int type, const QByteArray &digest) const
 void QPKCS11Stack::updateDrivers() const
 {
 	QList<QByteArray> atrs;
-	for(const QString &reader: d->pcsc.readers())
+	for(const QString &reader: QPCSC::instance().readers())
 	{
-		QPCSCReader r(reader, &d->pcsc);
+		QPCSCReader r(reader, &QPCSC::instance());
 		if(r.isPresent())
 			atrs << r.atr();
 	}

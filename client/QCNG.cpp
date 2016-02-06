@@ -163,7 +163,7 @@ QCNG::Certs QCNG::certs() const
 		qWarning() << "Found provider" << QString( (QChar*)names[i].pszName );
 		if( wcscmp( names[i].pszName, MS_SMART_CARD_KEY_STORAGE_PROVIDER ) == 0 )
 		{
-			foreach( const QString &reader, QPCSC().readers() )
+			for( const QString &reader: QPCSC::instance().readers() )
 			{
 				qWarning() << reader;
 				QString scope = QString( "\\\\.\\%1\\" ).arg( reader );
@@ -188,7 +188,7 @@ QCNG::Certs QCNG::certs() const
 
 QStringList QCNG::readers() const
 {
-	return QPCSC().drivers();
+	return QPCSC::instance().drivers();
 }
 
 TokenData QCNG::selectCert( const SslCertificate &cert )
