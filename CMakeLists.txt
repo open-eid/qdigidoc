@@ -1,11 +1,15 @@
-cmake_minimum_required( VERSION 2.8 )
+cmake_minimum_required(VERSION 2.8.11)
 cmake_policy(SET CMP0020 NEW)
-project( qdigidoc )
+if(POLICY CMP0043)
+	cmake_policy(SET CMP0043 NEW)
+endif()
+project(qdigidoc)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 set(CMAKE_FIND_ROOT_PATH ${CMAKE_OSX_SYSROOT})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
+set(PROJECT_VERSION_PATCH 1)
 
 include( GNUInstallDirs )
 include( VersionInfo )
@@ -24,9 +28,6 @@ else()
 	find_package( Qt4 4.8.0 COMPONENTS QtCore QtGui QtNetwork REQUIRED )
 	include( ${QT_USE_FILE} )
 endif()
-
-set_ex( CONFIG_URL "$ENV{CONFIG_URL}" "https://installer.id.ee/media/updater/config.json" CACHE STRING "Set Config URL" )
-set_ex( BREAKPAD "$ENV{BREAKPAD}" "https://cr.eesti.ee/" CACHE STRING "URL for breakpad crash reporting, empty for disabled" )
 
 if( WIN32 )
 	add_subdirectory( extensions/EsteidShellExtension )

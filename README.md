@@ -6,6 +6,7 @@
 
 ## Building
 [![Build Status](https://travis-ci.org/open-eid/qdigidoc.svg?branch=master)](https://travis-ci.org/open-eid/qdigidoc)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/open-eid/qdigidoc?branch=master&svg=true)](https://ci.appveyor.com/project/open-eid/qdigidoc)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/725/badge.svg)](https://scan.coverity.com/projects/725)
 
 ### Ubuntu
