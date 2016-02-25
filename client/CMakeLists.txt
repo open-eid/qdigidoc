@@ -133,8 +133,7 @@ elseif(WIN32)
 	endif()
 	set(MSI_FILE "Digidoc3_Client-${VERSION}$ENV{VER_SUFFIX}.${PLATFORM}")
 	list(APPEND CANDLE_CMD "$ENV{WIX}bin\\candle.exe" -nologo -arch ${PLATFORM}
-		-dMSI_VERSION=${VERSION} -dPlatform=${PLATFORM} -dlibs_path="${LIBS_PATH}"
-		-dcertsLocation=CertsFragment -dShellExt=$<TARGET_FILE:EsteidShellExtension>
+		-dMSI_VERSION=${VERSION} -dPlatform=${PLATFORM} -dlibs_path="${LIBS_PATH}" -dcertsLocation=CertsFragment
 		-dclient_path=$<TARGET_FILE:${PROGNAME}> ${CMAKE_SOURCE_DIR}/qdigidoc.wxs CertsFragment.wxs)
 	list(APPEND LIGHT_CMD "$ENV{WIX}bin\\light.exe" -nologo qdigidoc.wixobj CertsFragment.wixobj -ext WixUIExtension
 		-dWixUILicenseRtf=${CMAKE_SOURCE_DIR}/cmake/modules/LICENSE.LGPL.rtf

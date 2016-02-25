@@ -124,27 +124,22 @@ USES_CONVERSION;
 
 STDMETHODIMP CEsteidShlExt::ExecuteDigidocclient(LPCMINVOKECOMMANDINFO pCmdInfo)
 {
-	tstring command;
-	tstring parameters;
-
-	// Registry reading
-	TCHAR szInstalldir[MAX_PATH];
-    GetModuleFileName(_AtlBaseModule.m_hInst, szInstalldir, MAX_PATH);
-    TCHAR* pDest = StrRChr(szInstalldir, NULL, TEXT('\\'));
-    pDest++;
-    pDest[0] = 0;
-
-	command = tstring(szInstalldir);
-	command += _T("qdigidocclient.exe");
-
 	if (m_Files.empty())
 		return E_INVALIDARG;
 
+	// Registry reading
+	tstring command(MAX_PATH, 0);
+	GetModuleFileName(_AtlBaseModule.m_hInst, &command[0], MAX_PATH);
+	command.resize(command.find_last_of(_T('\\')) + 1);
+	command += _T("qdigidocclient.exe");
+
+	if(PathFileExists(command.c_str()) != 1)
+		command.insert(16, _T(" (x86)"));
+
 	// Construct command line arguments to pass to qdigidocclient.exe
-	for (std::vector<tstring>::iterator it = m_Files.begin(); it != m_Files.end(); it++) {
-		parameters += _T("\"");
-		parameters += *(it);
-		parameters += _T("\" ");
+	tstring parameters;
+	for (const tstring &file: m_Files) {
+		parameters += _T("\"") + file + _T("\" ");
 	}
 
 	SHELLEXECUTEINFO  seInfo;
@@ -153,9 +148,7 @@ STDMETHODIMP CEsteidShlExt::ExecuteDigidocclient(LPCMINVOKECOMMANDINFO pCmdInfo)
 	seInfo.lpFile       = command.c_str();
 	seInfo.lpParameters = parameters.c_str();
 	seInfo.nShow        = SW_SHOW;
-	ShellExecuteEx(&seInfo);
-
-	return S_OK;
+	return ShellExecuteEx(&seInfo) ? S_OK : S_FALSE;
 }
 
 STDMETHODIMP CEsteidShlExt::InvokeCommand(LPCMINVOKECOMMANDINFO pCmdInfo)

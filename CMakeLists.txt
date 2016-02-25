@@ -12,7 +12,6 @@ include( VersionInfo )
 
 find_package( PKCS11 )
 find_package( LibDigiDocpp REQUIRED )
-find_program( MIDL_EXECUTABLE NAMES Midl.Exe )
 include_directories( ${LIBDIGIDOCPP_INCLUDE_DIR} )
 
 find_package( Qt5Widgets QUIET HINTS ${QTSDK} )
@@ -29,7 +28,7 @@ endif()
 set_ex( CONFIG_URL "$ENV{CONFIG_URL}" "https://installer.id.ee/media/updater/config.json" CACHE STRING "Set Config URL" )
 set_ex( BREAKPAD "$ENV{BREAKPAD}" "https://cr.eesti.ee/" CACHE STRING "URL for breakpad crash reporting, empty for disabled" )
 
-if( WIN32 AND MIDL_EXECUTABLE )
+if( WIN32 )
 	add_subdirectory( extensions/EsteidShellExtension )
 elseif( APPLE )
 	add_subdirectory( extensions/DigiDocQL )
