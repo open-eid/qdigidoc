@@ -122,8 +122,8 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
 <?ifdef var.qt_path ?>
             <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcp120.dll"/>
             <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcr120.dll"/>
-            <File Source="$(var.libs_path)\libeay32.dll"/>
-            <File Source="$(var.libs_path)\ssleay32.dll"/>
+            <File Source="$(var.ssl_path)\libeay32.dll"/>
+            <File Source="$(var.ssl_path)\ssleay32.dll"/>
             <File Source="$(var.qt_path)\bin\Qt5Core.dll"/>
             <File Source="$(var.qt_path)\bin\Qt5Gui.dll"/>
             <File Source="$(var.qt_path)\bin\Qt5Network.dll"/>

@@ -82,8 +82,7 @@ if( APPLE )
 		INSTALL_RPATH "@loader_path/../Frameworks"
 	)
 	add_custom_command( TARGET ${PROGNAME} POST_BUILD
-		COMMAND ln "-fs" ${PKCS11_MODULE} $<TARGET_FILE_DIR:${PROGNAME}> )
-	add_custom_command( TARGET ${PROGNAME} POST_BUILD
+		COMMAND ln "-fs" ${PKCS11_MODULE} $<TARGET_FILE_DIR:${PROGNAME}>
 		COMMAND mkdir -p $<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook
 		COMMAND cp -a $<TARGET_FILE_DIR:DigiDocQL>/../../../DigiDocQL.qlgenerator
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook )
@@ -102,14 +101,12 @@ if( APPLE )
 		COMMAND install_name_tool -rpath /Library/Frameworks "@loader_path/../Frameworks" $<TARGET_FILE:${PROGNAME}>
 	)
 	add_custom_target( codesign DEPENDS ${PROGNAME}
-		COMMAND for f in
+		COMMAND codesign -f -s \"$$SIGNCERT\"
 			$<TARGET_FILE_DIR:${PROGNAME}>/*.*
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/digidocpp.framework/Libraries/*
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/*
 			$<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/*/*
-			$<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook/DigiDocQL.qlgenerator\; do
-				codesign -f -s \"$$SIGNCERT\" $$f\;
-			done
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook/DigiDocQL.qlgenerator
 		COMMAND codesign -f -s \"$$SIGNCERT\" $<TARGET_FILE_DIR:${PROGNAME}>/../..
 			--entitlements ${CMAKE_SOURCE_DIR}/client/${PROGNAME}.entitlements
 	)
@@ -128,13 +125,15 @@ elseif(WIN32)
 	get_filename_component(LIBS_PATH ${LIBDIGIDOCPP_LIBRARIES} DIRECTORY)
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 		set(PLATFORM x64)
+		set(SSL_PATH "C:/OpenSSL-Win64/bin")
 	else()
 		set(PLATFORM x86)
+		set(SSL_PATH "C:/OpenSSL-Win64/bin")
 	endif()
 	set(MSI_FILE "Digidoc3_Client-${VERSION}$ENV{VER_SUFFIX}.${PLATFORM}")
-	list(APPEND CANDLE_CMD "$ENV{WIX}bin\\candle.exe" -nologo -arch ${PLATFORM}
-		-dMSI_VERSION=${VERSION} -dPlatform=${PLATFORM} -dlibs_path="${LIBS_PATH}" -dcertsLocation=CertsFragment
-		-dclient_path=$<TARGET_FILE:${PROGNAME}> ${CMAKE_SOURCE_DIR}/qdigidoc.wxs CertsFragment.wxs)
+	list(APPEND CANDLE_CMD "$ENV{WIX}bin\\candle.exe" -nologo -arch ${PLATFORM} -dMSI_VERSION=${VERSION} -dPlatform=${PLATFORM}
+		-dssl_path="${SSL_PATH}" -dlibs_path="${LIBS_PATH}" -dclient_path=$<TARGET_FILE:${PROGNAME}>
+		${CMAKE_SOURCE_DIR}/qdigidoc.wxs -dcertsLocation=CertsFragment CertsFragment.wxs)
 	list(APPEND LIGHT_CMD "$ENV{WIX}bin\\light.exe" -nologo qdigidoc.wixobj CertsFragment.wixobj -ext WixUIExtension
 		-dWixUILicenseRtf=${CMAKE_SOURCE_DIR}/cmake/modules/LICENSE.LGPL.rtf
 		-dWixUIDialogBmp=${CMAKE_SOURCE_DIR}/cmake/modules/dlgbmp.bmp
@@ -159,10 +158,7 @@ elseif(WIN32)
 			COMMAND ${SIGNCMD} $<TARGET_FILE:${PROGNAME}>
 		)
 		add_custom_command(TARGET msi POST_BUILD
-			COMMAND ${SIGNCMD} "${MSI_FILE}.en-US.msi"
-			COMMAND ${SIGNCMD} "${MSI_FILE}.et-EE.msi"
-			COMMAND ${SIGNCMD} "${MSI_FILE}.en-US.qt.msi"
-			COMMAND ${SIGNCMD} "${MSI_FILE}.et-EE.qt.msi"
+			COMMAND ${SIGNCMD} "${MSI_FILE}.en-US.msi" "${MSI_FILE}.et-EE.msi" "${MSI_FILE}.en-US.qt.msi" "${MSI_FILE}.et-EE.qt.msi"
 			WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 		)
 	endif()
