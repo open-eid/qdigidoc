@@ -1,26 +1,36 @@
+language: c++
 sudo: required
-services:
-- docker
+dist: trusty
+os:
+- linux
+- osx
+osx_image: xcode6.4
+
 before_install:
-- if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+- git submodule update --init --recursive && if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
     brew update;
     brew install qt5;
+    curl --location "https://github.com/open-eid/libdigidoc/releases/download/v3.10.2/libdigidoc_3.10.1.1213.pkg" -o libdigidoc.pkg;
+    curl --location "https://github.com/open-eid/libdigidocpp/releases/download/v3.12.0/libdigidocpp_3.12.0.1318.pkg" -o libdigidocpp.pkg;
+    curl --location "https://github.com/open-eid/esteid-pkcs11/releases/download/v3.10.1/esteid-pkcs11_3.10.1.64.pkg" -o esteid-pkcs11.pkg;
+    sudo installer -verboseR -pkg libdigidoc.pkg -target /;
+    sudo installer -verboseR -pkg libdigidocpp.pkg -target /;
+    sudo installer -verboseR -pkg esteid-pkcs11.pkg -target /;
   else
-    git submodule update --init --recursive;
     curl https://installer.id.ee/media/sources/public.key | sudo apt-key add -;
     sudo apt-add-repository 'deb http://installer.id.ee/media/ubuntu/ trusty main';
     sudo apt-get update -qq;
-    sudo apt-get install -y libdigidocpp-dev libldap2-dev libpcsclite-dev libssl-dev qtbase5-dev qttools5-dev qttools5-dev-tools gettext;
+    sudo apt-get install -y libdigidocpp-dev libldap2-dev libpcsclite-dev libssl-dev qtbase5-dev qttools5-dev qttools5-dev-tools gettext dh-make devscripts dpkg-dev cdbs;
   fi
-script:
-- mkdir build
-- cd build
-- cmake -DBREAKPAD="" ..
-- make
-- cd ..
-
-os:
-- linux
+script: export BUILD_NUMBER=${TRAVIS_BUILD_NUMBER} && if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+    mkdir build && cd build && cmake -DQTSDK=/usr/local/opt/qt5 ..;
+    make zipdebug macdeployqt zip && cd ..;
+  else
+    VERSION=3.12.0.${TRAVIS_BUILD_NUMBER};
+    yes | dh_make --createorig --addmissing --defaultless -p qdigidoc_${VERSION};
+    dch --distribution $(lsb_release -cs) -v ${VERSION} "Release ${VERSION}.";
+    dpkg-buildpackage -rfakeroot -us -uc;
+  fi
 
 env:
   global:
@@ -37,7 +47,7 @@ addons:
 
 before_deploy:
 - export VERSION=${TRAVIS_TAG:1}
-- rm -rf build
+- git clean -d -x -f
 - cd ..
 - mv qdigidoc qdigidoc-${VERSION}
 - tar czf qdigidoc-${VERSION}.tar.gz --exclude-vcs qdigidoc-${VERSION}
