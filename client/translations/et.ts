@@ -949,10 +949,6 @@ Kontrollkood: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation>Eemalda</translation>
-    </message>
-    <message>
         <source>Server access certificate is not installed.</source>
         <translation>Juurdepääsutõend ei ole paigaldatud.</translation>
     </message>
@@ -1053,6 +1049,10 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     <message>
         <source>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</source>
         <translation>ASiC-E – rahvusvahelisele, Euroopa ülesele ühilduvusele suunatud tulevikuvorming. Paljud süsteemid Eestis seda vormingut veel ei toeta ning saajal võib puududa võimalus seda avada.</translation>
+    </message>
+    <message>
+        <source>Use default</source>
+        <translation>Kasuta vaikimisi</translation>
     </message>
 </context>
 <context>

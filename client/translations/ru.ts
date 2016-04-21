@@ -952,10 +952,6 @@ Kонтрольны код: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation>Удалить</translation>
-    </message>
-    <message>
         <source>Server access certificate is not installed.</source>
         <translation>Отсутствует справка доступа.</translation>
     </message>
@@ -1056,6 +1052,10 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <message>
         <source>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</source>
         <translation>ASiC-E – это разрабатываемый международный формат цифровой подписи, который будет использоваться в европейских государствах. Большинство эстонских инфосистем пока что еще не поддерживают данный формат, поэтому высока вероятность, что получатель документа в формате ASiC-E не сможет открыть этот документ.</translation>
+    </message>
+    <message>
+        <source>Use default</source>
+        <translation>Использовать по умолчанию</translation>
     </message>
 </context>
 <context>

@@ -948,10 +948,6 @@ Control code: %1</translation>
         <translation>Container default location path</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation>Remove</translation>
-    </message>
-    <message>
         <source>Server access certificate is not installed.</source>
         <translation>Server access certificate is not installed.</translation>
     </message>
@@ -1052,6 +1048,10 @@ software (version 3.8 and earlier).</translation>
     <message>
         <source>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</source>
         <translation>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</translation>
+    </message>
+    <message>
+        <source>Use default</source>
+        <translation>Use default</translation>
     </message>
 </context>
 <context>

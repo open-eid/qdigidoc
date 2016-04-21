@@ -283,7 +283,7 @@ software (version 3.8 and earlier).</string>
          <item>
           <widget class="QPushButton" name="p12Remove">
            <property name="text">
-            <string>Remove</string>
+            <string>Use default</string>
            </property>
           </widget>
          </item>
