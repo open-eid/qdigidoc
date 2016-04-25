@@ -128,7 +128,7 @@ elseif(WIN32)
 		set(SSL_PATH "C:/OpenSSL-Win64/bin")
 	else()
 		set(PLATFORM x86)
-		set(SSL_PATH "C:/OpenSSL-Win64/bin")
+		set(SSL_PATH "C:/OpenSSL-Win32/bin")
 	endif()
 	set(MSI_FILE "Digidoc3_Client-${VERSION}$ENV{VER_SUFFIX}.${PLATFORM}")
 	list(APPEND CANDLE_CMD "$ENV{WIX}bin\\candle.exe" -nologo -arch ${PLATFORM} -dMSI_VERSION=${VERSION} -dPlatform=${PLATFORM}
