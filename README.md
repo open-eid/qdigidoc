@@ -13,7 +13,7 @@
 
 1. Install dependencies
 
-        sudo apt-get install cmake qttools5-dev qttools5-dev-tools libpcsclite-dev libssl-dev libdigidocpp-dev
+        sudo apt-get install cmake qttools5-dev qttools5-dev-tools libpcsclite-dev libssl-dev libdigidocpp-dev libldap2-dev
 
 2. Fetch the source
 
