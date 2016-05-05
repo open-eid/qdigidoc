@@ -12,31 +12,15 @@ add_custom_command(
 add_definitions( -DPKCS11_MODULE="${PKCS11_MODULE}" )
 include_directories( ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/common ${OPENSSL_INCLUDE_DIR} )
 
-set( UI_FILES
+configure_file( translations/tr.qrc tr.qrc COPYONLY )
+qt5_add_translation( SOURCES translations/en.ts translations/et.ts translations/ru.ts )
+qt5_add_resources( SOURCES images/images.qrc ${CMAKE_CURRENT_BINARY_DIR}/tr.qrc ${CMAKE_CURRENT_BINARY_DIR}/TSL.qrc )
+qt5_wrap_ui( SOURCES
 	ui/MainWindow.ui
 	ui/MobileDialog.ui
 	ui/SettingsDialog.ui
 	ui/SignatureDialog.ui
 )
-
-configure_file( translations/tr.qrc tr.qrc COPYONLY )
-set( RC_FILES images/images.qrc ${CMAKE_CURRENT_BINARY_DIR}/tr.qrc ${CMAKE_CURRENT_BINARY_DIR}/TSL.qrc )
-set( TS_FILES translations/en.ts translations/et.ts translations/ru.ts )
-
-if( NOT Qt5Widgets_FOUND )
-	qt4_add_translation( SOURCES ${TS_FILES} )
-	qt4_add_resources( SOURCES ${RC_FILES} )
-	qt4_wrap_ui( SOURCES ${UI_FILES} )
-else()
-	qt5_add_translation( SOURCES ${TS_FILES} )
-	qt5_add_resources( SOURCES ${RC_FILES} )
-	qt5_wrap_ui( SOURCES ${UI_FILES} )
-	list( APPEND QT_LIBRARIES Qt5::PrintSupport )
-	if( WIN32 )
-		find_package( Qt5WinExtras HINTS ${QTSDK} )
-		list( APPEND QT_LIBRARIES Qt5::WinExtras )
-	endif()
-endif()
 
 if( APPLE )
 	list( APPEND SOURCES Application_mac.mm TreeWidgetMac.mm )
@@ -44,14 +28,14 @@ if( APPLE )
 	set_source_files_properties( Application_mac.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc -Wno-deprecated-declarations" )
 	list( APPEND ADDITIONAL_LIBRARIES "-framework Security" "-framework Quartz" )
 elseif( WIN32 )
+	find_package( Qt5WinExtras HINTS ${QTSDK} )
 	list( APPEND SOURCES QCSP.cpp QCNG.cpp )
-	list( APPEND ADDITIONAL_LIBRARIES NCrypt Crypt32 )
+	list( APPEND ADDITIONAL_LIBRARIES Qt5::WinExtras NCrypt Crypt32 )
 endif()
 
 add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	${PROGNAME}.rc
 	${SOURCES}
-	${RESOURCE_FILES}
 	main.cpp
 	AccessCert.cpp
 	Application.cpp
@@ -71,7 +55,7 @@ add_manifest( ${PROGNAME} )
 target_link_libraries( ${PROGNAME}
 	qdigidoccommon
 	qdigidoccrypto
-	${QT_LIBRARIES}
+	Qt5::PrintSupport
 	${LIBDIGIDOCPP_LIBRARY}
 	${ADDITIONAL_LIBRARIES}
 )

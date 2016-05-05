@@ -5,20 +5,9 @@ endif()
 set( PROGNAME qdigidoccrypto )
 
 configure_file( translations/crypto_tr.qrc crypto_tr.qrc COPYONLY )
-set( RC_FILES images/crypto_images.qrc ${CMAKE_CURRENT_BINARY_DIR}/crypto_tr.qrc )
-set( TS_FILES translations/crypto_et.ts translations/crypto_ru.ts )
-set( UI_FILES ui/CertAddDialog.ui ui/KeyDialog.ui ui/MainWindow.ui )
-
-if( NOT Qt5Widgets_FOUND )
-	qt4_add_translation( QM_FILES ${TS_FILES} )
-	qt4_add_resources( RC_SOURCES ${RC_FILES} )
-	qt4_wrap_ui( UI_HEADERS ${UI_FILES} )
-else()
-	qt5_add_translation( QM_FILES ${TS_FILES} )
-	qt5_add_resources( RC_SOURCES ${RC_FILES} )
-	qt5_wrap_ui( UI_HEADERS ${UI_FILES} )
-	list( APPEND QT_LIBRARIES Qt5::Widgets Qt5::Network )
-endif()
+qt5_add_translation( SOURCES translations/crypto_et.ts translations/crypto_ru.ts )
+qt5_add_resources( SOURCES images/crypto_images.qrc ${CMAKE_CURRENT_BINARY_DIR}/crypto_tr.qrc )
+qt5_wrap_ui( SOURCES ui/CertAddDialog.ui ui/KeyDialog.ui ui/MainWindow.ui )
 
 include_directories(
 	${CMAKE_SOURCE_DIR}
@@ -32,10 +21,7 @@ add_library( ${PROGNAME} STATIC
 	LdapSearch.cpp
 	MainWindow.cpp
 	TreeWidget.cpp
-	${UI_HEADERS}
-	${QM_FILES}
-	${RC_SOURCES}
-	${RESOURCE_FILES}
+	${SOURCES}
 )
 
 if( APPLE )
@@ -45,11 +31,7 @@ elseif( WIN32 )
 	set( LDAP_LIBRARIES Wldap32 )
 endif()
 
-target_link_libraries( ${PROGNAME}
-	qdigidoccommon
-	${QT_LIBRARIES}
-	${LDAP_LIBRARIES}
-)
+target_link_libraries( ${PROGNAME} qdigidoccommon ${LDAP_LIBRARIES} )
 
 if(UNIX AND NOT APPLE)
 	set_target_properties( ${PROGNAME} PROPERTIES COMPILE_DEFINITIONS "DATADIR=\"${CMAKE_INSTALL_FULL_DATADIR}\"" )
