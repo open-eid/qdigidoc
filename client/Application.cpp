@@ -133,7 +133,7 @@ public:
 	std::string PKCS11Driver() const override
 	{ return QString( qApp->applicationDirPath() + "/" + QFileInfo( PKCS11_MODULE ).fileName() ).toStdString(); }
 	std::string TSLCache() const override
-	{ return QDesktopServices::storageLocation(QDesktopServices::DataLocation).toStdString(); }
+	{ return QStandardPaths::writableLocation(QStandardPaths::DataLocation).toStdString(); }
 	bool TSLOnlineDigest() const override
 	{ return s2.value( "TSLOnlineDigest", digidoc::XmlConf::TSLOnlineDigest() ).toBool(); }
 

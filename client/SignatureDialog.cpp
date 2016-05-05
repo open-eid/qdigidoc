@@ -64,19 +64,19 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		sc << "<img src=\":/images/ico_stamp_blue_16.png\">";
 	else
 		sc << "<img src=\":/images/ico_person_blue_16.png\">";
-	sc << "<b>" << Qt::escape( cert.toString( cert.showCN() ? "CN" : "GN SN" ) ) << "</b>";
+	sc << "<b>" << cert.toString(cert.showCN() ? "CN" : "GN SN").toHtmlEscaped() << "</b>";
 
 	if( !s.location().isEmpty() )
 	{
 		sa << " " << tr("Location") << " " << s.location();
-		sc << "<br />" << Qt::escape( s.location() );
-		st << Qt::escape( s.location() ) << "<br />";
+		sc << "<br />" << s.location().toHtmlEscaped();
+		st << s.location().toHtmlEscaped() << "<br />";
 	}
 	if( !s.role().isEmpty() )
 	{
 		sa << " " << tr("Role") << " " << s.role();
-		sc << "<br />" << Qt::escape( s.role() );
-		st << Qt::escape( s.role() ) << "<br />";
+		sc << "<br />" << s.role().toHtmlEscaped();
+		st << s.role().toHtmlEscaped() << "<br />";
 	}
 	DateTime date( s.dateTime().toLocalTime() );
 	if( !date.isNull() )
@@ -242,7 +242,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 
 	// Certificate info
 	QTreeWidget *t = d->signatureView;
-	t->header()->setResizeMode( 0, QHeaderView::ResizeToContents );
+	t->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 
 	addItem( t, tr("Signer's Certificate issuer"), c.issuerInfo( QSslCertificate::CommonName ) );
 	addItem( t, tr("Signer's Certificate"), c );

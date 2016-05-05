@@ -31,6 +31,7 @@
 #include <QtCore/QProcess>
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
+#include <QtCore/QUrlQuery>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDragEnterEvent>
 #if QT_VERSION >= 0x050000
@@ -357,10 +358,12 @@ void MainWindow::buttonClicked( int button )
 	}
 	case ViewEmail:
 	{
+		QUrlQuery q;
+		q.addQueryItem("subject", QFileInfo(doc->fileName()).fileName());
+		q.addQueryItem("attachment", QFileInfo(doc->fileName()).absoluteFilePath());
 		QUrl url;
-		url.setScheme( "mailto" );
-		url.addQueryItem( "subject", QFileInfo( doc->fileName() ).fileName() );
-		url.addQueryItem( "attachment", QFileInfo( doc->fileName() ).absoluteFilePath() );
+		url.setScheme("mailto");
+		url.setQuery(q);
 		QDesktopServices::openUrl( url );
 		break;
 	}

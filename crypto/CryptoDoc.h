@@ -49,6 +49,7 @@ public:
 	QStringList mimeTypes() const;
 	bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 	int rowCount( const QModelIndex &parent = QModelIndex() ) const;
+	Qt::DropActions supportedDragActions() const;
 
 	void addFile( const QString &file, const QString &mime = "application/octet-stream" );
 	QString copy( const QModelIndex &index, const QString &path ) const;

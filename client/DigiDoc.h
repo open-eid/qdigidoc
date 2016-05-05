@@ -52,7 +52,9 @@ public:
 	QStringList mimeTypes() const;
 	bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 	int rowCount( const QModelIndex &parent = QModelIndex() ) const;
+	Qt::DropActions supportedDragActions() const;
 
+	void reset();
 	QString save( const QModelIndex &index, const QString &path ) const;
 
 public slots:

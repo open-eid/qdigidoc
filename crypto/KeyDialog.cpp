@@ -34,11 +34,11 @@
 #include <QtCore/QFile>
 #include <QtCore/QSettings>
 #include <QtCore/QSortFilterProxyModel>
+#include <QtCore/QStandardPaths>
 #include <QtCore/QTextStream>
 #include <QtCore/QTimer>
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QMouseEvent>
 #include <QtNetwork/QSslSocket>
 #include <QtWidgets/QHeaderView>
@@ -233,7 +233,7 @@ QString HistoryModel::path() const
 	QFileInfo f( s.fileName() );
 	return f.absolutePath() + "/" + f.baseName() + "/certhistory.xml";
 #else
-	return QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/certhistory.xml";;
+	return QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/certhistory.xml";
 #endif
 }
 
@@ -295,7 +295,11 @@ CertModel::CertModel( QObject *parent )
 {}
 
 void CertModel::clear()
-{ certs.clear(); reset(); }
+{
+	beginResetModel();
+	certs.clear();
+	endResetModel();
+}
 
 int CertModel::columnCount( const QModelIndex &index ) const
 { return index.isValid() ? 0 : NColumns; }
@@ -341,8 +345,9 @@ QVariant CertModel::data( const QModelIndex &index, int role ) const
 
 void CertModel::load( const QList<QSslCertificate> &result )
 {
+	beginResetModel();
 	certs.clear();
-	Q_FOREACH( const QSslCertificate &k, result )
+	for(const QSslCertificate &k: result)
 	{
 		SslCertificate c( k );
 		if( c.keyUsage().contains( SslCertificate::KeyEncipherment ) &&
@@ -350,7 +355,7 @@ void CertModel::load( const QList<QSslCertificate> &result )
 			c.type() != SslCertificate::MobileIDType )
 			certs << c;
 	}
-	reset();
+	endResetModel();
 }
 
 int CertModel::rowCount( const QModelIndex &index ) const
@@ -378,8 +383,8 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	sort->setSourceModel( certModel = new CertModel( this ) );
 	sort->setSortRole( Qt::EditRole );
 	skView->setModel( sort );
-	skView->header()->setResizeMode( QHeaderView::ResizeToContents );
-	skView->header()->setResizeMode( CertModel::Owner, QHeaderView::Stretch );
+	skView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	skView->header()->setSectionResizeMode(CertModel::Owner, QHeaderView::Stretch);
 	skView->header()->setSortIndicator( 0, Qt::AscendingOrder );
 	connect( skView, SIGNAL(activated(QModelIndex)), SLOT(on_add_clicked()) );
 
@@ -387,8 +392,8 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	sort->setSourceModel( history = new HistoryModel( sort ) );
 	sort->setSortRole( Qt::EditRole );
 	usedView->setModel( sort );
-	usedView->header()->setResizeMode( QHeaderView::ResizeToContents );
-	usedView->header()->setResizeMode( HistoryModel::Owner, QHeaderView::Stretch );
+	usedView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	usedView->header()->setSectionResizeMode(HistoryModel::Owner, QHeaderView::Stretch);
 	usedView->header()->setSortIndicator( 0, Qt::AscendingOrder );
 	connect( usedView, SIGNAL(activated(QModelIndex)), SLOT(on_find_clicked()) );
 

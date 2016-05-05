@@ -22,6 +22,7 @@
 #include <Cocoa/Cocoa.h>
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
+#include <QtCore/QUrlQuery>
 #include <QtGui/QDesktopServices>
 
 @implementation NSApplication (ApplicationObjC)
@@ -80,6 +81,7 @@ void Application::deinitMacEvents()
 
 void Application::mailTo( const QUrl &url )
 {
+	QUrlQuery q(url);
 	CFURLRef appUrl = 0;
 	if( LSGetApplicationForURL( (__bridge CFURLRef)url.toNSURL(), kLSRolesAll, NULL, &appUrl ) == noErr )
 	{
@@ -90,8 +92,8 @@ void Application::mailTo( const QUrl &url )
 		if( [appPath rangeOfString:@"/Applications/Mail.app"].location != NSNotFound )
 		{
 			s << "on run" << endl
-			<< "set vattachment to \"" << url.queryItemValue("attachment") << "\"" << endl
-			<< "set vsubject to \"" << url.queryItemValue("subject") << "\"" << endl
+			<< "set vattachment to \"" << q.queryItemValue("attachment") << "\"" << endl
+			<< "set vsubject to \"" << q.queryItemValue("subject") << "\"" << endl
 			<< "tell application \"Mail\"" << endl
 			<< "set msg to make new outgoing message with properties {subject:vsubject, visible:true}" << endl
 			<< "tell content of msg to make new attachment with properties {file name:(vattachment as POSIX file) as alias}" << endl
@@ -102,8 +104,8 @@ void Application::mailTo( const QUrl &url )
 		else if( [appPath rangeOfString:@"Entourage"].location != NSNotFound )
 		{
 			s << "on run" << endl
-			<< "set vattachment to \"" << url.queryItemValue("attachment") << "\"" << endl
-			<< "set vsubject to \"" << url.queryItemValue("subject") << "\"" << endl
+			<< "set vattachment to \"" << q.queryItemValue("attachment") << "\"" << endl
+			<< "set vsubject to \"" << q.queryItemValue("subject") << "\"" << endl
 			<< "tell application \"Microsoft Entourage\"" << endl
 			<< "set vmessage to make new outgoing message with properties" << endl
 			<< "{subject:vsubject, attachments:vattachment}" << endl
@@ -115,8 +117,8 @@ void Application::mailTo( const QUrl &url )
 		else if( [appPath rangeOfString:@"Outlook"].location != NSNotFound )
 		{
 			s << "on run" << endl
-			<< "set vattachment to \"" << url.queryItemValue("attachment") << "\" as POSIX file" << endl
-			<< "set vsubject to \"" << url.queryItemValue("subject") << "\"" << endl
+			<< "set vattachment to \"" << q.queryItemValue("attachment") << "\" as POSIX file" << endl
+			<< "set vsubject to \"" << q.queryItemValue("subject") << "\"" << endl
 			<< "tell application \"Microsoft Outlook\"" << endl
 			<< "activate" << endl
 			<< "set vmessage to make new outgoing message with properties {subject:vsubject}" << endl

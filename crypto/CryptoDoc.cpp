@@ -144,7 +144,7 @@ QByteArray CryptoDocPrivate::fromBase64( const QStringRef &data )
 	int offset = 0;
 	for( int i = 0; i < data.size(); ++i )
 	{
-		int ch = data.at( i ).toAscii();
+		int ch = data.at(i).toLatin1();
 		int d;
 
 		if (ch >= 'A' && ch <= 'Z')
@@ -566,7 +566,6 @@ CDocumentModel::CDocumentModel( CryptoDocPrivate *doc )
 {
 	const_cast<QLoggingCategory&>(CRYPTO()).setEnabled( QtDebugMsg,
 		QFile::exists( QString("%1/%2.log").arg( QDir::tempPath(), qApp->applicationName() ) ) );
-	setSupportedDragActions( Qt::CopyAction );
 }
 
 void CDocumentModel::addFile( const QString &file, const QString &mime )
@@ -729,6 +728,11 @@ bool CDocumentModel::removeRows( int row, int count, const QModelIndex &parent )
 
 int CDocumentModel::rowCount( const QModelIndex &parent ) const
 { return parent.isValid() ? 0 : d->files.size(); }
+
+Qt::DropActions CDocumentModel::supportedDragActions() const
+{
+	return Qt::CopyAction;
+}
 
 
 

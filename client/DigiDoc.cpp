@@ -61,7 +61,6 @@ DocumentModel::DocumentModel( DigiDoc *doc )
 :	QAbstractTableModel( doc )
 ,	d( doc )
 {
-	setSupportedDragActions( Qt::CopyAction );
 }
 
 int DocumentModel::columnCount( const QModelIndex &parent ) const
@@ -198,8 +197,19 @@ bool DocumentModel::removeRows( int row, int count, const QModelIndex &parent )
 	return false;
 }
 
+void DocumentModel::reset()
+{
+	beginResetModel();
+	endResetModel();
+}
+
 int DocumentModel::rowCount( const QModelIndex &parent ) const
 { return !d->b || parent.isValid() ? 0 : int(d->b->dataFiles().size()); }
+
+Qt::DropActions DocumentModel::supportedDragActions() const
+{
+	return  Qt::CopyAction;
+}
 
 
 

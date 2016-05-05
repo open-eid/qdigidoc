@@ -282,7 +282,7 @@ bool AccessCert::validate()
 	if(Application::confValue(Application::PKCS12Disable, false).toBool())
 		return true;
 
-	QSslCertificate c = cert();
+	SslCertificate c = cert();
 	if(c.isNull() || !c.subjectInfo("GN").isEmpty() || !c.subjectInfo("SN").isEmpty())
 	{
 		remove();

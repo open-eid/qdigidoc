@@ -23,8 +23,8 @@
 #include "DigiDoc.h"
 #include "FileDialog.h"
 
+#include <QtCore/QStandardPaths>
 #include <QtCore/QUrl>
-#include <QtGui/QDesktopServices>
 #include <QtGui/QKeyEvent>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QHeaderView>
@@ -51,10 +51,10 @@ void TreeWidget::clicked( const QModelIndex &index )
 	{
 	case DocumentModel::Save:
 	{
-		QString dest = FileDialog::getSaveFileName( qApp->activeWindow(),
-			tr("Save file"), QString( "%1/%2" )
-				.arg( QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation ) )
-				.arg( m->index( index.row(), DocumentModel::Name ).data( Qt::UserRole ).toString() ) );
+		QString dest = FileDialog::getSaveFileName(qApp->activeWindow(),
+			tr("Save file"), QString("%1/%2")
+				.arg(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation))
+				.arg(m->index(index.row(), DocumentModel::Name).data(Qt::UserRole).toString()));
 		if( !dest.isEmpty() )
 			m->save( index, dest );
 		break;
@@ -106,8 +106,8 @@ void TreeWidget::setDocumentModel( DocumentModel *model )
 {
 	setModel( m = model );
 	header()->setStretchLastSection( false );
-	header()->setResizeMode( QHeaderView::ResizeToContents );
-	header()->setResizeMode( DocumentModel::Name, QHeaderView::Stretch );
+	header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	header()->setSectionResizeMode(DocumentModel::Name, QHeaderView::Stretch);
 	setColumnHidden( DocumentModel::Mime, true );
 	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
 	connect( this, SIGNAL(doubleClicked(QModelIndex)), model, SLOT(open(QModelIndex)) );
