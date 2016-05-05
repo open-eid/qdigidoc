@@ -36,16 +36,8 @@
 #include <QtGui/QDropEvent>
 #include <QtGui/QDesktopServices>
 #include <QtNetwork/QNetworkProxy>
-#if QT_VERSION >= 0x050000
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QInputDialog>
-#else
-#include <QtGui/QMessageBox>
-#endif
-
-#if QT_VERSION < 0x050000
-Q_DECLARE_METATYPE(QSslCertificate)
-#endif
 
 SettingsDialog::SettingsDialog( int page, QWidget *parent )
 :	QDialog( parent )

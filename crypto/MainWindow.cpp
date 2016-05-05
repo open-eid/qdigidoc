@@ -34,15 +34,9 @@
 #include <QtCore/QUrlQuery>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDragEnterEvent>
-#if QT_VERSION >= 0x050000
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QProgressDialog>
-#else
-#include <QtGui/QMessageBox>
-#include <QtGui/QProgressBar>
-#include <QtGui/QProgressDialog>
-#endif
 
 using namespace Crypto;
 

@@ -28,11 +28,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QMutex>
 #include <QtCore/QStringList>
-#if QT_VERSION >= 0x050000
 #include <QtWidgets/QApplication>
-#else
-#include <QtGui/QApplication>
-#endif
 
 #include <openssl/obj_mac.h>
 

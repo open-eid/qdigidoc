@@ -48,6 +48,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QTranslator>
 #include <QtCore/QUrl>
+#include <QtCore/QUrlQuery>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QFileOpenEvent>
 #include <QtNetwork/QNetworkProxy>
@@ -560,8 +561,8 @@ void Application::loadTranslation( const QString &lang )
 #ifndef Q_OS_MAC
 void Application::mailTo( const QUrl &url )
 {
-#if defined(Q_OS_WIN)
 	QUrlQuery q(url);
+#if defined(Q_OS_WIN)
 	QString file = q.queryItemValue( "attachment", QUrl::FullyDecoded );
 	QLibrary lib("mapi32");
 	if( LPMAPISENDMAILW mapi = LPMAPISENDMAILW(lib.resolve("MAPISendMailW")) )
@@ -649,14 +650,14 @@ void Application::mailTo( const QUrl &url )
 	{
 		status = p.startDetached( thunderbird, QStringList() << "-compose"
 			<< QString( "subject='%1',attachment='%2'" )
-				.arg( url.queryItemValue( "subject" ) )
-				.arg( QUrl::fromLocalFile( url.queryItemValue( "attachment" ) ).toString() ) );
+				.arg( q.queryItemValue( "subject" ) )
+				.arg( QUrl::fromLocalFile( q.queryItemValue( "attachment" ) ).toString() ) );
 	}
 	else
 	{
 		status = p.startDetached( "xdg-email", QStringList()
-			<< "--subject" << url.queryItemValue( "subject" )
-			<< "--attach" << url.queryItemValue( "attachment" ) );
+			<< "--subject" << q.queryItemValue( "subject" )
+			<< "--attach" << q.queryItemValue( "attachment" ) );
 	}
 	if( status )
 		return;
@@ -686,13 +687,9 @@ bool Application::notify( QObject *o, QEvent *e )
 void Application::parseArgs( const QString &msg )
 {
 	QStringList params;
-	Q_FOREACH( const QString &param, msg.split( "\", \"", QString::SkipEmptyParts ) )
+	for(const QString &param: msg.split("\", \"", QString::SkipEmptyParts))
 	{
-#if QT_VERSION >= 0x050000
 		QUrl url( param, QUrl::StrictMode );
-#else
-		QUrl url( param );
-#endif
 		params << (param != "-crypto" && !url.toLocalFile().isEmpty() ? url.toLocalFile() : param);
 	}
 	parseArgs( params );

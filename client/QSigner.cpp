@@ -82,11 +82,7 @@ X509Cert QSigner::cert() const
 
 QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
 {
-#if QT_VERSION >= 0x050000
 	if( d->count.loadAcquire() > 0 )
-#else
-	if( d->count > 0 )
-#endif
 	{
 		Q_EMIT error( tr("Signing/decrypting is already in progress another window.") );
 		return DecryptFailed;
@@ -228,11 +224,7 @@ void QSigner::run()
 			return;
 		}
 
-#if QT_VERSION >= 0x050000
 		if( !d->count.loadAcquire() )
-#else
-		if( !d->count )
-#endif
 		{
 			d->count.deref();
 			TokenData aold = d->auth, at = aold;
@@ -401,11 +393,7 @@ void QSigner::showWarning( const QString &msg )
 
 std::vector<unsigned char> QSigner::sign(const std::string &method, const std::vector<unsigned char> &digest ) const
 {
-#if QT_VERSION >= 0x050000
 	if( d->count.loadAcquire() > 0 )
-#else
-	if( d->count > 0 )
-#endif
 		throwException( tr("Signing/decrypting is already in progress another window."), Exception::General, __LINE__ );
 
 	d->count.ref();

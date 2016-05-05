@@ -40,11 +40,7 @@
 #include <QtCore/QXmlStreamWriter>
 #include <QtGui/QDesktopServices>
 #include <QtNetwork/QSslKey>
-#if QT_VERSION >= 0x050000
 #include <QtWidgets/QMessageBox>
-#else
-#include <QtGui/QMessageBox>
-#endif
 
 #include <openssl/err.h>
 #include <openssl/evp.h>

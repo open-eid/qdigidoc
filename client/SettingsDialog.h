@@ -19,12 +19,7 @@
 
 #pragma once
 
-#include <QtCore/QtGlobal>
-#if QT_VERSION >= 0x050000
 #include <QtWidgets/QDialog>
-#else
-#include <QtGui/QDialog>
-#endif
 
 namespace digidoc { class Conf; }
 namespace Ui { class SettingsDialog; }

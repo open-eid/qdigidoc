@@ -19,12 +19,7 @@
 
 #pragma once
 
-#include <QtCore/QtGlobal>
-#if QT_VERSION >= 0x050000
 #include <QtWidgets/QTreeView>
-#else
-#include <QtGui/QTreeView>
-#endif
 
 class DocumentModel;
 

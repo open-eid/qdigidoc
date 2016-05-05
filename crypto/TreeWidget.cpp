@@ -25,14 +25,9 @@
 #include <common/Common.h>
 
 #include <QtCore/QStandardPaths>
-#if QT_VERSION >= 0x050000
+#include <QtGui/QKeyEvent>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMessageBox>
-#else
-#include <QtGui/QHeaderView>
-#include <QtGui/QMessageBox>
-#endif
-#include <QtGui/QKeyEvent>
 
 using namespace Crypto;
 

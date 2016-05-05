@@ -29,13 +29,9 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
-#include <QtGui/QDesktopServices>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QLabel>
-#else
-#include <QtGui/QLabel>
-#endif
+#include <QtCore/QStandardPaths>
 #include <QtNetwork/QSslKey>
+#include <QtWidgets/QLabel>
 
 #ifdef Q_OS_MAC
 #include <Security/Security.h>
@@ -181,7 +177,7 @@ bool AccessCert::installCert( const QByteArray &data, const QString &password )
 		return false;
 	}
 #else
-	QString path = QDesktopServices::storageLocation( QDesktopServices::DataLocation );
+	QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
 	if ( !QDir( path ).exists() )
 		QDir().mkpath( path );
 

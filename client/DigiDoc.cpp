@@ -39,12 +39,8 @@
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QMessageBox>
-#else
-#include <QtGui/QMessageBox>
-#endif
 #include <QtGui/QPixmap>
+#include <QtWidgets/QMessageBox>
 
 #include <stdexcept>
 

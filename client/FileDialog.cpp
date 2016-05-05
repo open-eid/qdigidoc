@@ -22,13 +22,9 @@
 #include <common/Settings.h>
 
 #include <QtCore/QCoreApplication>
+#include <QtCore/QStandardPaths>
 #include <QtCore/QTemporaryFile>
-#include <QtGui/QDesktopServices>
-#if QT_VERSION >= 0x050000
 #include <QtWidgets/QMessageBox>
-#else
-#include <QtGui/QMessageBox>
-#endif
 #ifdef Q_OS_WIN
 #include <Shobjidl.h>
 #include <Shlguid.h>
@@ -82,7 +78,7 @@ QString FileDialog::getDir( const QString &dir )
 	return path;
 #else
 	return !dir.isEmpty() ? dir : Settings(qApp->applicationName()).value("lastPath",
-		QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation)).toString();
+		QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
 #endif
 }
 

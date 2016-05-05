@@ -24,12 +24,8 @@
 #include <common/DateTime.h>
 #include <common/SslCertificate.h>
 
-#if QT_VERSION >= 0x050000
-#include <QtPrintSupport/QPrinter>
-#else
-#include <QtGui/QPrinter>
-#endif
 #include <QtGui/QTextDocument>
+#include <QtPrintSupport/QPrinter>
 
 PrintSheet::PrintSheet( DigiDoc *doc, QPrinter *printer )
 :	QPainter( printer )

@@ -31,17 +31,11 @@
 
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QMessageBox>
-#include <QtWidgets/QPushButton>
-#else
-#include <QtGui/QMessageBox>
-#include <QtGui/QPushButton>
-Q_DECLARE_METATYPE(QSslCertificate)
-#endif
 #include <QtGui/QDesktopServices>
 #include <QtGui/QTextDocument>
 #include <QtNetwork/QSslKey>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QPushButton>
 
 SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned int signnum, QWidget *parent )
 :	QLabel( parent )
