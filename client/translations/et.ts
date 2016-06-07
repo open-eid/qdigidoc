@@ -1225,10 +1225,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <source>Archive TS Certificate</source>
         <translation>Arhiivi ajatempli sertifikaat</translation>
     </message>
-    <message>
-        <source>To validate digitally signed PDf files, the pilot service is being used. For that reason, the displayed signature validity information for PDF files has no evidentiary value.</source>
-        <translation>PDF failis olevate allkirjade valideerimiseks kasutatakse pilootteenust, mistõttu PDF allkirjade puhul kuvatav kehtivusinfo ei oma tõestusväärtust.</translation>
-    </message>
 </context>
 <context>
     <name>SignatureWidget</name>

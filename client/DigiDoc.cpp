@@ -493,7 +493,7 @@ void DigiDoc::create( const QString &file )
 DocumentModel* DigiDoc::documentModel() const { return m_documentModel; }
 
 QString DigiDoc::fileName() const { return m_fileName; }
-bool DigiDoc::isExperimental() const
+bool DigiDoc::isService() const
 {
 	return b->mediaType() == "application/pdf";
 }
@@ -524,14 +524,7 @@ bool DigiDoc::open( const QString &file )
 	{
 		b = Container::open( to(file) );
 		QWidget *w = qobject_cast<QWidget*>(parent());
-		if( isExperimental() )
-		{
-			QMessageBox::warning( w, w ? w->windowTitle() : 0,
-				QCoreApplication::translate("SignatureDialog",
-					"To validate digitally signed PDf files, the pilot service is being used. "
-					"For that reason, the displayed signature validity information for PDF files has no evidentiary value."), QMessageBox::Ok );
-		}
-		else if( !isSupported() )
+		if( !isService() && !isSupported() )
 		{
 			QMessageBox::warning( w, w ? w->windowTitle() : 0,
 				QCoreApplication::translate("SignatureDialog",

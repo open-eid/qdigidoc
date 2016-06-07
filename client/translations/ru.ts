@@ -1228,10 +1228,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <source>Archive TS Certificate</source>
         <translation>Сертификат временного штампа архива</translation>
     </message>
-    <message>
-        <source>To validate digitally signed PDf files, the pilot service is being used. For that reason, the displayed signature validity information for PDF files has no evidentiary value.</source>
-        <translation>Для валидации подписанных PDF файлов используется пилотный сервис, поэтому отображаемая информация о действительности подписанных PDF файлов не имеет доказательной силы.</translation>
-    </message>
 </context>
 <context>
     <name>SignatureWidget</name>

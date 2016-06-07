@@ -563,13 +563,8 @@ void MainWindow::enableSign()
 
 	if( doc->isNull() )
 		button->setToolTip( tr("Container is not open") );
-	else if( doc->isExperimental() )
-	{
-		showWarning( SignatureDialog::tr(
-			"To validate digitally signed PDf files, the pilot service is being used. "
-			"For that reason, the displayed signature validity information for PDF files has no evidentiary value.") );
+	else if( doc->isService() )
 		button->setToolTip( tr("Signing not allowed.") );
-	}
 	else if( !doc->isSupported() )
 	{
 		showWarning( SignatureDialog::tr(

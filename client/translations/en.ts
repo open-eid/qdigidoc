@@ -1224,10 +1224,6 @@ software (version 3.8 and earlier).</translation>
         <source>Archive TS Certificate</source>
         <translation>Archive TS Certificate</translation>
     </message>
-    <message>
-        <source>To validate digitally signed PDf files, the pilot service is being used. For that reason, the displayed signature validity information for PDF files has no evidentiary value.</source>
-        <translation>To validate digitally signed PDf files, the pilot service is being used. For that reason, the displayed signature validity information for PDF files has no evidentiary value.</translation>
-    </message>
 </context>
 <context>
     <name>SignatureWidget</name>

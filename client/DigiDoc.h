@@ -142,7 +142,7 @@ public:
 	DocumentModel *documentModel() const;
 	QString fileName() const;
 	bool isNull() const;
-	bool isExperimental() const;
+	bool isService() const;
 	bool isSupported() const;
 	QString mediaType() const;
 	QString newSignatureID() const;
