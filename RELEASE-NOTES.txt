@@ -1,3 +1,10 @@
+DigiDoc3 version 3.12.2 release notes
+--------------------------------------
+- Removed Qt 4.X support, upstream deprecated
+- Verify PDF validation service SSL certificate
+- Remove PDF validation warning
+
+
 DigiDoc3 version 3.12.1 release notes
 --------------------------------------
 Changes compared to ver 3.12.0
