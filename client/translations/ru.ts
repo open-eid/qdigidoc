@@ -1228,6 +1228,12 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <source>Archive TS Certificate</source>
         <translation>Сертификат временного штампа архива</translation>
     </message>
+    <message>
+        <source>The verification of digital signatures in PDF format is performed through an external service. The file requiring verification will be forwarded to the service.
+The Information System Authority does not retain information regarding the files and users of the service.</source>
+        <translation>Контроль срока действия дигитальной подписи в формате PDF осуществляется через электронную услугу. Контролируемый файл передается э-услугe.
+Департамент государственной инфосистемы не сохраняет информацию о пользователях э-услуги и файлах.</translation>
+    </message>
 </context>
 <context>
     <name>SignatureWidget</name>

@@ -1224,6 +1224,12 @@ software (version 3.8 and earlier).</translation>
         <source>Archive TS Certificate</source>
         <translation>Archive TS Certificate</translation>
     </message>
+    <message>
+        <source>The verification of digital signatures in PDF format is performed through an external service. The file requiring verification will be forwarded to the service.
+The Information System Authority does not retain information regarding the files and users of the service.</source>
+        <translation>The verification of digital signatures in PDF format is performed through an external service. The file requiring verification will be forwarded to the service.
+The Information System Authority does not retain information regarding the files and users of the service.</translation>
+    </message>
 </context>
 <context>
     <name>SignatureWidget</name>
