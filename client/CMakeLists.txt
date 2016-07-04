@@ -16,10 +16,10 @@ configure_file( translations/tr.qrc tr.qrc COPYONLY )
 qt5_add_translation( SOURCES translations/en.ts translations/et.ts translations/ru.ts )
 qt5_add_resources( SOURCES images/images.qrc ${CMAKE_CURRENT_BINARY_DIR}/tr.qrc ${CMAKE_CURRENT_BINARY_DIR}/TSL.qrc )
 qt5_wrap_ui( SOURCES
-	ui/MainWindow.ui
-	ui/MobileDialog.ui
-	ui/SettingsDialog.ui
-	ui/SignatureDialog.ui
+	MainWindow.ui
+	MobileDialog.ui
+	SettingsDialog.ui
+	SignatureDialog.ui
 )
 
 if( APPLE )
@@ -157,7 +157,7 @@ else()
 	install( FILES qdigidoc-client.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
 	install( FILES qdigidoc-client.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages )
 	foreach(RES 16 22 32 48 128)
-		foreach(TGT application-vnd.bdoc-1.0.png application-vnd.etsi.asic-e+zip.png application-x-ddoc.png application-x-p12d.png)
+		foreach(TGT application-vnd.etsi.asic-e+zip.png application-x-ddoc.png application-x-p12d.png)
 			install(
 				FILES images/qdigidoc_client_document_${RES}x${RES}.png
 				DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${RES}x${RES}/mimetypes/

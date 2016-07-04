@@ -128,7 +128,6 @@ class DigiDoc: public QObject
 public:
 	enum DocumentType {
 		DDocType,
-		BDocType,
 		BDoc2Type
 	};
 

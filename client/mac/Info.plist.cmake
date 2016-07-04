@@ -45,7 +45,6 @@
 			<string>bdoc.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
-				<string>application/vnd.bdoc-1.0</string>
 				<string>application/vnd.etsi.asic-e+zip</string>
 			</array>
 			<key>CFBundleTypeName</key>
@@ -207,7 +206,6 @@
 				</array>
 				<key>public.mime-type</key>
 				<array>
-					<string>application/vnd.bdoc-1.0</string>
 					<string>application/vnd.etsi.asic-e+zip</string>
 				</array>
 			</dict>

@@ -707,12 +707,7 @@ QList<DigiDocSignature> DigiDoc::signatures()
 
 DigiDoc::DocumentType DigiDoc::documentType() const
 {
-	if( checkDoc() )
-	{
-		if( b->mediaType() == "application/vnd.etsi.asic-e+zip" ) return BDoc2Type;
-		if( b->mediaType() == "application/vnd.bdoc-1.0" ) return BDocType;
-	}
-	return DDocType;
+	return checkDoc() && b->mediaType() == "application/vnd.etsi.asic-e+zip" ? BDoc2Type : DDocType;
 }
 
 QByteArray DigiDoc::getFileDigest( unsigned int i ) const

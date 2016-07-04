@@ -7,7 +7,7 @@ set( PROGNAME qdigidoccrypto )
 configure_file( translations/crypto_tr.qrc crypto_tr.qrc COPYONLY )
 qt5_add_translation( SOURCES translations/crypto_et.ts translations/crypto_ru.ts )
 qt5_add_resources( SOURCES images/crypto_images.qrc ${CMAKE_CURRENT_BINARY_DIR}/crypto_tr.qrc )
-qt5_wrap_ui( SOURCES ui/CertAddDialog.ui ui/KeyDialog.ui ui/MainWindow.ui )
+qt5_wrap_ui( SOURCES CertAddDialog.ui KeyDialog.ui MainWindow.ui )
 
 include_directories(
 	${CMAKE_SOURCE_DIR}
