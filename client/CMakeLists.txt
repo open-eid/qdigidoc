@@ -36,6 +36,7 @@ endif()
 add_executable( ${PROGNAME} WIN32 MACOSX_BUNDLE
 	${PROGNAME}.rc
 	${SOURCES}
+	${RESOURCE_FILES}
 	main.cpp
 	AccessCert.cpp
 	Application.cpp
