@@ -11,7 +11,7 @@ before_install:
     brew update;
     brew install qt5;
     curl --location "https://github.com/open-eid/libdigidoc/releases/download/v3.10.2/libdigidoc_3.10.1.1213.pkg" -o libdigidoc.pkg;
-    curl --location "https://github.com/open-eid/libdigidocpp/releases/download/v3.12.0/libdigidocpp_3.12.0.1318.pkg" -o libdigidocpp.pkg;
+    curl --location "https://github.com/open-eid/libdigidocpp/releases/download/v3.12.2/libdigidocpp_3.12.2.1329.pkg" -o libdigidocpp.pkg;
     curl --location "https://github.com/open-eid/esteid-pkcs11/releases/download/v3.10.1/esteid-pkcs11_3.10.1.64.pkg" -o esteid-pkcs11.pkg;
     sudo installer -verboseR -pkg libdigidoc.pkg -target /;
     sudo installer -verboseR -pkg libdigidocpp.pkg -target /;
