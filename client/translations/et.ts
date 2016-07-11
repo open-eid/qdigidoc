@@ -304,8 +304,8 @@ Tüüp: %3</translation>
         <translation>Allkirjastada dokumenti</translation>
     </message>
     <message>
-        <source>View signed document content</source>
-        <translation>Vaadata allkirjastatud dokumendi sisu</translation>
+        <source>Open signed document</source>
+        <translation>Vaadata allkirjastatud dokumenti</translation>
     </message>
     <message>
         <source>Container content:</source>

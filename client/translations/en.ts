@@ -304,8 +304,8 @@ Media type: %3</translation>
         <translation>Sign documents</translation>
     </message>
     <message>
-        <source>View signed document content</source>
-        <translation>View signed document content</translation>
+        <source>Open signed document</source>
+        <translation>Open signed document</translation>
     </message>
     <message>
         <source>Container content:</source>

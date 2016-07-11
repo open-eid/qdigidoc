@@ -305,8 +305,8 @@ Media type: %3</source>
         <translation>Подписать документы</translation>
     </message>
     <message>
-        <source>View signed document content</source>
-        <translation>Просмотреть подписанный документ</translation>
+        <source>Open signed document</source>
+        <translation>Открыть подписанный документ</translation>
     </message>
     <message>
         <source>Skip this intro</source>
