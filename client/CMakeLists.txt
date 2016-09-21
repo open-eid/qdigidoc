@@ -15,12 +15,7 @@ include_directories( ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/common ${OPENSSL_IN
 configure_file( translations/tr.qrc tr.qrc COPYONLY )
 qt5_add_translation( SOURCES translations/en.ts translations/et.ts translations/ru.ts )
 qt5_add_resources( SOURCES images/images.qrc ${CMAKE_CURRENT_BINARY_DIR}/tr.qrc ${CMAKE_CURRENT_BINARY_DIR}/TSL.qrc )
-qt5_wrap_ui( SOURCES
-	MainWindow.ui
-	MobileDialog.ui
-	SettingsDialog.ui
-	SignatureDialog.ui
-)
+qt5_wrap_ui( SOURCES MainWindow.ui MobileDialog.ui SettingsDialog.ui SignatureDialog.ui )
 
 if( APPLE )
 	list( APPEND SOURCES Application_mac.mm TreeWidgetMac.mm )
@@ -118,16 +113,16 @@ elseif(WIN32)
 	endif()
 	set(MSI_FILE "Digidoc3_Client-${VERSION}$ENV{VER_SUFFIX}.${PLATFORM}")
 	list(APPEND CANDLE_CMD "$ENV{WIX}bin\\candle.exe" -nologo -arch ${PLATFORM} -dMSI_VERSION=${VERSION} -dPlatform=${PLATFORM}
-		-dssl_path="${SSL_PATH}" -dlibs_path="${LIBS_PATH}" -dclient_path=$<TARGET_FILE:${PROGNAME}>
-		${CMAKE_SOURCE_DIR}/qdigidoc.wxs -dcertsLocation=CertsFragment CertsFragment.wxs)
-	list(APPEND LIGHT_CMD "$ENV{WIX}bin\\light.exe" -nologo qdigidoc.wixobj CertsFragment.wixobj -ext WixUIExtension
+		-dssl_path="${SSL_PATH}" -dlibs_path="${LIBS_PATH}" -dclient_path=$<TARGET_FILE:${PROGNAME}> ${CMAKE_SOURCE_DIR}/qdigidoc.wxs)
+	list(APPEND LIGHT_CMD "$ENV{WIX}bin\\light.exe" -nologo qdigidoc.wixobj -ext WixUIExtension
 		-dWixUILicenseRtf=${CMAKE_SOURCE_DIR}/cmake/modules/LICENSE.LGPL.rtf
 		-dWixUIDialogBmp=${CMAKE_SOURCE_DIR}/cmake/modules/dlgbmp.bmp
 		-dWixUIBannerBmp=${CMAKE_SOURCE_DIR}/cmake/modules/banner.bmp)
+	if(EXISTS ${LIBS_PATH}/../certs)
+		list(APPEND CANDLE_CMD -dcertsLocation=CertsFragment CertsFragment.wxs)
+		list(APPEND LIGHT_CMD CertsFragment.wixobj)
+	endif()
 	add_custom_target(msi DEPENDS ${PROGNAME}
-		COMMAND ${CMAKE_COMMAND} -E copy_directory ${LIBS_PATH}/../certs CertsFragment
-		COMMAND del "CertsFragment\\TEST*.crt"
-		COMMAND "$ENV{WIX}bin\\heat.exe" dir CertsFragment -nologo -cg Certs -gg -scom -sreg -sfrag -srd -dr CertsFolder -var var.certsLocation -out CertsFragment.wxs
 		COMMAND ${CANDLE_CMD}
 		COMMAND ${LIGHT_CMD} -loc ${CMAKE_SOURCE_DIR}/qdigidoc.en-US.wxl -cultures:en-US -o "${MSI_FILE}.en-US.msi"
 		COMMAND ${LIGHT_CMD} -loc ${CMAKE_SOURCE_DIR}/qdigidoc.et-EE.wxl -cultures:et-EE -o "${MSI_FILE}.et-EE.msi"
@@ -137,6 +132,13 @@ elseif(WIN32)
 		COMMAND ${LIGHT_CMD} -loc ${CMAKE_SOURCE_DIR}/qdigidoc.et-EE.wxl -cultures:et-EE -o "${MSI_FILE}.et-EE.qt.msi"
 		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 	)
+	if(EXISTS ${LIBS_PATH}/../certs)
+		add_custom_command(TARGET msi PRE_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_directory ${LIBS_PATH}/../certs CertsFragment
+			COMMAND del "CertsFragment\\TEST*.crt"
+			COMMAND "$ENV{WIX}bin\\heat.exe" dir CertsFragment -nologo -cg Certs -gg -scom -sreg -sfrag -srd -dr CertsFolder -var var.certsLocation -out CertsFragment.wxs
+		)
+	endif()
 	if(SIGNCERT)
 		list(APPEND SIGNCMD signtool.exe sign /a /v /s MY /n "${SIGNCERT}" /fd SHA256
 			/du http://installer.id.ee /t http://timestamp.verisign.com/scripts/timstamp.dll)
