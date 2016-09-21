@@ -345,7 +345,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>No readers found</source>
-        <translation>Ühtegi kiipkaardi lugejat pole ühendatud</translation>
+        <translation>Ühtegi kiipkaardilugejat pole ühendatud</translation>
     </message>
     <message>
         <source>You don&apos;t have sufficient privileges to write this file into folder %1</source>

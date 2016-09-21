@@ -502,7 +502,7 @@ Uutel ID-kaartidel on kiip kaardi tagumisel küljel.</translation>
     </message>
     <message>
         <source>No readers found</source>
-        <translation>Ühtegi kiipkaardi lugejat pole ühendatud</translation>
+        <translation>Ühtegi kiipkaardilugejat pole ühendatud</translation>
     </message>
     <message>
         <source>In order to view Validity Confirmation Sheet there has to be at least one printer installed!</source>
