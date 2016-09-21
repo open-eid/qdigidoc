@@ -156,8 +156,8 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
               <File Name="conf.xsd"/>
               <File Name="OpenDocument_manifest.xsd"/>
               <File Name="xmldsig-core-schema.xsd"/>
-              <File Name="XAdES.xsd"/>
-              <File Name="XAdESv141.xsd"/>
+              <File Name="XAdES01903v132-201601.xsd"/>
+              <File Name="XAdES01903v141-201601.xsd"/>
               <File Name="ts_119612v010101.xsd"/>
               <File Name="ts_102918v010201.xsd"/>
             </Component>
