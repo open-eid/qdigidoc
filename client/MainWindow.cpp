@@ -613,17 +613,13 @@ void MainWindow::enableSign()
 	if( !button->isEnabled() )
 		return;
 
-	bool cardOwnerSignature = false;
 	const QString serialNumber = infoSignMobile->isChecked() ?
 		infoMobileCode->text() : SslCertificate(t.cert()).subjectInfo( "serialNumber" );
-	Q_FOREACH( const DigiDocSignature &c, doc->signatures() )
-	{
-		if( SslCertificate(c.cert()).subjectInfo( "serialNumber" ) == serialNumber )
-		{
-			cardOwnerSignature = true;
-			break;
-		}
-	}
+	QList<DigiDocSignature> list = doc->signatures();
+	bool cardOwnerSignature = !serialNumber.isEmpty() && list.cend() !=
+		std::find_if(list.cbegin(), list.cend(), [&](const DigiDocSignature &c){
+			return SslCertificate(c.cert()).subjectInfo("serialNumber") == serialNumber;
+	});
 	button->setProperty( "selfsigned", cardOwnerSignature );
 	button->setToolTip( cardOwnerSignature ? tr("This container is signed by you") : QString() );
 	if( viewFileStatus->text().isEmpty() )
