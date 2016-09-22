@@ -77,7 +77,8 @@ X509Cert QSigner::cert() const
 {
 	if( d->sign.cert().isNull() )
 		throw Exception( __FILE__, __LINE__, QSigner::tr("Sign certificate is not selected").toUtf8().constData() );
-	return X509Cert((X509*)d->sign.cert().handle());
+	QByteArray der = d->sign.cert().toDer();
+	return X509Cert((const unsigned char*)der.constData(), size_t(der.size()), X509Cert::Der);
 }
 
 QSigner::ErrorCode QSigner::decrypt( const QByteArray &in, QByteArray &out )
