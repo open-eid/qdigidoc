@@ -818,7 +818,7 @@ Control code: %1</translation>
     </message>
     <message>
         <source>Sign certificate is not selected</source>
-        <translation>Sign certificate is not selected</translation>
+        <translation>Signing certificate is not selected</translation>
     </message>
     <message>
         <source>Signing/decrypting is already in progress another window.</source>
@@ -873,7 +873,7 @@ Control code: %1</translation>
     </message>
     <message>
         <source>Show signing intro</source>
-        <translation>Show signing intro</translation>
+        <translation>Show signing introduction</translation>
     </message>
     <message>
         <source>Same folder</source>
