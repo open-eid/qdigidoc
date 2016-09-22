@@ -90,7 +90,9 @@ KeyWidget::KeyWidget( const CKey &key, int id, bool encrypted, QWidget *parent )
 
 	QString label;
 	QTextStream sc( &label );
-	sc << "<p>" << toolTip() << "</p><p align=\"right\">";
+	sc << "<p>";
+	wrapKeyTokensZWSP(sc);
+	sc << "</p><p align=\"right\">";
 	sc << "<a href=\"details\" style=\"color: #509B00\" title=\"" << tr("Show details") << "\">" << tr("Show details") << "</a>";
 	if( !encrypted )
 		sc << "<br /><a href=\"remove\" style=\"color: #509B00\" title=\"" << tr("Remove") << "\">" << tr("Remove") << "</a>";
@@ -110,6 +112,12 @@ void KeyWidget::mouseDoubleClickEvent( QMouseEvent *e )
 {
 	if( e->button() == Qt::LeftButton )
 		link( "details" );
+}
+
+void KeyWidget::wrapKeyTokensZWSP( QTextStream &sc )
+{
+	const auto keyComponents = toolTip().split(",");
+	sc << keyComponents.join(",&#8203;");
 }
 
 

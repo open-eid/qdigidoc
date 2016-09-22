@@ -53,6 +53,7 @@ private Q_SLOTS:
 
 private:
 	void mouseDoubleClickEvent( QMouseEvent *e );
+	void wrapKeyTokensZWSP( QTextStream &sc );
 
 	int m_id;
 	CKey m_key;
