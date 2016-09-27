@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <common/CliApplication.h>
 #include <common/Common.h>
 
 #include <QtCore/QStringList>
@@ -111,4 +112,13 @@ class REOpenEvent: public QEvent
 public:
 	enum { Type = QEvent::User + 1 };
 	REOpenEvent(): QEvent( QEvent::Type(Type) ) {}
+};
+
+class DdCliApplication: public CliApplication
+{
+public:
+	DdCliApplication( int &argc, char **argv );
+
+protected:
+	virtual void diagnostics( QTextStream &s ) const;
 };

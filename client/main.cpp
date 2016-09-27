@@ -21,5 +21,11 @@
 
 int main( int argc, char *argv[] )
 {
+	DdCliApplication cliApp( argc, argv );
+	if( cliApp.isDiagnosticRun() )
+	{
+		return cliApp.run();
+	}
+
 	return Application( argc, argv ).run();
 }

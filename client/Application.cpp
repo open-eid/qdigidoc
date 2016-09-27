@@ -74,7 +74,7 @@ class DigidocConf: public digidoc::XmlConfCurrent
 public:
 	DigidocConf()
 		: digidoc::XmlConfCurrent()
-		, s2(qApp->applicationName())
+		, s2(QCoreApplication::instance()->applicationName())
 	{
 		reload();
 		Configuration::instance().checkVersion("QDIGIDOC");
@@ -889,4 +889,19 @@ void Application::waitForTSL( const QString &file )
 	if( !d->ready )
 		e.exec();
 	t.stop();
+}
+
+DdCliApplication::DdCliApplication( int &argc, char **argv )
+	: CliApplication( argc, argv, APP )
+{
+}
+
+void DdCliApplication::diagnostics(QTextStream &s) const
+{
+	digidoc::Conf::init( new DigidocConf );
+
+	s << "<br />TSL_URL: " << Application::confValue(Application::TSLUrl).toString();
+	s << "<br /><br /><b>" << "TSL signing certs:</b>";
+	for(const QSslCertificate &cert: Application::confValue(Application::TSLCerts).value<QList<QSslCertificate>>())
+		s << "<br />" << cert.subjectInfo("CN").value(0);
 }
