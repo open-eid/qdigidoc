@@ -27,6 +27,14 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
   <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
 <?endif ?>
 
+<?if $(env.VCINSTALLDIR) = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\" ?>
+<?define VCVER = "140" ?>
+<?define VCRT = "vcruntime" ?>
+<?else?>
+<?define VCVER = "120" ?>
+<?define VCRT = "msvcr" ?>
+<?endif?>
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Name="DigiDoc3 Client" UpgradeCode="67932072-aa9e-45e3-b697-d825349f273d"
       Id="*" Language="1033" Version="$(var.MSI_VERSION)" Codepage="1251" Manufacturer="RIA">
@@ -122,8 +130,8 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
               Name="digidoc.ini" Key="CA_CERT_PATH" Value="[APPLICATIONFOLDER]certs"/>
 <?endif?>
 <?ifdef var.qt_path ?>
-            <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcp120.dll"/>
-            <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC120.CRT\msvcr120.dll"/>
+            <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC$(var.VCVER).CRT\msvcp$(var.VCVER).dll"/>
+            <File Source="$(env.VCINSTALLDIR)\redist\$(var.Platform)\Microsoft.VC$(var.VCVER).CRT\$(var.VCRT)$(var.VCVER).dll"/>
             <File Source="$(var.ssl_path)\libeay32.dll"/>
             <File Source="$(var.ssl_path)\ssleay32.dll"/>
             <File Source="$(var.qt_path)\bin\Qt5Core.dll"/>
