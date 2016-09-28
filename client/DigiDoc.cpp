@@ -532,14 +532,6 @@ bool DigiDoc::open( const QString &file )
 					"The file requiring verification will be forwarded to the service.\n"
 					"The Information System Authority does not retain information regarding the files and users of the service."), QMessageBox::Ok);
 		}
-		else if(!isSupported())
-		{
-			QMessageBox::warning( w, w ? w->windowTitle() : 0,
-				QCoreApplication::translate("SignatureDialog",
-					"The current file is a DigiDoc container that is not supported officially any longer. "
-					"You are not allowed to add or remove signatures to this container. "
-					"<a href='http://www.id.ee/?id=36161'>Additional info</a>."), QMessageBox::Ok );
-		}
 		m_fileName = file;
 		m_documentModel->reset();
 		qApp->addRecent( file );
