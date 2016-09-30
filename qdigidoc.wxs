@@ -161,17 +161,7 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
                            Name="$(var.ShellExtId)" Value="DigiDoc3 Shell Extension" Type="string" />
 <?endif?>
           </Component>
-          <Directory Id="SchemaFolder" Name="schema" FileSource="$(var.libs_path)\schema">
-            <Component Id="Schemas" Guid="6ab1d3ab-bbb8-42a0-8cf9-5ece75b13079">
-              <File Name="conf.xsd"/>
-              <File Name="OpenDocument_manifest.xsd"/>
-              <File Name="xmldsig-core-schema.xsd"/>
-              <File Name="XAdES01903v132-201601.xsd"/>
-              <File Name="XAdES01903v141-201601.xsd"/>
-              <File Name="ts_119612v010101.xsd"/>
-              <File Name="ts_102918v010201.xsd"/>
-            </Component>
-          </Directory>
+          <Directory Id="SchemaFolder" Name="schema"/>
           <Directory Id="CertsFolder" Name="certs"/>
 <?ifdef var.qt_path ?>
           <Directory Id="platforms" Name="platforms" FileSource="$(var.qt_path)\plugins\platforms">
@@ -193,7 +183,7 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
       <ComponentRef Id='ProgramMenuDir' />
       <ComponentRef Id="DesktopShortcut" />
       <ComponentRef Id="Application"/>
-      <ComponentRef Id="Schemas"/>
+      <ComponentGroupRef Id="Schemas"/>
 <?ifdef var.certsLocation ?>
       <ComponentGroupRef Id="Certs"/>
 <?endif?>

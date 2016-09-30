@@ -113,8 +113,9 @@ elseif(WIN32)
 	endif()
 	set(MSI_FILE "Digidoc3_Client-${VERSION}$ENV{VER_SUFFIX}.${PLATFORM}")
 	list(APPEND CANDLE_CMD "$ENV{WIX}bin\\candle.exe" -nologo -arch ${PLATFORM} -dMSI_VERSION=${VERSION} -dPlatform=${PLATFORM}
-		-dssl_path="${SSL_PATH}" -dlibs_path="${LIBS_PATH}" -dclient_path=$<TARGET_FILE:${PROGNAME}> ${CMAKE_SOURCE_DIR}/qdigidoc.wxs)
-	list(APPEND LIGHT_CMD "$ENV{WIX}bin\\light.exe" -nologo qdigidoc.wixobj -ext WixUIExtension
+		-dssl_path="${SSL_PATH}" -dlibs_path="${LIBS_PATH}" -dclient_path=$<TARGET_FILE:${PROGNAME}>
+		-dschemasLocation=${LIBS_PATH}/schema SchemasFragment.wxs ${CMAKE_SOURCE_DIR}/qdigidoc.wxs)
+	list(APPEND LIGHT_CMD "$ENV{WIX}bin\\light.exe" -nologo qdigidoc.wixobj SchemasFragment.wixobj -ext WixUIExtension
 		-dWixUILicenseRtf=${CMAKE_SOURCE_DIR}/cmake/modules/LICENSE.LGPL.rtf
 		-dWixUIDialogBmp=${CMAKE_SOURCE_DIR}/cmake/modules/dlgbmp.bmp
 		-dWixUIBannerBmp=${CMAKE_SOURCE_DIR}/cmake/modules/banner.bmp)
@@ -123,6 +124,7 @@ elseif(WIN32)
 		list(APPEND LIGHT_CMD CertsFragment.wixobj)
 	endif()
 	add_custom_target(msi DEPENDS ${PROGNAME}
+		COMMAND "$ENV{WIX}bin\\heat.exe" dir ${LIBS_PATH}/schema -nologo -cg Schemas -gg -scom -sreg -sfrag -srd -dr SchemaFolder -var var.schemasLocation -out SchemasFragment.wxs
 		COMMAND ${CANDLE_CMD}
 		COMMAND ${LIGHT_CMD} -loc ${CMAKE_SOURCE_DIR}/qdigidoc.en-US.wxl -cultures:en-US -o "${MSI_FILE}.en-US.msi"
 		COMMAND ${LIGHT_CMD} -loc ${CMAKE_SOURCE_DIR}/qdigidoc.et-EE.wxl -cultures:et-EE -o "${MSI_FILE}.et-EE.msi"
