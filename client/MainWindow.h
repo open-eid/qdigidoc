@@ -92,4 +92,5 @@ private:
 	bool quitOnClose;
 	int prevpage;
 	QLabel *message;
+	bool warnOnUnsignedDocCancel;
 };

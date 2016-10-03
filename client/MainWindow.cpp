@@ -50,6 +50,7 @@ MainWindow::MainWindow( QWidget *parent )
 	: QWidget( parent )
 	, cardsGroup( new QActionGroup( this ) )
 	, quitOnClose( false )
+	, warnOnUnsignedDocCancel( true )
 	, prevpage( Home )
 	, message( 0 )
 {
@@ -279,7 +280,10 @@ void MainWindow::buttonClicked( int button )
 			tr("Documents (%1%2)").arg( "*.bdoc *.ddoc *.asice *.sce")
 				.arg(qApp->confValue(Application::PDFUrl).toString().isEmpty() ? "" : " *.pdf") );
 		if( !file.isEmpty() && doc->open( file ) )
+		{
+			warnOnUnsignedDocCancel = false;
 			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
+		}
 		break;
 	}
 	case HomeCrypt:
@@ -302,6 +306,7 @@ void MainWindow::buttonClicked( int button )
 				{
 					if( doc->open( f.absoluteFilePath() ) )
 					{
+						warnOnUnsignedDocCancel = false;
 						setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
 						enableSign();
 					}
@@ -312,12 +317,15 @@ void MainWindow::buttonClicked( int button )
 				else if( !addFile( f.absoluteFilePath() ) )
 					break;
 			}
+			warnOnUnsignedDocCancel = true;
 			params.clear();
 			if( !doc->isNull() )
 				setCurrentPage( Sign );
 		}
 		else
 		{
+			warnOnUnsignedDocCancel = true;
+
 			QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
 			Q_FOREACH( const QString &file, list )
 			{
@@ -353,22 +361,31 @@ void MainWindow::buttonClicked( int button )
 		}
 		if( signContentView->model()->rowCount() )
 		{
-			QMessageBox msgBox( QMessageBox::Question, tr("Save container"),
-				tr("You added %n file(s) to container, but these are not signed yet.\n"
-					"Should I keep unsigned documents or remove these?", "", signContentView->model()->rowCount()) );
-			msgBox.addButton( tr("Remove"), QMessageBox::ActionRole );
-			QPushButton *keep = msgBox.addButton( tr("Keep"), QMessageBox::ActionRole );
-			msgBox.exec();
+			if ( warnOnUnsignedDocCancel )
+			{
+				QMessageBox msgBox( QMessageBox::Question, tr("Save container"),
+					tr("You added %n file(s) to container, but these are not signed yet.\n"
+						"Should I keep unsigned documents or remove these?", "", signContentView->model()->rowCount()) );
+				msgBox.addButton( tr("Remove"), QMessageBox::ActionRole );
+				QPushButton *keep = msgBox.addButton( tr("Keep"), QMessageBox::ActionRole );
+				msgBox.exec();
 
-			if( msgBox.clickedButton() == keep )
+				if( msgBox.clickedButton() == keep )
+				{
+					save();
+					setCurrentPage( View );
+					break;
+				}
+
+				if( QFile::exists( doc->fileName() ) )
+					QFile::remove( doc->fileName() );
+			}
+			else
 			{
 				save();
 				setCurrentPage( View );
 				break;
 			}
-
-			if( QFile::exists( doc->fileName() ) )
-				QFile::remove( doc->fileName() );
 		}
 	case IntroBack:
 		if( prevpage == View )
@@ -378,6 +395,7 @@ void MainWindow::buttonClicked( int button )
 		}
 	case ViewClose:
 		doc->clear();
+		warnOnUnsignedDocCancel = true;
 		if( quitOnClose )
 			close();
 		setCurrentPage( Home );
