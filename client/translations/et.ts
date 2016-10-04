@@ -1047,8 +1047,8 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>Luba proksi kasutamine SSL-ühenduste jaoks</translation>
     </message>
     <message>
-        <source>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</source>
-        <translation>ASiC-E – rahvusvahelisele, Euroopa ülesele ühilduvusele suunatud tulevikuvorming. Paljud süsteemid Eestis seda vormingut veel ei toeta ning saajal võib puududa võimalus seda avada.</translation>
+        <source>ASiC-E – international digital signature format that will be used across European countries.</source>
+        <translation>ASiC-E – rahvusvahelisele, Euroopa ülesele ühilduvusele suunatud tulevikuvorming.</translation>
     </message>
     <message>
         <source>Use default</source>

@@ -1046,8 +1046,8 @@ software (version 3.8 and earlier).</translation>
         <translation>Enable proxy for SSL connections</translation>
     </message>
     <message>
-        <source>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</source>
-        <translation>ASiC-E – is an international digital signature format that will be used across European countries. Most Estonian infosystems do no support the ASiC-E format yet. Thus, a recipient of such a document will likely not be able to open it.</translation>
+        <source>ASiC-E – international digital signature format that will be used across European countries.</source>
+        <translation>ASiC-E – international digital signature format that will be used across European countries.</translation>
     </message>
     <message>
         <source>Use default</source>
