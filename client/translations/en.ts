@@ -371,13 +371,13 @@ Media type: %3</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <source>You added %n file(s) to container, but these are not signed yet.
-Should I keep unsigned documents or remove these?</source>
+        <source>You've added %n file(s) to container, but these are not signed yet.
+Should I keep the unsigned container or remove it?</source>
         <translation>
-            <numerusform>You added %n file to container, but these are not signed yet.
-Should I keep unsigned documents or remove these?</numerusform>
-            <numerusform>You added %n files to container, but these are not signed yet.
-Should I keep unsigned documents or remove these?</numerusform>
+            <numerusform>You've added %n file to container, but these are not signed yet.
+Should I keep the unsigned container or remove it?</numerusform>
+            <numerusform>You've added %n files to container, but these are not signed yet.
+Should I keep the unsigned container or remove it?</numerusform>
         </translation>
     </message>
     <message>

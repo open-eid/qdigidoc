@@ -373,8 +373,8 @@ Media type: %3</source>
         </translation>
     </message>
     <message numerus="yes">
-        <source>You added %n file(s) to container, but these are not signed yet.
-Should I keep unsigned documents or remove these?</source>
+        <source>You've added %n file(s) to container, but these are not signed yet.
+Should I keep the unsigned container or remove it?</source>
         <translation>
             <numerusform>В контейнер добавлено %n файл, но они не подписаны.
 Оставить неподписанный контейнер или стереть?</numerusform>

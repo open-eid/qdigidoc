@@ -364,8 +364,8 @@ void MainWindow::buttonClicked( int button )
 			if ( warnOnUnsignedDocCancel )
 			{
 				QMessageBox msgBox( QMessageBox::Question, tr("Save container"),
-					tr("You added %n file(s) to container, but these are not signed yet.\n"
-						"Should I keep unsigned documents or remove these?", "", signContentView->model()->rowCount()) );
+					tr("You've added %n file(s) to container, but these are not signed yet.\n"
+						"Should I keep the unsigned container or remove it?", "", signContentView->model()->rowCount()) );
 				msgBox.addButton( tr("Remove"), QMessageBox::ActionRole );
 				QPushButton *keep = msgBox.addButton( tr("Keep"), QMessageBox::ActionRole );
 				msgBox.exec();

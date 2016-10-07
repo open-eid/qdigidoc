@@ -371,8 +371,8 @@ Tüüp: %3</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <source>You added %n file(s) to container, but these are not signed yet.
-Should I keep unsigned documents or remove these?</source>
+        <source>You've added %n file(s) to container, but these are not signed yet.
+Should I keep the unsigned container or remove it?</source>
         <translation>
             <numerusform>Oled lisanud ümbrikusse %n faili, kuid pole neid allkirjastanud.
 Kas jätan allkirjastamata ümbriku alles või eemaldan selle?</numerusform>
