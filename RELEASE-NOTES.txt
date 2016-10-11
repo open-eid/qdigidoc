@@ -1,3 +1,14 @@
+DigiDoc3 version 3.12.3 release notes
+--------------------------------------
+- Only warn on cancel of unsigned document when the document is newly created
+- Remove "unsupported" warning on opening DDoc files
+- Add option for getting diagnostics from command line
+- Wrap long recipient names to avoid "remove" buttons getting hidden
+- Relax validation of BDOC to accept sub-elements of SignatureProductionPlace in any order
+- Speed up signing large files by handling them as file stream instead of in-memory
+- Grammar and spelling fixes for all languages
+
+
 DigiDoc3 version 3.12.2 release notes
 --------------------------------------
 - Removed Qt 4.X support, upstream deprecated
