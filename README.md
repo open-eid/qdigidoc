@@ -54,7 +54,7 @@
 
         mkdir build
         cd build
-        cmake -DQTSDK="~/Qt/5.3/clang_64" ..
+        cmake -DQt5_DIR="~/Qt/5.5/clang_64/lib/cmake/Qt5" ..
 
 4. Build
 
@@ -84,7 +84,7 @@
 
         mkdir build
         cd build
-        cmake -G"NMAKE Makefiles" -DQTSDK="C:\Qt\5.3\msvc2013" ..
+        cmake -G"NMAKE Makefiles" -DQt5_DIR="C:\Qt\5.6\msvc2013\lib\cmake\Qt5" ..
 
 4. Build
 

@@ -16,10 +16,7 @@ include( VersionInfo )
 
 find_package( PKCS11 )
 find_package( LibDigiDocpp REQUIRED )
-find_package( Qt5Widgets HINTS ${QTSDK} )
-find_package( Qt5Network HINTS ${QTSDK} )
-find_package( Qt5PrintSupport HINTS ${QTSDK} )
-find_package( Qt5LinguistTools HINTS ${QTSDK} )
+find_package( Qt5 COMPONENTS Core Widgets Network PrintSupport LinguistTools REQUIRED )
 include_directories( ${LIBDIGIDOCPP_INCLUDE_DIR} )
 
 if( WIN32 )

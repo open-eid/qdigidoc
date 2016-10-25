@@ -1,13 +1,19 @@
 language: c++
 sudo: required
-dist: trusty
 os:
 - linux
 - osx
-osx_image: xcode6.4
+dist: trusty
+osx_image: xcode7.3
+env:
+  global:
+  - BUILD_NUMBER=${TRAVIS_BUILD_NUMBER}
+  - VERSION=3.12.2.${TRAVIS_BUILD_NUMBER}
+  - secure: vX847To3osqI7JytpiH5r6xlXS9r8KCNCPP3pu2yvGxAgmz917xG1lrqRGOReoCe/08hkh+gMA9vLjIyUwDlUvZuKJr5g5iPfa85/m9iPe24DLOlf9zLI5It0MFNTLYFQ5DXFmX77+/lcB9ypDQtE5w9XK+xZjyC9xr9viye77E=
 
 before_install:
 - git submodule update --init --recursive && if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+    sudo ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-migrator/sdk/MacOSX.sdk/usr/include/openssl /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include;
     brew update;
     brew install qt5;
     curl --location "https://github.com/open-eid/libdigidoc/releases/download/v3.10.2/libdigidoc_3.10.1.1213.pkg" -o libdigidoc.pkg;
@@ -22,19 +28,15 @@ before_install:
     sudo apt-get update -qq;
     sudo apt-get install -y libdigidocpp-dev libldap2-dev libpcsclite-dev libssl-dev qtbase5-dev qttools5-dev qttools5-dev-tools gettext dh-make devscripts dpkg-dev cdbs;
   fi
-script: export BUILD_NUMBER=${TRAVIS_BUILD_NUMBER} && if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-    mkdir build && cd build && cmake -DQTSDK=/usr/local/opt/qt5 ..;
+script: if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+    mkdir build && cd build && cmake -DQt5_DIR=/usr/local/opt/qt5/lib/cmake/Qt5 -DOPENSSL_ROOT_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr ..;
     make zipdebug macdeployqt zip && cd ..;
   else
-    VERSION=3.12.0.${TRAVIS_BUILD_NUMBER};
     yes | dh_make --createorig --addmissing --defaultless -p qdigidoc_${VERSION};
     dch --distribution $(lsb_release -cs) -v ${VERSION} "Release ${VERSION}.";
     dpkg-buildpackage -rfakeroot -us -uc;
   fi
 
-env:
-  global:
-  - secure: vX847To3osqI7JytpiH5r6xlXS9r8KCNCPP3pu2yvGxAgmz917xG1lrqRGOReoCe/08hkh+gMA9vLjIyUwDlUvZuKJr5g5iPfa85/m9iPe24DLOlf9zLI5It0MFNTLYFQ5DXFmX77+/lcB9ypDQtE5w9XK+xZjyC9xr9viye77E=
 addons:
   coverity_scan:
     project:
