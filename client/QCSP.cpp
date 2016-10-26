@@ -220,21 +220,32 @@ QByteArray QCSP::sign(int method, const QByteArray &digest)
 			NCryptFreeObject(key);
 		break;
 	}
+	case AT_KEYEXCHANGE:
 	case AT_SIGNATURE:
 	{
 		if(method == NID_sha224)
+		{
+			if(freeKey)
+				CryptReleaseContext(key, 0);
 			return QByteArray();
+		}
 
 		HCRYPTHASH hash = 0;
 		if(!CryptCreateHash(key, alg, 0, 0, &hash))
+		{
+			if(freeKey)
+				CryptReleaseContext(key, 0);
 			return QByteArray();
+		}
 
 		if(!CryptSetHashParam(hash, HP_HASHVAL, LPBYTE(digest.constData()), 0))
 		{
 			CryptDestroyHash(hash);
+			if(freeKey)
+				CryptReleaseContext(key, 0);
 			return QByteArray();
 		}
-		if(!CryptSignHashW(hash, AT_SIGNATURE, 0, 0, LPBYTE(result.data()), &size))
+		if(!CryptSignHashW(hash, spec, 0, 0, LPBYTE(result.data()), &size))
 			err = GetLastError();
 		std::reverse(result.begin(), result.end());
 
@@ -243,7 +254,6 @@ QByteArray QCSP::sign(int method, const QByteArray &digest)
 		CryptDestroyHash(hash);
 		break;
 	}
-	case AT_KEYEXCHANGE:
 	default:
 		size = 0;
 		if(freeKey)
