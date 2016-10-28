@@ -122,8 +122,16 @@ elseif(WIN32)
 	if(EXISTS ${LIBS_PATH}/../certs)
 		list(APPEND CANDLE_CMD -dcertsLocation=CertsFragment CertsFragment.wxs)
 		list(APPEND LIGHT_CMD CertsFragment.wixobj)
+		add_custom_target(CertsFragment.wxs
+			COMMAND ${CMAKE_COMMAND} -E copy_directory ${LIBS_PATH}/../certs CertsFragment
+			COMMAND del "CertsFragment\\TEST*.crt"
+			COMMAND "$ENV{WIX}bin\\heat.exe" dir CertsFragment -nologo -cg Certs -gg -scom -sreg -sfrag -srd -dr CertsFolder -var var.certsLocation -out CertsFragment.wxs
+			WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+		)
+	else()
+		add_custom_target(CertsFragment.wxs)
 	endif()
-	add_custom_target(msi DEPENDS ${PROGNAME}
+	add_custom_target(msi DEPENDS ${PROGNAME} CertsFragment.wxs
 		COMMAND "$ENV{WIX}bin\\heat.exe" dir ${LIBS_PATH}/schema -nologo -cg Schemas -gg -scom -sreg -sfrag -srd -dr SchemaFolder -var var.schemasLocation -out SchemasFragment.wxs
 		COMMAND ${CANDLE_CMD}
 		COMMAND ${LIGHT_CMD} -loc ${CMAKE_SOURCE_DIR}/qdigidoc.en-US.wxl -cultures:en-US -o "${MSI_FILE}.en-US.msi"
@@ -134,13 +142,6 @@ elseif(WIN32)
 		COMMAND ${LIGHT_CMD} -loc ${CMAKE_SOURCE_DIR}/qdigidoc.et-EE.wxl -cultures:et-EE -o "${MSI_FILE}.et-EE.qt.msi"
 		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 	)
-	if(EXISTS ${LIBS_PATH}/../certs)
-		add_custom_command(TARGET msi PRE_BUILD
-			COMMAND ${CMAKE_COMMAND} -E copy_directory ${LIBS_PATH}/../certs CertsFragment
-			COMMAND del "CertsFragment\\TEST*.crt"
-			COMMAND "$ENV{WIX}bin\\heat.exe" dir CertsFragment -nologo -cg Certs -gg -scom -sreg -sfrag -srd -dr CertsFolder -var var.certsLocation -out CertsFragment.wxs
-		)
-	endif()
 	if(SIGNCERT)
 		list(APPEND SIGNCMD signtool.exe sign /a /v /s MY /n "${SIGNCERT}" /fd SHA256
 			/du http://installer.id.ee /t http://timestamp.verisign.com/scripts/timstamp.dll)
