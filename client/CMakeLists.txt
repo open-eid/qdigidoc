@@ -131,6 +131,9 @@ elseif(WIN32)
 	else()
 		add_custom_target(CertsFragment.wxs)
 	endif()
+	if(EXISTS ${LIBS_PATH}/Xalan-C_1_11.dll)
+		list(APPEND CANDLE_CMD -dxalan=true)
+	endif()
 	add_custom_target(msi DEPENDS ${PROGNAME} CertsFragment.wxs
 		COMMAND "$ENV{WIX}bin\\heat.exe" dir ${LIBS_PATH}/schema -nologo -cg Schemas -gg -scom -sreg -sfrag -srd -dr SchemaFolder -var var.schemasLocation -out SchemasFragment.wxs
 		COMMAND ${CANDLE_CMD}
