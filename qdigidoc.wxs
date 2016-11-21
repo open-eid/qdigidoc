@@ -172,6 +172,15 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
               <RegistryValue Type="string" Value="[APPLICATIONFOLDER]EsteidShellExtension.dll"/>
               <RegistryValue Type="string" Name="ThreadingModel" Value="Apartment" />
             </RegistryKey>
+      <!-- If 64-bit platform register 32-bit shell extension for 32-bit applications -->
+      <?ifdef [APPLICATIONFOLDER32] ?>
+        <?if $(var.Platform) = "x64" ?>
+            <RegistryKey Root="HKCR" Key="CLSID\Wow6432Node\$(var.ShellExtId)\InprocServer32">
+              <RegistryValue Type="string" Value="[APPLICATIONFOLDER32]EsteidShellExtension.dll"/>
+              <RegistryValue Type="string" Name="ThreadingModel" Value="Apartment" />
+            </RegistryKey>
+        <?endif?>
+      <?endif?>
             <RegistryValue Root="HKCR" Key="*\shellex\ContextMenuHandlers\DigiDoc3ShellExtension"
                            Value="$(var.ShellExtId)" Type="string" />
             <RegistryValue Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved"
