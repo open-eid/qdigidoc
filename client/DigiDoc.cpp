@@ -42,6 +42,7 @@
 #include <QtGui/QPixmap>
 #include <QtWidgets/QMessageBox>
 
+#include <cmath>
 #include <stdexcept>
 
 using namespace digidoc;
@@ -431,10 +432,86 @@ int DigiDocSignature::warning() const
 
 
 
+QDocWorker::QDocWorker( const WorkData &workData )
+:   operation( workData.operation )
+,   owner( nullptr )
+,   stopped( false )
+,   taskId( workData.taskId )
+,   taskResult( new TaskResult )
+{
+	taskResult->file = workData.file;
+}
+
+void QDocWorker::cancel()
+{
+	stopped = true;
+}
+
+bool QDocWorker::isBackgroundTask() const
+{
+	return owner != nullptr;
+}
+
+bool QDocWorker::isStopped() const
+{
+	return stopped;
+}
+
+int QDocWorker::getTaskId() const
+{
+	return taskId;
+}
+
+QDocWorker::TaskResult* QDocWorker::getTaskResult()
+{
+	return taskResult.get();
+}
+
+// Release worker result if task is successful
+QDocWorker::TaskResult* QDocWorker::releaseTaskResult()
+{
+	TaskResult *data = nullptr;
+	if( taskResult->success )
+	{
+		data = taskResult.release();
+		if( isBackgroundTask() )
+		{
+			// Release thread
+			Q_EMIT workFinished();
+		}
+	}
+
+	return data;
+}
+
+void QDocWorker::run()
+{
+	bool success = operation( this );
+
+	Q_EMIT complete( taskId, success );
+
+	// If running in background and abandoned, delete worker automatically on thread close
+	if( isBackgroundTask() && !success )
+	{
+		connect( owner, SIGNAL(finished()), this, SLOT(deleteLater()) );
+		Q_EMIT workFinished();
+	}
+}
+
+void QDocWorker::runInThread(QThread *thread)
+{
+	owner = thread;
+	this->moveToThread(owner);
+}
+
+
+
 DigiDoc::DigiDoc( QObject *parent )
 :	QObject( parent )
 ,	b(nullptr)
 ,	m_documentModel( new DocumentModel( this ) )
+,   wid ( LastAction )
+,   worker ( nullptr )
 {}
 
 DigiDoc::~DigiDoc() { clear(); }
@@ -443,8 +520,50 @@ void DigiDoc::addFile( const QString &file )
 {
 	if( !checkDoc( b->signatures().size() > 0, tr("Cannot add files to signed container") ) )
 		return;
-	try { b->addDataFile( to(file), "application/octet-stream" ); m_documentModel->reset(); }
-	catch( const Exception &e ) { setLastError( tr("Failed add file to container"), e ); }
+
+	QDocWorker::WorkData workData;
+	workData.operation = [this]( QDocWorker *w ) { return this->addOperation(w); };
+	workData.file = file;
+	workData.isCancellable = false;
+	workData.taskId = wid++;
+	workData.title = tr( "Adding a file to container" );
+
+	runWorker( workData, SIGNAL(added(int,bool)) );
+}
+
+bool DigiDoc::addOperation( QDocWorker *w )
+{
+	bool success = false;
+	QDocWorker::TaskResult *result = w->getTaskResult();
+	const QString file = result->file;
+
+	Q_EMIT signalProgress( WorkProgressed );
+	try
+	{
+		b->addDataFile(to(file), "application/octet-stream");
+		success = true;
+		Q_EMIT signalProgress( Processed );
+	}
+	catch( const Exception &e )
+	{
+		sendLastError(tr("Failed add file to container"), e, w);
+		Q_EMIT progressFinished();
+	}
+	result->success = success;
+
+	return success;
+}
+
+// Take ownership of operation result
+QDocWorker::TaskResult* DigiDoc::addReleaseTask(int taskId)
+{
+	auto result = releaseTask( taskId );
+	if( result != nullptr )
+	{
+		m_documentModel->reset();
+	}
+
+	return result;
 }
 
 bool DigiDoc::addSignature( const QByteArray &signature )
@@ -460,6 +579,14 @@ bool DigiDoc::addSignature( const QByteArray &signature )
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to sign container"), e ); }
 	return result;
+}
+
+void DigiDoc::cancel()
+{
+	if ( worker != nullptr )
+	{
+		worker->cancel();
+	}
 }
 
 bool DigiDoc::checkDoc( bool status, const QString &msg ) const
@@ -493,6 +620,31 @@ void DigiDoc::create( const QString &file )
 DocumentModel* DigiDoc::documentModel() const { return m_documentModel; }
 
 QString DigiDoc::fileName() const { return m_fileName; }
+
+bool DigiDoc::isProgressActivated( const QString &fileName, const QString &msg, bool cancellable )
+{
+	// l00mb
+	const int limit = 100 * 1024 * 1024;
+	bool activated = false;
+	auto containerSize = QFileInfo( fileName ).size();
+
+	if( containerSize == 0 && !isNull() )
+	{
+		for(const DataFile *d: b->dataFiles())
+		{
+			containerSize += d->fileSize();
+		}
+	}
+
+	if( containerSize >= limit )
+	{
+		Q_EMIT activateProgressDialog( fileName, msg, cancellable );
+		activated = true;
+	}
+
+	return activated;
+}
+
 bool DigiDoc::isService() const
 {
 	return b->mediaType() == "application/pdf";
@@ -500,7 +652,7 @@ bool DigiDoc::isService() const
 bool DigiDoc::isNull() const { return b == nullptr; }
 bool DigiDoc::isReadOnlyTS() const
 {
-    return b->mediaType() == "application/vnd.etsi.asic-s+zip";
+	return b->mediaType() == "application/vnd.etsi.asic-s+zip";
 }
 bool DigiDoc::isSupported() const
 {
@@ -520,30 +672,95 @@ QString DigiDoc::newSignatureID() const
 	return QString("S%1").arg(id);
 }
 
-bool DigiDoc::open( const QString &file )
+void DigiDoc::open( const QString &file )
 {
 	qApp->waitForTSL( file );
 	clear();
+
+	QDocWorker::WorkData workData;
+	workData.operation = [this]( QDocWorker *w ) { return this->openOperation(w);};
+	workData.file = file;
+	workData.isCancellable = true;
+	workData.taskId = wid++;
+	workData.title = tr( "Opening container" );
+
+	runWorker( workData, SIGNAL(opened(int,bool)) );
+}
+
+bool DigiDoc::openOperation( QDocWorker *w )
+{
+	QDocWorker::TaskResult *result = w->getTaskResult();
+	const QString file = result->file;
+	bool success = false;
+
 	try
 	{
-		b = Container::open( to(file) );
-		QWidget *w = qobject_cast<QWidget*>(parent());
-		if(isService())
+		auto cont = Container::open(to(file));
+		result->container.reset( cont );
+		if ( w->isStopped() )
 		{
-			QMessageBox::warning(w, w ? w->windowTitle() : 0,
-				QCoreApplication::translate("SignatureDialog",
-					"The verification of digital signatures in PDF format is performed through an external service. "
-					"The file requiring verification will be forwarded to the service.\n"
-					"The Information System Authority does not retain information regarding the files and users of the service."), QMessageBox::Ok);
+			result->success = false;
+			return false;
 		}
-		m_fileName = file;
-		m_documentModel->reset();
-		qApp->addRecent( file );
-		return true;
+		Q_EMIT signalProgress( Working );
+
+		if( result->container->mediaType() == "application/pdf" )
+		{
+			Q_EMIT w->verifyExternally();
+		}
+		else
+		{
+			Q_EMIT w->signalProgress( WorkProgressed );
+		}
+		success = true;
 	}
 	catch( const Exception &e )
-	{ setLastError( tr("An error occurred while opening the document."), e ); }
-	return false;
+	{ 
+		Q_EMIT progressFinished();
+		result->success = false;
+		sendLastError(tr("An error occurred while opening the document."), e, w);
+	}
+
+	if( success )
+	{
+		auto checkedSignatures = signatures(result->container.get());
+		if( checkedSignatures.size() > 0 )
+		{
+			double progress = WorkProgressed;
+			double step = (Processed - progress) / (double)checkedSignatures.size();
+
+			Q_FOREACH(const DigiDocSignature &c, checkedSignatures)
+			{
+				if ( w->isStopped() )
+				{
+					result->success = false;
+					return false;
+				}
+				result->validationResults.append( c.validate() );
+				result->warning |= c.warning();
+
+				Q_EMIT w->signalProgress( round(progress += step) );
+			}
+		}
+	}
+
+	Q_EMIT w->signalProgress( Processed );
+
+	return success;
+}
+
+// Take ownership of operation result
+QDocWorker::TaskResult* DigiDoc::openReleaseTask(int taskId)
+{
+	auto result = releaseTask( taskId );
+	if( result != nullptr )
+	{
+		m_fileName = result->file;
+		m_documentModel->reset();
+		b = result->container.release();
+	}
+	
+	return result;
 }
 
 bool DigiDoc::parseException( const Exception &e, QStringList &causes,
@@ -571,6 +788,26 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 	return true;
 }
 
+// Release ownership of result if not abandoned task
+QDocWorker::TaskResult* DigiDoc::releaseTask(int taskId)
+{
+	QDocWorker::TaskResult *result = nullptr;
+
+	if( worker != nullptr && worker->getTaskId() == taskId )
+	{
+		result = worker->releaseTaskResult();
+
+		// Release successfully finished worker if running in background thread
+		if( result && worker->isBackgroundTask() )
+		{
+			delete worker;
+			worker = nullptr;
+		}
+	}
+
+	return result;
+}
+
 void DigiDoc::removeSignature( unsigned int num )
 {
 	if( !checkDoc( num >= b->signatures().size(), tr("Missing signature") ) )
@@ -579,18 +816,98 @@ void DigiDoc::removeSignature( unsigned int num )
 	catch( const Exception &e ) { setLastError( tr("Failed remove signature from container"), e ); }
 }
 
-void DigiDoc::save( const QString &filename )
+void DigiDoc::runWorker( const QDocWorker::WorkData &workData, const char *completionSlot )
 {
-	/*if( !checkDoc() );
-		return; */
+	worker = new QDocWorker( workData );
+
+	const bool runInBackground = isProgressActivated( workData.file, workData.title, workData.isCancellable );
+	Q_EMIT signalProgress( Starting );
+
+	// Forward worker state signals
+	connect( worker, SIGNAL(error(const QString&,const QString&,int,int)),
+			this, SLOT(showLastError(const QString&,const QString&,int,int)) );
+	connect( worker, SIGNAL(progressFinished()), this, SIGNAL(progressFinished()) );
+	connect( worker, SIGNAL(signalProgress(int)), this, SIGNAL(signalProgress(int)) );
+	connect( worker, SIGNAL(verifyExternally()), this, SIGNAL(verifyExternally()) );
+	connect( worker, SIGNAL(complete(int,bool)), this, completionSlot );
+
+	// Only long-running operations are performed in a worker thread
+	if( runInBackground )
+	{
+		QThread* thread = new QThread;
+		thread->setObjectName("QDocWorker");
+		worker->runInThread(thread);
+
+		connect( thread, SIGNAL(started()), worker, SLOT(run()) );
+		connect( worker, SIGNAL(workFinished()), thread, SLOT(quit()) );
+
+		// Delete thread automatically when work is done or application about to quit
+		connect( thread, SIGNAL(finished()), thread, SLOT(deleteLater()) );
+
+		connect( qApp, SIGNAL(aboutToQuit()), worker, SLOT(cancel()) );
+		connect( qApp, SIGNAL(aboutToQuit()), worker, SLOT(deleteLater()) );
+		connect( qApp, SIGNAL(aboutToQuit()), thread, SLOT(deleteLater()) );
+
+		thread->start();
+	}
+	else
+	{
+		worker->run();
+		delete worker;
+		worker = nullptr;
+	}
+}
+
+void DigiDoc::save( const QString &filename, SaveAction action )
+{
+	if( !filename.isEmpty() )
+		m_fileName = filename;
+
+	QDocWorker::WorkData workData;
+	workData.operation = [this]( QDocWorker *w ) { return this->saveOperation(w);};
+	workData.file = m_fileName;
+	workData.isCancellable = false;
+	workData.taskId = action;
+	workData.title = tr( "Saving container" );
+
+	runWorker( workData, SIGNAL(saved(int,bool)) );
+}
+
+bool DigiDoc::saveOperation( QDocWorker *w )
+{
+	bool success = false;
+	QDocWorker::TaskResult *result = w->getTaskResult();
+	const QString file = result->file;
+
+	Q_EMIT signalProgress( Working );
+
 	try
 	{
-		if( !filename.isEmpty() )
-			m_fileName = filename;
-		b->save( to(m_fileName) );
-		qApp->addRecent( filename );
+		if( b != nullptr )
+		{
+			b->save( to(file) );
+		}
+
+		success = true;
+		Q_EMIT signalProgress( Processed );
 	}
-	catch( const Exception &e ) { setLastError( tr("Failed to save container"), e ); }
+	catch( const Exception &e )
+	{
+		Q_EMIT progressFinished();
+		sendLastError(tr("Failed to save container"), e, w);
+	}
+	result->success = success;
+
+	return success;
+}
+
+void DigiDoc::sendLastError( const QString &msg, const Exception &e, QDocWorker *w )
+{
+	QStringList causes;
+	Exception::ExceptionCode code = Exception::General;
+	int ddocError = -1;
+	parseException( e, causes, code, ddocError );
+	Q_EMIT w->error( msg, causes.join("\n"), code, ddocError );
 }
 
 void DigiDoc::setLastError( const QString &msg, const Exception &e )
@@ -599,27 +916,32 @@ void DigiDoc::setLastError( const QString &msg, const Exception &e )
 	Exception::ExceptionCode code = Exception::General;
 	int ddocError = -1;
 	parseException( e, causes, code, ddocError );
+	showLastError( msg, causes.join("\n"), code, ddocError );
+}
+
+void DigiDoc::showLastError( const QString &msg, const QString &causes, int code, int ddocError )
+{
 	switch( code )
 	{
 	case Exception::CertificateRevoked:
-		qApp->showWarning( tr("Certificate status revoked"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("Certificate status revoked"), ddocError, causes ); break;
 	case Exception::CertificateUnknown:
-		qApp->showWarning( tr("Certificate status unknown"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("Certificate status unknown"), ddocError, causes ); break;
 	case Exception::OCSPTimeSlot:
-		qApp->showWarning( tr("Check your computer time"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("Check your computer time"), ddocError, causes ); break;
 	case Exception::OCSPRequestUnauthorized:
 		qApp->showWarning( tr("You have not granted IP-based access. "
-			"Check the settings of your server access certificate."), ddocError, causes.join("\n") ); break;
+			"Check the settings of your server access certificate."), ddocError, causes ); break;
 	case Exception::PINCanceled:
 		break;
 	case Exception::PINFailed:
-		qApp->showWarning( tr("PIN Login failed"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("PIN Login failed"), ddocError, causes ); break;
 	case Exception::PINIncorrect:
-		qApp->showWarning( tr("PIN Incorrect"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("PIN Incorrect"), ddocError, causes ); break;
 	case Exception::PINLocked:
-		qApp->showWarning( tr("PIN Locked. Please use ID-card utility for PIN opening!"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning( tr("PIN Locked. Please use ID-card utility for PIN opening!"), ddocError, causes ); break;
 	default:
-		qApp->showWarning( msg, ddocError, causes.join("\n") ); break;
+		qApp->showWarning( msg, ddocError, causes ); break;
 	}
 }
 
@@ -689,12 +1011,17 @@ QString DigiDoc::signatureFormat() const
 
 QList<DigiDocSignature> DigiDoc::signatures()
 {
+	return signatures(b);
+}
+
+QList<DigiDocSignature> DigiDoc::signatures(Container* c)
+{
 	QList<DigiDocSignature> list;
-	if( isNull() )
+	if( c == nullptr )
 		return list;
 	try
 	{
-		for(const Signature *signature: b->signatures())
+		for(const Signature *signature: c->signatures())
 			list << DigiDocSignature(signature, this);
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to get signatures"), e ); }

@@ -50,9 +50,9 @@ MainWindow::MainWindow( QWidget *parent )
 	: QWidget( parent )
 	, cardsGroup( new QActionGroup( this ) )
 	, quitOnClose( false )
-	, warnOnUnsignedDocCancel( true )
 	, prevpage( Home )
 	, message( 0 )
+	, warnOnUnsignedDocCancel( true )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
@@ -167,8 +167,52 @@ MainWindow::MainWindow( QWidget *parent )
 	connect( doc->documentModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(enableSign()) );
 	connect( doc->documentModel(), SIGNAL(modelReset()), SLOT(enableSign()) );
 
+	// Progress can be updated by document or main window
+	connect( doc, SIGNAL( activateProgressDialog(const QString&,const QString&,bool) ),
+						 this, SLOT( activateProgressDlg(const QString&,const QString&,bool) ) );
+	connect( doc, SIGNAL( signalProgress(int) ), this, SLOT( setProgress( int ) ) );
+
+	connect( doc, SIGNAL( progressFinished() ), this, SLOT( closeProgress() ) );
+	connect( this, SIGNAL( progressFinished() ), this, SLOT( closeProgress() ) );
+
+	connect( doc, SIGNAL( verifyExternally() ), this, SLOT( verifyExternally() ) );
+	connect( doc, SIGNAL( added(int,bool) ), this, SLOT( added(int,bool) ) );
+	connect( doc, SIGNAL( opened(int,bool) ), this, SLOT( opened(int,bool) ) );
+	connect( doc, SIGNAL( saved(int,bool) ), this, SLOT( saved(int,bool) ) );
+
 	if( QAbstractButton *b = infoTypeGroup->button( s.value( "Client/SignMethod", 0 ).toInt() ) )
 		b->click();
+}
+
+void MainWindow::activateProgressDlg( const QString &fileName, const QString &title, bool cancellable )
+{
+	progressDlg.reset( new QProgressDialog( QString(), QString(), 0, DigiDoc::Finished, this ) );
+	progressDlg->setWindowTitle( tr("DigiDoc3 client") );
+	progressDlg->setWindowFlags( (progressDlg->windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowCloseButtonHint );
+	progressDlg->setMinimumWidth( 300 );
+	progressDlg->setWindowModality(Qt::ApplicationModal);
+	progressDlg->setParent( this );
+
+	connect( progressDlg.get(), SIGNAL(canceled()), this, SLOT(cancelOperation()) );
+
+	progressDlg->setLabelText(title);
+	if( cancellable )
+	{
+		progressDlg->setCancelButton( new QPushButton("Cancel", progressDlg.get()) );
+	}
+	else
+	{
+		progressDlg->setCancelButton( nullptr );
+	}
+	progressDlg->setValue( DigiDoc::Initial );
+	progressDlg->open();
+}
+
+void MainWindow::added( int taskId, bool success )
+{
+	std::unique_ptr<QDocWorker::TaskResult> result( doc->addReleaseTask(taskId) );
+
+	Q_EMIT progressFinished();
 }
 
 bool MainWindow::addFile( const QString &file )
@@ -280,10 +324,11 @@ void MainWindow::buttonClicked( int button )
 		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
 			tr("Documents (%1%2)").arg( "*.bdoc *.ddoc *.asice *.sce *.asics *.scs *.edoc")
 				.arg(qApp->confValue(Application::PDFUrl).toString().isEmpty() ? "" : " *.pdf") );
-		if( !file.isEmpty() && doc->open( file ) )
+
+		if ( !file.isEmpty() )
 		{
-			warnOnUnsignedDocCancel = false;
-			setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
+			doc->open(file);
+			return;
 		}
 		break;
 	}
@@ -303,16 +348,11 @@ void MainWindow::buttonClicked( int button )
 				if( !f.isFile() )
 					continue;
 
-        QStringList exts = QStringList() << "bdoc" << "ddoc" << "asice" << "sce" << "asics" << "scs" << "edoc";
+				QStringList exts = QStringList() << "bdoc" << "ddoc" << "asice" << "sce" << "asics" << "scs" << "edoc";
 
 				if( doc->isNull() && exts.contains( f.suffix(), Qt::CaseInsensitive ) )
 				{
-					if( doc->open( f.absoluteFilePath() ) )
-					{
-						warnOnUnsignedDocCancel = false;
-						setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
-						enableSign();
-					}
+					doc->open( f.absoluteFilePath() );
 					params.clear();
 					loadRoles();
 					return;
@@ -375,8 +415,7 @@ void MainWindow::buttonClicked( int button )
 
 				if( msgBox.clickedButton() == keep )
 				{
-					save();
-					setCurrentPage( View );
+					save( DigiDoc::ViewAction );
 					break;
 				}
 
@@ -385,8 +424,7 @@ void MainWindow::buttonClicked( int button )
 			}
 			else
 			{
-				save();
-				setCurrentPage( View );
+				save( DigiDoc::ViewAction );
 				break;
 			}
 		}
@@ -449,7 +487,8 @@ void MainWindow::buttonClicked( int button )
 		QString file = selectFile( doc->fileName(), true );
 		if( !file.isEmpty() )
 			doc->save( file );
-		setCurrentPage( View );
+		else
+			setCurrentPage( View );
 		break;
 	}
 	case ViewSaveFiles:
@@ -522,7 +561,7 @@ void MainWindow::buttonClicked( int button )
 					signRoleInput->text(), signResolutionInput->text() ) )
 				break;
 			access.increment();
-			save();
+			save( DigiDoc::SignAndViewAction );
 		}
 		else
 		{
@@ -534,15 +573,8 @@ void MainWindow::buttonClicked( int button )
 			if( !m.exec() || !doc->addSignature( m.signature() ) )
 				break;
 			access.increment();
-			save();
+			save( DigiDoc::SignAndViewAction );
 		}
-		SettingsDialog::saveSignatureInfo( signRoleInput->text(),
-			signResolutionInput->text(), signCityInput->text(),
-			signStateInput->text(), signCountryInput->text(),
-			signZipInput->text() );
-		Settings().setValueEx( "Client/SignMethod", infoStack->currentIndex(), 0 );
-		setCurrentPage( View );
-		QApplication::alert(this, 0);
 		break;
 	}
 	case ViewAddSignature:
@@ -551,7 +583,12 @@ void MainWindow::buttonClicked( int button )
 		break;
 	default: break;
 	}
-	enableSign();
+}
+
+void MainWindow::cancelOperation( )
+{
+	progressDlg.reset();
+	Q_EMIT doc->cancel();
 }
 
 void MainWindow::changeCard( QAction *a )
@@ -561,7 +598,29 @@ void MainWindow::changeLang( QAction *a ) { qApp->loadTranslation( a->data().toS
 void MainWindow::closeDoc()
 { buttonClicked( stack->currentIndex() == Sign ? SignCancel : ViewClose ); }
 
+void MainWindow::closeProgress()
+{
+	if( progressDlg )
+	{
+		progressDlg->cancel();
+		progressDlg.reset();
+	}
+}
+
 void MainWindow::enableSign()
+{
+	int warning = 0;
+	Q_FOREACH( const DigiDocSignature &s, doc->signatures() )
+	{
+		s.validate();
+		if( s.warning() )
+			warning |= s.warning();
+	}
+
+	enableSign( warning );
+}
+
+void MainWindow::enableSign( int warning )
 {
 	if( infoMobileSettings->isChecked() )
 	{
@@ -573,14 +632,6 @@ void MainWindow::enableSign()
 	button->setToolTip( QString() );
 	TokenData t = qApp->signer()->tokensign();
 	showWarning( QString() );
-
-	int warning = 0;
-	Q_FOREACH( const DigiDocSignature &s, doc->signatures() )
-	{
-		s.validate();
-		if( s.warning() )
-			warning |= s.warning();
-	}
 
 	if( doc->isNull() )
 		button->setToolTip( tr("Container is not open") );
@@ -722,6 +773,28 @@ void MainWindow::open( const QStringList &_params )
 	buttonClicked( HomeSign );
 }
 
+void MainWindow::opened( int taskId, bool success )
+{
+	std::unique_ptr<QDocWorker::TaskResult> result( doc->openReleaseTask(taskId) );
+	if ( result == nullptr )
+	{
+		return;
+	}
+
+	enableSign( result->warning );
+
+	warnOnUnsignedDocCancel = false;
+	if( result->validationResults.size() > 0 )
+	{
+		setCurrentPage( View, &result->validationResults );
+	}
+	else
+	{
+		setCurrentPage( Sign );
+	}
+	Q_EMIT progressFinished();
+}
+
 void MainWindow::parseLink( const QString &link )
 {
 	if( link == "openUtility" )
@@ -752,7 +825,7 @@ void MainWindow::retranslate()
 	setCurrentPage( (Pages)stack->currentIndex() );
 }
 
-void MainWindow::save()
+void MainWindow::save( DigiDoc::SaveAction action )
 {
 	if( !FileDialog::fileIsWritable( doc->fileName() ) &&
 		QMessageBox::Yes == QMessageBox::warning( this, tr("DigiDoc3 client"),
@@ -763,11 +836,44 @@ void MainWindow::save()
 		QString file = selectFile( doc->fileName(), true );
 		if( !file.isEmpty() )
 		{
-			doc->save( file );
+			doc->save( file, action );
 			return;
 		}
 	}
-	doc->save();
+	doc->save( QString(), action );
+}
+
+void MainWindow::saved( int taskId, bool success )
+{
+	std::unique_ptr<QDocWorker::TaskResult> result( doc->releaseTask(taskId) );
+
+	auto action = (DigiDoc::SaveAction) taskId;
+	enableSign();
+
+	switch (action) {
+		case DigiDoc::ViewAction:
+			setCurrentPage( View );
+			break;
+		case DigiDoc::SignAction:
+			setCurrentPage( Sign );
+			break;
+		case DigiDoc::SignAndViewAction:
+			SettingsDialog::saveSignatureInfo( signRoleInput->text(),
+											  signResolutionInput->text(), signCityInput->text(),
+											  signStateInput->text(), signCountryInput->text(),
+											  signZipInput->text() );
+			Settings().setValueEx( "Client/SignMethod", infoStack->currentIndex(), 0 );
+			setCurrentPage( View );
+			Q_EMIT progressFinished();
+
+			QApplication::alert(this, 0);
+			break;
+
+		default:
+			break;
+	}
+
+	Q_EMIT progressFinished();
 }
 
 QString MainWindow::selectFile( const QString &filename, bool fixedExt )
@@ -795,7 +901,7 @@ QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 	return FileDialog::getSaveFileName( this, tr("Save file"), filename, exts.join(";;"), &active );
 }
 
-void MainWindow::setCurrentPage( Pages page )
+void MainWindow::setCurrentPage( Pages page, QList<DigiDocSignature::SignatureStatus> *validatedSignatures )
 {
 	int prev = stack->currentIndex();
 	stack->setCurrentIndex( page );
@@ -832,12 +938,14 @@ void MainWindow::setCurrentPage( Pages page )
 		QList<DigiDocSignature> signatures = doc->signatures();
 		Q_FOREACH( const DigiDocSignature &c, signatures )
 		{
-			SignatureWidget *signature = new SignatureWidget( c, i, viewSignatures );
-			viewSignaturesLayout->insertWidget( 0, signature );
+			DigiDocSignature::SignatureStatus next = (validatedSignatures == nullptr || validatedSignatures->length() <= i) ?
+				c.validate() : validatedSignatures->at(i);
+			SignatureWidget *signature = new SignatureWidget( c, next, i, viewSignatures );
+
+			viewSignaturesLayout->insertWidget(0, signature);
 			connect( signature, SIGNAL(removeSignature(unsigned int)),
 				SLOT(viewSignaturesRemove(unsigned int)) );
-			DigiDocSignature::SignatureStatus next = c.validate();
-			if(status < next) status = next;
+			if (status < next) status = next;
 			nswarning = std::max( nswarning, bool(c.warning() & DigiDocSignature::WrongNameSpace) );
 			++i;
 		}
@@ -859,6 +967,16 @@ void MainWindow::setCurrentPage( Pages page )
 		break;
 	}
 	default: break;
+	}
+}
+
+void MainWindow::setProgress( int value )
+{
+	std::shared_ptr<QProgressDialog> ptr = progressDlg;
+
+	if( ptr )
+	{
+		ptr->setValue(value);
 	}
 }
 
@@ -918,10 +1036,19 @@ void MainWindow::showWarning( const QString &text )
 	message->setVisible( !text.isEmpty() );
 }
 
+void MainWindow::verifyExternally()
+{
+	QWidget *w = qobject_cast<QWidget*>(this);
+	QMessageBox::warning(w, w ? w->windowTitle() : 0,
+		 QCoreApplication::translate("SignatureDialog",
+			 "The verification of digital signatures in PDF format is performed through an external service. "
+			 "The file requiring verification will be forwarded to the service.\n"
+			 "The Information System Authority does not retain information regarding the files and users of the service."),
+						 QMessageBox::Ok);
+}
+
 void MainWindow::viewSignaturesRemove( unsigned int num )
 {
 	doc->removeSignature( num );
-	save();
-	enableSign();
-	setCurrentPage( doc->signatures().isEmpty() ? Sign : View );
+	save( doc->signatures().isEmpty() ? DigiDoc::SignAction : DigiDoc::ViewAction );
 }

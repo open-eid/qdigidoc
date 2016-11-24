@@ -870,6 +870,7 @@ void Application::waitForTSL( const QString &file )
 		return;
 
 	QProgressDialog p( tr("Loading TSL lists"), QString(), 0, 0, qApp->activeWindow() );
+	p.setWindowTitle( tr("DigiDoc3 client") );
 	p.setWindowFlags( (p.windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowCloseButtonHint );
 	if( QProgressBar *bar = p.findChild<QProgressBar*>() )
 		bar->setTextVisible( false );

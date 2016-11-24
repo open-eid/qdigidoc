@@ -33,7 +33,7 @@ class SignatureWidget: public QLabel
 	Q_OBJECT
 
 public:
-	explicit SignatureWidget( const DigiDocSignature &s, unsigned int signnum, QWidget *parent = 0 );
+    explicit SignatureWidget( const DigiDocSignature &s, DigiDocSignature::SignatureStatus status, unsigned int signnum, QWidget *parent = 0 );
 
 Q_SIGNALS:
 	void removeSignature( unsigned int num );

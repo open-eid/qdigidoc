@@ -24,6 +24,9 @@
 #include <digidocpp/Container.h>
 #include <digidocpp/Exception.h>
 
+#include <functional>
+#include <memory>
+
 class DigiDoc;
 class QDateTime;
 class QSslCertificate;
@@ -122,6 +125,56 @@ private:
 	mutable unsigned int m_warning;
 };
 
+class QDocWorker: public QObject
+{
+	Q_OBJECT
+
+public:
+	struct WorkData {
+		int taskId;
+		QString file;
+		QString title;
+		bool isCancellable;
+		std::function<bool(QDocWorker*)> operation;
+	};
+
+	struct TaskResult {
+		std::unique_ptr<digidoc::Container> container = nullptr;
+		QString file;
+		QList<DigiDocSignature::SignatureStatus> validationResults;
+		bool success = true;
+		int warning = 0;
+	};
+
+	explicit QDocWorker( const WorkData &workData );
+
+	bool isBackgroundTask() const;
+	bool isStopped() const;
+	TaskResult* getTaskResult();
+	int getTaskId() const;
+	TaskResult* releaseTaskResult();
+	void runInThread(QThread *thread);
+
+Q_SIGNALS:
+	void progressFinished();
+	void complete( int, bool );
+	void signalProgress( int );
+	void verifyExternally();
+	void workFinished();
+	void error( const QString&,const QString&,int,int );
+
+public Q_SLOTS:
+	void cancel();
+	void run();
+
+private:
+	std::function<bool(QDocWorker*)> operation;
+	QThread *owner;
+	volatile bool stopped;
+	int taskId;
+	std::unique_ptr<TaskResult> taskResult;
+};
+
 class DigiDoc: public QObject
 {
 	Q_OBJECT
@@ -130,25 +183,44 @@ public:
 		DDocType,
 		BDoc2Type
 	};
+	enum SaveAction {
+		NoAction,
+		ViewAction,
+		SignAction,
+		SignAndViewAction,
+		LastAction
+	};
+	enum OperationProgress {
+		Initial = 5,
+		Starting = 10,
+		Working = 25,
+		WorkProgressed = 40,
+		Processed = 80,
+		Finished = 100
+	};
 
 	explicit DigiDoc( QObject *parent = 0 );
 	~DigiDoc();
 
 	void addFile( const QString &file );
+	QDocWorker::TaskResult* addReleaseTask(int taskId);
 	bool addSignature( const QByteArray &signature );
 	void create( const QString &file );
 	void clear();
 	DocumentModel *documentModel() const;
 	QString fileName() const;
 	bool isNull() const;
+	bool isProgressActivated( const QString &fileName, const QString &msg, bool cancellable );
 	bool isReadOnlyTS() const;
 	bool isService() const;
 	bool isSupported() const;
 	QString mediaType() const;
 	QString newSignatureID() const;
-	bool open( const QString &file );
+	void open( const QString &file );
+	QDocWorker::TaskResult* openReleaseTask( int taskId );
+	QDocWorker::TaskResult* releaseTask( int taskId );
 	void removeSignature( unsigned int num );
-	void save( const QString &filename = QString() );
+	void save( const QString &filename = QString(), SaveAction action = ViewAction );
 	bool sign(
 		const QString &city,
 		const QString &state,
@@ -165,13 +237,34 @@ public:
 		digidoc::Exception::ExceptionCode &code, int &ddocError );
 
 private:
+	bool addOperation( QDocWorker *w );
 	bool checkDoc( bool status = false, const QString &msg = QString() ) const;
+	bool openOperation( QDocWorker *worker );
+	void runWorker( const QDocWorker::WorkData &workData, const char *completionSlot );
+	bool saveOperation( QDocWorker *worker );
+	void sendLastError( const QString &msg, const digidoc::Exception &e, QDocWorker *w );
 	void setLastError( const QString &msg, const digidoc::Exception &e );
+	QList<DigiDocSignature> signatures(digidoc::Container* c);
 
 	digidoc::Container *b;
 	QString			m_fileName;
 	DocumentModel	*m_documentModel;
 	QStringList		m_tempFiles;
+	int			 	wid;
+	QDocWorker*	 	worker;
+
+public Q_SLOTS:
+	void cancel();
+	void showLastError( const QString &msg, const QString &causes, int code, int ddocError );
+
+Q_SIGNALS:
+	void activateProgressDialog( const QString&,const QString&,bool );
+	void added( int,bool );
+	void opened( int,bool );
+	void progressFinished();
+	void saved( int,bool );
+	void signalProgress( int );
+	void verifyExternally();
 
 	friend class DocumentModel;
 };

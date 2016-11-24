@@ -37,7 +37,7 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QPushButton>
 
-SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned int signnum, QWidget *parent )
+SignatureWidget::SignatureWidget( const DigiDocSignature &signature, DigiDocSignature::SignatureStatus status, unsigned int signnum, QWidget *parent )
 :	QLabel( parent )
 ,	num( signnum )
 ,	s( signature )
@@ -93,7 +93,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	sa << " " << tr("Signature is") << " ";
 	sc << "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>";
 	sc << "<td>" << tr("Signature is") << " ";
-	switch( s.validate() )
+	switch( status )
 	{
 	case DigiDocSignature::Valid:
 		sa << tr("valid");

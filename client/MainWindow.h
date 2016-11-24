@@ -21,7 +21,12 @@
 
 #include "ui_MainWindow.h"
 
+#include "DigiDoc.h"
+
 #include <QtCore/QStringList>
+#include <QtWidgets/QProgressDialog>
+
+#include <memory>
 
 class DigiDoc;
 class QPrinter;
@@ -36,17 +41,25 @@ public:
 	void closeDoc();
 
 private Q_SLOTS:
+	void activateProgressDlg( const QString &fileName, const QString &title, bool cancellable );
+	void added( int taskId, bool success );
 	void buttonClicked( int button );
+	void cancelOperation();
 	void changeCard( QAction *a );
 	void changeLang( QAction *a );
+	void closeProgress();
 	void enableSign();
 	void messageClicked( const QString &link );
 	void on_introCheck_stateChanged( int state );
 	void on_languages_activated( int index );
 	void open( const QStringList &params );
+	void opened( int taskId, bool success );
 	void parseLink( const QString &link );
 	void printSheet( QPrinter * );
+	void saved( int taskId, bool success );
+	void setProgress( int value );
 	void showCardStatus();
+	void verifyExternally();
 	void viewSignaturesRemove( unsigned int num );
 
 private:
@@ -78,12 +91,13 @@ private:
 		ViewSaveFiles
 	};
 	bool addFile( const QString &file );
+	void enableSign( int warning );
 	bool event( QEvent *e );
 	void loadRoles();
 	void retranslate();
-	void save();
+	void save( DigiDoc::SaveAction action );
 	QString selectFile( const QString &filename, bool fixedExt );
-	void setCurrentPage( Pages page );
+	void setCurrentPage( Pages page, QList<DigiDocSignature::SignatureStatus> *validatedSignatures = nullptr );
 	void showWarning( const QString &text );
 
 	QActionGroup *cardsGroup;
@@ -93,4 +107,9 @@ private:
 	int prevpage;
 	QLabel *message;
 	bool warnOnUnsignedDocCancel;
+	std::shared_ptr<QProgressDialog> progressDlg;
+
+Q_SIGNALS:
+	void progressFinished();
+
 };

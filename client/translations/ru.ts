@@ -160,6 +160,18 @@
         <translation>Отсутствует IP-основанный доступ. Проверьте настройки справки доступа.</translation>
     </message>
     <message>
+      <source>Opening container</source>
+      <translation>Открывается конверт</translation>
+    </message>
+    <message>
+      <source>Saving container</source>
+      <translation>Coxраняется конверт</translation>
+    </message>
+    <message>
+      <source>Adding a file to container</source>
+      <translation>Дoбавляется файл в конверт</translation>
+    </message>
+    <message>
         <source>Failed to get signatures</source>
         <translation type="unfinished"></translation>
     </message>

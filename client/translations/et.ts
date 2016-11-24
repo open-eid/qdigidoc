@@ -159,6 +159,18 @@
         <translation>Puudub IP-põhine ligipääs, kontrolli juurdepääsutõendi seadeid.</translation>
     </message>
     <message>
+      <source>Opening container</source>
+      <translation>Ümbriku avamine</translation>
+    </message>
+    <message>
+      <source>Saving container</source>
+      <translation>Ümbriku salvestamine</translation>
+    </message>
+    <message>
+      <source>Adding a file to container</source>
+      <translation>Faili lisamine ümbrikusse</translation>
+    </message>
+    <message>
         <source>Failed to get signatures</source>
         <translation type="unfinished"></translation>
     </message>
