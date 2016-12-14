@@ -498,6 +498,10 @@ bool DigiDoc::isService() const
 	return b->mediaType() == "application/pdf";
 }
 bool DigiDoc::isNull() const { return b == nullptr; }
+bool DigiDoc::isReadOnlyTS() const
+{
+    return b->mediaType() == "application/vnd.etsi.asic-s+zip";
+}
 bool DigiDoc::isSupported() const
 {
 	return b->mediaType() == "application/vnd.etsi.asic-e+zip";

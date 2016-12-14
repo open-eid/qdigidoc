@@ -141,6 +141,7 @@ public:
 	DocumentModel *documentModel() const;
 	QString fileName() const;
 	bool isNull() const;
+	bool isReadOnlyTS() const;
 	bool isService() const;
 	bool isSupported() const;
 	QString mediaType() const;

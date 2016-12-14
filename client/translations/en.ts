@@ -1177,6 +1177,10 @@ software (version 3.8 and earlier).</translation>
         <translation>Notice</translation>
     </message>
     <message>
+        <source>The current file is a timestamped ASiC-S container. You are not allowed to add or remove timestamps (signatures) to this container.</source>
+        <translation>The current file is a timestamped ASiC-S container. You are not allowed to add or remove timestamps (signatures) to this container.</translation>
+    </message>
+    <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
     </message>

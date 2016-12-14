@@ -1181,6 +1181,10 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <translation>Предупреждения</translation>
     </message>
     <message>
+        <source>The current file is a timestamped ASiC-S container. You are not allowed to add or remove timestamps (signatures) to this container.</source>
+        <translation>Данный документ это ASiC-S контейнер с временным штампом. К данному контейнеру нельзя добавить или удалить из него временной штамп (подпись).</translation>
+    </message>
+    <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>DigiDoc контейнер имеет старый формат. К данному контейнеру нельзя добавить или удалить из него подпись. &lt;a href=&apos;http://www.id.ee/?id=36162&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>

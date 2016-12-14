@@ -1178,6 +1178,10 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>Hoiatus</translation>
     </message>
     <message>
+        <source>The current file is a timestamped ASiC-S container. You are not allowed to add or remove timestamps (signatures) to this container.</source>
+        <translation>Tegemist on ajatembeldatud ASiC-S kontaineriga. Sellele konteinerile ei saa ajatemplit (allkirja) lisada ega eemaldada.</translation>
+    </message>
+    <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>Tegemist on vanas formaadis DigiDoc konteineriga. Sellele konteinerile ei saa allkirja lisada ega eemaldada. &lt;a href=&apos;http://www.id.ee/?id=36160&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>

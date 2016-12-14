@@ -278,7 +278,7 @@ void MainWindow::buttonClicked( int button )
 	case HomeView:
 	{
 		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
-			tr("Documents (%1%2)").arg( "*.bdoc *.ddoc *.asice *.sce *.edoc")
+			tr("Documents (%1%2)").arg( "*.bdoc *.ddoc *.asice *.sce *.asics *.scs *.edoc")
 				.arg(qApp->confValue(Application::PDFUrl).toString().isEmpty() ? "" : " *.pdf") );
 		if( !file.isEmpty() && doc->open( file ) )
 		{
@@ -302,7 +302,9 @@ void MainWindow::buttonClicked( int button )
 				const QFileInfo f( param );
 				if( !f.isFile() )
 					continue;
-				QStringList exts = QStringList() << "bdoc" << "ddoc" << "asice" << "sce" << "edoc";
+
+        QStringList exts = QStringList() << "bdoc" << "ddoc" << "asice" << "sce" << "asics" << "scs" << "edoc";
+
 				if( doc->isNull() && exts.contains( f.suffix(), Qt::CaseInsensitive ) )
 				{
 					if( doc->open( f.absoluteFilePath() ) )
@@ -584,6 +586,13 @@ void MainWindow::enableSign()
 		button->setToolTip( tr("Container is not open") );
 	else if( doc->isService() )
 		button->setToolTip( tr("Signing not allowed.") );
+	else if( doc->isReadOnlyTS() )
+	{
+		showWarning( SignatureDialog::tr(
+			"The current file is a timestamped ASiC-S container. "
+			"You are not allowed to add or remove timestamps (signatures) to this container.") );
+		button->setToolTip( tr("Signing not allowed.") );
+	}
 	else if( !doc->isSupported() )
 	{
 		showWarning( SignatureDialog::tr(
