@@ -1297,5 +1297,21 @@ Riigi Infosüsteemi Amet ei säilita informatsiooni teenuse kasutajate ja failid
         <source>Save file</source>
         <translation>Salvesta fail</translation>
     </message>
+    <message>
+        <source>Remove container</source>
+        <translation>Eemalda ümbrik</translation>
+    </message>
+    <message>
+        <source>You are about to delete the last file in the container, it is removed along with the container.</source>
+        <translation>Oled kustutamas viimast faili ümbrikus, koos sellega eemaldatakse ka ümbrik.</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Eemalda</translation>
+    </message>
+    <message>
+        <source>Keep</source>
+        <translation>Loobu</translation>
+    </message>
 </context>
 </TS>

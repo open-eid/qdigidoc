@@ -1300,5 +1300,21 @@ The Information System Authority does not retain information regarding the files
         <source>Save file</source>
         <translation>Сохранить файл</translation>
     </message>
+    <message>
+        <source>Remove container</source>
+        <translation>Удалить контейнер</translation>
+    </message>
+    <message>
+        <source>You are about to delete the last file in the container, it is removed along with the container.</source>
+        <translation>Вы собираетесь удалить последний файл в контейнере, он удаляется вместе с контейнером.</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Keep</source>
+        <translation>Оставить</translation>
+    </message>
 </context>
 </TS>

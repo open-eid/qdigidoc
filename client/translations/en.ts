@@ -1296,5 +1296,21 @@ The Information System Authority does not retain information regarding the files
         <source>Save file</source>
         <translation>Save file</translation>
     </message>
+    <message>
+        <source>Remove container</source>
+        <translation>Remove container</translation>
+    </message>
+    <message>
+        <source>You are about to delete the last file in the container, it is removed along with the container.</source>
+        <translation>You are about to delete the last file in the container, it is removed along with the container.</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Remove</translation>
+    </message>
+    <message>
+        <source>Keep</source>
+        <translation>Keep</translation>
+    </message>
 </context>
 </TS>

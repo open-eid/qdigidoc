@@ -22,6 +22,7 @@
 #include <QtWidgets/QTreeView>
 
 class DocumentModel;
+class DigiDoc;
 
 class TreeWidget: public QTreeView
 {
@@ -31,6 +32,7 @@ public:
 	~TreeWidget();
 
 	void setDocumentModel( DocumentModel *model );
+	void setDigiDoc( DigiDoc *docPtr );
 
 private Q_SLOTS:
 	void clicked( const QModelIndex &index );
@@ -42,4 +44,5 @@ private:
 	void hidePreview();
 
 	DocumentModel *m;
+	DigiDoc	*doc;
 };

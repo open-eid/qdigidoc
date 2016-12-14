@@ -19,6 +19,7 @@
 
 #include "TreeWidget.h"
 
+#include "ui_MainWindow.h"
 #include "Application.h"
 #include "DigiDoc.h"
 #include "FileDialog.h"
@@ -54,7 +55,30 @@ void TreeWidget::clicked( const QModelIndex &index )
 			m->save( index, dest );
 		break;
 	}
-	case DocumentModel::Remove: model()->removeRow( index.row() ); break;
+	case DocumentModel::Remove: 
+	{
+		if ( model()->rowCount() == 1 )
+		{
+			QMessageBox msgBox(QMessageBox::Question, tr("Remove container"),
+				tr("You are about to delete the last file in the container, it is removed along with the container."));
+			msgBox.addButton(tr("Remove"), QMessageBox::ActionRole);
+			QPushButton *keep = msgBox.addButton(tr("Keep"), QMessageBox::ActionRole);
+			msgBox.exec();
+
+			if ( msgBox.clickedButton() == keep )
+				break;
+			else
+			{
+				model()->removeRow( index.row() );
+
+				if ( QFile::exists( doc->fileName() ) )
+					QFile::remove( doc->fileName() );
+			}
+		}
+		else
+			model()->removeRow( index.row() );
+		break;
+	}
 	default: break;
 	}
 }
@@ -84,8 +108,31 @@ void TreeWidget::keyPressEvent( QKeyEvent *e )
 		case Qt::Key_Delete:
 			if( isColumnHidden( DocumentModel::Remove ) )
 				break;
-			model()->removeRow( i[0].row() );
-			e->accept();
+ 
+			if ( model()->rowCount() == 1 )
+			{
+				QMessageBox msgBox(QMessageBox::Question, tr("Remove container"),
+					tr("You are about to delete the last file in the container, it is removed along with the container."));
+				msgBox.addButton(tr("Remove"), QMessageBox::ActionRole);
+				QPushButton *keep = msgBox.addButton(tr("Keep"), QMessageBox::ActionRole);
+				msgBox.exec();
+
+				if ( msgBox.clickedButton() == keep )
+					break;
+				else
+				{
+					model()->removeRow( i[0].row() );
+					e->accept();
+
+					if ( QFile::exists( doc->fileName() ) )
+						QFile::remove( doc->fileName() );
+				}
+			}
+			else
+			{
+				model()->removeRow( i[0].row() );
+				e->accept();
+			}
 			break;
 		case Qt::Key_Return:
 			qobject_cast<DocumentModel*>(model())->open( i[0] );
@@ -106,6 +153,11 @@ void TreeWidget::setDocumentModel( DocumentModel *model )
 	setColumnHidden( DocumentModel::Mime, true );
 	connect( this, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)) );
 	connect( this, SIGNAL(doubleClicked(QModelIndex)), model, SLOT(open(QModelIndex)) );
+}
+
+void TreeWidget::setDigiDoc( DigiDoc *docPtr )
+{
+	doc = docPtr;
 }
 
 #ifndef Q_OS_MAC

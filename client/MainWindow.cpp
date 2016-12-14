@@ -155,8 +155,9 @@ MainWindow::MainWindow( QWidget *parent )
 	connect( cardsGroup, SIGNAL(triggered(QAction*)), SLOT(changeCard(QAction*)) );
 
 	// Views
-	signContentView->setDocumentModel( doc->documentModel() );
-	viewContentView->setDocumentModel( doc->documentModel() );
+	signContentView->setDocumentModel(doc->documentModel());
+	signContentView->setDigiDoc(doc);
+	viewContentView->setDocumentModel(doc->documentModel());
 	signContentView->setColumnHidden( DocumentModel::Save, true );
 	signContentView->setColumnHidden( DocumentModel::Id, true );
 	viewContentView->setColumnHidden( DocumentModel::Remove, true );
