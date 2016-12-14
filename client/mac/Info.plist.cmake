@@ -201,6 +201,7 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>bdoc</string>
+					<string>edoc</string>
 					<string>asice</string>
 					<string>sce</string>
 				</array>

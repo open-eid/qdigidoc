@@ -277,7 +277,7 @@ void MainWindow::buttonClicked( int button )
 	case HomeView:
 	{
 		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
-			tr("Documents (%1%2)").arg( "*.bdoc *.ddoc *.asice *.sce")
+			tr("Documents (%1%2)").arg( "*.bdoc *.ddoc *.asice *.sce *.edoc")
 				.arg(qApp->confValue(Application::PDFUrl).toString().isEmpty() ? "" : " *.pdf") );
 		if( !file.isEmpty() && doc->open( file ) )
 		{
@@ -301,7 +301,7 @@ void MainWindow::buttonClicked( int button )
 				const QFileInfo f( param );
 				if( !f.isFile() )
 					continue;
-				QStringList exts = QStringList() << "bdoc" << "ddoc" << "asice" << "sce";
+				QStringList exts = QStringList() << "bdoc" << "ddoc" << "asice" << "sce" << "edoc";
 				if( doc->isNull() && exts.contains( f.suffix(), Qt::CaseInsensitive ) )
 				{
 					if( doc->open( f.absoluteFilePath() ) )
@@ -763,6 +763,7 @@ void MainWindow::save()
 QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 {
 	static const QString bdoc = tr("Documents (%1)").arg( "*.bdoc" );
+	static const QString edoc = tr("Documents (%1)").arg( "*.edoc" );
 	static const QString asic = tr("Documents (%1)").arg( "*.asice *.sce" );
 	const QString ext = QFileInfo( filename ).suffix().toLower();
 	QStringList exts;
@@ -770,12 +771,14 @@ QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 	if( fixedExt )
 	{
 		if( ext == "bdoc" ) exts << bdoc;
+		if( ext == "edoc" ) exts << edoc;
 		if( ext == "asic" || ext == "sce" ) exts << asic;
 	}
 	else
 	{
-		exts << bdoc << asic;
+		exts << bdoc << edoc << asic;
 		if( ext == "bdoc" ) active = bdoc;
+		if( ext == "edoc" ) active = edoc;
 		if( ext == "asice" || ext == "sce" ) active = asic;
 	}
 

@@ -7,6 +7,7 @@
 		<glob pattern="*.bdoc"/>
 		<glob pattern="*.asice"/>
 		<glon pattern="*.sce"/>
+		<glon pattern="*.edoc"/>
 	</mime-type>
 	<mime-type type="application/x-ddoc">
 		<comment>DigiDoc signed document</comment>

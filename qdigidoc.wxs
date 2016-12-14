@@ -87,6 +87,11 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
                 <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
               </Extension>
             </ProgId>
+            <ProgId Id="qdigidocclient.edoc" Description="DigiDoc signed document" Icon="qdigidocclient.exe" IconIndex="1">
+              <Extension Id="edoc" ContentType="application/vnd.etsi.asic-e+zip">
+                <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
+              </Extension>
+            </ProgId>
             <ProgId Id="qdigidocclient.asice" Description="DigiDoc signed document" Icon="qdigidocclient.exe" IconIndex="1">
               <Extension Id="asice" ContentType="application/vnd.etsi.asic-e+zip">
                 <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
