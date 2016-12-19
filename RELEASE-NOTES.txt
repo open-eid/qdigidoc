@@ -1,3 +1,10 @@
+DigiDoc3 version 3.12.4 release notes
+--------------------------------------
+- Registered Latvian "edoc" document extension
+- ASiC-S validation support in qdigidoc client
+- Warn on removing last file from container
+
+
 DigiDoc3 version 3.12.3 release notes
 --------------------------------------
 - Only warn on cancel of unsigned document when the document is newly created
