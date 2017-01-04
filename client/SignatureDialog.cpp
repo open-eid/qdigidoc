@@ -58,7 +58,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		sc << "<img src=\":/images/ico_stamp_blue_16.png\">";
 	else
 		sc << "<img src=\":/images/ico_person_blue_16.png\">";
-	sc << "<b>" << cert.toString(cert.showCN() ? "CN" : "GN SN").toHtmlEscaped() << "</b>";
+	sc << "<b>" << cert.toString(cert.showCN() ? "CN serialNumber" : "GN SN serialNumber").toHtmlEscaped() << "</b>";
 
 	if( !s.location().isEmpty() )
 	{
