@@ -35,11 +35,12 @@
    <string>DigiDoc3 Crypto</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../images/crypto_images.qrc">
+   <iconset resource="images/crypto_images.qrc">
     <normaloff>:/images/crypto_128x128.png</normaloff>:/images/crypto_128x128.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">#background { background-image: url(&quot;:/images/crypto_background.png&quot;); }</string>
+   <string notr="true">#background { border-image: url(:/images/crypto_background.png) 0 0 0 0 stretch stretch; }
+</string>
   </property>
   <layout class="QVBoxLayout" name="MainLayout">
    <property name="spacing">
@@ -466,7 +467,7 @@ color: #71889A;
              </sizepolicy>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../common/images/common_images.qrc">:/images/EL_Regionaalareng_horisontaal.png</pixmap>
+             <pixmap resource="../common/images/common_images.qrc">:/images/EL_Regionaalareng_horisontaal@2x.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
@@ -734,8 +735,8 @@ The private key needed for decryption is stored only on the ID-card of the recip
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>288</width>
-                  <height>200</height>
+                  <width>27</width>
+                  <height>16</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="viewKeysLayout">
@@ -848,7 +849,10 @@ The private key needed for decryption is stored only on the ID-card of the recip
    <header>TreeWidget.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../common/images/common_images.qrc"/>
+  <include location="images/crypto_images.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>infoFrame</sender>

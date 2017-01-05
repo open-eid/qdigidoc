@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/images" >
         <file>background.png</file>
-        <file>background@2x.png</file>
         <file>digidoc_icon_128x128.png</file>
     </qresource>
 </RCC>

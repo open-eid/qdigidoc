@@ -35,7 +35,7 @@
    <string>DigiDoc3 client</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#background { background-image: url(&quot;:/images/background.png&quot;); }</string>
+   <string notr="true">#background { border-image: url(:/images/background.png) 0 0 0 0 stretch stretch; }</string>
   </property>
   <layout class="QVBoxLayout" name="MainLayout">
    <property name="spacing">
@@ -657,7 +657,7 @@ padding: 5px;
              </sizepolicy>
             </property>
             <property name="pixmap">
-             <pixmap resource="../../common/images/common_images.qrc">:/images/EL_Regionaalareng_horisontaal.png</pixmap>
+             <pixmap resource="../common/images/common_images.qrc">:/images/EL_Regionaalareng_horisontaal@2x.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
@@ -1336,7 +1336,7 @@ color: red;</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../common/images/common_images.qrc"/>
+  <include location="../common/images/common_images.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -1393,7 +1393,7 @@ color: red;</string>
   <slot>buttonClicked(int)</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="infoTypeGroup"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>
