@@ -86,6 +86,7 @@ private:
 	void setCurrentPage( Pages page );
 	void showWarning( const QString &text );
 
+	static const int SIGNATURE_COL_HDR_WIDTH;
 	QActionGroup *cardsGroup;
 	DigiDoc	*doc;
 	QStringList lang, params;

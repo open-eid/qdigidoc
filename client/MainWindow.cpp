@@ -46,6 +46,8 @@
 #include <QtPrintSupport/QPrintPreviewDialog>
 #include <QtWidgets/QMessageBox>
 
+const int MainWindow::SIGNATURE_COL_HDR_WIDTH = 274;
+
 MainWindow::MainWindow( QWidget *parent )
 	: QWidget( parent )
 	, cardsGroup( new QActionGroup( this ) )
@@ -627,7 +629,8 @@ void MainWindow::enableSign()
 		if( !t.cert().isNull() )
 		{
 			SslCertificate c( t.cert() );
-			signSigner->setText( c.toString( c.showCN() ? "CN (serialNumber)" : "GN SN (serialNumber)" ) );
+			signSigner->setText( signSigner->fontMetrics().elidedText(
+				c.toString( c.showCN() ? "CN (serialNumber)" : "GN SN (serialNumber)" ), Qt::ElideMiddle, SIGNATURE_COL_HDR_WIDTH ) );
 		}
 		else
 			signSigner->clear();
