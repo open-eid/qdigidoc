@@ -1,14 +1,24 @@
 language: c++
-sudo: required
-os:
-- linux
-- osx
+sudo: false
 dist: trusty
 osx_image: xcode7.3
+services:
+- docker
+matrix:
+  include:
+  - os: osx
+    env: IMAGE=OSX
+    sudo: true
+  - os: linux
+    env: IMAGE=ubuntu:16.04
+  - os: linux
+    env: IMAGE=ubuntu:16.10
+  - os: linux
+    env: IMAGE=32bit/ubuntu:16.04
 env:
   global:
   - BUILD_NUMBER=${TRAVIS_BUILD_NUMBER}
-  - VERSION=3.12.2.${TRAVIS_BUILD_NUMBER}
+  - VERSION=3.12.4.${TRAVIS_BUILD_NUMBER}
   - secure: vX847To3osqI7JytpiH5r6xlXS9r8KCNCPP3pu2yvGxAgmz917xG1lrqRGOReoCe/08hkh+gMA9vLjIyUwDlUvZuKJr5g5iPfa85/m9iPe24DLOlf9zLI5It0MFNTLYFQ5DXFmX77+/lcB9ypDQtE5w9XK+xZjyC9xr9viye77E=
 
 before_install:
@@ -22,26 +32,28 @@ before_install:
     sudo installer -verboseR -pkg libdigidoc.pkg -target /;
     sudo installer -verboseR -pkg libdigidocpp.pkg -target /;
     sudo installer -verboseR -pkg esteid-pkcs11.pkg -target /;
-  else
-    curl https://installer.id.ee/media/sources/public.key | sudo apt-key add -;
-    sudo apt-add-repository 'deb http://installer.id.ee/media/ubuntu/ trusty main';
-    sudo apt-get update -qq;
-    sudo apt-get install -y libdigidocpp-dev libldap2-dev libpcsclite-dev libssl-dev qtbase5-dev qttools5-dev qttools5-dev-tools gettext dh-make devscripts dpkg-dev cdbs;
   fi
 script: if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
     mkdir build && cd build && cmake -DQt5_DIR=/usr/local/opt/qt5/lib/cmake/Qt5 -DOPENSSL_ROOT_DIR=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr ..;
     make zipdebug macdeployqt zip && cd ..;
   else
-    yes | dh_make --createorig --addmissing --defaultless -p qdigidoc_${VERSION};
-    dch --distribution $(lsb_release -cs) -v ${VERSION} "Release ${VERSION}.";
-    dpkg-buildpackage -rfakeroot -us -uc;
+    docker run -e BUILD_NUMBER=${TRAVIS_BUILD_NUMBER} -e VERSION=${VERSION} -e DEBFULLNAME="Travis" -e DEBEMAIL="travis-ci@travis" -v $(pwd):$(pwd) -t "${IMAGE}" /bin/bash -c "export LC_ALL=en_US.UTF-8; locale-gen en_US.UTF-8; cd $(pwd);"'
+      apt-get update -qq;
+      apt-get install -y apt-transport-https curl dh-make devscripts dpkg-dev cdbs cmake libldap2-dev libpcsclite-dev libssl-dev qtbase5-dev qttools5-dev qttools5-dev-tools gettext;
+      curl https://installer.id.ee/media/install-scripts/ria-public.key | apt-key add -;
+      curl https://installer.id.ee/media/install-scripts/C6C83D68.pub | apt-key add -;
+      echo "deb http://installer.id.ee/media/ubuntu/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/repo.list;
+      apt-get update -qq;
+      apt-get install -y libdigidocpp-dev;
+      dh_make --createorig --addmissing --defaultless -y -p qdigidoc_${VERSION};
+      dch --distribution $(lsb_release -cs) -v ${VERSION} "Release ${VERSION}.";
+      dpkg-buildpackage -rfakeroot -us -uc';
   fi
 
 addons:
   coverity_scan:
     project:
       name: open-eid/qdigidoc
-      description: Build submitted via Travis CI
     notification_email: raul@metsma.ee
     build_command_prepend: mkdir coverity; cd coverity; cmake -DBREAKPAD='' ..
     build_command: make
