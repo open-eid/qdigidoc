@@ -31,7 +31,7 @@
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.8</string>
+	<string>${CMAKE_OSX_DEPLOYMENT_TARGET}</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
