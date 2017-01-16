@@ -122,15 +122,45 @@ USES_CONVERSION;
 	return E_INVALIDARG;
 }
 
+bool WINAPI CEsteidShlExt::FindRegistryInstallPath(tstring* path)
+{
+	bool success = false;
+	HKEY hkey;
+	DWORD dwSize = MAX_PATH * sizeof(TCHAR);
+	TCHAR szInstalldir[MAX_PATH];
+	DWORD dwRet = RegOpenKeyEx(HKEY_LOCAL_MACHINE, IDCARD_REGKEY, 0, KEY_QUERY_VALUE, &hkey);
+	
+	if (dwRet == ERROR_SUCCESS) {
+		dwRet = RegQueryValueEx(hkey, IDCARD_REGVALUE, NULL, NULL, (LPBYTE)szInstalldir, &dwSize);
+		RegCloseKey(hkey);
+		*path = tstring(szInstalldir);
+		success = true;
+	} else {
+		DWORD dwRet = RegOpenKeyEx(HKEY_CURRENT_USER, IDCARD_REGKEY, 0, KEY_QUERY_VALUE, &hkey);
+		if (dwRet == ERROR_SUCCESS) {
+			RegCloseKey(hkey);
+			*path = tstring(szInstalldir);
+			success = true;
+		}
+	}
+
+	return success;
+}
+
 STDMETHODIMP CEsteidShlExt::ExecuteDigidocclient(LPCMINVOKECOMMANDINFO pCmdInfo)
 {
 	if (m_Files.empty())
 		return E_INVALIDARG;
 
-	// Registry reading
 	tstring command(MAX_PATH, 0);
-	GetModuleFileName(_AtlBaseModule.m_hInst, &command[0], MAX_PATH);
-	command.resize(command.find_last_of(_T('\\')) + 1);
+
+	// Read the location of the installation from registry
+	if (!FindRegistryInstallPath(&command)) {
+		// .. and fall back to directory where shellext resides if not found from registry 
+		GetModuleFileName(_AtlBaseModule.m_hInst, &command[0], MAX_PATH);
+		command.resize(command.find_last_of(_T('\\')) + 1);
+	}
+
 	command += _T("qdigidocclient.exe");
 
 	if(PathFileExists(command.c_str()) != 1)

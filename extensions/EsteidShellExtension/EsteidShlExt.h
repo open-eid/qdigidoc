@@ -18,7 +18,7 @@
 #error "Single-threaded COM objects are not properly supported on Windows CE platform, such as the Windows Mobile platforms that do not include full DCOM support. Define _CE_ALLOW_SINGLE_THREADED_OBJECTS_IN_MTA to force ATL to support creating single-thread COM object's and allow use of it's single-threaded COM object implementations. The threading model in your rgs file was set to 'Free' as that is the only threading model supported in non DCOM Windows CE platforms."
 #endif
 
-#define IDCARD_REGKEY L"SOFTWARE\\Estonian ID Card"
+#define IDCARD_REGKEY L"SOFTWARE\\RIA\\Open-EID"
 #define IDCARD_REGVALUE L"Installed"
 
 typedef std::basic_string<TCHAR> tstring;
@@ -69,6 +69,9 @@ public:
 	STDMETHODIMP GetCommandString(UINT_PTR, UINT, UINT*, LPSTR, UINT);
 	STDMETHODIMP InvokeCommand(LPCMINVOKECOMMANDINFO);
 	STDMETHODIMP QueryContextMenu(HMENU, UINT, UINT, UINT, UINT);
+
+private:
+	bool WINAPI FindRegistryInstallPath(tstring* path);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(EsteidShlExt), CEsteidShlExt)
