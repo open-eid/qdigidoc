@@ -211,9 +211,7 @@ Qt::DropActions DocumentModel::supportedDragActions() const
 
 DigiDocSignature::DigiDocSignature( const digidoc::Signature *signature, DigiDoc *parent )
 :	s(signature)
-,	m_lastErrorCode(-1)
 ,	m_parent(parent)
-,	m_warning(0)
 {}
 
 QSslCertificate DigiDocSignature::cert() const
@@ -236,7 +234,6 @@ QDateTime DigiDocSignature::dateTime() const
 }
 
 QString DigiDocSignature::lastError() const { return m_lastError; }
-int DigiDocSignature::lastErrorCode() const { return m_lastErrorCode; }
 
 QString DigiDocSignature::location() const
 {
@@ -341,10 +338,8 @@ void DigiDocSignature::setLastError( const Exception &e ) const
 {
 	QStringList causes;
 	Exception::ExceptionCode code = Exception::General;
-	int ddocError = -1;
-	DigiDoc::parseException( e, causes, code, ddocError );
+	DigiDoc::parseException(e, causes, code);
 	m_lastError = causes.join( "\n" );
-	m_lastErrorCode = ddocError;
 }
 
 QString DigiDocSignature::signatureMethod() const
@@ -546,12 +541,9 @@ bool DigiDoc::open( const QString &file )
 	return false;
 }
 
-bool DigiDoc::parseException( const Exception &e, QStringList &causes,
-	Exception::ExceptionCode &code, int &ddocError )
+bool DigiDoc::parseException(const Exception &e, QStringList &causes, Exception::ExceptionCode &code)
 {
 	causes << QString( "%1:%2 %3").arg( QFileInfo(from(e.file())).fileName() ).arg( e.line() ).arg( from(e.msg()) );
-	if( e.code() & Exception::DDocError )
-		ddocError = e.code() & ~Exception::DDocError;
 	switch( e.code() )
 	{
 	case Exception::CertificateRevoked:
@@ -565,8 +557,8 @@ bool DigiDoc::parseException( const Exception &e, QStringList &causes,
 		code = e.code();
 	default: break;
 	}
-	Q_FOREACH( const Exception &c, e.causes() )
-		if( !parseException( c, causes, code, ddocError ) )
+	for(const Exception &c: e.causes())
+		if(!parseException(c, causes, code))
 			return false;
 	return true;
 }
@@ -597,29 +589,28 @@ void DigiDoc::setLastError( const QString &msg, const Exception &e )
 {
 	QStringList causes;
 	Exception::ExceptionCode code = Exception::General;
-	int ddocError = -1;
-	parseException( e, causes, code, ddocError );
+	parseException(e, causes, code);
 	switch( code )
 	{
 	case Exception::CertificateRevoked:
-		qApp->showWarning( tr("Certificate status revoked"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning(tr("Certificate status revoked"), causes.join("\n")); break;
 	case Exception::CertificateUnknown:
-		qApp->showWarning( tr("Certificate status unknown"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning(tr("Certificate status unknown"), causes.join("\n")); break;
 	case Exception::OCSPTimeSlot:
-		qApp->showWarning( tr("Check your computer time"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning(tr("Check your computer time"), causes.join("\n")); break;
 	case Exception::OCSPRequestUnauthorized:
-		qApp->showWarning( tr("You have not granted IP-based access. "
-			"Check the settings of your server access certificate."), ddocError, causes.join("\n") ); break;
+		qApp->showWarning(tr("You have not granted IP-based access. "
+			"Check the settings of your server access certificate."), causes.join("\n")); break;
 	case Exception::PINCanceled:
 		break;
 	case Exception::PINFailed:
-		qApp->showWarning( tr("PIN Login failed"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning(tr("PIN Login failed"), causes.join("\n")); break;
 	case Exception::PINIncorrect:
-		qApp->showWarning( tr("PIN Incorrect"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning(tr("PIN Incorrect"), causes.join("\n")); break;
 	case Exception::PINLocked:
-		qApp->showWarning( tr("PIN Locked. Please use ID-card utility for PIN opening!"), ddocError, causes.join("\n") ); break;
+		qApp->showWarning(tr("PIN Locked. Please use ID-card utility for PIN opening!"), causes.join("\n")); break;
 	default:
-		qApp->showWarning( msg, ddocError, causes.join("\n") ); break;
+		qApp->showWarning(msg, causes.join("\n")); break;
 	}
 }
 
@@ -646,8 +637,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 	{
 		QStringList causes;
 		Exception::ExceptionCode code = Exception::General;
-		int ddocError = -1;
-		parseException( e, causes, code, ddocError );
+		parseException(e, causes, code);
 		if( code == Exception::PINIncorrect )
 		{
 			qApp->showWarning( tr("PIN Incorrect") );

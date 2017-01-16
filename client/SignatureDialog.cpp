@@ -216,8 +216,6 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	}
 	if( d->error->toPlainText().isEmpty() && d->info->text().isEmpty() )
 		d->tabWidget->removeTab( 0 );
-	/*else
-		d->buttonBox->addButton( QDialogButtonBox::Help );*/
 	d->title->setText( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + "\n" + status );
 	setWindowTitle( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + " - " + status );
 
@@ -319,9 +317,7 @@ void SignatureDialog::addItem( QTreeWidget *view, const QString &variable, const
 
 void SignatureDialog::buttonClicked( QAbstractButton *button )
 {
-	if( button == d->buttonBox->button( QDialogButtonBox::Help ) )
-		Common::showHelp( s.lastError(), s.lastErrorCode() );
-	else if( button == d->buttonBox->button( QDialogButtonBox::Close ) )
+	if(button == d->buttonBox->button(QDialogButtonBox::Close))
 		close();
 }
 

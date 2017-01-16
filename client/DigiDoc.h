@@ -90,7 +90,6 @@ public:
 	QSslCertificate	cert() const;
 	QDateTime	dateTime() const;
 	QString		lastError() const;
-	int			lastErrorCode() const;
 	QString		location() const;
 	QStringList	locations() const;
 	QSslCertificate ocspCert() const;
@@ -117,9 +116,8 @@ private:
 
 	const digidoc::Signature *s;
 	mutable QString m_lastError;
-	mutable int m_lastErrorCode;
 	DigiDoc *m_parent;
-	mutable unsigned int m_warning;
+	mutable unsigned int m_warning = 0;
 };
 
 class DigiDoc: public QObject
@@ -162,7 +160,7 @@ public:
 	QByteArray getFileDigest( unsigned int i ) const;
 
 	static bool parseException( const digidoc::Exception &e, QStringList &causes,
-		digidoc::Exception::ExceptionCode &code, int &ddocError );
+		digidoc::Exception::ExceptionCode &code);
 
 private:
 	bool checkDoc( bool status = false, const QString &msg = QString() ) const;

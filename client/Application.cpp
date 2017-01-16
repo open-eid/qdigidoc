@@ -340,8 +340,7 @@ Application::Application( int &argc, char **argv )
 				if(ex) {
 					QStringList causes;
 					digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
-					int ddocError = -1;
-					DigiDoc::parseException( *ex, causes, code, ddocError );
+					DigiDoc::parseException(*ex, causes, code);
 					QMetaObject::invokeMethod( qApp, "showWarning",
 						Q_ARG(QString,tr("Failed to initalize.")), Q_ARG(QString,causes.join("\n")) );
 				}
@@ -450,11 +449,7 @@ void Application::clearConfValue( ConfParameter parameter )
 	}
 	catch( const digidoc::Exception &e )
 	{
-		QStringList causes;
-		digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
-		int ddocError = -1;
-		DigiDoc::parseException( e, causes, code, ddocError );
-		showWarning( tr("Caught exception!"), ddocError, causes.join("\n") );
+		showWarning(tr("Caught exception!"), e);
 	}
 }
 
@@ -760,11 +755,7 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 	}
 	catch( const digidoc::Exception &e )
 	{
-		QStringList causes;
-		digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
-		int ddocError = -1;
-		DigiDoc::parseException( e, causes, code, ddocError );
-		showWarning( tr("Caught exception!"), ddocError, causes.join("\n") );
+		showWarning(tr("Caught exception!"), e);
 	}
 }
 
@@ -778,7 +769,7 @@ void Application::showAbout()
 void Application::showClient( const QStringList &params )
 {
 	QWidget *w = 0;
-	foreach( QWidget *m, qApp->topLevelWidgets() )
+	for(QWidget *m: qApp->topLevelWidgets())
 	{
 		MainWindow *main = qobject_cast<MainWindow*>(m);
 		if( main && main->windowFilePath().isEmpty() )
@@ -797,7 +788,7 @@ void Application::showClient( const QStringList &params )
 void Application::showCrypto( const QStringList &params )
 {
 	QWidget *w = 0;
-	foreach( QWidget *m, qApp->topLevelWidgets() )
+	for(QWidget *m: qApp->topLevelWidgets())
 	{
 		Crypto::MainWindow *main = qobject_cast<Crypto::MainWindow*>(m);
 		if( main && main->windowFilePath().isEmpty() )
@@ -836,27 +827,17 @@ void Application::showWarning( const QString &msg, const digidoc::Exception &e )
 {
 	QStringList causes;
 	digidoc::Exception::ExceptionCode code = digidoc::Exception::General;
-	int ddocError = -1;
-	DigiDoc::parseException( e, causes, code, ddocError );
-	showWarning( msg, causes.join("\n") );
+	DigiDoc::parseException(e, causes, code);
+	QMessageBox d(QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close, activeWindow());
+	d.setWindowModality(Qt::WindowModal);
+	d.setDetailedText(causes.join("\n"));
 }
 
 void Application::showWarning( const QString &msg, const QString &details )
 {
-	showWarning( msg, -1, details );
-}
-
-void Application::showWarning( const QString &msg, int err, const QString &details, const QString &search )
-{
 	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close, activeWindow() );
 	d.setWindowModality( Qt::WindowModal );
-	if( !details.isEmpty() )
-	{
-		//d.addButton( QMessageBox::Help );
-		d.setDetailedText( details );
-	}
-	if( d.exec() == QMessageBox::Help )
-		Common::showHelp( search.isEmpty() ? msg : search, err );
+	d.setDetailedText(details);
 }
 
 QSigner* Application::signer() const { return d->signer; }

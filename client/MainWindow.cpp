@@ -299,7 +299,7 @@ void MainWindow::buttonClicked( int button )
 	{
 		if( !params.isEmpty() )
 		{
-			Q_FOREACH( const QString &param, params )
+			for(const QString &param: params)
 			{
 				const QFileInfo f( param );
 				if( !f.isFile() )
@@ -331,8 +331,8 @@ void MainWindow::buttonClicked( int button )
 		{
 			warnOnUnsignedDocCancel = true;
 
-			QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
-			Q_FOREACH( const QString &file, list )
+			const QStringList list = FileDialog::getOpenFileNames(this, tr("Select documents"));
+			for(const QString &file: list)
 			{
 				if( !addFile( file ) )
 					return;
@@ -344,10 +344,10 @@ void MainWindow::buttonClicked( int button )
 	}
 	case SignAdd:
 	{
-		QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
+		const QStringList list = FileDialog::getOpenFileNames(this, tr("Select documents"));
 		if( !list.isEmpty() )
 		{
-			Q_FOREACH( const QString &file, list )
+			for(const QString &file: list)
 			{
 				if( !addFile( file ) )
 					return;
@@ -498,7 +498,7 @@ void MainWindow::buttonClicked( int button )
 		CheckConnection connection;
 		if( !connection.check( "http://ocsp.sk.ee" ) )
 		{
-			qApp->showWarning( connection.errorString(), -1, connection.errorDetails(), "Check connection" );
+			qApp->showWarning(connection.errorString(), connection.errorDetails());
 			switch( connection.error() )
 			{
 			case QNetworkReply::ProxyConnectionRefusedError:
@@ -671,7 +671,7 @@ bool MainWindow::event( QEvent *e )
 	case QEvent::Drop:
 	{
 		QDropEvent *d = static_cast<QDropEvent*>( e );
-		Q_FOREACH( const QUrl &u, d->mimeData()->urls() )
+		for(const QUrl &u: d->mimeData()->urls())
 		{
 			if( u.scheme() == "file" )
 				params << u.toLocalFile();
@@ -832,8 +832,8 @@ void MainWindow::setCurrentPage( Pages page )
 		int i = 0;
 		DigiDocSignature::SignatureStatus status = DigiDocSignature::Valid;
 		bool nswarning = false;
-		QList<DigiDocSignature> signatures = doc->signatures();
-		Q_FOREACH( const DigiDocSignature &c, signatures )
+		const QList<DigiDocSignature> signatures = doc->signatures();
+		for(const DigiDocSignature &c: signatures)
 		{
 			SignatureWidget *signature = new SignatureWidget( c, i, viewSignatures );
 			viewSignaturesLayout->insertWidget( 0, signature );

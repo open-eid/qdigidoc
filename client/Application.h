@@ -73,7 +73,6 @@ public:
 	static QVariant confValue( ConfParameter parameter, const QVariant &value = QVariant() );
 	static void clearConfValue( ConfParameter parameter );
 	static void setConfValue( ConfParameter parameter, const QVariant &value );
-	static void showWarning( const QString &msg, int err, const QString &details = QString(), const QString &search = QString() );
 
 public Q_SLOTS:
 	void showAbout();
@@ -97,7 +96,7 @@ private:
 	void activate( QWidget *w );
 	void diagnostics(QTextStream &s) override;
 	bool event( QEvent *e ) override;
-	void showWarning( const QString &msg, const digidoc::Exception &e );
+	static void showWarning(const QString &msg, const digidoc::Exception &e);
 
 #if defined(Q_OS_MAC)
 	void initMacEvents();
