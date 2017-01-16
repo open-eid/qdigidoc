@@ -21,4 +21,11 @@
 		<comment xml:lang="ru">Справка допуска DigiDoc PKCS#12</comment>
 		<glob pattern="*.p12d"/>
 	</mime-type>
+	<mime-type type="application/vnd.etsi.asic-s+zip">
+		<comment>DigiDoc timestamped document</comment>
+		<comment xml:lang="et">DigiDoc ajatembeldatud dokument</comment>
+		<comment xml:lang="ru">DigiDoc документ с временным штампом</comment>
+		<glob pattern="*.asics"/>
+		<glon pattern="*.scs"/>
+	</mime-type>
 </mime-info>

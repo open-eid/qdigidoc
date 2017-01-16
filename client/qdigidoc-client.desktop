@@ -10,4 +10,4 @@ Name[et]=DigiDoc klient
 Name[ru]=DigiDoc клиент
 
 Categories=Qt;Office;
-MimeType=application/vnd.etsi.asic-e+zip;application/x-ddoc;application/x-p12d;
+MimeType=application/vnd.etsi.asic-e+zip;application/vnd.etsi.asic-s+zip;application/x-ddoc;application/x-p12d;

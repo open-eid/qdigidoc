@@ -127,6 +127,29 @@
 			</array>
 		</dict>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>asics</string>
+				<string>scs</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>asics.icns</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>application/vnd.etsi.asic-s+zip</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>ASiC-S - Simple associated signature container with timestamp token</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>ee.ria.asics</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleTypeName</key>
 			<string>All files</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -281,6 +304,33 @@
 				<key>public.mime-type</key>
 				<array>
 					<string>application/x-cdoc</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.archive</string>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>ASiC-S – Simple associated signature container with timestamp token</string>
+			<key>UTTypeIconFile</key>
+			<string>asics.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>ee.ria.asics</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>com.apple.ostype</key>
+				<string>ASICS</string>
+				<key>public.filename-extension</key>
+				<array>
+					<string>asics</string>
+					<string>scs</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/vnd.etsi.asic-s+zip</string>
 				</array>
 			</dict>
 		</dict>

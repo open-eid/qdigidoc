@@ -117,6 +117,16 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
                 <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='-crypto "%1"' />
               </Extension>
             </ProgId>
+            <ProgId Id="qdigidocclient.asics" Description="DigiDoc timestamped document" Icon="qdigidocclient.exe" IconIndex="1">
+              <Extension Id="asics" ContentType="application/vnd.etsi.asic-s+zip">
+                <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
+              </Extension>
+            </ProgId>
+            <ProgId Id="qdigidocclient.scs" Description="DigiDoc timestamped document" Icon="qdigidocclient.exe" IconIndex="1">
+              <Extension Id="scs" ContentType="application/vnd.etsi.asic-s+zip">
+                <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
+              </Extension>
+            </ProgId>
             <File Source="$(var.libs_path)\zlib1.dll"/>
             <File Source="$(var.libs_path)\xerces-c_3_1.dll"/>
 <?ifdef var.xalan ?>
