@@ -101,6 +101,7 @@ public:
 	QString		role() const;
 	QStringList	roles() const;
 	QString		signatureMethod() const;
+	QString		signedBy() const;
 	QDateTime	signTime() const;
 	QString		spuri() const;
 	QSslCertificate tsCert() const;
@@ -114,6 +115,7 @@ private:
 	void setLastError( const digidoc::Exception &e ) const;
 	void parseException( SignatureStatus &result, const digidoc::Exception &e ) const;
 	SignatureStatus validate(const std::string &policy) const;
+	QDateTime toTime(const std::string &time) const;
 
 	const digidoc::Signature *s;
 	mutable QString m_lastError;

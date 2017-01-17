@@ -64,7 +64,10 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		sc << "<img src=\":/images/ico_stamp_blue_16.png\">";
 	else
 		sc << "<img src=\":/images/ico_person_blue_16.png\">";
-	sc << "<b>" << cert.toString(cert.showCN() ? "CN serialNumber" : "GN SN serialNumber").toHtmlEscaped() << "</b>";
+	if(!cert.isNull())
+		sc << "<b>" << cert.toString(cert.showCN() ? "CN serialNumber" : "GN SN serialNumber").toHtmlEscaped() << "</b>";
+	else
+		sc << "<b>" << s.signedBy().toHtmlEscaped() << "</b>";
 
 	if( !s.location().isEmpty() )
 	{
@@ -231,8 +234,9 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	}
 	if( d->error->toPlainText().isEmpty() && d->info->text().isEmpty() )
 		d->tabWidget->removeTab( 0 );
-	d->title->setText( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + "\n" + status );
-	setWindowTitle( c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) + " - " + status );
+	QString name = !c.isNull() ? c.toString( c.showCN() ? "CN serialNumber" : "GN SN serialNumber" ) : s.signedBy();
+	d->title->setText(name + "\n" + status);
+	setWindowTitle(name + " - " + status);
 
 	const QStringList l = s.locations();
 	d->signerCity->setText( l.value( 0 ) );

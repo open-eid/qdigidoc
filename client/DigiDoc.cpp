@@ -226,11 +226,7 @@ QSslCertificate DigiDocSignature::cert() const
 
 QDateTime DigiDocSignature::dateTime() const
 {
-	QDateTime ts = tsTime();
-	if(!ts.isNull()) return ts;
-	QDateTime ocsp = ocspTime();
-	if(!ocsp.isNull()) return ocsp;
-	return signTime();
+	return toTime(s->trustedSigningTime());
 }
 
 QString DigiDocSignature::lastError() const { return m_lastError; }
@@ -264,12 +260,7 @@ QByteArray DigiDocSignature::ocspNonce() const
 
 QDateTime DigiDocSignature::ocspTime() const
 {
-	QString dateTime = from( s->OCSPProducedAt() );
-	if( dateTime.isEmpty() )
-		return QDateTime();
-	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
-	date.setTimeSpec( Qt::UTC );
-	return date;
+	return toTime(s->OCSPProducedAt());
 }
 
 const DigiDoc* DigiDocSignature::parent() const { return m_parent; }
@@ -343,19 +334,29 @@ void DigiDocSignature::setLastError( const Exception &e ) const
 QString DigiDocSignature::signatureMethod() const
 { return from( s->signatureMethod() ); }
 
+QString DigiDocSignature::signedBy() const
+{
+	return from(s->signedBy());
+}
+
 QDateTime DigiDocSignature::signTime() const
 {
-	QString dateTime = from( s->claimedSigningTime() );
-	if( dateTime.isEmpty() )
-		return QDateTime();
-	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
-	date.setTimeSpec( Qt::UTC );
-	return date;
+	return toTime(s->claimedSigningTime());
 }
 
 QString DigiDocSignature::spuri() const
 {
 	return from(s->SPUri());
+}
+
+QDateTime DigiDocSignature::toTime(const std::string &time) const
+{
+	QDateTime date;
+	if(time.empty())
+		return date;
+	date = QDateTime::fromString(from(time), "yyyy-MM-dd'T'hh:mm:ss'Z'");
+	date.setTimeSpec(Qt::UTC);
+	return date;
 }
 
 QSslCertificate DigiDocSignature::tsCert() const
@@ -366,12 +367,7 @@ QSslCertificate DigiDocSignature::tsCert() const
 
 QDateTime DigiDocSignature::tsTime() const
 {
-	QString dateTime = from( s->TimeStampTime() );
-	if( dateTime.isEmpty() )
-		return QDateTime();
-	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
-	date.setTimeSpec( Qt::UTC );
-	return date;
+	return toTime(s->TimeStampTime());
 }
 
 QSslCertificate DigiDocSignature::tsaCert() const
@@ -382,12 +378,7 @@ QSslCertificate DigiDocSignature::tsaCert() const
 
 QDateTime DigiDocSignature::tsaTime() const
 {
-	QString dateTime = from( s->ArchiveTimeStampTime() );
-	if( dateTime.isEmpty() )
-		return QDateTime();
-	QDateTime date = QDateTime::fromString( dateTime, "yyyy-MM-dd'T'hh:mm:ss'Z'" );
-	date.setTimeSpec( Qt::UTC );
-	return date;
+	return toTime(s->ArchiveTimeStampTime());
 }
 
 DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
