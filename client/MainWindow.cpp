@@ -829,27 +829,24 @@ void MainWindow::setCurrentPage( Pages page )
 	{
 		qDeleteAll( viewSignatures->findChildren<SignatureWidget*>() );
 
-		int i = 0;
+		unsigned int i = 0;
 		DigiDocSignature::SignatureStatus status = DigiDocSignature::Valid;
-		bool nswarning = false;
 		const QList<DigiDocSignature> signatures = doc->signatures();
 		for(const DigiDocSignature &c: signatures)
 		{
-			SignatureWidget *signature = new SignatureWidget( c, i, viewSignatures );
+			SignatureWidget *signature = new SignatureWidget( c, i++, viewSignatures );
 			viewSignaturesLayout->insertWidget( 0, signature );
 			connect( signature, SIGNAL(removeSignature(unsigned int)),
 				SLOT(viewSignaturesRemove(unsigned int)) );
 			DigiDocSignature::SignatureStatus next = c.validate();
 			if(status < next) status = next;
-			nswarning = std::max( nswarning, bool(c.warning() & DigiDocSignature::WrongNameSpace) );
-			++i;
 		}
 
 		viewFileName->setToolTip( QDir::toNativeSeparators( doc->fileName().normalized( QString::NormalizationForm_C ) ) );
 		viewFileName->setText( QString("<a href=\"%1\">%2</a>").arg( viewFileName->toolTip().toHtmlEscaped() )
 			.arg( viewFileName->fontMetrics().elidedText( viewFileName->toolTip(), Qt::ElideMiddle, viewFileName->width() ) ) );
 		viewSignaturesLabel->setText( tr( "Signature(s)", "", signatures.size() ) );
-		viewFileNameSave->setHidden( nswarning );
+		viewFileNameSave->setVisible( doc->isSupported() );
 
 		switch( status )
 		{

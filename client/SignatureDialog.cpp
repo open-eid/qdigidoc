@@ -176,13 +176,6 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		status = QString("%1 (%2)").arg( tr("Signature is valid"), tr("Warnings") );
 		if( !s.lastError().isEmpty() )
 			d->error->setPlainText( s.lastError() );
-		if( s.warning() & DigiDocSignature::WrongNameSpace )
-		{
-			d->info->setText( tr(
-				"This Digidoc document has not been created according to specification, "
-				"but the digital signature is legally valid. Please inform the document creator "
-				"of this issue. <a href='http://www.id.ee/?id=36511'>Additional information</a>.") );
-		}
 		if( s.warning() & DigiDocSignature::DigestWeak )
 		{
 			d->info->setText( tr(

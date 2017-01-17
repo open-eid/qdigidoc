@@ -286,11 +286,9 @@ void DigiDocSignature::parseException( DigiDocSignature::SignatureStatus &result
 			result = std::max( result, Warning );
 			break;
 		case Exception::DataFileNameSpaceWarning:
-			m_warning |= WrongNameSpace;
 			result = std::max( result, Warning );
 			break;
 		case Exception::IssuerNameSpaceWarning:
-			m_warning |= WrongNameSpace;
 			result = std::max( result, Warning );
 			break;
 		case Exception::ProducedATLateWarning:

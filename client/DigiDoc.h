@@ -82,7 +82,6 @@ public:
 	};
 	enum SignatureWarning
 	{
-		WrongNameSpace = 1 << 1,
 		DigestWeak = 1 << 2
 	};
 	DigiDocSignature( const digidoc::Signature *signature, DigiDoc *parent );
