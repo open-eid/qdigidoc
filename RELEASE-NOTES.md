@@ -1,3 +1,9 @@
+DigiDoc3 version [3.12.4](https://github.com/open-eid/qdigidoc/releases/tag/v3.12.4) release notes
+--------------------------------------------
+- Rebuild with new EU LOTL list
+
+[Full Changelog](https://github.com/open-eid/qdigidoc/compare/v3.12.3...v3.12.4)
+
 DigiDoc3 version 3.12.3 release notes
 --------------------------------------
 - Only warn on cancel of unsigned document when the document is newly created
