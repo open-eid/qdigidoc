@@ -7,16 +7,16 @@
 
 <?if $(var.Platform) = x64 ?>
   <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
-  <!-- New  upgrade code / component ID created for x64 installer because both 32-
+  <!-- Separate upgrade code / component ID created for x64 installer because both 32-
        and 64-bit shell extensions are installed on x64 machine and x64 installer
        removes x86 component installed directly before it if same guids are used.
   -->
-  <?define ShellUpgradeCode = "8c4b5dae-dba9-4445-8584-3d156a48da27" ?>
-  <?define ShellComponentId = "00ad9482-2770-4dc7-b564-f68268d3f457" ?>
-<?else ?>
-  <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
   <?define ShellUpgradeCode = "dc5723f9-386f-4581-a872-b9c823dfe40f" ?>
   <?define ShellComponentId = "7adaa2cc-c3f5-4e2e-a38d-5d9c9730444e" ?>
+<?else ?>
+  <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?define ShellUpgradeCode = "8c4b5dae-dba9-4445-8584-3d156a48da27" ?>
+  <?define ShellComponentId = "00ad9482-2770-4dc7-b564-f68268d3f457" ?>
 <?endif ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
