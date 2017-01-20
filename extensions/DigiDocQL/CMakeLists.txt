@@ -1,4 +1,4 @@
-set( RESOURCES ../../client/mac/Resources/asics.icns ../../client/mac/Resources/bdoc.icns ../../client/mac/Resources/ddoc.icns )
+set( RESOURCES ../../client/mac/Resources/asic.icns ../../client/mac/Resources/ddoc.icns )
 add_library( DigiDocQL MODULE
 	${RESOURCES}
 	Info.plist

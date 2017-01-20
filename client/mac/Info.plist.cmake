@@ -38,17 +38,18 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>bdoc</string>
+				<string>edoc</string>
 				<string>asice</string>
 				<string>sce</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>bdoc.icns</string>
+			<string>asic.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
 				<string>application/vnd.etsi.asic-e+zip</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>BDOC – XAdES signatures container</string>
+			<string>DigiDoc signed document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -70,7 +71,7 @@
 				<string>application/x-ddoc</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>DDOC – XAdES signatures container</string>
+			<string>DigiDoc signed document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -83,9 +84,7 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>p12</string>
 				<string>p12d</string>
-				<string>pfx</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>p12d.icns</string>
@@ -94,7 +93,7 @@
 				<string>application/x-pkcs12</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>PKCS #12 archive of certificate and private key</string>
+			<string>DigiDoc PKCS#12 certificate</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
@@ -116,7 +115,7 @@
 				<string>application/x-cdoc</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>CDoc - xml crypto format</string>
+			<string>DigiDoc encrypted container</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
@@ -133,13 +132,13 @@
 				<string>scs</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>asics.icns</string>
+			<string>asic.icns</string>
 			<key>CFBundleTypeMIMETypes</key>
 			<array>
 				<string>application/vnd.etsi.asic-s+zip</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>ASiC-S - Simple associated signature container with timestamp token</string>
+			<string>DigiDoc timestamped document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
@@ -212,9 +211,9 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>BDOC – XAdES signatures container</string>
+			<string>DigiDoc signed document</string>
 			<key>UTTypeIconFile</key>
-			<string>bdoc.icns</string>
+			<string>asic.icns</string>
 			<key>UTTypeIdentifier</key>
 			<string>ee.ria.bdoc</string>
 			<key>UTTypeTagSpecification</key>
@@ -241,7 +240,7 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>DDOC – XAdES signatures container</string>
+			<string>DigiDoc signed document</string>
 			<key>UTTypeIconFile</key>
 			<string>ddoc.icns</string>
 			<key>UTTypeIdentifier</key>
@@ -264,7 +263,7 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>PKCS #12 archive of certificate and private key</string>
+			<string>DigiDoc PKCS#12 certificate</string>
 			<key>UTTypeIconFile</key>
 			<string>p12d.icns</string>
 			<key>UTTypeIdentifier</key>
@@ -273,9 +272,7 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-					<string>p12</string>
 					<string>p12d</string>
-					<string>pfx</string>
 				</array>
 				<key>public.mime-type</key>
 				<array>
@@ -290,7 +287,7 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>CDoc - xml crypto format</string>
+			<string>DigiDoc encrypted document</string>
 			<key>UTTypeIconFile</key>
 			<string>cdoc.icns</string>
 			<key>UTTypeIdentifier</key>
@@ -314,7 +311,7 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>ASiC-S – Simple associated signature container with timestamp token</string>
+			<string>DigiDoc timestamped document</string>
 			<key>UTTypeIconFile</key>
 			<string>asics.icns</string>
 			<key>UTTypeIdentifier</key>
