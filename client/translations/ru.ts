@@ -159,10 +159,6 @@
         <source>You have not granted IP-based access. Check the settings of your server access certificate.</source>
         <translation>Отсутствует IP-основанный доступ. Проверьте настройки справки доступа.</translation>
     </message>
-    <message>
-        <source>Failed to get signatures</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>DocumentModel</name>
@@ -373,7 +369,7 @@ Media type: %3</source>
         </translation>
     </message>
     <message numerus="yes">
-        <source>You've added %n file(s) to container, but these are not signed yet.
+        <source>You&apos;ve added %n file(s) to container, but these are not signed yet.
 Should I keep the unsigned container or remove it?</source>
         <translation>
             <numerusform>В контейнер добавлено %n файл, но они не подписаны.
@@ -1062,7 +1058,7 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <name>SignatureDialog</name>
     <message>
         <source>Signature is valid</source>
-        <translation>Подпись действительна</translation>
+        <translation type="vanished">Подпись действительна</translation>
     </message>
     <message>
         <source>Unknown error</source>
@@ -1118,11 +1114,11 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     </message>
     <message>
         <source>Signature is not valid</source>
-        <translation>Подпись недействительна</translation>
+        <translation type="vanished">Подпись недействительна</translation>
     </message>
     <message>
         <source>Signature status unknown</source>
-        <translation>Неизвестный статус пользователя</translation>
+        <translation type="vanished">Неизвестный статус пользователя</translation>
     </message>
     <message>
         <source>Signature method</source>
@@ -1190,7 +1186,7 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     </message>
     <message>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36512&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
+        <translation type="vanished">Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36512&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Warnings</source>
@@ -1238,6 +1234,22 @@ The Information System Authority does not retain information regarding the files
         <translation>Контроль срока действия дигитальной подписи в формате PDF осуществляется через электронную услугу. Контролируемый файл передается э-услугe.
 Департамент государственной инфосистемы не сохраняет информацию о пользователях э-услуги и файлах.</translation>
     </message>
+    <message>
+        <source>Timestamp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is valid</source>
+        <translation>действительна</translation>
+    </message>
+    <message>
+        <source>is not valid</source>
+        <translation>недействительна</translation>
+    </message>
+    <message>
+        <source>status unknown</source>
+        <translation>статус пользователя</translation>
+    </message>
 </context>
 <context>
     <name>SignatureWidget</name>
@@ -1247,15 +1259,15 @@ The Information System Authority does not retain information regarding the files
     </message>
     <message>
         <source>Signature is</source>
-        <translation>Подпись</translation>
+        <translation type="vanished">Подпись</translation>
     </message>
     <message>
         <source>valid</source>
-        <translation>действительна</translation>
+        <translation type="vanished">действительна</translation>
     </message>
     <message>
         <source>not valid</source>
-        <translation>недействительна</translation>
+        <translation type="vanished">недействительна</translation>
     </message>
     <message>
         <source>Show details</source>
@@ -1275,7 +1287,7 @@ The Information System Authority does not retain information regarding the files
     </message>
     <message>
         <source>unknown</source>
-        <translation>неизвестно</translation>
+        <translation type="vanished">неизвестно</translation>
     </message>
     <message>
         <source>Remove signature %1</source>
@@ -1296,6 +1308,22 @@ The Information System Authority does not retain information regarding the files
     <message>
         <source>Warnings</source>
         <translation>предупреждения</translation>
+    </message>
+    <message>
+        <source>Timestamp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>is valid</source>
+        <translation>действительна</translation>
+    </message>
+    <message>
+        <source>is not valid</source>
+        <translation>недействительна</translation>
+    </message>
+    <message>
+        <source>is unknown</source>
+        <translation>неизвестно</translation>
     </message>
 </context>
 <context>

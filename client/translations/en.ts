@@ -158,10 +158,6 @@
         <source>You have not granted IP-based access. Check the settings of your server access certificate.</source>
         <translation>You have not granted IP-based access. Check the settings of your server access certificate.</translation>
     </message>
-    <message>
-        <source>Failed to get signatures</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>DocumentModel</name>
@@ -371,12 +367,12 @@ Media type: %3</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <source>You've added %n file(s) to container, but these are not signed yet.
+        <source>You&apos;ve added %n file(s) to container, but these are not signed yet.
 Should I keep the unsigned container or remove it?</source>
         <translation>
-            <numerusform>You've added %n file to container, but these are not signed yet.
+            <numerusform>You&apos;ve added %n file to container, but these are not signed yet.
 Should I keep the unsigned container or remove it?</numerusform>
-            <numerusform>You've added %n files to container, but these are not signed yet.
+            <numerusform>You&apos;ve added %n files to container, but these are not signed yet.
 Should I keep the unsigned container or remove it?</numerusform>
         </translation>
     </message>
@@ -1106,7 +1102,7 @@ software (version 3.8 and earlier).</translation>
     </message>
     <message>
         <source>Signature is valid</source>
-        <translation>Signature is valid</translation>
+        <translation type="vanished">Signature is valid</translation>
     </message>
     <message>
         <source>Unknown error</source>
@@ -1114,11 +1110,11 @@ software (version 3.8 and earlier).</translation>
     </message>
     <message>
         <source>Signature is not valid</source>
-        <translation>Signature is not valid</translation>
+        <translation type="vanished">Signature is not valid</translation>
     </message>
     <message>
         <source>Signature status unknown</source>
-        <translation>Signature status unknown</translation>
+        <translation type="vanished">Signature status unknown</translation>
     </message>
     <message>
         <source>Signature method</source>
@@ -1186,7 +1182,7 @@ software (version 3.8 and earlier).</translation>
     </message>
     <message>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</translation>
+        <translation type="vanished">This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Warnings</source>
@@ -1234,16 +1230,32 @@ The Information System Authority does not retain information regarding the files
         <translation>The verification of digital signatures in PDF format is performed through an external service. The file requiring verification will be forwarded to the service.
 The Information System Authority does not retain information regarding the files and users of the service.</translation>
     </message>
+    <message>
+        <source>Timestamp</source>
+        <translation>Timestamp</translation>
+    </message>
+    <message>
+        <source>is valid</source>
+        <translation>is valid</translation>
+    </message>
+    <message>
+        <source>is not valid</source>
+        <translation>is not valid</translation>
+    </message>
+    <message>
+        <source>status unknown</source>
+        <translation>status unknown</translation>
+    </message>
 </context>
 <context>
     <name>SignatureWidget</name>
     <message>
         <source>valid</source>
-        <translation>valid</translation>
+        <translation type="vanished">valid</translation>
     </message>
     <message>
         <source>not valid</source>
-        <translation>not valid</translation>
+        <translation type="vanished">not valid</translation>
     </message>
     <message>
         <source>Show details</source>
@@ -1259,7 +1271,7 @@ The Information System Authority does not retain information regarding the files
     </message>
     <message>
         <source>Signature is</source>
-        <translation>Signature is</translation>
+        <translation type="vanished">Signature is</translation>
     </message>
     <message>
         <source>time</source>
@@ -1271,7 +1283,7 @@ The Information System Authority does not retain information regarding the files
     </message>
     <message>
         <source>unknown</source>
-        <translation>unknown</translation>
+        <translation type="vanished">unknown</translation>
     </message>
     <message>
         <source>Remove signature %1</source>
@@ -1292,6 +1304,22 @@ The Information System Authority does not retain information regarding the files
     <message>
         <source>Warnings</source>
         <translation>Warnings</translation>
+    </message>
+    <message>
+        <source>Timestamp</source>
+        <translation>Timestamp</translation>
+    </message>
+    <message>
+        <source>is valid</source>
+        <translation>is valid</translation>
+    </message>
+    <message>
+        <source>is not valid</source>
+        <translation>is not valid</translation>
+    </message>
+    <message>
+        <source>is unknown</source>
+        <translation>is unknown</translation>
     </message>
 </context>
 <context>

@@ -84,7 +84,7 @@ public:
 	{
 		DigestWeak = 1 << 2
 	};
-	DigiDocSignature( const digidoc::Signature *signature, DigiDoc *parent );
+	DigiDocSignature(const digidoc::Signature *signature, const DigiDoc *parent);
 
 	QSslCertificate	cert() const;
 	QDateTime	dateTime() const;
@@ -94,7 +94,7 @@ public:
 	QSslCertificate ocspCert() const;
 	QByteArray	ocspNonce() const;
 	QDateTime	ocspTime() const;
-	DigiDoc		*parent() const;
+	const DigiDoc *parent() const;
 	QString		policy() const;
 	QString		profile() const;
 	QString		role() const;
@@ -115,7 +115,7 @@ private:
 
 	const digidoc::Signature *s;
 	mutable QString m_lastError;
-	DigiDoc *m_parent;
+	const DigiDoc *m_parent;
 	mutable unsigned int m_warning = 0;
 };
 
@@ -154,7 +154,8 @@ public:
 		const QString &role,
 		const QString &role2 );
 	QString signatureFormat() const;
-	QList<DigiDocSignature> signatures();
+	QList<DigiDocSignature> signatures() const;
+	QList<DigiDocSignature> timestamps() const;
 	DocumentType documentType() const;
 	QByteArray getFileDigest( unsigned int i ) const;
 
@@ -165,9 +166,9 @@ private:
 	bool checkDoc( bool status = false, const QString &msg = QString() ) const;
 	void setLastError( const QString &msg, const digidoc::Exception &e );
 
-	digidoc::Container *b;
+	digidoc::Container *b = nullptr, *parentContainer = nullptr;
 	QString			m_fileName;
-	DocumentModel	*m_documentModel;
+	DocumentModel	*m_documentModel = nullptr;
 	QStringList		m_tempFiles;
 
 	friend class DocumentModel;

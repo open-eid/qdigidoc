@@ -158,10 +158,6 @@
         <source>You have not granted IP-based access. Check the settings of your server access certificate.</source>
         <translation>Puudub IP-põhine ligipääs, kontrolli juurdepääsutõendi seadeid.</translation>
     </message>
-    <message>
-        <source>Failed to get signatures</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>DocumentModel</name>
@@ -371,7 +367,7 @@ Tüüp: %3</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <source>You've added %n file(s) to container, but these are not signed yet.
+        <source>You&apos;ve added %n file(s) to container, but these are not signed yet.
 Should I keep the unsigned container or remove it?</source>
         <translation>
             <numerusform>Oled lisanud ümbrikusse %n faili, kuid pole neid allkirjastanud.
@@ -1107,7 +1103,7 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     </message>
     <message>
         <source>Signature is valid</source>
-        <translation>Allkiri on kehtiv</translation>
+        <translation type="vanished">Allkiri on kehtiv</translation>
     </message>
     <message>
         <source>Unknown error</source>
@@ -1115,11 +1111,11 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     </message>
     <message>
         <source>Signature is not valid</source>
-        <translation>Allkiri ei ole kehtiv</translation>
+        <translation type="vanished">Allkiri ei ole kehtiv</translation>
     </message>
     <message>
         <source>Signature status unknown</source>
-        <translation>Allkirja staatus on teadmata</translation>
+        <translation type="vanished">Allkirja staatus on teadmata</translation>
     </message>
     <message>
         <source>Signature method</source>
@@ -1187,7 +1183,7 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     </message>
     <message>
         <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36510&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
+        <translation type="vanished">Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36510&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Warnings</source>
@@ -1235,16 +1231,32 @@ The Information System Authority does not retain information regarding the files
         <translation>PDF formaadis digitaalallkirjade kehtivuse kontrollimine toimub läbi teenuse. Kontrollitav fail edastatakse teenusele.
 Riigi Infosüsteemi Amet ei säilita informatsiooni teenuse kasutajate ja failide osas.</translation>
     </message>
+    <message>
+        <source>Timestamp</source>
+        <translation>Ajatempel</translation>
+    </message>
+    <message>
+        <source>is valid</source>
+        <translation>on kehtiv</translation>
+    </message>
+    <message>
+        <source>is not valid</source>
+        <translation>ei ole kehtiv</translation>
+    </message>
+    <message>
+        <source>status unknown</source>
+        <translation>staatus on teadmata</translation>
+    </message>
 </context>
 <context>
     <name>SignatureWidget</name>
     <message>
         <source>valid</source>
-        <translation>kehtiv</translation>
+        <translation type="vanished">kehtiv</translation>
     </message>
     <message>
         <source>not valid</source>
-        <translation>kehtetu</translation>
+        <translation type="vanished">kehtetu</translation>
     </message>
     <message>
         <source>Show details</source>
@@ -1260,7 +1272,7 @@ Riigi Infosüsteemi Amet ei säilita informatsiooni teenuse kasutajate ja failid
     </message>
     <message>
         <source>Signature is</source>
-        <translation>Allkiri on</translation>
+        <translation type="vanished">Allkiri on</translation>
     </message>
     <message>
         <source>time</source>
@@ -1272,7 +1284,7 @@ Riigi Infosüsteemi Amet ei säilita informatsiooni teenuse kasutajate ja failid
     </message>
     <message>
         <source>unknown</source>
-        <translation>teadmata</translation>
+        <translation type="vanished">teadmata</translation>
     </message>
     <message>
         <source>Remove signature %1</source>
@@ -1293,6 +1305,22 @@ Riigi Infosüsteemi Amet ei säilita informatsiooni teenuse kasutajate ja failid
     <message>
         <source>Warnings</source>
         <translation>hoiatusega</translation>
+    </message>
+    <message>
+        <source>Timestamp</source>
+        <translation>Ajatempel</translation>
+    </message>
+    <message>
+        <source>is valid</source>
+        <translation>on kehtiv</translation>
+    </message>
+    <message>
+        <source>is not valid</source>
+        <translation>ei ole kehtiv</translation>
+    </message>
+    <message>
+        <source>is unknown</source>
+        <translation>on teadmata</translation>
     </message>
 </context>
 <context>

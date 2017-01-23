@@ -54,7 +54,13 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	QTextStream sc( &content );
 	QTextStream st( &tooltip );
 
-	if( cert.type() & SslCertificate::TempelType )
+	QString label = tr("Signature");
+	if(signature.profile() == "TimeStampToken")
+	{
+		label = tr("Timestamp");
+		sc << "<img src=\":/images/ico_stamp_blue_16.png\">";
+	}
+	else if(cert.type() & SslCertificate::TempelType)
 		sc << "<img src=\":/images/ico_stamp_blue_16.png\">";
 	else
 		sc << "<img src=\":/images/ico_person_blue_16.png\">";
@@ -90,30 +96,30 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	}
 	setToolTip( tooltip );
 
-	sa << " " << tr("Signature is") << " ";
+	sa << " " << label << " ";
 	sc << "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>";
-	sc << "<td>" << tr("Signature is") << " ";
+	sc << "<td>" << label << " ";
 	switch( s.validate() )
 	{
 	case DigiDocSignature::Valid:
-		sa << tr("valid");
-		sc << "<font color=\"green\">" << tr("valid");
+		sa << tr("is valid");
+		sc << "<font color=\"green\">" << tr("is valid");
 		break;
 	case DigiDocSignature::Warning:
-		sa << tr("valid") << " (" << tr("Warnings") << ")";
-		sc << "<font color=\"green\">" << tr("valid") << "</font> <font>(" << tr("Warnings") << ")";
+		sa << tr("is valid") << " (" << tr("Warnings") << ")";
+		sc << "<font color=\"green\">" << tr("is valid") << "</font> <font>(" << tr("Warnings") << ")";
 		break;
 	case DigiDocSignature::Test:
-		sa << tr("valid") << " (" << tr("Test signature") << ")";
-		sc << "<font color=\"green\">" << tr("valid") << "</font> <font>(" << tr("Test signature") << ")";
+		sa << tr("is valid") << " (" << tr("Test signature") << ")";
+		sc << "<font color=\"green\">" << tr("is valid") << "</font> <font>(" << tr("Test signature") << ")";
 		break;
 	case DigiDocSignature::Invalid:
-		sa << tr("not valid");
-		sc << "<font color=\"red\">" << tr("not valid");
+		sa << tr("is not valid");
+		sc << "<font color=\"red\">" << tr("is not valid");
 		break;
 	case DigiDocSignature::Unknown:
-		sa << tr("unknown");
-		sc << "<font color=\"red\">" << tr("unknown");
+		sa << tr("is unknown");
+		sc << "<font color=\"red\">" << tr("is unknown");
 		break;
 	}
 	sc << "</font>";
@@ -126,7 +132,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 	sc << "</td></tr></table>";
 
 	setText( content );
-	setAccessibleName( tr("Signature") + " " + cert.toString( cert.showCN() ? "CN" : "GN SN" ) );
+	setAccessibleName(label + " " + cert.toString(cert.showCN() ? "CN" : "GN SN"));
 	setAccessibleDescription( accessibility );
 }
 
@@ -154,26 +160,32 @@ void SignatureWidget::mouseDoubleClickEvent( QMouseEvent *e )
 
 
 
-class SignatureDialogPrivate: public Ui::SignatureDialog {};
+class SignatureDialog::Private: public Ui::SignatureDialog {};
 
 SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *parent )
 :	QDialog( parent )
 ,	s( signature )
-,	d( new SignatureDialogPrivate )
+,	d( new Private )
 {
 	d->setupUi( this );
 	d->error->hide();
 	setAttribute( Qt::WA_DeleteOnClose );
 
 	SslCertificate c = signature.cert();
-	QString status;
+	QString status = tr("Signature");
+	if(signature.profile() == "TimeStampToken")
+	{
+		status = tr("Timestamp");
+		d->tabWidget->removeTab(1);
+	}
+	status += " ";
 	switch( s.validate() )
 	{
 	case DigiDocSignature::Valid:
-		status = tr("Signature is valid");
+		status += tr("is valid");
 		break;
 	case DigiDocSignature::Warning:
-		status = QString("%1 (%2)").arg( tr("Signature is valid"), tr("Warnings") );
+		status += QString("%1 (%2)").arg(tr("is valid"), tr("Warnings"));
 		if( !s.lastError().isEmpty() )
 			d->error->setPlainText( s.lastError() );
 		if( s.warning() & DigiDocSignature::DigestWeak )
@@ -183,7 +195,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		}
 		break;
 	case DigiDocSignature::Test:
-		status = QString("%1 (%2)").arg( tr("Signature is valid"), tr("Test signature") );
+		status += QString("%1 (%2)").arg(tr("is valid"), tr("Test signature"));
 		if( !s.lastError().isEmpty() )
 			d->error->setPlainText( s.lastError() );
 		d->info->setText( tr(
@@ -193,13 +205,13 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 			"<a href='http://www.id.ee/index.php?id=30494'>Additional information</a>.") );
 		break;
 	case DigiDocSignature::Invalid:
-		status = tr("Signature is not valid");
+		status += tr("is not valid");
 		d->error->setPlainText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
 		d->info->setText( tr(
 			"This is an invalid signature or malformed digitally signed file. The signature is not valid.") );
 		break;
 	case DigiDocSignature::Unknown:
-		status = tr("Signature status unknown");
+		status += tr("status unknown");
 		d->error->setPlainText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
 		d->info->setText( tr(
 			"Signature status is displayed unknown if you don't have all validity confirmation service "
@@ -292,7 +304,7 @@ void SignatureDialog::addItem( QTreeWidget *view, const QString &variable, const
 	i->setText( 0, variable );
 	QLabel *b = new QLabel( "<a href='cert'>" + SslCertificate(value).subjectInfo( QSslCertificate::CommonName ) + "</a>", view );
 	b->setStyleSheet("margin-left: 2px");
-	connect( b, &QLabel::linkActivated, [=](){ CertificateDialog( value, this ).exec(); });
+	connect(b, &QLabel::linkActivated, [=]{ CertificateDialog( value, this ).exec(); });
 	view->setItemWidget( i, 1, b );
 	view->addTopLevelItem( i );
 }
@@ -303,7 +315,7 @@ void SignatureDialog::addItem( QTreeWidget *view, const QString &variable, const
 	i->setText( 0, variable );
 	QLabel *b = new QLabel( "<a href='url'>" + value.toString() + "</a>", view );
 	b->setStyleSheet("margin-left: 2px");
-	connect( b, &QLabel::linkActivated, [=](){ QDesktopServices::openUrl( value ); });
+	connect(b, &QLabel::linkActivated, [=]{ QDesktopServices::openUrl( value ); });
 	view->setItemWidget( i, 1, b );
 	view->addTopLevelItem( i );
 }

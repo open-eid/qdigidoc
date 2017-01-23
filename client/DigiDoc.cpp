@@ -138,7 +138,7 @@ Qt::ItemFlags DocumentModel::flags( const QModelIndex & ) const
 QMimeData* DocumentModel::mimeData( const QModelIndexList &indexes ) const
 {
 	QList<QUrl> list;
-	Q_FOREACH( const QModelIndex &index, indexes )
+	for(const QModelIndex &index: indexes)
 	{
 		if( index.column() != 0 )
 			continue;
@@ -209,7 +209,7 @@ Qt::DropActions DocumentModel::supportedDragActions() const
 
 
 
-DigiDocSignature::DigiDocSignature( const digidoc::Signature *signature, DigiDoc *parent )
+DigiDocSignature::DigiDocSignature(const digidoc::Signature *signature, const DigiDoc *parent)
 :	s(signature)
 ,	m_parent(parent)
 {}
@@ -272,11 +272,11 @@ QDateTime DigiDocSignature::ocspTime() const
 	return date;
 }
 
-DigiDoc* DigiDocSignature::parent() const { return m_parent; }
+const DigiDoc* DigiDocSignature::parent() const { return m_parent; }
 
 void DigiDocSignature::parseException( DigiDocSignature::SignatureStatus &result, const digidoc::Exception &e ) const
 {
-	Q_FOREACH( const Exception &child, e.causes() )
+	for(const Exception &child: e.causes())
 	{
 		switch( child.code() )
 		{
@@ -327,7 +327,7 @@ QString DigiDocSignature::role() const
 QStringList DigiDocSignature::roles() const
 {
 	QStringList list;
-	Q_FOREACH( const std::string &role, s->signerRoles() )
+	for(const std::string &role: s->signerRoles())
 		list << from( role ).trimmed();
 	return list;
 }
@@ -426,7 +426,6 @@ int DigiDocSignature::warning() const
 
 DigiDoc::DigiDoc( QObject *parent )
 :	QObject( parent )
-,	b(nullptr)
 ,	m_documentModel( new DocumentModel( this ) )
 {}
 
@@ -468,6 +467,8 @@ void DigiDoc::clear()
 {
 	delete b;
 	b = nullptr;
+	delete parentContainer;
+	parentContainer = nullptr;
 	m_fileName.clear();
 	m_documentModel->reset();
 	for(const QString &file: m_tempFiles)
@@ -528,6 +529,23 @@ bool DigiDoc::open( const QString &file )
 					"The verification of digital signatures in PDF format is performed through an external service. "
 					"The file requiring verification will be forwarded to the service.\n"
 					"The Information System Authority does not retain information regarding the files and users of the service."), QMessageBox::Ok);
+		}
+		else if(isReadOnlyTS())
+		{
+			const DataFile *f = b->dataFiles().at(0);
+			if(QFileInfo(from(f->fileName())).suffix().toLower() == "ddoc")
+			{
+				const QString tmppath = FileDialog::tempPath(from(f->fileName()));
+				f->saveAs(to(tmppath));
+				QFileInfo f(tmppath);
+				if(f.exists(tmppath))
+				{
+					m_tempFiles << tmppath;
+					parentContainer = b;
+					b = nullptr;
+					b = Container::open(to(tmppath));
+				}
+			}
 		}
 		m_fileName = file;
 		m_documentModel->reset();
@@ -675,17 +693,23 @@ QString DigiDoc::signatureFormat() const
 	return sig->profile().find("time-stamp") != std::string::npos ? "LT" : "LT_TM";
 }
 
-QList<DigiDocSignature> DigiDoc::signatures()
+QList<DigiDocSignature> DigiDoc::signatures() const
 {
 	QList<DigiDocSignature> list;
 	if( isNull() )
 		return list;
-	try
-	{
-		for(const Signature *signature: b->signatures())
-			list << DigiDocSignature(signature, this);
-	}
-	catch( const Exception &e ) { setLastError( tr("Failed to get signatures"), e ); }
+	for(const Signature *signature: b->signatures())
+		list << DigiDocSignature(signature, this);
+	return list;
+}
+
+QList<DigiDocSignature> DigiDoc::timestamps() const
+{
+	QList<DigiDocSignature> list;
+	if(!parentContainer)
+		return list;
+	for(const Signature *signature: parentContainer->signatures())
+		list << DigiDocSignature(signature, this);
 	return list;
 }
 

@@ -26,7 +26,6 @@
 
 class QAbstractButton;
 class QTreeWidget;
-class SignatureDialogPrivate;
 
 class SignatureWidget: public QLabel
 {
@@ -66,5 +65,6 @@ private:
 	void addItem( QTreeWidget *view, const QString &variable, const QUrl &url );
 
 	DigiDocSignature s;
-	SignatureDialogPrivate *d;
+	class Private;
+	Private *d;
 };

@@ -442,8 +442,11 @@ void MainWindow::buttonClicked( int button )
 		dialog->printer()->setPaperSize( QPrinter::A4 );
 		dialog->printer()->setOrientation( QPrinter::Portrait );
 		dialog->setMinimumHeight( 700 );
-		connect( dialog, SIGNAL(paintRequested(QPrinter*)), SLOT(printSheet(QPrinter*)) );
+		connect( dialog, &QPrintPreviewDialog::paintRequested, [=](QPrinter *printer){
+			PrintSheet(doc, printer);
+		});
 		dialog->exec();
+		dialog->deleteLater();
 		break;
 	}
 	case ViewSaveAs:
@@ -577,7 +580,7 @@ void MainWindow::enableSign()
 	showWarning( QString() );
 
 	int warning = 0;
-	Q_FOREACH( const DigiDocSignature &s, doc->signatures() )
+	for(const DigiDocSignature &s: doc->signatures())
 	{
 		s.validate();
 		if( s.warning() )
@@ -738,11 +741,6 @@ void MainWindow::parseLink( const QString &link )
 	}
 }
 
-void MainWindow::printSheet( QPrinter *printer )
-{
-	PrintSheet p( doc, printer );
-}
-
 void MainWindow::retranslate()
 {
 	retranslateUi( this );
@@ -838,6 +836,14 @@ void MainWindow::setCurrentPage( Pages page )
 			viewSignaturesLayout->insertWidget( 0, signature );
 			connect( signature, SIGNAL(removeSignature(unsigned int)),
 				SLOT(viewSignaturesRemove(unsigned int)) );
+			DigiDocSignature::SignatureStatus next = c.validate();
+			if(status < next) status = next;
+		}
+
+		for(const DigiDocSignature &c: doc->timestamps())
+		{
+			SignatureWidget *signature = new SignatureWidget(c, i++, viewSignatures);
+			viewSignaturesLayout->insertWidget(viewSignaturesLayout->count(), signature);
 			DigiDocSignature::SignatureStatus next = c.validate();
 			if(status < next) status = next;
 		}
