@@ -89,7 +89,7 @@ if( APPLE )
 			$<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/*/*
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook/DigiDocQL.qlgenerator
 		COMMAND codesign -f -s \"$$SIGNCERT\" $<TARGET_FILE_DIR:${PROGNAME}>/../..
-			--entitlements ${CMAKE_SOURCE_DIR}/client/${PROGNAME}.entitlements
+			--entitlements ${CMAKE_SOURCE_DIR}/${PROGNAME}.entitlements
 	)
 	add_custom_target( productbuild DEPENDS ${PROGNAME}
 		COMMAND productbuild --component ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app /Applications

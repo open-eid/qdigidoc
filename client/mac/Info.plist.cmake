@@ -32,6 +32,18 @@
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${CMAKE_OSX_DEPLOYMENT_TARGET}</string>
+	<key>NSUbiquitousContainers</key>
+	<dict>
+		<key>iCloud.ee.ria.qdigidocclient</key>
+		<dict>
+			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
+			<true/>
+			<key>NSUbiquitousContainerSupportedFolderLevels</key>
+			<string>Any</string>
+			<key>NSUbiquitousContainerName</key>
+			<string>DigiDoc3</string>
+		</dict>
+	</dict>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
