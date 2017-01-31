@@ -59,15 +59,23 @@ target_link_libraries( ${PROGNAME}
 if( APPLE )
 	set_target_properties( ${PROGNAME} PROPERTIES
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.cmake
-		INSTALL_RPATH "@loader_path/../Frameworks"
 	)
 	add_custom_command( TARGET ${PROGNAME} POST_BUILD
-		COMMAND ln "-fs" ${PKCS11_MODULE} $<TARGET_FILE_DIR:${PROGNAME}>
+		COMMAND cp -a ${PKCS11_MODULE} $<TARGET_FILE_DIR:${PROGNAME}>
 		COMMAND mkdir -p $<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook
 		COMMAND cp -a $<TARGET_FILE_DIR:DigiDocQL>/../../../DigiDocQL.qlgenerator
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook )
 	get_filename_component( PKCS11_NAME ${PKCS11_MODULE} NAME )
+	get_filename_component( LIBPATH ${OPENSSL_CRYPTO_LIBRARY} PATH )
 	add_custom_target( macdeployqt DEPENDS ${PROGNAME}
+		COMMAND ln -sf ../Frameworks/digidocpp.framework/Libraries/libcrypto.dylib
+			$<TARGET_FILE_DIR:${PROGNAME}>/libcrypto.1.0.0.dylib
+		COMMAND ln -sf ../Frameworks/digidocpp.framework/Libraries/libssl.dylib
+			$<TARGET_FILE_DIR:${PROGNAME}>/libssl.1.0.0.dylib
+		COMMAND install_name_tool
+			-change '${LIBPATH}/libcrypto.1.0.0.dylib' '@loader_path/libcrypto.1.0.0.dylib'
+			-change '${LIBPATH}/libssl.1.0.0.dylib' '@loader_path/libssl.1.0.0.dylib'
+			$<TARGET_FILE:${PROGNAME}>
 		COMMAND ${_qt5Core_install_prefix}/bin/macdeployqt ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app
 		COMMAND rm -rf $<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/imageformats
 		COMMAND rm -rf $<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/bearer
@@ -77,9 +85,7 @@ if( APPLE )
 		COMMAND rm $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/libdigidoc.framework/Resources/cdigidoc
 		COMMAND find $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks -name Headers | xargs rm -rf
 		COMMAND find $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks -name 'TEST*.crt' -delete
-		COMMAND rm $<TARGET_FILE_DIR:${PROGNAME}>/${PKCS11_NAME}
-		COMMAND cp -r ${PKCS11_MODULE} $<TARGET_FILE_DIR:${PROGNAME}>
-		COMMAND install_name_tool -rpath /Library/Frameworks "@loader_path/../Frameworks" $<TARGET_FILE:${PROGNAME}>
+		COMMAND install_name_tool -delete_rpath /Library/Frameworks $<TARGET_FILE:${PROGNAME}>
 	)
 	add_custom_target( codesign DEPENDS ${PROGNAME}
 		COMMAND codesign -f -s \"$$SIGNCERT\"

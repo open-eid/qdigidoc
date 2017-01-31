@@ -75,23 +75,25 @@
 
 #### Building OSX Qt from source
 
-    curl -O -L http://download.qt.io/official_releases/qt/5.7/5.7.1/submodules/qtbase-opensource-src-5.7.1.tar.gz
-    tar xf qtbase-opensource-src-5.7.1.tar.gz
-    cd qtbase-opensource-src-5.7.1
-    ./configure -prefix /Developer/Qt-5.7.1 -opensource -nomake tests -nomake examples -no-securetransport -confirm-license
-    make
-    sudo make install
-    cd ..
-    rm -rf qtbase-opensource-src-5.7.1
+    brew install openssl
 
-    curl -O -L http://download.qt.io/official_releases/qt/5.7/5.7.1/submodules/qttools-opensource-src-5.7.1.tar.gz
-    tar xf qttools-opensource-src-5.7.1.tar.gz
-    cd qttools-opensource-src-5.7.1
-    /Developer/Qt-5.7.1/bin/qmake
+    curl -O -L http://download.qt.io/official_releases/qt/5.8/5.8.0/submodules/qtbase-opensource-src-5.8.0.tar.gz
+    tar xf qtbase-opensource-src-5.8.0.tar.gz
+    cd qtbase-opensource-src-5.8.0
+    ./configure -prefix /Developer/Qt-5.8.0 -opensource -nomake tests -nomake examples -no-securetransport -openssl-runtime -confirm-license -I /usr/local/opt/openssl/include -L /usr/local/opt/openssl/lib
     make
     sudo make install
     cd ..
-    rm -rf qttools-opensource-src-5.7.1
+    rm -rf qtbase-opensource-src-5.8.0
+
+    curl -O -L http://download.qt.io/official_releases/qt/5.8/5.8.0/submodules/qttools-opensource-src-5.8.0.tar.gz
+    tar xf qttools-opensource-src-5.8.0.tar.gz
+    cd qttools-opensource-src-5.8.0
+    /Developer/Qt-5.8.0/bin/qmake
+    make
+    sudo make install
+    cd ..
+    rm -rf qttools-opensource-src-5.8.0
 
 ### Windows
 
