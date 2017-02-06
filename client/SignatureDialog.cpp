@@ -209,9 +209,10 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		status = tr("Signature status unknown");
 		d->error->setPlainText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
 		d->info->setText( tr(
-			"Signature status is displayed unknown if you don't have all validity confirmation service "
-			"certificates and/or certificate authority certificates installed into your computer. "
-			"<a href='http://www.id.ee/index.php?id=35941'>Additional information</a>.") );
+			"Signature status is displayed \"unknown\" if you don't have all validity confirmation "
+			"service certificates and/or certificate authority certificates installed into your computer "
+			"(<a href='http://id.ee/?lang=en&id=34317'>additional information</a>) or digital signature "
+			"does not meet all the requirements and signature is not equivalent to a handwritten signature.") );
 		break;
 	}
 	if( d->error->toPlainText().isEmpty() && d->info->text().isEmpty() )

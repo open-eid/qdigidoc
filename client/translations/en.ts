@@ -371,12 +371,12 @@ Media type: %3</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <source>You've added %n file(s) to container, but these are not signed yet.
+        <source>You&apos;ve added %n file(s) to container, but these are not signed yet.
 Should I keep the unsigned container or remove it?</source>
         <translation>
-            <numerusform>You've added %n file to container, but these are not signed yet.
+            <numerusform>You&apos;ve added %n file to container, but these are not signed yet.
 Should I keep the unsigned container or remove it?</numerusform>
-            <numerusform>You've added %n files to container, but these are not signed yet.
+            <numerusform>You&apos;ve added %n files to container, but these are not signed yet.
 Should I keep the unsigned container or remove it?</numerusform>
         </translation>
     </message>
@@ -1165,10 +1165,6 @@ software (version 3.8 and earlier).</translation>
         <translation>This is an invalid signature or malformed digitally signed file. The signature is not valid.</translation>
     </message>
     <message>
-        <source>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</translation>
     </message>
@@ -1229,6 +1225,10 @@ software (version 3.8 and earlier).</translation>
 The Information System Authority does not retain information regarding the files and users of the service.</source>
         <translation>The verification of digital signatures in PDF format is performed through an external service. The file requiring verification will be forwarded to the service.
 The Information System Authority does not retain information regarding the files and users of the service.</translation>
+    </message>
+    <message>
+        <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;) or digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</source>
+        <translation>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;) or digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</translation>
     </message>
 </context>
 <context>
