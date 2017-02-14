@@ -49,6 +49,7 @@
 #include <QtCore/QTranslator>
 #include <QtCore/QUrl>
 #include <QtCore/QUrlQuery>
+#include <QtCore/QXmlStreamReader>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QFileOpenEvent>
 #include <QtNetwork/QNetworkProxy>
@@ -321,14 +322,32 @@ Application::Application( int &argc, char **argv )
 		digidoc::Conf::init( new DigidocConf );
 		d->signer = new QSigner( api, this );
 
+		auto readVersion = [](const QString &path) -> uint {
+			QFile f(path);
+			if(!f.open(QFile::ReadOnly))
+				return 0;
+			QXmlStreamReader r(&f);
+			while(!r.atEnd())
+			{
+				if(r.readNextStartElement() && r.name() == "TSLSequenceNumber")
+				{
+					r.readNext();
+					return r.text().toUInt();
+				}
+			}
+			return 0;
+		};
 		QString cache = confValue(TSLCache).toString();
 		QDir().mkpath( cache );
 		for(const QString &file: QDir(":/TSL/").entryList())
 		{
-			if(!QFile::exists(cache + "/" + file))
+			const QString target = cache + "/" + file;
+			if(!QFile::exists(target) ||
+				readVersion(":/TSL/" + file) > readVersion(target))
 			{
-				QFile::copy(":/TSL/" + file, cache + "/" + file);
-				QFile::setPermissions(cache + "/" + file, QFile::Permissions(0x6444));
+				QFile::remove(target);
+				QFile::copy(":/TSL/" + file, target);
+				QFile::setPermissions(target, QFile::Permissions(0x6444));
 			}
 		}
 

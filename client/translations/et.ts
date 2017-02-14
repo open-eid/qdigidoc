@@ -1162,10 +1162,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>Tegu on vigase allkirjaga või valesti koostatud digiallkirjastatud failiga. See allkiri ei ole kehtiv.</translation>
     </message>
     <message>
-        <source>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Allkirja staatus kuvatakse &quot;teadmata&quot;, kui arvutis puuduvad allkirja kontrollimiseks vajalikud sertifitseerija ja/või kehtivuskinnituse teenuse sertifikaadid. &lt;a href=&apos;http://www.id.ee/?id=35939&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;info&quot;&gt;Tehniline info&lt;/a&gt;</translation>
     </message>
@@ -1246,6 +1242,10 @@ Riigi Infosüsteemi Amet ei säilita informatsiooni teenuse kasutajate ja failid
     <message>
         <source>status unknown</source>
         <translation>staatus on teadmata</translation>
+    </message>
+    <message>
+        <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;) or digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</source>
+        <translation>Allkirja staatus kuvatakse &quot;teadmata&quot;, kui arvutis puuduvad allkirja kontrollimiseks vajalikud sertifitseerija ja/või kehtivuskinnituse teenuse sertifikaadid (&lt;a href=&apos;http://www.id.ee/?id=35939&apos;&gt;täiendav info&lt;/a&gt;) või allkiri ei vasta digitaalallkirja nõuetele ning ei ole võrdväärne omakäelise allkirjaga.</translation>
     </message>
 </context>
 <context>

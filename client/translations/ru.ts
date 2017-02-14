@@ -1165,10 +1165,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <translation>Повреждена подпись или подписанный файл. Данная подпись недействительна.</translation>
     </message>
     <message>
-        <source>Signature status is displayed unknown if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer. &lt;a href=&apos;http://www.id.ee/index.php?id=35941&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation>Статус подписи отображается как &quot;неизвестный&quot;, если на компьютере не установлены необходимые для проверки подписи сертификаты сертифицирующей организации и/или услуги подтверждения действительности. &lt;a href=&apos;http://www.id.ee/index.php?id=35940&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <source>&lt;a href=&quot;info&quot;&gt;Technical information&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;info&quot;&gt;Техническая информация&lt;/a&gt;</translation>
     </message>
@@ -1249,6 +1245,10 @@ The Information System Authority does not retain information regarding the files
     <message>
         <source>status unknown</source>
         <translation>статус пользователя</translation>
+    </message>
+    <message>
+        <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;) or digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</source>
+        <translation>Статус подписи отображается как&quot;неизвестный&quot;, если на компьютере не установлены необходимые для проверки подписи сертификаты сертифицирующей организации и/или услуги подтверждения действительности (&lt;a href=&apos;http://id.ee/?lang=ru&amp;id=34529&apos;&gt;дополнительная информация&lt;/a&gt;) или подпись не соответствует всем требованиям и не является равносильной собственноручной подписи.</translation>
     </message>
 </context>
 <context>
