@@ -234,6 +234,7 @@
 				<string>BDOC</string>
 				<key>public.filename-extension</key>
 				<array>
+					<string>adoc</string>
 					<string>bdoc</string>
 					<string>edoc</string>
 					<string>asice</string>
@@ -242,6 +243,7 @@
 				<key>public.mime-type</key>
 				<array>
 					<string>application/vnd.etsi.asic-e+zip</string>
+					<string>application/vnd.lt.archyvai.adoc-2008</string>
 				</array>
 			</dict>
 		</dict>

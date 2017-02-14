@@ -82,6 +82,11 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
               <Shortcut Id="CryptoStartMenu" Advertise="yes" Name="!(loc.qdigidoccryptoLabel)" Icon="qdigidocclient.exe" IconIndex="2"
                 Directory="ProgramMenuDir" WorkingDirectory="APPLICATIONFOLDER" Arguments="-crypto"/>
             </File>
+            <ProgId Id="qdigidocclient.adoc" Description="DigiDoc signed document" Icon="qdigidocclient.exe" IconIndex="1">
+              <Extension Id="adoc" ContentType="application/vnd.lt.archyvai.adoc-2008">
+                <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
+              </Extension>
+            </ProgId>
             <ProgId Id="qdigidocclient.bdoc" Description="DigiDoc signed document" Icon="qdigidocclient.exe" IconIndex="1">
               <Extension Id="bdoc" ContentType="application/vnd.etsi.asic-e+zip">
                 <Verb Id="open" TargetFile="qdigidocclient.exe" Command="Open" Argument='"%1"' />
