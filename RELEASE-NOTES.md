@@ -1,3 +1,10 @@
+DigiDoc3 version [3.12.6](https://github.com/open-eid/qdigidoc/releases/tag/v3.12.6) release notes
+--------------------------------------------
+- Update “Unknown” texts (#60)
+
+[Full Changelog](https://github.com/open-eid/qdigidoc/compare/v3.12.5...v3.12.6)
+
+
 DigiDoc3 version [3.12.5](https://github.com/open-eid/qdigidoc/releases/tag/v3.12.5) release notes
 --------------------------------------------
 - Force update cached list with embed list when TSLSequenceNumber is lower
