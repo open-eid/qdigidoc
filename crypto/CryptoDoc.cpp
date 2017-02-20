@@ -47,6 +47,8 @@
 #include <openssl/rand.h>
 #include <openssl/rsa.h>
 
+#include <memory>
+
 #define MIME_XML  "text/xml"
 #define MIME_ZLIB "http://www.isi.edu/in-noes/iana/assignments/media-types/application/zip"
 #define MIME_DDOC "http://www.sk.ee/DigiDoc/v1.3.0/digidoc.xsd"
@@ -113,18 +115,18 @@ QByteArray CryptoDocPrivate::crypto( const QByteArray &iv, const QByteArray &key
 	qCDebug(CRYPTO) << "Encrypt" << encrypt <<  "IV" << iv.toHex() << "KEY" << key.toHex();
 
 	int size = 0, size2 = 0;
-	EVP_CIPHER_CTX ctx;
-	int err = EVP_CipherInit(&ctx, EVP_aes_128_cbc(), (unsigned char*)key.constData(), (unsigned char*)iv.constData(), encrypt);
+	std::unique_ptr<EVP_CIPHER_CTX,decltype(&EVP_CIPHER_CTX_free)> ctx(EVP_CIPHER_CTX_new(), EVP_CIPHER_CTX_free);
+	int err = EVP_CipherInit(ctx.get(), EVP_aes_128_cbc(), (unsigned char*)key.constData(), (unsigned char*)iv.constData(), encrypt);
 	if(opensslError(err == 0))
 		return QByteArray();
 
-	QByteArray result(data.size() + EVP_CIPHER_CTX_block_size(&ctx), Qt::Uninitialized);
+	QByteArray result(data.size() + EVP_CIPHER_CTX_block_size(ctx.get()), Qt::Uninitialized);
 	unsigned char *resultPointer = (unsigned char*)result.data(); //Detach only once
-	err = EVP_CipherUpdate(&ctx, resultPointer, &size, (const unsigned char*)data.constData(), data.size());
+	err = EVP_CipherUpdate(ctx.get(), resultPointer, &size, (const unsigned char*)data.constData(), data.size());
 	if(opensslError(err == 0))
 		return QByteArray();
 
-	err = EVP_CipherFinal(&ctx, resultPointer + size, &size2);
+	err = EVP_CipherFinal(ctx.get(), resultPointer + size, &size2);
 	if(opensslError(err == 0))
 		return QByteArray();
 	result.resize(size + size2);
