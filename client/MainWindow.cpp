@@ -461,6 +461,7 @@ void MainWindow::buttonClicked( int button )
 			tr("Select folder where files will be stored") );
 		if( dir.isEmpty() )
 			return;
+		QMessageBox::StandardButton b = QMessageBox::No;	// default
 		DocumentModel *m = doc->documentModel();
 		for( int i = 0; i < m->rowCount(); ++i )
 		{
@@ -468,10 +469,21 @@ void MainWindow::buttonClicked( int button )
 			QString dest = dir + "/" + index.data( Qt::UserRole ).toString();
 			if( QFile::exists( dest ) )
 			{
-				QMessageBox::StandardButton b = QMessageBox::warning( this, tr("DigiDoc3 client"),
-					tr( "%1 already exists.<br />Do you want replace it?" ).arg( dest ),
-					QMessageBox::Yes | QMessageBox::No, QMessageBox::No );
-				if( b == QMessageBox::No )
+				if( b == QMessageBox::YesToAll )
+				{
+					QFile::remove( dest );
+					m->save( index, dest );
+					continue;
+				}
+				b = QMessageBox::warning( this, tr("DigiDoc3 client"),
+					tr("%1 already exists.<br />Do you want replace it?").arg( dest ),
+					QMessageBox::Yes | QMessageBox::No | QMessageBox::YesToAll | QMessageBox::Cancel, QMessageBox::No );
+
+				if( b == QMessageBox::Cancel )
+				{
+					break;
+				}
+				else if( b == QMessageBox::No )
 				{
 					dest = FileDialog::getSaveFileName( this, tr("Save file"), dest );
 					if( dest.isEmpty() )
