@@ -466,7 +466,7 @@ void MainWindow::buttonClicked( int button )
 		for( int i = 0; i < m->rowCount(); ++i )
 		{
 			QModelIndex index = m->index( i, DocumentModel::Name );
-			QString dest = dir + "/" + index.data( Qt::UserRole ).toString();
+			QString dest = dir + QDir::separator() + index.data( Qt::UserRole ).toString();
 			if( QFile::exists( dest ) )
 			{
 				if( b == QMessageBox::YesToAll )
