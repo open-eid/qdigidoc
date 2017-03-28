@@ -850,6 +850,7 @@ void Application::showWarning( const QString &msg, const digidoc::Exception &e )
 	QMessageBox d(QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close, activeWindow());
 	d.setWindowModality(Qt::WindowModal);
 	d.setDetailedText(causes.join("\n"));
+	d.exec();
 }
 
 void Application::showWarning( const QString &msg, const QString &details )
@@ -857,6 +858,7 @@ void Application::showWarning( const QString &msg, const QString &details )
 	QMessageBox d( QMessageBox::Warning, tr("DigiDoc3 client"), msg, QMessageBox::Close, activeWindow() );
 	d.setWindowModality( Qt::WindowModal );
 	d.setDetailedText(details);
+	d.exec();
 }
 
 QSigner* Application::signer() const { return d->signer; }
