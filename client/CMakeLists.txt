@@ -68,14 +68,6 @@ if( APPLE )
 	get_filename_component( PKCS11_NAME ${PKCS11_MODULE} NAME )
 	get_filename_component( LIBPATH ${OPENSSL_CRYPTO_LIBRARY} PATH )
 	add_custom_target( macdeployqt DEPENDS ${PROGNAME}
-		COMMAND ln -sf ../Frameworks/digidocpp.framework/Libraries/libcrypto.dylib
-			$<TARGET_FILE_DIR:${PROGNAME}>/libcrypto.1.0.0.dylib
-		COMMAND ln -sf ../Frameworks/digidocpp.framework/Libraries/libssl.dylib
-			$<TARGET_FILE_DIR:${PROGNAME}>/libssl.1.0.0.dylib
-		COMMAND install_name_tool
-			-change '${LIBPATH}/libcrypto.1.0.0.dylib' '@loader_path/libcrypto.1.0.0.dylib'
-			-change '${LIBPATH}/libssl.1.0.0.dylib' '@loader_path/libssl.1.0.0.dylib'
-			$<TARGET_FILE:${PROGNAME}>
 		COMMAND ${_qt5Core_install_prefix}/bin/macdeployqt ${CMAKE_CURRENT_BINARY_DIR}/${PROGNAME}.app
 		COMMAND rm -rf $<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/imageformats
 		COMMAND rm -rf $<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/bearer
@@ -83,6 +75,14 @@ if( APPLE )
 		COMMAND cp -a /Library/Frameworks/libdigidoc.framework $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks
 		COMMAND rm $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/digidocpp.framework/Resources/digidoc-tool
 		COMMAND rm $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/libdigidoc.framework/Resources/cdigidoc
+		COMMAND ln -sf ../Frameworks/digidocpp.framework/Libraries/libcrypto.dylib
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/libcrypto.1.0.0.dylib
+		COMMAND ln -sf ../Frameworks/digidocpp.framework/Libraries/libcrypto.dylib
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/libcrypto.dylib
+		COMMAND ln -sf ../Frameworks/digidocpp.framework/Libraries/libssl.dylib
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/libssl.1.0.0.dylib
+		COMMAND ln -sf ../Frameworks/digidocpp.framework/Libraries/libssl.dylib
+			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/libssl.dylib
 		COMMAND find $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks -name Headers | xargs rm -rf
 		COMMAND find $<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks -name 'TEST*.crt' -delete
 		COMMAND install_name_tool -delete_rpath /Library/Frameworks $<TARGET_FILE:${PROGNAME}>
