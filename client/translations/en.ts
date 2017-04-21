@@ -1185,6 +1185,10 @@ software (version 3.8 and earlier).</translation>
         <translation>Warnings</translation>
     </message>
     <message>
+        <source>Restrictions</source>
+        <translation>Restrictions</translation>
+    </message>
+    <message>
         <source>Signature Timestamp</source>
         <translation>Signature Timestamp</translation>
     </message>
@@ -1243,8 +1247,12 @@ The Information System Authority does not retain information regarding the files
         <translation>status unknown</translation>
     </message>
     <message>
-        <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;) or digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</source>
-        <translation>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;) or digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</translation>
+        <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;).</source>
+        <translation>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;).</translation>
+    </message>
+    <message>
+        <source>Signature status is displayed &quot;restricted&quot; if digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</source>
+        <translation>Signature status is displayed &quot;restricted&quot; if digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</translation>
     </message>
 </context>
 <context>
@@ -1304,6 +1312,10 @@ The Information System Authority does not retain information regarding the files
     <message>
         <source>Warnings</source>
         <translation>Warnings</translation>
+    </message>
+    <message>
+        <source>Restrictions</source>
+        <translation>Restrictions</translation>
     </message>
     <message>
         <source>Timestamp</source>

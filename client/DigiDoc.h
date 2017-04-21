@@ -76,6 +76,7 @@ public:
 	{
 		Valid,
 		Warning,
+		NonQSCD,
 		Test,
 		Invalid,
 		Unknown
@@ -112,6 +113,7 @@ public:
 private:
 	void setLastError( const digidoc::Exception &e ) const;
 	void parseException( SignatureStatus &result, const digidoc::Exception &e ) const;
+	SignatureStatus validate(const std::string &policy) const;
 
 	const digidoc::Signature *s;
 	mutable QString m_lastError;

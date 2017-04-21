@@ -109,6 +109,10 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		sa << tr("is valid") << " (" << tr("Warnings") << ")";
 		sc << "<font color=\"green\">" << tr("is valid") << "</font> <font>(" << tr("Warnings") << ")";
 		break;
+	case DigiDocSignature::NonQSCD:
+		sa << tr("is valid") << " (" << tr("Restrictions") << ")";
+		sc << "<font color=\"green\">" << tr("is valid") << "</font> <font color=\"gold\">(" << tr("Restrictions") << ")";
+		break;
 	case DigiDocSignature::Test:
 		sa << tr("is valid") << " (" << tr("Test signature") << ")";
 		sc << "<font color=\"green\">" << tr("is valid") << "</font> <font>(" << tr("Test signature") << ")";
@@ -194,6 +198,12 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 				"The current BDOC container uses weaker encryption method than officialy accepted in Estonia.") );
 		}
 		break;
+	case DigiDocSignature::NonQSCD:
+		status += QString("%1 (%2)").arg(tr("is valid"), tr("Restrictions"));
+		d->info->setText( tr(
+			"Signature status is displayed \"restricted\" if digital signature "
+			"does not meet all the requirements and signature is not equivalent to a handwritten signature.") );
+		break;
 	case DigiDocSignature::Test:
 		status += QString("%1 (%2)").arg(tr("is valid"), tr("Test signature"));
 		if( !s.lastError().isEmpty() )
@@ -216,8 +226,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		d->info->setText( tr(
 			"Signature status is displayed \"unknown\" if you don't have all validity confirmation "
 			"service certificates and/or certificate authority certificates installed into your computer "
-			"(<a href='http://id.ee/?lang=en&id=34317'>additional information</a>) or digital signature "
-			"does not meet all the requirements and signature is not equivalent to a handwritten signature.") );
+			"(<a href='http://id.ee/?lang=en&id=34317'>additional information</a>).") );
 		break;
 	}
 	if( d->error->toPlainText().isEmpty() && d->info->text().isEmpty() )

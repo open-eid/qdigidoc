@@ -407,6 +407,9 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 	switch( result )
 	{
 	case Unknown:
+		if ( validate(digidoc::Signature::POLv1) == Valid )
+			return NonQSCD;
+		return result;
 	case Invalid: return result;
 	default:
 		if( SslCertificate( cert() ).type() & SslCertificate::TestType ||
@@ -415,6 +418,21 @@ DigiDocSignature::SignatureStatus DigiDocSignature::validate() const
 
 		return result;
 	}
+}
+
+DigiDocSignature::SignatureStatus DigiDocSignature::validate(const std::string &policy) const
+{
+	DigiDocSignature::SignatureStatus result = Valid;
+	try
+	{
+		s->validate(policy);
+	}
+	catch( const Exception &e )
+	{
+		parseException( result, e );
+	}
+
+	return result;
 }
 
 int DigiDocSignature::warning() const

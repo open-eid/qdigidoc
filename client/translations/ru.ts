@@ -1189,6 +1189,10 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
         <translation>предупреждения</translation>
     </message>
     <message>
+        <source>Restrictions</source>
+        <translation>oгрaничения</translation>
+    </message>
+    <message>
         <source>Signature Timestamp</source>
         <translation>Временной штамп подписи</translation>
     </message>
@@ -1247,8 +1251,12 @@ The Information System Authority does not retain information regarding the files
         <translation>статус пользователя</translation>
     </message>
     <message>
-        <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;) or digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</source>
-        <translation>Статус подписи отображается как&quot;неизвестный&quot;, если на компьютере не установлены необходимые для проверки подписи сертификаты сертифицирующей организации и/или услуги подтверждения действительности (&lt;a href=&apos;http://id.ee/?lang=ru&amp;id=34529&apos;&gt;дополнительная информация&lt;/a&gt;) или подпись не соответствует всем требованиям и не является равносильной собственноручной подписи.</translation>
+        <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;).</source>
+        <translation>Статус подписи отображается как &quot;неизвестный&quot;, если на компьютере не установлены необходимые для проверки подписи сертификаты сертифицирующей организации и/или услуги подтверждения действительности (&lt;a href=&apos;http://id.ee/?lang=ru&amp;id=34529&apos;&gt;дополнительная информация&lt;/a&gt;).</translation>
+    </message>
+    <message>
+        <source>Signature status is displayed &quot;restricted&quot; if digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</source>
+        <translation>Статус подписи отображается как &quot;oгрaниченнaя&quot;, если подпись не соответствует всем требованиям и не является равносильной собственноручной подписи.</translation>
     </message>
 </context>
 <context>
@@ -1308,6 +1316,10 @@ The Information System Authority does not retain information regarding the files
     <message>
         <source>Warnings</source>
         <translation>предупреждения</translation>
+    </message>
+    <message>
+        <source>Restrictions</source>
+        <translation>oгрaничения</translation>
     </message>
     <message>
         <source>Timestamp</source>
