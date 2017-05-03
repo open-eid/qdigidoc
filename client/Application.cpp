@@ -865,7 +865,7 @@ QSigner* Application::signer() const { return d->signer; }
 
 void Application::waitForTSL( const QString &file )
 {
-	if( !QStringList({"asice", "sce", "bdoc"}).contains(QFileInfo(file).suffix(), Qt::CaseInsensitive) )
+	if( !QStringList({"asice", "sce", "bdoc", "asics", "scs"}).contains(QFileInfo(file).suffix(), Qt::CaseInsensitive) )
 		return;
 
 	if( d->ready )
