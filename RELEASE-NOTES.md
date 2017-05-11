@@ -1,8 +1,15 @@
-DigiDoc3 version 3.12.7 release notes
+DigiDoc3 version [3.13.0](https://github.com/open-eid/qdigidoc/releases/tag/v3.13.0) release notes
 --------------------------------------
-- Registered Latvian "edoc" document extension
+- Registered Latvian / Lithuanian "edoc" / "adoc" document extension
 - ASiC-S validation support in qdigidoc client
 - Warn on removing last file from container
+- Improve EIDAS compatibility
+- macOS Retina support
+- Windows HiDPI support
+- Text changes & fixes
+- OpenSSL 1.1 compatbility
+
+[Full Changelog](https://github.com/open-eid/qdigidoc/compare/v3.12.3...v3.13.0)
 
 
 DigiDoc3 version [3.12.6](https://github.com/open-eid/qdigidoc/releases/tag/v3.12.6) release notes
