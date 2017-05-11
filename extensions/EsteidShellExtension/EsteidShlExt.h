@@ -21,6 +21,9 @@
 #define IDCARD_REGKEY L"SOFTWARE\\RIA\\Open-EID"
 #define IDCARD_REGVALUE L"Installed"
 
+#define MENU_SIGN 0
+#define MENU_ENCRYPT 1
+
 typedef std::basic_string<TCHAR> tstring;
 
 
@@ -56,10 +59,11 @@ public:
 	}
 
 protected:
+	HBITMAP  m_CryptoBmp;
 	HBITMAP  m_DigidocBmp;
 	std::vector<tstring> m_Files;
 
-	STDMETHODIMP CEsteidShlExt::ExecuteDigidocclient(LPCMINVOKECOMMANDINFO pCmdInfo);
+	STDMETHODIMP CEsteidShlExt::ExecuteDigidocclient(LPCMINVOKECOMMANDINFO pCmdInfo, bool crypto = false);
 
 public:
 	// IShellExtInit

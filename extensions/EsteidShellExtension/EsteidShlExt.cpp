@@ -1,4 +1,4 @@
-// EsteidShlExt.cpp : Implementation of CEsteidShlExt
+﻿// EsteidShlExt.cpp : Implementation of CEsteidShlExt
 
 #include "stdafx.h"
 #include "EsteidShlExt.h"
@@ -6,12 +6,16 @@
 
 CEsteidShlExt::CEsteidShlExt()
 {
+	m_CryptoBmp = LoadBitmap(_AtlBaseModule.GetModuleInstance(),
+	                           MAKEINTRESOURCE(IDB_CRYPTOBMP));
 	m_DigidocBmp = LoadBitmap(_AtlBaseModule.GetModuleInstance(),
 	                           MAKEINTRESOURCE(IDB_DIGIDOCBMP));
 }
 
 CEsteidShlExt::~CEsteidShlExt()
 {
+	if (m_CryptoBmp != NULL)
+		DeleteObject(m_CryptoBmp);
 	if (m_DigidocBmp != NULL)
 		DeleteObject(m_DigidocBmp);
 }
@@ -89,8 +93,11 @@ STDMETHODIMP CEsteidShlExt::QueryContextMenu (
 	InsertMenu(hmenu, uMenuIndex, MF_STRING | MF_BYPOSITION, uidFirstCmd, _T("Allkirjasta digitaalselt"));
 	if (m_DigidocBmp != NULL)
 		SetMenuItemBitmaps(hmenu, uMenuIndex, MF_BYPOSITION, m_DigidocBmp, NULL);
+	InsertMenu(hmenu, uMenuIndex + MENU_ENCRYPT, MF_STRING | MF_BYPOSITION, uidFirstCmd + MENU_ENCRYPT, _T("Krüpteeri"));
+	if (m_CryptoBmp != NULL)
+		SetMenuItemBitmaps(hmenu, uMenuIndex + MENU_ENCRYPT, MF_BYPOSITION, m_CryptoBmp, NULL);
 
-	return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, 1);
+	return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, 2);
 }
 
 STDMETHODIMP CEsteidShlExt::GetCommandString (
@@ -98,14 +105,14 @@ STDMETHODIMP CEsteidShlExt::GetCommandString (
 {
 USES_CONVERSION;
 
-	// Check idCmd, it must be 0 since we have only one menu item.
-	if (idCmd != 0)
+	// Check idCmd, it must be 0 or 1 since we have only two menu items.
+	if (idCmd > MENU_ENCRYPT)
 		return E_INVALIDARG;
 
 	// If Explorer is asking for a help string, copy our string into the
 	// supplied buffer.
 	if (uFlags & GCS_HELPTEXT) {
-		LPCTSTR szText = _T("Allkirjasta valitud failid digitaalselt");
+		LPCTSTR szText = idCmd == MENU_SIGN ? _T("Allkirjasta valitud failid digitaalselt") : _T("Krüpteeri valitud failid");
 
 		if (uFlags & GCS_UNICODE) {
 			// We need to cast pszName to a Unicode string, and then use the
@@ -147,7 +154,7 @@ bool WINAPI CEsteidShlExt::FindRegistryInstallPath(tstring* path)
 	return success;
 }
 
-STDMETHODIMP CEsteidShlExt::ExecuteDigidocclient(LPCMINVOKECOMMANDINFO pCmdInfo)
+STDMETHODIMP CEsteidShlExt::ExecuteDigidocclient(LPCMINVOKECOMMANDINFO pCmdInfo, bool crypto)
 {
 	if (m_Files.empty())
 		return E_INVALIDARG;
@@ -168,6 +175,8 @@ STDMETHODIMP CEsteidShlExt::ExecuteDigidocclient(LPCMINVOKECOMMANDINFO pCmdInfo)
 
 	// Construct command line arguments to pass to qdigidocclient.exe
 	tstring parameters;
+	if (crypto)
+		parameters += _T("\"-crypto\" ");
 	for (const tstring &file: m_Files) {
 		parameters += _T("\"") + file + _T("\" ");
 	}
@@ -187,10 +196,13 @@ STDMETHODIMP CEsteidShlExt::InvokeCommand(LPCMINVOKECOMMANDINFO pCmdInfo)
 	if (HIWORD(pCmdInfo->lpVerb) != 0)
 		return E_INVALIDARG;
 
-	// Get the command index - the only valid one is 0.
+	// Get the command index - the valid ones are 0 and 1.
 	switch (LOWORD(pCmdInfo->lpVerb)) {
-	case 0:
+	case MENU_SIGN:
 		return ExecuteDigidocclient(pCmdInfo);
+		break;
+	case MENU_ENCRYPT:
+		return ExecuteDigidocclient(pCmdInfo, true);
 		break;
 
 	default:

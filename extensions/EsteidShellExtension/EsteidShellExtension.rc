@@ -135,6 +135,7 @@ IDR_ESTEIDSHLEXT        REGISTRY                "EsteidShlExt.rgs"
 //
 
 IDB_DIGIDOCBMP          BITMAP                  "resources\\digidoc.bmp"
+IDB_CRYPTOBMP           BITMAP                  "resources\\crypto.bmp"
 #endif    // Estonian resources
 /////////////////////////////////////////////////////////////////////////////
 
