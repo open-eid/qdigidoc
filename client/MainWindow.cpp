@@ -52,9 +52,9 @@ MainWindow::MainWindow( QWidget *parent )
 	: QWidget( parent )
 	, cardsGroup( new QActionGroup( this ) )
 	, quitOnClose( false )
-	, warnOnUnsignedDocCancel( true )
 	, prevpage( Home )
 	, message( 0 )
+	, warnOnUnsignedDocCancel( true )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
@@ -281,7 +281,7 @@ void MainWindow::buttonClicked( int button )
 	{
 		QString file = FileDialog::getOpenFileName( this, tr("Open container"), QString(),
 			tr("Documents (%1%2)").arg( "*.bdoc *.ddoc *.asice *.sce *.asics *.scs *.edoc *.adoc")
-				.arg(qApp->confValue(Application::PDFUrl).toString().isEmpty() ? "" : " *.pdf") );
+				.arg(qApp->confValue(Application::SiVaUrl).toString().isEmpty() ? "" : " *.pdf") );
 		if( !file.isEmpty() && doc->open( file ) )
 		{
 			warnOnUnsignedDocCancel = false;

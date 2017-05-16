@@ -161,12 +161,12 @@ public:
 	std::string TSLUrl() const override { return value("TSL-URL", digidoc::XmlConfCurrent::TSLUrl()); }
 	digidoc::X509Cert verifyServiceCert() const override
 	{
-		if(!obj.contains("PDF-CERT"))
+		if(!obj.contains("SIVA-CERT"))
 			return digidoc::XmlConfCurrent::verifyServiceCert();
-		QByteArray cert = QByteArray::fromBase64(obj.value("PDF-CERT").toString().toLatin1());
+		QByteArray cert = QByteArray::fromBase64(obj.value("SIVA-CERT").toString().toLatin1());
 		return digidoc::X509Cert((const unsigned char*)cert.constData(), cert.size());
 	}
-	std::string verifyServiceUri() const override { return value("PDF-URL", digidoc::XmlConfCurrent::verifyServiceUri()); }
+	std::string verifyServiceUri() const override { return value("SIVA-URL", digidoc::XmlConfCurrent::verifyServiceUri()); }
 	std::vector<digidoc::X509Cert> TSLCerts() const override
 	{
 		std::vector<digidoc::X509Cert> tslcerts;
@@ -459,7 +459,7 @@ void Application::clearConfValue( ConfParameter parameter )
 		case LDAP_HOST:
 		case MobileID_URL:
 		case MobileID_TEST_URL:
-		case PDFUrl:
+		case SiVaUrl:
 		case TSLCerts:
 		case TSLUrl:
 		case TSLCache:
@@ -499,7 +499,7 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 	case LDAP_HOST: return i->obj.value("LDAP-HOST").toString("ldap.sk.ee:389");
 	case MobileID_URL: return i->obj.value("MID-SIGN-URL").toString("https://digidocservice.sk.ee");
 	case MobileID_TEST_URL: return i->obj.value("MID-SIGN-TEST-URL").toString("https://tsp.demo.sk.ee");
-	case PDFUrl: r = i->verifyServiceUri().c_str(); break;
+	case SiVaUrl: r = i->verifyServiceUri().c_str(); break;
 	case PKCS11Module: r = i->PKCS11Driver().c_str(); break;
 	case ProxyHost: r = i->proxyHost().c_str(); break;
 	case ProxyPort: r = i->proxyPort().c_str(); break;
@@ -529,8 +529,9 @@ QVariant Application::confValue( ConfParameter parameter, const QVariant &value 
 
 void Application::diagnostics(QTextStream &s)
 {
-	s << "<br />TSL_URL: " << confValue(TSLUrl).toString();
-	s << "<br /><br /><b>" << tr("TSL signing certs") << ":</b>";
+	s << "<br />TSL_URL: " << confValue(TSLUrl).toString()
+		<< "<br />SIVA_URL: " << confValue(SiVaUrl).toString()
+		<< "<br /><br /><b>" << tr("TSL signing certs") << ":</b>";
 	for(const QSslCertificate &cert: confValue(TSLCerts).value<QList<QSslCertificate>>())
 		s << "<br />" << cert.subjectInfo("CN").value(0);
 }
@@ -765,7 +766,7 @@ void Application::setConfValue( ConfParameter parameter, const QVariant &value )
 		case LDAP_HOST:
 		case MobileID_URL:
 		case MobileID_TEST_URL:
-		case PDFUrl:
+		case SiVaUrl:
 		case TSLCerts:
 		case TSLUrl:
 		case TSLCache:

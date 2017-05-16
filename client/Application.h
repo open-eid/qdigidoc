@@ -44,7 +44,7 @@ public:
 		LDAP_HOST,
 		MobileID_URL,
 		MobileID_TEST_URL,
-		PDFUrl,
+		SiVaUrl,
 		PKCS11Module,
 		ProxyHost,
 		ProxyPort,
