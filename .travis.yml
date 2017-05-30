@@ -55,7 +55,7 @@ addons:
     project:
       name: open-eid/qdigidoc
     notification_email: raul@metsma.ee
-    build_command_prepend: mkdir coverity; cd coverity; cmake -DBREAKPAD='' ..
+    build_command_prepend: mkdir coverity; cd coverity; cmake -DBREAKPAD='' -DQt5_DIR=/usr/local/opt/qt5/lib/cmake/Qt5 -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl -DCMAKE_EXE_LINKER_FLAGS="-F/Library/Frameworks" ..
     build_command: make
     branch_pattern: coverity_scan
 
