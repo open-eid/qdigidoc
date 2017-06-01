@@ -22,8 +22,7 @@ env:
 
 before_install:
 - git submodule update --init --recursive && if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-    brew update;
-    brew install qt5 openssl;
+    brew install --force qt5 openssl;
     curl --location "https://github.com/open-eid/libdigidoc/releases/download/v3.10.2/libdigidoc_3.10.1.1213.pkg" -o libdigidoc.pkg;
     curl --location "https://github.com/open-eid/libdigidocpp/releases/download/v3.12.2/libdigidocpp_3.12.2.1329.pkg" -o libdigidocpp.pkg;
     curl --location "https://github.com/open-eid/esteid-pkcs11/releases/download/v3.10.1/esteid-pkcs11_3.10.1.64.pkg" -o esteid-pkcs11.pkg;
@@ -35,9 +34,9 @@ script: if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
     mkdir build && cd build && cmake -DQt5_DIR=/usr/local/opt/qt5/lib/cmake/Qt5 -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl -DCMAKE_EXE_LINKER_FLAGS="-F/Library/Frameworks" ..;
     make zipdebug macdeployqt zip && cd ..;
   else
-    docker run -e BUILD_NUMBER=${TRAVIS_BUILD_NUMBER} -e DEBFULLNAME="Travis" -e DEBEMAIL="travis-ci@travis" -v $(pwd):$(pwd) -t "${IMAGE}" /bin/bash -c "cd $(pwd);"'
+    docker run -e BUILD_NUMBER=${TRAVIS_BUILD_NUMBER} -e DEBFULLNAME="Travis" -e DEBEMAIL="travis-ci@travis" -e COVERITY_SCAN_TOKEN=${COVERITY_SCAN_TOKEN} -e TRAVIS_BRANCH=${TRAVIS_BRANCH} -e IMAGE=${IMAGE} -v $(pwd):$(pwd) -t "${IMAGE}" /bin/bash -c "cd $(pwd);"'
       apt-get update -qq;
-      apt-get install -y apt-transport-https curl dh-make devscripts dpkg-dev cdbs cmake libldap2-dev libpcsclite-dev libssl-dev qtbase5-dev qttools5-dev qttools5-dev-tools gettext git;
+      apt-get install -y apt-transport-https curl dh-make devscripts dpkg-dev cdbs cmake libldap2-dev libpcsclite-dev libssl-dev qtbase5-dev qttools5-dev qttools5-dev-tools gettext git curl wget ruby;
       curl https://installer.id.ee/media/install-scripts/ria-public.key | apt-key add -;
       curl https://installer.id.ee/media/install-scripts/C6C83D68.pub | apt-key add -;
       echo "deb http://installer.id.ee/media/ubuntu/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/repo.list;
@@ -47,17 +46,17 @@ script: if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
       dh_make --createorig --addmissing --defaultless -y -p qdigidoc_${VERSION};
       dch --distribution $(lsb_release -cs) -v ${VERSION} "Release ${VERSION}.";
       dpkg-buildpackage -rfakeroot -us -uc;
+      if [ "${IMAGE}" = "ubuntu:16.04" ]; then
+        export COVERITY_SCAN_PROJECT_NAME="open-eid/libdigidocpp";
+        export COVERITY_SCAN_NOTIFICATION_EMAIL="raul@metsma.ee";
+        export COVERITY_SCAN_BRANCH_PATTERN=coverity_scan;
+        export COVERITY_SCAN_BUILD_COMMAND_PREPEND="cmake -DBREAKPAD=\"\" .";
+        export COVERITY_SCAN_BUILD_COMMAND=make;
+        wget https://scan.coverity.com/scripts/travisci_build_coverity_scan.sh;
+        bash travisci_build_coverity_scan.sh;
+      fi;
       git clean -d -x -f';
   fi
-
-addons:
-  coverity_scan:
-    project:
-      name: open-eid/qdigidoc
-    notification_email: raul@metsma.ee
-    build_command_prepend: mkdir coverity; cd coverity; cmake -DBREAKPAD='' -DQt5_DIR=/usr/local/opt/qt5/lib/cmake/Qt5 -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl -DCMAKE_EXE_LINKER_FLAGS="-F/Library/Frameworks" ..
-    build_command: make
-    branch_pattern: coverity_scan
 
 before_deploy:
 - export VERSION=${TRAVIS_TAG:1}
