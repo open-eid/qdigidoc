@@ -767,6 +767,10 @@ Kontrollkood: %1</translation>
         <source>NB! WARNINGS</source>
         <translation>NB! HOIATUSEGA</translation>
     </message>
+    <message>
+        <source>NB! RESTRICTIONS</source>
+        <translation>NB! PIIRANGUTEGA</translation>
+    </message>
 </context>
 <context>
     <name>QPKCS11</name>

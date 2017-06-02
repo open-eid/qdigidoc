@@ -770,6 +770,10 @@ Kонтрольны код: %1</translation>
         <source>NB! WARNINGS</source>
         <translation>NB! ПРЕДУПРЕЖДЕНИЯ</translation>
     </message>
+    <message>
+        <source>NB! RESTRICTIONS</source>
+        <translation>NB! ОГРАНИЧЕНИЯ</translation>
+    </message>
 </context>
 <context>
     <name>QPKCS11</name>

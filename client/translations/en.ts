@@ -766,6 +766,10 @@ Control code: %1</translation>
         <source>NB! WARNINGS</source>
         <translation>NB! WARNINGS</translation>
     </message>
+    <message>
+        <source>NB! RESTRICTIONS</source>
+        <translation>NB! RESTRICTIONS</translation>
+    </message>
 </context>
 <context>
     <name>QPKCS11</name>
