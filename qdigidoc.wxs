@@ -48,7 +48,7 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
     <Condition Message="[ProductName] requires Windows 7 or higher.">
       <![CDATA[Installed OR (VersionNT >= 601)]]>
     </Condition>
-    <UIRef Id="WixUI_Minimal" />
+    <UIRef Id="WixUI_Minimal2" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <!-- Program Menu shortcut -->
