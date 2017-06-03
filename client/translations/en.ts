@@ -1105,20 +1105,8 @@ software (version 3.8 and earlier).</translation>
         <translation>Value</translation>
     </message>
     <message>
-        <source>Signature is valid</source>
-        <translation type="vanished">Signature is valid</translation>
-    </message>
-    <message>
         <source>Unknown error</source>
         <translation>Unknown error</translation>
-    </message>
-    <message>
-        <source>Signature is not valid</source>
-        <translation type="vanished">Signature is not valid</translation>
-    </message>
-    <message>
-        <source>Signature status unknown</source>
-        <translation type="vanished">Signature status unknown</translation>
     </message>
     <message>
         <source>Signature method</source>
@@ -1179,10 +1167,6 @@ software (version 3.8 and earlier).</translation>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation type="vanished">This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Warnings</source>
@@ -1262,14 +1246,6 @@ The Information System Authority does not retain information regarding the files
 <context>
     <name>SignatureWidget</name>
     <message>
-        <source>valid</source>
-        <translation type="vanished">valid</translation>
-    </message>
-    <message>
-        <source>not valid</source>
-        <translation type="vanished">not valid</translation>
-    </message>
-    <message>
         <source>Show details</source>
         <translation>Show details</translation>
     </message>
@@ -1282,20 +1258,12 @@ The Information System Authority does not retain information regarding the files
         <translation>Signed on</translation>
     </message>
     <message>
-        <source>Signature is</source>
-        <translation type="vanished">Signature is</translation>
-    </message>
-    <message>
         <source>time</source>
         <translation>time</translation>
     </message>
     <message>
         <source>Test signature</source>
         <translation>Test signature</translation>
-    </message>
-    <message>
-        <source>unknown</source>
-        <translation type="vanished">unknown</translation>
     </message>
     <message>
         <source>Remove signature %1</source>

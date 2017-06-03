@@ -1106,20 +1106,8 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>Väärtus</translation>
     </message>
     <message>
-        <source>Signature is valid</source>
-        <translation type="vanished">Allkiri on kehtiv</translation>
-    </message>
-    <message>
         <source>Unknown error</source>
         <translation>Tundmatu viga</translation>
-    </message>
-    <message>
-        <source>Signature is not valid</source>
-        <translation type="vanished">Allkiri ei ole kehtiv</translation>
-    </message>
-    <message>
-        <source>Signature status unknown</source>
-        <translation type="vanished">Allkirja staatus on teadmata</translation>
     </message>
     <message>
         <source>Signature method</source>
@@ -1180,10 +1168,6 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>Tegemist on vanas formaadis DigiDoc konteineriga. Sellele konteinerile ei saa allkirja lisada ega eemaldada. &lt;a href=&apos;http://www.id.ee/?id=36160&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation type="vanished">Antud DigiDoc dokument on formaadi veaga, kuid allkiri on juriidiliselt kehtiv. Informeerige palun veast ka dokumendi koostajat. &lt;a href=&apos;http://www.id.ee/?id=36510&apos;&gt;Täiendav info&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Warnings</source>
@@ -1263,14 +1247,6 @@ Riigi Infosüsteemi Amet ei säilita informatsiooni teenuse kasutajate ja failid
 <context>
     <name>SignatureWidget</name>
     <message>
-        <source>valid</source>
-        <translation type="vanished">kehtiv</translation>
-    </message>
-    <message>
-        <source>not valid</source>
-        <translation type="vanished">kehtetu</translation>
-    </message>
-    <message>
         <source>Show details</source>
         <translation>Vaata üksikasju</translation>
     </message>
@@ -1283,20 +1259,12 @@ Riigi Infosüsteemi Amet ei säilita informatsiooni teenuse kasutajate ja failid
         <translation>Allkirjastati</translation>
     </message>
     <message>
-        <source>Signature is</source>
-        <translation type="vanished">Allkiri on</translation>
-    </message>
-    <message>
         <source>time</source>
         <translation>kell</translation>
     </message>
     <message>
         <source>Test signature</source>
         <translation>Test allkiri</translation>
-    </message>
-    <message>
-        <source>unknown</source>
-        <translation type="vanished">teadmata</translation>
     </message>
     <message>
         <source>Remove signature %1</source>

@@ -1061,10 +1061,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
 <context>
     <name>SignatureDialog</name>
     <message>
-        <source>Signature is valid</source>
-        <translation type="vanished">Подпись действительна</translation>
-    </message>
-    <message>
         <source>Unknown error</source>
         <translation>Неизвестная ошибка</translation>
     </message>
@@ -1115,14 +1111,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <message>
         <source>Value</source>
         <translation>Значение</translation>
-    </message>
-    <message>
-        <source>Signature is not valid</source>
-        <translation type="vanished">Подпись недействительна</translation>
-    </message>
-    <message>
-        <source>Signature status unknown</source>
-        <translation type="vanished">Неизвестный статус пользователя</translation>
     </message>
     <message>
         <source>Signature method</source>
@@ -1183,10 +1171,6 @@ DigiDoc3 Crypto (версии 3.8 и старше).</translation>
     <message>
         <source>The current file is a DigiDoc container that is not supported officially any longer. You are not allowed to add or remove signatures to this container. &lt;a href=&apos;http://www.id.ee/?id=36161&apos;&gt;Additional info&lt;/a&gt;.</source>
         <translation>DigiDoc контейнер имеет старый формат. К данному контейнеру нельзя добавить или удалить из него подпись. &lt;a href=&apos;http://www.id.ee/?id=36162&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
-    </message>
-    <message>
-        <source>This Digidoc document has not been created according to specification, but the digital signature is legally valid. Please inform the document creator of this issue. &lt;a href=&apos;http://www.id.ee/?id=36511&apos;&gt;Additional information&lt;/a&gt;.</source>
-        <translation type="vanished">Данный DigiDoc документ имеет ошибку формата, но подпись является юридически действительной. Пожалуйста, сообщите об ошибке составителю документа. &lt;a href=&apos;http://www.id.ee/?id=36512&apos;&gt;Дополнительная информация&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Warnings</source>
@@ -1252,7 +1236,7 @@ The Information System Authority does not retain information regarding the files
     </message>
     <message>
         <source>status unknown</source>
-        <translation>статус пользователя</translation>
+        <translation>статус неизвестен</translation>
     </message>
     <message>
         <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;).</source>
@@ -1270,18 +1254,6 @@ The Information System Authority does not retain information regarding the files
         <translation>Подписано</translation>
     </message>
     <message>
-        <source>Signature is</source>
-        <translation type="vanished">Подпись</translation>
-    </message>
-    <message>
-        <source>valid</source>
-        <translation type="vanished">действительна</translation>
-    </message>
-    <message>
-        <source>not valid</source>
-        <translation type="vanished">недействительна</translation>
-    </message>
-    <message>
         <source>Show details</source>
         <translation>Подробнее</translation>
     </message>
@@ -1296,10 +1268,6 @@ The Information System Authority does not retain information regarding the files
     <message>
         <source>Test signature</source>
         <translation>Пробная подпись</translation>
-    </message>
-    <message>
-        <source>unknown</source>
-        <translation type="vanished">неизвестно</translation>
     </message>
     <message>
         <source>Remove signature %1</source>
