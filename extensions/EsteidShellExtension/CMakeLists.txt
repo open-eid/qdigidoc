@@ -61,8 +61,10 @@ add_custom_target(msishellext DEPENDS EsteidShellExtension
     COMMAND "$ENV{WIX}bin\\candle.exe" -nologo -arch ${PLATFORM}
         -dMSI_VERSION=${VERSION} -dPlatform=${PLATFORM} -dShellExt=$<TARGET_FILE:EsteidShellExtension>
         ${CMAKE_CURRENT_SOURCE_DIR}/EsteidShellExtension.wxs
-    COMMAND "$ENV{WIX}bin\\light.exe" -nologo EsteidShellExtension.wixobj -ext WixUIExtension
-        -dWixUILicenseRtf=${CMAKE_SOURCE_DIR}/cmake/modules/LICENSE.LGPL.rtf
+        ${CMAKE_SOURCE_DIR}/cmake/modules/WelcomeDlg2.wxs
+        ${CMAKE_SOURCE_DIR}/cmake/modules/WixUI_Minimal2.wxs
+    COMMAND "$ENV{WIX}bin\\light.exe" -nologo -ext WixUIExtension
+        EsteidShellExtension.wixobj WelcomeDlg2.wixobj WixUI_Minimal2.wixobj
         -dWixUIDialogBmp=${CMAKE_SOURCE_DIR}/cmake/modules/dlgbmp.bmp
         -dWixUIBannerBmp=${CMAKE_SOURCE_DIR}/cmake/modules/banner.bmp
         -o "Digidoc3_ShellExt-${VERSION}$ENV{VER_SUFFIX}.${PLATFORM}.msi"

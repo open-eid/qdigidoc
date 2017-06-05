@@ -29,7 +29,7 @@
     <Condition Message="[ProductName] requires Windows 7 or higher.">
       <![CDATA[Installed OR (VersionNT >= 601)]]>
     </Condition>
-    <UIRef Id="WixUI_Minimal" />
+    <UIRef Id="WixUI_Minimal2" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id='$(var.PlatformProgramFilesFolder)'>
