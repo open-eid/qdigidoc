@@ -78,7 +78,17 @@ public:
 		, s2(QCoreApplication::instance()->applicationName())
 	{
 		reload();
+#ifdef Q_OS_MAC
+		QTimer *t = new QTimer();
+		t->setSingleShot(true);
+		QTimer::connect(t, &QTimer::timeout, [=] {
+			t->deleteLater();
+			Configuration::instance().checkVersion("QDIGIDOC");
+		});
+		t->start(0);
+#else
 		Configuration::instance().checkVersion("QDIGIDOC");
+#endif
 		Configuration::connect(&Configuration::instance(), &Configuration::finished, [&](bool changed, const QString &){
 			if(changed)
 				reload();
