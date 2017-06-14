@@ -1,3 +1,10 @@
+DigiDoc3 version [3.13.1](https://github.com/open-eid/qdigidoc/releases/tag/v3.13.1) release notes
+--------------------------------------
+- Restore compatibility with jdigidoc 3.11
+
+[Full Changelog](https://github.com/open-eid/qdigidoc/compare/v3.13.0...v3.13.1)
+
+
 DigiDoc3 version [3.13.0](https://github.com/open-eid/qdigidoc/releases/tag/v3.13.0) release notes
 --------------------------------------
 - Registered Latvian / Lithuanian "edoc" / "adoc" document extension
