@@ -680,11 +680,11 @@ QString DigiDoc::signatureFormat() const
 	if(m_fileName.endsWith("ddoc", Qt::CaseInsensitive))
 		return "LT_TM";
 
-	QString def = Settings(qApp->applicationName()).value( "type", "bdoc" ).toString() == "asice" ? "LT" : "LT_TM";
+	QString def = Settings(qApp->applicationName()).value( "type", "bdoc" ).toString() == "bdoc" ? "LT_TM" : "LT";
 	switch(b->signatures().size())
 	{
 	case 0:
-		if( QStringList({"asice", "sce"}).contains(QFileInfo(m_fileName).suffix(), Qt::CaseInsensitive) )
+		if( QFileInfo(m_fileName).suffix().compare("bdoc", Qt::CaseInsensitive) != 0 )
 			return "LT";
 		return def;
 	case 1:
