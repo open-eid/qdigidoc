@@ -1243,7 +1243,7 @@ The Information System Authority does not retain information regarding the files
         <translation>Статус подписи отображается как &quot;неизвестный&quot;, если на компьютере не установлены необходимые для проверки подписи сертификаты сертифицирующей организации и/или услуги подтверждения действительности (&lt;a href=&apos;http://id.ee/?lang=ru&amp;id=34529&apos;&gt;дополнительная информация&lt;/a&gt;).</translation>
     </message>
     <message>
-        <source>This e-Signature is not equivalent with handwritten signature and therefore can be used only in tansactions where Qualified e-Signature is not required.</source>
+        <source>This e-Signature is not equivalent with handwritten signature and therefore can be used only in transactions where Qualified e-Signature is not required.</source>
         <translation>Эта электронная подпись не эквивалентна рукописной подписи и поэтому может использоваться только в тех случаях, когда не требуется квалифицированная электронная подпись.</translation>
     </message>
 </context>

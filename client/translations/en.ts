@@ -1239,8 +1239,8 @@ The Information System Authority does not retain information regarding the files
         <translation>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;).</translation>
     </message>
     <message>
-        <source>This e-Signature is not equivalent with handwritten signature and therefore can be used only in tansactions where Qualified e-Signature is not required.</source>
-        <translation>This e-Signature is not equivalent with handwritten signature and therefore can be used only in tansactions where Qualified e-Signature is not required.</translation>
+        <source>This e-Signature is not equivalent with handwritten signature and therefore can be used only in transactions where Qualified e-Signature is not required.</source>
+        <translation>This e-Signature is not equivalent with handwritten signature and therefore can be used only in transactions where Qualified e-Signature is not required.</translation>
     </message>
 </context>
 <context>

@@ -205,7 +205,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 		status += QString("%1 (%2)").arg(tr("is valid"), tr("Restrictions"));
 		d->info->setText( tr(
 			"This e-Signature is not equivalent with handwritten signature and therefore "
-			"can be used only in tansactions where Qualified e-Signature is not required.") );
+			"can be used only in transactions where Qualified e-Signature is not required.") );
 		break;
 	case DigiDocSignature::Test:
 		status += QString("%1 (%2)").arg(tr("is valid"), tr("Test signature"));
