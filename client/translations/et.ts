@@ -1240,8 +1240,8 @@ Riigi Infosüsteemi Amet ei säilita informatsiooni teenuse kasutajate ja failid
         <translation>Allkirja staatus kuvatakse &quot;teadmata&quot;, kui arvutis puuduvad allkirja kontrollimiseks vajalikud sertifitseerija ja/või kehtivuskinnituse teenuse sertifikaadid (&lt;a href=&apos;http://www.id.ee/?id=35939&apos;&gt;täiendav info&lt;/a&gt;).</translation>
     </message>
     <message>
-        <source>Signature status is displayed &quot;restricted&quot; if digital signature does not meet all the requirements and signature is not equivalent to a handwritten signature.</source>
-        <translation>Allkirja staatus kuvatakse &quot;piirangutega&quot;, kui allkiri ei vasta digitaalallkirja nõuetele ning ei ole võrdväärne omakäelise allkirjaga.</translation>
+        <source>This e-Signature is not equivalent with handwritten signature and therefore can be used only in tansactions where Qualified e-Signature is not required.</source>
+        <translation>Tegemist on e-allkirjaga, mis on kasutatav nendes toimingutes, kus ei ole nõutud omakäelise allkirjaga võrdväärset kvalifitseeritud e-allkirja ehk digitaalallkirja.</translation>
     </message>
 </context>
 <context>

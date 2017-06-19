@@ -204,8 +204,8 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 	case DigiDocSignature::NonQSCD:
 		status += QString("%1 (%2)").arg(tr("is valid"), tr("Restrictions"));
 		d->info->setText( tr(
-			"Signature status is displayed \"restricted\" if digital signature "
-			"does not meet all the requirements and signature is not equivalent to a handwritten signature.") );
+			"This e-Signature is not equivalent with handwritten signature and therefore "
+			"can be used only in tansactions where Qualified e-Signature is not required.") );
 		break;
 	case DigiDocSignature::Test:
 		status += QString("%1 (%2)").arg(tr("is valid"), tr("Test signature"));
