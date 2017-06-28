@@ -159,6 +159,8 @@ QString FileDialog::getExistingDirectory( QWidget *parent, const QString &captio
 	res = QFileDialog::getExistingDirectory( parent,
 		caption, getDir( dir ), ShowDirsOnly|options|addOptions() );
 #endif
+	if(res.isEmpty())
+		return res;
 #ifdef Q_OS_WIN
 	if( !QTemporaryFile( res + "/.XXXXXX" ).open() )
 #else
