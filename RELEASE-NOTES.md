@@ -1,3 +1,10 @@
+DigiDoc3 version [3.13.2](https://github.com/open-eid/qdigidoc/releases/tag/v3.13.2) release notes
+--------------------------------------
+- Minor fixes
+
+[Full Changelog](https://github.com/open-eid/qdigidoc/compare/v3.13.1...v3.13.2)
+
+
 DigiDoc3 version [3.13.1](https://github.com/open-eid/qdigidoc/releases/tag/v3.13.1) release notes
 --------------------------------------
 - Restore compatibility with jdigidoc 3.11
