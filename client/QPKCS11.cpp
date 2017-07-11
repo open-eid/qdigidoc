@@ -466,8 +466,8 @@ bool QPKCS11Stack::load(const QString &defaultDriver)
 	d->drivers.insert(defaultDriver, QByteArray());
 #ifdef Q_OS_MAC
 	d->drivers.insert("/Library/latvia-eid/lib/otlv-pkcs11.so", "3BDD18008131FE45904C41545649412D65494490008C");
-	d->drivers.insert("/System/Library/Security/tokend/CCSuite.tokend/Contents/Frameworks/libccpkip11.dylib", "3BF81300008131FE45536D617274417070F8");
-	d->drivers.insert("/System/Library/Security/tokend/CCSuite.tokend/Contents/Frameworks/libccpkip11.dylib", "3B7D94000080318065B08311C0A983009000");
+	d->drivers.insert("/Library/Security/tokend/CCSuite.tokend/Contents/Frameworks/libccpkip11.dylib", "3BF81300008131FE45536D617274417070F8");
+	d->drivers.insert("/Library/Security/tokend/CCSuite.tokend/Contents/Frameworks/libccpkip11.dylib", "3B7D94000080318065B08311C0A983009000");
 	if(QFile::exists("/Library/mPolluxDigiSign/libcryptoki.dylib"))
 		d->drivers.insert("/Library/mPolluxDigiSign/libcryptoki.dylib", "3B7B940000806212515646696E454944");
 	else
