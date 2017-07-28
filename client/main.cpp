@@ -36,12 +36,14 @@ int main( int argc, char *argv[] )
 	newv[argc] = 0;
 	argv = newv;
 
+	SetProcessDPIAware();
 	HDC screen = GetDC(0);
-	qreal dpi = GetDeviceCaps(screen, LOGPIXELSY);
-	qreal scale = dpi / qreal(96);
+	qreal dpix = GetDeviceCaps(screen, LOGPIXELSX);
+	qreal dpiy = GetDeviceCaps(screen, LOGPIXELSY);
+	qreal scale = dpiy / qreal(96);
 	qputenv("QT_SCALE_FACTOR", QByteArray::number(scale));
 	ReleaseDC(NULL, screen);
-	qDebug() << "Current DPI:" << dpi << " setting scale:" << scale;
+	qDebug() << "Current DPI x: " << dpix << " y: " << dpiy << " setting scale:" << scale;
 #else
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 #endif
