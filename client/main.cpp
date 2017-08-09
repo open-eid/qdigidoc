@@ -29,13 +29,6 @@ int main( int argc, char *argv[] )
 #if QT_VERSION > QT_VERSION_CHECK(5, 6, 0)
 	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 #ifdef Q_OS_WIN32
-	char **newv = (char**)malloc((argc + 3) * sizeof(*newv));
-	memmove(newv, argv, sizeof(*newv) * argc);
-	newv[argc++] = (char*)"-platform";
-	newv[argc++] = (char*)"windows:dpiawareness=1";
-	newv[argc] = 0;
-	argv = newv;
-
 	SetProcessDPIAware();
 	HDC screen = GetDC(0);
 	qreal dpix = GetDeviceCaps(screen, LOGPIXELSX);

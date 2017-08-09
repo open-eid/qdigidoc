@@ -166,6 +166,7 @@ msiexec /a Eesti_ID_kaart-CPP-teek-arendajale-3.10.0.3672.BETA.msi /qn TARGETDIR
             <File Source="$(var.qt_path)\bin\libGLESv2.dll"/>
             <File Source="$(var.qt_path)\bin\D3DCompiler_47.dll"/>
             <File Source="$(var.qt_path)\bin\opengl32sw.dll" />
+            <File Source="$(var.qtconf)" />
 <?endif?>
 <?ifdef var.ShellExt ?>
             <!--Does not work with multiple files -->
