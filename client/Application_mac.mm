@@ -82,8 +82,7 @@ void Application::deinitMacEvents()
 void Application::mailTo( const QUrl &url )
 {
 	QUrlQuery q(url);
-	CFURLRef appUrl = 0;
-	if( LSGetApplicationForURL( (__bridge CFURLRef)url.toNSURL(), kLSRolesAll, NULL, &appUrl ) == noErr )
+	if(CFURLRef appUrl = LSCopyDefaultApplicationURLForURL((__bridge CFURLRef)url.toNSURL(), kLSRolesAll, nil))
 	{
 		NSString *appPath = [((__bridge NSURL *)appUrl) path];
 		CFRelease( appUrl );
