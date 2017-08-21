@@ -194,32 +194,10 @@ void QSigner::run()
 	default: d->pkcs11 = new QPKCS11Stack( this ); break;
 	}
 
-
 	QString driver = qApp->confValue( Application::PKCS11Module ).toString();
-#ifdef Q_OS_MAC
-	QFile f("/private/var/run/pcscd.pub");
-	if(QSysInfo::macVersion() <= QSysInfo::MV_10_9)
-		driver = qApp->applicationDirPath() + "/esteid-pkcs11_old.so";
-#endif
-
 	while( !d->terminate )
 	{
-#ifdef Q_OS_MAC
-		if(!f.isOpen())
-			f.open(QFile::ReadOnly);
-#endif
-
-		if( d->pkcs11 && !d->pkcs11->isLoaded() &&
-#ifdef Q_OS_MAC
-			/* OSX <= 10.9 corrupts sometimes memory (eg. file read/write operations
-			 * failing) when calling SCardEstablishContext and there is no smartcard
-			 * reader connected. Reading 20 bytes from /private/var/run/pcscd.pub to
-			 * detect if no reader is connected and block SCard API usage.
-			 */
-			(QSysInfo::macVersion() > QSysInfo::MV_10_9 ||
-			 (f.isOpen() && f.peek(20) != QByteArray(20, 0))) &&
-#endif
-			!d->pkcs11->load( driver ) )
+		if( d->pkcs11 && !d->pkcs11->isLoaded() && !d->pkcs11->load( driver ) )
 		{
 			Q_EMIT error( tr("Failed to load PKCS#11 module") + "\n" + driver );
 			return;
