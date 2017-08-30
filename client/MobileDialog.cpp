@@ -73,19 +73,19 @@ MobileDialog::MobileDialog( QWidget *parent )
 	statusTimer = new QTimeLine( signProgressBar->maximum() * 1000, this );
 	statusTimer->setCurveShape( QTimeLine::LinearCurve );
 	statusTimer->setFrameRange( signProgressBar->minimum(), signProgressBar->maximum() );
-	connect( statusTimer, SIGNAL(frameChanged(int)), signProgressBar, SLOT(setValue(int)) );
-	connect( statusTimer, SIGNAL(finished()), SLOT(endProgress()) );
+	connect(statusTimer, &QTimeLine::frameChanged, signProgressBar, &QProgressBar::setValue);
+	connect(statusTimer, &QTimeLine::finished, this, &MobileDialog::endProgress);
 #ifdef Q_OS_WIN
 	taskbar = new QWinTaskbarButton(this);
 	taskbar->setWindow(parent->windowHandle());
 	taskbar->progress()->setRange(signProgressBar->minimum(), signProgressBar->maximum());
 	connect(statusTimer, &QTimeLine::frameChanged, taskbar->progress(), &QWinTaskbarProgress::setValue);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &MobileDialog::stop);
 #endif
 
 	manager = new QNetworkAccessManager( this );
-	connect( manager, SIGNAL(finished(QNetworkReply*)), SLOT(finished(QNetworkReply*)) );
-	connect( manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
-		SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
+	connect(manager, &QNetworkAccessManager::finished, this, &MobileDialog::finished);
+	connect(manager, &QNetworkAccessManager::sslErrors, this, &MobileDialog::sslErrors);
 
 	QSslConfiguration ssl = QSslConfiguration::defaultConfiguration();
 	if( !Application::confValue( Application::PKCS12Disable ).toBool() )
