@@ -110,7 +110,7 @@ SignatureWidget::SignatureWidget( const DigiDocSignature &signature, unsigned in
 		break;
 	case DigiDocSignature::Warning:
 		sa << tr("is valid") << " (" << tr("Warnings") << ")";
-		sc << "<font color=\"green\">" << tr("is valid") << "</font> <font>(" << tr("Warnings") << ")";
+		sc << "<font color=\"green\">" << tr("is valid") << "</font> <font color=\"gold\">(" << tr("Warnings") << ")";
 		break;
 	case DigiDocSignature::NonQSCD:
 		sa << tr("is valid") << " (" << tr("Restrictions") << ")";
