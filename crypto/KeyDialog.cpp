@@ -354,15 +354,7 @@ QVariant CertModel::data( const QModelIndex &index, int role ) const
 void CertModel::load( const QList<QSslCertificate> &result )
 {
 	beginResetModel();
-	certs.clear();
-	for(const QSslCertificate &k: result)
-	{
-		SslCertificate c( k );
-		if( c.keyUsage().contains( SslCertificate::KeyEncipherment ) &&
-			!c.enhancedKeyUsage().contains( SslCertificate::ServerAuth ) &&
-			c.type() != SslCertificate::MobileIDType )
-			certs << c;
-	}
+	certs = result;
 	endResetModel();
 }
 
@@ -611,7 +603,17 @@ void CertAddDialog::showError( const QString &msg, const QString &details )
 
 void CertAddDialog::showResult( const QList<QSslCertificate> &result )
 {
-	certModel->load( result );
+	QList<QSslCertificate> filter;
+	for(const QSslCertificate &k: result)
+	{
+		SslCertificate c(k);
+		if(c.keyUsage().contains(SslCertificate::KeyEncipherment) &&
+			!c.enhancedKeyUsage().contains(SslCertificate::ServerAuth) &&
+			(searchType->currentIndex() == 0 || !c.enhancedKeyUsage().contains(SslCertificate::ClientAuth)) &&
+			c.type() != SslCertificate::MobileIDType)
+			filter << c;
+	}
+	certModel->load(filter);
 
 	disableSearch( false );
 	add->setEnabled( true );
