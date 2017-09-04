@@ -21,6 +21,7 @@
 
 #include <common/PinDialog.h>
 #include <common/QPCSC.h>
+#include <common/Settings.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QEventLoop>
@@ -472,6 +473,11 @@ bool QPKCS11Stack::load(const QString &defaultDriver)
 		d->drivers.insert("/Library/mPolluxDigiSign/libcryptoki.dylib", "3B7B940000806212515646696E454944");
 	else
 		d->drivers.insert("/Library/OpenSC/lib/opensc-pkcs11.so", "3B7B940000806212515646696E454944");
+	d->drivers.insert("/Library/Frameworks/eToken.framework/Versions/Current/libeToken.dylib", "3BD5180081313A7D8073C8211030");
+	d->drivers.insert("/Library/Frameworks/eToken.framework/Versions/Current/libeToken.dylib", "3BD518008131FE7D8073C82110F4");
+	QVariantMap PKCS11 = Settings().value("PKCS11").toMap();
+	for(auto it = PKCS11.cbegin(), end = PKCS11.cend(); it != end; ++it)
+		d->drivers.insert(it.value().toString(), it.key().toLocal8Bit());
 #elif defined(Q_OS_WIN)
 	d->drivers.insert("OTLvP11.dll", "3BDD18008131FE45904C41545649412D65494490008C");
 	d->drivers.insert(qApp->applicationDirPath() + "/../CryptoTech/CryptoCard/CCPkiP11.dll", "3BF81300008131FE45536D617274417070F8");
