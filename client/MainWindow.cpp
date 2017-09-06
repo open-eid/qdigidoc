@@ -44,6 +44,7 @@
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrinterInfo>
 #include <QtPrintSupport/QPrintPreviewDialog>
+#include <QtWidgets/QCompleter>
 #include <QtWidgets/QMessageBox>
 
 const int MainWindow::SIGNATURE_COL_HDR_WIDTH = 274;
@@ -171,6 +172,27 @@ MainWindow::MainWindow( QWidget *parent )
 
 	if( QAbstractButton *b = infoTypeGroup->button( s.value( "Client/SignMethod", 0 ).toInt() ) )
 		b->click();
+
+	for(QLineEdit *line: {signRoleInput, signResolutionInput, signCityInput, signStateInput, signCountryInput, signZipInput})
+	{
+		QCompleter *completer = new QCompleter(s.value(line->objectName()).toStringList(), line);
+		completer->setMaxVisibleItems(10);
+		completer->setCompletionMode(QCompleter::PopupCompletion);
+		completer->setCaseSensitivity(Qt::CaseInsensitive);
+		line->setCompleter(completer);
+		connect(line, &QLineEdit::editingFinished, [=] {
+			if(line->text().isEmpty())
+				return;
+			Settings s;
+			QStringList list = s.value(line->objectName()).toStringList();
+			if(list.contains(line->text(), Qt::CaseInsensitive))
+				return;
+			list.insert(0, line->text());
+			if(list.size() > 10)
+				list.removeLast();
+			s.setValueEx(line->objectName(), list, QStringList());
+		});
+	}
 }
 
 bool MainWindow::addFile( const QString &file )
