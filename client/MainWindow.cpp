@@ -419,6 +419,8 @@ void MainWindow::buttonClicked( int button )
 			break;
 		}
 	case ViewClose:
+		if(doc->isModified())
+			save();
 		doc->clear();
 		warnOnUnsignedDocCancel = true;
 		if( quitOnClose )

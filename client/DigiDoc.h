@@ -144,6 +144,7 @@ public:
 	bool isNull() const;
 	bool isReadOnlyTS() const;
 	bool isService() const;
+	bool isModified() const;
 	bool isSupported() const;
 	QString mediaType() const;
 	QString newSignatureID() const;
@@ -171,6 +172,7 @@ private:
 	void setLastError( const QString &msg, const digidoc::Exception &e );
 
 	digidoc::Container *b = nullptr, *parentContainer = nullptr;
+	bool			modified = false;
 	QString			m_fileName;
 	DocumentModel	*m_documentModel = nullptr;
 	QStringList		m_tempFiles;

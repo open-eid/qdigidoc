@@ -49,7 +49,7 @@ using namespace digidoc;
 static std::string to( const QString &str ) { return std::string( str.toUtf8().constData() ); }
 static QString from( const std::string &str ) { return QString::fromUtf8( str.c_str() ).normalized( QString::NormalizationForm_C ); }
 static QByteArray fromVector( const std::vector<unsigned char> &d )
-{ return d.empty() ? QByteArray() : QByteArray( (const char *)&d[0], int(d.size()) ); }
+{ return d.empty() ? QByteArray() : QByteArray( (const char *)d.data(), int(d.size()) ); }
 
 
 
@@ -187,6 +187,7 @@ bool DocumentModel::removeRows( int row, int count, const QModelIndex &parent )
 		for( int i = row + count - 1; i >= row; --i )
 			d->b->removeDataFile( i );
 		endRemoveRows();
+		d->modified = true;
 		return true;
 	}
 	catch( const Exception &e ) { d->setLastError( tr("Failed remove document from container"), e ); }
@@ -444,7 +445,11 @@ void DigiDoc::addFile( const QString &file )
 {
 	if( !checkDoc( b->signatures().size() > 0, tr("Cannot add files to signed container") ) )
 		return;
-	try { b->addDataFile( to(file), "application/octet-stream" ); m_documentModel->reset(); }
+	try {
+		b->addDataFile( to(file), "application/octet-stream" );
+		m_documentModel->reset();
+		modified = true;
+	}
 	catch( const Exception &e ) { setLastError( tr("Failed add file to container"), e ); }
 }
 
@@ -453,14 +458,14 @@ bool DigiDoc::addSignature( const QByteArray &signature )
 	if( !checkDoc( b->dataFiles().size() == 0, tr("Cannot add signature to empty container") ) )
 		return false;
 
-	bool result = false;
 	try
 	{
 		b->addAdESSignature( std::vector<unsigned char>( signature.constData(), signature.constData() + signature.size() ) );
-		result = true;
+		modified = true;
+		return true;
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to sign container"), e ); }
-	return result;
+	return false;
 }
 
 bool DigiDoc::checkDoc( bool status, const QString &msg ) const
@@ -483,6 +488,7 @@ void DigiDoc::clear()
 	for(const QString &file: m_tempFiles)
 		QFile::remove(file);
 	m_tempFiles.clear();
+	modified = false;
 }
 
 void DigiDoc::create( const QString &file )
@@ -491,6 +497,7 @@ void DigiDoc::create( const QString &file )
 	b = Container::create( to( file ) );
 	m_fileName = file;
 	m_documentModel->reset();
+	modified = false;
 }
 
 DocumentModel* DigiDoc::documentModel() const { return m_documentModel; }
@@ -500,6 +507,7 @@ bool DigiDoc::isService() const
 {
 	return b->mediaType() == "application/pdf";
 }
+bool DigiDoc::isModified() const { return modified; }
 bool DigiDoc::isNull() const { return b == nullptr; }
 bool DigiDoc::isReadOnlyTS() const
 {
@@ -559,6 +567,7 @@ bool DigiDoc::open( const QString &file )
 		m_fileName = file;
 		m_documentModel->reset();
 		qApp->addRecent( file );
+		modified = false;
 		return true;
 	}
 	catch( const Exception &e )
@@ -592,7 +601,10 @@ void DigiDoc::removeSignature( unsigned int num )
 {
 	if( !checkDoc( num >= b->signatures().size(), tr("Missing signature") ) )
 		return;
-	try { b->removeSignature( num ); }
+	try {
+		b->removeSignature( num );
+		modified = true;
+	}
 	catch( const Exception &e ) { setLastError( tr("Failed remove signature from container"), e ); }
 }
 
@@ -606,6 +618,7 @@ void DigiDoc::save( const QString &filename )
 			m_fileName = filename;
 		b->save( to(m_fileName) );
 		qApp->addRecent( filename );
+		modified = false;
 	}
 	catch( const Exception &e ) { setLastError( tr("Failed to save container"), e ); }
 }
@@ -656,6 +669,7 @@ bool DigiDoc::sign( const QString &city, const QString &state, const QString &zi
 		qApp->signer()->setProfile( signatureFormat() == "LT" ? "time-stamp" : "time-mark" );
 		qApp->waitForTSL( fileName() );
 		b->sign( qApp->signer() );
+		modified = true;
 		return true;
 	}
 	catch( const Exception &e )
