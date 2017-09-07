@@ -1235,16 +1235,16 @@ The Information System Authority does not retain information regarding the files
         <translation>недействительна</translation>
     </message>
     <message>
-        <source>status unknown</source>
-        <translation>статус неизвестен</translation>
-    </message>
-    <message>
         <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;).</source>
         <translation>Статус подписи отображается как &quot;неизвестный&quot;, если на компьютере не установлены необходимые для проверки подписи сертификаты сертифицирующей организации и/или услуги подтверждения действительности (&lt;a href=&apos;http://id.ee/?lang=ru&amp;id=34529&apos;&gt;дополнительная информация&lt;/a&gt;).</translation>
     </message>
     <message>
         <source>This e-Signature is not equivalent with handwritten signature and therefore can be used only in transactions where Qualified e-Signature is not required.</source>
         <translation>Эта электронная подпись не эквивалентна рукописной подписи и поэтому может использоваться только в тех случаях, когда не требуется квалифицированная электронная подпись.</translation>
+    </message>
+    <message>
+        <source>is unknown</source>
+        <translation>неизвестно</translation>
     </message>
 </context>
 <context>

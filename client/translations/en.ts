@@ -1231,16 +1231,16 @@ The Information System Authority does not retain information regarding the files
         <translation>is not valid</translation>
     </message>
     <message>
-        <source>status unknown</source>
-        <translation>status unknown</translation>
-    </message>
-    <message>
         <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;).</source>
         <translation>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;).</translation>
     </message>
     <message>
         <source>This e-Signature is not equivalent with handwritten signature and therefore can be used only in transactions where Qualified e-Signature is not required.</source>
         <translation>This e-Signature is not equivalent with handwritten signature and therefore can be used only in transactions where Qualified e-Signature is not required.</translation>
+    </message>
+    <message>
+        <source>is unknown</source>
+        <translation>is unknown</translation>
     </message>
 </context>
 <context>

@@ -224,7 +224,7 @@ SignatureDialog::SignatureDialog( const DigiDocSignature &signature, QWidget *pa
 			"This is an invalid signature or malformed digitally signed file. The signature is not valid.") );
 		break;
 	case DigiDocSignature::Unknown:
-		status += tr("status unknown");
+		status += tr("is unknown");
 		d->error->setPlainText( s.lastError().isEmpty() ? tr("Unknown error") : s.lastError() );
 		d->info->setText( tr(
 			"Signature status is displayed \"unknown\" if you don't have all validity confirmation "

@@ -1232,16 +1232,16 @@ Riigi Infosüsteemi Amet ei säilita informatsiooni teenuse kasutajate ja failid
         <translation>ei ole kehtiv</translation>
     </message>
     <message>
-        <source>status unknown</source>
-        <translation>staatus on teadmata</translation>
-    </message>
-    <message>
         <source>Signature status is displayed &quot;unknown&quot; if you don&apos;t have all validity confirmation service certificates and/or certificate authority certificates installed into your computer (&lt;a href=&apos;http://id.ee/?lang=en&amp;id=34317&apos;&gt;additional information&lt;/a&gt;).</source>
         <translation>Allkirja staatus kuvatakse &quot;teadmata&quot;, kui arvutis puuduvad allkirja kontrollimiseks vajalikud sertifitseerija ja/või kehtivuskinnituse teenuse sertifikaadid (&lt;a href=&apos;http://www.id.ee/?id=35939&apos;&gt;täiendav info&lt;/a&gt;).</translation>
     </message>
     <message>
         <source>This e-Signature is not equivalent with handwritten signature and therefore can be used only in transactions where Qualified e-Signature is not required.</source>
         <translation>Tegemist on e-allkirjaga, mis on kasutatav nendes toimingutes, kus ei ole nõutud omakäelise allkirjaga võrdväärset kvalifitseeritud e-allkirja ehk digitaalallkirja.</translation>
+    </message>
+    <message>
+        <source>is unknown</source>
+        <translation>on teadmata</translation>
     </message>
 </context>
 <context>
