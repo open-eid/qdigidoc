@@ -33,7 +33,7 @@
 
 #include <openssl/obj_mac.h>
 
-#define toQByteArray(X) QByteArray((const char*)X, sizeof(X)).toUpper()
+#define toQByteArray(X) QByteArray::fromRawData((const char*)X, sizeof(X)).toUpper()
 
 QByteArray QPKCS11Private::attribute( CK_SESSION_HANDLE session, CK_OBJECT_HANDLE obj, CK_ATTRIBUTE_TYPE type ) const
 {
@@ -49,12 +49,14 @@ QByteArray QPKCS11Private::attribute( CK_SESSION_HANDLE session, CK_OBJECT_HANDL
 	return data;
 }
 
-QVector<CK_OBJECT_HANDLE> QPKCS11Private::findObject( CK_SESSION_HANDLE session, CK_OBJECT_CLASS cls ) const
+QVector<CK_OBJECT_HANDLE> QPKCS11Private::findObject(CK_SESSION_HANDLE session, CK_OBJECT_CLASS cls, const QByteArray &id) const
 {
 	if(!f)
 		return QVector<CK_OBJECT_HANDLE>();
-	CK_ATTRIBUTE attr = { CKA_CLASS, &cls, sizeof(cls) };
-	if( f->C_FindObjectsInit( session, &attr, 1 ) != CKR_OK )
+	QVector<CK_ATTRIBUTE> attr{ { CKA_CLASS, &cls, sizeof(cls) } };
+	if(!id.isEmpty())
+		attr.append({ CKA_ID, (void*)id.data(), (unsigned long)id.size() });
+	if(f->C_FindObjectsInit(session, attr.data(), attr.size()) != CKR_OK)
 		return QVector<CK_OBJECT_HANDLE>();
 
 	CK_ULONG count = 32;
@@ -136,12 +138,12 @@ QPKCS11::~QPKCS11()
 
 QByteArray QPKCS11::encrypt( const QByteArray &data ) const
 {
-	QVector<CK_OBJECT_HANDLE> key = d->findObject( d->session, CKO_PRIVATE_KEY );
-	if( key.isEmpty() )
+	QVector<CK_OBJECT_HANDLE> key = d->findObject(d->session, CKO_PRIVATE_KEY, d->id);
+	if(key.size() != 1)
 		return QByteArray();
 
 	CK_MECHANISM mech = { CKM_RSA_PKCS, 0, 0 };
-	if( d->f->C_EncryptInit( d->session, &mech, key[*d->certIndex] ) != CKR_OK )
+	if(d->f->C_EncryptInit(d->session, &mech, key[0]) != CKR_OK)
 		return QByteArray();
 
 	CK_ULONG size = 0;
@@ -170,12 +172,12 @@ QString QPKCS11::errorString( PinStatus error )
 
 QByteArray QPKCS11::decrypt( const QByteArray &data ) const
 {
-	QVector<CK_OBJECT_HANDLE> key = d->findObject( d->session, CKO_PRIVATE_KEY );
-	if( key.isEmpty() )
+	QVector<CK_OBJECT_HANDLE> key = d->findObject(d->session, CKO_PRIVATE_KEY, d->id);
+	if(key.size() != 1)
 		return QByteArray();
 
 	CK_MECHANISM mech = { CKM_RSA_PKCS, 0, 0 };
-	if( d->f->C_DecryptInit( d->session, &mech, key[*d->certIndex] ) != CKR_OK )
+	if(d->f->C_DecryptInit(d->session, &mech, key[0]) != CKR_OK)
 		return QByteArray();
 
 	CK_ULONG size = 0;
@@ -247,22 +249,20 @@ QPKCS11::PinStatus QPKCS11::login( const TokenData &_t )
 		if( d->f->C_OpenSession( slot, CKF_SERIAL_SESSION, 0, 0, &d->session ) != CKR_OK )
 			continue;
 
-		CK_ULONG i = 0;
 		for( CK_OBJECT_HANDLE obj: d->findObject( d->session, CKO_CERTIFICATE ) )
 		{
 			if( _t.cert() == QSslCertificate( d->attribute( d->session, obj, CKA_VALUE ), QSsl::Der ) )
 			{
-				d->certIndex = new CK_ULONG(i);
+				d->id = d->attribute(d->session, obj, CKA_ID);
 				break;
 			}
-			++i;
 		}
-		if( d->certIndex )
+		if(!d->id.isEmpty())
 			break;
 	}
 
 	CK_SESSION_INFO sessinfo;
-	if( !d->certIndex || d->f->C_GetSessionInfo( d->session, &sessinfo ) != CKR_OK )
+	if(d->id.isEmpty() || d->f->C_GetSessionInfo(d->session, &sessinfo) != CKR_OK)
 		return UnknownError;
 
 	CK_TOKEN_INFO token;
@@ -320,8 +320,7 @@ QPKCS11::PinStatus QPKCS11::login( const TokenData &_t )
 
 void QPKCS11::logout()
 {
-	delete d->certIndex;
-	d->certIndex = nullptr;
+	d->id.clear();
 	if( d->f && d->session )
 	{
 		d->f->C_Logout( d->session );
@@ -380,8 +379,8 @@ QList<TokenData> QPKCS11::tokens() const
 
 QByteArray QPKCS11::sign( int type, const QByteArray &digest ) const
 {
-	QVector<CK_OBJECT_HANDLE> key = d->findObject(d->session, CKO_PRIVATE_KEY);
-	if(key.isEmpty() || !key.value(*d->certIndex))
+	QVector<CK_OBJECT_HANDLE> key = d->findObject(d->session, CKO_PRIVATE_KEY, d->id);
+	if(key.size() != 1)
 		return QByteArray();
 
 	CK_KEY_TYPE keyType = CKK_RSA;
@@ -389,7 +388,7 @@ QByteArray QPKCS11::sign( int type, const QByteArray &digest ) const
 	d->f->C_GetAttributeValue(d->session, key[0], &attribute, 1);
 
 	CK_MECHANISM mech = { keyType == CKK_ECDSA ? CKM_ECDSA : CKM_RSA_PKCS, 0, 0 };
-	if(d->f->C_SignInit(d->session, &mech, key[*d->certIndex]) != CKR_OK)
+	if(d->f->C_SignInit(d->session, &mech, key[0]) != CKR_OK)
 		return QByteArray();
 
 	QByteArray data;
@@ -420,12 +419,12 @@ QByteArray QPKCS11::sign( int type, const QByteArray &digest ) const
 
 bool QPKCS11::verify( const QByteArray &data, const QByteArray &signature ) const
 {
-	QVector<CK_OBJECT_HANDLE> key = d->findObject( d->session, CKO_PRIVATE_KEY );
-	if( key.isEmpty() )
+	QVector<CK_OBJECT_HANDLE> key = d->findObject(d->session, CKO_PRIVATE_KEY, d->id);
+	if(key.size() != 1)
 		return false;
 
 	CK_MECHANISM mech = { CKM_RSA_PKCS, 0, 0 };
-	if( d->f->C_VerifyInit( d->session, &mech, key[*d->certIndex] ) != CKR_OK )
+	if(d->f->C_VerifyInit(d->session, &mech, key[0]) != CKR_OK)
 		return false;
 
 	return d->f->C_Verify( d->session, CK_CHAR_PTR(data.constData()),
