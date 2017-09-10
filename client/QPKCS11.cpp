@@ -380,24 +380,31 @@ QList<TokenData> QPKCS11::tokens() const
 
 QByteArray QPKCS11::sign( int type, const QByteArray &digest ) const
 {
+	QVector<CK_OBJECT_HANDLE> key = d->findObject(d->session, CKO_PRIVATE_KEY);
+	if(key.isEmpty() || !key.value(*d->certIndex))
+		return QByteArray();
+
+	CK_KEY_TYPE keyType = CKK_RSA;
+	CK_ATTRIBUTE attribute = { CKA_KEY_TYPE, &keyType, sizeof(keyType) };
+	d->f->C_GetAttributeValue(d->session, key[0], &attribute, 1);
+
+	CK_MECHANISM mech = { keyType == CKK_ECDSA ? CKM_ECDSA : CKM_RSA_PKCS, 0, 0 };
+	if(d->f->C_SignInit(d->session, &mech, key[*d->certIndex]) != CKR_OK)
+		return QByteArray();
+
 	QByteArray data;
-	switch( type )
+	if(keyType == CKK_RSA)
 	{
-	case NID_sha224: data += QByteArray::fromHex("302d300d06096086480165030402040500041c"); break;
-	case NID_sha256: data += QByteArray::fromHex("3031300d060960864801650304020105000420"); break;
-	case NID_sha384: data += QByteArray::fromHex("3041300d060960864801650304020205000430"); break;
-	case NID_sha512: data += QByteArray::fromHex("3051300d060960864801650304020305000440"); break;
-	default: break;
+		switch(type)
+		{
+		case NID_sha224: data += QByteArray::fromHex("302d300d06096086480165030402040500041c"); break;
+		case NID_sha256: data += QByteArray::fromHex("3031300d060960864801650304020105000420"); break;
+		case NID_sha384: data += QByteArray::fromHex("3041300d060960864801650304020205000430"); break;
+		case NID_sha512: data += QByteArray::fromHex("3051300d060960864801650304020305000440"); break;
+		default: break;
+		}
 	}
-	data.append( digest );
-
-	QVector<CK_OBJECT_HANDLE> key = d->findObject( d->session, CKO_PRIVATE_KEY );
-	if( key.isEmpty() || !key.value(*d->certIndex) )
-		return QByteArray();
-
-	CK_MECHANISM mech = { CKM_RSA_PKCS, 0, 0 };
-	if( d->f->C_SignInit( d->session, &mech, key[*d->certIndex] ) != CKR_OK )
-		return QByteArray();
+	data.append(digest);
 
 	CK_ULONG size = 0;
 	if( d->f->C_Sign( d->session, CK_CHAR_PTR(data.constData()),

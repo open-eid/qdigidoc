@@ -171,9 +171,10 @@ TokenData QCSP::selectCert(const SslCertificate &cert)
 
 QByteArray QCSP::sign(int method, const QByteArray &digest)
 {
+	QByteArray result;
 	d->error = PinOK;
 	if(!d->cert)
-		return QByteArray();
+		return result;
 
 	BCRYPT_PKCS1_PADDING_INFO padInfo = { NCRYPT_SHA256_ALGORITHM };
 	ALG_ID alg = CALG_SHA_256;
@@ -194,8 +195,7 @@ QByteArray QCSP::sign(int method, const QByteArray &digest)
 		padInfo.pszAlgId = NCRYPT_SHA512_ALGORITHM;
 		alg = CALG_SHA_512;
 		break;
-	default:
-		return QByteArray();
+	default: break;
 	}
 
 	DWORD flags = CRYPT_ACQUIRE_PREFER_NCRYPT_KEY_FLAG|CRYPT_ACQUIRE_COMPARE_KEY_FLAG;
@@ -205,15 +205,23 @@ QByteArray QCSP::sign(int method, const QByteArray &digest)
 	CryptAcquireCertificatePrivateKey(d->cert, flags, 0, &key, &spec, &freeKey);
 	qDebug() << "Key spec" << spec;
 	if(!key)
-		return QByteArray();
+		return result;
 
-	DWORD size = 256;
-	QByteArray result(size, 0);
 	DWORD err = 0;
 	switch( spec )
 	{
 	case CERT_NCRYPT_KEY_SPEC:
 	{
+		DWORD size = 0;
+		err = NCryptSignHash(key, &padInfo, PBYTE(digest.constData()), DWORD(digest.size()),
+			nullptr, 0, &size, BCRYPT_PAD_PKCS1);
+		if(FAILED(err))
+		{
+			if(freeKey)
+				NCryptFreeObject(key);
+			return result;
+		}
+		result.resize(int(size));
 		err = NCryptSignHash(key, &padInfo, PBYTE(digest.constData()), DWORD(digest.size()),
 			PBYTE(result.data()), DWORD(result.size()), &size, BCRYPT_PAD_PKCS1);
 		if( freeKey )
@@ -227,7 +235,7 @@ QByteArray QCSP::sign(int method, const QByteArray &digest)
 		{
 			if(freeKey)
 				CryptReleaseContext(key, 0);
-			return QByteArray();
+			return result;
 		}
 
 		HCRYPTHASH hash = 0;
@@ -235,7 +243,7 @@ QByteArray QCSP::sign(int method, const QByteArray &digest)
 		{
 			if(freeKey)
 				CryptReleaseContext(key, 0);
-			return QByteArray();
+			return result;
 		}
 
 		if(!CryptSetHashParam(hash, HP_HASHVAL, LPBYTE(digest.constData()), 0))
@@ -243,8 +251,12 @@ QByteArray QCSP::sign(int method, const QByteArray &digest)
 			CryptDestroyHash(hash);
 			if(freeKey)
 				CryptReleaseContext(key, 0);
-			return QByteArray();
+			return result;
 		}
+		DWORD size = 0;
+		if(!CryptSignHashW(hash, spec, 0, 0, nullptr, &size))
+			err = GetLastError();
+		result.resize(int(size));
 		if(!CryptSignHashW(hash, spec, 0, 0, LPBYTE(result.data()), &size))
 			err = GetLastError();
 		std::reverse(result.begin(), result.end());
@@ -254,22 +266,19 @@ QByteArray QCSP::sign(int method, const QByteArray &digest)
 		CryptDestroyHash(hash);
 		break;
 	}
-	default:
-		size = 0;
-		if(freeKey)
-			CryptReleaseContext(key, 0);
-		break;
+	default: break;
 	}
 
 	switch(err)
 	{
 	case ERROR_SUCCESS:
-		result.resize(size);
+		d->error = PinOK;
 		return result;
 	case SCARD_W_CANCELLED_BY_USER:
 	case ERROR_CANCELLED:
 		d->error = PinCanceled;
+		result.clear();
 	default:
-		return QByteArray();
+		return result;
 	}
 }

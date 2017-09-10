@@ -221,21 +221,27 @@ QByteArray QCNG::sign( int method, const QByteArray &digest ) const
 	default: break;
 	}
 
-	DWORD size = 256;
-	QByteArray res( size, 0 );
+	DWORD size = 0;
+	QByteArray res;
 	NCRYPT_KEY_HANDLE k = d->key();
-	DWORD err = NCryptSignHash( k, &padInfo, PBYTE(digest.constData()), digest.size(),
-		PBYTE(res.data()), res.size(), &size, BCRYPT_PAD_PKCS1 );
+	SECURITY_STATUS err = NCryptSignHash(k, &padInfo, PBYTE(digest.constData()), DWORD(digest.size()),
+		nullptr, 0, &size, BCRYPT_PAD_PKCS1);
+	if(FAILED(err))
+		return res;
+	res.resize(int(size));
+	err = NCryptSignHash(k, &padInfo, PBYTE(digest.constData()), DWORD(digest.size()),
+		PBYTE(res.data()), DWORD(res.size()), &size, BCRYPT_PAD_PKCS1);
 	NCryptFreeObject( k );
 	switch( err )
 	{
 	case ERROR_SUCCESS:
 		d->err = PinOK;
-		res.resize( size );
 		return res;
 	case SCARD_W_CANCELLED_BY_USER:
 		d->err = PinCanceled; break;
-	default: break;
+	default:
+		res.clear();
+		break;
 	}
-	return QByteArray();
+	return res;
 }
