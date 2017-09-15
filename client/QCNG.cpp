@@ -224,13 +224,17 @@ QByteArray QCNG::sign( int method, const QByteArray &digest ) const
 	DWORD size = 0;
 	QByteArray res;
 	NCRYPT_KEY_HANDLE k = d->key();
-	SECURITY_STATUS err = NCryptSignHash(k, &padInfo, PBYTE(digest.constData()), DWORD(digest.size()),
-		nullptr, 0, &size, BCRYPT_PAD_PKCS1);
+	QString algo(5, 0);
+	SECURITY_STATUS err = NCryptGetProperty(k, NCRYPT_ALGORITHM_GROUP_PROPERTY, PBYTE(algo.data()), (algo.size() + 1) * 2, &size, 0);
+	algo.resize(size/2 - 1);
+	bool isRSA = algo == "RSA";
+	err = NCryptSignHash(k, isRSA ? &padInfo : nullptr, PBYTE(digest.constData()), DWORD(digest.size()),
+		nullptr, 0, &size, isRSA ? BCRYPT_PAD_PKCS1 : 0);
 	if(FAILED(err))
 		return res;
 	res.resize(int(size));
-	err = NCryptSignHash(k, &padInfo, PBYTE(digest.constData()), DWORD(digest.size()),
-		PBYTE(res.data()), DWORD(res.size()), &size, BCRYPT_PAD_PKCS1);
+	err = NCryptSignHash(k, isRSA ? &padInfo : nullptr, PBYTE(digest.constData()), DWORD(digest.size()),
+		PBYTE(res.data()), DWORD(res.size()), &size, isRSA ? BCRYPT_PAD_PKCS1 : 0);
 	NCryptFreeObject( k );
 	switch( err )
 	{
