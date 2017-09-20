@@ -92,11 +92,6 @@ NCRYPT_KEY_HANDLE QCNGPrivate::key() const
 	NCRYPT_KEY_HANDLE key = 0;
 	NCryptOpenKey( prov, &key, LPWSTR(selected.key.utf16()), selected.spec, 0 );
 	NCryptFreeObject( prov );
-	if( qApp->activeWindow() )
-	{
-		WId id = qApp->activeWindow()->winId();
-		NCryptSetProperty( key, NCRYPT_WINDOW_HANDLE_PROPERTY, PBYTE(&id), sizeof(id), 0 );
-	}
 	return key;
 }
 
