@@ -39,6 +39,14 @@
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QProgressDialog>
 
+#if QT_VERSION < 0x050700
+template <class T>
+constexpr typename std::add_const<T>::type& qAsConst(T& t) noexcept
+{
+        return t;
+}
+#endif
+
 using namespace Crypto;
 
 MainWindow::MainWindow( QWidget *parent )
@@ -232,7 +240,7 @@ void MainWindow::buttonClicked( int button )
 	{
 		if( !params.isEmpty() )
 		{
-			Q_FOREACH( const QString &param, params )
+			for(const QString &param: qAsConst(params))
 			{
 				const QFileInfo f( param );
 				if( !f.isFile() )
@@ -251,8 +259,7 @@ void MainWindow::buttonClicked( int button )
 		}
 		else
 		{
-			QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
-			Q_FOREACH( const QString &file, list )
+			for(const QString &file: FileDialog::getOpenFileNames(this, tr("Select documents")))
 			{
 				if( !addFile( file ) )
 					return;
@@ -325,10 +332,10 @@ void MainWindow::buttonClicked( int button )
 	}
 	case ViewAddFile:
 	{
-		QStringList list = FileDialog::getOpenFileNames( this, tr("Select documents") );
+		const QStringList list = FileDialog::getOpenFileNames(this, tr("Select documents"));
 		if( list.isEmpty() )
 			return;
-		Q_FOREACH( const QString &file, list )
+		for(const QString &file: list)
 			addFile( file );
 		setCurrentPage( View );
 		break;
@@ -428,7 +435,7 @@ bool MainWindow::event( QEvent *e )
 	case QEvent::Drop:
 	{
 		QDropEvent *d = static_cast<QDropEvent*>( e );
-		Q_FOREACH( const QUrl &u, d->mimeData()->urls() )
+		for(const QUrl &u: d->mimeData()->urls())
 		{
 			if( u.scheme() == "file" )
 				params << u.toLocalFile();
@@ -533,24 +540,21 @@ void MainWindow::setCurrentPage( Pages page )
 		viewContentView->setColumnHidden( CDocumentModel::Save, doc->isEncrypted() );
 		viewContentView->setColumnHidden( CDocumentModel::Remove, doc->isEncrypted() );
 
-		Q_FOREACH( KeyWidget *w, viewKeys->findChildren<KeyWidget*>() )
+		for(KeyWidget *w: viewKeys->findChildren<KeyWidget*>())
 			w->deleteLater();
 
 		int j = 0;
-		QList<CKey> keys = doc->keys();
-		for( QList<CKey>::const_iterator i = keys.constBegin(); i != keys.constEnd(); ++i )
+		for(const CKey &k: doc->keys())
 		{
-			KeyWidget *key = new KeyWidget( *i, j, doc->isEncrypted(), viewKeys );
-			connect( key, SIGNAL(remove(int)), SLOT(removeKey(int)) );
+			KeyWidget *key = new KeyWidget(k, j, doc->isEncrypted(), viewKeys);
+			connect(key, &KeyWidget::remove, this, &MainWindow::removeKey);
 			viewKeysLayout->insertWidget( j++, key );
 		}
 
 		buttonGroup->button( ViewCrypto )->setText( doc->isEncrypted() ? tr("Decrypt") : tr("Encrypt") );
 		buttonGroup->button( ViewCrypto )->setEnabled(
 			(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
-			(doc->isEncrypted() &&
-			 qApp->signer()->tokenauth().cert().publicKey().algorithm() == QSsl::Rsa &&
-			 keys.contains( CKey( qApp->signer()->tokenauth().cert() ) )) );
+			(doc->isEncrypted() && doc->canDecrypt(qApp->signer()->tokenauth().cert())));
 		break;
 	}
 	default: break;
@@ -593,10 +597,7 @@ void MainWindow::showCardStatus()
 
 	buttonGroup->button( ViewCrypto )->setEnabled(
 		(!doc->isEncrypted() && doc->documents()->rowCount()) ||
-		(doc->isEncrypted() &&
-		 !(t.flags() & TokenData::PinLocked) &&
-		 t.cert().publicKey().algorithm() == QSsl::Rsa &&
-		 doc->keys().contains( CKey( t.cert() ) )) );
+		(doc->isEncrypted() && !(t.flags() & TokenData::PinLocked) && doc->canDecrypt(t.cert())));
 
 	cards->clear();
 	cards->addItems( t.cards() );

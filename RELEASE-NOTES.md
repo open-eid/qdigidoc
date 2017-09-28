@@ -1,3 +1,9 @@
+DigiDoc3 version [3.13.5](https://github.com/open-eid/qdigidoc/releases/tag/v3.13.5) release notes
+--------------------------------------
+- ECDH encryption and decryption support
+
+[Full Changelog](https://github.com/open-eid/qdigidoc/compare/v3.13.4...v3.13.5)
+
 DigiDoc3 version [3.13.4](https://github.com/open-eid/qdigidoc/releases/tag/v3.13.4) release notes
 --------------------------------------
 - Minor fixes

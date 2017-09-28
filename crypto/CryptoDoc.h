@@ -72,8 +72,9 @@ public:
 	bool operator==( const CKey &other ) const { return other.cert == cert; }
 
 	QSslCertificate cert;
-	QString id, name, recipient, method;
-	QByteArray chipher;
+	QString id, name, recipient, method, agreement, derive, concatDigest;
+	QByteArray AlgorithmID, PartyUInfo, PartyVInfo;
+	QByteArray cipher, publicKey;
 };
 
 class CryptoDoc: public QObject
@@ -84,6 +85,7 @@ public:
 	~CryptoDoc();
 
 	bool addKey( const CKey &key );
+	bool canDecrypt(const QSslCertificate &cert);
 	void clear( const QString &file = QString() );
 	bool decrypt();
 	CDocumentModel* documents() const;
@@ -96,6 +98,9 @@ public:
 	bool open( const QString &file );
 	void removeKey( int id );
 	bool saveDDoc( const QString &filename );
+
+	static QByteArray concatKDF(QCryptographicHash::Algorithm hashAlg,
+		quint32 keyDataLen, const QByteArray &z, const QByteArray &otherInfo);
 
 private:
 	CryptoDocPrivate *d;

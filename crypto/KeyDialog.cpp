@@ -45,6 +45,14 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMessageBox>
 
+#if QT_VERSION < 0x050700
+template <class T>
+constexpr typename std::add_const<T>::type& qAsConst(T& t) noexcept
+{
+        return t;
+}
+#endif
+
 CertificateDialogEx::CertificateDialogEx(const QSslCertificate &cert, QWidget *parent)
 	: CertificateDialog(cert, parent, false)
 {
@@ -57,7 +65,7 @@ CertificateDialogEx::CertificateDialogEx(const QSslCertificate &cert, QWidget *p
 	if(errors.isEmpty())
 	{
 		QByteArray id = SslCertificate(cert).authorityKeyIdentifier();
-		Q_FOREACH(const QSslCertificate &ca, QSslSocket::defaultCaCertificates())
+		for(const QSslCertificate &ca: QSslSocket::defaultCaCertificates())
 		{
 			if(SslCertificate(ca).subjectKeyIdentifier() != id)
 				continue;
@@ -135,6 +143,12 @@ KeyDialog::KeyDialog( const CKey &key, QWidget *parent )
 
 	addItem( tr("Key"), k.recipient );
 	addItem( tr("Crypto method"), k.method );
+	if(!k.agreement.isEmpty())
+		addItem(tr("Agreement method"), k.agreement);
+	if(!k.derive.isEmpty())
+		addItem(tr("Key derivation method"), k.derive);
+	if(!k.concatDigest.isEmpty())
+		addItem(tr("ConcatKDF digest method"), k.concatDigest);
 	//addItem( tr("ID"), k.id );
 	addItem( tr("Expires"), key.cert.expiryDate().toLocalTime().toString("dd.MM.yyyy hh:mm:ss") );
 	addItem( tr("Issuer"), SslCertificate(key.cert).issuerInfo( QSslCertificate::CommonName ) );
@@ -284,7 +298,7 @@ bool HistoryModel::submit()
 	xml.setAutoFormatting( true );
 	xml.writeStartDocument();
 	xml.writeStartElement( "History" );
-	Q_FOREACH( const QStringList &item, m_data )
+	for(const QStringList &item: qAsConst(m_data))
 	{
 		xml.writeStartElement( "item" );
 		xml.writeAttribute( "CN", item.value(0) );
@@ -440,9 +454,8 @@ void CertAddDialog::addFile()
 	{
 		QMessageBox::warning( this, windowTitle(), tr("Failed to read certificate") );
 	}
-	else if((!SslCertificate(cert).keyUsage().contains(SslCertificate::KeyEncipherment) &&
-		!SslCertificate(cert).keyUsage().contains(SslCertificate::KeyAgreement)) ||
-		cert.publicKey().algorithm() != QSsl::Rsa)
+	else if(!SslCertificate(cert).keyUsage().contains(SslCertificate::KeyEncipherment) &&
+		!SslCertificate(cert).keyUsage().contains(SslCertificate::KeyAgreement))
 	{
 		QMessageBox::warning( this, windowTitle(), tr("This certificate is not usable for crypting") );
 	}
@@ -458,7 +471,7 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 		return;
 	bool status = false;
 	QAbstractItemModel *m = history;
-	Q_FOREACH( const QSslCertificate &c, certs )
+	for(const QSslCertificate &c: certs)
 	{
 		SslCertificate cert( c );
 		if( cert.expiryDate() <= QDateTime::currentDateTime() &&
@@ -519,8 +532,7 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 
 void CertAddDialog::enableCardCert()
 {
-	cardButton->setDisabled(qApp->signer()->tokenauth().cert().isNull() ||
-		qApp->signer()->tokenauth().cert().publicKey().algorithm() != QSsl::Rsa);
+	cardButton->setDisabled(qApp->signer()->tokenauth().cert().isNull());
 }
 
 void CertAddDialog::disableSearch( bool disable )
@@ -537,7 +549,7 @@ void CertAddDialog::on_add_clicked()
 	if( !skView->selectionModel()->hasSelection() )
 		return;
 	QList<QSslCertificate> certs;
-	Q_FOREACH( const QModelIndex &index, skView->selectionModel()->selectedRows() )
+	for(const QModelIndex &index: skView->selectionModel()->selectedRows())
 		certs << index.data( Qt::UserRole ).value<QSslCertificate>();
 	addCerts( certs );
 }
@@ -618,8 +630,7 @@ void CertAddDialog::showResult( const QList<QSslCertificate> &result )
 			c.keyUsage().contains(SslCertificate::KeyAgreement)) &&
 			!c.enhancedKeyUsage().contains(SslCertificate::ServerAuth) &&
 			(searchType->currentIndex() == 0 || !c.enhancedKeyUsage().contains(SslCertificate::ClientAuth)) &&
-			c.type() != SslCertificate::MobileIDType &&
-			c.publicKey().algorithm() == QSsl::Rsa)
+			c.type() != SslCertificate::MobileIDType)
 			filter << c;
 	}
 	certModel->load(filter);
