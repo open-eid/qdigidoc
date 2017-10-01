@@ -34,6 +34,7 @@
 #include <QtCore/QUrlQuery>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDragEnterEvent>
+#include <QtNetwork/QSslKey>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QProgressDialog>
@@ -547,7 +548,9 @@ void MainWindow::setCurrentPage( Pages page )
 		buttonGroup->button( ViewCrypto )->setText( doc->isEncrypted() ? tr("Decrypt") : tr("Encrypt") );
 		buttonGroup->button( ViewCrypto )->setEnabled(
 			(!doc->isEncrypted() && viewContentView->model()->rowCount()) ||
-			(doc->isEncrypted() && keys.contains( CKey( qApp->signer()->tokenauth().cert() ) )) );
+			(doc->isEncrypted() &&
+			 qApp->signer()->tokenauth().cert().publicKey().algorithm() == QSsl::Rsa &&
+			 keys.contains( CKey( qApp->signer()->tokenauth().cert() ) )) );
 		break;
 	}
 	default: break;
@@ -592,6 +595,7 @@ void MainWindow::showCardStatus()
 		(!doc->isEncrypted() && doc->documents()->rowCount()) ||
 		(doc->isEncrypted() &&
 		 !(t.flags() & TokenData::PinLocked) &&
+		 t.cert().publicKey().algorithm() == QSsl::Rsa &&
 		 doc->keys().contains( CKey( t.cert() ) )) );
 
 	cards->clear();

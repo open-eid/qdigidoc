@@ -40,6 +40,7 @@
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
 #include <QtGui/QMouseEvent>
+#include <QtNetwork/QSslKey>
 #include <QtNetwork/QSslSocket>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMessageBox>
@@ -610,7 +611,8 @@ void CertAddDialog::showResult( const QList<QSslCertificate> &result )
 		if(c.keyUsage().contains(SslCertificate::KeyEncipherment) &&
 			!c.enhancedKeyUsage().contains(SslCertificate::ServerAuth) &&
 			(searchType->currentIndex() == 0 || !c.enhancedKeyUsage().contains(SslCertificate::ClientAuth)) &&
-			c.type() != SslCertificate::MobileIDType)
+			c.type() != SslCertificate::MobileIDType &&
+			c.publicKey().algorithm() == QSsl::Rsa)
 			filter << c;
 	}
 	certModel->load(filter);
