@@ -374,9 +374,9 @@ CertAddDialog::CertAddDialog( CryptoDoc *_doc, QWidget *parent )
 	setWindowFlags( Qt::Dialog );
 
 	cardButton = buttonBox->addButton( tr("Add cert from card"), QDialogButtonBox::ActionRole );
-	connect( cardButton, SIGNAL(clicked()), SLOT(addCardCert()) );
-	connect( buttonBox->addButton( tr("Add cert from file"), QDialogButtonBox::ActionRole ),
-		SIGNAL(clicked()), SLOT(addFile()) );
+	connect(cardButton, &QPushButton::clicked, this, &CertAddDialog::addCardCert);
+	connect(buttonBox->addButton(tr("Add cert from file"), QDialogButtonBox::ActionRole),
+		&QPushButton::clicked, this, &CertAddDialog::addFile);
 	connect( qApp->signer(), SIGNAL(authDataChanged(TokenData)), SLOT(enableCardCert()) );
 	enableCardCert();
 
@@ -440,7 +440,8 @@ void CertAddDialog::addFile()
 	{
 		QMessageBox::warning( this, windowTitle(), tr("Failed to read certificate") );
 	}
-	else if( !SslCertificate( cert ).keyUsage().contains( SslCertificate::KeyEncipherment ) )
+	else if(!SslCertificate(cert).keyUsage().contains(SslCertificate::KeyEncipherment) ||
+		cert.publicKey().algorithm() != QSsl::Rsa)
 	{
 		QMessageBox::warning( this, windowTitle(), tr("This certificate is not usable for crypting") );
 	}
@@ -515,7 +516,11 @@ void CertAddDialog::addCerts( const QList<QSslCertificate> &certs )
 	QTimer::singleShot( 3*1000, certAddStatus, SLOT(clear()) );
 }
 
-void CertAddDialog::enableCardCert() { cardButton->setDisabled( qApp->signer()->tokenauth().cert().isNull() ); }
+void CertAddDialog::enableCardCert()
+{
+	cardButton->setDisabled(qApp->signer()->tokenauth().cert().isNull() ||
+		qApp->signer()->tokenauth().cert().publicKey().algorithm() != QSsl::Rsa);
+}
 
 void CertAddDialog::disableSearch( bool disable )
 {
