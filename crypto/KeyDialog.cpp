@@ -440,7 +440,8 @@ void CertAddDialog::addFile()
 	{
 		QMessageBox::warning( this, windowTitle(), tr("Failed to read certificate") );
 	}
-	else if(!SslCertificate(cert).keyUsage().contains(SslCertificate::KeyEncipherment) ||
+	else if((!SslCertificate(cert).keyUsage().contains(SslCertificate::KeyEncipherment) &&
+		!SslCertificate(cert).keyUsage().contains(SslCertificate::KeyAgreement)) ||
 		cert.publicKey().algorithm() != QSsl::Rsa)
 	{
 		QMessageBox::warning( this, windowTitle(), tr("This certificate is not usable for crypting") );
@@ -613,7 +614,8 @@ void CertAddDialog::showResult( const QList<QSslCertificate> &result )
 	for(const QSslCertificate &k: result)
 	{
 		SslCertificate c(k);
-		if(c.keyUsage().contains(SslCertificate::KeyEncipherment) &&
+		if((c.keyUsage().contains(SslCertificate::KeyEncipherment) ||
+			c.keyUsage().contains(SslCertificate::KeyAgreement)) &&
 			!c.enhancedKeyUsage().contains(SslCertificate::ServerAuth) &&
 			(searchType->currentIndex() == 0 || !c.enhancedKeyUsage().contains(SslCertificate::ClientAuth)) &&
 			c.type() != SslCertificate::MobileIDType &&

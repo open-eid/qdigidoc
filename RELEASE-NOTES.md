@@ -1,6 +1,7 @@
 DigiDoc3 version [3.13.3](https://github.com/open-eid/qdigidoc/releases/tag/v3.13.3) release notes
 --------------------------------------
 - ECDSA token support
+- Disabled encrypting and decrypting with ECDH token
 - Minor fixes
 
 [Full Changelog](https://github.com/open-eid/qdigidoc/compare/v3.13.2...v3.13.3)
