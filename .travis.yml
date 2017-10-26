@@ -1,7 +1,7 @@
 language: c++
 sudo: false
 dist: trusty
-osx_image: xcode8.3
+osx_image: xcode9
 services:
 - docker
 matrix:
@@ -47,7 +47,7 @@ script: if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
       dch --distribution $(lsb_release -cs) -v ${VERSION} "Release ${VERSION}.";
       dpkg-buildpackage -rfakeroot -us -uc;
       if [ "${IMAGE}" = "ubuntu:16.04" ]; then
-        export COVERITY_SCAN_PROJECT_NAME="open-eid/libdigidocpp";
+        export COVERITY_SCAN_PROJECT_NAME="open-eid/qdigidoc";
         export COVERITY_SCAN_NOTIFICATION_EMAIL="raul@metsma.ee";
         export COVERITY_SCAN_BRANCH_PATTERN=coverity_scan;
         export COVERITY_SCAN_BUILD_COMMAND_PREPEND="cmake -DBREAKPAD=\"\" .";

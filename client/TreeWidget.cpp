@@ -31,8 +31,9 @@
 #include <QtWidgets/QMessageBox>
 
 TreeWidget::TreeWidget( QWidget *parent )
-:	QTreeView( parent )
-,	m(0)
+	: QTreeView( parent )
+	, m(0)
+	, doc(nullptr)
 {}
 
 TreeWidget::~TreeWidget()
