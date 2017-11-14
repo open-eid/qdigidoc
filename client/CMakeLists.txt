@@ -95,7 +95,6 @@ if( APPLE )
 			$<TARGET_FILE_DIR:${PROGNAME}>/*.*
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/digidocpp.framework/Libraries/*
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/*.framework
-			$<TARGET_FILE_DIR:${PROGNAME}>/../Frameworks/libopensc.5.dylib
 			$<TARGET_FILE_DIR:${PROGNAME}>/../PlugIns/*/*
 			$<TARGET_FILE_DIR:${PROGNAME}>/../Library/QuickLook/DigiDocQL.qlgenerator
 		COMMAND if echo \"$$SIGNCERT\" | grep -q "Developer ID"\; then
