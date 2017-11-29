@@ -266,9 +266,6 @@ Application::Application( int &argc, char **argv )
 	Q_INIT_RESOURCE(crypto_images);
 	Q_INIT_RESOURCE(crypto_tr);
 
-	if(isCrashReport())
-		return;
-
 	QStringList args = arguments();
 	args.removeFirst();
 #ifndef Q_OS_MAC
