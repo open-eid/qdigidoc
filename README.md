@@ -77,23 +77,23 @@
 
     brew install openssl
 
-    curl -O -L http://download.qt.io/official_releases/qt/5.9/5.9.2/submodules/qtbase-opensource-src-5.9.2.tar.xz
-    tar xf qtbase-opensource-src-5.9.2.tar.xz
-    cd qtbase-opensource-src-5.9.2
-    ./configure -prefix /Developer/Qt-5.9.2 -opensource -nomake tests -nomake examples -no-securetransport -openssl-runtime -confirm-license -I /usr/local/opt/openssl/include -L /usr/local/opt/openssl/lib
+    curl -O -L http://download.qt.io/official_releases/qt/5.9/5.9.3/submodules/qtbase-opensource-src-5.9.3.tar.xz
+    tar xf qtbase-opensource-src-5.9.3.tar.xz
+    cd qtbase-opensource-src-5.9.3
+    ./configure -prefix /Developer/Qt-5.9.3 -opensource -nomake tests -nomake examples -no-securetransport -openssl-runtime -confirm-license -I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib
     make
     sudo make install
     cd ..
-    rm -rf qtbase-opensource-src-5.9.2
+    rm -rf qtbase-opensource-src-5.9.3
 
-    curl -O -L http://download.qt.io/official_releases/qt/5.9/5.9.2/submodules/qttools-opensource-src-5.9.2.tar.xz
-    tar xf qttools-opensource-src-5.9.2.tar.xz
-    cd qttools-opensource-src-5.9.2
-    /Developer/Qt-5.9.2/bin/qmake
+    curl -O -L http://download.qt.io/official_releases/qt/5.9/5.9.3/submodules/qttools-opensource-src-5.9.3.tar.xz
+    tar xf qttools-opensource-src-5.9.3.tar.xz
+    cd qttools-opensource-src-5.9.3
+    /Developer/Qt-5.9.3/bin/qmake
     make
     sudo make install
     cd ..
-    rm -rf qttools-opensource-src-5.9.2
+    rm -rf qttools-opensource-src-5.9.3
 
 ### Windows
 

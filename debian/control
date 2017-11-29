@@ -12,7 +12,7 @@ Build-Depends:
  qtbase5-dev,
  qttools5-dev,
  qttools5-dev-tools
-Standards-Version: 3.9.5
+Standards-Version: 3.9.8
 Homepage: https://github.com/open-eid/qdigidoc
 
 Package: qdigidoc

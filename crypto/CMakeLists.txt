@@ -36,7 +36,6 @@ target_link_libraries( ${PROGNAME} qdigidoccommon ${LDAP_LIBRARIES} )
 if(UNIX AND NOT APPLE)
 	set_target_properties( ${PROGNAME} PROPERTIES COMPILE_DEFINITIONS "DATADIR=\"${CMAKE_INSTALL_FULL_DATADIR}\"" )
 	install( FILES qdigidoc-crypto.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
-	install( FILES qdigidoc-cypto.appdata.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata )	
 	install( FILES qdigidoc-crypto.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages )
 	foreach(RES 16 22 32 48 128)
 		install(

@@ -3,7 +3,7 @@
     xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
     xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
     xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities">
-  <Identity Name="ASSK.digidocclient" ProcessorArchitecture="x86" Version="3.13.1.0"
+  <Identity Name="ASSK.digidocclient" ProcessorArchitecture="x86" Version="3.13.4.0"
     Publisher="CN=81D2B7D5-6345-41B2-AADA-E412A775C542" />
   <Properties>
     <DisplayName>DigiDoc3 Client</DisplayName>
