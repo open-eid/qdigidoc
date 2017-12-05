@@ -1034,8 +1034,8 @@ software (version 3.8 and earlier).</translation>
         <translation>Manual proxy configuration</translation>
     </message>
     <message>
-        <source>I would like to sign with Lithuanian, Latvian, Finnish ID-card</source>
-        <translation>I would like to sign with Lithuanian, Latvian, Finnish ID-card</translation>
+        <source>I would like to sign with Lithuanian, Latvian ID-card</source>
+        <translation>I would like to sign with Lithuanian, Latvian ID-card</translation>
     </message>
     <message>
         <source>Restart now</source>

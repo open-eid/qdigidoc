@@ -195,7 +195,7 @@ software (version 3.8 and earlier).</string>
          <item>
           <widget class="QCheckBox" name="tokenBackend">
            <property name="text">
-            <string>I would like to sign with Lithuanian, Latvian, Finnish ID-card</string>
+            <string>I would like to sign with Lithuanian, Latvian ID-card</string>
            </property>
           </widget>
          </item>

@@ -1035,8 +1035,8 @@ tarkvara (versioon 3.8 ja varasemad).</translation>
         <translation>Proksi seaded määratakse käsitsi</translation>
     </message>
     <message>
-        <source>I would like to sign with Lithuanian, Latvian, Finnish ID-card</source>
-        <translation>Soovin allkirjastada Leedu, Läti, Soome ID-kaardiga</translation>
+        <source>I would like to sign with Lithuanian, Latvian ID-card</source>
+        <translation>Soovin allkirjastada Leedu, Läti ID-kaardiga</translation>
     </message>
     <message>
         <source>Restart now</source>
