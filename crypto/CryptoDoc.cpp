@@ -584,8 +584,10 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &transportKey
 	props.insert("DocumentFormat", "ENCDOC-XML|" + ver);
 	props.insert("LibraryVersion", qApp->applicationName() + "|" + qApp->applicationVersion());
 	props.insert("Filename", file);
-	for(QList<File>::const_reverse_iterator i = files.crbegin(), end = files.crend(); i != end; ++i)
-		props.insert("orig_file", QString("%1|%2|%3|%4").arg(i->name).arg(i->data.size()).arg(i->mime).arg(i->id));
+	QList<File> reverse = files;
+	std::reverse(reverse.begin(), reverse.end());
+	for(const File &file: qAsConst(reverse))
+		props.insert("orig_file", QString("%1|%2|%3|%4").arg(file.name).arg(file.data.size()).arg(file.mime).arg(file.id));
 
 	QXmlStreamWriter w(cdoc);
 	w.setAutoFormatting(true);
