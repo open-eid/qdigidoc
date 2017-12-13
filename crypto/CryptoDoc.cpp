@@ -66,7 +66,7 @@ Q_LOGGING_CATEGORY(CRYPTO,"CRYPTO")
 template <class T>
 constexpr typename std::add_const<T>::type& qAsConst(T& t) noexcept
 {
-        return t;
+	return t;
 }
 #endif
 
@@ -466,8 +466,18 @@ QByteArray CryptoDocPrivate::readCDoc(QIODevice *cdoc, bool data)
 	}
 	while( !xml.atEnd() )
 	{
-		if( !xml.readNextStartElement() )
-			continue;
+		switch(xml.readNext())
+		{
+		case QXmlStreamReader::StartElement: break;
+		case QXmlStreamReader::DTD:
+			qCWarning(CRYPTO) << "XML DTD Declarations are not supported";
+			return QByteArray();
+		case QXmlStreamReader::EntityReference:
+			qCWarning(CRYPTO) << "XML ENTITY References are not supported";
+			return QByteArray();
+		default: continue;
+		}
+
 		if(data)
 		{
 			// EncryptedData/KeyInfo
@@ -576,7 +586,7 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &transportKey
 	const QByteArray &encryptedData, const QString &file, const QString &ver, const QString &mime)
 {
 #ifndef NDEBUG
-	qDebug() << "ENC Transport Key" << transportKey.toHex();
+	qCDebug(CRYPTO) << "ENC Transport Key" << transportKey.toHex();
 #endif
 
 	qCDebug(CRYPTO) << "Writing CDOC file ver" << ver << "mime" << mime;
@@ -663,9 +673,9 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &transportKey
 					QByteArray encryptionKey = CryptoDoc::concatKDF(CryptoDocPrivate::SHA_MTH[concatDigest], KWAES_SIZE[encryptionMethod],
 						sharedSecret, props.value("DocumentFormat").toUtf8() + SsDer + k.cert.toDer());
 #ifndef NDEBUG
-					qDebug() << "ENC Ss" << SsDer.toHex();
-					qDebug() << "ENC Ksr" << sharedSecret.toHex();
-					qDebug() << "ENC ConcatKDF" << encryptionKey.toHex();
+					qCDebug(CRYPTO) << "ENC Ss" << SsDer.toHex();
+					qCDebug(CRYPTO) << "ENC Ksr" << sharedSecret.toHex();
+					qCDebug(CRYPTO) << "ENC ConcatKDF" << encryptionKey.toHex();
 #endif
 
 					cipher = AES_wrap(encryptionKey, transportKey, true);
@@ -723,8 +733,18 @@ void CryptoDocPrivate::readDDoc(QIODevice *ddoc)
 	QXmlStreamReader x(ddoc);
 	while(!x.atEnd())
 	{
-		if(!x.readNextStartElement())
-			continue;
+		switch(x.readNext())
+		{
+		case QXmlStreamReader::StartElement: break;
+		case QXmlStreamReader::DTD:
+			qCWarning(CRYPTO) << "XML DTD Declarations are not supported";
+			return;
+		case QXmlStreamReader::EntityReference:
+			qCWarning(CRYPTO) << "XML ENTITY References are not supported";
+			return;
+		default: continue;
+		}
+
 		if(x.name() == "DataFile")
 		{
 			File file;
@@ -1078,8 +1098,8 @@ bool CryptoDoc::decrypt()
 	if(isECDH)
 	{
 #ifndef NDEBUG
-		qDebug() << "DEC Ss" << key.publicKey.toHex();
-		qDebug() << "DEC ConcatKDF" << decryptedKey.toHex();
+		qCDebug(CRYPTO) << "DEC Ss" << key.publicKey.toHex();
+		qCDebug(CRYPTO) << "DEC ConcatKDF" << decryptedKey.toHex();
 #endif
 		d->key = d->AES_wrap(decryptedKey, key.cipher, false);
 		d->opensslError(d->key.isEmpty());
@@ -1087,7 +1107,7 @@ bool CryptoDoc::decrypt()
 	else // RSA decrypts directly transport key
 		d->key = decryptedKey;
 #ifndef NDEBUG
-	qDebug() << "DEC transport" << d->key.toHex();
+	qCDebug(CRYPTO) << "DEC transport" << d->key.toHex();
 #endif
 
 	d->waitForFinished();
