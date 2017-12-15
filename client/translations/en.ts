@@ -993,9 +993,9 @@ Control code: %1</translation>
     </message>
     <message>
         <source>I would like to encrypt for recipients who are using an older DigiDoc3 Crypto
-software (version 3.8 and earlier).</source>
+software.</source>
         <translation>I would like to encrypt for recipients who are using an older DigiDoc3 Crypto
-software (version 3.8 and earlier).</translation>
+software.</translation>
     </message>
     <message>
         <source>Signing</source>
