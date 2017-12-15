@@ -691,12 +691,10 @@ QString DigiDoc::signatureFormat() const
 	if(m_fileName.endsWith("ddoc", Qt::CaseInsensitive))
 		return "LT_TM";
 
-	QString def = Settings(qApp->applicationName()).value( "type", "bdoc" ).toString() == "bdoc" ? "LT_TM" : "LT";
+	QString def = QFileInfo(m_fileName).suffix().compare("bdoc", Qt::CaseInsensitive) == 0 ? "LT_TM" : "LT";
 	switch(b->signatures().size())
 	{
 	case 0:
-		if(QFileInfo(m_fileName).suffix().compare("bdoc", Qt::CaseInsensitive) == 0)
-			return "LT_TM";
 		return def;
 	case 1:
 		return b->signatures()[0]->profile().find("time-stamp") != std::string::npos ? "LT" : "LT_TM";
