@@ -24,7 +24,6 @@
 #include <common/Settings.h>
 #include <crypto/CryptoDoc.h>
 
-#include <QtCore/QCryptographicHash>
 #include <QtCore/QDebug>
 #include <QtCore/QEventLoop>
 #include <QtCore/QFile>
@@ -198,14 +197,7 @@ QByteArray QPKCS11::derive(const QByteArray &publicKey) const
 QByteArray QPKCS11::deriveConcatKDF(const QByteArray &publicKey, const QString &digest, int keySize,
 	const QByteArray &algorithmID, const QByteArray &partyUInfo, const QByteArray &partyVInfo) const
 {
-	QCryptographicHash::Algorithm hash = QCryptographicHash::Sha256;
-	if(digest == "http://www.w3.org/2001/04/xmlenc#sha256")
-		hash = QCryptographicHash::Sha256;
-	if(digest == "http://www.w3.org/2001/04/xmlenc#sha384")
-		hash = QCryptographicHash::Sha384;
-	if(digest == "http://www.w3.org/2001/04/xmlenc#sha512")
-		hash = QCryptographicHash::Sha512;
-	return CryptoDoc::concatKDF(hash, quint32(keySize), derive(publicKey), algorithmID + partyUInfo + partyVInfo);
+	return CryptoDoc::concatKDF(digest, quint32(keySize), derive(publicKey), algorithmID + partyUInfo + partyVInfo);
 }
 
 QByteArray QPKCS11::decrypt( const QByteArray &data ) const

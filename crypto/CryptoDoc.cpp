@@ -670,7 +670,7 @@ void CryptoDocPrivate::writeCDoc(QIODevice *cdoc, const QByteArray &transportKey
 					case 48: concatDigest = SHA384_MTH; break;
 					default: concatDigest = SHA512_MTH; break;
 					}
-					QByteArray encryptionKey = CryptoDoc::concatKDF(CryptoDocPrivate::SHA_MTH[concatDigest], KWAES_SIZE[encryptionMethod],
+					QByteArray encryptionKey = CryptoDoc::concatKDF(concatDigest, KWAES_SIZE[encryptionMethod],
 						sharedSecret, props.value("DocumentFormat").toUtf8() + SsDer + k.cert.toDer());
 #ifndef NDEBUG
 					qCDebug(CRYPTO) << "ENC Ss" << SsDer.toHex();
@@ -1015,8 +1015,9 @@ bool CryptoDoc::canDecrypt(const QSslCertificate &cert)
 	return false;
 }
 
-QByteArray CryptoDoc::concatKDF(QCryptographicHash::Algorithm hashAlg, quint32 keyDataLen, const QByteArray &z, const QByteArray &otherInfo)
+QByteArray CryptoDoc::concatKDF(const QString &digestMethod, quint32 keyDataLen, const QByteArray &z, const QByteArray &otherInfo)
 {
+	QCryptographicHash::Algorithm hashAlg = CryptoDocPrivate::SHA_MTH[digestMethod];
 	quint32 hashLen = 0;
 	switch(hashAlg)
 	{

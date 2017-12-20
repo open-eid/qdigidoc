@@ -99,7 +99,7 @@ public:
 	void removeKey( int id );
 	bool saveDDoc( const QString &filename );
 
-	static QByteArray concatKDF(QCryptographicHash::Algorithm hashAlg,
+	static QByteArray concatKDF(const QString &digestMethod,
 		quint32 keyDataLen, const QByteArray &z, const QByteArray &otherInfo);
 
 private:
