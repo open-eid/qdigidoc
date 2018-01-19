@@ -900,8 +900,11 @@ QMimeData* CDocumentModel::mimeData( const QModelIndexList &indexes ) const
 		if( index.column() != Name )
 			continue;
 		QString path = copy( index, FileDialog::tempPath(index.data(Qt::UserRole).toString()) );
-		if( !path.isEmpty() )
-			list << QUrl::fromLocalFile( QFileInfo( path ).absoluteFilePath() );
+		if(!path.isEmpty())
+		{
+			list << QUrl::fromLocalFile(QFileInfo( path ).absoluteFilePath());
+			d->tempFiles << path;
+		}
 	}
 	QMimeData *data = new QMimeData();
 	data->setUrls( list );
