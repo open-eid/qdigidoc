@@ -807,9 +807,7 @@ void MainWindow::save()
 
 QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 {
-	static const QString adoc = tr("Documents (%1)").arg( "*.adoc" );
 	static const QString bdoc = tr("Documents (%1)").arg( "*.bdoc" );
-	static const QString edoc = tr("Documents (%1)").arg( "*.edoc" );
 	static const QString asic = tr("Documents (%1)").arg( "*.asice *.sce" );
 	const QString ext = QFileInfo( filename ).suffix().toLower();
 	QStringList exts;
@@ -817,17 +815,13 @@ QString MainWindow::selectFile( const QString &filename, bool fixedExt )
 	if( fixedExt )
 	{
 		if( ext == "bdoc" ) exts << bdoc;
-		if( ext == "asic" || ext == "sce" ) exts << asic;
-		if( ext == "edoc" ) exts << edoc;
-		if( ext == "adoc" ) exts << adoc;
+		if( ext == "asice" || ext == "sce" ) exts << asic;
 	}
 	else
 	{
-		exts << bdoc << asic << edoc << adoc;
+		exts << bdoc << asic;
 		if( ext == "bdoc" ) active = bdoc;
 		if( ext == "asice" || ext == "sce" ) active = asic;
-		if( ext == "edoc" ) active = edoc;
-		if( ext == "adoc" ) active = adoc;
 	}
 
 	return FileDialog::getSaveFileName( this, tr("Save file"), filename, exts.join(";;"), &active );
