@@ -169,7 +169,7 @@ elseif(WIN32)
 			WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 		)
 	endif()
-	configure_file(${CMAKE_SOURCE_DIR}/AppxManifest.xml.cmake AppxManifest.xml)
+	configure_file(${CMAKE_SOURCE_DIR}/AppxManifest.xml.cmake ${CMAKE_BINARY_DIR}/AppxManifest.xml)
 	add_custom_target(appx DEPENDS ${PROGNAME}
 		COMMAND ${CMAKE_COMMAND} -E remove ${MSI_FILE}.appx
 		COMMAND ${CMAKE_COMMAND} -E remove_directory appx
@@ -194,6 +194,7 @@ elseif(WIN32)
 		COMMAND ${CMAKE_COMMAND} -E remove_directory appx/iconengines
 		COMMAND ${CMAKE_COMMAND} -E remove_directory appx/imageformats
 		COMMAND ${CMAKE_COMMAND} -E remove_directory appx/styles
+		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 	)
 	if(EXISTS ${LIBS_PATH}/../certs)
 		add_custom_command(TARGET appx POST_BUILD
@@ -201,6 +202,7 @@ elseif(WIN32)
 			COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/libxml2.dll appx
 			COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/digidoc.dll appx
 			COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/digidoc.ini appx
+			WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 		)
 	endif()
 	add_custom_command(TARGET appx POST_BUILD
@@ -209,6 +211,7 @@ elseif(WIN32)
 		#COMMAND MakeCert.exe /n "CN=81D2B7D5-6345-41B2-AADA-E412A775C542" /r /h 0 /eku "1.3.6.1.5.5.7.3.3,1.3.6.1.4.1.311.10.3.13" /m 120 /a sha256 /sv qdigidocclient.pvk qdigidocclient.cer
 		#COMMAND Pvk2Pfx.exe /pvk qdigidocclient.pvk /spc qdigidocclient.cer /pfx qdigidocclient.pfx /f
 		COMMAND signtool.exe sign -f ${CMAKE_SOURCE_DIR}/qdigidocclient.pfx -fd SHA256 -v ${MSI_FILE}.appx
+		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 	)
 else()
 	install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
