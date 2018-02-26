@@ -169,6 +169,47 @@ elseif(WIN32)
 			WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 		)
 	endif()
+	configure_file(${CMAKE_SOURCE_DIR}/AppxManifest.xml.cmake AppxManifest.xml)
+	add_custom_target(appx DEPENDS ${PROGNAME}
+		COMMAND ${CMAKE_COMMAND} -E remove ${MSI_FILE}.appx
+		COMMAND ${CMAKE_COMMAND} -E remove_directory appx
+		COMMAND ${CMAKE_COMMAND} -E make_directory appx
+		COMMAND ${CMAKE_COMMAND} -E copy AppxManifest.xml appx
+		COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROGNAME}> appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/qt.conf appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/878252.p12 appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/libeay32.dll appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/ssleay32.dll appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/zlib1.dll appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/xerces-c_3_2.dll appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/XalanMessages_1_11.dll appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/Xalan-C_1_11.dll appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/xsec_1_7.dll appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/digidocpp.dll appx
+		COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/digidocpp.conf appx
+		COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Assets appx/Assets
+		COMMAND ${CMAKE_COMMAND} -E copy_directory ${LIBS_PATH}/schema appx/schema
+		COMMAND ${_qt5Core_install_prefix}/bin/windeployqt --no-translations --no-compiler-runtime --no-patchqt --no-svg appx
+		COMMAND ${CMAKE_COMMAND} -E remove_directory appx/bearer
+		COMMAND ${CMAKE_COMMAND} -E remove_directory appx/iconengines
+		COMMAND ${CMAKE_COMMAND} -E remove_directory appx/imageformats
+		COMMAND ${CMAKE_COMMAND} -E remove_directory appx/styles
+	)
+	if(EXISTS ${LIBS_PATH}/../certs)
+		add_custom_command(TARGET appx POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_directory ${LIBS_PATH}/../certs appx/certs
+			COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/libxml2.dll appx
+			COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/digidoc.dll appx
+			COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/digidoc.ini appx
+		)
+	endif()
+	add_custom_command(TARGET appx POST_BUILD
+		COMMAND makeappx.exe pack -d appx -p ${MSI_FILE}.appx
+		#Popups GUI
+		#COMMAND MakeCert.exe /n "CN=81D2B7D5-6345-41B2-AADA-E412A775C542" /r /h 0 /eku "1.3.6.1.5.5.7.3.3,1.3.6.1.4.1.311.10.3.13" /m 120 /a sha256 /sv qdigidocclient.pvk qdigidocclient.cer
+		#COMMAND Pvk2Pfx.exe /pvk qdigidocclient.pvk /spc qdigidocclient.cer /pfx qdigidocclient.pfx /f
+		COMMAND signtool.exe sign -f ${CMAKE_SOURCE_DIR}/qdigidocclient.pfx -fd SHA256 -v ${MSI_FILE}.appx
+	)
 else()
 	install( TARGETS ${PROGNAME} DESTINATION ${CMAKE_INSTALL_BINDIR} )
 	set_target_properties( ${PROGNAME} PROPERTIES COMPILE_DEFINITIONS "DATADIR=\"${CMAKE_INSTALL_FULL_DATADIR}\"" )
