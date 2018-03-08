@@ -234,8 +234,7 @@ bool MainWindow::addFile( const QString &file )
 				return false;
 		}
 
-		if( QFile::exists( docname ) )
-			QFile::remove( docname );
+		QFile::remove(docname);
 		doc->create( docname );
 	}
 
@@ -402,8 +401,8 @@ void MainWindow::buttonClicked( int button )
 					break;
 				}
 
-				if( QFile::exists( doc->fileName() ) )
-					QFile::remove( doc->fileName() );
+				QFile::remove(doc->fileName());
+				doc->clear();
 			}
 			else
 			{
