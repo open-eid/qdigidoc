@@ -77,6 +77,10 @@
         <source>TSL signing certs</source>
         <translation>Сертификаты подписывания TSL</translation>
     </message>
+    <message>
+        <source>Added file(s) exceeds the maximum size limit of the container(120MB).</source>
+        <translation>Вложенные файл(ы) превышают размер контейнера безопасности (120 МБ).</translation>
+    </message>
 </context>
 <context>
     <name>CheckConnection</name>

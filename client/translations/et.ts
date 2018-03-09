@@ -76,6 +76,10 @@
         <source>TSL signing certs</source>
         <translation>TSL signeerimise sertifikaadid</translation>
     </message>
+    <message>
+        <source>Added file(s) exceeds the maximum size limit of the container(120MB).</source>
+        <translation>Lisatud fail(id) ületab turvaümbriku suurus mahu limiiti(120MB).</translation>
+    </message>
 </context>
 <context>
     <name>CheckConnection</name>
