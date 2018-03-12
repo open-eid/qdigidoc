@@ -1,3 +1,12 @@
+DigiDoc3 version [3.13.6](https://github.com/open-eid/qdigidoc/releases/tag/v3.13.6) release notes
+--------------------------------------
+- Create appx artifacts for windows store (#146)
+- Track mime copied files as tempFiles (#142)
+- Don't allow to save edoc and adoc extension (#145)
+- Build and code fixes and improvements
+
+[Full Changelog](https://github.com/open-eid/qdigidoc/compare/v3.13.5...v3.13.6)
+
 DigiDoc3 version [3.13.5](https://github.com/open-eid/qdigidoc/releases/tag/v3.13.5) release notes
 --------------------------------------
 - ECDH encryption and decryption support
