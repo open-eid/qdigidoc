@@ -20,6 +20,9 @@ find_package( OpenSSL REQUIRED )
 find_package( Qt5 COMPONENTS Core Widgets Network PrintSupport LinguistTools REQUIRED )
 include_directories( ${LIBDIGIDOCPP_INCLUDE_DIR} )
 
+set_env( TSL_URL "https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-mp.xml" CACHE STRING "TSL trust list primary URL" )
+set_env( TSL_INCLUDE "EE" CACHE STRING "TSL list include in binary" )
+
 if( WIN32 )
 	add_subdirectory( extensions/EsteidShellExtension )
 elseif( APPLE )
