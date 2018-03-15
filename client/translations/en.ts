@@ -77,8 +77,8 @@
         <translation>TSL signing certs</translation>
     </message>
     <message>
-        <source>Added file(s) exceeds the maximum size limit of the container(120MB).</source>
-        <translation>Added file(s) exceeds the maximum size limit of the container(120MB).</translation>
+        <source>Added file(s) exceeds the maximum size limit of the container(~120MB).</source>
+        <translation>Added file(s) exceeds the maximum size limit of the container(~120MB).</translation>
     </message>
 </context>
 <context>

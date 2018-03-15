@@ -707,7 +707,7 @@ bool Application::notify( QObject *o, QEvent *e )
 	}
 	catch(const std::bad_alloc &e)
 	{
-		showWarning(tr("Added file(s) exceeds the maximum size limit of the container(120MB)."), QString::fromLocal8Bit(e.what()));
+		showWarning(tr("Added file(s) exceeds the maximum size limit of the container(~120MB)."), QString::fromLocal8Bit(e.what()));
 	}
 	catch(...)
 	{
