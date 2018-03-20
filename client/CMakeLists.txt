@@ -199,6 +199,7 @@ elseif(WIN32)
 	if(EXISTS ${LIBS_PATH}/../certs)
 		add_custom_command(TARGET appx POST_BUILD
 			COMMAND ${CMAKE_COMMAND} -E copy_directory ${LIBS_PATH}/../certs appx/certs
+			COMMAND del "appx\\certs\\TEST*.crt"
 			COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/libxml2.dll appx
 			COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/digidoc.dll appx
 			COMMAND ${CMAKE_COMMAND} -E copy ${LIBS_PATH}/digidoc.ini appx
