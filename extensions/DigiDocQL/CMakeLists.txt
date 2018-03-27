@@ -1,4 +1,4 @@
-set( RESOURCES ../../client/mac/Resources/asic.icns ../../client/mac/Resources/ddoc.icns )
+set( RESOURCES ../../client/mac/Resources/asic.icns )
 add_library( DigiDocQL MODULE
 	${RESOURCES}
 	Info.plist
@@ -18,6 +18,7 @@ set_target_properties( DigiDocQL PROPERTIES
 	INCLUDE_DIRECTORIES "${OPENSSL_INCLUDE_DIR};${LIBDIGIDOCPP_INCLUDE_DIR}"
 	COMPILE_FLAGS "-Wno-unused-parameter"
 	LINK_LIBRARIES "-framework QuickLook;-framework digidocpp;-framework Cocoa"
-	LINK_FLAGS "-F/Library/Frameworks -fobjc-arc -Wl,-rpath,@loader_path/../../../../../Frameworks"
+	LINK_FLAGS "-F/Library/Frameworks -fobjc-arc"
+	BUILD_WITH_INSTALL_RPATH YES
 	INSTALL_RPATH "@loader_path/../../../../../Frameworks"
 )

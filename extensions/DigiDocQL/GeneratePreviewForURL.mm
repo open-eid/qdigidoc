@@ -148,7 +148,7 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 	[h appendString:@"<html><head><style>"];
 	[h appendString:@"* { font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif }"];
 	[h appendString:@"body { font-size: 10pt }"];
-	[h appendFormat:@"h2 { padding-left: 50px; background: url(cid:%@.icns); background-size: 42px 42px; background-repeat:no-repeat; }", [(__bridge NSURL*)url pathExtension]];
+	[h appendFormat:@"h2 { padding-left: 50px; background: url(cid:asic.icns); background-size: 42px 42px; background-repeat:no-repeat; }"];
 	[h appendString:@"font, dt { color: #808080 }"];
 	[h appendString:@"dt { float: left; clear: left; margin-left: 30px; margin-right: 10px }"];
 	[h appendString:@"dl { margin-bottom: 10px }"];
@@ -164,7 +164,7 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 			Exception::DataFileNameSpaceWarning,
 			Exception::IssuerNameSpaceWarning,
 			Exception::ProducedATLateWarning});
-		std::unique_ptr<Container> d(Container::open([[(__bridge NSURL*)url path] UTF8String]));
+		std::unique_ptr<Container> d(Container::open([(__bridge NSURL*)url path].UTF8String));
 
 		[h appendString:@"<font>Files</font><ol>"];
 		for (const DataFile *doc : d->dataFiles()) {
@@ -238,20 +238,16 @@ OSStatus GeneratePreviewForURL(void */*thisInterface*/, QLPreviewRequestRef prev
 	[h appendString:@"</body></html>"];
 
 	NSBundle *bundle = [NSBundle bundleWithIdentifier:@"ee.ria.DigiDocQL"];
-	NSString *bimage = [bundle pathForResource:@"bdoc" ofType:@"icns"];
-	NSString *dimage = [bundle pathForResource:@"ddoc" ofType:@"icns"];
-	NSDictionary *bimgProps = @{
+	NSString *aimage = [bundle pathForResource:@"asic" ofType:@"icns"];
+	NSDictionary *aimgProps = @{
 		(__bridge NSString *)kQLPreviewPropertyMIMETypeKey : @"image/icns",
-		(__bridge NSString *)kQLPreviewPropertyAttachmentDataKey : [NSData dataWithContentsOfFile:bimage] };
-	NSDictionary *dimgProps = @{
-		(__bridge NSString *)kQLPreviewPropertyMIMETypeKey : @"image/icns",
-		(__bridge NSString *)kQLPreviewPropertyAttachmentDataKey : [NSData dataWithContentsOfFile:dimage] };
+		(__bridge NSString *)kQLPreviewPropertyAttachmentDataKey : [NSData dataWithContentsOfFile:aimage] };
 	NSDictionary *props = @{
 		(__bridge NSString *)kQLPreviewPropertyTextEncodingNameKey : @"UTF-8",
 		(__bridge NSString *)kQLPreviewPropertyMIMETypeKey : @"text/html",
 		(__bridge NSString *)kQLPreviewPropertyWidthKey : [[bundle infoDictionary] valueForKey:@"QLPreviewWidth"],
 		(__bridge NSString *)kQLPreviewPropertyHeightKey : [[bundle infoDictionary] valueForKey:@"QLPreviewHeight"],
-		(__bridge NSString *)kQLPreviewPropertyAttachmentsKey : @{ @"bdoc.icns" : dimgProps, @"ddoc.icns" : bimgProps } };
+		(__bridge NSString *)kQLPreviewPropertyAttachmentsKey : @{ @"asic.icns" : aimgProps } };
 	QLPreviewRequestSetDataRepresentation(preview,
 		(__bridge CFDataRef)[h dataUsingEncoding:NSUTF8StringEncoding], kUTTypeHTML, (__bridge CFDictionaryRef)props);
 	return noErr;
