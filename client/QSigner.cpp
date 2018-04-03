@@ -28,12 +28,13 @@
 class QWin;
 #endif
 #include "QPKCS11.h"
+#include <common/QPCSC.h>
 #include <common/TokenData.h>
 
 #include <digidocpp/crypto/X509Cert.h>
 
-#include <QtCore/QFile>
 #include <QtCore/QEventLoop>
+#include <QtCore/QFile>
 #include <QtCore/QStringList>
 #include <QtCore/QSysInfo>
 #include <QtNetwork/QSslKey>
@@ -44,7 +45,7 @@ class QWin;
 template <class T>
 constexpr typename std::add_const<T>::type& qAsConst(T& t) noexcept
 {
-        return t;
+	return t;
 }
 #endif
 
@@ -211,43 +212,28 @@ void QSigner::run()
 			d->count.deref();
 			TokenData aold = d->auth, at = aold;
 			TokenData sold = d->sign, st = sold;
-			QStringList acards, scards, readers;
+			QList<TokenData> tokens;
 #ifdef Q_OS_WIN
-			QWin::Certs certs;
 			if(d->win)
-			{
-				certs = d->win->certs();
-				for(QWin::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i)
-				{
-					if(i.key().keyUsage().contains(SslCertificate::KeyEncipherment) ||
-						i.key().keyUsage().contains(SslCertificate::KeyAgreement))
-						acards << i.value();
-					if(i.key().keyUsage().contains(SslCertificate::NonRepudiation))
-						scards << i.value();
-				}
-				readers << d->win->readers();
-			}
+				tokens = d->win->tokens();
 #endif
-			QList<TokenData> pkcs11;
 			if( d->pkcs11 && d->pkcs11->isLoaded() )
+				tokens = d->pkcs11->tokens();
+			QStringList acards, scards;
+			for(const TokenData &t: qAsConst(tokens))
 			{
-				pkcs11 = d->pkcs11->tokens();
-				for(const TokenData &t: qAsConst(pkcs11))
-				{
-					SslCertificate c( t.cert() );
-					if(c.keyUsage().contains(SslCertificate::KeyEncipherment) ||
-						c.keyUsage().contains(SslCertificate::KeyAgreement))
-						acards << t.card();
-					if( c.keyUsage().contains( SslCertificate::NonRepudiation ) )
-						scards << t.card();
-				}
-				acards.removeDuplicates();
-				scards.removeDuplicates();
-				readers = d->pkcs11->readers();
+				SslCertificate c(t.cert());
+				if(c.keyUsage().contains(SslCertificate::KeyEncipherment) ||
+					c.keyUsage().contains(SslCertificate::KeyAgreement))
+					acards << t.card();
+				if(c.keyUsage().contains(SslCertificate::NonRepudiation))
+					scards << t.card();
 			}
-
+			acards.removeDuplicates();
+			scards.removeDuplicates();
 			std::sort( acards.begin(), acards.end(), TokenData::cardsOrder );
 			std::sort( scards.begin(), scards.end(), TokenData::cardsOrder );
+			QStringList readers = QPCSC::instance().drivers();
 			std::sort( readers.begin(), readers.end() );
 			at.setCards( acards );
 			at.setReaders( readers );
@@ -274,63 +260,28 @@ void QSigner::run()
 
 			if( acards.contains( at.card() ) && at.cert().isNull() ) // read auth cert
 			{
-#ifdef Q_OS_WIN
-				if(d->win)
+				for(const TokenData &i: qAsConst(tokens))
 				{
-					for(QWin::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i)
+					if(i.card() == at.card() &&
+						(SslCertificate(i.cert()).keyUsage().contains(SslCertificate::KeyEncipherment) ||
+						SslCertificate(i.cert()).keyUsage().contains(SslCertificate::KeyAgreement)))
 					{
-						if(i.value() == at.card() &&
-							(i.key().keyUsage().contains(SslCertificate::KeyEncipherment) ||
-							i.key().keyUsage().contains(SslCertificate::KeyAgreement)))
-						{
-							at.setCert(i.key());
-							break;
-						}
-					}
-				}
-				else
-#endif
-				{
-					for(const TokenData &i: qAsConst(pkcs11))
-					{
-						if(i.card() == at.card() &&
-							(SslCertificate(i.cert()).keyUsage().contains(SslCertificate::KeyEncipherment) ||
-							SslCertificate(i.cert()).keyUsage().contains(SslCertificate::KeyAgreement)))
-						{
-							at.setCert( i.cert() );
-							at.setFlags( i.flags() );
-							break;
-						}
+						at.setCert( i.cert() );
+						at.setFlags( i.flags() );
+						break;
 					}
 				}
 			}
 
 			if( scards.contains( st.card() ) && st.cert().isNull() ) // read sign cert
 			{
-#ifdef Q_OS_WIN
-				if(d->win)
+				for(const TokenData &i: qAsConst(tokens))
 				{
-					for(QWin::Certs::const_iterator i = certs.constBegin(); i != certs.constEnd(); ++i)
+					if( i.card() == st.card() && SslCertificate( i.cert() ).keyUsage().contains( SslCertificate::NonRepudiation ) )
 					{
-						if(i.value() == st.card() &&
-							i.key().keyUsage().contains(SslCertificate::NonRepudiation))
-						{
-							st.setCert(i.key());
-							break;
-						}
-					}
-				}
-				else
-#endif
-				{
-					for(const TokenData &i: qAsConst(pkcs11))
-					{
-						if( i.card() == st.card() && SslCertificate( i.cert() ).keyUsage().contains( SslCertificate::NonRepudiation ) )
-						{
-							st.setCert( i.cert() );
-							st.setFlags( i.flags() );
-							break;
-						}
+						st.setCert( i.cert() );
+						st.setFlags( i.flags() );
+						break;
 					}
 				}
 			}
