@@ -22,8 +22,6 @@
 #include <QtCore/QThread>
 #include <digidocpp/crypto/Signer.h>
 
-class QMutex;
-class QSignerPrivate;
 class TokenData;
 
 class QSigner: public QThread, public digidoc::Signer
@@ -45,7 +43,7 @@ public:
 		DecryptFailed,
 		DecryptOK
 	};
-	explicit QSigner( ApiType api, QObject *parent = 0 );
+	explicit QSigner(ApiType api, QObject *parent = nullptr);
 	~QSigner();
 
 	digidoc::X509Cert cert() const override;
@@ -64,7 +62,6 @@ Q_SIGNALS:
 private Q_SLOTS:
 	void selectAuthCard( const QString &card );
 	void selectSignCard( const QString &card );
-	void showWarning( const QString &msg );
 
 private:
 	void reloadauth() const;
@@ -72,5 +69,6 @@ private:
 	void run() override;
 	void throwException( const QString &msg, digidoc::Exception::ExceptionCode code, int line ) const;
 
-	QSignerPrivate *d;
+	class Private;
+	Private *d;
 };
