@@ -24,6 +24,7 @@
 #include <QtCore/QStringList>
 
 class DigiDoc;
+class QActionGroup;
 class QPrinter;
 
 class MainWindow: public QWidget, private Ui::MainWindow
@@ -31,7 +32,7 @@ class MainWindow: public QWidget, private Ui::MainWindow
 	Q_OBJECT
 
 public:
-	explicit MainWindow( QWidget *parent = 0 );
+	explicit MainWindow(QWidget *parent = nullptr);
 
 	void closeDoc();
 
@@ -77,7 +78,7 @@ private:
 		ViewSaveFiles
 	};
 	bool addFile( const QString &file );
-	bool event( QEvent *e );
+	bool event(QEvent *e) override;
 	void loadRoles();
 	void retranslate();
 	void save();
@@ -89,8 +90,8 @@ private:
 	QActionGroup *cardsGroup;
 	DigiDoc	*doc;
 	QStringList lang, params;
-	bool quitOnClose;
-	int prevpage;
-	QLabel *message;
-	bool warnOnUnsignedDocCancel;
+	bool quitOnClose = false;
+	int prevpage = Home;
+	QLabel *message = nullptr;
+	bool warnOnUnsignedDocCancel = true;
 };

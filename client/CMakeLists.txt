@@ -19,8 +19,7 @@ qt5_wrap_ui( SOURCES MainWindow.ui MobileDialog.ui SettingsDialog.ui SignatureDi
 
 if( APPLE )
 	list( APPEND SOURCES Application_mac.mm TreeWidgetMac.mm )
-	set_source_files_properties( TreeWidgetMac.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
-	set_source_files_properties( Application_mac.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
+	set_source_files_properties( TreeWidgetMac.mm Application_mac.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc" )
 	list( APPEND ADDITIONAL_LIBRARIES "-framework Security" "-framework Quartz" )
 elseif( WIN32 )
 	find_package( Qt5 COMPONENTS WinExtras )

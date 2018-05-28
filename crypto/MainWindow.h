@@ -21,6 +21,7 @@
 
 #include "ui_MainWindow.h"
 
+class QActionGroup;
 class CKey;
 class CryptoDoc;
 
@@ -31,7 +32,7 @@ class MainWindow: public QWidget, private Ui::MainWindow
 	Q_OBJECT
 
 public:
-	explicit MainWindow( QWidget *parent = 0 );
+	explicit MainWindow(QWidget *parent = nullptr);
 
 	void closeDoc();
 
@@ -71,7 +72,7 @@ private:
 		ViewAddKey
 	};
 	bool addFile( const QString &file );
-	bool event( QEvent *e );
+	bool event(QEvent *e) override;
 	void retranslate();
 	QString selectFile( const QString &filename );
 	void setCurrentPage( Pages page );
@@ -80,7 +81,7 @@ private:
 	CryptoDoc	*doc;
 	QStringList lang, params;
 	QButtonGroup *buttonGroup;
-	bool quitOnClose;
+	bool quitOnClose = false;
 };
 
 }

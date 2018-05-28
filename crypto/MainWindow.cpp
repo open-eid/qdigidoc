@@ -35,6 +35,8 @@
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDragEnterEvent>
 #include <QtNetwork/QSslKey>
+#include <QtWidgets/QActionGroup>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QProgressDialog>
@@ -52,7 +54,6 @@ using namespace Crypto;
 MainWindow::MainWindow( QWidget *parent )
 :	QWidget( parent )
 ,	cardsGroup( new QActionGroup( this ) )
-,	quitOnClose( false )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
 #ifdef TESTING
@@ -281,7 +282,7 @@ void MainWindow::buttonClicked( int button )
 		p.setWindowFlags( (p.windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowCloseButtonHint );
 		if( QProgressBar *bar = p.findChild<QProgressBar*>() )
 			bar->setTextVisible( false );
-		p.setCancelButton( 0 );
+		p.setCancelButton(nullptr);
 		p.setRange( 0, 0 );
 
 		if( doc->isEncrypted() )

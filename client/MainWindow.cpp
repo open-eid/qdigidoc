@@ -41,9 +41,11 @@
 #include <QtGui/QDesktopServices>
 #include <QtGui/QDragEnterEvent>
 #include <QtNetwork/QNetworkProxy>
+#include <QtPrintSupport/QPrintPreviewDialog>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrinterInfo>
-#include <QtPrintSupport/QPrintPreviewDialog>
+#include <QtWidgets/QActionGroup>
+#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCompleter>
 #include <QtWidgets/QMessageBox>
 
@@ -52,10 +54,6 @@ const int MainWindow::SIGNATURE_COL_HDR_WIDTH = 274;
 MainWindow::MainWindow( QWidget *parent )
 	: QWidget( parent )
 	, cardsGroup( new QActionGroup( this ) )
-	, quitOnClose( false )
-	, prevpage( Home )
-	, message( 0 )
-	, warnOnUnsignedDocCancel( true )
 {
 	setAttribute( Qt::WA_DeleteOnClose, true );
 	setupUi( this );
