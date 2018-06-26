@@ -30,8 +30,9 @@ set_env( TSL_URL "https://ec.europa.eu/information_society/policy/esignature/tru
 set_env( TSL_INCLUDE "EE" CACHE STRING "TSL list include in binary" )
 
 if( WIN32 )
-	add_subdirectory( extensions/EsteidShellExtension )
+	add_subdirectory( extensions/windows )
 elseif( APPLE )
+	set(BUNDLE_NAME qdigidocclient)
 	add_subdirectory( extensions/DigiDocQL )
 else()
 	option(ENABLE_KDE "Install KDE service menu (default: TRUE)" TRUE)

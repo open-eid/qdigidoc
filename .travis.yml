@@ -1,7 +1,7 @@
 language: c++
 sudo: false
 dist: trusty
-osx_image: xcode9.3
+osx_image: xcode9.4
 services:
 - docker
 matrix:
@@ -12,7 +12,7 @@ matrix:
   - os: linux
     env: IMAGE=ubuntu:16.04
   - os: linux
-    env: IMAGE=ubuntu:17.10
+    env: IMAGE=ubuntu:18.04
   - os: linux
     env: IMAGE=i386/ubuntu:16.04
 env:
@@ -23,7 +23,7 @@ before_install:
 - git submodule update --init --recursive && if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
     brew update && brew install --force qt5 openssl;
     curl -s --location "https://github.com/open-eid/libdigidoc/releases/download/v3.10.3/libdigidoc_3.10.3.1214.pkg" -o libdigidoc.pkg;
-    curl -s --location "https://github.com/open-eid/libdigidocpp/releases/download/v3.13.5/libdigidocpp_3.13.5.1369.pkg" -o libdigidocpp.pkg;
+    curl -s --location "https://github.com/open-eid/libdigidocpp/releases/download/v3.13.6/libdigidocpp_3.13.6.1371.pkg" -o libdigidocpp.pkg;
     curl -s --location "https://github.com/open-eid/esteid-pkcs11/releases/download/v3.10.1/esteid-pkcs11_3.10.1.64.pkg" -o esteid-pkcs11.pkg;
     sudo installer -verboseR -pkg libdigidoc.pkg -target /;
     sudo installer -verboseR -pkg libdigidocpp.pkg -target /;
@@ -35,7 +35,7 @@ script: if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
   else
     docker run -e BUILD_NUMBER=${BUILD_NUMBER} -e COVERITY_SCAN_TOKEN=${COVERITY_SCAN_TOKEN} -e TRAVIS_BRANCH=${TRAVIS_BRANCH} -e IMAGE=${IMAGE} -v ${HOME}:${HOME} -t "${IMAGE}" /bin/bash -c "cd $(pwd);"'
       apt-get update -qq;
-      apt-get install -y apt-transport-https curl dh-make devscripts cdbs cmake libldap2-dev gettext libpcsclite-dev libssl-dev qttools5-dev git curl wget ruby;
+      apt-get install -y apt-transport-https curl dh-make devscripts cdbs cmake libldap2-dev gettext libpcsclite-dev libssl-dev qttools5-dev-tools qttools5-dev git curl wget ruby;
       curl https://installer.id.ee/media/install-scripts/ria-public.key | apt-key add -;
       curl https://installer.id.ee/media/install-scripts/C6C83D68.pub | apt-key add -;
       echo "deb http://installer.id.ee/media/ubuntu/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/repo.list;

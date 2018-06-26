@@ -18,7 +18,7 @@
 
 1. Install dependencies
 
-        sudo apt-get install cmake qttools5-dev qttools5-dev-tools libpcsclite-dev libssl-dev libdigidocpp-dev libldap2-dev
+        sudo apt-get install cmake qttools5-dev libpcsclite-dev libssl-dev libdigidocpp-dev libldap2-dev
 
 2. Fetch the source
 
@@ -79,23 +79,23 @@
 
     brew install openssl
 
-    curl -O -L http://download.qt.io/official_releases/qt/5.9/5.9.3/submodules/qtbase-opensource-src-5.9.3.tar.xz
-    tar xf qtbase-opensource-src-5.9.3.tar.xz
-    cd qtbase-opensource-src-5.9.3
-    ./configure -prefix /Developer/Qt-5.9.3 -opensource -nomake tests -nomake examples -no-securetransport -openssl-runtime -confirm-license -I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib
+    curl -O -L http://download.qt.io/official_releases/qt/5.9/5.9.6/submodules/qtbase-opensource-src-5.9.6.tar.xz
+    tar xf qtbase-opensource-src-5.9.6.tar.xz
+    cd qtbase-opensource-src-5.9.6
+    ./configure -prefix /Developer/Qt-5.9.6 -opensource -nomake tests -nomake examples -no-securetransport -openssl-runtime -confirm-license OPENSSL_PREFIX=/usr/local/opt/openssl
     make
     sudo make install
     cd ..
-    rm -rf qtbase-opensource-src-5.9.3
+    rm -rf qtbase-opensource-src-5.9.6
 
-    curl -O -L http://download.qt.io/official_releases/qt/5.9/5.9.3/submodules/qttools-opensource-src-5.9.3.tar.xz
-    tar xf qttools-opensource-src-5.9.3.tar.xz
-    cd qttools-opensource-src-5.9.3
-    /Developer/Qt-5.9.3/bin/qmake
+    curl -O -L http://download.qt.io/official_releases/qt/5.9/5.9.6/submodules/qttools-opensource-src-5.9.6.tar.xz
+    tar xf qttools-opensource-src-5.9.6.tar.xz
+    cd qttools-opensource-src-5.9.6
+    /Developer/Qt-5.9.6/bin/qmake
     make
     sudo make install
     cd ..
-    rm -rf qttools-opensource-src-5.9.3
+    rm -rf qttools-opensource-src-5.9.6
 
 ### Windows
 
