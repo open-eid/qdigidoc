@@ -54,6 +54,7 @@
 #include <QtGui/QFileOpenEvent>
 #include <QtNetwork/QNetworkProxy>
 #include <QtNetwork/QSslConfiguration>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QProgressDialog>
