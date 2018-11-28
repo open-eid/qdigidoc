@@ -6,6 +6,8 @@
  * &copy; Estonian Information System Authority
  * [Architecture of ID-software](http://open-eid.github.io)
 
+NB! This repository is not maintained and supported any more. Use [Digidoc4 client](https://github.com/open-eid/DigiDoc4-Client) for alternative solution.
+
 ## Building
 [![Build Status](https://travis-ci.org/open-eid/qdigidoc.svg?branch=master)](https://travis-ci.org/open-eid/qdigidoc)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/open-eid/qdigidoc?branch=master&svg=true)](https://ci.appveyor.com/project/open-eid/qdigidoc)
